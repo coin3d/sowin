@@ -178,7 +178,9 @@ SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiDeviceP.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Device.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiInputFocusP.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiKeyboardP.h \
@@ -322,7 +324,9 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/devices/SoGuiDevice.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiDeviceP.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiDevice.h.in \
+  src/Inventor/@Gui@/common/devices/SoGuiInputFocus.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in \
+  src/Inventor/@Gui@/common/devices/SoGuiInputFocusP.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiKeyboard.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiKeyboard.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiKeyboardP.h.in \
@@ -447,8 +451,8 @@ am_devices_lst_OBJECTS = SoWinDevice.$(OBJEXT) SoWinInputFocus.$(OBJEXT) \
 	SoWinKeyboard.$(OBJEXT) SoWinMouse.$(OBJEXT) \
 	SoWinSpaceball.$(OBJEXT)
 nodist_devices_lst_OBJECTS = spwinput_x11.$(OBJEXT) \
-	So@Gui@DeviceCommon.$(OBJEXT) So@Gui@KeyboardCommon.$(OBJEXT) \
-	So@Gui@MouseCommon.$(OBJEXT)
+	So@Gui@DeviceCommon.$(OBJEXT) So@Gui@InputFocusCommon.$(OBJEXT) \
+	So@Gui@KeyboardCommon.$(OBJEXT) So@Gui@MouseCommon.$(OBJEXT)
 devices_lst_OBJECTS = $(am_devices_lst_OBJECTS) \
 	$(nodist_devices_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
@@ -458,8 +462,8 @@ libSoWinDevices_la_LIBADD =
 am_libSoWinDevices_la_OBJECTS = SoWinDevice.lo SoWinInputFocus.lo \
 	SoWinKeyboard.lo SoWinMouse.lo SoWinSpaceball.lo
 nodist_libSoWinDevices_la_OBJECTS = spwinput_x11.lo \
-	So@Gui@DeviceCommon.lo So@Gui@KeyboardCommon.lo \
-	So@Gui@MouseCommon.lo
+	So@Gui@DeviceCommon.lo So@Gui@InputFocusCommon.lo \
+	So@Gui@KeyboardCommon.lo So@Gui@MouseCommon.lo
 libSoWinDevices_la_OBJECTS = $(am_libSoWinDevices_la_OBJECTS) \
 	$(nodist_libSoWinDevices_la_OBJECTS)
 
@@ -470,6 +474,8 @@ LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/So@Gui@DeviceCommon.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@DeviceCommon.Po \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@InputFocusCommon.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@InputFocusCommon.Po \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@KeyboardCommon.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@KeyboardCommon.Po \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@MouseCommon.Plo \
@@ -537,6 +543,8 @@ spwinput_x11.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
 So@Gui@DeviceCommon.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
+So@Gui@InputFocusCommon.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
 So@Gui@KeyboardCommon.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
 So@Gui@MouseCommon.$(OBJEXT): \
@@ -548,6 +556,8 @@ spwinput_x11.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
 So@Gui@DeviceCommon.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
+So@Gui@InputFocusCommon.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
 So@Gui@KeyboardCommon.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
 So@Gui@MouseCommon.lo: \
@@ -563,6 +573,8 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@DeviceCommon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@DeviceCommon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@InputFocusCommon.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@InputFocusCommon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@KeyboardCommon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@KeyboardCommon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@MouseCommon.Plo@am__quote@
@@ -636,6 +648,24 @@ So@Gui@DeviceCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Device
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@DeviceCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@DeviceCommon.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@DeviceCommon.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
+
+So@Gui@InputFocusCommon.o: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp' object='So@Gui@InputFocusCommon.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@InputFocusCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@InputFocusCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@InputFocusCommon.o `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
+
+So@Gui@InputFocusCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp' object='So@Gui@InputFocusCommon.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@InputFocusCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@InputFocusCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@InputFocusCommon.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp`
+
+So@Gui@InputFocusCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp' object='So@Gui@InputFocusCommon.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@InputFocusCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@InputFocusCommon.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@InputFocusCommon.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
 
 So@Gui@KeyboardCommon.o: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp' object='So@Gui@KeyboardCommon.o' libtool=no @AMDEPBACKSLASH@
@@ -923,8 +953,14 @@ $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Device.h: $(top_srcdir)/src/In
 $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiDeviceP.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiDeviceP.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/SoGuiDeviceP.h:src/Inventor/@Gui@/common/devices/SoGuiDeviceP.h.in )
 
+$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiInputFocus.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp:src/Inventor/@Gui@/common/devices/SoGuiInputFocus.cpp.in )
+
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@InputFocus.h:src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/devices/SoGuiInputFocusP.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiInputFocusP.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/SoGuiInputFocusP.h:src/Inventor/@Gui@/common/devices/SoGuiInputFocusP.h.in )
 
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiKeyboard.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp:src/Inventor/@Gui@/common/devices/SoGuiKeyboard.cpp.in )
