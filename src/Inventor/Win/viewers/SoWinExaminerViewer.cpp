@@ -176,14 +176,15 @@ SoWinExaminerViewerP::constructor(
   this->owner->setBaseWidget( widget );
   
   this->owner->setLeftWheelString( "RotX" );
-  this->owner->setBottomWheelString( "RotX" );  
+  this->owner->setBottomWheelString( "RotY" );  
 
   this->owner->setCursorEnabled( TRUE );
   this->owner->setAnimationEnabled( TRUE );
   
   this->owner->setSize( SbVec2s( 500, 421 ) );
-  // FIXME: If the new size is the same as the old size, Windows will never
-  // size the widget, and layoutWidgets() will never be called. mariusbu 20010823.
+  // FIXME: If the new size is the same as the old size, Windows will
+  // never size the widget, and layoutWidgets() will never be
+  // called. mariusbu 20010823.
   
 } // constructor()
 
