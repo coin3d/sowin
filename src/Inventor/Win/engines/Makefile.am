@@ -6,7 +6,7 @@ include ../common/Makefile.common
 if BUILD_WITH_MSVC
 noinst_LIBRARIES = engines.lst
 else
-noinst_LTLIBRARIES = libSoWinEngines.la
+noinst_LTLIBRARIES = libSoGuiEngines.la
 endif
 
 DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
@@ -24,9 +24,9 @@ DISTCLEANFILES = \
 
 ############################################################################
 
-libSoWinEngines_la_SOURCES =
+libSoGuiEngines_la_SOURCES =
 
-nodist_libSoWinEngines_la_SOURCES = \
+nodist_libSoGuiEngines_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_engines_BuiltFiles) \
 	$(SoGui_src_Inventor_Gui_engines_BuiltMetaFiles)
 
@@ -46,8 +46,8 @@ engines.lst: Makefile $(engines_lst_OBJECTS)
 ############################################################################
 # Headers are kept private.
 
-SoWinEnginesincdir = $(includedir)/Inventor/@Gui@/engines
+SoGuiEnginesincdir = $(includedir)/Inventor/@Gui@/engines
 
-SoWinEnginesinc_HEADERS =
+SoGuiEnginesinc_HEADERS =
 
 ############################################################################
