@@ -63,8 +63,8 @@ public:
   void setValue(float value);
   float value(void) const;
 
-  void setEnabled(bool enable);
-  bool isEnabled(void) const;
+  void setEnabled(SbBool enable);
+  SbBool isEnabled(void) const;
 
   void setLabelText(char * text);
   void setLabelOffset(int x, int y);

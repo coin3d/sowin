@@ -488,7 +488,7 @@ SoWinThumbWheel::initWheel(int diameter, int width)
 // *************************************************************************
 
 void
-SoWinThumbWheel::setEnabled(bool enable)
+SoWinThumbWheel::setEnabled(SbBool enable)
 {
   if (enable)
     this->state = SoWinThumbWheel::Idle;
@@ -499,7 +499,7 @@ SoWinThumbWheel::setEnabled(bool enable)
     Win32::EnableWindow(this->labelWindow, enable);
 }
 
-bool
+SbBool
 SoWinThumbWheel::isEnabled(void) const
 {
   return (this->state != SoWinThumbWheel::Disabled);
