@@ -109,7 +109,7 @@ buildfileslist.nsi: buildfiles Makefile
 uninstall.nsi: Makefile
 	( cd $(sdk_prefix); \
 	for file in `find . -type f -depth`; do \
-	  dir=`echo $$file | sed 's/^.\///; s/\//\\\\/g'`; \
+	  file=`echo $$file | sed 's/^.\///; s/\//\\\\/g'`; \
 	  echo "Delete \$$INSTDIR\\$$file"; \
 	done; \
 	for dir in `find . -type d -depth`; do \
