@@ -1,4 +1,6 @@
 =====================================================================
+NOTE: see also src/Inventor/Win/common/BUGS.txt.
+=====================================================================
 
 000 The CTRL key can get "stuck", due to how SoWinKeyboardDevice
     detects modifier keys only when they are pressed or released.
@@ -63,5 +65,27 @@
     fails with Coin + SoWin.) To get the code, ask mortene.
 
     20021218 mortene.
+
+=====================================================================
+
+006 Tooltips on viewer buttons.
+
+    The functionality of the different viewer pushbuttons is not
+    entirely obvious, so we should add tooltips on the buttons.
+
+    20030114 mortene.
+
+=====================================================================
+
+007 The ALT key functionality in the viewers are not working properly.
+
+    The ALT key is supposed to temporarily switch event handling from
+    camera-interaction mode to scenegraph-interaction mode, but it
+    doesn't seem to work as expected for SoWin. (Not at all, so it's
+    no problem to reproduce the buggy behavior.)
+
+    (As for the other toolkits: for at least SoQt, it's ok.)
+
+    20030124 mortene.
 
 =====================================================================
