@@ -55,6 +55,7 @@ cfgdata_DATA = so@gui@-@CONFIG@.cfg
 endif
 
 EXTRA_DIST = \
+	LICENSE.LGPL \
 	cfg/m4/sowin.m4 \
 	$(SoGuiCommonDistFiles)
 
@@ -69,11 +70,12 @@ all-local: built-sources
 
 install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	@if @BUILD_WITH_MSVC@; then \
+	  echo " $(mkinstalldirs) $(DESTDIR)$(bindir)"; \
+	  $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
 	  p=wrapmsvc.exe; \
-	  echo " $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
-	  $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p; \
+	  echo " $(INSTALL_PROGRAM) $(top_srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
+	  $(INSTALL_PROGRAM) "$(top_srcdir)/cfg/m4/$$p" "$(DESTDIR)$(bindir)/$$p"; \
 	fi
 
 install-data-local: built-sources
