@@ -49,6 +49,10 @@ public:
                     int depth = 0,
                     const char * name = NULL,
                     void * bits = NULL);
+  SoWinBitmapButton(HWND parent,
+                    int depth = 0,
+                    const char * name = NULL,
+                    void * bits = NULL);
   SoWinBitmapButton(HWND button);
   ~SoWinBitmapButton();
 

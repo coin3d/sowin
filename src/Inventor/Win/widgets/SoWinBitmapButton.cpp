@@ -94,6 +94,27 @@ SoWinBitmapButton::SoWinBitmapButton(HWND parent,
 
 }
 
+SoWinBitmapButton::SoWinBitmapButton(HWND parent,
+                                     int depth,
+                                     const char * name,
+                                     void * bits)
+{
+  PRIVATE(this) = new SoWinBitmapButtonP(this);
+
+  RECT rect = { 0, 0, 30, 30 };
+  PRIVATE(this)->buildWidget(parent, rect);
+
+  PRIVATE(this)->depth = depth;
+
+  if (bits != NULL) {
+    this->addBitmap(rect.right - rect.left - 1,
+                    rect.bottom - rect.top - 1,
+                    depth, bits);
+    this->setBitmap(0);
+  }
+
+}
+
 SoWinBitmapButton::SoWinBitmapButton(HWND button)
 {
   PRIVATE(this) = new SoWinBitmapButtonP(this);
@@ -196,16 +217,17 @@ SoWinBitmapButtonP::buildWidget(HWND parent, RECT rect)
 {
   assert(IsWindow(parent));
 
-  this->buttonWindow = Win32::CreateWindow_("BUTTON",
-                                            NULL,
-                                            WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS |
-                                            BS_PUSHBUTTON | BS_BITMAP | BS_CENTER,
-                                            rect.left, rect.top,
-                                            rect.right, rect.bottom,
-                                            parent,
-                                            NULL,
-                                            NULL,
-                                            NULL);
+  this->buttonWindow =
+    Win32::CreateWindow_("BUTTON",
+                         NULL,
+                         WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS |
+                         BS_PUSHBUTTON | BS_BITMAP | BS_CENTER,
+                         rect.left, rect.top,
+                         rect.right, rect.bottom,
+                         parent,
+                         NULL,
+                         NULL,
+                         NULL);
   return this->buttonWindow;
 }
 
