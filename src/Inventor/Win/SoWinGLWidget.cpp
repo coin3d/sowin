@@ -39,7 +39,9 @@
 #include <sowindefs.h>
 #include <Inventor/Win/Win32API.h>
 #include <Inventor/errors/SoDebugError.h>
+#include <Inventor/Win/common/SbGuiList.h>
 #include <float.h> // FLT_MAX
+#include <stdlib.h> // qsort
 
 static const int SO_BORDER_THICKNESS = 2;
 
@@ -846,6 +848,7 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   // want_rgb && PFD_TYPE_COLORINDEX   =>  -1
   // !want_rgb && PFD_TYPE_RGBA        =>  -1
   // !want_rgb && PFD_TYPE_COLORINDEX  =>  +1
+
   int sign = (want_rgb ? 1 : -1) * ((pfd->iPixelType == PFD_TYPE_RGBA) ? 1 : -1);
   weight += RGBA_VS_COLORINDEX * sign;
 
@@ -1026,92 +1029,34 @@ SoWinGLWidgetP::dumpPixelFormat(HDC hdc, int format)
                          );
 }
 
+
+// struct used to sort pixel format descriptors based on weight
+typedef struct {
+  int format;
+  int override;
+  double weight;
+  PIXELFORMATDESCRIPTOR pfd; 
+} so_pixel_format;
+
+extern "C" {
+static int
+compare_pixel_formats(const void * v0, const void * v1)
+{
+  so_pixel_format * p0 = *((so_pixel_format**)v0);
+  so_pixel_format * p1 = *((so_pixel_format**)v1);
+ 
+  if (p0->override) return -1;
+  else if (p1->override) return 1;
+ 
+  if (p0->weight > p1->weight) return -1;
+  else if (p0->weight < p1->weight) return 1;
+  return 0;
+}
+}
+
 void
 SoWinGLWidgetP::createGLContext(HWND window)
 {
-  assert(IsWindow(window));
-
-  SoWinGLWidget * share = NULL;
-
-  // All contexts were destroyed or released in onDestroy().
-
-  this->hdcNormal = GetDC(window);
-  assert(this->hdcNormal && "GetDC failed -- investigate");
-  this->hdcOverlay = this->hdcNormal;
-
-  const char * pixelformatoverride = NULL;
-  int format = 1, maxformat = -1, bestformat = -1;
-  double maxweight = -FLT_MAX;
-  PIXELFORMATDESCRIPTOR desc;
-
-  do {
-    maxformat = DescribePixelFormat(this->hdcNormal, format,
-                                    sizeof(PIXELFORMATDESCRIPTOR), &desc);
-    if (maxformat == 0) {
-      DWORD dummy;
-      SbString err = Win32::getWin32Err(dummy);
-      SbString s = "DescribePixelFormat() failed with error message: ";
-      s += err;
-      SoDebugError::post("SoWinGLWidgetP::createGLContext", s.getString());
-      goto panic;
-    }
-
-    double weight =
-      SoWinGLWidgetP::weighPixelFormat(&desc,
-                                       (this->glModes & SO_GL_RGB) != 0,
-                                       (this->glModes & SO_GL_DOUBLE) != 0,
-                                       (this->glModes & SO_GL_ZBUFFER) != 0,
-                                       (this->glModes & SO_GL_STEREO) != 0,
-                                       this->accumulationenabled,
-                                       this->stencilenabled,
-                                       // FIXME: overlay support not
-                                       // implemented yet. 20020720 mortene.
-                                       FALSE,
-                                       this->alphachannelenabled);
-
-    if (SoWinGLWidgetP::debugGLContextCreation()) {
-      SoWinGLWidgetP::dumpPixelFormat(this->hdcNormal, format);
-      SoDebugError::postInfo("SoWinGLWidgetP::createGLContext",
-                             "weight==%f\n", weight);
-    }
-
-    if (weight >= maxweight) {
-      maxweight = weight;
-      bestformat = format;
-      (void)memcpy(&this->pfdNormal, &desc, sizeof(PIXELFORMATDESCRIPTOR));
-    }
-
-    format++;
-  } while (format <= maxformat);
-
-  if (SoWinGLWidgetP::debugGLContextCreation()) {
-    SoDebugError::postInfo("SoWinGLWidgetP::createGLContext",
-                           "bestformat==%d, maxweight==%f",
-                           bestformat, maxweight);
-  }
-
-  // Make it possible to override the selected pixel format by setting
-  // an environment variable. Useful for debugging and for assisting
-  // on remote client systems where the pixelformat weighting selects
-  // a sub-optimal format. If the latter, this can be used as a
-  // stop-gap solution until we fix the weighting algorithm.
-  pixelformatoverride = SoAny::si()->getenv("SOWIN_OVERRIDE_PIXELFORMAT");
-  if (pixelformatoverride) {
-    bestformat = atoi(pixelformatoverride);
-    assert(bestformat > 0 && bestformat <= maxformat);
-  }
-
-  if (!SetPixelFormat(this->hdcNormal, bestformat, &this->pfdNormal)) {
-    DWORD dummy;
-    SbString err = Win32::getWin32Err(dummy);
-    SbString s = "SetPixelFormat(";
-    s.addIntString(bestformat);
-    s += ") failed with error message ";
-    s += err;
-    SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
-    goto panic;
-  }
-
   // FIXME: if the pixelformat set up is _not_ an RGB (truecolor)
   // format, we should set up a DC palette here.
   //
@@ -1179,39 +1124,140 @@ SoWinGLWidgetP::createGLContext(HWND window)
   //    }
   // ---8<--- [snip] ------8<--- [snip] ------8<--- [snip] ---
   // 20020719 mortene.
+  
+  assert(IsWindow(window));
 
-  this->ctxNormal = wglCreateContext(this->hdcNormal);
-  if (! this->ctxNormal) {
-    DWORD dummy;
-    SbString err = Win32::getWin32Err(dummy);
-    SbString s = "The rendering context for pixel format ";
-    s.addIntString(bestformat);
-    s += " could not be created, as ";
-    s += "wglCreateContext() failed with error message: ";
-    s += err;
-    SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
-    goto panic;
+  SoWinGLWidget * share = NULL;
+
+  // All contexts were destroyed or released in onDestroy().
+
+  this->hdcNormal = GetDC(window);
+  assert(this->hdcNormal && "GetDC failed -- investigate");
+  this->hdcOverlay = this->hdcNormal;
+
+  SbBool didtry = FALSE;
+
+  const char * pixelformatoverride = NULL;
+  int format = 1, maxformat = -1;  
+  SbGuiList <so_pixel_format*> pflist;
+  int overrideformat = -1;
+  so_pixel_format * pf;
+  SbBool foundone = FALSE;
+  int i = 0;
+
+  // Make it possible to override the selected pixel format by setting
+  // an environment variable. Useful for debugging and for assisting
+  // on remote client systems where the pixelformat weighting selects
+  // a sub-optimal format. If the latter, this can be used as a
+  // stop-gap solution until we fix the weighting algorithm.
+  pixelformatoverride = SoAny::si()->getenv("SOWIN_OVERRIDE_PIXELFORMAT");
+  if (pixelformatoverride) {
+    overrideformat = atoi(pixelformatoverride);
   }
 
-#if 0 // temporary disabled because overlay planes is not supported yet
-  // create overlay
-  if (overlay) {
-    this->ctxOverlay = wglCreateLayerContext(this->hdcOverlay, 1);
-    // FIXME: set overlay plane. mariusbu 20010801.
+  do {    
+    pf = new so_pixel_format;
+    pf->format = format;
+    pf->override = 0;
+    
+    maxformat = DescribePixelFormat(this->hdcNormal, format,
+                                    sizeof(PIXELFORMATDESCRIPTOR), &pf->pfd);
+    if (maxformat == 0) {
+      DWORD dummy;
+      SbString err = Win32::getWin32Err(dummy);
+      SbString s = "DescribePixelFormat() failed with error message: ";
+      s += err;
+      SoDebugError::post("SoWinGLWidgetP::createGLContext", s.getString());
+      goto panic;
+    }
+    
+    pf->weight = SoWinGLWidgetP::weighPixelFormat(&pf->pfd,
+                                                  (this->glModes & SO_GL_RGB) != 0,
+                                                  (this->glModes & SO_GL_DOUBLE) != 0,
+                                                  (this->glModes & SO_GL_ZBUFFER) != 0,
+                                                  (this->glModes & SO_GL_STEREO) != 0,
+                                                  this->accumulationenabled,
+                                                  this->stencilenabled,
+                                                  // FIXME: overlay support not
+                                                  // implemented yet. 20020720 mortene.
+                                                  FALSE,
+                                                  this->alphachannelenabled);
+    if (SoWinGLWidgetP::debugGLContextCreation()) {
+      SoWinGLWidgetP::dumpPixelFormat(this->hdcNormal, format);
+      SoDebugError::postInfo("SoWinGLWidgetP::createGLContext",
+                             "weight==%f\n", pf->weight);
+    }
+    if (format == overrideformat) {
+      pf->override = 1;
+    }
+    pflist.append(pf);
+    format++;
+  } while (format <= maxformat);
+  
+  if (pflist.getLength() == 0) { goto panic; }
+  
+  // sort descriptors based on descending weight
+  qsort((void*) pflist.getArrayPtr(), pflist.getLength(), sizeof(void*),
+        compare_pixel_formats);
+  
+  if (SoWinGLWidgetP::debugGLContextCreation()) {
+    SoDebugError::postInfo("SoWinGLWidgetP::createGLContext",
+                           "bestformat==%d, maxweight==%f",
+                           pflist[0]->format, pflist[0]->weight);
   }
-#endif // tmp disabled
+  
+  i = 0;
+  do {
+    pf = pflist[i];
 
+    if (SetPixelFormat(this->hdcNormal, pf->format, &pf->pfd)) {
+      this->ctxNormal = wglCreateContext(this->hdcNormal);
+      if (this->ctxNormal != NULL) {
+        // test if can make it current
+        if (!SoWinGLWidgetP::wglMakeCurrent(this->hdcNormal, this->ctxNormal) ||
+            !SoWinGLWidgetP::wglMakeCurrent(NULL, NULL)) {
+          BOOL r = wglDeleteContext(this->ctxNormal);
+          assert(r && "wglDeleteContext() failed -- investigate");
+          this->ctxNormal = NULL;
+          
+          SoDebugError::postInfo("SoWinGLWidgetP::createGLContext",
+                                 "Failed to make context current for format == %d",
+                                 pf->format);
+        }
+        else {
+          foundone = TRUE; // yay!
+        }
+      }
+      else if (SoWinGLWidgetP::debugGLContextCreation()) {
+        SoDebugError::postInfo("SoWinGLWidgetP::createGLContext",
+                               "Failed to create context for format == %d",
+                               pf->format);
+      }
+    }
+    else if (SoWinGLWidgetP::debugGLContextCreation()) {
+      SoDebugError::postInfo("SoWinGLWidgetP::createGLContext",
+                             "Failed to set pixel format for format == %d",
+                             pf->format);
+    }
+  } while (i < pflist.getLength() && !foundone);
+  
+  if (!foundone) { goto panic; }
+  
+  assert(i < pflist.getLength());
+  pf = pflist[i];
+  
+  (void)memcpy(&this->pfdNormal, &pf->pfd, sizeof(PIXELFORMATDESCRIPTOR));
+  
   // share context
   share = (SoWinGLWidget *)SoAny::si()->getSharedGLContext(NULL, NULL);
-
+  
   if (share != NULL) {
     BOOL ok = wglShareLists(PRIVATE(share)->ctxNormal, this->ctxNormal);
     // FIXME: how should we properly react to ok==FALSE?
     // 20010920 mortene.
   }
-
   SoAny::si()->registerGLContext((void *) PUBLIC(this), NULL, NULL);
-
+  
   // FIXME: what's this good for -- first setting then unsetting?
   // 20010924 mortene.
   if (!SoWinGLWidgetP::wglMakeCurrent(this->hdcNormal, this->ctxNormal) ||
@@ -1235,7 +1281,18 @@ SoWinGLWidgetP::createGLContext(HWND window)
     // FIXME: check for overlay planes when support for this is
     // implemented. 20020719 mortene.
   }
-
+  
+#if 0 // temporary disabled because overlay planes is not supported yet
+  // create overlay
+  if (overlay) {
+    this->ctxOverlay = wglCreateLayerContext(this->hdcOverlay, 1);
+    // FIXME: set overlay plane. mariusbu 20010801.
+  }
+#endif // tmp disabled
+  
+  for (i = 0; i < pflist.getLength(); i++) {
+    delete pflist[i];
+  }
   return;
 
 panic:
@@ -1289,8 +1346,12 @@ SoWinGLWidgetP::onPaint(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 #endif // SOWIN_DEBUG
 
   PAINTSTRUCT ps;
-  this->hdcNormal = Win32::BeginPaint(window, & ps);
-
+  HDC dc = Win32::BeginPaint(window, &ps);
+  if (dc != this->hdcNormal) {
+    SoDebugError::post("SoWinGLWidgetP::onPaint",
+                       "BeginPaint() HDC not equal to GL-context HDC");
+    return 0;
+  }
   if (!SoWinGLWidgetP::wglMakeCurrent(this->hdcNormal, this->ctxNormal)) {
     return 0;
   }
