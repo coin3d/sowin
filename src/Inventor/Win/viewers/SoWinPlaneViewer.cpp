@@ -387,6 +387,7 @@ void
 SoWinPlaneViewer::createPrefSheet( // virtual
   void )
 {
+  inherited::createPrefSheet( );
 } // createPrefSheet()
 
 // ************************************************************************
