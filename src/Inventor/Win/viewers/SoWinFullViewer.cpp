@@ -216,9 +216,14 @@ SoWinFullViewer::setDecoration( SbBool enable )
   Win32::GetClientRect( this->viewerWidget, & rect );
   PRIVATE( this )->layoutWidgets( rect.right, rect.bottom );
 
-  Win32::InvalidateRect( ( IsWindow( this->parent ) ?
-                           this->parent : this->viewerWidget ),
-                         NULL, TRUE );
+  if ( enable ) {
+    rect.right -= DECORATION_SIZE * 2;
+    rect.bottom -= DECORATION_SIZE;
+  }
+    
+  SoWinRenderArea::sizeChanged( SbVec2s( rect.right, rect.bottom ) );
+  Win32::InvalidateRect( this->viewerWidget, NULL, TRUE );
+
 }
 
 SbBool
