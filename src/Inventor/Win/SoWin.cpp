@@ -62,7 +62,7 @@ public:
                                      UINT idevent,
                                      DWORD dwtime );
   
-  static LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  //static LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   static LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   static LRESULT onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   
@@ -217,13 +217,13 @@ void
 SoWin::setWidgetSize( HWND widget, const SbVec2s size )
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
-  Win32::SetWindowPos( widget, NULL, 0, 0, size[0], size[1], flags);
+  Win32::SetWindowPos( widget, NULL, 0, 0, size[0], size[1], flags );
 } 
 
 SbVec2s
 SoWin::getWidgetSize( HWND widget )
 {
-  HDC hdc = GetDC( SoWinP::mainWidget );
+  HDC hdc = GetDC( widget );
 
   SIZE size;
   if ( ! GetWindowExtEx( hdc, & size ) ) {
@@ -256,8 +256,8 @@ SoWin::createWindow( char * title, char * className, SIZE size, HWND parent, HME
   exstyle = NULL;
 
   HWND widget = CreateWindowEx( exstyle,
-                              className,
-                               title,
+                                className,
+                                title,
                                 style,
                                 CW_USEDEFAULT,
                                 CW_USEDEFAULT,
@@ -369,12 +369,6 @@ SoWin::eventHandler( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
   
   switch( message )
     {
-    case WM_SIZE:
-      if( ! SoWinP::useParentEventHandler ) {
-        retval =  SoWinP::onSize( window, message, wparam, lparam );
-        handled = TRUE;
-      }
-      break;
 
     case WM_DESTROY:
       if ( ! SoWinP::useParentEventHandler ) {
@@ -487,24 +481,6 @@ SoWinP::sensorQueueChanged( void * cbdata )
       SoWinP::delaySensorActive = FALSE;
     }
   }
-}
-
-LRESULT
-SoWinP::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
-  EnumChildWindows( window, SoWinP::sizeChildProc, lparam );
-  return 0;
-}
-
-BOOL CALLBACK
-SoWinP::sizeChildProc( HWND window, LPARAM lparam )
-{
-  if ( GetParent( window ) == SoWin::getTopLevelWidget( ) ) {
-    UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
-    Win32::SetWindowPos( window, NULL, 0, 0,
-                         LOWORD( lparam ), HIWORD( lparam ), flags );
-  }
-  return TRUE;
 }
 
 LRESULT

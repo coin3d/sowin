@@ -33,6 +33,7 @@
 #include <Inventor/Win/viewers/SoWinViewer.h>
 #include <Inventor/Win/viewers/SoWinFullViewer.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
+#include <Inventor/Win/viewers/SoWinPlaneViewer.h>
 #include <sowindefs.h> // SOWIN_STUB
 #include <Inventor/Win/Win32API.h>
 
@@ -74,7 +75,10 @@ public:
         // FIXME: CreateWindow get the deault "Win Component" name, even when created by
         // viewers like SoWinExaminerViewer. Is this a bug? In that case fix this too!
         // mariusbu 20010803.
-        Win32::UnregisterClass( this->owner->getDefaultWidgetName( ), SoWin::getInstance( ) );
+        
+        if ( this->created ) { // if wndclass was registered by this class
+          Win32::UnregisterClass( this->owner->getWidgetName( ), SoWin::getInstance( ) );
+        }
       }
     }
 
@@ -89,15 +93,15 @@ public:
   
   static LRESULT CALLBACK eventHandler(
     HWND window, UINT message, WPARAM wparam, LPARAM lparam ) {
-    // Do nothing. This method is just a place holder.
+    // Do nothing.This method is just a place holder.
     return DefWindowProc( window, message, wparam, lparam );
   }
-
+ 
   // Variables.
 
   HWND parent;
   HWND widget;
-  SbBool embedded;
+  SbBool embedded, created;
   SbString classname, widgetname, title;
   SoWinComponentCB * closeCB;
   void * closeCBdata;
@@ -140,6 +144,7 @@ SoWinComponent::initClasses( void )
   SoWinViewer::initClass( );
   SoWinFullViewer::initClass( );
   SoWinExaminerViewer::initClass( );
+  SoWinPlaneViewer::initClass( );
 } // initClasses()
 
 // *************************************************************************
@@ -157,16 +162,22 @@ SoWinComponent::SoWinComponent( const HWND parent,
   this->pimpl = new SoWinComponentP( this );
   this->realized = FALSE;
   
-  PRIVATE( this )->parent = parent;
+  PRIVATE( this )->created = FALSE;
   PRIVATE( this )->closeCB = NULL;
   PRIVATE( this )->closeCBdata = NULL;
   PRIVATE( this )->visibilitychangeCBs = new SbPList;
  
-  if ( name ) PRIVATE( this )->widgetname = name;
-  
+  PRIVATE( this )->widget = NULL;
   PRIVATE( this )->embedded = embed;
 
-  PRIVATE( this )->widget = this->buildFormWidget( parent );
+  if ( IsWindow( parent ) && embed ) {
+    PRIVATE( this )->parent = parent;
+  }
+  else {
+    PRIVATE( this )->parent = this->buildFormWidget( parent );
+  }
+
+  if ( name ) PRIVATE( this )->widgetname = name;
   this->setTitle( name );
 }
 
@@ -182,9 +193,10 @@ SoWinComponent::~SoWinComponent( void )
     PRIVATE( this )->visibilitychangeCBs->remove( i );
   }
   delete PRIVATE( this )->visibilitychangeCBs;
-  
-  if ( IsWindow( PRIVATE( this )->widget ) ) {
-    Win32::DestroyWindow( PRIVATE( this )->widget );
+
+  // FIXME: crashes on exit. mariusbu 20010806.
+  if ( IsWindow( PRIVATE( this )->parent ) ) {
+    Win32::DestroyWindow( PRIVATE( this )->parent );
   }
   
   delete this->pimpl;
@@ -193,20 +205,20 @@ SoWinComponent::~SoWinComponent( void )
 void
 SoWinComponent::show( void )
 {
-  (void)ShowWindow( PRIVATE( this )->widget, SW_SHOW );
-  Win32::InvalidateRect( PRIVATE( this )->widget, NULL, FALSE );
+  (void)ShowWindow( PRIVATE( this )->parent, SW_SHOW );
+  Win32::InvalidateRect( PRIVATE( this )->parent, NULL, FALSE );
 }
 
 void
 SoWinComponent::hide( void )
 {
-  (void)ShowWindow( PRIVATE( this )->widget, SW_HIDE );
+  (void)ShowWindow( PRIVATE( this )->parent, SW_HIDE );
 }
 
 void
 SoWinComponent::goFullScreen( const SbBool enable )
 {
-  HWND hwnd = this->getWidget( );
+  HWND hwnd = this->getParentWidget( );
   while( IsWindow( GetParent( hwnd ) ) )
     hwnd = GetParent( hwnd );
 
@@ -284,7 +296,7 @@ SbBool
 SoWinComponent::isFullScreen( void ) const
 {
   // Check fullscreen list for shell widget
-  HWND hwnd = this->getWidget( );
+  HWND hwnd = this->getParentWidget( );
   while( IsWindow( GetParent( hwnd ) ) )
     hwnd = GetParent( hwnd );
     
@@ -328,6 +340,7 @@ SbBool
 SoWinComponent::isTopLevelShell( void ) const
 {
   return ( PRIVATE( this )->embedded ? FALSE : TRUE );
+  //FIXME: compare with SoWin::getTopLevelWidget() ? mariusbu 20010806.
 }
 
 HWND
@@ -337,7 +350,7 @@ SoWinComponent::getShellWidget( void ) const
 
   LONG style;
   HWND hwnd;
-  HWND parent = PRIVATE( this )->widget;
+  HWND parent = PRIVATE( this )->parent;
   
   do {
     hwnd = parent;
@@ -374,7 +387,8 @@ SoWinComponent::getSize( void )
 const char *
 SoWinComponent::getWidgetName( void ) const
 {
-  return PRIVATE( this )->widgetname.getString( );
+  return PRIVATE( this )->widgetname.getLength( ) ?
+    PRIVATE( this )->widgetname.getString( ) : this->getDefaultWidgetName( );
 }
 
 const char *
@@ -390,7 +404,7 @@ SoWinComponent::setTitle( const char * const title )
   else PRIVATE( this )->title = "";
 
   if ( IsWindow( PRIVATE( this )->parent ) && title ) {
-    Win32:: SetWindowText( PRIVATE( this )->parent ,
+    Win32::SetWindowText( PRIVATE( this )->parent,
       ( LPCTSTR ) PRIVATE( this )->title.getString( ) );
   }
 }
@@ -413,8 +427,8 @@ SoWinComponent *
 SoWinComponent::getComponent( HWND const widget )
 {
   for ( int i = 0; i < SoWinComponentP::sowincomplist->getLength( ); i++ ) {
-    SoWinComponent * c = ( SoWinComponent * ) ( * SoWinComponentP::sowincomplist )[i];
-    if ( c->getWidget( ) == widget ) return c;
+    SoWinComponent * c = ( SoWinComponent * ) SoWinComponentP::sowincomplist->get(i);
+    if ( c->getParentWidget( ) == widget ) return c;
   }
   return NULL;
 }
@@ -454,17 +468,15 @@ SoWinComponent::unregisterWidget( HWND widget )
 */
 HWND
 SoWinComponent::buildFormWidget( HWND parent )
-{
-  PRIVATE( this )->parent = parent;
-  
+{ 
   WNDCLASS windowclass;
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
- LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
+  LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
   HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
-  HWND widget;
+  HWND parentWidget;
 
-  windowclass.lpszClassName = ( char * ) this->getDefaultWidgetName( );
+  windowclass.lpszClassName = ( char * ) this->getWidgetName( );
   windowclass.hInstance = SoWin::getInstance( );
   windowclass.lpfnWndProc = SoWinComponentP::eventHandler;
   windowclass.style = CS_OWNDC;
@@ -476,37 +488,32 @@ SoWinComponent::buildFormWidget( HWND parent )
   windowclass.cbWndExtra = 4;
 
   RegisterClass( & windowclass );
+  PRIVATE( this )->created = TRUE;
 
   RECT rect;
   LONG style;
   
-  if ( IsWindow( parent ) && PRIVATE( this )->embedded ) {
-    Win32::GetClientRect( parent, & rect );
-    style = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS;
-  }
-  else {
-    rect.left = CW_USEDEFAULT;
-    rect.top = CW_USEDEFAULT;
-    rect.right = 500;
-    rect.bottom = 500;
-    style = WS_OVERLAPPEDWINDOW | WS_VISIBLE | WS_CLIPSIBLINGS;
-  }
+  rect.left = CW_USEDEFAULT;
+  rect.top = CW_USEDEFAULT;
+  rect.right = 500;
+  rect.bottom = 500;
+  style = WS_OVERLAPPEDWINDOW | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
 
   // When this method is called, the component is *not* embedded. mariusbu 20010727.
-  widget = CreateWindow( ( char * ) this->getDefaultWidgetName( ),
-                         ( char * ) this->getTitle( ),
-                         style,
-                         rect.left,
-                         rect.top,
-                         rect.right,
-                         rect.bottom,
-                         parent,
-                         NULL,
-                         SoWin::getInstance( ),
-                         NULL );
+  parentWidget = CreateWindow( ( char * ) this->getWidgetName( ),
+                               ( char * ) this->getTitle( ),
+                               style,
+                               rect.left,
+                               rect.top,
+                               rect.right,
+                               rect.bottom,
+                               parent,
+                               NULL,
+                               SoWin::getInstance( ),
+                               NULL );
 
-  assert( IsWindow( widget ) );
-  return widget;
+  assert( IsWindow( parentWidget ) );
+  return parentWidget;
 }
 
 const char *
@@ -561,7 +568,7 @@ SoWinComponent::removeVisibilityChangeCallback( SoWinComponentVisibilityCB * fun
 void
 SoWinComponent::openHelpCard( const char * name )
 {
-  MessageBox( PRIVATE( this )->widget,
+  MessageBox( PRIVATE( this )->parent,
     "The help functionality has not been implemented.",
     "SoWin", MB_ICONEXCLAMATION | MB_OK );  
   // FIXME: function not implemented

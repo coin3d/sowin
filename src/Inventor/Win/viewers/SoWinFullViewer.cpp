@@ -91,6 +91,7 @@ public:
   void * createAppPushButtonData;
 
   WNDPROC parentEventHandler;
+  WNDPROC glEventHandler;
 
   SbBool menuenabled;
   SbBool decorations;
@@ -121,7 +122,7 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
                                   BuildFlag flag,
                                   SoWinViewer::Type type,
                                   SbBool build ) :
-  inherited( parent, name, embedded, type, build ),
+  inherited( parent, name, embedded, type, FALSE ),
   common( new SoAnyFullViewer( this ) )   // FIXME: warning
 {
   this->pimpl = new SoWinFullViewerP( this );
@@ -155,9 +156,7 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   if ( build ) {
 
     this->setClassName( "SoWinFullViewer" );
-
-    HWND window = this->buildWidget( this->getWidget( ) );
-    this->setBaseWidget( window );
+    this->setBaseWidget( this->buildWidget( this->getParentWidget( ) ) );
 
   }
 
@@ -169,6 +168,19 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 
 SoWinFullViewer::~SoWinFullViewer( void )
 {
+  HWND parent = this->getParentWidget( );
+  if ( IsWindow( parent ) ) {
+    ( void ) Win32::SetWindowLong( parent, GWL_WNDPROC,
+      ( LONG ) PRIVATE( this )->parentEventHandler );
+  }
+  
+  HWND gl =  this->getGLWidget( );
+  // Patch gl widget eventHandler
+  if ( IsWindow( gl ) ) {
+    ( void ) Win32::SetWindowLong( gl, GWL_WNDPROC,
+      ( LONG ) PRIVATE( this )->parentEventHandler );
+  }
+  
   // FIXME: remember to dealocate all resources
   int i;
 
@@ -418,37 +430,36 @@ SoWinFullViewer::buildWidget( HWND parent )
   // This method will always be called with a parent.
 
   assert( IsWindow( parent ) );
-  this->viewerWidget = parent;
-	
-  LONG l = Win32::SetWindowLong( parent, GWL_WNDPROC, ( long ) SoWinFullViewer::vwrWidgetProc );
-  PRIVATE( this )->parentEventHandler = ( WNDPROC ) l;
 
-  this->renderAreaWidget = inherited::buildWidget( this->viewerWidget );
-  assert( IsWindow( this->renderAreaWidget ) );
-	
+  this->viewerWidget = parent;
+  this->renderAreaWidget = inherited::buildWidget( parent );
+  //assert( IsWindow( this->renderAreaWidget  ) );
+
+  LONG l;
+  // Patch gl widget eventHandler
   if ( IsWindow( this->getGLWidget( ) ) ) {
-    (void)Win32::SetWindowLong( this->getGLWidget( ), GWL_WNDPROC,
+    l = Win32::SetWindowLong( this->getGLWidget( ), GWL_WNDPROC,
                                 ( LONG ) SoWinFullViewer::glWidgetProc );
+    PRIVATE( this )->glEventHandler = ( WNDPROC ) l;
   }
   else {
     // FIXME: do something more informative. mariusbu 20010724.
     assert ( 0 && "No GLWidget" );
   }
 
+  // Patch component eventHandler
+  l = Win32::SetWindowLong( parent, GWL_WNDPROC, ( LONG ) SoWinFullViewer::vwrWidgetProc );
+  PRIVATE( this )->parentEventHandler = ( WNDPROC ) l;
+
   if ( PRIVATE( this )->menuenabled ) {
     this->buildPopupMenu( );
   }
 
   if ( PRIVATE( this )->decorations ) {
-    this->buildDecoration( this->viewerWidget );
+    this->buildDecoration( parent );
   }
 
-  //(void)ShowWindow( this->renderAreaWidget, SW_SHOW ); // FIXME: remove ? mariusbu 20010803.
-	/*
-  Win32::InvalidateRect( ( IsWindow( parent ) ? parent : this->viewerWidget ),
-                           NULL, TRUE );
-	*/
-  return this->viewerWidget;
+  return this->renderAreaWidget;
 }
 
 void
@@ -861,8 +872,8 @@ SoWinFullViewer::vwrWidgetProc(HWND window,
 
   // FIXME: do type check. mariusbu 20010727.
   object = ( SoWinFullViewer * ) comp;
-
-  if ( object && window == object->viewerWidget ) {
+  
+  if ( object && window == object->getParentWidget( ) ) {
 
     switch ( message )
       {
@@ -897,9 +908,7 @@ LRESULT
 SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   PRIVATE( this )->layoutWidgets( LOWORD( lparam ), HIWORD( lparam ) );
-
   Win32::InvalidateRect( window, NULL, TRUE );
-  this->validate( window );// FIXME validate buttons and thumbwheel too
 
   return 0;
 }
@@ -1136,19 +1145,20 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
   int i, x, y, width, height, bottom, right, top;
   int numViewerButtons = this->owner->viewerButtonList->getLength( );
   int numAppButtons = this->owner->appButtonList->getLength( );
-
+  HWND renderArea = this->owner->renderAreaWidget;
+  
   // RenderArea
-  assert( IsWindow( this->owner->renderAreaWidget ) );
+  assert( IsWindow( renderArea ) );
 
   if ( this->decorations ) {
-    Win32::MoveWindow( this->owner->renderAreaWidget, DECORATION_SIZE, 0,
+    Win32::MoveWindow( renderArea, DECORATION_SIZE, 0,
                        cx - ( 2 * DECORATION_SIZE ), cy - DECORATION_SIZE, TRUE );
   }
   else {
-    Win32::MoveWindow( this->owner->renderAreaWidget, 0, 0, cx, cy, TRUE );
+    Win32::MoveWindow( renderArea, 0, 0, cx, cy, TRUE );
     return 0;
   }
-
+  
   if ( SoWinFullViewerP::doButtonBar ) {
 
     // Viewer buttons

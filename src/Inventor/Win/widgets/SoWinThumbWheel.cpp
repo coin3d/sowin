@@ -344,6 +344,8 @@ SoWinThumbWheel::size( int width, int height )
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
   Win32::SetWindowPos( this->wheelWindow, NULL, 0, 0, width, height, flags );
+  InvalidateRect( this->wheelWindow, NULL, FALSE );
+  InvalidateRect( this->labelWindow, NULL, FALSE );
 }
 
 void

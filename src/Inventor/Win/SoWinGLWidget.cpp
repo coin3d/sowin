@@ -44,6 +44,7 @@ public:
   // Constructor.
   SoWinGLWidgetP( SoWinGLWidget * o ) {
     this->owner = o;
+    this->parentEventHandler = NULL;
   }
 
   // Destructor.
@@ -55,9 +56,14 @@ public:
   BOOL createGLContext( HWND window );
 
   LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  //LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+
+  static LRESULT CALLBACK cmpWidgetProc( HWND window,
+                                         UINT message,
+                                         WPARAM wparam,
+                                         LPARAM lparam );
+  WNDPROC parentEventHandler;
 
   HWND managerWidget;
   HWND normalWidget;
@@ -142,6 +148,10 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
 
 SoWinGLWidget::~SoWinGLWidget( void )
 {
+  if ( IsWindow( this->getParentWidget( ) ) )
+    ( void ) Win32::SetWindowLong( this->getParentWidget( ),
+      GWL_WNDPROC, ( LONG ) PRIVATE( this )->parentEventHandler );
+  
   if ( IsWindow( PRIVATE( this )->managerWidget ) )
     Win32::DestroyWindow( PRIVATE( this )->managerWidget );
   if ( IsWindow( PRIVATE( this )->normalWidget ) )  
@@ -557,8 +567,6 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )
   Win32::SetWindowPos( PRIVATE( this )->normalWidget, NULL, 0, 0,
                          newSize[0], newSize[1], flags );
 
-  //this->validate( this->getShellWidget( ) ); // FIXME: does this do any good ? mariusbu 20010801
- 
   this->sizeChanged( newSize );
 }
 
@@ -612,6 +620,11 @@ SoWinGLWidget::getDisplayListShareGroup( HGLRC ctx )
 HWND
 SoWinGLWidget::buildWidget( HWND parent )
 {
+
+ 	// Patch parent event handler
+  LONG l = Win32::SetWindowLong( parent, GWL_WNDPROC, ( LONG ) SoWinGLWidgetP::cmpWidgetProc );
+  PRIVATE( this )->parentEventHandler = ( WNDPROC ) l;
+  
   // Build managerWidget
   // Used only to draw borders and handle resize
 
@@ -623,7 +636,7 @@ SoWinGLWidget::buildWidget( HWND parent )
   windowclass.lpszClassName = this->getClassName( );
   windowclass.hInstance = SoWin::getInstance( );
   windowclass.lpfnWndProc = SoWinGLWidget::mgrWidgetProc;
-  windowclass.style = CS_PARENTDC;// NULL;
+  windowclass.style = NULL; // CS_PARENTDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = NULL;
   windowclass.hCursor = NULL;
@@ -640,7 +653,7 @@ SoWinGLWidget::buildWidget( HWND parent )
   HWND managerwidget = CreateWindow( this->getClassName( ),
                                      this->getClassName( ),
 		                                 WS_VISIBLE |
-		                                 //WS_CLIPSIBLINGS | // FIXME: Breaks the SoWinRenderArea. mariusbu 20010803.
+		                                 WS_CLIPSIBLINGS |
 		                                 WS_CLIPCHILDREN |
                                      WS_CHILD,
                                      rect.left,
@@ -747,30 +760,6 @@ SoWinGLWidget::glFlushBuffer( void )
   glFlush( );
 }
 
-void
-SoWinGLWidget::validate( HWND hwnd )
-{
-  // There is no need for any other widgets to
-  // update this area.
-  
-  POINT pt = { 0, 0 };
-
-  BOOL r = ClientToScreen( PRIVATE( this )->normalWidget, & pt );
-  assert( r && "ClientToScreen() failed -- investigate" );
-  r = ScreenToClient( hwnd, & pt );
-  assert( r && "ScreenToClient() failed -- investigate" );
-
-  RECT rect = {
-    pt.x,
-    pt.y,
-    PRIVATE( this )->glSize[0] + pt.x,
-    PRIVATE( this )->glSize[1] + pt.y
-  };
-  
-  r = ValidateRect( hwnd, & rect );
-  assert( r && "ValidateRect() failed -- investigate" );
-}
-
 ///////////////////////////////////////////////////////////////////
 //
 //  (private)
@@ -827,9 +816,10 @@ SoWinGLWidgetP::buildNormalGLWidget( HWND manager )
                                       this->owner );
 
   assert( IsWindow( normalwidget ) );
-
   this->owner->realized = FALSE;
   this->normalWidget = normalwidget;
+  this->glSize = SbVec2s( rect.right - rect.left,
+    rect.bottom - rect.top );
 }
 
 void
@@ -891,9 +881,6 @@ SoWinGLWidgetP::createGLContext( HWND window )
     #endif // SOWIN_DEBUG
     return FALSE;
   }
-
-  SoWinGLWidget * share = ( SoWinGLWidget * )
-  SoAny::si( )->getSharedGLContext( NULL, NULL );
   
   this->ctxNormal = wglCreateContext( this->hdcNormal );
   if ( ! this->ctxNormal ) {
@@ -911,8 +898,13 @@ SoWinGLWidgetP::createGLContext( HWND window )
     // FIXME: set overlay plane. mariusbu 20010801.
   }
 
+  // share context
+  SoWinGLWidget * share = ( SoWinGLWidget * )
+  SoAny::si( )->getSharedGLContext( NULL, NULL );
+
   if ( share != NULL )
     wglShareLists( PRIVATE( share )->ctxNormal, this->ctxNormal );
+  
 	SoAny::si( )->registerGLContext( ( void * ) this->owner, NULL, NULL );
 
   ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
@@ -962,25 +954,7 @@ label:
 	this->owner->widgetChanged( window );
   return 0;
 }
-/*
-LRESULT
-SoWinGLWidgetP::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{ 
-#if SOWIN_DEBUG && 0
-  SoDebugError::postInfo( "SoWinGLWidget::onSize", "called" );
-#endif // SOWIN_DEBUG
- 
-  BOOL ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
-  assert( ok );
 
-  this->owner->setGLSize( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
-
-  ok = wglMakeCurrent( NULL, NULL );
-  assert( ok );
-
-  return 0;
-}
-*/
 LRESULT
 SoWinGLWidgetP::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
@@ -1018,4 +992,36 @@ SoWinGLWidgetP::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lpar
   ReleaseDC( window, this->hdcNormal );
 
   return 0;
+}
+
+LRESULT CALLBACK
+SoWinGLWidgetP::cmpWidgetProc( HWND window,
+                               UINT message,
+                               WPARAM wparam,
+                               LPARAM lparam )
+{
+
+  SoWinGLWidget * object = NULL;
+  SoWinComponent * comp = SoWinComponent::getComponent( window );
+
+  // FIXME: do type check. mariusbu 20010727.
+  object = ( SoWinGLWidget * ) comp;
+
+  if ( object && window == object->getParentWidget( ) ) {
+    
+    switch ( message )
+      {
+        
+      case WM_SIZE:
+        MoveWindow( object->pimpl->managerWidget, 0, 0, LOWORD( lparam ), HIWORD( lparam ), TRUE );
+        return 0;
+        
+      default:
+        return object->pimpl->parentEventHandler( window, message, wparam, lparam );
+				
+      }
+
+  }
+
+  return DefWindowProc( window, message, wparam, lparam );
 }

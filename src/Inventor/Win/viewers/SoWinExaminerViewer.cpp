@@ -175,13 +175,12 @@ SoWinExaminerViewerP::constructor(
   this->owner->setBottomWheelString( "Roty" );
 
   if ( build ) {
-    HWND widget = this->owner->buildWidget( this->owner->getWidget( ) );
+    HWND widget = this->owner->buildWidget( this->owner->getParentWidget( ) );
     this->owner->setBaseWidget( widget );
   }
   this->owner->setSize( SbVec2s( 500, 420 ) );
- // FIXME
- this->owner->setCursorEnabled( TRUE );
- this->owner->setAnimationEnabled( TRUE );
+  this->owner->setCursorEnabled( TRUE );
+  this->owner->setAnimationEnabled( TRUE );
 
 } // constructor()
 

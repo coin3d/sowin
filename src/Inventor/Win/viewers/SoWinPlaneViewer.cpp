@@ -170,7 +170,7 @@ SoWinPlaneViewerP::constructor( // private
 
   if ( ! build ) return;
 
-  HWND viewer = this->owner->buildWidget( this->owner->getWidget( ) );
+  HWND viewer = this->owner->buildWidget( this->owner->getParentWidget( ) );
   this->owner->setBaseWidget( viewer );
 
   this->owner->setSize( SbVec2s( 555, 515 ) );
