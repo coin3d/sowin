@@ -390,10 +390,7 @@ fi
 
 AC_DEFUN([AM_AUX_DIR_EXPAND], [
 # expand $ac_aux_dir to an absolute path
-if test "${CDPATH+set}" = set; then
-  CDPATH=${ZSH_VERSION+.}:   # as recommended in autoconf.texi
-fi
-am_aux_dir=`cd $ac_aux_dir && pwd`
+am_aux_dir=`CDPATH=:; cd $ac_aux_dir && pwd`
 ])
 
 # AM_PROG_INSTALL_SH
@@ -4794,15 +4791,17 @@ if $sim_ac_coin_desired; then
     test -n "$CONFIG" &&
       $sim_ac_coin_configcmd --alternate=$CONFIG >/dev/null 2>/dev/null &&
       sim_ac_coin_configcmd="$sim_ac_coin_configcmd --alternate=$CONFIG"
+    sim_ac_coin_version=`$sim_ac_coin_configcmd --version`
     sim_ac_coin_cppflags=`$sim_ac_coin_configcmd --cppflags`
-    sim_ac_coin_cflags=`$sim_ac_coin_configcmd --cflags`
     sim_ac_coin_cxxflags=`$sim_ac_coin_configcmd --cxxflags`
     sim_ac_coin_ldflags=`$sim_ac_coin_configcmd --ldflags`
     sim_ac_coin_libs=`$sim_ac_coin_configcmd --libs`
-    sim_ac_coin_msvcrt=`$sim_ac_coin_configcmd --msvcrt`
     sim_ac_coin_datadir=`$sim_ac_coin_configcmd --datadir`
-    sim_ac_coin_includedir=`$sim_ac_coin_configcmd --includedir`
-    sim_ac_coin_version=`$sim_ac_coin_configcmd --version`
+    # Hide stderr on the following, as ``--includedir'', ``--msvcrt''
+    # and ``--cflags'' options were added late to coin-config.
+    sim_ac_coin_includedir=`$sim_ac_coin_configcmd --includedir 2>/dev/null`
+    sim_ac_coin_msvcrt=`$sim_ac_coin_configcmd --msvcrt 2>/dev/null`
+    sim_ac_coin_cflags=`$sim_ac_coin_configcmd --cflags 2>/dev/null`
     AC_CACHE_CHECK(
       [whether libCoin is available],
       sim_cv_coin_avail,
