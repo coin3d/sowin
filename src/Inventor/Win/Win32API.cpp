@@ -187,8 +187,8 @@ Win32::SetWindowLong(HWND hWnd,       // handle of window
 {
   SetLastError(0);
   LONG l = ::SetWindowLong(hWnd, nIndex, dwNewLong);
-  if (!l) { Win32::showLastErr(); }  
-  assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+  //if (!l) { Win32::showLastErr(); }  
+  assert( ! ( l==0 && ::GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
   return l;
 }
 
@@ -200,4 +200,19 @@ Win32::GetWindowLong(HWND hWnd,       // handle of window
   if (!l) { Win32::showLastErr(); }  
   assert( l && "GetWindowLong() failed -- investigate" );
   return l;
+}
+
+void
+Win32::SetWindowPos(HWND hWnd,    // handle to window
+           HWND hWndInsertAfter,  // placement-order handle
+           int X,                 // horizontal position
+           int Y,                 // vertical position
+           int cx,                // width
+           int cy,                // height
+           UINT uFlags)           // window-positioning flags
+
+{
+  BOOL r = ::SetWindowPos(hWnd, hWndInsertAfter, X, Y, cx, cy, uFlags);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "SetWindowPos() failed -- investigate" );
 }

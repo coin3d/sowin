@@ -50,12 +50,12 @@ public:
   ~SoWinGLWidgetP( ) {
   }
 
-  void buildNormalGLWidget( void );
-  void buildOverlayGLWidget( void );
+  void buildNormalGLWidget( HWND manager );
+  void buildOverlayGLWidget( HWND manager );
   BOOL createGLContext( HWND window );
 
   LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  //LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 
@@ -125,17 +125,19 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
   PRIVATE( this )->hdcOverlay = NULL;
 
   PRIVATE( this )->glModes = glModes;
-  PRIVATE( this )->borderSize = 3;
+  PRIVATE( this )->borderSize = 0;
   PRIVATE( this )->haveBorder = FALSE;
   PRIVATE( this )->currentCursor = NULL;
 
   PRIVATE( this )->haveFocus = FALSE;
   PRIVATE( this )->stealFocus = FALSE;
 
-  if ( build ) {
-    PRIVATE( this )->managerWidget = this->buildWidget( parent );
-    this->setBaseWidget( PRIVATE( this )->managerWidget ); // FIXME:
-  }
+  this->setClassName( "SoWinGLWidget" );
+	
+  if ( ! build ) return;
+	
+  PRIVATE( this )->managerWidget = this->buildWidget( parent );
+  this->setBaseWidget( PRIVATE( this )->managerWidget );
 }
 
 SoWinGLWidget::~SoWinGLWidget( void )
@@ -148,8 +150,8 @@ SoWinGLWidget::~SoWinGLWidget( void )
     Win32::DestroyWindow( PRIVATE( this )->overlayWidget );
   SoWinGLWidgetP::widgetCounter--;
   if ( SoWinGLWidgetP::widgetCounter <= 0 ) {
-    Win32::UnregisterClass( "SoWinGLWidget_glwidget", SoWin::getInstance( ) );
-    Win32::UnregisterClass( "SoWinGLWidget_managerwidget", SoWin::getInstance( ) );
+    Win32::UnregisterClass( this->getClassName( ), SoWin::getInstance( ) );
+    Win32::UnregisterClass( "GL Widget", SoWin::getInstance( ) );
   }
   delete this->pimpl;
 }
@@ -278,7 +280,7 @@ SoWinGLWidget::setDoubleBuffer( SbBool set )
   }
   Win32::DestroyWindow( this->getGLWidget( ) );
   SoWinGLWidgetP::widgetCounter--;
-  PRIVATE( this )->buildNormalGLWidget( );
+  PRIVATE( this )->buildNormalGLWidget( PRIVATE( this )->managerWidget );
 }
 
 SbBool
@@ -332,7 +334,7 @@ SoWinGLWidget::setQuadBufferStereo( const SbBool enable )
   }
   Win32::DestroyWindow( this->getGLWidget( ) );
   SoWinGLWidgetP::widgetCounter--;
-  PRIVATE( this )->buildNormalGLWidget( );
+  PRIVATE( this )->buildNormalGLWidget( PRIVATE( this )->managerWidget );
 }
 
 /*!
@@ -405,18 +407,20 @@ SoWinGLWidget::mgrWidgetProc( HWND window,
   if ( message == WM_CREATE ) {
     CREATESTRUCT * createstruct;
     createstruct = ( CREATESTRUCT * ) lparam;
-    LONG l = Win32::SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
+    LONG l = Win32::SetWindowLong( window, GWL_USERDATA, ( LONG ) ( createstruct->lpCreateParams ) );
     return 0;
   }
 
-  SoWinGLWidget * object = ( SoWinGLWidget * ) GetWindowLong( window, 0 );
+  SoWinGLWidget * object = ( SoWinGLWidget * ) ::GetWindowLong( window, GWL_USERDATA );
 
   if ( object && window == object->getManagerWidget( ) ) {
     switch ( message )
       {
+				
       case WM_SIZE:
         object->setGLSize( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
         return 0;
+				
       }
   }
   return DefWindowProc( window, message, wparam, lparam );
@@ -432,13 +436,13 @@ SoWinGLWidget::glWidgetProc( HWND window,
     CREATESTRUCT * createstruct;
     createstruct = ( CREATESTRUCT * ) lparam;
 		
-    LONG l = Win32::SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
+    LONG l = Win32::SetWindowLong( window, GWL_USERDATA, ( LONG ) ( createstruct->lpCreateParams ) );
 		
     SoWinGLWidget * object = ( SoWinGLWidget * )( createstruct->lpCreateParams );
     return PRIVATE( object )->onCreate( window, message, wparam, lparam );
   }
 
-  SoWinGLWidget * object = ( SoWinGLWidget * ) GetWindowLong( window, 0 );
+  SoWinGLWidget * object = ( SoWinGLWidget * ) ::GetWindowLong( window, GWL_USERDATA );
 
   if ( object && window == object->getNormalWidget( ) ) {
 
@@ -461,8 +465,8 @@ SoWinGLWidget::glWidgetProc( HWND window,
     
     switch ( message )
       {
-      case WM_SIZE:
-        return PRIVATE( object )->onSize( window, message, wparam, lparam );
+				//case WM_SIZE:
+        //return PRIVATE( object )->onSize( window, message, wparam, lparam );
 
       case WM_PAINT:
         object->waitForExpose = FALSE; // flip flag on first expose
@@ -488,8 +492,8 @@ SoWinGLWidget::glWidgetProc( HWND window,
         return 0;
 
    case WM_SETCURSOR:
-    SetCursor( object->getCursor( ) );
-    return 0;
+		    SetCursor( object->getCursor( ) );
+        return 0;
  
       }
   }
@@ -547,15 +551,13 @@ void
 SoWinGLWidget::setGLSize( SbVec2s newSize )
 {
   if ( newSize == PRIVATE( this )->glSize ) return;
-
   PRIVATE( this )->glSize = newSize;
 
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
-  BOOL r = SetWindowPos( PRIVATE( this )->normalWidget, NULL, 0, 0,
+  Win32::SetWindowPos( PRIVATE( this )->normalWidget, NULL, 0, 0,
                          newSize[0], newSize[1], flags );
-  assert( r && "SetWindowPos() failed -- investigate" );
 
-  this->validate( this->getShellWidget( ) ); // FIXME: does this do any good ? mariusbu 20010801
+  //this->validate( this->getShellWidget( ) ); // FIXME: does this do any good ? mariusbu 20010801
  
   this->sizeChanged( newSize );
 }
@@ -617,13 +619,11 @@ SoWinGLWidget::buildWidget( HWND parent )
 
   WNDCLASS windowclass;
   HMENU menu = NULL;
-  HWND widget = NULL;
-  LPSTR wndclassname = "SoWinGLWidget_managerwidget";
 
-  windowclass.lpszClassName = wndclassname;
+  windowclass.lpszClassName = this->getClassName( );
   windowclass.hInstance = SoWin::getInstance( );
   windowclass.lpfnWndProc = SoWinGLWidget::mgrWidgetProc;
-  windowclass.style = NULL;
+  windowclass.style = CS_PARENTDC;// NULL;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = NULL;
   windowclass.hCursor = NULL;
@@ -634,20 +634,14 @@ SoWinGLWidget::buildWidget( HWND parent )
   RegisterClass( & windowclass );
 
   RECT rect;
-  if ( IsWindow( parent ) )
-    Win32::GetClientRect( parent, & rect );
-  else {
-    rect.left = 0;
-    rect.top = 0;
-    rect.right = 500;
-    rect.bottom = 500;
-  }
+	assert ( IsWindow( parent ) );
+  Win32::GetClientRect( parent, & rect );
 
-  HWND managerwidget = CreateWindow( wndclassname,
-                                     wndclassname,
+  HWND managerwidget = CreateWindow( this->getClassName( ),
+                                     this->getClassName( ),
 		                                 WS_VISIBLE |
-		                                 WS_CLIPSIBLINGS | // FIXME: Removing this breaks the program for Watford.
-		                                 WS_CLIPCHILDREN |   // Keeping it breaks the SoWinRenderArea. mariusbu 20010803.
+		                                 //WS_CLIPSIBLINGS | // FIXME: Breaks the SoWinRenderArea. mariusbu 20010803.
+		                                 WS_CLIPCHILDREN |
                                      WS_CHILD,
                                      rect.left,
                                      rect.top,
@@ -660,13 +654,12 @@ SoWinGLWidget::buildWidget( HWND parent )
 
   assert( IsWindow( managerwidget ) );
 
-  // FIXME: make param in build*GLWidget  
   PRIVATE( this )->managerWidget = managerwidget;
 
   if ( PRIVATE( this )->glModes & SO_GL_OVERLAY )
-    PRIVATE( this )->buildOverlayGLWidget( );
+    PRIVATE( this )->buildOverlayGLWidget( managerwidget );
 
-  PRIVATE( this )->buildNormalGLWidget( );
+  PRIVATE( this )->buildNormalGLWidget( managerwidget );
 
   this->waitForExpose = TRUE;
   
@@ -688,6 +681,7 @@ SoWinGLWidget::getGlxMgrWidget( void )
 HWND
 SoWinGLWidget::getGLWidget( void )
 {
+	// FIXME: return manager ? mariusbu 20010803.
   return this->getNormalWindow( );
 }
 
@@ -725,7 +719,7 @@ SoWinGLWidget::glLockNormal( void )
 void
 SoWinGLWidget::glUnlockNormal( void )
 {
-  wglMakeCurrent( PRIVATE( this )->hdcNormal, NULL );
+  wglMakeCurrent( NULL, NULL );
 }
 
 void
@@ -737,7 +731,7 @@ SoWinGLWidget::glLockOverlay( void )
 void
 SoWinGLWidget::glUnlockOverlay( void )
 {
-  wglMakeCurrent( PRIVATE( this )->hdcOverlay, NULL );
+  wglMakeCurrent( NULL, NULL );
 }
 
 void
@@ -783,16 +777,16 @@ SoWinGLWidget::validate( HWND hwnd )
 //
 
 void
-SoWinGLWidgetP::buildNormalGLWidget( void )
+SoWinGLWidgetP::buildNormalGLWidget( HWND manager )
 { 
   HMENU menu = NULL;
-  LPSTR wndclassname = "SoWinGLWidget_glwidget";
+  LPSTR wndclassname = "GL Widget";
 
   WNDCLASS windowclass;
   windowclass.lpszClassName = wndclassname;
   windowclass.hInstance = SoWin::getInstance( );
   windowclass.lpfnWndProc = SoWinGLWidget::glWidgetProc;
-  windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC | CS_SAVEBITS;
+  windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = NULL;
   windowclass.hCursor =  NULL;
@@ -803,9 +797,11 @@ SoWinGLWidgetP::buildNormalGLWidget( void )
   RegisterClass( & windowclass );
  
   this->currentCursor = LoadCursor( SoWin::getInstance( ), IDC_ARROW );
- 
+
+	assert( IsWindow( manager ) );
+	
   RECT rect;
-  Win32::GetClientRect( this->managerWidget, & rect );
+  Win32::GetClientRect( manager, & rect );
 
   if ( this->haveBorder ) {
     rect.left += this->borderSize;
@@ -825,7 +821,7 @@ SoWinGLWidgetP::buildNormalGLWidget( void )
                                       rect.top,
                                       rect.right,
                                       rect.bottom,
-                                      this->managerWidget,
+                                      manager,
                                       menu,
                                       SoWin::getInstance( ),
                                       this->owner );
@@ -837,7 +833,7 @@ SoWinGLWidgetP::buildNormalGLWidget( void )
 }
 
 void
-SoWinGLWidgetP::buildOverlayGLWidget( void )
+SoWinGLWidgetP::buildOverlayGLWidget( HWND manager )
 {
   // FIXME: function not implemented
   // FIXME: overlay not supported. mariusbu 20010719.
@@ -849,17 +845,26 @@ SoWinGLWidgetP::createGLContext( HWND window )
 {
   int pixelFormat;
   BOOL ok;
-  
+
+	assert( IsWindow( window ) );
+	
   wglMakeCurrent( NULL, NULL );
 
-  if ( this->ctxNormal )
-    wglDeleteContext( this->ctxNormal );
-  if ( this->ctxOverlay )
-    wglDeleteContext( this->ctxOverlay );
-
-  DeleteDC( this->hdcNormal );
+	if ( this->hdcNormal ) {
+		int r = ReleaseDC( window,  this->hdcNormal );
+		assert( r && "ReleaseDC failed -- investigate" );
+	}
+  if ( this->ctxNormal ) {
+    BOOL r = wglDeleteContext( this->ctxNormal );
+		assert( r && "wglDeleteContext failed -- investigate" );
+	}
+  if ( this->ctxOverlay ) {
+    BOOL r = wglDeleteContext( this->ctxOverlay );
+		assert( r && "wglDeleteContext failed -- investigate" );
+	}
   
-  this->hdcNormal = GetDC( window );
+  this->hdcNormal = GetDC( window );//GetDC( window );
+	assert( this->hdcNormal && "GetDC failed -- investigate" );
   this->hdcOverlay = this->hdcNormal;
   
   memset( & this->pfdNormal, 0, sizeof( PIXELFORMATDESCRIPTOR ) );
@@ -906,10 +911,9 @@ SoWinGLWidgetP::createGLContext( HWND window )
     // FIXME: set overlay plane. mariusbu 20010801.
   }
 
- if ( share != NULL )
+  if ( share != NULL )
     wglShareLists( PRIVATE( share )->ctxNormal, this->ctxNormal );
-
- SoAny::si( )->registerGLContext( ( void * ) this->owner, NULL, NULL );
+	SoAny::si( )->registerGLContext( ( void * ) this->owner, NULL, NULL );
 
   ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
 
@@ -955,9 +959,10 @@ label:
     }
   }
   SetFocus( window );
+	this->owner->widgetChanged( window );
   return 0;
 }
-
+/*
 LRESULT
 SoWinGLWidgetP::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 { 
@@ -975,7 +980,7 @@ SoWinGLWidgetP::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam 
 
   return 0;
 }
-
+*/
 LRESULT
 SoWinGLWidgetP::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
@@ -986,7 +991,8 @@ SoWinGLWidgetP::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam
   PAINTSTRUCT ps;
   this->hdcNormal = BeginPaint( window, & ps );
 
-  wglMakeCurrent( this->hdcNormal, this->ctxNormal );
+	BOOL ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
+	assert( ok && "The rendering context could not be made current." );
 
   if ( ! this->owner->realized ) {
     this->owner->realized = TRUE;
@@ -996,7 +1002,7 @@ SoWinGLWidgetP::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam
     this->owner->redraw( );
   }
 
-  wglMakeCurrent( this->hdcNormal, NULL );
+  wglMakeCurrent( NULL, NULL );
 
   EndPaint( window, & ps );
 

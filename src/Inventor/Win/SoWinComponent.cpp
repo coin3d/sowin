@@ -165,7 +165,6 @@ SoWinComponent::SoWinComponent( const HWND parent,
   if ( name ) PRIVATE( this )->widgetname = name;
   
   PRIVATE( this )->embedded = embed;
-  PRIVATE( this )->parent = parent;
 
   PRIVATE( this )->widget = this->buildFormWidget( parent );
   this->setTitle( name );
@@ -228,15 +227,11 @@ SoWinComponent::goFullScreen( const SbBool enable )
     data->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
 
     // Go fullscreen
-
-    SetLastError(0);
-    LONG l = SetWindowLong( hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE );
-    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+		
+    LONG l = Win32::SetWindowLong( hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE );
     data->style = l;
-
-    SetLastError(0);
+		
     l = SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
-    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
     data->exstyle = l;
 
     data->widget = hwnd;
@@ -269,11 +264,7 @@ SoWinComponent::goFullScreen( const SbBool enable )
     if ( ! data ) return;
 
     // Go normal
-
-    SetLastError(0);
     LONG l = Win32::SetWindowLong( hwnd, GWL_STYLE, data->style );
-
-    SetLastError(0);
     l = Win32::SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
 
     Win32::MoveWindow( hwnd,
@@ -492,16 +483,15 @@ SoWinComponent::buildFormWidget( HWND parent )
   LONG style;
   
   if ( IsWindow( parent ) && PRIVATE( this )->embedded ) {
-    BOOL r = GetClientRect( parent, & rect );
-    assert( r && "GetClientRect() failed -- investigate" );
-    style = WS_CHILD | WS_VISIBLE;
+    Win32::GetClientRect( parent, & rect );
+    style = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS;
   }
   else {
     rect.left = CW_USEDEFAULT;
     rect.top = CW_USEDEFAULT;
     rect.right = 500;
     rect.bottom = 500;
-    style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+    style = WS_OVERLAPPEDWINDOW | WS_VISIBLE | WS_CLIPSIBLINGS;
   }
 
   // When this method is called, the component is *not* embedded. mariusbu 20010727.

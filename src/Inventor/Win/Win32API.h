@@ -45,6 +45,7 @@ public:
   static void GetClientRect(HWND, LPRECT);	
   static LONG SetWindowLong(HWND, int, LONG);
   static LONG GetWindowLong(HWND, int);
+	static void SetWindowPos(HWND, HWND, int, int, int, int, UINT);
    
 private:
   static void showLastErr(void);

@@ -120,8 +120,8 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
                                   SbBool embedded,
                                   BuildFlag flag,
                                   SoWinViewer::Type type,
-                                  SbBool buildNow) :
-  inherited(parent, name, embedded, type, buildNow ),
+                                  SbBool build ) :
+  inherited( parent, name, embedded, type, build ),
   common( new SoAnyFullViewer( this ) )   // FIXME: warning
 {
   this->pimpl = new SoWinFullViewerP( this );
@@ -150,7 +150,9 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   PRIVATE( this )->createAppPushButtonCB = NULL;
   PRIVATE( this )->createAppPushButtonData = NULL;
 
-  if ( buildNow ) {
+  this->zoomrange = SbVec2f( 1.0f, 140.0f ); // FIXME: make init function	
+	
+  if ( build ) {
 
     this->setClassName( "SoWinFullViewer" );
 
@@ -163,8 +165,6 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 
   if ( ! this->isViewing( ) )
     this->setViewing( TRUE );
-
-  this->zoomrange = SbVec2f( 1.0f, 140.0f ); // FIXME: make init function
 }
 
 SoWinFullViewer::~SoWinFullViewer( void )
@@ -421,24 +421,17 @@ SoWinFullViewer::buildWidget( HWND parent )
 
   assert( IsWindow( parent ) );
   this->viewerWidget = parent;
-
-  SetLastError(0);
-  LONG l = SetWindowLong( parent, GWL_WNDPROC, ( long ) SoWinFullViewer::vwrWidgetProc );
+	
+  LONG l = Win32::SetWindowLong( parent, GWL_WNDPROC, ( long ) SoWinFullViewer::vwrWidgetProc );
   PRIVATE( this )->parentEventHandler = ( WNDPROC ) l;
-  assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
 
   this->renderAreaWidget = inherited::buildWidget( this->viewerWidget );
   assert( IsWindow( this->renderAreaWidget ) );
-
-  if ( IsWindow( this->getGLWidget( ) ) ) {
-
-    SetLastError( 0 );
-    LONG l = SetWindowLong( this->getGLWidget( ), GWL_WNDPROC,
+	
+  if ( IsWindow( this->getGLWidget( ) ) )		
+    LONG l = Win32::SetWindowLong( this->getGLWidget( ), GWL_WNDPROC,
                             ( LONG ) SoWinFullViewer::glWidgetProc );
-    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
-
-  }
-  else assert ( 0 && "No glWidget" ); // FIXME: do something more informative. mariusbu 20010724.
+  else assert ( 0 && "No GLWidget" ); // FIXME: do something more informative. mariusbu 20010724.
 
   if ( PRIVATE( this )->menuenabled )
     this->buildPopupMenu( );
@@ -446,12 +439,11 @@ SoWinFullViewer::buildWidget( HWND parent )
   if ( PRIVATE( this )->decorations )
     this->buildDecoration( this->viewerWidget );
 
-  (void)ShowWindow( this->renderAreaWidget, SW_SHOW );
-
-  BOOL r = InvalidateRect( ( IsWindow( parent ) ? parent : this->viewerWidget ),
+  //(void)ShowWindow( this->renderAreaWidget, SW_SHOW ); // FIXME: remove ? mariusbu 20010803.
+	/*
+  Win32::InvalidateRect( ( IsWindow( parent ) ? parent : this->viewerWidget ),
                            NULL, TRUE );
-  assert( r && "InvalidateRect() failed -- investigate" );
-
+	*/
   return this->viewerWidget;
 }
 
@@ -472,8 +464,7 @@ SoWinFullViewer::buildDecoration( HWND parent )
 
   // reposition all widgets
   RECT rect;
-  BOOL r = GetClientRect( parent, & rect );
-  assert( r && "GetClientRect() failed -- investigate" );
+  Win32::GetClientRect( parent, & rect );
   PRIVATE( this )->layoutWidgets( rect.right, rect.bottom );
 }
 
@@ -870,8 +861,6 @@ SoWinFullViewer::vwrWidgetProc(HWND window,
 
   if ( object && window == object->viewerWidget ) {
 
-    POINT point = { LOWORD( lparam ), HIWORD( lparam ) };
-
     switch ( message )
       {
 
@@ -893,6 +882,7 @@ SoWinFullViewer::vwrWidgetProc(HWND window,
 
       default:
         return object->pimpl->parentEventHandler( window, message, wparam, lparam );
+				
       }
 
   }
@@ -1149,12 +1139,10 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
 
   if ( this->decorations ) {
     Win32::MoveWindow( this->owner->renderAreaWidget, DECORATION_SIZE, 0,
-                       cx - ( 2 * DECORATION_SIZE ), cy - DECORATION_SIZE,
-                       TRUE );
+                       cx - ( 2 * DECORATION_SIZE ), cy - DECORATION_SIZE, TRUE );
   }
   else {
-    Win32::MoveWindow( this->owner->renderAreaWidget, 0, 0, cx, cy,
-                       TRUE );
+    Win32::MoveWindow( this->owner->renderAreaWidget, 0, 0, cx, cy, TRUE );
     return 0;
   }
 
