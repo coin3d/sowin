@@ -460,6 +460,43 @@ SoWinGLWidget::setQuadBufferStereo(const SbBool enable)
   PRIVATE(this)->buildNormalGLWidget(PRIVATE(this)->managerWidget);
 } // setQuadBufferStereo()
 
+
+/*!  
+  Enables/disables the OpenGL accumulation buffer. Not implemented
+  yet for this toolkit.  
+*/
+void 
+SoWinGLWidget::setAccumulationBuffer(const SbBool enable)
+{
+}
+
+/*!
+  Returns whether the OpenGL accumulation buffer is enabled.
+*/
+SbBool 
+SoWinGLWidget::getAccumulationBuffer(void) const
+{
+  return FALSE;
+}
+
+/*!
+  Enables/disables the OpenGL stencil buffer. Not implemented yet
+  for this toolit.
+*/
+void 
+SoWinGLWidget::setStencilBuffer(const SbBool enable)
+{
+}
+
+/*!
+  Returns whether the OpenGL stencil buffer is enabled.
+*/
+SbBool 
+SoWinGLWidget::getStencilBuffer(void) const
+{
+  return FALSE;
+}
+
 /*!
   Returns \c TRUE if quad buffer stereo is enabled for this widget.
 */
