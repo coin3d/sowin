@@ -141,18 +141,17 @@ SoWinComponent::goFullScreen( SbBool enable )
                 TRUE );
   }
   else {
-    this->fullScreen = FALSE;
-    SetWindowLong( hwnd, GWL_STYLE, this->style );
-    SetWindowLong( hwnd, GWL_EXSTYLE, this->exstyle );
-    UpdateWindow( hwnd ); // FIXME: save old size?
-    /*
     short width, height;
     this->size.getValue( width, height );
+    this->fullScreen = FALSE;
 
-    RECT rect;
-    GetWindowRect( this->widget, & rect );
-    MoveWindow( this->widget, rect.left, rect.top, width, height, TRUE );
-    */
+    ShowWindow( hwnd, SW_HIDE );
+
+    SetWindowLong( hwnd, GWL_STYLE, this->style );
+    SetWindowLong( hwnd, GWL_EXSTYLE, this->exstyle );
+
+    MoveWindow( hwnd, 0, 0, width, height, FALSE ); // FIXME: save old size?
+    ShowWindow( hwnd, SW_SHOW );
   }
 }
 
