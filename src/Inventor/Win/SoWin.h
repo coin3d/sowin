@@ -73,6 +73,7 @@ public:
 
   static void setInstance( HINSTANCE instance );
   static HINSTANCE getInstance( void );
+  
   static void errorHandlerCB( const SoError * error, void * data );
 
 protected:
