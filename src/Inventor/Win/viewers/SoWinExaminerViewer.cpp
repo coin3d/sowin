@@ -126,24 +126,18 @@ void
 SoWinExaminerViewer::constructor(
 	SbBool build )
 {
-    this->defaultcursor = NULL;
-    this->rotatecursor = NULL;
-    this->pancursor = NULL;
-    this->zoomcursor = NULL;
+  this->defaultcursor = NULL;
+  this->rotatecursor = NULL;
+  this->pancursor = NULL;
+  this->zoomcursor = NULL;
 
-//    this->orthopixmap = new QPixmap((const char **)ortho_xpm);
-//    this->perspectivepixmap = new QPixmap((const char **)perspective_xpm);
-//    assert(this->orthopixmap->size() == this->perspectivepixmap->size());
-
-	//this->spindetecttimer = NULL;
   this->setClassName( "SoWinExaminerViewer" );
-
-// this->addVisibilityChangeCallback(SoWinExaminerViewer::visibilityCB, this);
 
   this->setPopupMenuString( "Examiner Viewer" );
   this->setPrefSheetString( "Examiner Viewer Preference Sheet" );
-  //this->setLeftWheelString( "Rotx" );
-  //this->setBottomWheelString( "Roty" );
+
+  this->setLeftWheelString( "Rotx" );
+  this->setBottomWheelString( "Roty" );
 
   if ( build ) {
     HWND widget = this->buildWidget( this->getParentWidget( ) );
@@ -169,13 +163,6 @@ SoWinExaminerViewer::~SoWinExaminerViewer(
 	DeleteObject( this->pancursor );
 	DeleteObject( this->rotatecursor );
 	DeleteObject( this->defaultcursor );
-
-//    // Button pixmaps.
-//    delete this->orthopixmap;
-//    delete this->perspectivepixmap;
-
-	// Variables used in the spin animation code.
-	//delete this->spindetecttimer;
 
   delete this->common;
 } // ~SoWinExaminerViewer()
@@ -219,17 +206,26 @@ SoWinExaminerViewer::setCamera( // virtual
   
 } // setCamera()
 
+/*!
+  This method overloaded from parent class to build viewer buttons
+  specific for this viewer.
+*/
+
 void
-SoWinExaminerViewer::buildViewerButtonsEx( HWND parent, int x, int y, int size )
+SoWinExaminerViewer::buildViewerButtonsEx( // virtual
+  HWND parent,
+  int x,
+  int y,
+  int size )
 {
 	SoWinBitmapButton * button;
   
 	button = new SoWinBitmapButton( parent, x, y, size, size, 24, "perspective", NULL );
-	button->addBitmap( perspective_xpm ); // FIXME: ortho
+	button->addBitmap( perspective_xpm );
 	button->addBitmap( ortho_xpm );
-	button->setBitmap( 0 ); // use first ( of two ) bitmap
-	button->setId( VIEWERBUTTON_PERSPECTIVE);
-	viewerButtonList->append( button );
+	button->setBitmap( 0 );
+	button->setId( VIEWERBUTTON_PERSPECTIVE );
+	this->viewerButtonList->append( button );
 }
 
 // *************************************************************************
@@ -368,7 +364,7 @@ void
 SoWinExaminerViewer::openViewerHelpCard(
 	void )
 {
-  this->openHelpCard("SoWinExaminerViewer.help");
+  this->openHelpCard( "SoWinExaminerViewer.help" );
 } // openViewerHelpCard()
 
 // *************************************************************************
@@ -385,11 +381,18 @@ SoWinExaminerViewer::processSoEvent(
   return inherited::processSoEvent( event );
 } // processSoEvent()
 
+
 /*!
-  Virtual function for handling button messages ( camera toggle ).
+  This method overloaded from parent class to handle button messages
+  from viewer specific buttons ( camera toggle ).
 */
+
 LRESULT
-SoWinExaminerViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinExaminerViewer::onCommand( // virtual
+  HWND window,
+  UINT message,
+  WPARAM wparam,
+  LPARAM lparam )
 {
 	int i;
 	short nc = HIWORD( wparam );// notification code
@@ -402,7 +405,7 @@ SoWinExaminerViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM
     return inherited::onCommand( window, message, wparam, lparam );
 
   return 0;
-}
+} // onCommand()
 
 // *************************************************************************
 
@@ -566,21 +569,19 @@ SoWinExaminerViewer::setCursorRepresentation(
 
 
 void
-SoWinExaminerViewer::createPrefSheet( void )
+SoWinExaminerViewer::createPrefSheet(
+  void )
 {
-  inherited::createPrefSheet( );
+  inherited::createPrefSheet( ); // create standard parts
   this->prefsheet->createSpinWidgets( this );
   this->prefsheet->size( );
- 
-  // FIXME: create and init parts
-}
+} // createPrefSheet()
 
 void
 SoWinExaminerViewer::setAnimationEnabled(
   const SbBool enable )
 {
   common->setAnimationEnabled( enable );
-  // FIXME: set spinanimtoggle state
 } // setAnimationEnabled()
 
 SbBool
@@ -644,7 +645,6 @@ SoWinExaminerViewer::afterRealizeHook( // virtual
   this->setCursorRepresentation( this->common->currentmode );
   inherited::afterRealizeHook( );
 } // afterRealizeHook()
-
 
 void
 SoWinExaminerViewer::cameratoggleClicked( void ) // virtual

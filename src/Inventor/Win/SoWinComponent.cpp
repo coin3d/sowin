@@ -70,6 +70,8 @@ SoWinComponent::SoWinComponent( const HWND parent,
 {
   this->constructorParent = parent;
 
+  this->closeCB = NULL;
+  this->closeCBData = NULL;
   this->firstRealize = TRUE;
   this->fullScreen = FALSE;
   this->size = SbVec2s( -1, -1 );
@@ -119,7 +121,7 @@ SoWinComponent::hide( void )
 }
 
 void
-SoWinComponent::goFullScreen( SbBool enable )
+SoWinComponent::goFullScreen( const SbBool enable )
 {
   // FIXME: save window position and size
   
@@ -138,8 +140,6 @@ SoWinComponent::goFullScreen( SbBool enable )
     
     this->fullScreen = TRUE;
 
-    //ShowWindow( hwnd, SW_HIDE );
-
     this->style = SetWindowLong( hwnd, GWL_STYLE, WS_POPUP );
     this->exstyle = SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
 
@@ -150,24 +150,22 @@ SoWinComponent::goFullScreen( SbBool enable )
                 GetSystemMetrics( SM_CYSCREEN ),
                 FALSE );
 
-    ShowWindow( hwnd, SW_SHOW );
+    ShowWindow( hwnd, SW_SHOW ); // FIXME: why ? mariusbu 20010718.
   }
   else {
     this->fullScreen = FALSE;
 
-    //ShowWindow( hwnd, SW_HIDE );
-
     SetWindowLong( hwnd, GWL_STYLE, this->style );
     SetWindowLong( hwnd, GWL_EXSTYLE, this->exstyle );
 
-    ShowWindow( hwnd, SW_SHOW );
+    ShowWindow( hwnd, SW_SHOW ); // FIXME: why ? mariusbu 20010718.
     
-    MoveWindow( hwnd, pos[0], pos[1], size[0], size[1], TRUE );
+    MoveWindow( hwnd, this->pos[0], this->pos[1], this->size[0], this->size[1], TRUE );
   }
 }
 
 SbBool
-SoWinComponent::isFullScreen( void )
+SoWinComponent::isFullScreen( void ) const
 {
   return this->fullScreen;
 }
@@ -175,13 +173,13 @@ SoWinComponent::isFullScreen( void )
 SbBool
 SoWinComponent::isVisible( void )
 {
-  return IsWindowVisible( widget );
+  return IsWindowVisible( this->widget );
 }
 
 HWND
 SoWinComponent::getWidget( void ) const
 {
-  return this->getBaseWidget( );
+  return this->widget;
 }
 
 HWND
@@ -193,23 +191,37 @@ SoWinComponent::baseWidget( void ) const
 HWND
 SoWinComponent::getBaseWidget( void ) const
 {
-  return this->widget;
+  // FIXME: this method should return the root in the
+  // parent-children tree. Is this correct for this method ?
+  // mariusbu 20010718.
+  
+  HWND parent = NULL;
+  HWND ancestor = NULL;
+
+  parent = GetParent( this->widget );
+
+  while ( parent )
+    {
+      ancestor = parent;
+      parent = GetParent( ancestor );
+    }
+
+  return ancestor;
+
+  // return this->widget;
 }
 
 SbBool
 SoWinComponent::isTopLevelShell( void ) const
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
-  return FALSE;
+  return ( this->embedded ? FALSE : TRUE );
 }
 
 HWND
 SoWinComponent::getShellWidget( void ) const
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
-  return NULL; // this->getMDIAncestor( ( HWND ) this->baseWidget );
+  // FIXME: is this correct for this method ? mariusbu 20010718.
+  return this->getBaseWidget( );
 }
 
 HWND
@@ -218,21 +230,14 @@ SoWinComponent::getParentWidget( void ) const
   return this->parent;
 }
 
-int *
-SoWinComponent::getDisplay( void )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB( );
-  return NULL;
-}
-
 void
 SoWinComponent::setSize( const SbVec2s size )
 {
   this->size = size;
 
-  UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
-  SetWindowPos( this->widget, NULL, 0, 0, size[0], size[1], flags );
+  HWND hwnd = ( IsWindow( this->parent ) ? this->parent : this->widget );
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER;
+  SetWindowPos( hwnd, NULL, 0, 0, size[0], size[1], flags );
 }
 
 SbVec2s
@@ -291,10 +296,8 @@ SoWinComponent::getIconTitle( void ) const
 void
 SoWinComponent::setWindowCloseCallback( SoWinComponentCB * func, void * data )
 {
-  /*    this->windowCloseFunc = func;
-        this->windowCloseData = data; */
-  // FIXME: function not implemented
-  SOWIN_STUB( );
+  this->closeCB = func;
+  this->closeCBData = data; 
 }
 
 SoWinComponent *
@@ -303,6 +306,14 @@ SoWinComponent::getComponent( HWND const widget )
   // FIXME: function not implemented
   SOWIN_STUB( );
   return NULL;
+
+  /* This code is lifted from SoQt. Not working ( methinks )! mariusbu 20010718   
+  for ( int i = 0; i < SoWinComponentP::sowincomplist->getLength( ); i++ ) {
+    SoWinComponent * c = ( SoWinComponent * ) ( * SoWinComponentP::sowincomplist )[i];
+    if ( c->getWidget( ) == this->widget ) return c;
+  }
+  return NULL;
+  */
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -370,6 +381,9 @@ SoWinComponent::buildFormWidget( HWND parent )
     rect.right = SoWin_DefaultWidth;
     rect.bottom = SoWin_DefaultHeight;
   }
+
+  // FIXME: can this widget ever be toplevel ( not embedded ) ?
+  // If so, make the window WS_VISIBLE and use CX_DEFAULTCOORD. mariusbu 20010718.
 
   this->style = WS_OVERLAPPEDWINDOW;
   this->exstyle = NULL;
@@ -460,92 +474,6 @@ SoWinComponent::getResize( void )
   return this->resizeBaseWidget;
 }
 
-HPALETTE
-SoWinComponent::_setupColorPalette( HDC )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB( );
-  return NULL;
-}
-
-void
-SoWinComponent::unSubclassDialog( HWND hWnd )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB( );
-}
-
-void
-SoWinComponent::subclassDialog( HWND hWnd )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB( );
-}
-
-void
-SoWinComponent::drawDialogIcon( HWND hWnd )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB( );
-}
-
-LRESULT CALLBACK
-SoWinComponent::dlgWndProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB( );
-  return 0;
-}
-
-HWND
-SoWinComponent::getMDIAncestor( HWND hwnd )
-{
-  assert( IsWindow( hwnd ) );
-
-  // FIXME: ???
-
-  HWND parent = NULL;
-  HWND ancestor = NULL;
-
-  parent = GetParent( hwnd );
-
-  while ( parent )
-    {
-      ancestor = parent;
-      parent = GetParent( ancestor );
-    }
-
-  return ancestor;
-}
-
-int
-SoWinComponent::ChoosePixelFormatOIV( HDC hdc,
-                                      int pixelType,
-                                      int glModes,
-                                      PIXELFORMATDESCRIPTOR * pfd )
-{
-  assert( hdc != NULL );
-  assert( pfd != NULL );
-
-  memset( pfd, 0, sizeof( PIXELFORMATDESCRIPTOR ) );
-
-  pfd->nSize = sizeof( PIXELFORMATDESCRIPTOR );
-  pfd->nVersion = 1;
-  pfd->dwFlags = PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW | PFD_SWAP_LAYER_BUFFERS;
-  if ( glModes & GL_DOUBLEBUFFER ) {
-    pfd->dwFlags |= PFD_DOUBLEBUFFER;
-  }
-  pfd->iPixelType = pixelType;
-  pfd->cColorBits = pfd_cColorBits;
-  pfd->cDepthBits = pfd_cDepthBits;
-  pfd->iLayerType = PFD_MAIN_PLANE;  // FIXME: no support for overlay
-
-  int pixelformat = ChoosePixelFormat( hdc, pfd );
-  assert( pixelformat != 0 );
-
-  return pixelformat;
-}
-
 ///////////////////////////////////////////////////////////////////
 //
 //  (private)
@@ -570,8 +498,8 @@ SoWinComponent::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lpa
       case WM_SIZE:
         return object->onSize( window, message, wparam, lparam );
 
-      case WM_PAINT:
-        return object->onPaint( window, message, wparam, lparam );
+      case WM_CLOSE:
+        return object->onClose( window, message, wparam, lparam );
 
       case WM_DESTROY:
         return object->onDestroy( window, message, wparam, lparam );
@@ -589,17 +517,16 @@ SoWinComponent::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam 
 }
 
 LRESULT
-SoWinComponent::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinComponent::onClose( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
+  this->windowCloseAction( );
+  if ( this->closeCB ) this->closeCB( this->closeCBData, this );
   return 0;
 }
 
 LRESULT
 SoWinComponent::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  this->windowCloseAction( );
   PostQuitMessage( 0 );
   return 0;
 }

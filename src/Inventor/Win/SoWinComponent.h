@@ -24,7 +24,6 @@
 #include <Inventor/SbString.h>
 #include <Inventor/SoLists.h>
 #include <Inventor/Win/SoWinObject.h>
-
 #include <wtypes.h>
 
 class SoWinComponent;
@@ -34,44 +33,32 @@ typedef void SoWinComponentVisibilityCB( void * user, SbBool visible );
 
 // *************************************************************************
 
-// default values when choosing pixelformat (ogl)
-const char pfd_cDepthBits = 32;
-const char pfd_cColorBits = 32;
-
-class SOWIN_DLL_API SoWinComponent : SoWinObject
-{
+class SOWIN_DLL_API SoWinComponent : SoWinObject {
   SOWIN_OBJECT_ABSTRACT_HEADER( SoWinComponent, SoWinObject );
 
 public:
-
   virtual ~SoWinComponent( void );
 
   virtual void show( void );
   virtual void hide( void );
-  void goFullScreen( SbBool enable );
-  SbBool isFullScreen( void );
-  SbBool isVisible( void );
+  
+  void goFullScreen( const SbBool enable );
+  SbBool isFullScreen( void ) const;
 
+  SbBool isVisible( void );
   HWND getWidget( void ) const;
   HWND baseWidget( void ) const;
   HWND getBaseWidget( void ) const;
-
   SbBool isTopLevelShell( void ) const;
   HWND getShellWidget( void ) const;
-
   HWND getParentWidget( void ) const;
-
-  inline int * getDisplay( void );
 
   void setSize( const SbVec2s size );
   SbVec2s getSize( void );
 
-  const char * getWidgetName( void ) const;
-  const char * getClassName( void ) const;
-
   void setTitle( const char * const title );
   const char * getTitle( void ) const;
-
+  
   void setIconTitle( const char * const title );
   const char * getIconTitle( void ) const;
 
@@ -79,9 +66,9 @@ public:
 
   static SoWinComponent * getComponent( HWND widget );
 
-  SbString helpFileName;
-  UINT helpContextID;
-
+  const char * getWidgetName( void ) const;
+  const char * getClassName( void ) const;
+  
   static void initClasses( void );
 
 protected:
@@ -113,55 +100,36 @@ protected:
   void setResize( SbBool set );
   SbBool getResize( void );
 
-  static HPALETTE _setupColorPalette( HDC );
-
-  void unSubclassDialog( HWND hWnd );
-  void subclassDialog( HWND hWnd );
-  void drawDialogIcon( HWND hWnd );
-
-  static LRESULT CALLBACK dlgWndProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam );
-  static HWND getMDIAncestor( HWND hwnd );
-
-  static int ChoosePixelFormatOIV(HDC hdc,int pixelType,int glModes, PIXELFORMATDESCRIPTOR *pfd);
-
-  SbBool m_nParentIsMDI;
-  HICON hDlgIcon ;
-  SbBool firstRealize;
-
-private:
-
-  static LRESULT CALLBACK windowProc(HWND window,UINT message, WPARAM wparam,LPARAM lparam);
-
-  LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-
-  //  static LRESULT CALLBACK componentWndProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam );
-  //  static LRESULT CALLBACK formWindowProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam );
-
+  SbBool firstRealize;  
   HWND parent;
   HWND widget;
+  
+private:
+
+  static LRESULT CALLBACK windowProc( HWND window,UINT message, WPARAM wparam, LPARAM lparam );
+
+  LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  LRESULT onClose( HWND window, UINT message, WPARAM wparam, LPARAM lparam );  
+  LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+
   HWND constructorParent;
   LONG style; // windowstyle
   LONG exstyle; // extended windowstyle
-  SbBool fullScreen;
-
+  SbBool fullScreen;  
   SbString widgetName;
   SbString widgetClass;
   SbString title;
   SbString iconTitle;
-
   SbVec2s size;
   SbVec2s pos;
-
   SbBool embedded;
   SbBool resizeBaseWidget;
 
   static SbPList * widgets;
   static SbPList * components;
 
-  SoWinComponentCB * windowCloseFunc;
-  SoWinComponentCB * windowCloseData;
+  SoWinComponentCB * closeCB;
+  void * closeCBData;
 }; // class SoWinComponent
 
 // *************************************************************************

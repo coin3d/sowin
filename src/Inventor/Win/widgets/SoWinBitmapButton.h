@@ -32,6 +32,7 @@ typedef void bitmapButtonCB( SoWinFullViewer * viewer, void ** data );
 // *************************************************************************
 
 class SOWIN_DLL_API SoWinBitmapButton {
+
 public:
   SoWinBitmapButton( HWND parent,
 		                 int x,
@@ -77,6 +78,7 @@ public:
 protected:
 
 private:
+  
   void constructor( void );
 	void destructor( void );
   HWND buildWidget( HWND parent, RECT rect );

@@ -84,11 +84,11 @@ protected:
   virtual void actualRedraw( void );
   virtual void afterRealizeHook( void );
   virtual void createPrefSheet( void );
-  virtual void buildViewerButtonsEx( HWND parent, int x, int y, int size );  
-	virtual void cameratoggleClicked( void );
+  virtual void buildViewerButtonsEx( HWND parent, int x, int y, int size );
 
 private:
   void constructor( SbBool build );
+  void cameratoggleClicked( void );
   void setCursorRepresentation( int mode );
 
 	HCURSOR defaultcursor;

@@ -23,7 +23,6 @@
 #define SOWIN_POPUPMENU_H
 
 #include <Inventor/Win/SoWinBasic.h>
-
 #include <Inventor/Win/widgets/SoAnyPopupMenu.h>
 
 // *************************************************************************
@@ -60,7 +59,7 @@ public:
   virtual void popUp( HWND inside, int x, int y );
 
 	virtual int getSelectedItem( void );
-  virtual void itemActivation( int itemid );    // call this on WM_COMMAND
+  virtual void itemActivation( int itemid );
 
   void setNotify( SbBool enable );
   
