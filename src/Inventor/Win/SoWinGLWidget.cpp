@@ -77,6 +77,7 @@ public:
   SbBool haveFocus;
   SbBool stealFocus;
   SbBool haveBorder;
+  SbBool glRealized;
   HCURSOR currentCursor;
 
   int glModes;
@@ -104,6 +105,9 @@ int SoWinGLWidgetP::widgetCounter = 0;
 //  (protected)
 //
 
+/*!
+  Protected constructor.
+*/
 SoWinGLWidget::SoWinGLWidget( HWND parent,
                               const char * name,
                               SbBool embed,
@@ -134,6 +138,7 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
 
   PRIVATE( this )->haveFocus = FALSE;
   PRIVATE( this )->stealFocus = FALSE;
+  PRIVATE( this )->glRealized = FALSE;
 
   this->setClassName( "SoWinGLWidget" );
 	
@@ -141,8 +146,11 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
 	
   PRIVATE( this )->managerWidget = this->buildWidget( parent );
   this->setBaseWidget( PRIVATE( this )->managerWidget );
-}
+} // SoWinGLWidget()
 
+/*!
+  Protected destructor.
+*/
 SoWinGLWidget::~SoWinGLWidget( void )
 {
   if ( IsWindow( PRIVATE( this )->managerWidget ) )
@@ -159,71 +167,95 @@ SoWinGLWidget::~SoWinGLWidget( void )
     SoWinGLWidgetP::glWndClassAtom = NULL;
   }
   delete this->pimpl;
-}
+} // ~SoWinGLWidget()
 
 ///////////////////////////////////////////////////////////////////
 //
 //  (public)
 //
 
+/*!
+ */
 HWND
 SoWinGLWidget::getNormalWindow( void )
 {
   return PRIVATE( this )->normalWidget;
-}
+} // getNormalWindow()
 
+/*!
+ */
 HWND
 SoWinGLWidget::getOverlayWindow( void )
 {
   // FIXME: overlay not supported. mariusbu 20010719.
   return PRIVATE( this )->overlayWidget;
-}
+} // getOverlayWindow()
 
+/*!
+ */
 HWND
 SoWinGLWidget::getNormalWidget( void )
 {
   return PRIVATE( this )->normalWidget;
-}
+} // getNormalWidget()
 
+/*!
+ */
 HWND
 SoWinGLWidget::getOverlayWidget( void )
 {
   return PRIVATE( this )->overlayWidget;
-}
+} // getOverlayWidget()
 
+/*!
+  Returns the normal device context.
+*/
 HDC
 SoWinGLWidget::getNormalDC( void )
 {
   assert( PRIVATE( this )->hdcNormal != NULL );
   return PRIVATE( this )->hdcNormal;
-}
+} // getNormalDC()
 
+/*!
+  Returns the overlay device context.
+*/
 HDC
 SoWinGLWidget::getOverlayDC( void )
 {
   assert( PRIVATE( this )->hdcOverlay != NULL );
   return PRIVATE( this )->hdcOverlay;
-}
+} // getOverlayDC()
 
+/*!
+  Returns the normal GL context.
+*/
 HGLRC
 SoWinGLWidget::getNormalContext( void )
 {
   assert( PRIVATE( this )->ctxNormal != NULL );
   return PRIVATE( this )->ctxNormal;
-}
+} // getNormalContext()
 
+/*!
+  Returns the overlay GL context.
+*/
 HGLRC
 SoWinGLWidget::getOverlayContext( void )
 {
   return PRIVATE( this )->ctxOverlay;
-}
+} // getOverlayContext()
 
+/*!
+ */
 void
 SoWinGLWidget::setStealFocus( SbBool doStealFocus )
 {
   PRIVATE( this )->stealFocus = doStealFocus;
-}
+} // setStealFocus()
 
+/*!
+ */
 void
 SoWinGLWidget::setNormalVisual( PIXELFORMATDESCRIPTOR * vis )
 {
@@ -234,14 +266,18 @@ SoWinGLWidget::setNormalVisual( PIXELFORMATDESCRIPTOR * vis )
 
   int format = ChoosePixelFormat( PRIVATE( this )->hdcNormal, vis );
   this->setPixelFormat( format );
-}
+} // setNormalVisual()
 
+/*!
+ */
 PIXELFORMATDESCRIPTOR *
 SoWinGLWidget::getNormalVisual( void )
 {
   return ( & PRIVATE( this )->pfdNormal );
-}
+} // getNormalVisual()
 
+/*!
+ */
 void
 SoWinGLWidget::setOverlayVisual( PIXELFORMATDESCRIPTOR * vis )
 {
@@ -253,27 +289,39 @@ SoWinGLWidget::setOverlayVisual( PIXELFORMATDESCRIPTOR * vis )
   
   int format = ChoosePixelFormat( PRIVATE( this )->hdcOverlay, vis );
   this->setPixelFormat( format );
-}
+} // setOverlayVisual()
 
+/*!
+ */
 PIXELFORMATDESCRIPTOR *
 SoWinGLWidget::getOverlayVisual( void )
 {
   return ( & PRIVATE( this )->pfdOverlay );
-}
+} // getOverlayVisual()
 
+/*!
+ */
 void
 SoWinGLWidget::setPixelFormat( int format )
 {
   BOOL ok = SetPixelFormat( PRIVATE( this )->hdcNormal, format, & PRIVATE( this )->pfdNormal );
   assert( ok );
-}
+} // setPixelFormat()
 
+/*!
+ */
 int
 SoWinGLWidget::getPixelFormat( void )
 {
   return GetPixelFormat( PRIVATE( this )->hdcNormal );
 }
 
+/*!
+  Switch between single and double buffer mode for the OpenGL canvas.
+  The default is to use a single buffer canvas.
+
+  \sa isDoubleBuffer()
+*/
 void
 SoWinGLWidget::setDoubleBuffer( SbBool set )
 {
@@ -285,44 +333,75 @@ SoWinGLWidget::setDoubleBuffer( SbBool set )
   }
   Win32::DestroyWindow( this->getNormalWidget( ) );
   PRIVATE( this )->buildNormalGLWidget( PRIVATE( this )->managerWidget );
-}
+} // setDoubleBuffer()
 
+/*!
+  Returns the status of the buffer mode.
+
+  \sa setDoubleBuffer()
+ */
 SbBool
 SoWinGLWidget::isDoubleBuffer( void )
 {
   return ( PRIVATE( this )->glModes & SO_GL_DOUBLE ? TRUE : FALSE );
-}
+} // isDoubleBuffer()
 
+/*!
+  Specify that there should be a border around the OpenGL canvas (or not).
+
+  \sa isBorder()
+*/
 void
 SoWinGLWidget::setBorder( SbBool set )
 {
   PRIVATE( this )->haveBorder = TRUE;
-  // FIXME: Win32::SetWindowLong() or paint border? mariusbu 20010719.
-}
+} // setBorder()
 
+/*!
+*/
 int
 SoWinGLWidget::getBorderSize( void )
 {
   return PRIVATE( this )->borderSize;
-}
+} // getBorderSize()
 
+/*!
+*/
+void
+SoWinGLWidget::setBorderSize( int size )
+{
+  PRIVATE( this )->borderSize = size;
+} // setBorderSize()
+
+/*!
+  Returns whether or not there's a border around the OpenGL canvas.
+
+  \sa setBorder()
+*/
 SbBool
 SoWinGLWidget::isBorder( void ) const
 {
   return PRIVATE( this )->haveBorder;
-}
+} // isBorder()
 
+/*!
+  If this is set to \c TRUE, rendering will happen in the front buffer
+  even if the current rendering mode is double buffered.
+*/
 void
 SoWinGLWidget::setDrawToFrontBufferEnable( SbBool enable )
 {
   PRIVATE( this )->drawToFrontBuffer = enable;
-}
+} // setDrawToFrontBufferEnable()
 
+/*!
+  \sa setDrawToFrontBufferEnable()
+*/
 SbBool
 SoWinGLWidget::isDrawToFrontBufferEnable( void ) const
 {
   return PRIVATE( this )->drawToFrontBuffer;
-}
+} // isDrawToFrontBufferEnable()
 
 /*!
   Enables or disables quad buffer stereo.
@@ -338,7 +417,7 @@ SoWinGLWidget::setQuadBufferStereo( const SbBool enable )
   }
   Win32::DestroyWindow( this->getNormalWidget( ) );
   PRIVATE( this )->buildNormalGLWidget( PRIVATE( this )->managerWidget );
-}
+} // setQuadBufferStereo()
 
 /*!
   Returns \c TRUE if quad buffer stereo is enabled for this widget.
@@ -347,39 +426,57 @@ SbBool
 SoWinGLWidget::isQuadBufferStereo( void ) const
 {
   return ( PRIVATE( this )->glModes & SO_GL_STEREO ? TRUE : FALSE );
-}
+} // isQuadBufferStereo()
 
+/*!
+ */
 void
 SoWinGLWidget::setCursor( HCURSOR newCursor )
 {
   assert( newCursor != NULL );
   PRIVATE( this )->currentCursor = newCursor;
   SetCursor( newCursor );
-}
+} // setCursor()
 
+/*!
+ */
 HCURSOR
 SoWinGLWidget::getCursor( void )
 {
   return PRIVATE( this )->currentCursor;
-}
+} // getCursor()
 
+/*!
+  Should return TRUE if an overlay GL drawing area exists.
+*/
 SbBool
 SoWinGLWidget::hasOverlayGLArea( void )
 {
   return ( IsWindow( this->getOverlayWidget( ) ) ? TRUE : FALSE );
 }
 
+/*!
+  Should return TRUE if a normal GL drawing area exists.
+*/
 SbBool
 SoWinGLWidget::hasNormalGLArea( void )
 {
   return ( IsWindow( this->getNormalWidget( ) ) ? TRUE : FALSE );
 }
 
+/*!
+  Will be called whenever scene graph needs to be redrawn().
+  If this method return FALSE, redraw() will be called immediately.
+
+  Default method simply returns FALSE. Overload this method to
+  schedule a redraw and return TRUE if you're trying to do The Right
+  Thing.  
+*/
 SbBool
 SoWinGLWidget::glScheduleRedraw( void )
 {
   return FALSE;
-}
+} // glScheduleRedraw()
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -464,53 +561,86 @@ SoWinGLWidget::glWidgetProc( HWND window,
   return DefWindowProc( window, message, wparam, lparam );
 }
 
+/*!
+ */
 void
 SoWinGLWidget::redraw( void )
 {
   // virtual - does nothing
 }
 
+/*!
+  Renders the overlay scene graph. Default method is empty. Subclasses
+  should overload this method.
+*/
 void
 SoWinGLWidget::redrawOverlay( void )
 {
   // virtual - does nothing
-}
+} // redrawOverlay()
 
+/*!
+*/
 void
 SoWinGLWidget::processEvent( MSG * msg )
 {
   // virtual - does nothing
   // FIXME: move some event processing here. mariusbu 20010719.
-}
+} // processEvent()
 
+/*!
+  Will be called when GL widget should initialize graphic, after
+  the widget has been created. Default method enabled GL_DEPTH_TEST.
+*/
 void
 SoWinGLWidget::initGraphic( void )
 {
   glLockNormal( );
   glEnable( GL_DEPTH_TEST );
   glUnlockNormal( );
-}
+} // initGraphic()
 
+/*!
+  Will be called after the overlay widget has been created, and subclasses
+  should overload this to initialize overlay stuff.
+
+  Default method does nothing.
+*/
 void
 SoWinGLWidget::initOverlayGraphic( void )
 {
   // virtual - does nothing
-}
+} // initOverlayGraphic()
 
+/*!
+  Will be called every time the size of the GL widget changes.
+*/
 void
 SoWinGLWidget::sizeChanged( const SbVec2s newSize )
 {
   // virtual - does nothing
-}
+} // sizeChanged()
 
+/*!
+  This is the method which gets called whenever we change which OpenGL
+  widget is used.
+
+  Should be overloaded in subclasses which directly or indirectly
+  store the return value from the SoWinGLWidget::getGLWidget() method.
+
+  \sa sizeChanged()
+*/
 void
 SoWinGLWidget::widgetChanged( HWND newWidget )
 {
   // virtual
   // called whenever the widget is changed (i.e. at initialization
   // or after switching from single->double buffer)
-}
+} // widgetChanged()
 
+/*!
+  Sets the size of the GL canvas.
+*/
 void
 SoWinGLWidget::setGLSize( SbVec2s newSize )
 {
@@ -535,21 +665,48 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )
     Win32::SetWindowPos( PRIVATE( this )->normalWidget, NULL, 0, 0,
                          newSize[0], newSize[1], flags );
   }
-}
+} // setGLSize()
 
+/*!
+  Return the dimensions of the OpenGL canvas.
+*/
 SbVec2s
 SoWinGLWidget::getGLSize( void ) const
 {
   return PRIVATE( this )->glSize;
-}
+} // getGLSize()
 
+/*!
+  Return the aspect ratio of the OpenGL canvas.
+*/
 float
 SoWinGLWidget::getGLAspectRatio( void ) const
 {
-  return ( float ) PRIVATE( this )->glSize[0] / ( float ) PRIVATE( this )->glSize[1];
-}
+  return ( float ) PRIVATE( this )->glSize[0] /
+    ( float ) PRIVATE( this )->glSize[1];
+} // getGLAspectRatio()
 
-LRESULT // FIXME: used by SoWinRenderArea
+/*!
+  \fn void SoWinGLWidget::setGlxSize( const SbVec2s size )
+  This function has been renamed to the more appropriate setGLSize.
+  \sa setGLSize
+*/
+
+/*!
+  \fn SbVec2s SoWinGLWidget::getGlxSize( void ) const
+  This function has been renamed to the more appropriate getGLSize.
+  \sa getGLSize
+*/
+
+/*!
+  \fn float SoWinGLWidget::getGlxAspectRatio(void) const
+  This function has been renamed to the more appropriate getGLAspectRatio.
+  \sa getGLAspectRatio
+*/
+
+/*!
+ */
+LRESULT // Used by SoWinRenderArea
 SoWinGLWidget::eventHandler( HWND hwnd,
                              UINT message,
                              WPARAM wParam,
@@ -558,7 +715,7 @@ SoWinGLWidget::eventHandler( HWND hwnd,
   // FIXME: function not implemented
   SOWIN_STUB( );
   return 0;
-}
+} // eventHandler()
 
 void
 SoWinGLWidget::setStereoBuffer( SbBool set )
@@ -572,11 +729,15 @@ SoWinGLWidget::isStereoBuffer( void )
   return this->isQuadBufferStereo( );
 }
 
+/*!
+  Returns TRUE if the normal GL context is in RGBA mode.
+  Return FALSE if color index mode is used.
+*/
 SbBool
 SoWinGLWidget::isRGBMode( void )
 {
   return ( PRIVATE( this )->glModes & SO_GL_RGB );
-}
+} // isRGBMode()
 
 int
 SoWinGLWidget::getDisplayListShareGroup( HGLRC ctx )
@@ -663,7 +824,6 @@ SoWinGLWidget::getGlxMgrWidget( void )
 HWND
 SoWinGLWidget::getGLWidget( void )
 {
-	// FIXME: return manager ? mariusbu 20010803.
   return this->getNormalWindow( );
 }
 
@@ -691,43 +851,62 @@ SoWinGLWidget::swapOverlayBuffers( void )
   return ( wglSwapLayerBuffers( ( HDC ) PRIVATE( this )->hdcOverlay, WGL_SWAP_OVERLAY1 ) );
 }
 
+/*!
+  This method calls make-current on the correct context and ups the lock
+  level.
+*/
 void
 SoWinGLWidget::glLockNormal( void )
 {
   assert( PRIVATE( this )->hdcNormal != NULL );
   wglMakeCurrent( PRIVATE( this )->hdcNormal, PRIVATE( this )->ctxNormal );
-}
+} // glLockNormal()
 
+/*!
+  This method drops the lock level.
+*/
 void
 SoWinGLWidget::glUnlockNormal( void )
 {
   wglMakeCurrent( NULL, NULL );
-}
+} // glUnlockNormal()
 
+/*!
+  This method calls make-current on the correct context and ups the lock
+  level.
+*/
 void
 SoWinGLWidget::glLockOverlay( void )
 {
   wglMakeCurrent( PRIVATE( this )->hdcOverlay, PRIVATE( this )->ctxOverlay ); 
-}
+} // glLockOverlay()
 
+/*!
+  This method drops the lock level.
+*/
 void
 SoWinGLWidget::glUnlockOverlay( void )
 {
   wglMakeCurrent( NULL, NULL );
-}
+} // glUnlockOverlay()
 
+/*!
+ */
 void
 SoWinGLWidget::glSwapBuffers( void )
 {
   assert( PRIVATE( this )->hdcNormal != NULL );
   Win32::SwapBuffers( PRIVATE( this )->hdcNormal );
-}
+} // glSwapBuffers()
 
+/*!
+  Flush the current GL buffer. Simply calls glFlush().
+*/
 void
 SoWinGLWidget::glFlushBuffer( void )
 {
   glFlush( );
-}
+} // glFlushBuffer()
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -789,7 +968,6 @@ SoWinGLWidgetP::buildNormalGLWidget( HWND manager )
                                       this->owner );
 
   assert( IsWindow( normalwidget ) );
-  this->owner->realized = FALSE;
   this->normalWidget = normalwidget;
   this->owner->setGLSize( SbVec2s( rect.right - rect.left,
     rect.bottom - rect.top ) );
@@ -928,8 +1106,8 @@ SoWinGLWidgetP::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 	BOOL ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
 	assert( ok && "The rendering context could not be made current." );
 
-  if ( ! this->owner->realized ) {
-    this->owner->realized = TRUE;
+  if ( ! this->glRealized ) {
+    this->glRealized = TRUE;
     this->owner->initGraphic( );
   }
   if ( ! this->owner->glScheduleRedraw( ) ) {

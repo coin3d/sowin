@@ -75,6 +75,7 @@ public:
 
   void setBorder( SbBool set );
   int getBorderSize( void );
+  void setBorderSize( int size );
   SbBool isBorder( void ) const;
 
   void setDrawToFrontBufferEnable( SbBool enable );
