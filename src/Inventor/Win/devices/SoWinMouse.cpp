@@ -41,11 +41,11 @@ SOWIN_OBJECT_SOURCE(SoWinMouse);
 
 // *************************************************************************
 
-SoWinMouse::SoWinMouse(UINT events)
+SoWinMouse::SoWinMouse(int events)
 {
-  this->events = events;
-  this->locationEvent = NULL;
-  this->buttonEvent = NULL;
+  this->eventmask = events;
+  this->locationevent = NULL;
+  this->buttonevent = NULL;
 } // SoWinMouse()
 
 /*!
@@ -53,14 +53,14 @@ SoWinMouse::SoWinMouse(UINT events)
 
 SoWinMouse::~SoWinMouse(void)
 {
-  delete this->locationEvent;
-  delete this->buttonEvent;
+  delete this->locationevent;
+  delete this->buttonevent;
 } // ~SoWinMouse()
 
 // *************************************************************************
 
 void
-SoWinMouse::enable(HWND, SoWinEventHandler * , void *, HWND)
+SoWinMouse::enable(HWND, SoWinEventHandler * , void *)
 {
   // Win32 has no way of enabling the mouse. mariusbu 20010823.
   // Do nothing.
@@ -86,7 +86,7 @@ SoWinMouse::translateEvent(MSG * msg)
   case WM_LBUTTONDOWN:
   case WM_MBUTTONDOWN:
   case WM_RBUTTONDOWN:
-    if (! (this->events & SoWinMouse::BUTTON_PRESS)) break;
+    if (! (this->eventmask & SoWinMouse::BUTTON_PRESS)) break;
     state = SoButtonEvent::DOWN;
     soevent = this->makeButtonEvent(msg, state);
     break;
@@ -94,13 +94,13 @@ SoWinMouse::translateEvent(MSG * msg)
   case WM_LBUTTONUP:
   case WM_MBUTTONUP:
   case WM_RBUTTONUP:
-    if (! (this->events & SoWinMouse::BUTTON_RELEASE)) break;
+    if (! (this->eventmask & SoWinMouse::BUTTON_RELEASE)) break;
     state = SoButtonEvent::UP;
     soevent = this->makeButtonEvent(msg, state);
     break;
 
   case WM_MOUSEMOVE:
-    if (! (this->events & SoWinMouse::POINTER_MOTION)) break;
+    if (! (this->eventmask & SoWinMouse::POINTER_MOTION)) break;
     soevent = this->makeLocationEvent(msg);
     break;
 
@@ -138,67 +138,67 @@ SoWinMouse::makeLocationEvent(MSG * msg)
     prevPos = msg->pt;
   }
   
-  if (this->locationEvent == NULL) 
-    this->locationEvent = new SoLocation2Event;
-  this->setEventPosition(this->locationEvent, msg->pt.x, msg->pt.y);
+  if (this->locationevent == NULL) 
+    this->locationevent = new SoLocation2Event;
+  this->setEventPosition(this->locationevent, msg->pt.x, msg->pt.y);
 
-  this->locationEvent->setShiftDown((SoWinDevice::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
-  this->locationEvent->setCtrlDown((SoWinDevice::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
-  this->locationEvent->setAltDown((SoWinDevice::modifierKeys & MK_ALT) ? TRUE : FALSE);
+  this->locationevent->setShiftDown((SoWinDevice::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
+  this->locationevent->setCtrlDown((SoWinDevice::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
+  this->locationevent->setAltDown((SoWinDevice::modifierKeys & MK_ALT) ? TRUE : FALSE);
 
-  return this->locationEvent;
+  return this->locationevent;
 } // makeLocationEvent()
 
 SoMouseButtonEvent *
 SoWinMouse::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
 {
-  if (this->buttonEvent == NULL)
-    this->buttonEvent = new SoMouseButtonEvent;
+  if (this->buttonevent == NULL)
+    this->buttonevent = new SoMouseButtonEvent;
 
-  this->buttonEvent->setState(state);
+  this->buttonevent->setState(state);
 
   switch (msg->message) {
 
   case WM_LBUTTONDOWN: // left button
   case WM_LBUTTONUP:
-    this->buttonEvent->setButton(SoMouseButtonEvent::BUTTON1);
+    this->buttonevent->setButton(SoMouseButtonEvent::BUTTON1);
     break;
 
   case WM_MBUTTONDOWN: // midbutton
   case WM_MBUTTONUP:
-    this->buttonEvent->setButton(SoMouseButtonEvent::BUTTON3);
+    this->buttonevent->setButton(SoMouseButtonEvent::BUTTON3);
     break;
 
   case WM_RBUTTONDOWN: // right button
   case WM_RBUTTONUP:
-    this->buttonEvent->setButton(SoMouseButtonEvent::BUTTON2);
+    this->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
     break;
 
 #if 0   // FIXME: disabled until it's enabled again through autoconf test
   case WM_MOUSEWHEEL:
     if (HIWORD(message->wParam) < 0) {  // delta z = WHEEL_DELTA = 120
-      this->buttonEvent->setButton(SoMouseButtonEvent::BUTTON4);
+      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
     } else {
-      this->buttonEvent->setButton(SoMouseButtonEvent::BUTTON5);
+      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
     }
     break;
 #endif
   default:
-    this->buttonEvent->setButton(SoMouseButtonEvent::ANY);
+    this->buttonevent->setButton(SoMouseButtonEvent::ANY);
     break;
   } // switch (message.message)
 
-  /*  if (this->locationEvent) {
-    this->buttonEvent->setPosition(this->locationEvent->getPosition());
+  /*  if (this->locationevent) {
+    this->buttonevent->setPosition(this->locationevent->getPosition());
   }
   else {*/
-    this->setEventPosition(this->buttonEvent, msg->pt.x, msg->pt.y);
+    this->setEventPosition(this->buttonevent, msg->pt.x, msg->pt.y);
     //}
-  this->buttonEvent->setShiftDown((SoWinDevice::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
-  this->buttonEvent->setCtrlDown((SoWinDevice::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
-  this->buttonEvent->setAltDown((SoWinDevice::modifierKeys & MK_ALT) ? TRUE : FALSE);
+  this->buttonevent->setShiftDown((SoWinDevice::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
+  this->buttonevent->setCtrlDown((SoWinDevice::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
+  this->buttonevent->setAltDown((SoWinDevice::modifierKeys & MK_ALT) ? TRUE : FALSE);
   
-  return this->buttonEvent;
+  return this->buttonevent;
 } // makeButtonEvent()
 
 // *************************************************************************

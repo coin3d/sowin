@@ -42,7 +42,7 @@
 SOWIN_OBJECT_SOURCE(SoWinSpaceball);
 
 
-SoWinSpaceball::SoWinSpaceball(UINT mask)
+SoWinSpaceball::SoWinSpaceball(int mask)
 {
   SOWIN_STUB();
 }
@@ -53,7 +53,7 @@ SoWinSpaceball::~SoWinSpaceball(void)
 }
     
 void
-SoWinSpaceball::enable(HWND, SoWinEventHandler * , void *, HWND)
+SoWinSpaceball::enable(HWND, SoWinEventHandler * , void *)
 {
   SOWIN_STUB();
 }

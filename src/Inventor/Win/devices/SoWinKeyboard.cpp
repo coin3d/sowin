@@ -355,47 +355,37 @@ static struct key1map WinToSoMapping[] = {
   Enumeration over supported event types.
 */
 
-SbDict * SoWinKeyboard::translatetable = NULL;
-SoKeyboardEvent * SoWinKeyboard::keyboardEvent = NULL;
-
-void
-SoWinKeyboard::makeTranslationTable(void)
-{
-  // assert(SoWinKeyboard::translatetable == NULL);
-  // FIXME: deallocate on exit. 20000811 mortene.
-  SoWinKeyboard::translatetable = new SbDict;
-
-  int i=0;
-  while (WinToSoMapping[i].from != VK_UNKNOWN) {
-    SoWinKeyboard::translatetable->enter(WinToSoMapping[i].from,
-                                          (void *)WinToSoMapping[i].to);
-    i++;
-  }
-} // makeTranslationTable()
-
+static SbDict * translatetable = NULL;
 
 // *************************************************************************
 
 /*!
   Public constructor.
 */
-
-SoWinKeyboard::SoWinKeyboard(UINT events)
+SoWinKeyboard::SoWinKeyboard(int events)
 {
-  this->events = events;
-  SoWinKeyboard::keyboardEvent = new SoKeyboardEvent;
-  this->makeTranslationTable();
-} // SoWinKeyboard()
+  this->eventmask = events;
+  this->kbdevent = new SoKeyboardEvent;
+
+  if (translatetable == NULL) {
+    // FIXME: memory leak, deallocate on exit. 20000811 mortene.
+    translatetable = new SbDict;
+
+    int i=0;
+    while (WinToSoMapping[i].from != VK_UNKNOWN) {
+      translatetable->enter(WinToSoMapping[i].from,(void *)WinToSoMapping[i].to);
+      i++;
+    }
+  }
+}
 
 /*!
   Destructor.
 */
-
-SoWinKeyboard::~SoWinKeyboard(void)
+SoWinKeyboard::~SoWinKeyboard()
 {
-  //delete this->translatetable;
-  delete SoWinKeyboard::keyboardEvent;
-} // ~SoWinKeyboard()
+  delete this->kbdevent;
+}
 
 // *************************************************************************
 
@@ -406,8 +396,7 @@ SoWinKeyboard::~SoWinKeyboard(void)
 void
 SoWinKeyboard::enable(HWND, // widget,
                        SoWinEventHandler * , // callbackproc,
-                       void *, // data,
-                       HWND) // window)
+                       void *)
 {
   // Win32 has no way of enabling the keyboard. mariusbu 20010823.
   // Do nothing.
@@ -438,47 +427,31 @@ SoWinKeyboard::disable(HWND, // widget,
 const SoEvent *
 SoWinKeyboard::translateEvent(MSG * msg)
 {
-  switch (msg->message) {
-    // events we should catch:
-  case WM_KEYDOWN:
-    return this->makeKeyboardEvent(msg, SoButtonEvent::DOWN);
-  case WM_KEYUP:
-    return this->makeKeyboardEvent(msg, SoButtonEvent::UP);
-    // events we should ignore:
-  default:
-    break;
+  if ((msg->message != WM_KEYDOWN) && (msg->message != WM_KEYUP)) {
+    return NULL;
+  }
 
-  } // switch (msg->message)
-  
-  return (SoEvent *) NULL;
-} // translateEvent()
+  SoButtonEvent::State state =
+    (msg->message == WM_KEYDOWN) ? SoButtonEvent::DOWN : SoButtonEvent::UP;
 
-// *************************************************************************
+  this->kbdevent->setState(state);
 
+  // FIXME: wrong -- should be the time the event actually
+  // happened. 20011210 mortene.
+  this->kbdevent->setTime(SbTime::getTimeOfDay());
 
-/*!
-  This method creates an SoKeyboardEvent from an win32 MSG *.
-*/
+  if (SOWIN_DEBUG && 0) { // debug
+    SoDebugError::postInfo("SoWinKeyboard::makeKeyboardEvent",
+                           "MapVirtualKey(msg->wParam,0) == %d",
+                           MapVirtualKey(msg->wParam, 0));
+  }
 
-SoKeyboardEvent *
-SoWinKeyboard::makeKeyboardEvent(MSG * msg,
-                                  SoButtonEvent::State state)
-{
-  SoWinKeyboard::keyboardEvent->setState(state);
-
-#if SOWIN_DEBUG && 0 // debug
-  SoDebugError::postInfo("SoWinKeyboard::makeKeyboardEvent",
-                         "MapVirtualKey(msg->wParam,0) == %d",
-                         MapVirtualKey(msg->wParam, 0));
-#endif // debug
-
-  //unsigned char repeat = (unsigned char)(msg.lParam & 0x0f);
   void * sokey;
-  if (SoWinKeyboard::translatetable->find(msg->wParam, sokey)) {
-    SoWinKeyboard::keyboardEvent->setKey((SoKeyboardEvent::Key)(int)sokey);
+  if (translatetable->find(msg->wParam, sokey)) {
+    this->kbdevent->setKey((SoKeyboardEvent::Key)(int)sokey);
   }
   else {
-    SoWinKeyboard::keyboardEvent->setKey(SoKeyboardEvent::ANY);
+    this->kbdevent->setKey(SoKeyboardEvent::ANY);
     return NULL;
   }
 
@@ -516,14 +489,11 @@ SoWinKeyboard::makeKeyboardEvent(MSG * msg,
     }
   }
 
-  SoWinKeyboard::keyboardEvent->setShiftDown((SoWinDevice::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
-  SoWinKeyboard::keyboardEvent->setCtrlDown((SoWinDevice::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
-  SoWinKeyboard::keyboardEvent->setAltDown((SoWinDevice::modifierKeys & MK_ALT) ? TRUE : FALSE);
+  this->kbdevent->setShiftDown((SoWinDevice::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
+  this->kbdevent->setCtrlDown((SoWinDevice::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
+  this->kbdevent->setAltDown((SoWinDevice::modifierKeys & MK_ALT) ? TRUE : FALSE);
   
-  long msec =  GetTickCount();
-  SoWinKeyboard::keyboardEvent->setTime(SbTime((msec / 1000), (msec % 1000) * 1000));
-
-  return SoWinKeyboard::keyboardEvent;
-} // makeKeyboardEvent()
+  return this->kbdevent;
+}
 
 // *************************************************************************

@@ -38,9 +38,9 @@ SOWIN_OBJECT_SOURCE(SoWinInputFocus);
   Constructor.
 */
 
-SoWinInputFocus::SoWinInputFocus(UINT mask)
+SoWinInputFocus::SoWinInputFocus(int mask)
 {
-  this->mask = mask;
+  this->eventmask = mask;
 } // SoWinInputFocus()
 
 /*!
@@ -59,9 +59,8 @@ SoWinInputFocus::~SoWinInputFocus(void)
 
 void
 SoWinInputFocus::enable(HWND, // widget,
-                         SoWinEventHandler *, // handler,
-                         void * , // closure
-                         HWND) // window
+                        SoWinEventHandler *, // handler,
+                        void *)
 {
   SOWIN_STUB();
 } // enable()
@@ -72,8 +71,8 @@ SoWinInputFocus::enable(HWND, // widget,
 
 void
 SoWinInputFocus::disable(HWND, // widget,
-                          SoWinEventHandler *, // handler,
-                          void *) // closure)
+                         SoWinEventHandler *, // handler,
+                         void *) // closure)
 {
   SOWIN_STUB();
 } // disable()

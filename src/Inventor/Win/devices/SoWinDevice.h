@@ -49,7 +49,7 @@ public:
   SoWinDevice(void);
   ~SoWinDevice(void);
 
-  virtual void enable(HWND widget, SoWinEventHandler * callbackproc, void * data, HWND window = NULL) = 0;
+  virtual void enable(HWND widget, SoWinEventHandler * callbackproc, void * data) = 0;
   virtual void disable(HWND widget, SoWinEventHandler * callbackproc, void * data) = 0;
     
   virtual const SoEvent * translateEvent(MSG * msg) = 0;
