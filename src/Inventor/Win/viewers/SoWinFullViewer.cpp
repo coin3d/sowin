@@ -474,7 +474,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( NULL, icon );
   windowclass.hCursor = LoadCursor( SoWin::getInstance( ), cursor );
-  windowclass.hbrBackground = ( IsWindow( this->parent ) ? NULL : brush );
+  windowclass.hbrBackground = brush;
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;
 
