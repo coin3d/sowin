@@ -186,13 +186,13 @@ SoWinComponent::~SoWinComponent( void )
 void
 SoWinComponent::show( void )
 {
-  ShowWindow( PRIVATE( this )->widget, SW_SHOW );
+  ShowWindow( this->getShellWidget( ), SW_SHOW );
 }
 
 void
 SoWinComponent::hide( void )
 {
-  ShowWindow( PRIVATE( this )->widget, SW_HIDE );
+  ShowWindow( this->getShellWidget( ), SW_HIDE );
 }
 
 void
