@@ -91,6 +91,8 @@ public:
   virtual void setCamera(SoCamera * newCamera);
   virtual void hide(void);
 
+  virtual void setComponentCursor(const SoWinCursor & cursor);
+
 protected:
 
   SoWinFullViewer(HWND parent,
