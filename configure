@@ -19089,7 +19089,7 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 
-#if HAVE_WINDOWS_H
+#ifdef HAVE_WINDOWS_H
 #include <windows.h>
 #endif /* HAVE_WINDOWS_H */
 
