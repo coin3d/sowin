@@ -507,103 +507,108 @@ SoWinExaminerViewer::setCursorRepresentation(
   if ( ! PRIVATE( this )->defaultcursor ) {
   PRIVATE( this )->defaultcursor = LoadCursor( NULL, IDC_ARROW );
     
-    unsigned char so_win_rotate_neg[so_win_rotate_width][so_win_rotate_height];
-    unsigned char so_win_rotate_mask_neg[so_win_rotate_width][so_win_rotate_height];    
-    unsigned char so_win_zoom_neg[so_win_rotate_width][so_win_rotate_height];
-    unsigned char so_win_zoom_mask_neg[so_win_rotate_width][so_win_rotate_height];
-    unsigned char so_win_pan_neg[so_win_rotate_width][so_win_rotate_height];
-    unsigned char so_win_pan_mask_neg[so_win_rotate_width][so_win_rotate_height];
+  unsigned char so_win_rotate_neg[so_win_rotate_width][so_win_rotate_height];
+  unsigned char so_win_rotate_mask_neg[so_win_rotate_width][so_win_rotate_height];    
+  unsigned char so_win_zoom_neg[so_win_rotate_width][so_win_rotate_height];
+  unsigned char so_win_zoom_mask_neg[so_win_rotate_width][so_win_rotate_height];
+  unsigned char so_win_pan_neg[so_win_rotate_width][so_win_rotate_height];
+  unsigned char so_win_pan_mask_neg[so_win_rotate_width][so_win_rotate_height];
   
   {
-     unsigned int i, j, k;
-      
-   unsigned char * bitmaps[] = {
-    so_win_rotate_bitmap, so_win_rotate_mask_bitmap,
-        so_win_zoom_bitmap, so_win_zoom_mask_bitmap,
-        so_win_pan_bitmap, so_win_pan_mask_bitmap
-   };
+    unsigned int i, j, k;
+    
+    unsigned char * bitmaps[] = {
+      so_win_rotate_bitmap, so_win_rotate_mask_bitmap,
+      so_win_zoom_bitmap, so_win_zoom_mask_bitmap,
+      so_win_pan_bitmap, so_win_pan_mask_bitmap
+    };
    
-      unsigned int bitmapsizes[] = {
-    ( so_win_rotate_width + 7 ) / 8 * so_win_rotate_height,
-    ( so_win_zoom_width + 7 ) / 8 * so_win_zoom_height,
-    ( so_win_pan_width + 7 ) / 8 * so_win_pan_height,
-   };
+    unsigned int bitmapsizes[] = {
+      ( so_win_rotate_width + 7 ) / 8 * so_win_rotate_height,
+      ( so_win_zoom_width + 7 ) / 8 * so_win_zoom_height,
+      ( so_win_pan_width + 7 ) / 8 * so_win_pan_height,
+    };
 
-      unsigned char * negs[] = {
-        ( unsigned char *) so_win_rotate_neg, ( unsigned char *) so_win_rotate_mask_neg,
-        ( unsigned char *) so_win_zoom_neg, ( unsigned char *) so_win_zoom_mask_neg,
-        ( unsigned char *) so_win_pan_neg, ( unsigned char *) so_win_pan_mask_neg,
-      };
+    unsigned char * negs[] = {
+      ( unsigned char *) so_win_rotate_neg, ( unsigned char * ) so_win_rotate_mask_neg,
+      ( unsigned char *) so_win_zoom_neg, ( unsigned char * ) so_win_zoom_mask_neg,
+      ( unsigned char *) so_win_pan_neg, ( unsigned char * ) so_win_pan_mask_neg,
+    };
 
-      unsigned char byte;
-   for ( i = 0; i < ( sizeof( bitmapsizes ) / sizeof( unsigned int ) ); i++ ) {
-    for ( j = 0; j < bitmapsizes[i]; j++ ) {
+    unsigned char byte;
+    for ( i = 0; i < ( sizeof( bitmapsizes ) / sizeof( unsigned int ) ); i++ ) {
+      for ( j = 0; j < bitmapsizes[i]; j++ ) {
 
-          // reverse bits - GDI paints pixels from bottom right to top left
+        // reverse bits - GDI paints pixels from bottom right to top left
         
-          // reverse color bits and then not the byte
-          byte = ( unsigned char  ) bitmaps[i * 2][j];
-          byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
-          byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
-          byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
-          negs[i * 2][j] = ~byte;
+        // reverse color bits and then not the byte
+        byte = ( unsigned char  ) bitmaps[i * 2][j];
+        byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
+        byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
+        byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
+        negs[i * 2][j] = ~byte;
 
-          // reverse mask bits and then not the byte
-          byte = ( unsigned char  ) bitmaps[i * 2 + 1][j];
-          byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
-          byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
-          byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
-          negs[i * 2 + 1][j] = ~byte;
-          
-        }
+        // reverse mask bits and then not the byte
+        byte = ( unsigned char  ) bitmaps[i * 2 + 1][j];
+        byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
+        byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
+        byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
+        negs[i * 2 + 1][j] = ~byte;
+        
       }
+    }
+
+    // hack to remove anoying pixels
+    so_win_zoom_neg[0][3] &= 0xf0;
+    so_win_zoom_neg[0][2] &= 0x0f;
+
   }
     
   PRIVATE( this )->zoomcursor = CreateCursor( SoWin::getInstance( ), so_win_zoom_x_hot,
-   so_win_zoom_y_hot, so_win_zoom_width, so_win_zoom_height, so_win_zoom_mask_neg,
-   so_win_zoom_neg );
+    so_win_zoom_y_hot, so_win_zoom_width, so_win_zoom_height, so_win_zoom_mask_neg,
+    so_win_zoom_neg );
   
   PRIVATE( this )->pancursor = CreateCursor( SoWin::getInstance( ), so_win_pan_x_hot,
-   so_win_pan_y_hot, so_win_pan_width, so_win_pan_height, so_win_pan_mask_neg,
-   so_win_pan_neg );
-      
+    so_win_pan_y_hot, so_win_pan_width, so_win_pan_height, so_win_pan_mask_neg,
+    so_win_pan_neg );
+  
   PRIVATE( this )->rotatecursor = CreateCursor( SoWin::getInstance( ), so_win_rotate_x_hot,
-   so_win_rotate_y_hot, so_win_rotate_width, so_win_rotate_height, so_win_rotate_mask_neg,
-   so_win_rotate_neg );
+    so_win_rotate_y_hot, so_win_rotate_width, so_win_rotate_height, so_win_rotate_mask_neg,
+    so_win_rotate_neg );
       
- }
+  }
  
- if ( ! this->isCursorEnabled( ) ) {
-  ShowCursor( FALSE );
-  return;
- }
- else ShowCursor( TRUE );
+  if ( ! this->isCursorEnabled( ) ) {
+    ShowCursor( FALSE );
+    return;
+  }
+  else ShowCursor( TRUE );
+  
+  switch ( mode ) {
+    case SoAnyExaminerViewer::INTERACT:
+      this->setCursor( LoadCursor( NULL, IDC_ARROW ) );// this->arrowcursor
+      break;
 
- switch ( mode ) {
-   case SoAnyExaminerViewer::INTERACT:
-    this->setCursor( LoadCursor( NULL, IDC_ARROW ) );// this->arrowcursor
-    break;
+    case SoAnyExaminerViewer::EXAMINE:
+    case SoAnyExaminerViewer::DRAGGING:
+      this->setCursor( PRIVATE( this )->rotatecursor );
+      break;
 
-   case SoAnyExaminerViewer::EXAMINE:
-   case SoAnyExaminerViewer::DRAGGING:
-    this->setCursor( PRIVATE( this )->rotatecursor );
-    break;
+    case SoAnyExaminerViewer::ZOOMING:
+      this->setCursor( PRIVATE( this )->zoomcursor );
+      break;
 
-   case SoAnyExaminerViewer::ZOOMING:
-    this->setCursor( PRIVATE( this )->zoomcursor );
-    break;
+    case SoAnyExaminerViewer::WAITING_FOR_SEEK:
+      this->setCursor( LoadCursor( NULL, IDC_CROSS ) );// this->crosscursor
+      break;
 
-   case SoAnyExaminerViewer::WAITING_FOR_SEEK:
-    this->setCursor( LoadCursor( NULL, IDC_CROSS ) );// this->crosscursor
-    break;
+    case SoAnyExaminerViewer::WAITING_FOR_PAN:
+    case SoAnyExaminerViewer::PANNING:
+      this->setCursor( PRIVATE( this )->pancursor );
+      break;
 
-   case SoAnyExaminerViewer::WAITING_FOR_PAN:
-   case SoAnyExaminerViewer::PANNING:
-    this->setCursor( PRIVATE( this )->pancursor );
-    break;
-
-   default: assert(0); break;
-    }
+    default: assert(0); break;
+  }
  
 } // setCursorRepresentation()
 
