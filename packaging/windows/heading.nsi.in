@@ -6,7 +6,7 @@
 #   Lars J. Aas <larsa@sim.no>
 
 Name "SoWin @sdk_version@"
-OutFile "sowin-@sdk_version@-install.exe"
+OutFile "sowin-v@sdk_version@-install.exe"
 SilentInstall "normal"
 CRCCheck "on"
 
