@@ -341,7 +341,7 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )  // Coin spesific
               0,
               width,
               height,
-              TRUE );
+		FALSE );//TRUE );
 }
 
 SbVec2s
