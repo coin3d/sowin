@@ -353,7 +353,7 @@ SbBool
 SoWinComponent::setFullScreen(const SbBool enable)
 {
   SoWinComponentP::FullscreenData * data = &(PRIVATE(this)->fullscreendata);
-  if (enable == data->on) { return TRUE; }
+  if (!!enable == !!data->on) { return TRUE; }
   data->on = enable;
 
   // FIXME: this check to see if we're a top-level component doesn't
