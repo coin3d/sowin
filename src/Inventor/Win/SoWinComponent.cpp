@@ -149,11 +149,7 @@ SoWinComponentP::frameWindowHandler(HWND window, UINT message,
 
 // *************************************************************************
 
-/*!
-  \internal
-  This function initializes the type system for all the component classes.
-  It is called indirectly when you call SoWin::init().
-*/
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::initClasses(void)
 {

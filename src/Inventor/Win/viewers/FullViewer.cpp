@@ -17,6 +17,12 @@
  *
  **************************************************************************/
 
+// ************************************************************************
+
+// Class is documented in common/viewers/SoGuiFullViewer.cpp.in.
+
+// *************************************************************************
+
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 #include <Inventor/errors/SoDebugError.h>
