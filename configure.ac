@@ -461,7 +461,7 @@ else
   SIM_AC_CONFIGURATION_SETTING([SoWin build type], [build disabled])
 fi
 
-SIM_AC_MSVC_DSP_SETUP([SOWIN], [SoWin], [sowin], [-I$sowin_build_dir/src -I$sowin_src_dir/src -I$sowin_src_dir/data])
+SIM_AC_MSVC_DSP_SETUP([SOWIN], [SoWin], [sowin], [-I$sowin_build_dir/src -I$sowin_build_dir/data -I$sowin_src_dir/src])
 
 # **************************************************************************
 # Submodules that needs to be configured...
