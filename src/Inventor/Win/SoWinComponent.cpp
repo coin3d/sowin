@@ -595,7 +595,8 @@ SoWinComponent::getIconTitle(void) const
   \sa isTopLevelShell()
 */
 void
-SoWinComponent::setWindowCloseCallback(SoWinComponentCB * func, void * data)
+SoWinComponent::setWindowCloseCallback(SoWinComponentCB * const func,
+                                       void * const data)
 {
   PRIVATE(this)->closeCB = func;
   PRIVATE(this)->closeCBdata = data;
@@ -752,7 +753,8 @@ SoWinComponent::afterRealizeHook(void) // virtual
   \sa removeVisibilityChangeCallback(), isVisible()
 */
 void
-SoWinComponent::addVisibilityChangeCallback(SoWinComponentVisibilityCB * func, void * user)
+SoWinComponent::addVisibilityChangeCallback(SoWinComponentVisibilityCB * const func,
+                                            void * const user)
 {
   void ** combo = new void * [2];
   combo[0] = (void*)func;
@@ -768,7 +770,8 @@ SoWinComponent::addVisibilityChangeCallback(SoWinComponentVisibilityCB * func, v
   \sa addVisibilityChangeCallback(), isVisible()
 */
 void
-SoWinComponent::removeVisibilityChangeCallback(SoWinComponentVisibilityCB * func, void * user)
+SoWinComponent::removeVisibilityChangeCallback(SoWinComponentVisibilityCB * const func,
+                                               void * const user)
 {
   void ** combo;
   for (int i = 0; i < PRIVATE(this)->visibilitychangeCBs->getLength(); i++) {
