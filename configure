@@ -8422,16 +8422,19 @@ echo "$as_me: error: couldn't compile and link against Coin" >&2;}
    { (exit 1); exit 1; }; }
 fi
 
+## FIXME: make it possible to build SoWin on top of SGI Inventor.
+## 20011007 mortene.
+
 # **************************************************************************
 # misc implementation-dependent Open Inventor features
 
-echo "$as_me:8428: checking if the Open Inventor SoPolygonOffset node is available" >&5
+echo "$as_me:8431: checking if the Open Inventor SoPolygonOffset node is available" >&5
 echo $ECHO_N "checking if the Open Inventor SoPolygonOffset node is available... $ECHO_C" >&6
 if test "${sim_cv_have_oiv_sopolygonoffset_node+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cat >conftest.$ac_ext <<_ACEOF
-#line 8434 "configure"
+#line 8437 "configure"
 #include "confdefs.h"
 #include <Inventor/nodes/SoPolygonOffset.h>
 int
@@ -8443,16 +8446,16 @@ SoPolygonOffset * p = new SoPolygonOffset;
 }
 _ACEOF
 rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:8446: \"$ac_link\"") >&5
+if { (eval echo "$as_me:8449: \"$ac_link\"") >&5
   (eval $ac_link) 2>&5
   ac_status=$?
-  echo "$as_me:8449: \$? = $ac_status" >&5
+  echo "$as_me:8452: \$? = $ac_status" >&5
   (exit $ac_status); } &&
          { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:8452: \"$ac_try\"") >&5
+  { (eval echo "$as_me:8455: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
-  echo "$as_me:8455: \$? = $ac_status" >&5
+  echo "$as_me:8458: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   sim_cv_have_oiv_sopolygonoffset_node=true
 else
@@ -8462,7 +8465,7 @@ sim_cv_have_oiv_sopolygonoffset_node=false
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 fi
-echo "$as_me:8465: result: $sim_cv_have_oiv_sopolygonoffset_node" >&5
+echo "$as_me:8468: result: $sim_cv_have_oiv_sopolygonoffset_node" >&5
 echo "${ECHO_T}$sim_cv_have_oiv_sopolygonoffset_node" >&6
 
 if $sim_cv_have_oiv_sopolygonoffset_node; then
@@ -8475,13 +8478,13 @@ else
   :
 fi
 
-echo "$as_me:8478: checking for SoKeyboardEvent::DELETE enum" >&5
+echo "$as_me:8481: checking for SoKeyboardEvent::DELETE enum" >&5
 echo $ECHO_N "checking for SoKeyboardEvent::DELETE enum... $ECHO_C" >&6
 if test "${sim_cv_have_oiv_have_sokeyboardevent_delete+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cat >conftest.$ac_ext <<_ACEOF
-#line 8484 "configure"
+#line 8487 "configure"
 #include "confdefs.h"
 #include <Inventor/events/SoKeyboardEvent.h>
 int
@@ -8495,16 +8498,16 @@ main ()
 }
 _ACEOF
 rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:8498: \"$ac_link\"") >&5
+if { (eval echo "$as_me:8501: \"$ac_link\"") >&5
   (eval $ac_link) 2>&5
   ac_status=$?
-  echo "$as_me:8501: \$? = $ac_status" >&5
+  echo "$as_me:8504: \$? = $ac_status" >&5
   (exit $ac_status); } &&
          { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:8504: \"$ac_try\"") >&5
+  { (eval echo "$as_me:8507: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
-  echo "$as_me:8507: \$? = $ac_status" >&5
+  echo "$as_me:8510: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   sim_cv_have_oiv_have_sokeyboardevent_delete=true
 else
@@ -8514,7 +8517,7 @@ sim_cv_have_oiv_have_sokeyboardevent_delete=false
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 fi
-echo "$as_me:8517: result: $sim_cv_have_oiv_have_sokeyboardevent_delete" >&5
+echo "$as_me:8520: result: $sim_cv_have_oiv_have_sokeyboardevent_delete" >&5
 echo "${ECHO_T}$sim_cv_have_oiv_have_sokeyboardevent_delete" >&6
 
 if $sim_cv_have_oiv_have_sokeyboardevent_delete; then
@@ -8527,13 +8530,13 @@ else
   :
 fi
 
-echo "$as_me:8530: checking for SoMouseButtonEvent::BUTTON5 enum" >&5
+echo "$as_me:8533: checking for SoMouseButtonEvent::BUTTON5 enum" >&5
 echo $ECHO_N "checking for SoMouseButtonEvent::BUTTON5 enum... $ECHO_C" >&6
 if test "${sim_cv_have_oiv_have_somousebuttonevent_button5+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cat >conftest.$ac_ext <<_ACEOF
-#line 8536 "configure"
+#line 8539 "configure"
 #include "confdefs.h"
 #include <Inventor/events/SoMouseButtonEvent.h>
 int
@@ -8547,16 +8550,16 @@ main ()
 }
 _ACEOF
 rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:8550: \"$ac_link\"") >&5
+if { (eval echo "$as_me:8553: \"$ac_link\"") >&5
   (eval $ac_link) 2>&5
   ac_status=$?
-  echo "$as_me:8553: \$? = $ac_status" >&5
+  echo "$as_me:8556: \$? = $ac_status" >&5
   (exit $ac_status); } &&
          { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:8556: \"$ac_try\"") >&5
+  { (eval echo "$as_me:8559: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
-  echo "$as_me:8559: \$? = $ac_status" >&5
+  echo "$as_me:8562: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   sim_cv_have_oiv_have_somousebuttonevent_button5=true
 else
@@ -8566,7 +8569,7 @@ sim_cv_have_oiv_have_somousebuttonevent_button5=false
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 fi
-echo "$as_me:8569: result: $sim_cv_have_oiv_have_somousebuttonevent_button5" >&5
+echo "$as_me:8572: result: $sim_cv_have_oiv_have_somousebuttonevent_button5" >&5
 echo "${ECHO_T}$sim_cv_have_oiv_have_somousebuttonevent_button5" >&6
 
 if $sim_cv_have_oiv_have_somousebuttonevent_button5; then
@@ -8579,13 +8582,13 @@ else
   :
 fi
 
-echo "$as_me:8582: checking for SoCamera::setStereoMode() function" >&5
+echo "$as_me:8585: checking for SoCamera::setStereoMode() function" >&5
 echo $ECHO_N "checking for SoCamera::setStereoMode() function... $ECHO_C" >&6
 if test "${sim_cv_have_oiv_have_socamera_setstereomode+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cat >conftest.$ac_ext <<_ACEOF
-#line 8588 "configure"
+#line 8591 "configure"
 #include "confdefs.h"
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 int
@@ -8600,16 +8603,16 @@ main ()
 }
 _ACEOF
 rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:8603: \"$ac_link\"") >&5
+if { (eval echo "$as_me:8606: \"$ac_link\"") >&5
   (eval $ac_link) 2>&5
   ac_status=$?
-  echo "$as_me:8606: \$? = $ac_status" >&5
+  echo "$as_me:8609: \$? = $ac_status" >&5
   (exit $ac_status); } &&
          { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:8609: \"$ac_try\"") >&5
+  { (eval echo "$as_me:8612: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
-  echo "$as_me:8612: \$? = $ac_status" >&5
+  echo "$as_me:8615: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   sim_cv_have_oiv_have_socamera_setstereomode=true
 else
@@ -8619,7 +8622,7 @@ sim_cv_have_oiv_have_socamera_setstereomode=false
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 fi
-echo "$as_me:8622: result: $sim_cv_have_oiv_have_socamera_setstereomode" >&5
+echo "$as_me:8625: result: $sim_cv_have_oiv_have_socamera_setstereomode" >&5
 echo "${ECHO_T}$sim_cv_have_oiv_have_socamera_setstereomode" >&6
 
 if $sim_cv_have_oiv_have_socamera_setstereomode; then
@@ -8667,7 +8670,7 @@ if test "${with_html+set}" = set; then
   case $withval in
     yes | true) want_html=true ;;
     no | false) want_html=false ;;
-    *) { { echo "$as_me:8670: error: bad value \"$withval\" for --with-html" >&5
+    *) { { echo "$as_me:8673: error: bad value \"$withval\" for --with-html" >&5
 echo "$as_me: error: bad value \"$withval\" for --with-html" >&2;}
    { (exit 1); exit 1; }; } ;;
   esac
@@ -8681,7 +8684,7 @@ if test "${with_man+set}" = set; then
   case $withval in
     yes | true) want_man=true ;;
     no | false) want_man=false ;;
-    *) { { echo "$as_me:8684: error: bad value \"$withval\" for --with-man" >&5
+    *) { { echo "$as_me:8687: error: bad value \"$withval\" for --with-man" >&5
 echo "$as_me: error: bad value \"$withval\" for --with-man" >&2;}
    { (exit 1); exit 1; }; } ;;
   esac
@@ -8721,7 +8724,7 @@ if test x"$with_doxygen" != xno; then
 
   # Extract the first word of "doxygen", so it can be a program name with args.
 set dummy doxygen; ac_word=$2
-echo "$as_me:8724: checking for $ac_word" >&5
+echo "$as_me:8727: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
 if test "${ac_cv_path_sim_ac_doxygen_exe+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -8738,7 +8741,7 @@ for ac_dir in $ac_dummy; do
   test -z "$ac_dir" && ac_dir=.
   if $as_executable_p "$ac_dir/$ac_word"; then
    ac_cv_path_sim_ac_doxygen_exe="$ac_dir/$ac_word"
-   echo "$as_me:8741: found $ac_dir/$ac_word" >&5
+   echo "$as_me:8744: found $ac_dir/$ac_word" >&5
    break
 fi
 done
@@ -8750,10 +8753,10 @@ fi
 sim_ac_doxygen_exe=$ac_cv_path_sim_ac_doxygen_exe
 
 if test -n "$sim_ac_doxygen_exe"; then
-  echo "$as_me:8753: result: $sim_ac_doxygen_exe" >&5
+  echo "$as_me:8756: result: $sim_ac_doxygen_exe" >&5
 echo "${ECHO_T}$sim_ac_doxygen_exe" >&6
 else
-  echo "$as_me:8756: result: no" >&5
+  echo "$as_me:8759: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
@@ -9071,7 +9074,7 @@ fi
 # script -- not just from the Makefile -- as the data/configure script
 # depends on it.
 
-ac_config_files="$ac_config_files sowin-$CONFIG.cfg:src/Inventor/Gtk/common/sogui.cfg.in Makefile src/Makefile src/Inventor/Makefile src/Inventor/Win/Makefile src/Inventor/Win/devices/Makefile src/Inventor/Win/widgets/Makefile src/Inventor/Win/viewers/Makefile build/sowin.doxygen"
+ac_config_files="$ac_config_files sowin-$CONFIG.cfg:src/Inventor/Win/common/sogui.cfg.in Makefile src/Makefile src/Inventor/Makefile src/Inventor/Win/Makefile src/Inventor/Win/devices/Makefile src/Inventor/Win/widgets/Makefile src/Inventor/Win/viewers/Makefile build/sowin.doxygen"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -9151,7 +9154,7 @@ DEFS=-DHAVE_CONFIG_H
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
 ac_clean_files="$ac_clean_files $CONFIG_STATUS"
-{ echo "$as_me:9154: creating $CONFIG_STATUS" >&5
+{ echo "$as_me:9157: creating $CONFIG_STATUS" >&5
 echo "$as_me: creating $CONFIG_STATUS" >&6;}
 cat >$CONFIG_STATUS <<_ACEOF
 #! $SHELL
@@ -9327,7 +9330,7 @@ cat >>$CONFIG_STATUS <<\EOF
     echo "$ac_cs_version"; exit 0 ;;
   --he | --h)
     # Conflict between --help and --header
-    { { echo "$as_me:9330: error: ambiguous option: $1
+    { { echo "$as_me:9333: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -9346,7 +9349,7 @@ Try \`$0 --help' for more information." >&2;}
     ac_need_defaults=false;;
 
   # This is an error.
-  -*) { { echo "$as_me:9349: error: unrecognized option: $1
+  -*) { { echo "$as_me:9352: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -9391,7 +9394,7 @@ for ac_config_target in $ac_config_targets
 do
   case "$ac_config_target" in
   # Handling of arguments.
-  "sowin-$CONFIG.cfg" ) CONFIG_FILES="$CONFIG_FILES sowin-$CONFIG.cfg:src/Inventor/Gtk/common/sogui.cfg.in" ;;
+  "sowin-$CONFIG.cfg" ) CONFIG_FILES="$CONFIG_FILES sowin-$CONFIG.cfg:src/Inventor/Win/common/sogui.cfg.in" ;;
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
   "src/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
   "src/Inventor/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Inventor/Makefile" ;;
@@ -9402,7 +9405,7 @@ do
   "build/sowin.doxygen" ) CONFIG_FILES="$CONFIG_FILES build/sowin.doxygen" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "src/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS src/config.h" ;;
-  *) { { echo "$as_me:9405: error: invalid argument: $ac_config_target" >&5
+  *) { { echo "$as_me:9408: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
    { (exit 1); exit 1; }; };;
   esac
@@ -9688,7 +9691,7 @@ done; }
   esac
 
   if test x"$ac_file" != x-; then
-    { echo "$as_me:9691: creating $ac_file" >&5
+    { echo "$as_me:9694: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
     rm -f "$ac_file"
   fi
@@ -9706,7 +9709,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:9709: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:9712: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -9719,7 +9722,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:9722: error: cannot find input file: $f" >&5
+           { { echo "$as_me:9725: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -9780,7 +9783,7 @@ for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   * )   ac_file_in=$ac_file.in ;;
   esac
 
-  test x"$ac_file" != x- && { echo "$as_me:9783: creating $ac_file" >&5
+  test x"$ac_file" != x- && { echo "$as_me:9786: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
 
   # First look for the input files in the build tree, otherwise in the
@@ -9791,7 +9794,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:9794: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:9797: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -9804,7 +9807,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:9807: error: cannot find input file: $f" >&5
+           { { echo "$as_me:9810: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -9921,7 +9924,7 @@ cat >>$CONFIG_STATUS <<\EOF
   rm -f $tmp/in
   if test x"$ac_file" != x-; then
     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
-      { echo "$as_me:9924: $ac_file is unchanged" >&5
+      { echo "$as_me:9927: $ac_file is unchanged" >&5
 echo "$as_me: $ac_file is unchanged" >&6;}
     else
       ac_dir=`$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \

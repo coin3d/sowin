@@ -532,7 +532,7 @@ fi
 # depends on it.
 
 AC_OUTPUT([
-	sowin-$CONFIG.cfg:src/Inventor/Gtk/common/sogui.cfg.in
+	sowin-$CONFIG.cfg:src/Inventor/Win/common/sogui.cfg.in
 	Makefile
 	src/Makefile
 	src/Inventor/Makefile
