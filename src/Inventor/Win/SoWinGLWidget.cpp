@@ -658,17 +658,34 @@ SoWinGLWidget::glLockNormal(void)
   assert(PRIVATE(this)->hdcNormal != NULL);
   assert(PRIVATE(this)->lockcounter >= 0);
 
+#ifdef SOWIN_DEBUG && 0 // debug
+  SoDebugError::postInfo("SoWinGLWidget::glLockNormal",
+                         "lockcounter: %d => %d",
+                         PRIVATE(this)->lockcounter,
+                         PRIVATE(this)->lockcounter + 1);
+#endif // debug
+
+
   PRIVATE(this)->lockcounter++;
-  if (PRIVATE(this)->lockcounter == 1) {
-    (void)SoWinGLWidgetP::wglMakeCurrent(PRIVATE(this)->hdcNormal,
-                                         PRIVATE(this)->ctxNormal);
-  }
+
+  // Make context current no matter what the value of glLockNormal()
+  // is, or we could get crash bugs if the context has been released
+  // from somewhere else (from application code, for instance).
+  (void)SoWinGLWidgetP::wglMakeCurrent(PRIVATE(this)->hdcNormal,
+                                       PRIVATE(this)->ctxNormal);
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::glUnlockNormal(void)
 {
+#ifdef SOWIN_DEBUG && 0 // debug
+  SoDebugError::postInfo("SoWinGLWidget::glUnlockNormal",
+                         "lockcounter: %d => %d",
+                         PRIVATE(this)->lockcounter,
+                         PRIVATE(this)->lockcounter - 1);
+#endif // debug
+
   if (PRIVATE(this)->lockcounter == 0) {
 #ifdef SOWIN_DEBUG
     SoDebugError::post("SoWinGLWidget::glUnlockNormal",
