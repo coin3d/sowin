@@ -54,7 +54,9 @@ Win32::showLastErr(void)
   // Don't use fprintf(), as compiling in stdout or stderr file
   // descriptor pointer values is problematic when SoWin is built as a
   // DLL.
+#ifndef NDEBUG
   (void)printf("\n*** GetLastError()==%d => %s\n", lasterr, s.getString());
+#endif // NDEBUG
 }
 
 HWND
