@@ -127,13 +127,13 @@ SoWinMouse::translateEvent( MSG * msg )
 SoLocation2Event *
 SoWinMouse::makeLocationEvent( MSG * msg )
 {
-  delete this->locationEvent;
-  this->locationEvent = new SoLocation2Event;
+  if (this->locationEvent == NULL) 
+    this->locationEvent = new SoLocation2Event;
   this->setEventPosition( this->locationEvent, msg->pt.x, msg->pt.y );
 
-  SoWinMouse::locationEvent->setShiftDown( ( SoWinDevice::modifierKeys & MK_SHIFT ) ? TRUE : FALSE );
-  SoWinMouse::locationEvent->setCtrlDown( ( SoWinDevice::modifierKeys & MK_CONTROL ) ? TRUE : FALSE );
-  SoWinMouse::locationEvent->setAltDown( ( SoWinDevice::modifierKeys & MK_ALT ) ? TRUE : FALSE );
+  this->locationEvent->setShiftDown( ( SoWinDevice::modifierKeys & MK_SHIFT ) ? TRUE : FALSE );
+  this->locationEvent->setCtrlDown( ( SoWinDevice::modifierKeys & MK_CONTROL ) ? TRUE : FALSE );
+  this->locationEvent->setAltDown( ( SoWinDevice::modifierKeys & MK_ALT ) ? TRUE : FALSE );
 
   return this->locationEvent;
 } // makeLocationEvent()
@@ -141,8 +141,9 @@ SoWinMouse::makeLocationEvent( MSG * msg )
 SoMouseButtonEvent *
 SoWinMouse::makeButtonEvent( MSG * msg, SoButtonEvent::State state )
 {
-  delete this->buttonEvent;
-  this->buttonEvent = new SoMouseButtonEvent;
+  if (this->buttonEvent == NULL)
+    this->buttonEvent = new SoMouseButtonEvent;
+
   this->buttonEvent->setState( state );
 
   switch ( msg->message ) {
@@ -175,11 +176,16 @@ SoWinMouse::makeButtonEvent( MSG * msg, SoButtonEvent::State state )
     this->buttonEvent->setButton( SoMouseButtonEvent::ANY );
     break;
   } // switch ( message.message)
-  this->setEventPosition( this->buttonEvent, msg->pt.x, msg->pt.y );
 
-  SoWinMouse::buttonEvent->setShiftDown( ( SoWinDevice::modifierKeys & MK_SHIFT ) ? TRUE : FALSE );
-  SoWinMouse::buttonEvent->setCtrlDown( ( SoWinDevice::modifierKeys & MK_CONTROL ) ? TRUE : FALSE );
-  SoWinMouse::buttonEvent->setAltDown( ( SoWinDevice::modifierKeys & MK_ALT ) ? TRUE : FALSE );
+  if (this->locationEvent) {
+    this->buttonEvent->setPosition(this->locationEvent->getPosition());
+  }
+  else {
+    this->setEventPosition( this->buttonEvent, msg->pt.x, msg->pt.y );
+  }
+  this->buttonEvent->setShiftDown( ( SoWinDevice::modifierKeys & MK_SHIFT ) ? TRUE : FALSE );
+  this->buttonEvent->setCtrlDown( ( SoWinDevice::modifierKeys & MK_CONTROL ) ? TRUE : FALSE );
+  this->buttonEvent->setAltDown( ( SoWinDevice::modifierKeys & MK_ALT ) ? TRUE : FALSE );
 
   return this->buttonEvent;
 } // makeButtonEvent()
