@@ -21367,6 +21367,67 @@ fi
 
 
 
+
+echo "$as_me:$LINENO: checking for SoGLRenderAction::SORTED_LAYERS_BLEND transparency mode" >&5
+echo $ECHO_N "checking for SoGLRenderAction::SORTED_LAYERS_BLEND transparency mode... $ECHO_C" >&6
+if test "${sim_cv_have_oiv_have_sorted_layers_blend+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <Inventor/actions/SoGLRenderAction.h>
+int
+main ()
+{
+
+  /* try to get SORTED_LAYERS_BLEND transparency mode value */
+  int num = (int) SoGLRenderAction::SORTED_LAYERS_BLEND;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  sim_cv_have_oiv_have_sorted_layers_blend=true
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+sim_cv_have_oiv_have_sorted_layers_blend=false
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $sim_cv_have_oiv_have_sorted_layers_blend" >&5
+echo "${ECHO_T}$sim_cv_have_oiv_have_sorted_layers_blend" >&6
+
+if $sim_cv_have_oiv_have_sorted_layers_blend; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_SORTED_LAYERS_BLEND 1
+_ACEOF
+
+
+else
+  :
+fi
+
+
+
 # **************************************************************************
 # Misc set-up.
 

@@ -45,6 +45,9 @@
 /* Define to enable use of the Open Inventor SoPolygonOffset node */
 #undef HAVE_SOPOLYGONOFFSET
 
+/* Define to enable use of Inventor feature */
+#undef HAVE_SORTED_LAYERS_BLEND
+
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
