@@ -34,7 +34,9 @@ endif
 libSoWin@SUFFIX@_la_SOURCES = \
 	SoWin.cpp \
 	SoWinComponent.cpp \
+	SoWinComponentP.h \
 	SoWinGLWidget.cpp \
+	SoWinGLWidgetP.h \
 	Win32API.cpp \
 	Win32API.h
 
@@ -56,7 +58,9 @@ libSoWin@SUFFIX@_la_LDFLAGS = \
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoWin.cpp \
 	SoWinComponent.cpp \
+	SoWinComponentP.h \
 	SoWinGLWidget.cpp \
+	SoWinGLWidgetP.h \
 	Win32API.cpp \
 	Win32API.h
 

@@ -34,6 +34,7 @@
 
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/SoWinComponent.h>
+#include <Inventor/Win/SoWinComponentP.h>
 #include <Inventor/Win/SoWinGLWidget.h>
 #include <Inventor/Win/SoWinRenderArea.h>
 #include <Inventor/Win/viewers/SoWinViewer.h>
@@ -51,160 +52,106 @@ SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinComponent);
 
 // *************************************************************************
 
-// The private data for the SoWinComponent.
+// The private data and code for the SoWinComponent.
 
-#define PRIVATE(o) (o->pimpl)
+SoWinComponentP::SoWinComponentP(SoWinComponent * o)
+  : SoGuiComponentP(o)
+{
+  this->cursor = NULL;
+  this->parent = NULL;
 
-class SoWinComponentP {
-
-public:
-  // Constructor.
-  SoWinComponentP(SoWinComponent * o)
-  {
-    this->owner = o;
-    this->cursor = NULL;
-    this->parent = NULL;
-
-    if (! SoWinComponentP::sowincomplist) {
-      SoWinComponentP::sowincomplist = new SbPList;
-    }
-    SoWinComponentP::sowincomplist->append((void *) this->owner);
-#if SOWIN_DEBUG && 0 // debug
-    SoDebugError::postInfo("SoWinComponentP::SoWinComponentP",
-                           "add %p to sowincomplist %p",
-                           this->owner, SoWinComponentP::sowincomplist);
-#endif // debug
+  if (! SoWinComponentP::sowincomplist) {
+    SoWinComponentP::sowincomplist = new SbPList;
   }
+  SoWinComponentP::sowincomplist->append((void *) o);
+#if SOWIN_DEBUG && 0 // debug
+  SoDebugError::postInfo("SoWinComponentP::SoWinComponentP",
+                         "add %p to sowincomplist %p",
+                         o, SoWinComponentP::sowincomplist);
+#endif // debug
+}
 
-  // Destructor.
-  ~SoWinComponentP() {
-
-    if (SoWinComponentP::sowincomplist) {
+SoWinComponentP::~SoWinComponentP()
+{
+  if (SoWinComponentP::sowincomplist) {
 #if SOWIN_DEBUG && 0 // debug
     SoDebugError::postInfo("SoWinComponentP::~SoWinComponentP",
                            "remove %p from sowincomplist %p, length: %d->%d",
-                           this->owner, SoWinComponentP::sowincomplist,
+                           PRIVATE(this), SoWinComponentP::sowincomplist,
                            SoWinComponentP::sowincomplist->getLength(),
                            SoWinComponentP::sowincomplist->getLength() - 1);
 #endif // debug
-      SoWinComponentP::sowincomplist->removeItem(this->owner);
-      if (SoWinComponentP::sowincomplist->getLength() == 0) {
-        delete SoWinComponentP::sowincomplist;
-        SoWinComponentP::sowincomplist = NULL;
+    SoWinComponentP::sowincomplist->removeItem(PRIVATE(this));
+    if (SoWinComponentP::sowincomplist->getLength() == 0) {
+      delete SoWinComponentP::sowincomplist;
+      SoWinComponentP::sowincomplist = NULL;
 
-        // FIXME: only unregister classname when all component windows
-        // have been destroyed.  CreateWindow() get the default "Win
-        // Component" name, even when created by viewers like
-        // SoWinExaminerViewer. Is this a bug? In that case fix this
-        // too!
-        //
-        // mariusbu 20010803.
+      // FIXME: only unregister classname when all component windows
+      // have been destroyed.  CreateWindow() get the default "Win
+      // Component" name, even when created by viewers like
+      // SoWinExaminerViewer. Is this a bug? In that case fix this
+      // too!
+      //
+      // mariusbu 20010803.
 
-        if (SoWinComponentP::wndClassAtom) { // if wndclass is registered
-          Win32::UnregisterClass("Component Widget", SoWin::getInstance());
-          SoWinComponentP::wndClassAtom = NULL;
-        }
+      if (SoWinComponentP::wndClassAtom) { // if wndclass is registered
+        Win32::UnregisterClass("Component Widget", SoWin::getInstance());
+        SoWinComponentP::wndClassAtom = NULL;
       }
     }
   }
+}
 
-  static HCURSOR getNativeCursor(const SoWinCursor::CustomCursor * cc);
+void
+SoWinComponentP::commonEventHandler(UINT message, WPARAM wparam, LPARAM lparam)
+{
+  switch (message) {
+  case WM_SIZE:
+    PRIVATE(this)->sizeChanged(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
+    break;
 
-  static void fatalerrorHandler(void * userdata);
-  void cleanupWin32References(void);
+  case WM_SETFOCUS:
+    if (IsWindow(this->focusProxy)) { SetFocus(this->focusProxy); }
+    break;
 
-  static LRESULT CALLBACK frameWindowHandler(HWND window, UINT message,
-                                             WPARAM wparam, LPARAM lparam);
+  case WM_CLOSE:
+    PRIVATE(this)->hide();
+    PRIVATE(this)->windowCloseAction();
+    break;
 
-  void commonEventHandler(UINT message, WPARAM wparam, LPARAM lparam)
-  {
-    switch (message) {
-    case WM_SIZE:
-      this->owner->sizeChanged(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
-      break;
-
-    case WM_SETFOCUS:
-      if (IsWindow(this->focusProxy)) { SetFocus(this->focusProxy); }
-      break;
-
-    case WM_CLOSE:
-      this->owner->hide();
-      this->owner->windowCloseAction();
-      break;
-
-    case WM_SHOWWINDOW:
-      if (!this->owner->realized) {
-        this->owner->afterRealizeHook();
-        this->owner->realized = TRUE;
-      }
-      break;
-
-    case WM_SETCURSOR:
-      // this->cursor can be NULL when the virtual
-      // setComponentCursor() method is overridden in subclasses.
-      if (this->cursor) {
-        SoWinComponent::setWidgetCursor(this->owner->getWidget(),
-                                        *(this->cursor));
-      }
-      break;
+  case WM_SHOWWINDOW:
+    if (!PRIVATE(this)->realized) {
+      PRIVATE(this)->afterRealizeHook();
+      PRIVATE(this)->realized = TRUE;
     }
-  }
+    break;
 
-  // Message hook
-  static LRESULT CALLBACK
-  systemEventFilter(int code, WPARAM wparam, LPARAM lparam)
-  {
-    CWPSTRUCT * msg = (CWPSTRUCT *)lparam;
-    void * comp;
-    if (SoWinComponentP::embeddedparents->find((unsigned long)msg->hwnd, comp) &&
-        // as per the API doc on CallWndProc(): only process msg if code>=0
-        (code >= 0)) {
-      SoWinComponent * component = (SoWinComponent *)comp;
-      PRIVATE(component)->commonEventHandler(msg->message,
-                                             msg->wParam, msg->lParam);
+  case WM_SETCURSOR:
+    // this->cursor can be NULL when the virtual
+    // setComponentCursor() method is overridden in subclasses.
+    if (this->cursor) {
+      SoWinComponent::setWidgetCursor(PRIVATE(this)->getWidget(),
+                                      *(this->cursor));
     }
-    return CallNextHookEx(SoWinComponentP::hookhandle, code, wparam, lparam);
+    break;
   }
+}
 
-  static HHOOK hookhandle; // for (global) system message queue interception
-  HWND parent;
-  HWND widget;
-  HWND focusProxy;
-  SbBool embedded;
-  SbString classname, widgetname, title;
-  SoWinComponentCB * closeCB;
-  void * closeCBdata;
-  SbPList * visibilitychangeCBs;
-  static SbDict * embeddedparents;
-
-  // This is the atom returned when the component
-  // window class is registered.
-  static ATOM wndClassAtom;
-
-  // List of all SoWinComponent instances. Needed for the
-  // SoWinComponent::getComponent() function.
-  static SbPList * sowincomplist;
-
-  struct FullscreenData {
-    FullscreenData(void)
-      : on(FALSE)
-    { }
-
-    SbBool on;
-    SbVec2s pos;
-    SbVec2s size;
-    LONG style;
-    LONG exstyle;
-  };
-
-  struct FullscreenData fullscreendata;
-
-  const SoWinCursor * cursor;
-
-private:
-  SoWinComponent * owner;
-  static SbDict * cursordict;
-};
+// Message hook
+static LRESULT CALLBACK
+SoWinComponentP::systemEventFilter(int code, WPARAM wparam, LPARAM lparam)
+{
+  CWPSTRUCT * msg = (CWPSTRUCT *)lparam;
+  void * comp;
+  if (SoWinComponentP::embeddedparents->find((unsigned long)msg->hwnd, comp) &&
+      // as per the API doc on CallWndProc(): only process msg if code>=0
+      (code >= 0)) {
+    SoWinComponent * component = (SoWinComponent *)comp;
+    PRIVATE(component)->commonEventHandler(msg->message,
+                                           msg->wParam, msg->lParam);
+  }
+  return CallNextHookEx(SoWinComponentP::hookhandle, code, wparam, lparam);
+}
 
 ATOM SoWinComponentP::wndClassAtom = NULL;
 SbPList * SoWinComponentP::sowincomplist = NULL;

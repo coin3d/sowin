@@ -33,6 +33,7 @@
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/SoWinGLWidget.h>
+#include <Inventor/Win/SoWinGLWidgetP.h>
 #include <Inventor/Win/SoAny.h>
 #include <sowindefs.h>
 #include <Inventor/Win/Win32API.h>
@@ -46,72 +47,22 @@ static const int SO_BORDER_THICKNESS = 2;
 
 SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinGLWidget);
 
-// The private data for the SoWinGLWidget.
+// The private data and code for the SoWinGLWidget.
 
-class SoWinGLWidgetP {
+SoWinGLWidgetP::SoWinGLWidgetP(SoWinGLWidget * o)
+  : SoGuiGLWidgetP(o)
+{
+  this->bordersize = 0;
+}
 
-public:
-
-  // Constructor.
-  SoWinGLWidgetP(SoWinGLWidget * o)
-    : bordersize(0)
-  {
-    this->owner = o;
-  }
-
-  // Destructor.
-  ~SoWinGLWidgetP() {
-  }
-
-  void buildNormalGLWidget(HWND manager);
-  void buildOverlayGLWidget(HWND manager);
-  BOOL createGLContext(HWND window);
-
-  LRESULT onCreate(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
-  LRESULT onPaint(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
-  LRESULT onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
-
-  static BOOL wglMakeCurrent(HDC hdc, HGLRC hglrc);
-  static int ChoosePixelFormat(HDC hdc, CONST PIXELFORMATDESCRIPTOR * ppfd);
-
-  HWND managerWidget;
-  HWND normalWidget;
-  HWND overlayWidget;
-
-  HGLRC ctxNormal;
-  HGLRC ctxOverlay;
-
-  HDC hdcNormal;
-  HDC hdcOverlay;
-
-  SbVec2s glSize;
-
-  PIXELFORMATDESCRIPTOR pfdNormal;
-  PIXELFORMATDESCRIPTOR pfdOverlay;
-
-  SbBool drawToFrontBuffer;
-  SbBool haveFocus;
-  SbBool stealFocus;
-  SbBool glRealized;
-
-  int glModes;
-  int bordersize;
-
-  static ATOM managerWndClassAtom;
-  static ATOM glWndClassAtom;
-  static int widgetCounter;
-
-private:
-
-  SoWinGLWidget * owner;
-
-};
+// Destructor.
+SoWinGLWidgetP::~SoWinGLWidgetP()
+{
+}
 
 ATOM SoWinGLWidgetP::managerWndClassAtom = NULL;
 ATOM SoWinGLWidgetP::glWndClassAtom = NULL;
 int SoWinGLWidgetP::widgetCounter = 0;
-
-#define PRIVATE(o) (o->pimpl)
 
 ///////////////////////////////////////////////////////////////////
 //
