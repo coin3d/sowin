@@ -27,7 +27,6 @@
 #include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
-#include <Inventor/Win/widgets/SoAnyPopupMenu.h>
 #include <Inventor/Win/widgets/SoWinPopupMenu.h>
 #include <Inventor/Win/viewers/SoAnyFullViewer.h>
 #include <Inventor/Win/viewers/SoWinFullViewer.h>

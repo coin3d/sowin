@@ -29,7 +29,7 @@ class SoWinBitmapButton;
 class SoWinThumbWheel;
 class SoWinViewerPrefSheet;
 class SoWinFullViewerP;
-class SoAnyPopupMenu;
+class SoWinPopupMenu;
 
 typedef void AppPushButtonCB(HWND hwnd, int id, void * buttonData, void * userData);
 typedef void RedrawAppPushButtonCB(LPDRAWITEMSTRUCT lpdis, void * userData);
@@ -180,7 +180,7 @@ private:
 
   SoWinFullViewerP * pimpl;
   SoAnyFullViewer * common;
-  SoAnyPopupMenu * prefmenu;
+  SoWinPopupMenu * prefmenu;
 
 };
 

@@ -23,15 +23,15 @@
 #define SOWIN_WINNATIVEPOPUPMENU_H
 
 #include <Inventor/Win/SoWinBasic.h>
-#include <Inventor/Win/widgets/SoAnyPopupMenu.h>
+#include <Inventor/Win/widgets/SoWinPopupMenu.h>
 
 // *************************************************************************
 
 struct MenuRecord;
 struct ItemRecord;
 
-class SOWIN_DLL_API WinNativePopupMenu : public SoAnyPopupMenu {
-  typedef SoAnyPopupMenu inherited;
+class SOWIN_DLL_API WinNativePopupMenu : public SoWinPopupMenu {
+  typedef SoWinPopupMenu inherited;
 
 public:
   WinNativePopupMenu(void);
