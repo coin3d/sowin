@@ -30,3 +30,14 @@
     20020624 mortene.
 
 =====================================================================
+
+003 SoWin never stops processing the Coin/Inventor sensor queues.
+
+    Reproduce by inserting some debug output in the
+    SoSensorManager::process*() functions, and see how they are
+    invoked even with a still camera on a scene without any animating
+    parts.
+
+    20021015 mortene.
+
+=====================================================================
