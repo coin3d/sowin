@@ -1205,10 +1205,13 @@ label:
       // reported by Alan Walford of Eos. 20011014 mortene.
       SbString s = "Could not find any supported OpenGL mode on your system.";
       if (!SoAny::si()->invokeFatalErrorHandler(s, SoWin::NO_OPENGL_CANVAS)) {
+        // FIXME: this will actually cause the application to exit
+        // before the error dialog has been shown. 20011123 mortene.
         exit(1);
       }
     }
   }
+
   SetFocus(window);
   this->owner->widgetChanged(window);
   return 0;
