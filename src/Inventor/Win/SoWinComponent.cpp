@@ -869,7 +869,7 @@ SoWinComponent::openHelpCard(const char * name)
   MessageBox(PRIVATE(this)->parent,
              "The help functionality has not been implemented.",
              "SoWin", MB_ICONEXCLAMATION | MB_OK);
-} // openHelpCard()
+}
 
 static inline unsigned char
 reverse_byte(unsigned char b)
@@ -953,9 +953,7 @@ SoWinComponentP::getNativeCursor(const SoWinCursor::CustomCursor * cc)
   return c;
 }
 
-/*!
-  Sets the cursor for this component.
-*/
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::setComponentCursor(const SoWinCursor & cursor)
 {
@@ -963,9 +961,7 @@ SoWinComponent::setComponentCursor(const SoWinCursor & cursor)
   SoWinComponent::setWidgetCursor(this->getWidget(), cursor);
 }
 
-/*!
-  Set cursor for a native widget in the underlying toolkit.
-*/
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::setWidgetCursor(HWND w, const SoWinCursor & cursor)
 {
