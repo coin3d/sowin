@@ -17,6 +17,12 @@
  *
  **************************************************************************/
 
+// *************************************************************************
+
+// Class is documented in common/viewers/SoGuiPlaneViewer.cpp.in.
+
+// *************************************************************************
+
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/projectors/SbPlaneProjector.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
@@ -33,12 +39,6 @@
 #include <Inventor/Win/common/pixmaps/x.xpm>
 #include <Inventor/Win/common/pixmaps/y.xpm>
 #include <Inventor/Win/common/pixmaps/z.xpm>
-
-/*!
-  \class SoWinPlaneViewer Inventor/Win/viewers/SoWinPlaneViewer.h
-  \brief The SoWinPlaneViewer class is yet to be documented...
-  \ingroup soqtviewers
-*/
 
 // ************************************************************************
 
@@ -90,10 +90,6 @@ private:
 };
 
 #define PRIVATE(o) (o->pimpl)
-
-// ************************************************************************
-
-SOWIN_OBJECT_SOURCE(SoWinPlaneViewer);
 
 // ************************************************************************
 
@@ -297,44 +293,6 @@ SoWinPlaneViewer::actualRedraw(// virtual
   inherited::actualRedraw();
 //  this->drawRotateGraphics();
 } // actualRedraw()
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
-void
-SoWinPlaneViewer::leftWheelMotion(// virtual
-  float value)
-{
-  this->translateY(value - this->getLeftWheelValue());
-  inherited::leftWheelMotion(value);
-} // leftWheelMotion()
-
-/*!
-  FIXME: write doc
-*/
-
-void
-SoWinPlaneViewer::bottomWheelMotion(// virtual
-  float value)
-{
-  this->translateX(value - this->getBottomWheelValue());
-  inherited::bottomWheelMotion(value);
-} // bottomWheelMotion()
-
-/*!
-  FIXME: write doc
-*/
-
-void
-SoWinPlaneViewer::rightWheelMotion(// virtual
-  float value)
-{
-  this->zoom(this->getRightWheelValue() - value);
-  inherited::rightWheelMotion(value);
-} // rightWheelMotion()
 
 // ************************************************************************
 
