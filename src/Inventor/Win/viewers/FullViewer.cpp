@@ -675,9 +675,14 @@ SoWinFullViewer::setPrefSheetString(const char * name)
   this->prefsheet->setTitle(name);
 }
 
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoWinFullViewer::createPrefSheet(void)
 {
+  // FIXME: this is really not the way to do it, the prefsheet should
+  // actually be constructed from the subclass(es) by piecing it
+  // together from other virtual createPref*() methods. SoXt does the
+  // right thing, look there for reference.  20020529 mortene.
 
   this->prefsheet->create();
 

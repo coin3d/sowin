@@ -215,13 +215,11 @@ SoWinPlaneViewer::onCommand(HWND window,
 
 // ************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-
+// Documented in superclass.
 void
 SoWinPlaneViewer::createPrefSheet(void)
 {
+  SOWIN_STUB();
   inherited::createPrefSheet();
 }
 
