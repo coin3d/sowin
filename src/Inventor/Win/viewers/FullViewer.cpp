@@ -171,7 +171,7 @@ SoWinFullViewer::setDecoration(SbBool enable)
     rect.right -= DECORATION_SIZE * 2;
     rect.bottom -= DECORATION_SIZE;
   }
-  SoWinRenderArea::sizeChanged(SbVec2s(rect.right, rect.bottom));
+  SoWinRenderArea::sizeChanged(SbVec2s((short)rect.right, (short)rect.bottom));
   Win32::InvalidateRect(this->getParentWidget(), NULL, TRUE);
 }
 
@@ -650,7 +650,7 @@ SoWinFullViewer::onCommand(HWND window, UINT message, WPARAM wparam, LPARAM lpar
 LRESULT
 SoWinFullViewer::onMeasureItem(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  UINT id = (UINT) wparam; // control identifier
+  LONG id = (LONG) wparam; // control identifier
   LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT) lparam; // item-size information
 
   for (int i = 0; i < this->appButtonList->getLength(); i++)
@@ -665,7 +665,7 @@ SoWinFullViewer::onMeasureItem(HWND window, UINT message, WPARAM wparam, LPARAM 
 LRESULT
 SoWinFullViewer::onDrawItem(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  UINT id = (UINT) wparam; // control identifier
+  LONG id = (LONG) wparam; // control identifier
   LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT) lparam; // item-drawing information
 
   for (int i = 0; i < this->appButtonList->getLength(); i++)

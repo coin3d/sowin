@@ -805,8 +805,8 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
                                              PUBLIC(this));
 
   this->normalWidget = normalwidget;
-  PUBLIC(this)->setGLSize(SbVec2s(rect.right - rect.left,
-                                  rect.bottom - rect.top));
+  PUBLIC(this)->setGLSize(SbVec2s((short)(rect.right - rect.left),
+                                  (short)(rect.bottom - rect.top)));
 }
 
 void

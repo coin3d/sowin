@@ -150,7 +150,6 @@ SoWinPlaneViewer::onCommand(HWND window,
                             WPARAM wparam,
                             LPARAM lparam)
 {
- int i;
  short nc = HIWORD(wparam);// notification code
  short id = LOWORD(wparam);// item, control, or accelerator identifier
  HWND hwnd = (HWND) lparam;// control handle

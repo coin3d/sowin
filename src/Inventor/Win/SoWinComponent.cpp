@@ -362,8 +362,9 @@ SoWinComponent::setFullScreen(const SbBool enable)
       data->size.setValue(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CXSCREEN));
     }
     else {
-      data->pos.setValue(rect.left, rect.top);
-      data->size.setValue(rect.right - rect.left, rect.bottom - rect.top);
+      data->pos.setValue((short)rect.left, (short)rect.top);
+      data->size.setValue((short)(rect.right - rect.left),
+                          (short)(rect.bottom - rect.top));
     }
     // Go fullscreen.
 
@@ -497,7 +498,8 @@ SoWinComponent::getSize(void) const
 {
   RECT rect;
   Win32::GetWindowRect(this->getParentWidget(), & rect);
-  return SbVec2s(rect.right - rect.left, rect.bottom - rect.top);
+  return SbVec2s((short)(rect.right - rect.left),
+                 (short)(rect.bottom - rect.top));
 }
 
 /*!
