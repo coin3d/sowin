@@ -67,7 +67,7 @@ WinNativePopupMenu::WinNativePopupMenu(void)
 
   this->notify = FALSE;
   this->selectedItem = -1;
-} // WinNativePopupMenu()
+}
 
 WinNativePopupMenu::~WinNativePopupMenu(void)
 {
@@ -79,10 +79,20 @@ WinNativePopupMenu::~WinNativePopupMenu(void)
     if (rec->menuid == 0) popup = rec->menu;
     delete [] rec->name;
     delete [] rec->title;
-    // menu not attached
-    if (rec->parent == NULL) { Win32::DestroyMenu(rec->menu); }
+    // FIXME: the second part of the AND expression was added recently
+    // to avoid a bug with multiple destruction of menu instance. It's
+    // just a quick fix -- look over the rest of the code which
+    // handles MenuRecord instances and see how it can be
+    // fixed/re-designed properly. 20020521 mortene.
+    if ((rec->parent == NULL) &&     // menu not attached
+        (rec->menu != popup)) {
+      Win32::DestroyMenu(rec->menu);
+    }
     delete rec;
   }
+
+  // delete root popup menu
+  if (popup) { Win32::DestroyMenu(popup); }
 
   const int numItems = this->items->getLength();
   for (i = 0; i < numItems; i++) {
@@ -91,10 +101,7 @@ WinNativePopupMenu::~WinNativePopupMenu(void)
     delete [] rec->title;
     delete rec;
   }
-
-  // delete root popup menu
-  delete popup;
-} // ~WinNativePopupMenu()
+}
 
 // *************************************************************************
 
@@ -114,7 +121,7 @@ WinNativePopupMenu::newMenu(const char * name, int menuid)
   rec->menuid = id;
   this->menus->append((void *) rec);
   return id;
-} // newMenu()
+}
 
 int
 WinNativePopupMenu::getMenu(const char * name)
@@ -127,7 +134,7 @@ WinNativePopupMenu::getMenu(const char * name)
     }
   }
   return -1;
-} // getMenu()
+}
 
 void
 WinNativePopupMenu::setMenuTitle(int menuid, const char * title)
@@ -140,7 +147,7 @@ WinNativePopupMenu::setMenuTitle(int menuid, const char * title)
   if (rec->parent)
     Win32::ModifyMenu(rec->parent, rec->menuid, MF_BYPOSITION | MF_STRING, rec->menuid, rec->title);
 
-} // setMenuTitle()
+}
 
 const char *
 WinNativePopupMenu::getMenuTitle(int menuid)
@@ -148,7 +155,7 @@ WinNativePopupMenu::getMenuTitle(int menuid)
   MenuRecord * rec = this->getMenuRecord(menuid);
   assert(rec != NULL && "no such menu");
   return rec->title;
-} // getMenuTitle()
+}
 
 // *************************************************************************
 
@@ -172,7 +179,7 @@ WinNativePopupMenu::newMenuItem(const char * name, int itemid)
   rec->itemid = id;
   this->items->append(rec);
   return id;
-} // newMenuItem()
+}
 
 int
 WinNativePopupMenu::getMenuItem(const char * name)
@@ -183,7 +190,7 @@ WinNativePopupMenu::getMenuItem(const char * name)
     if (strcmp(((ItemRecord *) (* this->items)[i])->name, name) == 0)
       return ((ItemRecord *) (* this->items)[i])->itemid;
   return -1;
-} // getMenuItem()
+}
 
 void
 WinNativePopupMenu::setMenuItemTitle(int itemid, const char * title)
@@ -195,7 +202,7 @@ WinNativePopupMenu::setMenuItemTitle(int itemid, const char * title)
 
   if (rec->parent)
     Win32::ModifyMenu(rec->parent, rec->itemid, MF_BYCOMMAND | MF_STRING, rec->itemid, rec->title);
-} // setMenuItemTitle()
+}
 
 const char *
 WinNativePopupMenu::getMenuItemTitle(int itemid)
@@ -203,7 +210,7 @@ WinNativePopupMenu::getMenuItemTitle(int itemid)
   ItemRecord * rec = this->getItemRecord(itemid);
   assert(rec != NULL && "no such menu");
   return rec->title;
-} // getMenuItemTitle()
+}
 
 void
 WinNativePopupMenu::setMenuItemEnabled(int itemid, SbBool enabled)
@@ -230,7 +237,7 @@ WinNativePopupMenu::setMenuItemEnabled(int itemid, SbBool enabled)
   }
   
   Win32::SetMenuItemInfo(rec->parent, rec->itemid, FALSE, & info);
-} // setMenuItemEnabled()
+}
 
 SbBool
 WinNativePopupMenu::getMenuItemEnabled(int itemid)
@@ -246,7 +253,7 @@ WinNativePopupMenu::getMenuItemEnabled(int itemid)
   //return (menuiteminfo.fState & MFS_ENABLED) ? TRUE : FALSE;
  
   return (rec->flags & ITEM_ENABLED ? TRUE : FALSE);
-} // getMenuItemEnabled()
+}
 
 void
 WinNativePopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
@@ -274,7 +281,7 @@ WinNativePopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
   
   Win32::SetMenuItemInfo(rec->parent, rec->itemid, FALSE, & info);
 
-} // setMenuItemMarked()
+}
 
 SbBool
 WinNativePopupMenu::getMenuItemMarked(int itemid)
@@ -291,7 +298,7 @@ WinNativePopupMenu::getMenuItemMarked(int itemid)
   Win32::GetMenuItemInfo(rec->parent, rec->itemid, FALSE, & info);
 
   return (info.fState & MFS_CHECKED ? TRUE : FALSE);
-} // getMenuItemMarked()
+}
 
 // *************************************************************************
 
@@ -316,7 +323,7 @@ WinNativePopupMenu::addMenu(int menuid, int submenuid, int pos)
   else
     Win32::InsertMenuItem(super->menu, pos, TRUE, & menuiteminfo);
   sub->parent = super->menu;
-} // addMenu()
+}
 
 void
 WinNativePopupMenu::addMenuItem(int menuid, int itemid, int pos)
@@ -330,7 +337,7 @@ WinNativePopupMenu::addMenuItem(int menuid, int itemid, int pos)
   item->parent = menu->menu;
   if (item->flags & ITEM_MARKED)
     Win32::CheckMenuItem(item->parent, item->itemid, MF_BYCOMMAND | MF_CHECKED);
-} // addMenuItem()
+}
 
 void
 WinNativePopupMenu::addSeparator(int menuid, int pos)
@@ -342,7 +349,7 @@ WinNativePopupMenu::addSeparator(int menuid, int pos)
   Win32::InsertMenu(menu->menu, pos, MF_BYPOSITION | MF_SEPARATOR, pos, NULL);
   rec->flags |= ITEM_SEPARATOR;
   this->items->append(rec);
-} // addSeparator()
+}
 
 void
 WinNativePopupMenu::removeMenu(int menuid)
@@ -365,7 +372,7 @@ WinNativePopupMenu::removeMenu(int menuid)
   }
   Win32::RemoveMenu(rec->menu, rec->menuid, MF_BYCOMMAND);
   rec->parent = NULL;
-} // removeMenu()
+}
 
 void
 WinNativePopupMenu::removeMenuItem(int itemid)
@@ -380,7 +387,7 @@ WinNativePopupMenu::removeMenuItem(int itemid)
   }
   Win32::RemoveMenu(rec->parent, rec->itemid, MF_BYCOMMAND);
   rec->parent = NULL;
-} // removeMenuItem()
+}
 
 // *************************************************************************
 
@@ -415,13 +422,13 @@ int
 WinNativePopupMenu::getSelectedItem(void)
 {
  return (this->selectedItem);
-} // getSelectedItem()
+}
 
 void
 WinNativePopupMenu::setNotify(SbBool enable)
 {
  this->notify = enable;
-} // setNotify()
+}
 
 // *************************************************************************
 
@@ -434,7 +441,7 @@ WinNativePopupMenu::getMenuRecord(int menuid)
     if (((MenuRecord *) (* this->menus)[i])->menuid == menuid)
       return (MenuRecord *) (* this->menus)[i];
   return (MenuRecord *) NULL;
-} // getMenuRecord()
+}
 
 ItemRecord *
 WinNativePopupMenu::getItemRecord(int itemid)
@@ -447,7 +454,7 @@ WinNativePopupMenu::getItemRecord(int itemid)
       return (ItemRecord *) (* this->items)[i];
 
   return (ItemRecord *) NULL;
-} // getItemRecord()
+}
 
 // *************************************************************************
 
@@ -461,7 +468,7 @@ WinNativePopupMenu::createMenuRecord(const char * name)
   rec->menu = Win32::CreatePopupMenu();
   rec->parent = NULL;
   return rec;
-} // create()
+}
 
 ItemRecord *
 WinNativePopupMenu::createItemRecord(const char * name)
@@ -473,6 +480,6 @@ WinNativePopupMenu::createItemRecord(const char * name)
   rec->title = strcpy(new char [strlen(name) + 1], name);
   rec->parent = NULL;
   return rec;
-} // create()
+}
 
 // *************************************************************************
