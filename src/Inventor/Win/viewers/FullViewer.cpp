@@ -29,7 +29,6 @@
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
 #include <Inventor/Win/widgets/WinNativePopupMenu.h>
-#include <Inventor/Win/viewers/SoAnyFullViewer.h>
 #include <Inventor/Win/viewers/SoWinFullViewer.h>
 
 // Button icons.
@@ -116,7 +115,6 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
                                   SbBool build) :
   inherited(parent, name, embedded, type, FALSE)
 {
-  this->common = new SoAnyFullViewer(this);
   this->pimpl = new SoWinFullViewerP(this);
   
   PRIVATE(this)->msgHook = NULL;
@@ -630,23 +628,14 @@ SoWinFullViewer::buildViewerButtonsEx(HWND parent, int x, int y, int size)
 void
 SoWinFullViewer::buildPopupMenu(void)
 {
-  this->prefmenu = this->common->setupStandardPopupMenu();
-}
-
-/*!
-  Set a title on the popup menu.
- */
-void
-SoWinFullViewer::setPopupMenuString(const char * name)
-{
-  this->common->setPopupMenuString(name);
+  this->prefmenu = this->setupStandardPopupMenu();
 }
 
 void
 SoWinFullViewer::openPopupMenu(const SbVec2s position)
 {
   assert(this->prefmenu != NULL);
-  this->common->prepareMenu(this->prefmenu);
+  this->prepareMenu(this->prefmenu);
 
   RECT clientrect;
   Win32::GetClientRect(this->renderAreaWidget, &clientrect);
@@ -669,7 +658,7 @@ SoWinFullViewer::displayPopupMenu(int x, int y, HWND owner)
   this->prefmenu->popUp(owner, x, y);
   int selectedItem =  ((WinNativePopupMenu *) this->prefmenu)->getSelectedItem();
   if (selectedItem != 0) { // 0 == no item selected (user aborted)
-    this->common->menuSelection(selectedItem);
+    this->menuSelection(selectedItem);
   }
   //this->popupPostCallback();
   return 0;
@@ -812,13 +801,6 @@ SoWinFullViewer::openViewerHelpCard(void)
   // virtual; do nothing.
 }
 
-SbBool
-SoWinFullViewer::processSoEvent(const SoEvent * const event)
-{
-  return (common->processSoEvent(event) ||
-           inherited::processSoEvent(event));
-}
-
 LRESULT
 SoWinFullViewer::onCommand(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
@@ -940,6 +922,7 @@ SoWinFullViewer::getCameraZoom(void)
 }
 
 // SoAnyFullViewer needs this method to be protected. mariusbu 20010723.
+// FIXME: SoAnyFullViewer now made obsolete. 20020111 mortene.
 void
 SoWinFullViewer::seekbuttonClicked(void)
 {
