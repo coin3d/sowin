@@ -1148,7 +1148,7 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 
 	for( i = 0; i < numAppButtons; i++ )
 		( ( SoWinBitmapButton * )( * this->appButtonList )[i] )->move(
-			LOWORD( lparam ) - DECORATION_SIZE, DECORATION_SIZE * ( i + numViewerButtons ) );
+			0, DECORATION_SIZE * ( i + numViewerButtons ) );
 
 	// Wheels
 	
@@ -1161,7 +1161,7 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 		x = ( DECORATION_SIZE / 2 ) - ( this->leftWheel->sizeHint( ).cx / 2 ) - 1;
 		width = this->leftWheel->sizeHint( ).cx;
 
-		top = DECORATION_BUFFER;
+		top = numAppButtons * DECORATION_SIZE + DECORATION_BUFFER;
 		
 		// if area is large enough for original height
 		if ( ( bottom - top ) > this->leftWheel->sizeHint( ).cy ) {
@@ -1214,7 +1214,7 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 		
 		width = this->rightWheel->sizeHint( ).cx;
 
-		top = ( numViewerButtons + numAppButtons ) * DECORATION_SIZE + DECORATION_BUFFER;
+		top = numViewerButtons * DECORATION_SIZE + DECORATION_BUFFER;
 		
 		// if area is large enough for original height
 		if ( ( bottom - top ) > this->rightWheel->sizeHint( ).cy ) {
@@ -1288,6 +1288,7 @@ SoWinFullViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lpa
 							id, this->appPushButtonData, NULL );
 					break;
 				}
+			//this->unknownCommand( id );
 			break;
 			
 	}
