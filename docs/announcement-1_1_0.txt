@@ -3,16 +3,16 @@ SoWin 1.1.0 Released
 We consider SoWin to be a release-quality codebase now, so we decided
 to make the first interface-stable release. The version number has
 been set to 1.1.0 because this release of SoWin has features not found
-in SoQt 1.0 but which will appear in the future SoQt 1.1.  We want to
-try to keep version numbers and feature sets in sync between the
-various GUI toolkits.
+in SoQt 1.0, but that are in SoXt 1.1 and which will appear in the
+future SoQt 1.1.  We want to try to keep version numbers and feature
+sets synchronized between the various GUI-binding toolkits.
 
 Below follows download instructions.
 
 We will regularly package up new bugfix releases of the SoWin library
 into source code archives for distribution on the FTP site whenever we
-feel this is justified by the number and/or severity the fixed bugs.
-This also goes for updated binary installation packages.
+feel this is justified by the number and/or severity of the fixed
+bugs.  This also goes for updated binary installation packages.
 
 Precompiled for MS Windows:
   In the works, stay tuned.
@@ -26,5 +26,7 @@ Source Code by CVS:
     [password "cvs"]
     cvs -z3 -d :pserver:cvs@cvs.coin3d.org:/export/cvsroot co SoWin
 
+
 Best regards,
-Morten
+Morten Eriksen,
+developer @ Systems in Motion.
