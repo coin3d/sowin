@@ -183,3 +183,21 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     20030610 mortene.
 
 =====================================================================
+
+013 SoWin::init() crashes when called twice.
+
+    To aid when using Coin in special run-time environments, like
+    e.g. inside an ActiveX controller, it should be possible to use
+    the SoWin::init() + SoWin::mainLoop() sequence more than one time
+    without crashing.
+
+    Fixing this will take a bit of a clean-up operation in the two
+    above mentioned functions (plus SoWin::done(), and besides,
+    SoWin::init() comes in 3 different flavors).
+
+    This is a problem of medium priority, IMO. We've had a fair share
+    of external requests to fix this.
+
+    20031012 mortene.
+
+=====================================================================
