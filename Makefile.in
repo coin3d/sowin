@@ -158,6 +158,7 @@ ac_ct_CXX = @ac_ct_CXX@
 ac_ct_F77 = @ac_ct_F77@
 ac_ct_RANLIB = @ac_ct_RANLIB@
 ac_ct_STRIP = @ac_ct_STRIP@
+ac_unique_file = @ac_unique_file@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__fastdepCXX_FALSE = @am__fastdepCXX_FALSE@
@@ -199,6 +200,8 @@ sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
 sim_ac_hhc_exe = @sim_ac_hhc_exe@
 sim_ac_makensis_exe = @sim_ac_makensis_exe@
 sim_ac_perl_exe = @sim_ac_perl_exe@
+sim_ac_relative_src_dir = @sim_ac_relative_src_dir@
+sim_ac_relative_src_dir_p = @sim_ac_relative_src_dir_p@
 sogui_build_dir = @sogui_build_dir@
 sogui_html_dir = @sogui_html_dir@
 sogui_html_help_dir = @sogui_html_help_dir@
@@ -626,6 +629,7 @@ DISTCLEANFILES = \
 EXTRA_DIST = \
 	LICENSE.GPL \
 	cfg/sowin.m4 \
+	cfg/gendsp.sh.in \
 	docs/ChangeLog.v1.0.0 \
 	docs/ChangeLog.v1.2.0 \
 	docs/announcement-1_1_0.txt \
@@ -643,7 +647,7 @@ subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
-CONFIG_CLEAN_FILES = sowin-$CONFIG.cfg
+CONFIG_CLEAN_FILES = sowin-$CONFIG.cfg cfg/gendsp.sh
 SCRIPTS = $(bin_SCRIPTS)
 
 DIST_SOURCES =
@@ -684,6 +688,8 @@ $(srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(srcdir)/configure.ac $(ACLOCAL_M4)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.ac 
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 sowin-$CONFIG.cfg: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Win/common/sogui.cfg.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+cfg/gendsp.sh: $(top_builddir)/config.status $(top_srcdir)/cfg/gendsp.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
 install-binSCRIPTS: $(bin_SCRIPTS)

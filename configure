@@ -309,7 +309,7 @@ else
   lt_save_ifs="$IFS"; IFS=$PATH_SEPARATOR
   for dir in $PATH /usr/ucb; do
     IFS="$lt_save_ifs"
-    if (test -f "$dir/echo" || test -f "$dir/echo$ac_exeext") &&
+    if (test -f $dir/echo || test -f $dir/echo$ac_exeext) &&
        test "X`($dir/echo '\t') 2>/dev/null`" = 'X\t' &&
        echo_testing_string=`($dir/echo "$echo_test_string") 2>/dev/null` &&
        test "X$echo_testing_string" = "X$echo_test_string"; then
@@ -430,10 +430,10 @@ ac_unique_file="src/Inventor/Win/SoWin.cpp"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
-#ifdef HAVE_SYS_TYPES_H
+#if HAVE_SYS_TYPES_H
 # include <sys/types.h>
 #endif
-#ifdef HAVE_SYS_STAT_H
+#if HAVE_SYS_STAT_H
 # include <sys/stat.h>
 #endif
 #if STDC_HEADERS
@@ -444,27 +444,27 @@ ac_includes_default="\
 #  include <stdlib.h>
 # endif
 #endif
-#ifdef HAVE_STRING_H
-# if !STDC_HEADERS && defined(HAVE_MEMORY_H)
+#if HAVE_STRING_H
+# if !STDC_HEADERS && HAVE_MEMORY_H
 #  include <memory.h>
 # endif
 # include <string.h>
 #endif
-#ifdef HAVE_STRINGS_H
+#if HAVE_STRINGS_H
 # include <strings.h>
 #endif
-#ifdef HAVE_INTTYPES_H
+#if HAVE_INTTYPES_H
 # include <inttypes.h>
 #else
 # if HAVE_STDINT_H
 #  include <stdint.h>
 # endif
 #endif
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os BUILD_WITH_MSVC SOWIN_MAJOR_VERSION SOWIN_MINOR_VERSION SOWIN_MICRO_VERSION SOWIN_VERSION LT_CURRENT LT_REVISION LT_AGE sowin_build_dir sowin_src_dir sowin_w32_build_dir sowin_w32_src_dir CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CPP CXX CXXFLAGS ac_ct_CXX CXXCPP SOGUI_MSVC_LIBC INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB F77 FFLAGS ac_ct_F77 LIBTOOL SOGUI_EXTRA_CPPFLAGS SOGUI_EXTRA_CFLAGS SOGUI_EXTRA_CXXFLAGS SOGUI_EXTRA_LDFLAGS SOGUI_EXTRA_LIBS DSUFFIX Gui gui GUI WIDGET EVENT COMPONENTHEADER sim_ac_makensis_exe CONFIG SUFFIX MAC_FRAMEWORK_TRUE MAC_FRAMEWORK_FALSE htmldir htmlhelpdir SOGUI_DOC_HTML SOGUI_DOC_MAN SOGUI_DOC_HTML_HELP sogui_build_dir sogui_src_dir sogui_html_dir sogui_html_help_dir sogui_man_dir BUILD_MANPAGES_TRUE BUILD_MANPAGES_FALSE BUILD_HTMLPAGES_TRUE BUILD_HTMLPAGES_FALSE BUILD_HTMLHELP_TRUE BUILD_HTMLHELP_FALSE sim_ac_hhc_exe sim_ac_doxygen_exe sim_ac_perl_exe path_tag SOGUI_MAJOR_VERSION BUILD_LIBRARY_TRUE BUILD_LIBRARY_FALSE BUILD_IVF_TRUE BUILD_IVF_FALSE BUILD_METAFILES_TRUE BUILD_METAFILES_FALSE HAVE_JOYSTICK_LINUX_TRUE HAVE_JOYSTICK_LINUX_FALSE sim_ac_coin_configcmd LIBFLAGS BUILD_WITH_MSVC_TRUE BUILD_WITH_MSVC_FALSE win_srcdir sowin_configure_date COIN_COMPILER SOWIN_DSP_LIBS SOWIN_DSP_INCS SOWIN_DSP_DEFS LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os BUILD_WITH_MSVC SOWIN_MAJOR_VERSION SOWIN_MINOR_VERSION SOWIN_MICRO_VERSION SOWIN_VERSION LT_CURRENT LT_REVISION LT_AGE ac_unique_file sim_ac_relative_src_dir sim_ac_relative_src_dir_p sowin_build_dir sowin_src_dir sowin_w32_build_dir sowin_w32_src_dir CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CPP CXX CXXFLAGS ac_ct_CXX CXXCPP SOGUI_MSVC_LIBC INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB F77 FFLAGS ac_ct_F77 LIBTOOL SOGUI_EXTRA_CPPFLAGS SOGUI_EXTRA_CFLAGS SOGUI_EXTRA_CXXFLAGS SOGUI_EXTRA_LDFLAGS SOGUI_EXTRA_LIBS DSUFFIX Gui gui GUI WIDGET EVENT COMPONENTHEADER sim_ac_makensis_exe CONFIG SUFFIX MAC_FRAMEWORK_TRUE MAC_FRAMEWORK_FALSE htmldir htmlhelpdir SOGUI_DOC_HTML SOGUI_DOC_MAN SOGUI_DOC_HTML_HELP sogui_build_dir sogui_src_dir sogui_html_dir sogui_html_help_dir sogui_man_dir BUILD_MANPAGES_TRUE BUILD_MANPAGES_FALSE BUILD_HTMLPAGES_TRUE BUILD_HTMLPAGES_FALSE BUILD_HTMLHELP_TRUE BUILD_HTMLHELP_FALSE sim_ac_hhc_exe sim_ac_doxygen_exe sim_ac_perl_exe path_tag SOGUI_MAJOR_VERSION BUILD_LIBRARY_TRUE BUILD_LIBRARY_FALSE BUILD_IVF_TRUE BUILD_IVF_FALSE BUILD_METAFILES_TRUE BUILD_METAFILES_FALSE HAVE_JOYSTICK_LINUX_TRUE HAVE_JOYSTICK_LINUX_FALSE sim_ac_coin_configcmd LIBFLAGS BUILD_WITH_MSVC_TRUE BUILD_WITH_MSVC_FALSE win_srcdir sowin_configure_date COIN_COMPILER SOWIN_DSP_LIBS SOWIN_DSP_INCS SOWIN_DSP_DEFS LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -479,7 +479,7 @@ no_recursion=
 prefix=NONE
 program_prefix=NONE
 program_suffix=NONE
-program_transform_name=s%x%x%
+program_transform_name=s,x,x,
 silent=
 site=
 srcdir=
@@ -1139,8 +1139,8 @@ esac
 # absolute.
 ac_abs_builddir=`cd "$ac_dir" && cd $ac_builddir && pwd`
 ac_abs_top_builddir=`cd "$ac_dir" && cd ${ac_top_builddir}. && pwd`
-ac_abs_srcdir=`test -d "$ac_dir"/$ac_srcdir && cd "$ac_dir" && cd $ac_srcdir && pwd`
-ac_abs_top_srcdir=`test -d "$ac_dir"/$ac_top_srcdir && cd "$ac_dir" && cd $ac_top_srcdir && pwd`
+ac_abs_srcdir=`cd "$ac_dir" && cd $ac_srcdir && pwd`
+ac_abs_top_srcdir=`cd "$ac_dir" && cd $ac_top_srcdir && pwd`
 
     cd $ac_dir
     # Check for guested configure; otherwise get Cygnus style configure.
@@ -1633,7 +1633,7 @@ target_os=`echo $ac_cv_target | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
 # will get canonicalized.
 test -n "$target_alias" &&
   test "$program_prefix$program_suffix$program_transform_name" = \
-    NONENONEs%x%x% &&
+    NONENONEs,x,x, &&
   program_prefix=${target_alias}-
 
 
@@ -1817,6 +1817,64 @@ sowin_build_dir=`pwd`
 sowin_src_dir=`cd "$srcdir"; pwd`
 sowin_w32_build_dir=`cygpath -w "$sowin_build_dir" 2>/dev/null || echo "$sowin_build_dir"`
 sowin_w32_src_dir=`cygpath -w "$sowin_src_dir" 2>/dev/null || echo "$sowin_src_dir"`
+
+
+
+temp_build_dir=`pwd`
+temp_src_dir=`cd "$srcdir"; pwd`
+
+temp_up=""
+temp_down=""
+
+while test "$temp_build_dir" != "$temp_src_dir"; do
+  srclen=`echo "$temp_src_dir" | wc -c`
+  buildlen=`echo "$temp_build_dir" | wc -c`
+  if test $srclen -gt $buildlen; then
+    # cut source tail, insert into temp_up
+    temp_src_tail=`echo "$temp_src_dir" | sed -e 's,.*/,,g'`
+    temp_src_dir=`echo "$temp_src_dir" | sed -e 's,/[^/]*\$,,g'`
+    if test x"$temp_up" = "x"; then
+      temp_up="$temp_src_tail"
+    else
+      temp_up="$temp_src_tail/$temp_up"
+    fi
+  else
+    # cut build tail, increase temp_down
+    temp_build_dir=`echo "$temp_build_dir" | sed -e 's,/[^/]*\$,,g'`
+    if test x"$temp_down" = "x"; then
+      temp_down=..
+    else
+      temp_down="../$temp_down"
+    fi
+  fi
+done
+
+if test x"$temp_down" = "x"; then
+  if test x"$temp_up" = "x"; then
+    sim_ac_relative_src_dir="."
+  else
+    sim_ac_relative_src_dir="$temp_up"
+  fi
+else
+  if test x"$temp_up" = "x"; then
+    sim_ac_relative_src_dir="$temp_down"
+  else
+    sim_ac_relative_src_dir="$temp_down/$temp_up"
+  fi
+fi
+
+# this gives false positives on windows, but that's ok for now...
+if test -f $sim_ac_relative_src_dir/$ac_unique_file; then
+  sim_ac_relative_src_dir_p=true;
+else
+  sim_ac_relative_src_dir_p=false;
+fi
+
+ # useful to have to check the relative path
+
+
+
+
 
 
 
@@ -3727,9 +3785,9 @@ test "$program_prefix" != NONE &&
 test "$program_suffix" != NONE &&
   program_transform_name="s,\$,$program_suffix,;$program_transform_name"
 # Double any \ or $.  echo might interpret backslashes.
-# By default was `s%x%x%', remove it if useless.
+# By default was `s,x,x', remove it if useless.
 cat <<\_ACEOF >conftest.sed
-s/[\\$]/&&/g;s/;s%x%x%$//
+s/[\\$]/&&/g;s/;s,x,x,$//
 _ACEOF
 program_transform_name=`echo $program_transform_name | sed -f conftest.sed`
 rm conftest.sed
@@ -4816,7 +4874,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 4819 "configure"' > conftest.$ac_ext
+  echo '#line 4877 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5427,7 +5485,7 @@ fi
 
 
 # Provide some information about the compiler.
-echo "$as_me:5430:" \
+echo "$as_me:5488:" \
      "checking for Fortran 77 compiler version" >&5
 ac_compiler=`set X $ac_compile; echo $2`
 { (eval echo "$as_me:$LINENO: \"$ac_compiler --version </dev/null >&5\"") >&5
@@ -5589,12 +5647,6 @@ else
     lt_cv_sys_max_cmd_len=8192;
     ;;
 
-  mks*)
-    # this test is apparently horribly slow on MKS systems (and results
-    # in 1024, while 8192 should work fine).  We therefore just set it
-    # directly, as for cygwin/mingw...
-    lt_cv_sys_max_cmd_len=8192;
-    ;;
  *)
     # If test is not a shell built-in, we'll probably end up computing a
     # maximum length that is only half of the actual maximum length, but
@@ -6438,11 +6490,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6441: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6493: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:6445: \$? = $ac_status" >&5
+   echo "$as_me:6497: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -6670,11 +6722,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6673: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6725: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:6677: \$? = $ac_status" >&5
+   echo "$as_me:6729: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -6737,11 +6789,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6740: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6792: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:6744: \$? = $ac_status" >&5
+   echo "$as_me:6796: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -8749,7 +8801,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 8752 "configure"
+#line 8804 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -8847,7 +8899,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 8850 "configure"
+#line 8902 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -9518,7 +9570,7 @@ echo "$as_me: WARNING: using \`LTCC=$LTCC', extracted from \`$ofile'" >&2;}
 
   # Extract list of available tagged configurations in $ofile.
   # Note that this assumes the entire list is on one line.
-  available_tags=`grep "^available_tags=" "${ofile}" | $SED -e 's/\"//g' -e 's/^available_tags= *//'`
+  available_tags=`grep "^available_tags=" "${ofile}" | $SED -e 's/available_tags=\(.*$\)/\1/' -e 's/\"//g'`
 
   lt_save_ifs="$IFS"; IFS="${IFS}$PATH_SEPARATOR,"
   for tagname in $tagnames; do
@@ -9624,7 +9676,7 @@ test -z "${LDCXX+set}" || LD=$LDCXX
 CC=${CXX-"c++"}
 compiler=$CC
 compiler_CXX=$CC
-cc_basename=`$echo X"$compiler" | $Xsed -e 's%^.*/%%' -e 's% \t*$%%'`
+cc_basename=`$echo X"$compiler" | $Xsed -e 's%^.*/%%'`
 
 # We don't want -fno-exception wen compiling C++ code, so set the
 # no_builtin_flag separately
@@ -10178,9 +10230,7 @@ if test -z "$aix_libpath"; then aix_libpath="/usr/lib:/lib"; fi
 	  archive_cmds_CXX='$LD -b +h $soname -o $lib $linker_flags $libobjs $deplibs'
 	  ;;
 	*)
-	# larsa 2003-08-07 - added "${wl}-a,shared"
-	# _LT_AC_TAGVAR(archive_cmds, CXX)='$CC -b ${wl}+h ${wl}$soname ${wl}+b ${wl}$install_libdir -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags'
-	  archive_cmds_CXX='$CC -b ${wl}+h ${wl}$soname ${wl}+b ${wl}$install_libdir -o $lib ${wl}-a,shared $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags'
+	  archive_cmds_CXX='$CC -b ${wl}+h ${wl}$soname ${wl}+b ${wl}$install_libdir -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags'
 	  ;;
 	esac
 	# Commands to make compiler produce verbose output that lists
@@ -10981,11 +11031,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:10984: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:11034: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:10988: \$? = $ac_status" >&5
+   echo "$as_me:11038: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -11048,11 +11098,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:11051: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:11101: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:11055: \$? = $ac_status" >&5
+   echo "$as_me:11105: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -12291,7 +12341,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12294 "configure"
+#line 12344 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12389,7 +12439,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12392 "configure"
+#line 12442 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -13211,11 +13261,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13214: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13264: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13218: \$? = $ac_status" >&5
+   echo "$as_me:13268: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -13278,11 +13328,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13281: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13331: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:13285: \$? = $ac_status" >&5
+   echo "$as_me:13335: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -15218,11 +15268,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15221: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15271: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:15225: \$? = $ac_status" >&5
+   echo "$as_me:15275: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -15450,11 +15500,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15453: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15503: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:15457: \$? = $ac_status" >&5
+   echo "$as_me:15507: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -15517,11 +15567,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15520: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15570: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:15524: \$? = $ac_status" >&5
+   echo "$as_me:15574: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -17529,7 +17579,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 17532 "configure"
+#line 17582 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -17627,7 +17677,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 17630 "configure"
+#line 17680 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -21121,6 +21171,7 @@ fi
 echo "$as_me:$LINENO: result: $sim_cv_coin_avail" >&5
 echo "${ECHO_T}$sim_cv_coin_avail" >&6
     sim_ac_coin_avail=$sim_cv_coin_avail
+
     if $sim_ac_coin_avail; then :; else
       { echo "$as_me:$LINENO: WARNING:
 Compilation and/or linking with the Coin main library SDK failed, for
@@ -21142,12 +21193,98 @@ describing the situation where this failed.
 " >&2;}
     fi
   else # no 'coin-config' found
-    locations=`IFS="${sim_ac_pathsep}"; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
-    { echo "$as_me:$LINENO: WARNING: cannot find 'coin-config' at any of these locations:
+
+# FIXME: test for Coin without coin-config script here
+    if test x"$COINDIR" != x""; then
+      sim_ac_coindir=`cygpath -u "$COINDIR" 2>/dev/null || echo "$COINDIR"`
+      if test -d $sim_ac_coindir/bin && test -d $sim_ac_coindir/lib && test -d $sim_ac_coindir/include/Inventor; then
+        # using newest version (last alphabetically) in case of multiple libs
+        sim_ac_coin_lib_file=`echo $sim_ac_coindir/lib/coin*.lib | sed -e 's,.* ,,g'`
+        if test -f $sim_ac_coin_lib_file; then
+          sim_ac_coin_lib_name=`echo $sim_ac_coin_lib_file | sed -e 's,.*/,,g' -e 's,.lib,,'`
+          sim_ac_save_cppflags=$CPPFLAGS
+          sim_ac_save_libs=$LIBS
+          sim_ac_save_ldflags=$LDFLAGS
+          CPPFLAGS="$CPPFLAGS -I$sim_ac_coindir/include"
+          if test -f $sim_ac_coindir/bin/$sim_ac_coin_lib_name.dll; then
+            CPPFLAGS="$CPPFLAGS -DCOIN_DLL"
+          fi
+          LDFLAGS="$LDFLAGS -L$sim_ac_coindir/lib"
+          LIBS="-l$sim_ac_coin_lib_name -lopengl32 $LIBS"
+
+          ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+          cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <Inventor/SoDB.h>
+int
+main ()
+{
+SoDB::init();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  sim_cv_coin_avail=true
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+sim_cv_coin_avail=false
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+
+          ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+          CPPFLAGS=$sim_ac_save_cppflags
+          LDFLAGS=$sim_ac_save_ldflags
+          LIBS=$sim_ac_save_libs
+          sim_ac_coin_avail=$sim_cv_coin_avail
+        fi
+      fi
+    fi
+
+    if $sim_ac_coin_avail; then
+      sim_ac_coin_cppflags=-I$sim_ac_coindir/include
+      if test -f $sim_ac_coindir/bin/$sim_ac_coin_lib_name.dll; then
+        sim_ac_coin_cppflags="$sim_ac_coin_cppflags -DCOIN_DLL"
+      fi
+      sim_ac_coin_ldflags=-L$sim_ac_coindir/lib
+      sim_ac_coin_libs="-l$sim_ac_coin_lib_name -lopengl32"
+      sim_ac_coin_datadir=$sim_ac_coindir/data
+    else
+      locations=`IFS="${sim_ac_pathsep}"; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
+      { echo "$as_me:$LINENO: WARNING: cannot find 'coin-config' at any of these locations:
 $locations" >&5
 echo "$as_me: WARNING: cannot find 'coin-config' at any of these locations:
 $locations" >&2;}
-    { echo "$as_me:$LINENO: WARNING:
+      { echo "$as_me:$LINENO: WARNING:
 Need to be able to run 'coin-config' to figure out how to build and link
 against the Coin library. To rectify this problem, you most likely need
 to a) install Coin if it has not been installed, b) add the Coin install
@@ -21159,6 +21296,7 @@ against the Coin library. To rectify this problem, you most likely need
 to a) install Coin if it has not been installed, b) add the Coin install
 bin/ directory to your PATH environment variable.
 " >&2;}
+    fi
   fi
 fi
 
@@ -21886,9 +22024,9 @@ fi
     esac
   done
 
-  CC=$sowin_src_dir/cfg/gendsp.sh
-  CXX=$sowin_src_dir/cfg/gendsp.sh
-  CXXLD=$sowin_src_dir/cfg/gendsp.sh
+  CC=$sowin_build_dir/cfg/gendsp.sh
+  CXX=$sowin_build_dir/cfg/gendsp.sh
+  CXXLD=$sowin_build_dir/cfg/gendsp.sh
   # Yes, this is totally bogus stuff, but don't worry about it.  As long
   # as gendsp.sh recognizes it...  20030219 larsa
   CPPFLAGS="$CPPFLAGS -Ddspfile=$sowin_build_dir/sowin$SOWIN_MAJOR_VERSION.dsp"
@@ -21897,8 +22035,8 @@ fi
 
   # this can't be set up at the point the libtool script is generated
   mv libtool libtool.bak
-  sed -e "s%^CC=\"gcc\"%CC=\"$sowin_src_dir/cfg/gendsp.sh\"%" \
-      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"$sowin_src_dir/cfg/gendsp.sh\"%" \
+  sed -e "s%^CC=\"gcc\"%CC=\"$sowin_build_dir/cfg/gendsp.sh\"%" \
+      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"$sowin_build_dir/cfg/gendsp.sh\"%" \
       <libtool.bak >libtool
   rm -f libtool.bak
   chmod 755 libtool
@@ -21924,7 +22062,7 @@ fi
 # script -- not just from the Makefile -- as the data/configure script
 # depends on it. (data/configure is temporarily disabled, BTW, but anyway..)
 
-                                                                                                                                                                          ac_config_files="$ac_config_files sowin-$CONFIG.cfg:src/Inventor/Win/common/sogui.cfg.in Makefile src/Makefile src/Ivf/Makefile src/Inventor/Makefile src/Inventor/Win/Makefile src/Inventor/Win/devices/Makefile src/Inventor/Win/editors/Makefile src/Inventor/Win/engines/Makefile src/Inventor/Win/nodes/Makefile src/Inventor/Win/widgets/Makefile src/Inventor/Win/viewers/Makefile man/Makefile man/man1/Makefile man/man3/Makefile html/Makefile htmlhelp/Makefile"
+                                                                                                                                                                                    ac_config_files="$ac_config_files sowin-$CONFIG.cfg:src/Inventor/Win/common/sogui.cfg.in Makefile src/Makefile src/Ivf/Makefile src/Inventor/Makefile src/Inventor/Win/Makefile src/Inventor/Win/devices/Makefile src/Inventor/Win/editors/Makefile src/Inventor/Win/engines/Makefile src/Inventor/Win/nodes/Makefile src/Inventor/Win/widgets/Makefile src/Inventor/Win/viewers/Makefile man/Makefile man/man1/Makefile man/man3/Makefile html/Makefile htmlhelp/Makefile cfg/gendsp.sh"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -22567,6 +22705,7 @@ do
   "man/man3/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/man3/Makefile" ;;
   "html/Makefile" ) CONFIG_FILES="$CONFIG_FILES html/Makefile" ;;
   "htmlhelp/Makefile" ) CONFIG_FILES="$CONFIG_FILES htmlhelp/Makefile" ;;
+  "cfg/gendsp.sh" ) CONFIG_FILES="$CONFIG_FILES cfg/gendsp.sh" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
   "src/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS src/config.h" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
@@ -22674,6 +22813,9 @@ s,@SOWIN_VERSION@,$SOWIN_VERSION,;t t
 s,@LT_CURRENT@,$LT_CURRENT,;t t
 s,@LT_REVISION@,$LT_REVISION,;t t
 s,@LT_AGE@,$LT_AGE,;t t
+s,@ac_unique_file@,$ac_unique_file,;t t
+s,@sim_ac_relative_src_dir@,$sim_ac_relative_src_dir,;t t
+s,@sim_ac_relative_src_dir_p@,$sim_ac_relative_src_dir_p,;t t
 s,@sowin_build_dir@,$sowin_build_dir,;t t
 s,@sowin_src_dir@,$sowin_src_dir,;t t
 s,@sowin_w32_build_dir@,$sowin_w32_build_dir,;t t
@@ -22841,7 +22983,6 @@ _ACEOF
 cat >>$CONFIG_STATUS <<\_ACEOF
 for ac_file in : $CONFIG_FILES; do test "x$ac_file" = x: && continue
   # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
-  true # MKS oddity
   case $ac_file in
   - | *:- | *:-:* ) # input from stdin
         cat >$tmp/stdin
@@ -22919,8 +23060,8 @@ esac
 # absolute.
 ac_abs_builddir=`cd "$ac_dir" && cd $ac_builddir && pwd`
 ac_abs_top_builddir=`cd "$ac_dir" && cd ${ac_top_builddir}. && pwd`
-ac_abs_srcdir=`test -d "$ac_dir"/$ac_srcdir && cd "$ac_dir" && cd $ac_srcdir && pwd`
-ac_abs_top_srcdir=`test -d "$ac_dir"/$ac_top_srcdir && cd "$ac_dir" && cd $ac_top_srcdir && pwd`
+ac_abs_srcdir=`cd "$ac_dir" && cd $ac_srcdir && pwd`
+ac_abs_top_srcdir=`cd "$ac_dir" && cd $ac_top_srcdir && pwd`
 
 
   case $INSTALL in
@@ -23022,7 +23163,6 @@ ac_uD=',;t'
 
 for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
-  true # MKS oddity
   case $ac_file in
   - | *:- | *:-:* ) # input from stdin
         cat >$tmp/stdin
@@ -23294,8 +23434,8 @@ esac
 # absolute.
 ac_abs_builddir=`cd "$ac_dir" && cd $ac_builddir && pwd`
 ac_abs_top_builddir=`cd "$ac_dir" && cd ${ac_top_builddir}. && pwd`
-ac_abs_srcdir=`test -d "$ac_dir"/$ac_srcdir && cd "$ac_dir" && cd $ac_srcdir && pwd`
-ac_abs_top_srcdir=`test -d "$ac_dir"/$ac_top_srcdir && cd "$ac_dir" && cd $ac_top_srcdir && pwd`
+ac_abs_srcdir=`cd "$ac_dir" && cd $ac_srcdir && pwd`
+ac_abs_top_srcdir=`cd "$ac_dir" && cd $ac_top_srcdir && pwd`
 
 
   { echo "$as_me:$LINENO: executing $ac_dest commands" >&5
@@ -23425,6 +23565,10 @@ if test "$no_create" != yes; then
   $ac_cs_success || { (exit 1); exit 1; }
 fi
 
+
+if test -f cfg/gendsp.sh; then
+  chmod +x cfg/gendsp.sh
+fi
 
 
 if test x"${sim_ac_configuration_settings+set}" = x"set"; then

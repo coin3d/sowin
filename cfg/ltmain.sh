@@ -56,7 +56,7 @@ modename="$progname"
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5
-TIMESTAMP=" (1.1220.2.1 2003/04/14 22:48:00)"
+TIMESTAMP=" (1.1220 2003/04/05 19:32:58)"
 
 default_mode=
 help="Try \`$progname --help' for more information."
@@ -95,9 +95,6 @@ fi
 
 # Make sure IFS has a sensible default
 : ${IFS=" 	"}
-
-# Make sure MKS sh doesn't run case/esac switches in case-insensitive mode
-DUALCASE=1
 
 if test "$build_libtool_libs" != yes && test "$build_old_libs" != yes; then
   $echo "$modename: not configured to build any kind of library" 1>&2
@@ -215,7 +212,6 @@ do
   fi
 
   # Have we seen a non-optional argument yet?
-  true # MKS weirdness
   case $arg in
   --help)
     show_help=yes
@@ -393,7 +389,6 @@ if test -z "$show_help"; then
 	;;
 
       normal )
-	true # MKS weirdness
 	# Accept any command-line options.
 	case $arg in
 	-o)
@@ -536,7 +531,6 @@ if test -z "$show_help"; then
 	  if grep "^# ### BEGIN LIBTOOL TAG CONFIG: $z$" < "$0" > /dev/null; then
 	    # Evaluate the configuration.
 	    eval "`${SED} -n -e '/^# ### BEGIN LIBTOOL TAG CONFIG: '$z'$/,/^# ### END LIBTOOL TAG CONFIG: '$z'$/p' < $0`"
-	    true # MKS weirdness
 	    case "$base_compile " in
 	    "$CC "* | " $CC "* | "`$echo $CC` "* | " `$echo $CC` "*)
 	      # The compiler in the base compile command matches
@@ -1641,7 +1635,6 @@ EOF
 	  if grep "^# ### BEGIN LIBTOOL TAG CONFIG: $z$" < "$0" > /dev/null; then
 	    # Evaluate the configuration.
 	    eval "`${SED} -n -e '/^# ### BEGIN LIBTOOL TAG CONFIG: '$z'$/,/^# ### END LIBTOOL TAG CONFIG: '$z'$/p' < $0`"
-	    true # MKS weirdness
 	    case $base_compile in
 	    "$CC "* | " $CC "* | "`$echo $CC` "* | " `$echo $CC` "*)
 	      # The compiler in $compile_command matches
