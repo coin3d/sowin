@@ -57,7 +57,7 @@ cfgdata_DATA = so@gui@-@CONFIG@.cfg
 endif
 
 EXTRA_DIST = \
-	LICENSE.LGPL \
+	LICENSE.GPL \
 	bootstrap \
 	cfg/m4/check_dl.m4 \
 	cfg/m4/check_inventor.m4 \

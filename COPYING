@@ -1,5 +1,5 @@
-SoWin is released publicly under the GNU Lesser General Public
-License, version 2.1.  See the file LICENSE.LGPL for all the details.
+SoWin is released publicly under the GNU General Public License ("GPL"
+for short).
 
 A Professional Edition License can also be purchased for the SoWin
 library from Systems in Motion. The benefits of this includes
@@ -8,4 +8,4 @@ SoWin in any product for any purpose (except constructing a directly
 competing product with SoWin itself).
 
 See <URL:http://www.coin3d.org> for more information, or mail us at
-<mail:coin-support@coin3d.org>.
+<coin-support@coin3d.org>.
