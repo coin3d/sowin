@@ -1,6 +1,11 @@
 #ifndef IVF_COMPONENT_H
 #define IVF_COMPONENT_H
 
+class SoNode;
+class SoCamera;
+class SoGLRenderAction;
+class SoSceneManager;
+
 #include <Ivf/IvfBasic.h>
 
 #include <IvfEnterScope.h>
