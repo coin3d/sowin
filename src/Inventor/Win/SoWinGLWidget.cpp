@@ -273,20 +273,20 @@ SoWinGLWidget::setNormalVisual(PIXELFORMATDESCRIPTOR * vis)
   assert(vis != NULL);
   assert(PRIVATE(this)->hdcNormal != NULL);
 
+  // FIXME: just overwriting the current format is not a good idea, in
+  // case the new format doesn't work on our current display. 20011208 mortene.
   (void)memcpy((& PRIVATE(this)->pfdNormal), vis,
                 sizeof(PIXELFORMATDESCRIPTOR));
+
   int format = SoWinGLWidgetP::ChoosePixelFormat(PRIVATE(this)->hdcNormal, vis);
   if (format == 0) { return; }
 
   this->setPixelFormat(format);
-  // FIXME: I think we're supposed to use this explicitly set
-  // pixelformat for constructing the OpenGL context device. Looks
-  // like this is not done. 20010924 mortene.
-} // setNormalVisual()
+}
 
 /*!
  */
-PIXELFORMATDESCRIPTOR *
+PIXELFORMATDESCRIPTOR * // FIXME: shouldn't this return value be const? 20011208 mortene.
 SoWinGLWidget::getNormalVisual(void)
 {
   return (& PRIVATE(this)->pfdNormal);
@@ -301,6 +301,8 @@ SoWinGLWidget::setOverlayVisual(PIXELFORMATDESCRIPTOR * vis)
   assert(vis != NULL);
   assert(PRIVATE(this)->hdcNormal != NULL);
   
+  // FIXME: just overwriting the current format is not a good idea, in
+  // case the new format doesn't work on our current display. 20011208 mortene.
   (void)memcpy((& PRIVATE(this)->pfdOverlay), vis,
                 sizeof(PIXELFORMATDESCRIPTOR));
   
@@ -308,15 +310,13 @@ SoWinGLWidget::setOverlayVisual(PIXELFORMATDESCRIPTOR * vis)
   if (format == 0) { return; }
 
   this->setPixelFormat(format);
-  // FIXME: I think we're supposed to use this explicitly set
-  // pixelformat for constructing the overlay OpenGL context
-  // device. This is not done (overlays aren't supported yet
-  // either). 20010924 mortene.
-} // setOverlayVisual()
+  // FIXME: AFAICS, setPixelFormat() only takes care of the _normal_
+  // OpenGL context / canvas, *not* the overlay context. 20011208 mortene.
+}
 
 /*!
  */
-PIXELFORMATDESCRIPTOR *
+PIXELFORMATDESCRIPTOR * // FIXME: shouldn't this return value be const? 20011208 mortene.
 SoWinGLWidget::getOverlayVisual(void)
 {
   return (& PRIVATE(this)->pfdOverlay);
@@ -328,7 +328,7 @@ void
 SoWinGLWidget::setPixelFormat(int format)
 {
   BOOL ok = SetPixelFormat(PRIVATE(this)->hdcNormal, format,
-                            &PRIVATE(this)->pfdNormal);
+                           &PRIVATE(this)->pfdNormal);
   if (!ok) {
     DWORD dummy;
     SbString err = Win32::getWin32Err(dummy);
@@ -339,10 +339,16 @@ SoWinGLWidget::setPixelFormat(int format)
     SoDebugError::postWarning("SoWinGLWidget::setPixelFormat", s.getString());
   }
 
-  // FIXME: I think we're supposed to use this explicitly set
-  // pixelformat for constructing the OpenGL context device. Looks
-  // like this is not done. 20010924 mortene.
-} // setPixelFormat()
+  // FIXME: does this function actually work as expected?
+  // Test. 20011208 mortene.
+
+  // FIXME: we should make sure we are robust if a non-supported
+  // pixelformat is attempted set -- ie, the "old" format is continued
+  // used. 20011208 mortene.
+
+  // FIXME: on success, we need to update the glModes flags according
+  // to the properties of the new format. 20011208 mortene.
+}
 
 /*!
  */
@@ -1062,6 +1068,9 @@ SoWinGLWidgetP::createGLContext(HWND window)
     SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
     return FALSE;
   }
+
+  // FIXME: if the pixelformat set up is _not_ an RGB (truecolor)
+  // format, we should probably set up a DC palette here. 20011208 mortene.
   
   this->ctxNormal = wglCreateContext(this->hdcNormal);
   if (! this->ctxNormal) {
