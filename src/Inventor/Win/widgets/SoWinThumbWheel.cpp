@@ -17,9 +17,6 @@
  *
  **************************************************************************/
 
-static const char rcsid[] =
-"$Id$";
-
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoAnyThumbWheel.h>
 #include <Inventor/Win/SoWin.h>
