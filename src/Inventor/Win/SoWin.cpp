@@ -143,9 +143,9 @@ SoWin::internal_init(int & argc, char ** argv,
                      const char * appname, const char * classname)
 {
   if (appname)
-    SoWinP::appname = strcpy(new char [ strlen(appname) + 1 ], appname);
+    SoWinP::appName = strcpy(new char [ strlen(appname) + 1 ], appname);
   if (classname)
-    SoWinP::classname = strcpy(new char [ strlen(classname) + 1 ], classname);
+    SoWinP::className = strcpy(new char [ strlen(classname) + 1 ], classname);
 
   SoWin::registerWindowClass(classname);
  
