@@ -24,13 +24,13 @@ SoWinSpaceball::~SoWinSpaceball( void )
 }
     
 void
-SoWinSpaceball::enable( HWND, LRESULT CALLBACK, void *, HWND )
+SoWinSpaceball::enable( HWND, SoWinEventHandler * , void *, HWND )
 {
     // FIXME: function not implemented
 }
 
 void
-SoWinSpaceball::disable( HWND, LRESULT CALLBACK, void * )
+SoWinSpaceball::disable( HWND, SoWinEventHandler * , void * )
 {
     // FIXME: function not implemented
 }

@@ -20,6 +20,8 @@
 #ifndef  SO_WIN_DEVICE
 #define  SO_WIN_DEVICE
 
+#include <sowindefs.h>
+
 #include <Inventor/Win/SoWinBasic.h>
 
 #include <Inventor/SbLinear.h>
@@ -36,15 +38,15 @@
 #define MK_ALT 0x02
 #endif
 
-#define SoWinEventHandlerPtr LRESULT CALLBACK
+//#define SoWinEventHandlerPtr LRESULT CALLBACK
 
 class SoWinDevice {
 public:
     SoWinDevice( void );
     ~SoWinDevice( void );
 
-    virtual void enable( HWND widget, LRESULT CALLBACK func, void * data, HWND window = NULL ) = 0;
-    virtual void disable( HWND widget, LRESULT CALLBACK func, void * data ) = 0;
+    virtual void enable( HWND widget, SoWinEventHandler * callbackproc, void * data, HWND window = NULL ) = 0;
+    virtual void disable( HWND widget, SoWinEventHandler * callbackproc, void * data ) = 0;
     
     virtual const SoEvent * translateEvent( MSG * msg ) = 0;
 

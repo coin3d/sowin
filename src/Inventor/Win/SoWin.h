@@ -17,12 +17,14 @@
  *
 \**************************************************************************/
 
-#ifndef SOWIN_H
-#define SOWIN_H
+#ifndef _SOWIN_H
+#define _SOWIN_H
 
 #include <math.h>
 #include <windows.h>
 #include <Gl/gl.h>
+
+#include <sowindefs.h>
 
 #include <Inventor/SbBasic.h>
 #include <Inventor/SbLinear.h>
@@ -104,11 +106,11 @@ public:
 //
     static void addExtensionEventHandler( HWND window,
 				                          int extensionEventType,
-				                          LRESULT CALLBACK callbackproc,
+				                          SoWinEventHandler * callbackproc,
 				                          void * data );
     static void removeExtensionEventHandler( HWND window,
 				                             int extensionEventType,
-				                             LRESULT CALLBACK callbackproc, 
+				                             SoWinEventHandler * callbackproc, 
 				                             void * data );
     static ATOM registerClass( WNDCLASS * wndClass, char * className );
     static SbBool getClassInfo( HINSTANCE dll,
@@ -216,4 +218,4 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
 // !Globals
 // *************************************************************************
 
-#endif // ! SOWIN_H
+#endif // ! _SOWIN_H

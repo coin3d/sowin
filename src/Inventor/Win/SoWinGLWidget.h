@@ -47,7 +47,7 @@ protected:
     // buildWidget() is explicity called; else, buildWidget() is called here.
     SoWinGLWidget(
 	    HWND parent = NULL,
-	    const char *name = NULL, 
+	    const char * name = NULL, 
 	    SbBool embed = TRUE, 
 	    int glModes = SO_GLX_RGB|SO_GL_DOUBLE, //SO_GLX_RGB
 	    SbBool build = TRUE);
@@ -92,11 +92,8 @@ public:
     HCURSOR getCursor( void ); // coin spesific
 
 protected:
-/*  virtual void redraw( void ) = 0;
+    virtual void redraw( void ) = 0;
     virtual void redrawOverlay( void );
-    virtual void processEvent( MSG * anymsg );*/
-    void redraw( void );
-    void redrawOverlay( void );
     virtual void processEvent( MSG * msg );
 
     virtual void initGraphic( void );
@@ -109,7 +106,11 @@ protected:
     const SbVec2s getGlxSize( void ) const;
     const SbVec2s getGLSize( void ) const;
     
-    static void eventHandler( HWND, SoWinGLWidget *, MSG *, BOOL *);
+    //static void eventHandler( HWND, SoWinGLWidget *, MSG *, BOOL * );
+    static LRESULT eventHandler( HWND hwnd,
+                                 UINT message,
+                                 WPARAM wParam,
+                                 LPARAM lParam );
 
     void setStereoBuffer( SbBool set );
     SbBool isStereoBuffer( void );

@@ -58,13 +58,13 @@ SoWinMouse::~SoWinMouse( // virtual
 // *************************************************************************
 
 void
-SoWinMouse::enable(HWND, LRESULT CALLBACK, void *, HWND)
+SoWinMouse::enable(HWND, SoWinEventHandler * , void *, HWND)
 {
     // FIXME: function not implemented
 }
 
 void
-SoWinMouse::disable(HWND, LRESULT CALLBACK, void * )
+SoWinMouse::disable(HWND, SoWinEventHandler * , void * )
 {
     // FIXME: function not implemented
 }

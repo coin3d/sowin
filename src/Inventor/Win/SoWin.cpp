@@ -284,7 +284,7 @@ void SoWin::removeMessageHook( HWND hwnd, UINT message )
 
 void SoWin::addExtensionEventHandler( HWND window,
 				                      int extensionEventType,
-				                      LRESULT CALLBACK callbackproc,
+				                      SoWinEventHandler * callbackproc,
 				                      void * data )
 {
     // FIXME: not implemented
@@ -292,7 +292,7 @@ void SoWin::addExtensionEventHandler( HWND window,
 
 void SoWin::removeExtensionEventHandler( HWND window,
 				                         int extensionEventType,
-				                         LRESULT CALLBACK callbackproc, 
+				                         SoWinEventHandler * callbackproc, 
 				                          void * data )
 {
     // FIXME: not implemented

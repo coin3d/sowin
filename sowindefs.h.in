@@ -84,6 +84,18 @@ inline int _not_null( const void * arg ) { return (arg != NULL) ? 1 : 0; }
   } while (0)
 
 // *************************************************************************
+// misc other stuff
+
+#ifdef _DEBUG
+#define SOWIN_DEBUG 1
+#endif  // _DEBUG
+
+#include <wtypes.h>    // don't like to include this here, but I have to. :(
+
+typedef CALLBACK SoWinEventHandler( HWND, UINT, WPARAM, LPARAM );
+typedef SoWinEventHandler * SoWinEventHandlerPtr;
+
+// *************************************************************************
 // ( virtual ) key codes
 
 #define SOWIN_OEM_3        0x29    // |

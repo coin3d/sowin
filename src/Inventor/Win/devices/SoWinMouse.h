@@ -41,8 +41,8 @@ public:
     
     // Enable/disable this device for the passed widget.
     // Invoked when events occur in widget. Data is the clientData which will be passed.
-    virtual void enable( HWND widget, LRESULT CALLBACK func, void * data, HWND window = NULL );
-    virtual void disable( HWND widget, LRESULT CALLBACK func, void * data );
+    virtual void enable( HWND widget, SoWinEventHandler * callbackproc, void * data, HWND window = NULL );
+    virtual void disable( HWND widget, SoWinEventHandler * callbackproc, void * data );
     
     virtual const SoEvent * translateEvent( MSG * msg );
   

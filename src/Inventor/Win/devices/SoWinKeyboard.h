@@ -37,8 +37,8 @@ public:
     SoWinKeyboard( UINT mask = ALL_EVENTS );
     ~SoWinKeyboard( void );
     
-    virtual void enable( HWND widget, LRESULT CALLBACK func, void * data, HWND window = NULL );
-    virtual void disable( HWND widget, LRESULT CALLBACK func, void * data );
+    virtual void enable( HWND widget, SoWinEventHandler * callbackproc, void * data, HWND window = NULL );
+    virtual void disable( HWND widget, SoWinEventHandler * callbackproc, void * data );
     
     virtual const SoEvent * translateEvent( MSG * msg );
   

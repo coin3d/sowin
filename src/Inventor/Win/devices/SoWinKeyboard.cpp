@@ -105,7 +105,7 @@ SoWinKeyboard::~SoWinKeyboard( // virtual
 void
 SoWinKeyboard::enable( // virtual
     HWND, // widget,
-    LRESULT CALLBACK, // func,
+    SoWinEventHandler * , // callbackproc,
     void *, // data,
     HWND ) // window )
 {
@@ -119,7 +119,7 @@ SoWinKeyboard::enable( // virtual
 void
 SoWinKeyboard::disable( // virtual
     HWND, // widget,
-    LRESULT CALLBACK, // func,
+    SoWinEventHandler * , // callbackproc,
     void * ) // data )
 {
   SOWIN_STUB();

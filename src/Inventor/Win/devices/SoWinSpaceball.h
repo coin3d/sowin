@@ -40,8 +40,8 @@ public:
     SoWinSpaceball( UINT mask = ALL_EVENTS );
     ~SoWinSpaceball( void );
     
-    virtual void enable( HWND, LRESULT CALLBACK, void *, HWND );
-    virtual void disable( HWND, LRESULT CALLBACK, void * );
+    virtual void enable( HWND, SoWinEventHandler * , void *, HWND );
+    virtual void disable( HWND, SoWinEventHandler * , void * );
 
     virtual const SoEvent * translateEvent( MSG * msg );
   

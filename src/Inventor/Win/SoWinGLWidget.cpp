@@ -296,9 +296,13 @@ const SbVec2s SoWinGLWidget::getGLSize( void ) const
     return this->glSize;
 }
     
-void SoWinGLWidget::eventHandler( HWND, SoWinGLWidget *, MSG *, BOOL *)
+LRESULT SoWinGLWidget::eventHandler( HWND hwnd,
+                                     UINT message,
+                                     WPARAM wParam,
+                                     LPARAM lParam )
 {
     // FIXME: function not implemented
+    return 0;
 }
 
 void SoWinGLWidget::setStereoBuffer( SbBool set )
