@@ -58,7 +58,7 @@ class SoWinP {
 public:
 
   static BOOL CALLBACK sizeChildProc(HWND window, LPARAM lparam);
-  static void errorHandlerCB(const class SoError * error, void * data);
+  static void errorHandlerCB(const SoError * error, void * data);
   static SbBool pipeErrorMessagesToConsole(void);
 
   static int timerSensorId;
