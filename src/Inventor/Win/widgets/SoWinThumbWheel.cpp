@@ -173,8 +173,8 @@ SoWinThumbWheel::onLButtonDown(HWND window, UINT message, WPARAM wparam, LPARAM 
   if (this->state != SoWinThumbWheel::Idle)
     return 0;
 
-  short x =  LOWORD(lparam);
-  short y =  HIWORD(lparam);
+  short x = LOWORD(lparam);
+  short y = HIWORD(lparam);
 
   SetCapture(window);
 
@@ -186,8 +186,9 @@ SoWinThumbWheel::onLButtonDown(HWND window, UINT message, WPARAM wparam, LPARAM 
 
   this->mouseLastPos = this->mouseDownPos;
 
-  if ((this->viewerCB != NULL) && (this->viewer != NULL))
-    this->viewerCB(this->viewer, NULL); // let CB know we want whateverWheelStart()
+  if (this->viewerCB) {
+    (void)this->viewerCB(START, this->wheelValue, this->userdataCB);
+  }
 
   return 0;
 }
@@ -198,8 +199,8 @@ SoWinThumbWheel::onMouseMove(HWND window, UINT message, WPARAM wparam, LPARAM lp
   if (this->state != SoWinThumbWheel::Dragging)
     return 0;
 
-  short x =  LOWORD(lparam);
-  short y =  HIWORD(lparam);
+  short x = LOWORD(lparam);
+  short y = HIWORD(lparam);
 
   if (this->orient == SoWinThumbWheel::Vertical)
     this->mouseLastPos = y;
@@ -211,19 +212,21 @@ SoWinThumbWheel::onMouseMove(HWND window, UINT message, WPARAM wparam, LPARAM lp
                                 this->mouseDownPos,
                                 this->mouseLastPos - this->mouseDownPos);
 
+#if SOWIN_DEBUG && 0 // debug
+  SoDebugError::postInfo("onMouseMove",
+                         "delta==%d, wheelValue==%f, tmpWheelValue==%f",
+                         this->mouseLastPos - this->mouseDownPos,
+                         this->wheelValue, this->tempWheelValue);
+#endif // debug
+
   Win32::InvalidateRect(this->wheelWindow, NULL, FALSE);
 
-  float * value = & this->tempWheelValue;
-  if ((this->viewerCB != NULL) && (this->viewer != NULL)) {
-    this->viewerCB(this->viewer, (void **) & value);
-  }
-  else {
-    WPARAM wparam = Win32::GetWindowLong(window, GWL_ID);
-    LPARAM lparam = (LPARAM) value;
-    (void)SendMessage(GetParent(window), WM_THUMBWHEEL, wparam, lparam);
+  if (this->viewerCB) {
+    this->tempWheelValue = this->viewerCB(MOVE, this->tempWheelValue,
+                                          this->userdataCB);
   }
 
-  this->setValue(*value);
+  this->setValue(this->tempWheelValue);
 
   return 0;
 }
@@ -239,8 +242,9 @@ SoWinThumbWheel::onLButtonUp(HWND window, UINT message, WPARAM wparam, LPARAM lp
   this->mouseLastPos = this->mouseDownPos;
   this->state = SoWinThumbWheel::Idle;
 
-  if ((this->viewerCB != NULL) && (this->viewer != NULL))
-    this->viewerCB(this->viewer, (void **) -1); // let CB know we want whateverWheelFinish()
+  if (this->viewerCB) {
+    (void)this->viewerCB(END, this->wheelValue, this->userdataCB);
+  }
 
   return 0;
 }
@@ -372,15 +376,10 @@ SoWinThumbWheel::hide(void)
 }
 
 void
-SoWinThumbWheel::registerCallback(thumbWheelCB * func)
+SoWinThumbWheel::setCallback(ThumbWheelCB * func, void * userdata)
 {
   this->viewerCB = func;
-}
-
-void
-SoWinThumbWheel::registerViewer(SoWinFullViewer * viewer)
-{
-  this->viewer = viewer;
+  this->userdataCB = userdata;
 }
 
 void
@@ -395,7 +394,6 @@ SoWinThumbWheel::constructor(Orientation orientation)
   this->pixmaps = NULL;
   this->numPixmaps = 0;
   this->currentPixmap = -1;
-  this->viewer = NULL;
   this->viewerCB = NULL;
   this->labelWindow = NULL;
 }
@@ -520,12 +518,6 @@ float
 SoWinThumbWheel::value(void) const
 {
   return this->wheelValue;
-}
-
-float
-SoWinThumbWheel::tmpValue(void) const
-{
-  return this->tempWheelValue;
 }
 
 void

@@ -26,6 +26,7 @@
 
 #include <SoGuiFullViewerP.h>
 #include <Inventor/Win/SoWinCursor.h>
+#include <Inventor/Win/widgets/SoWinThumbWheel.h>
 
 // ************************************************************************
 
@@ -52,9 +53,12 @@ public:
 
   static void setThumbWheelValue(void * wheel, float val);
 
-  static void rightWheelCB(SoWinFullViewer * viewer, void ** data);
-  static void bottomWheelCB(SoWinFullViewer * viewer, void ** data);
-  static void leftWheelCB(SoWinFullViewer * viewer, void ** data);
+  static float leftWheelCB(SoWinThumbWheel::Interaction type, float val,
+                           void * userdata);
+  static float bottomWheelCB(SoWinThumbWheel::Interaction type, float val,
+                             void * userdata);
+  static float rightWheelCB(SoWinThumbWheel::Interaction type, float val,
+                            void * userdata);
 
   void interactbuttonClicked(void);
   void viewbuttonClicked(void);

@@ -27,8 +27,6 @@
 class SoAnyThumbWheel;
 class SoWinFullViewer;
 
-typedef void thumbWheelCB(SoWinFullViewer * viewer, void ** data);
-
 // Define our own window message (WM_USER = 0x0400)
 #define WM_THUMBWHEEL 0x0401
 
@@ -37,6 +35,9 @@ typedef void thumbWheelCB(SoWinFullViewer * viewer, void ** data);
 class SOWIN_DLL_API SoWinThumbWheel {
 
 public:
+  enum Interaction { START, MOVE, END };
+  typedef float ThumbWheelCB(Interaction type, float val, void * userdata);
+
   enum Orientation {
     Horizontal,
     Vertical
@@ -64,7 +65,6 @@ public:
 
   void setValue(float value);
   float value(void) const;
-  float tmpValue(void) const;
 
   void setEnabled(bool enable);
   bool isEnabled(void) const;
@@ -83,8 +83,7 @@ public:
   void move(int x, int y);
   void size(int width, int height);
   void move(int x, int y, int width, int height);
-  void registerCallback(thumbWheelCB * func);
-  void registerViewer(SoWinFullViewer * viewer);
+  void setCallback(ThumbWheelCB * func, void * userdata);
 
   void show(void);
   void hide(void);
@@ -156,13 +155,12 @@ private:
 
   POINT labelOffset;
 
-  thumbWheelCB * viewerCB;
-  SoWinFullViewer * viewer; // owner object pointer
+  ThumbWheelCB * viewerCB;
+  void * userdataCB;
 
   static ATOM wheelWndClassAtom;
   static int wheelWidgetCounter;
-  
-}; // class SoWinThumbWheel
+};
 
 // *************************************************************************
 

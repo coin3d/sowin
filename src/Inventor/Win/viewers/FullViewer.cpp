@@ -30,7 +30,6 @@
 #include <sowindefs.h>
 #include <Inventor/Win/Win32API.h>
 #include <Inventor/Win/SoWin.h>
-#include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
 #include <Inventor/Win/widgets/WinNativePopupMenu.h>
 #include <Inventor/Win/viewers/SoWinFullViewer.h>
@@ -422,8 +421,7 @@ SoWinFullViewerP::buildLeftWheel(HWND parent)
                         0,
                         0,
                         "RotX");
-  PUBLIC(this)->leftWheel->registerCallback(this->leftWheelCB);
-  PUBLIC(this)->leftWheel->registerViewer(PUBLIC(this));
+  PUBLIC(this)->leftWheel->setCallback(this->leftWheelCB, this);
   PUBLIC(this)->leftWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
   PUBLIC(this)->leftWheel->setLabelOffset(0,
                                           ((DECORATION_SIZE - PUBLIC(this)->leftWheel->sizeHint().cx) / 2)
@@ -444,8 +442,7 @@ SoWinFullViewerP::buildBottomWheel(HWND parent)
                         0,
                         0,
                         "RotY");
-  PUBLIC(this)->bottomWheel->registerCallback(this->bottomWheelCB);
-  PUBLIC(this)->bottomWheel->registerViewer(PUBLIC(this));
+  PUBLIC(this)->bottomWheel->setCallback(this->bottomWheelCB, this);
   PUBLIC(this)->bottomWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
   PUBLIC(this)->bottomWheel->setLabelOffset(-4, 0);
 
@@ -464,8 +461,7 @@ SoWinFullViewerP::buildRightWheel(HWND parent)
                         0,
                         0,
                         "Dolly");
-  PUBLIC(this)->rightWheel->registerCallback(this->rightWheelCB);
-  PUBLIC(this)->rightWheel->registerViewer(PUBLIC(this));
+  PUBLIC(this)->rightWheel->setCallback(this->rightWheelCB, this);
   PUBLIC(this)->rightWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
   PUBLIC(this)->rightWheel->setLabelOffset(- (PUBLIC(this)->bottomWheel->getLabelSize().cx - PUBLIC(this)->rightWheel->sizeHint().cx),
                                            ((DECORATION_SIZE - PUBLIC(this)->leftWheel->sizeHint().cx) / 2)
@@ -684,55 +680,37 @@ SoWinFullViewerP::seekbuttonClicked(void)
 //
 //
 
-void
-SoWinFullViewerP::leftWheelCB(SoWinFullViewer * viewer, void ** data)
+float
+SoWinFullViewerP::leftWheelCB(SoWinThumbWheel::Interaction type, float val,
+                              void * userdata)
 {
-
-  if (data == NULL) {
-    viewer->leftWheelStart();
-    return;
-  }
-
-  if ((int) data == -1) {
-    viewer->leftWheelFinish();
-    return;
-  }
-
-  viewer->leftWheelMotion(** (float **) data);
+  SoWinFullViewerP * that = (SoWinFullViewerP *)userdata;
+  if (type == SoWinThumbWheel::START) { PUBLIC(that)->leftWheelStart(); }
+  else if (type == SoWinThumbWheel::END) { PUBLIC(that)->leftWheelFinish(); }
+  else { PUBLIC(that)->leftWheelMotion(val); }
+  return val;
 }
 
-void
-SoWinFullViewerP::bottomWheelCB(SoWinFullViewer * viewer, void ** data)
+float
+SoWinFullViewerP::bottomWheelCB(SoWinThumbWheel::Interaction type, float val,
+                                void * userdata)
 {
-
-  if (data == NULL) {
-    viewer->bottomWheelStart();
-    return;
-  }
-
-  if ((int) data == -1) {
-    viewer->bottomWheelFinish();
-    return;
-  }
-
-  viewer->bottomWheelMotion(** (float **) data);
+  SoWinFullViewerP * that = (SoWinFullViewerP *)userdata;
+  if (type == SoWinThumbWheel::START) { PUBLIC(that)->bottomWheelStart(); }
+  else if (type == SoWinThumbWheel::END) { PUBLIC(that)->bottomWheelFinish(); }
+  else { PUBLIC(that)->bottomWheelMotion(val); }
+  return val;
 }
 
-void
-SoWinFullViewerP::rightWheelCB(SoWinFullViewer * viewer, void ** data)
+float
+SoWinFullViewerP::rightWheelCB(SoWinThumbWheel::Interaction type, float val,
+                               void * userdata)
 {
-
-  if (data == NULL) {
-    viewer->rightWheelStart();
-    return;
-  }
-
-  if ((int) data == -1) {
-    viewer->rightWheelFinish();
-    return;
-  }
-
-  viewer->rightWheelMotion(** (float **) data);
+  SoWinFullViewerP * that = (SoWinFullViewerP *)userdata;
+  if (type == SoWinThumbWheel::START) { PUBLIC(that)->rightWheelStart(); }
+  else if (type == SoWinThumbWheel::END) { PUBLIC(that)->rightWheelFinish(); }
+  else { PUBLIC(that)->rightWheelMotion(val); }
+  return val;
 }
 
 void
