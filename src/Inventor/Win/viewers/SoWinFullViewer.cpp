@@ -509,44 +509,54 @@ void
 SoWinFullViewer::buildViewerButtons( HWND parent )
 {
 	// Create coords are not needed - the widget is moved into place (see onSize)
+	// Set id's so they can be used as indices in the list later ( ie. viewerButtonList[id] )
 	
 	SoWinBitmapButton * button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "pick", NULL );
-	button->setBitmap( pick_xpm );
+	button->addBitmap( pick_xpm );
+	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( 0 );
 	viewerButtonList->append( button );
 
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "view", NULL );
-	button->setBitmap( view_xpm );
+	button->addBitmap( view_xpm );
+	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( 1 );
 	viewerButtonList->append( button );
 	
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "help", NULL );
-	button->setBitmap( help_xpm );
+	button->addBitmap( help_xpm );
+	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( 2 );
 	viewerButtonList->append( button );
 
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "home", NULL );
-	button->setBitmap( home_xpm );
+	button->addBitmap( home_xpm );
+	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( 3 );
 	viewerButtonList->append( button );
 	
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "set_home", NULL );
-	button->setBitmap( set_home_xpm );
+	button->addBitmap( set_home_xpm );
+	button->setBitmap( 0 );
 	button->setId( 4 );
 	viewerButtonList->append( button );
 	
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "view_all", NULL );
-	button->setBitmap( view_all_xpm );
+	button->addBitmap( view_all_xpm );
+	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( 5 );
 	viewerButtonList->append( button );
 	
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "seek", NULL );
-	button->setBitmap( seek_xpm );
+	button->addBitmap( seek_xpm );
+	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( 6 );
 	viewerButtonList->append( button );
 	
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "perspective", NULL );
-	button->setBitmap( perspective_xpm ); // FIXME: ortho
+	button->addBitmap( perspective_xpm ); // FIXME: ortho
+	button->addBitmap( ortho_xpm );
+	button->setBitmap( 0 ); // use first ( of two ) bitmap
 	button->setId( 7 );
 	viewerButtonList->append( button );
 }
