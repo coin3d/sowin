@@ -71,6 +71,7 @@ SoWinComponent::SoWinComponent( const HWND parent,
   this->constructorParent = parent;
 
   this->firstRealize = TRUE;
+  this->fullScreen = FALSE;
   this->size = SbVec2s( -1, -1 );
 
   if ( ! SoWinComponent::components )
@@ -126,6 +127,7 @@ SoWinComponent::goFullScreen( SbBool enable )
     hwnd = this->widget;
 
   if ( enable ) {
+    this->fullScreen = TRUE;
     this->style = GetWindowLong( hwnd, GWL_STYLE );
     this->exstyle = GetWindowLong( hwnd, GWL_EXSTYLE );
 
@@ -139,6 +141,7 @@ SoWinComponent::goFullScreen( SbBool enable )
                 TRUE );
   }
   else {
+    this->fullScreen = FALSE;
     SetWindowLong( hwnd, GWL_STYLE, this->style );
     SetWindowLong( hwnd, GWL_EXSTYLE, this->exstyle );
     UpdateWindow( hwnd ); // FIXME: save old size?
@@ -151,6 +154,12 @@ SoWinComponent::goFullScreen( SbBool enable )
     MoveWindow( this->widget, rect.left, rect.top, width, height, TRUE );
     */
   }
+}
+
+SbBool
+SoWinComponent::isFullScreen( void )
+{
+  return this->fullScreen;
 }
 
 SbBool

@@ -49,6 +49,7 @@ public:
   virtual void show( void );
   virtual void hide( void );
   void goFullScreen( SbBool enable );
+  SbBool isFullScreen( void );
   SbBool isVisible( void );
 
   HWND getWidget( void ) const;
@@ -141,8 +142,9 @@ private:
   HWND parent;
   HWND widget;
   HWND constructorParent;
-  LONG style;
-  LONG exstyle;
+  LONG style; // windowstyle
+  LONG exstyle; // extended windowstyle
+  SbBool fullScreen;
 
   SbString widgetName;
   SbString widgetClass;

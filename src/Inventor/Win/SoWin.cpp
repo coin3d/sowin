@@ -1,4 +1,4 @@
-/**************************************************************************
+ /**************************************************************************
  *
  *  This file is part of the Coin SoWin GUI binding library.
  *  Copyright (C) 2000 by Systems in Motion.  All rights reserved.
@@ -584,7 +584,7 @@ void CALLBACK
 SoWin::idleSensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
 #if SOWIN_DEBUG && 0
-  SoDebugError::postInfo( "SoWin::idleSensorCB", "called" );
+  SoDebugError::postInfo( "SoWin::idleSensorCB", "called" -;
 #endif // SOWIN_DEBUG
   SoWin::doIdleTasks( );
 }
