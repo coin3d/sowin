@@ -716,14 +716,14 @@ SoWinGLWidget::glWindowProc( HWND window,
         return object->onDestroy( window, message, wparam, lparam );
 
       case WM_LBUTTONDOWN:
-        //case WM_MBUTTONDOWN:
-        //case WM_RBUTTONDOWN:
+      case WM_MBUTTONDOWN:
+      case WM_RBUTTONDOWN:
         SetCapture( window );
         return 0;
 
       case WM_LBUTTONUP:
-        //case WM_MBUTTONUP:
-        //case WM_RBUTTONUP:
+      case WM_MBUTTONUP:
+      case WM_RBUTTONUP:
         ReleaseCapture( );
         return 0;
 

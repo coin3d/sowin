@@ -261,8 +261,8 @@ SoWinExaminerViewer::leftWheelMotion(
   if ( common->isAnimating() )
     common->stopAnimating();
 
-//    inherited::leftWheelMotion(
-//      common->rotXWheelMotion( value, this->getLeftWheelValue() ) );
+	inherited::leftWheelMotion(
+		common->rotXWheelMotion( value, this->getLeftWheelValue() ) );
 } // leftWheelMotion()
 
 /*!
@@ -277,8 +277,8 @@ SoWinExaminerViewer::bottomWheelMotion(
   if ( common->isAnimating() )
     common->stopAnimating();
 
-//    inherited::bottomWheelMotion(
-//      common->rotYWheelMotion( value, this->getBottomWheelValue() ) );
+  inherited::bottomWheelMotion(
+		common->rotYWheelMotion( value, this->getBottomWheelValue() ) );
 } // bottomWheelMotion()
 
 /*!
@@ -290,8 +290,8 @@ void
 SoWinExaminerViewer::rightWheelMotion(
   float value )
 {
-//    common->zoom( this->getRightWheelValue() - value );
-  inherited::rightWheelMotion( value );
+	common->zoom( this->getRightWheelValue() - value );
+	inherited::rightWheelMotion( value );
 } // rightWheelMotion()
 
 // *************************************************************************
