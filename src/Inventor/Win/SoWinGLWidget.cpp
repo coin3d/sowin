@@ -39,6 +39,8 @@
 #include <conio.h>
 #endif // SOWIN_DEBUG
 
+static const int SO_BORDER_THICKNESS = 2;
+
 SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinGLWidget);
 
 // The private data for the SoWinGLWidget.
@@ -48,7 +50,9 @@ class SoWinGLWidgetP {
 public:
   
   // Constructor.
-  SoWinGLWidgetP(SoWinGLWidget * o) {
+  SoWinGLWidgetP(SoWinGLWidget * o)
+    : bordersize(0)
+  {
     this->owner = o;
   }
 
@@ -85,12 +89,12 @@ public:
   SbBool drawToFrontBuffer;
   SbBool haveFocus;
   SbBool stealFocus;
-  SbBool haveBorder;
+  SbBool haveBorder; // FIXME: get rid of this -- check for bordersize==0 instead. 20011012 mortene.
   SbBool glRealized;
   HCURSOR currentCursor;
 
   int glModes;
-  int borderSize;
+  int bordersize;
 
   static ATOM managerWndClassAtom;
   static ATOM glWndClassAtom;
@@ -141,8 +145,6 @@ SoWinGLWidget::SoWinGLWidget(HWND parent,
   PRIVATE(this)->hdcOverlay = NULL;
 
   PRIVATE(this)->glModes = glModes;
-  PRIVATE(this)->borderSize = 0;
-  PRIVATE(this)->haveBorder = FALSE;
   PRIVATE(this)->currentCursor = NULL;
 
   PRIVATE(this)->haveFocus = FALSE;
@@ -186,7 +188,7 @@ SoWinGLWidget::~SoWinGLWidget(void)
 /*!
  */
 HWND
-SoWinGLWidget::getNormalWindow(void)
+SoWinGLWidget::getNormalWindow(void) const
 {
   return PRIVATE(this)->normalWidget;
 } // getNormalWindow()
@@ -194,7 +196,7 @@ SoWinGLWidget::getNormalWindow(void)
 /*!
  */
 HWND
-SoWinGLWidget::getOverlayWindow(void)
+SoWinGLWidget::getOverlayWindow(void) const
 {
   // FIXME: overlay not supported yet. mariusbu 20010719.
   return PRIVATE(this)->overlayWidget;
@@ -203,7 +205,7 @@ SoWinGLWidget::getOverlayWindow(void)
 /*!
  */
 HWND
-SoWinGLWidget::getNormalWidget(void)
+SoWinGLWidget::getNormalWidget(void) const
 {
   return PRIVATE(this)->normalWidget;
 } // getNormalWidget()
@@ -211,7 +213,7 @@ SoWinGLWidget::getNormalWidget(void)
 /*!
  */
 HWND
-SoWinGLWidget::getOverlayWidget(void)
+SoWinGLWidget::getOverlayWidget(void) const
 {
   return PRIVATE(this)->overlayWidget;
 } // getOverlayWidget()
@@ -220,7 +222,7 @@ SoWinGLWidget::getOverlayWidget(void)
   Returns the normal device context.
 */
 HDC
-SoWinGLWidget::getNormalDC(void)
+SoWinGLWidget::getNormalDC(void) const
 {
   assert(PRIVATE(this)->hdcNormal != NULL);
   return PRIVATE(this)->hdcNormal;
@@ -230,7 +232,7 @@ SoWinGLWidget::getNormalDC(void)
   Returns the overlay device context.
 */
 HDC
-SoWinGLWidget::getOverlayDC(void)
+SoWinGLWidget::getOverlayDC(void) const
 {
   assert(PRIVATE(this)->hdcOverlay != NULL);
   return PRIVATE(this)->hdcOverlay;
@@ -240,7 +242,7 @@ SoWinGLWidget::getOverlayDC(void)
   Returns the normal GL context.
 */
 HGLRC
-SoWinGLWidget::getNormalContext(void)
+SoWinGLWidget::getNormalContext(void) const
 {
   assert(PRIVATE(this)->ctxNormal != NULL);
   return PRIVATE(this)->ctxNormal;
@@ -250,7 +252,7 @@ SoWinGLWidget::getNormalContext(void)
   Returns the overlay GL context.
 */
 HGLRC
-SoWinGLWidget::getOverlayContext(void)
+SoWinGLWidget::getOverlayContext(void) const
 {
   return PRIVATE(this)->ctxOverlay;
 } // getOverlayContext()
@@ -375,7 +377,7 @@ SoWinGLWidget::setDoubleBuffer(SbBool set)
   \sa setDoubleBuffer()
  */
 SbBool
-SoWinGLWidget::isDoubleBuffer(void)
+SoWinGLWidget::isDoubleBuffer(void) const
 {
   return (PRIVATE(this)->glModes & SO_GL_DOUBLE ? TRUE : FALSE);
 } // isDoubleBuffer()
@@ -386,26 +388,11 @@ SoWinGLWidget::isDoubleBuffer(void)
   \sa isBorder()
 */
 void
-SoWinGLWidget::setBorder(SbBool set)
+SoWinGLWidget::setBorder(SbBool f)
 {
-  PRIVATE(this)->haveBorder = TRUE;
+  PRIVATE(this)->haveBorder = f;
+  PRIVATE(this)->bordersize = f ? SO_BORDER_THICKNESS : 0;
 } // setBorder()
-
-/*!
-*/
-int
-SoWinGLWidget::getBorderSize(void)
-{
-  return PRIVATE(this)->borderSize;
-} // getBorderSize()
-
-/*!
-*/
-void
-SoWinGLWidget::setBorderSize(int size)
-{
-  PRIVATE(this)->borderSize = size;
-} // setBorderSize()
 
 /*!
   Returns whether or not there's a border around the OpenGL canvas.
@@ -481,19 +468,19 @@ SoWinGLWidget::getCursor(void)
 } // getCursor()
 
 /*!
-  Should return TRUE if an overlay GL drawing area exists.
+  Should return \c TRUE if an overlay GL drawing area exists.
 */
 SbBool
-SoWinGLWidget::hasOverlayGLArea(void)
+SoWinGLWidget::hasOverlayGLArea(void) const
 {
   return (IsWindow(this->getOverlayWidget()) ? TRUE : FALSE);
 }
 
 /*!
-  Should return TRUE if a normal GL drawing area exists.
+  Should return \c TRUE if a normal GL drawing area exists.
 */
 SbBool
-SoWinGLWidget::hasNormalGLArea(void)
+SoWinGLWidget::hasNormalGLArea(void) const
 {
   return (IsWindow(this->getNormalWidget()) ? TRUE : FALSE);
 }
@@ -701,10 +688,10 @@ SoWinGLWidget::setGLSize(SbVec2s newSize)
   if (PRIVATE(this)->haveBorder) {
     Win32::SetWindowPos(PRIVATE(this)->normalWidget,
                          NULL,
-                         PRIVATE(this)->borderSize,
-                         PRIVATE(this)->borderSize,
-                         newSize[0] - 2 * PRIVATE(this)->borderSize,
-                         newSize[1] - 2 * PRIVATE(this)->borderSize,
+                         PRIVATE(this)->bordersize,
+                         PRIVATE(this)->bordersize,
+                         newSize[0] - 2 * PRIVATE(this)->bordersize,
+                         newSize[1] - 2 * PRIVATE(this)->bordersize,
                          flags);
   }
   else {
@@ -753,27 +740,12 @@ SoWinGLWidget::getGLAspectRatio(void) const
 /*!
  */
 LRESULT // Used by SoWinRenderArea
-SoWinGLWidget::eventHandler(HWND hwnd,
-                             UINT message,
-                             WPARAM wParam,
-                             LPARAM lParam)
+SoWinGLWidget::eventHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
   // FIXME: function not implemented
   SOWIN_STUB();
   return 0;
 } // eventHandler()
-
-void
-SoWinGLWidget::setStereoBuffer(SbBool set)
-{
-  this->setQuadBufferStereo(set);
-}
-
-SbBool
-SoWinGLWidget::isStereoBuffer(void)
-{
-  return this->isQuadBufferStereo();
-}
 
 /*!
   FIXME: doc
@@ -888,8 +860,12 @@ SoWinGLWidget::getGlxMgrWidget(void)
   return this->getManagerWidget();
 }
 */
+
+/*!
+  FIXME: doc
+ */
 HWND
-SoWinGLWidget::getGLWidget(void)
+SoWinGLWidget::getGLWidget(void) const
 {
   return this->getNormalWindow();
 }
@@ -1028,10 +1004,10 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
   Win32::GetClientRect(manager, & rect);
 
   if (this->haveBorder) {
-    rect.left += this->borderSize;
-    rect.top += this->borderSize;
-    rect.right -= 2 * this->borderSize;
-    rect.bottom -= 2 * this->borderSize;
+    rect.left += this->bordersize;
+    rect.top += this->bordersize;
+    rect.right -= 2 * this->bordersize;
+    rect.bottom -= 2 * this->bordersize;
   }
 
   HWND normalwidget = CreateWindowEx(NULL,
