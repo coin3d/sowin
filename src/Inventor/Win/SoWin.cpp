@@ -22,7 +22,7 @@ int SoWin::delaySensorId = 0;
 SbBool SoWin::delaySensorActive = FALSE;
 int SoWin::idleSensorId = 0;
 SbBool SoWin::idleSensorActive = FALSE;
-SbList< messageHook * > * SoWin::messageHookList = NULL;    //hook
+SbList< MessageHook * > * SoWin::messageHookList = NULL;    //hook
 
 // *************************************************************************
 
@@ -70,7 +70,7 @@ void SoWin::init( HWND const topLevelWidget )
     if(topLevelWidget)
         SoWin::mainWidget = topLevelWidget;
 
-    SoWin::messageHookList = new SbList< messageHook * >;   // add hook
+    SoWin::messageHookList = new SbList< MessageHook * >;   // add hook
 }
 
 void SoWin::init( void )
@@ -88,17 +88,6 @@ void SoWin::mainLoop( void )
             DispatchMessage( & msg );
         } else break;
     }
-
-/*  // Realtime loop - hogs CPU 
-    while ( TRUE ) {
-        if ( PeekMessage( & msg, NULL, 0, 0, PM_NOREMOVE ) ) {
-            if ( GetMessage( & msg, NULL, 0, 0 ) ) {
-                TranslateMessage( & msg );
-                DispatchMessage( & msg );
-            } else break;   // recieved WM_QUIT
-        } else //SoWin::idleSensorCB( msg.hwnd, msg.message, msg.wParam, msg.time );
-            SoWin::doIdleTasks( );
-    }*/
 }
 
 void SoWin::exitMainLoop( void )
@@ -161,8 +150,6 @@ void SoWin::createSimpleErrorDialog( HWND const widget, const char * const dialo
 {
     MessageBox( widget, errorStr1, dialogTitle, MB_OK | MB_ICONERROR );  
 }
-
-// TGS sh*t - not implemented
 
 void SoWin::terminate( long terminateSyncTime )
 {
@@ -280,7 +267,7 @@ void SoWin::errorHandlerCB( const SoError * error, void * data )
 
 void SoWin::addMessageHook( HWND hwnd, UINT message )
 {
-    messageHook * hook = new messageHook;
+    MessageHook * hook = new MessageHook;
     hook->hWnd = hwnd;
     hook->message = message;
 
@@ -289,11 +276,7 @@ void SoWin::addMessageHook( HWND hwnd, UINT message )
 
 void SoWin::removeMessageHook( HWND hwnd, UINT message )
 {
-    /*messageHook * hook = new messageHook;
-    hook->hWnd = hwnd;
-    hook->message = message;
-
-    SoWin::messageHookList->removeItem( hook );*/
+    // FIXME: not implemented
 }
 
 void SoWin::addExtensionEventHandler( HWND window,
@@ -417,7 +400,7 @@ void SoWin::registerWindowClass( const char * const className )
 
     windowclass.lpszClassName = className;
     windowclass.hInstance = SoWin::Instance;
-    windowclass.lpfnWndProc = SoWin::windowCB;
+    windowclass.lpfnWndProc = SoWin::windowProc;
 	windowclass.style = /*CS_HREDRAW|CS_VREDRAW|*/CS_OWNDC;
 	windowclass.lpszMenuName = NULL;
 	windowclass.hIcon = LoadIcon( NULL, icon );
@@ -454,20 +437,20 @@ HWND SoWin::createWindow( char * title, char * className, RECT rect, HWND parent
     return SoWin::mainWidget;
 }
 
-LRESULT CALLBACK SoWin::windowCB( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT CALLBACK SoWin::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-    SoWin::OnAny( window, message, wparam, lparam );
+    SoWin::onAny( window, message, wparam, lparam );
 
     switch( message )
     {
         case WM_SIZE:
-            return SoWin::OnSize( window, message, wparam, lparam );
+            return SoWin::onSize( window, message, wparam, lparam );
 
         case WM_DESTROY:
-            return SoWin::OnDestroy( window, message, wparam, lparam );
+            return SoWin::onDestroy( window, message, wparam, lparam );
             
         case WM_QUIT:
-            return SoWin::OnQuit( window, message, wparam, lparam );
+            return SoWin::onQuit( window, message, wparam, lparam );
             
     }
     return DefWindowProc( window, message, wparam, lparam );
@@ -565,11 +548,11 @@ void SoWin::sensorQueueChanged( void * cbdata )
     }
 }
 
-LRESULT SoWin::OnAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT SoWin::onAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     if ( messageHookList ) {
         int length = messageHookList->getLength( );
-        messageHook * const * hookList = messageHookList->getArrayPtr( );
+        MessageHook * const * hookList = messageHookList->getArrayPtr( );
         for ( int i = 0; i < length; i++ )
             if ( hookList[i]->message == message ) {
 
@@ -589,19 +572,19 @@ LRESULT SoWin::OnAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
     return 0;
 }
 
-LRESULT SoWin::OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT SoWin::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     UpdateWindow( window );
     return 0;
 }
 
-LRESULT SoWin::OnDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT SoWin::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     PostQuitMessage( 0 );
     return 0;
 }
  
-LRESULT SoWin::OnQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT SoWin::onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     delete SoWin::messageHookList;  // FIXME: remove hooks first
 

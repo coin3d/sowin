@@ -116,7 +116,7 @@ LRESULT CALLBACK SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wpa
         d = this->width( ) - 2*SHADEBORDERWIDTH - 12;
     }
 
-  // Handle resizing to too small dimensions gracefully.
+    // Handle resizing to too small dimensions gracefully.
     if ( ( d <= 0 ) || ( w <= 0 ) ) return 0;
 
     this->initWheel( d, w );
@@ -129,10 +129,9 @@ LRESULT CALLBACK SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wpa
     RECT wheelrect = { SHADEBORDERWIDTH, SHADEBORDERWIDTH,
                      this->width( ) - 2*SHADEBORDERWIDTH,
                      this->height( ) - 2*SHADEBORDERWIDTH };
-/*
-  qDrawShadePanel( &p, 0, 0, this->width( ), this->height( ),
-                   g, FALSE, SHADEBORDERWIDTH, NULL );
-*/
+
+    this->drawShadePanel( hdc, 0, 0, this->width( ), this->height( ), SHADEBORDERWIDTH, TRUE );
+
     if ( this->orient == Vertical ) {
         wheelrect.top = wheelrect.top + 5;
         wheelrect.bottom = wheelrect.bottom - 5;
@@ -144,10 +143,14 @@ LRESULT CALLBACK SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wpa
         wheelrect.left = wheelrect.left + 5;
         wheelrect.right = wheelrect.right - 5;
     }
-/* 
-  qDrawPlainRect( &p, wheelrect.left(), wheelrect.top(), wheelrect.width(),
-                  wheelrect.height(), QColor( 0, 0, 0 ), 1 );
-*/
+
+    drawPlainRect( hdc,
+                   wheelrect.left,
+                   wheelrect.top,
+                   wheelrect.right - wheelrect.left,
+                   wheelrect.bottom - wheelrect.top,
+                   0x00000000 );
+
     wheelrect.top = wheelrect.top + 1;
     wheelrect.bottom = wheelrect.bottom - 1;
     wheelrect.left = wheelrect.left + 1;
@@ -184,8 +187,9 @@ LRESULT CALLBACK SoWinThumbWheel::onLButtonDown( HWND window, UINT message, WPAR
         wheel.bottom = this->height( ) - SHADEBORDERWIDTH - 3;
     }
 
-/*  if ( ! wheel.contains( event->pos( ) ) )
-    return 0;*/
+    POINT pt = { LOWORD(lparam) , HIWORD(lparam) };
+    if ( ! PtInRect( & wheel, pt ) )
+        return 0;
 
     this->state = SoWinThumbWheel::Dragging;
 
@@ -476,4 +480,62 @@ void SoWinThumbWheel::BlitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width
 	BitBlt( dc, x, y, width, height, memorydc, 0, 0, SRCCOPY );
     SelectObject( memorydc, oldBitmap );
     DeleteDC( memorydc );
+}
+
+
+void SoWinThumbWheel::drawShadePanel( HDC hdc,
+                                      int x,
+                                      int y,
+                                      int width,
+                                      int height,
+                                      int border,
+                                      SbBool elevated )
+{
+/*  HBRUSH whiteBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    HBRUSH blackBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
+    HBRUSH dkgrayBrush = (HBRUSH)GetStockObject(DKGRAY_BRUSH);
+    HBRUSH ltgrayBrush = (HBRUSH)GetStockObject(LTGRAY_BRUSH);*/
+
+    HBRUSH upperLeftBrush;
+    HBRUSH lowerRightBrush;
+
+    if ( elevated ) {
+        upperLeftBrush = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
+        lowerRightBrush = (HBRUSH)GetStockObject(DKGRAY_BRUSH);
+    } else {
+        upperLeftBrush = (HBRUSH)GetStockObject(DKGRAY_BRUSH);
+        lowerRightBrush = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
+    }
+
+    HBRUSH oldBrush = (HBRUSH)SelectObject( hdc, upperLeftBrush );
+
+    for (int i=0; i < border; i++ ) {
+        SelectObject( hdc, upperLeftBrush );
+        MoveToEx( hdc, x + i, y + i, NULL );
+        LineTo( hdc, x + width - i * 2, y );    // +-
+        LineTo( hdc, 0, y + height - i * 2 );   // |
+        SelectObject( hdc, lowerRightBrush );
+        MoveToEx( hdc, x + width - i * 2, y + height - i * 2, NULL );
+        LineTo( hdc, x + width - i * 2, y );    //  |
+        LineTo( hdc, x , y + height - i * 2 );  // -+
+    }
+
+    SelectObject( hdc, oldBrush );
+}
+
+void SoWinThumbWheel::drawPlainRect( HDC hdc, 
+                                     int x,
+                                     int y,
+                                     int width,
+                                     int height,
+                                     COLORREF color )
+{
+    HBRUSH brush = CreateSolidBrush( color );
+    HBRUSH oldBrush = ( HBRUSH ) SelectObject( hdc, brush );
+
+    RECT rect = { x, y, x + width, y + height };
+
+    FillRect( hdc, & rect, brush );
+
+    SelectObject( hdc, oldBrush );
 }

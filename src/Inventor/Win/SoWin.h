@@ -34,7 +34,7 @@
 
 #include <Inventor/Win/SoWinBasic.h>
 
-struct messageHook
+struct MessageHook
 {
     HWND hWnd;
     UINT message;
@@ -140,10 +140,11 @@ protected:
                               RECT rect,
                               HWND parent = (HWND) NULL,
                               HMENU menu = (HMENU) NULL );
-    static LRESULT CALLBACK windowCB( HWND window,
-                                      UINT message,
-                                      WPARAM wparam,
-                                      LPARAM lparam );
+
+    static LRESULT CALLBACK windowProc( HWND window,
+                                        UINT message,
+                                        WPARAM wparam,
+                                        LPARAM lparam );
 /*
     static FARPROC m_procCtl3dColorChange;
     static HINSTANCE m_hCtl3d;
@@ -177,19 +178,19 @@ private:
                                        UINT idevent,
                                        DWORD dwtime );
 
-    static LRESULT OnAny( HWND window,
+    static LRESULT onAny( HWND window,
                           UINT message,
                           WPARAM wparam,
                           LPARAM lparam );
-    static LRESULT OnSize( HWND window,
+    static LRESULT onSize( HWND window,
                            UINT message,
                            WPARAM wparam,
                            LPARAM lparam );
-    static LRESULT OnDestroy( HWND window,
+    static LRESULT onDestroy( HWND window,
                               UINT message,
                               WPARAM wparam,
                               LPARAM lparam );
-    static LRESULT OnQuit( HWND window,
+    static LRESULT onQuit( HWND window,
                            UINT message,
                            WPARAM wparam,
                            LPARAM lparam );
@@ -199,7 +200,7 @@ private:
     static char * appName;
     static char * className;
 
-    static SbList< messageHook * > * messageHookList;
+    static SbList< MessageHook * > * messageHookList;
 
 }; // class SoWin
 

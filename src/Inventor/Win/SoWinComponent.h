@@ -128,9 +128,9 @@ private:
 
     static LRESULT CALLBACK windowProc(HWND window,UINT message, WPARAM wparam,LPARAM lparam);
 
-    LRESULT OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-    LRESULT OnPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-    LRESULT OnDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
  
 //  static LRESULT CALLBACK componentWndProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam );
 //  static LRESULT CALLBACK formWindowProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam );

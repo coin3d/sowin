@@ -107,6 +107,8 @@ private:
     void initWheel( int diameter, int width );
     HBITMAP createDIB( int width, int height, int bpp, void * bits );
     void BlitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int height ) const;
+    void drawShadePanel( HDC hdc, int x, int y, int width, int height, int border, SbBool elevated );
+    void drawPlainRect( HDC hdc, int x, int y, int width, int height, COLORREF color );
 
     Orientation orient;
     State state;

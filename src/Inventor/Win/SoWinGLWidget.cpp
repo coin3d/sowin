@@ -601,7 +601,7 @@ LRESULT CALLBACK SoWinGLWidget::glWindowProc( HWND window,
 		SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
 
         SoWinGLWidget * object = ( SoWinGLWidget * )( createstruct->lpCreateParams );
-        return object->OnCreate( window, message, wparam, lparam ); // won't work
+        return object->onCreate( window, message, wparam, lparam ); // won't work
 	}
 
 	SoWinGLWidget * object = ( SoWinGLWidget * ) GetWindowLong( window, 0 );
@@ -625,13 +625,13 @@ LRESULT CALLBACK SoWinGLWidget::glWindowProc( HWND window,
         switch ( message )
         {
             case WM_SIZE:
-                return object->OnSize( window, message, wparam, lparam );
+                return object->onSize( window, message, wparam, lparam );
 
             case WM_PAINT:
-                return object->OnPaint( window, message, wparam, lparam );
+                return object->onPaint( window, message, wparam, lparam );
 
             case WM_DESTROY:
-                return object->OnDestroy( window, message, wparam, lparam );
+                return object->onDestroy( window, message, wparam, lparam );
 
             case WM_LBUTTONDOWN:
             case WM_MBUTTONDOWN:
@@ -659,7 +659,7 @@ HWND SoWinGLWidget::getManagerWidget( void )
 }
 
 LRESULT
-SoWinGLWidget::OnCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     //CREATESTRUCT * cs = ( CREATESTRUCT * ) lparam;
 
@@ -729,7 +729,7 @@ SoWinGLWidget::OnCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 } 
 
 LRESULT
-SoWinGLWidget::OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinGLWidget::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     #if SOWIN_DEBUG && 0
     SoDebugError::postInfo( "SoWinGLWidget::OnSize", "called" );
@@ -750,7 +750,7 @@ SoWinGLWidget::OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 } 
 
 LRESULT
-SoWinGLWidget::OnPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinGLWidget::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     #if SOWIN_DEBUG && 0
     SoDebugError::postInfo( "SoWinGLWidget::OnPaint", "called" );
@@ -773,7 +773,7 @@ SoWinGLWidget::OnPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam 
 }
 
 LRESULT
-SoWinGLWidget::OnDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinGLWidget::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     wglDeleteContext( this->ctxNormal );
     ReleaseDC( window, this->hdcNormal );

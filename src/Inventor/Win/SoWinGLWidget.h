@@ -164,10 +164,10 @@ private:
 		 					              WPARAM wparam,
                                           LPARAM lparam );
 
-    LRESULT OnCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-    LRESULT OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-    LRESULT OnPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-    LRESULT OnDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 
     HWND getManagerWidget( void );
 

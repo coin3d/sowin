@@ -499,27 +499,27 @@ SoWinComponent::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lpa
         switch ( message )
         {
             case WM_SIZE:
-                return object->OnSize( window, message, wparam, lparam );
+                return object->onSize( window, message, wparam, lparam );
 
             case WM_PAINT:
-                return object->OnPaint( window, message, wparam, lparam );
+                return object->onPaint( window, message, wparam, lparam );
 
             case WM_DESTROY:
-                return object->OnDestroy( window, message, wparam, lparam );
+                return object->onDestroy( window, message, wparam, lparam );
         }
 	}
 	return DefWindowProc( window, message, wparam, lparam );
 }
 
 LRESULT
-SoWinComponent::OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinComponent::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     this->size = SbVec2s( HIWORD(lparam), LOWORD(lparam) );
     return 0;
 } 
 
 LRESULT
-SoWinComponent::OnPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinComponent::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     // FIXME: function not implemented
     SOWIN_STUB( );
@@ -527,7 +527,7 @@ SoWinComponent::OnPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 }
 
 LRESULT
-SoWinComponent::OnDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinComponent::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     this->windowCloseAction();
     PostQuitMessage( 0 );
