@@ -229,18 +229,6 @@ SoWinPlaneViewer::setCamera(// virtual
 /*!
   FIXME: write doc
 */
-void
-SoWinPlaneViewer::setCursorEnabled(// virtual
-  SbBool enable)
-{
-  inherited::setCursorEnabled(enable);
-} // setCursorEnabled()
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
 
 HWND
 SoWinPlaneViewer::buildWidget(
