@@ -21,11 +21,6 @@
  *
 \**************************************************************************/
 
-#if SOWIN_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOWIN_DEBUG
-
 #include <stdlib.h>
 
 #include <Inventor/SbPList.h>
@@ -419,8 +414,3 @@ SoWinMaterialList::buildPulldownMenu(// protected
 } // buildPulldownMenu()
 
 // *************************************************************************
-
-#if SOWIN_DEBUG
-static const char * getSoWinMaterialListRCSId(void) { return rcsid; }
-#endif // SOWIN_DEBUG
-
