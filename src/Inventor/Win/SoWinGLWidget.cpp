@@ -637,8 +637,10 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
       case WM_LBUTTONDOWN:
       case WM_MBUTTONDOWN:
       case WM_RBUTTONDOWN:
-        (void)Win32::SetFocus(window);
-        PRIVATE(object)->havefocus = TRUE;
+	if ( object->isStealFocus() ) {
+	  (void)Win32::SetFocus(window);
+	  PRIVATE(object)->havefocus = TRUE;
+	}
         break;
       default: break;
       }
@@ -1568,7 +1570,8 @@ SoWinGLWidgetP::onCreate(HWND window, UINT message, WPARAM wparam, LPARAM lparam
                               orgmodes, this->glModes);
   }
 
-  (void)Win32::SetFocus(window);
+  if ( PUBLIC(this)->isStealFocus() )
+    (void)Win32::SetFocus(window);
   PUBLIC(this)->widgetChanged(window);
   return 0;
 }

@@ -728,7 +728,8 @@ SoWinFullViewerP::systemEventHook(int code, WPARAM wparam, LPARAM lparam)
 
       case WM_LBUTTONDOWN:
       case WM_SETFOCUS:
-        (void)Win32::SetFocus(object->getGLWidget());
+	if ( object->isStealFocus() )
+	  (void)Win32::SetFocus(object->getGLWidget());
         break;
       }
     }
