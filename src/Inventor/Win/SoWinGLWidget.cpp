@@ -40,9 +40,9 @@ SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinGLWidget);
 //
 
 SoWinGLWidget::SoWinGLWidget( HWND parent,
-                              const char * name, 
-                              SbBool embed, 
-                              int glModes, 
+                              const char * name,
+                              SbBool embed,
+                              int glModes,
                               SbBool build )
   : SoWinComponent( parent, name, embed )
 {
@@ -55,7 +55,7 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
   this->ctxOverlay = NULL;
   this->ctxSingle = NULL;
   this->ctxDouble = NULL;
-    
+
   this->hdcNormal = NULL;
   this->hdcOverlay = NULL;
   this->hdcSingle = NULL;
@@ -64,7 +64,7 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
   this->attribList = NULL;
   this->glModes = glModes;
   this->borderSize = 3;
-    
+
   this->windowResized = FALSE;
   this->haveFocus = FALSE;
 
@@ -101,7 +101,6 @@ SoWinGLWidget::getNormalWindow( void )
 HWND
 SoWinGLWidget::getOverlayWindow( void )
 {
-  assert( this->overlayWidget != NULL );
   return this->overlayWidget; // FIXME: overlay not supported
 }
 
@@ -134,22 +133,21 @@ SoWinGLWidget::getOverlayDC( void )
 HGLRC
 SoWinGLWidget::getNormalContext( void )
 {
-  assert( this->ctxNormal != NULL ); 
+  assert( this->ctxNormal != NULL );
   return this->ctxNormal;
 }
 
 HGLRC
 SoWinGLWidget::getOverlayContext( void )
 {
-  assert( this->ctxOverlay != NULL );
-  return this->ctxOverlay; // FIXME: overlay not supported 
+  return this->ctxOverlay; // FIXME: overlay not supported
 }
 
 void
 SoWinGLWidget::setStealFocus( SbBool doStealFocus )
 {
   this->stealFocus = doStealFocus;
-}    
+}
 
 void
 SoWinGLWidget::setNormalVisual( PIXELFORMATDESCRIPTOR * vis )
@@ -208,7 +206,7 @@ SoWinGLWidget::isDoubleBuffer( void )
 {
   return ( this->glModes & SO_GL_DOUBLE );
 }
-    
+
 void
 SoWinGLWidget::setBorder( SbBool set )
 {
@@ -227,7 +225,7 @@ SoWinGLWidget::isBorder( void ) const
 {
   return ( this->borderSize != 0 );
 }
-    
+
 void
 SoWinGLWidget::setDrawToFrontBufferEnable( SbBool enable )
 {
@@ -243,7 +241,7 @@ SoWinGLWidget::isDrawToFrontBufferEnable( void ) const
 /*!
   Enables or disables quad buffer stereo.
 */
-void 
+void
 SoWinGLWidget::setQuadBufferStereo(const SbBool enable)
 {
   // FIXME: do proper implementation. 20001123 mortene.
@@ -252,7 +250,7 @@ SoWinGLWidget::setQuadBufferStereo(const SbBool enable)
 /*!
   Returns \c TRUE if quad buffer stereo is enabled for this widget.
 */
-SbBool 
+SbBool
 SoWinGLWidget::isQuadBufferStereo(void) const
 {
   // FIXME: do proper implementation. 20001123 mortene.
@@ -271,42 +269,43 @@ HCURSOR
 SoWinGLWidget::getCursor( void )
 {
   return this->currentCursor;
-}    
+}
 
 ///////////////////////////////////////////////////////////////////
 //
 //  (protected)
 //
-    
+
 void
 SoWinGLWidget::redraw( void )
 {
-  // virtual - does nothing 
+  // virtual - does nothing
 }
 
 void
 SoWinGLWidget::redrawOverlay( void )
 {
-  // virtual - does nothing 
+  // virtual - does nothing
 }
 
 void
 SoWinGLWidget::processEvent( MSG * msg )
 {
-  // virtual - does nothing 
+  // virtual - does nothing
 }
-    
+
 void
 SoWinGLWidget::initGraphic( void )
 {
-  // virtual - does nothing 
-  // called whenever a GL window gets created
+  glLockNormal();
+  glEnable( GL_DEPTH_TEST );
+  glUnlockNormal();
 }
 
 void
 SoWinGLWidget::initOverlayGraphic( void )
 {
-  // virtual - does nothing 
+  // virtual - does nothing
 }
 
 void
@@ -322,12 +321,13 @@ SoWinGLWidget::widgetChanged( HWND newWidget )
   // called whenever the widget is changed (i.e. at initialization
   // or after switching from single->double buffer)
 }
-    
+
 void
 SoWinGLWidget::setGLSize( SbVec2s newSize )  // Coin spesific
 {
   short width, height;
   newSize.getValue( width, height );
+  if (newSize == glSize) return;
   this->glSize = newSize;
   this->sizeChanged( newSize );
   MoveWindow( this->getNormalWidget( ),
@@ -351,7 +351,7 @@ SoWinGLWidget::getGLAspectRatio(
   return (float) this->glSize[0] / (float) this->glSize[1];
 }
 
-    
+
 LRESULT
 SoWinGLWidget::eventHandler( HWND hwnd,
                              UINT message,
@@ -366,14 +366,13 @@ SoWinGLWidget::eventHandler( HWND hwnd,
 void
 SoWinGLWidget::setStereoBuffer( SbBool set )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
+  this->setQuadBufferStereo(set);
 }
 
 SbBool
 SoWinGLWidget::isStereoBuffer( void )
 {
-  return ( this->glModes & SO_GLX_STEREO );
+  return this->isQuadBufferStereo();
 }
 
 SbBool
@@ -381,13 +380,13 @@ SoWinGLWidget::isRGBMode( void )
 {
   return ( this->glModes & SO_GLX_RGB );
 }
-    
+
 int
 SoWinGLWidget::getDisplayListShareGroup( HGLRC ctx )
 {
   return 0; // FIXME: nothing done yet!
 }
-    
+
 HWND
 SoWinGLWidget::buildWidget( HWND parent )
 {
@@ -449,7 +448,6 @@ SoWinGLWidget::buildWidget( HWND parent )
   }
 
   SoWin::addMessageHook( this->managerWidget, WM_SIZE );
-
   return this->managerWidget;
 }
 
@@ -501,7 +499,7 @@ SoWinGLWidget::getThreadId( void )
 
 void
 SoWinGLWidget::setThreadId( DWORD id )
-{ 
+{
   this->dwThreadId = id;
 }
 
@@ -512,46 +510,27 @@ SoWinGLWidget::changeCursor( HCURSOR newCursor )
 }
 
 void
-SoWinGLWidget::glExpose( void )
-{
-  if ( this->firstRealize ) {
-    this->firstRealize = FALSE;
-    this->glInit( );
-  }
-}
-
-void
-SoWinGLWidget::glInit( void )
-{
-  glLock( );
-  glEnable( GL_DEPTH_TEST );
-  glUnlock( );
-}
-
-void
-SoWinGLWidget::glReshape( int width, int height ) // virtual
-{
-  // virtual: function not implemented
-}
-
-void
-SoWinGLWidget::glRender( void ) // virtual
-{
-  // virtual: function not implemented
-}
-
-void
-SoWinGLWidget::glLock( void )
+SoWinGLWidget::glLockNormal( void )
 {
   assert( this->hdcNormal != NULL );
   wglMakeCurrent( this->hdcNormal, this->ctxNormal );
 }
 
 void
-SoWinGLWidget::glUnlock( void )
+SoWinGLWidget::glUnlockNormal( void )
 {
   // FIXME: does nothing
   //wglMakeCurrent( this->hdcNormal, NULL );
+}
+
+void
+SoWinGLWidget::glLockOverlay( void )
+{
+}
+
+void
+SoWinGLWidget::glUnlockOverlay( void )
+{
 }
 
 void
@@ -565,7 +544,6 @@ SoWinGLWidget::glSwapBuffers( void )
 void
 SoWinGLWidget::glFlushBuffer( void )
 {
-  // nothing to do...
   glFlush( );
 }
 
@@ -643,9 +621,6 @@ SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // pfd is ign
   } else {
     this->singleBufferWidget = normalwidget;
   }
-
-  this->initGraphic( );
-
   ShowWindow( normalwidget, SW_SHOW );
 }
 
@@ -710,7 +685,7 @@ SoWinGLWidget::glWindowProc( HWND window,
     msg.time = GetTickCount( );
     msg.wParam = wparam;
     object->processEvent( & msg );
-       
+
     if( ! object->haveFocus ) {
       object->haveFocus = ( BOOL ) SetFocus( window );
     }
@@ -759,7 +734,7 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
   BOOL ok;
 
   HDC hdc = GetDC( window );
-    
+
   static PIXELFORMATDESCRIPTOR pfd =  // FIXME: no palette or singlebuffer support
   {
     sizeof(PIXELFORMATDESCRIPTOR),	// size of this pfd
@@ -797,9 +772,6 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
   ok = wglMakeCurrent( hdc, hrc );
   assert( ok );
 
-  //GLSetupRC( );
-  //this->glInit( );
-
   this->hdcNormal = hdc;
   this->ctxNormal = hrc;
   this->nPixelFormat = nPixelFormat;
@@ -818,7 +790,7 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
   }
 
   return 0;
-} 
+}
 
 LRESULT
 SoWinGLWidget::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
@@ -839,7 +811,7 @@ SoWinGLWidget::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
   assert( ok );
 
   return 0;
-} 
+}
 
 LRESULT
 SoWinGLWidget::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
@@ -854,8 +826,13 @@ SoWinGLWidget::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam 
   wglMakeCurrent( this->hdcNormal, this->ctxNormal );
   // GLRenderScene( NULL );
 
-  this->glExpose( );
-  this->glRender( );
+  if ( this->firstRealize ) {
+    this->firstRealize = FALSE;
+    this->initGraphic();
+  }
+  if (!this->glScheduleRedraw()) {
+    this->redraw();
+  }
 
   wglMakeCurrent( this->hdcNormal, NULL );
 
@@ -873,23 +850,20 @@ SoWinGLWidget::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lpara
   return 0;
 }
 
-/*
-  Stubbed the following to make SoWin compile with recent changes in common/
-  20001214 larsa.
-*/
-
-void
-SoWinGLWidget::setOverlayRender(
-  const SbBool enable )
+SbBool
+SoWinGLWidget::hasOverlayGLArea(void) const
 {
-  // FIXME
+  return (((SoWinGLWidget*)this)->getOverlayWidget() != NULL);
 }
 
 SbBool
-SoWinGLWidget::isOverlayRender(
-  void ) const
+SoWinGLWidget::hasNormalGLArea(void) const
 {
-  // FIXME
-  return FALSE;
+  return (((SoWinGLWidget*)this)->getNormalWidget() != NULL);
 }
 
+SbBool
+SoWinGLWidget::glScheduleRedraw(void)
+{
+  return FALSE;
+}

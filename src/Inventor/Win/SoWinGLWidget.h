@@ -69,11 +69,11 @@ public:
 
   void setDoubleBuffer( SbBool set );
   SbBool isDoubleBuffer( void );
-    
+
   void setBorder( SbBool set );   // show/hide 3 pixel border ( default = off )
   int getBorderSize( void );
   SbBool isBorder( void ) const;
-    
+
   void setDrawToFrontBufferEnable( SbBool enable );
   SbBool isDrawToFrontBufferEnable( void ) const;
 
@@ -83,6 +83,9 @@ public:
   void setCursor( HCURSOR newCursor );
   HCURSOR getCursor( void );
 
+  SbBool hasOverlayGLArea(void) const;
+  SbBool hasNormalGLArea(void) const;
+
 protected:
   // Subclasses can pass in a bitwise OR specifying the GL modes
   // (e.g. SO_GLX_RGB | SO_GLX_DOUBLE | SO_GLX_ZBUFFER | SO_GLX_OVERLAY)
@@ -90,8 +93,8 @@ protected:
   // buildWidget() is explicity called; else, buildWidget() is called here.
   SoWinGLWidget(
                 HWND parent = NULL,
-                const char * name = NULL, 
-                SbBool embed = TRUE, 
+                const char * name = NULL,
+                SbBool embed = TRUE,
                 int glModes = SO_GLX_RGB|SO_GL_DOUBLE, //SO_GLX_RGB
                 SbBool build = TRUE);
 
@@ -105,7 +108,8 @@ protected:
   virtual void initOverlayGraphic( void );
   virtual void sizeChanged( const SbVec2s newSize );
   virtual void widgetChanged( HWND newWidget );
-    
+  virtual SbBool glScheduleRedraw(void);
+
   void setGLSize( SbVec2s newSize );
   SbVec2s getGLSize( void ) const;
   float getGLAspectRatio(void) const;
@@ -113,7 +117,7 @@ protected:
   void setGlxSize( SbVec2s newSize ) { this->setGLSize( newSize ); }
   const SbVec2s getGlxSize( void ) const { return this->getGLSize(); }
   float getGlxAspectRatio(void) const { return this->getGLAspectRatio(); }
-    
+
   //static void eventHandler( HWND, SoWinGLWidget *, MSG *, BOOL * );
   static LRESULT eventHandler( HWND hwnd,
                                UINT message,
@@ -123,9 +127,9 @@ protected:
   void setStereoBuffer( SbBool set );
   SbBool isStereoBuffer( void );
   SbBool isRGBMode( void );
-    
+
   int	getDisplayListShareGroup( HGLRC ctx );
-    
+
   HWND buildWidget( HWND parent );
   HWND getManagerWidget( void );
   HWND getGlxMgrWidget( void );
@@ -144,12 +148,12 @@ protected:
 
   void changeCursor( HCURSOR newCursor );
 
-  void glExpose( void );
-  virtual void glInit( void );
-  virtual void glReshape( int width, int height );
-  virtual void glRender( void );
-  void glLock( void );
-  void glUnlock( void );
+  void glLockNormal( void );
+  void glUnlockNormal( void );
+
+  void glLockOverlay( void );
+  void glUnlockOverlay( void );
+
   void glSwapBuffers( void );
   void glFlushBuffer( void );
 
@@ -191,12 +195,12 @@ private:
   HGLRC ctxOverlay;
   HGLRC ctxSingle;
   HGLRC ctxDouble;
-    
+
   HDC hdcNormal;
   HDC hdcOverlay;
   HDC hdcSingle;
   HDC hdcDouble;
-    
+
   SbVec2s glSize;
   SbBool enableDrawToFrontBuffer;
 
@@ -234,7 +238,7 @@ private:
   int *attribList;
   int glModes;
   int borderSize;
-    
+
   SbBool windowResized;
   POINT windowPosition;
 
