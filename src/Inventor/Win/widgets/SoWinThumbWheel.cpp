@@ -66,7 +66,7 @@ SoWinThumbWheel::~SoWinThumbWheel( void )
   delete this->wheel;
   if ( this->pixmaps ) {
     for ( int i = 0; i < this->numPixmaps; i++ )
-      DeleteObject( this->pixmaps[i] );
+      Win32::DeleteObject( this->pixmaps[i] );
     delete [] this->pixmaps;
   }
   if ( IsWindow( this->wheelWindow ) )
@@ -142,7 +142,7 @@ LRESULT CALLBACK
 SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   PAINTSTRUCT ps;
-  HDC hdc = BeginPaint( window, & ps );
+  HDC hdc = Win32::BeginPaint( window, & ps );
 
   int w, d;
   if ( this->orient == SoWinThumbWheel::Vertical ) {
@@ -162,11 +162,11 @@ SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lpara
                                                ( this->state == SoWinThumbWheel::Disabled ) ?
                                                SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED );
  
- this->blitBitmap( this->pixmaps[pixmap], hdc, 0, 0, this->width( ) - 2, this->height( ) - 2 );
+  this->blitBitmap( this->pixmaps[pixmap], hdc, 0, 0, this->width( ) - 2, this->height( ) - 2 );
  
   this->currentPixmap = pixmap;
 
-  EndPaint( window, & ps );
+  Win32::EndPaint( window, & ps );
   return 0;
 }
 
@@ -223,7 +223,7 @@ SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM wparam, LPARAM l
   else {
     WPARAM wparam = Win32::GetWindowLong( window, GWL_ID );
     LPARAM lparam = ( LPARAM ) value;
-    SendMessage( GetParent( window ), WM_THUMBWHEEL, wparam, lparam );
+    (void)SendMessage( GetParent( window ), WM_THUMBWHEEL, wparam, lparam );
   }
 
  return 0;
@@ -353,8 +353,8 @@ SoWinThumbWheel::size( int width, int height )
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
   Win32::SetWindowPos( this->wheelWindow, NULL, 0, 0, width, height, flags );
-  InvalidateRect( this->wheelWindow, NULL, FALSE );
-  InvalidateRect( this->labelWindow, NULL, FALSE );
+  Win32::InvalidateRect( this->wheelWindow, NULL, FALSE );
+  Win32::InvalidateRect( this->labelWindow, NULL, FALSE );
 }
 
 void
@@ -423,7 +423,7 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect, char * name )
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = 4;
 
-     SoWinThumbWheel::wheelWndClassAtom = Win32::RegisterClass( & windowclass );
+    SoWinThumbWheel::wheelWndClassAtom = Win32::RegisterClass( & windowclass );
     
   }
 
@@ -472,8 +472,8 @@ SoWinThumbWheel::initWheel( int diameter, int width )
 
   if ( this->pixmaps != NULL ) {
     for ( int i = 0; i < this->numPixmaps; i++ ) {
-   DeleteObject( this->pixmaps[i] );
-   this->pixmaps[i] = NULL;
+      Win32::DeleteObject( this->pixmaps[i] );
+      this->pixmaps[i] = NULL;
     }
     delete [] this->pixmaps;
   }
@@ -546,7 +546,7 @@ SoWinThumbWheel::setLabelText( char * text )
   }
       
   int len = strlen( text );
-  HDC hdc = GetDC( this->labelWindow );
+  HDC hdc = Win32::GetDC( this->labelWindow );
   SIZE textSize;
   Win32::GetTextExtentPoint( hdc, text, len, & textSize );
   
@@ -655,7 +655,6 @@ SoWinThumbWheel::createDIB( int width, int height, int bpp, void ** bits ) // 16
 
   UINT flag = DIB_RGB_COLORS;
   bitmap = CreateDIBSection( hdc, format, flag, ( void ** ) bits, NULL, 0 );
-
   assert( * bits );
 
   HeapFree( heap, 0, format );
@@ -671,8 +670,8 @@ SoWinThumbWheel::blitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int
   assert( memorydc!=NULL && "CreateCompatibleDC() failed -- investigate" );
   HBITMAP oldBitmap = ( HBITMAP ) SelectObject( memorydc, bitmap );
   Win32::BitBlt( dc, x, y, width, height, memorydc, 0, 0, SRCCOPY );
-  (void)SelectObject( memorydc, oldBitmap );
-  DeleteDC( memorydc );
+  Win32::SelectObject( memorydc, oldBitmap );
+  Win32::DeleteDC( memorydc );
 }
 
 SIZE
@@ -681,7 +680,7 @@ SoWinThumbWheel::getTextSize( HWND window, char * text )
   assert( IsWindow( window ) );
   
   int len = strlen( text );
-  HDC hdc = GetDC( window );
+  HDC hdc = Win32::GetDC( window );
 
   SIZE size;
   Win32::GetTextExtentPoint( hdc, text, len, & size );

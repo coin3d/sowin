@@ -118,7 +118,64 @@ Win32::SelectObject(HDC hdc,          // handle to device context
   return o;
 }
 
+void
+Win32::DeleteObject(HGDIOBJ hObject   // handle to graphic object
+                    )
+{
+  BOOL r = ::DeleteObject(hObject);
+  if (!r) { Win32::showLastErr(); }
+  assert( r && "DeleteObject() failed -- investigate");
+}
 
+HDC
+Win32::GetDC(HWND hWnd   // handle to a window
+             )
+{
+  HDC hdc = ::GetDC(hWnd);
+  if (hdc) { Win32::showLastErr(); }
+  assert( hdc && "GetDC() failed -- investigate");
+  return hdc;
+}
+
+void
+Win32::DeleteDC(HDC hdc   // handle to device context
+                )
+{
+  BOOL r = ::DeleteDC(hdc);
+  if (!r) { Win32::showLastErr(); }
+  assert( r && "DeleteDC() failed -- investigate");
+}
+
+void
+Win32::ReleaseDC(HWND hWnd,  // handle to window
+                 HDC hDC     // handle to device context
+                 )
+{
+  int r = ::ReleaseDC(hWnd, hDC);
+  if (!r) { Win32::showLastErr(); }
+  assert( r && "ReleaseDC() failed -- investigate");
+}
+  
+HDC
+Win32::BeginPaint(HWND hwnd,  // handle to window
+                  LPPAINTSTRUCT lpPaint // pointer to structure for paint information
+                  )
+{
+  HDC hdc = ::BeginPaint(hwnd, lpPaint);
+  if (!hdc) { Win32::showLastErr(); }
+  assert( hdc && "BeginPaint() failed -- investigate");
+  return hdc;
+}
+
+void
+Win32::EndPaint(HWND hWnd,  // handle to window
+                CONST PAINTSTRUCT *lpPaint // pointer to structure for paint data
+                )
+{
+  BOOL r = ::EndPaint(hWnd, lpPaint);
+  if (!r) { Win32::showLastErr(); }
+  assert( r && "EndPaint() failed -- investigate");
+}
 void
 Win32::SwapBuffers(HDC hdc  // device context whose buffers get swapped
                    )
@@ -150,7 +207,8 @@ Win32::UnregisterClass(LPCTSTR lpClassName,  // address of class name string
 }
 
 void
-Win32::DestroyWindow(HWND hWnd)      // handle to window or control
+Win32::DestroyWindow(HWND hWnd      // handle to window or control
+                     )
 {
   BOOL r = ::DestroyWindow(hWnd);
   if (!r) { Win32::showLastErr(); }

@@ -36,7 +36,13 @@ public:
   static void GetTextExtentPoint(HDC, LPCTSTR, int, LPSIZE);
   static void MoveWindow(HWND, int, int, int, int, BOOL);
   static HGDIOBJ SelectObject(HDC, HGDIOBJ);
+  static void DeleteObject(HGDIOBJ);
   static void SwapBuffers(HDC);
+  static HDC GetDC(HWND);  
+  static void DeleteDC(HDC);
+  static void ReleaseDC(HWND, HDC);
+  static HDC BeginPaint(HWND, LPPAINTSTRUCT);
+  static void EndPaint(HWND, CONST PAINTSTRUCT *);
   static ATOM RegisterClass(CONST WNDCLASS *);
   static void UnregisterClass(LPCTSTR, HINSTANCE);
   static void DestroyWindow(HWND);
@@ -47,7 +53,7 @@ public:
   static LONG SetWindowLong(HWND, int, LONG);
   static LONG GetWindowLong(HWND, int);
   static void SetWindowPos(HWND, HWND, int, int, int, int, UINT);
-  static HHOOK SetWindowsHookEx(int, HOOKPROC, HINSTANCE, DWORD);  
+  static HHOOK SetWindowsHookEx(int, HOOKPROC, HINSTANCE, DWORD);
 private:
   static void showLastErr(void);
 };

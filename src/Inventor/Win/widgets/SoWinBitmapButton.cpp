@@ -175,18 +175,18 @@ HWND
 SoWinBitmapButton::buildWidget( HWND parent, RECT rect )
 {
  
- assert( IsWindow( parent ) );
+  assert( IsWindow( parent ) );
 
- this->buttonWindow = CreateWindow( "BUTTON",
-                                   NULL,
-                                   WS_VISIBLE | WS_CHILD |
-                                   BS_PUSHBUTTON | BS_BITMAP | BS_CENTER,
-                                   rect.left, rect.top,
-                                   rect.right, rect.bottom,
-                                   parent,
-                                   NULL,
-                                   SoWin::getInstance( ),
-                                   NULL );
+  this->buttonWindow = CreateWindow( "BUTTON",
+                                     NULL,
+                                     WS_VISIBLE | WS_CHILD |
+                                     BS_PUSHBUTTON | BS_BITMAP | BS_CENTER,
+                                     rect.left, rect.top,
+                                     rect.right, rect.bottom,
+                                     parent,
+                                     NULL,
+                                     SoWin::getInstance( ),
+                                     NULL );
  
   assert( IsWindow( this->buttonWindow ) );
  
@@ -454,28 +454,28 @@ SoWinBitmapButton::parseXpm( char ** xpm, int dibDepth )// convert from xpm to D
 int
 SoWinBitmapButton::axtoi( char * str ) // convert from ASCII hex to int
 {
- char * c = str;
- int n = ( strchr( c, '\0' ) - c );
+  char * c = str;
+  int n = ( strchr( c, '\0' ) - c );
 
- int x = 0;
+  int x = 0;
  
   // convert n nibbles
- for ( int i = 0; i < n; i++ ) {
+  for ( int i = 0; i < n; i++ ) {
 
-  // numbers 0 - 9
-  if ( ( c[i] > 0x2F ) && ( c[i] < 0x3A ) )
-   x += ( ( c[i] - 0x30 ) << ( ( n - i - 1 ) * 4 ) );
+    // numbers 0 - 9
+    if ( ( c[i] > 0x2F ) && ( c[i] < 0x3A ) )
+      x += ( ( c[i] - 0x30 ) << ( ( n - i - 1 ) * 4 ) );
 
-  // capital letters A - F
-  if ( ( c[i] > 0x40 ) && ( c[i] < 0x47 ) )
-   x += ( ( c[i] - 0x41 + 0x0A ) << ( ( n - i - 1 ) * 4 ) );
+    // capital letters A - F
+    if ( ( c[i] > 0x40 ) && ( c[i] < 0x47 ) )
+      x += ( ( c[i] - 0x41 + 0x0A ) << ( ( n - i - 1 ) * 4 ) );
 
-  // lower case letters a - f
-  if ( ( c[i] > 0x60 ) && ( c[i] < 0x67 ) )
-   x += ( ( c[i] - 0x61 + 0x0A ) << ( ( n - i - 1 ) * 4 ) );
+    // lower case letters a - f
+    if ( ( c[i] > 0x60 ) && ( c[i] < 0x67 ) )
+      x += ( ( c[i] - 0x61 + 0x0A ) << ( ( n - i - 1 ) * 4 ) );
  
- }
+  }
  
- return x;
+  return x;
 
 }

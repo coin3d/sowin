@@ -282,7 +282,6 @@ SoWinGLWidget::setDoubleBuffer( SbBool set )
     PRIVATE( this )->glModes &= ~SO_GL_DOUBLE;
   }
   Win32::DestroyWindow( this->getGLWidget( ) );
-  SoWinGLWidgetP::widgetCounter--;
   PRIVATE( this )->buildNormalGLWidget( PRIVATE( this )->managerWidget );
 }
 
@@ -329,14 +328,13 @@ SoWinGLWidget::isDrawToFrontBufferEnable( void ) const
 void
 SoWinGLWidget::setQuadBufferStereo( const SbBool enable )
 {
-  if (enable) {
+  if ( enable ) {
     PRIVATE( this )->glModes |= SO_GL_STEREO;
   }
   else {
     PRIVATE( this )->glModes &= ~SO_GL_STEREO;
   }
   Win32::DestroyWindow( this->getGLWidget( ) );
-  SoWinGLWidgetP::widgetCounter--;
   PRIVATE( this )->buildNormalGLWidget( PRIVATE( this )->managerWidget );
 }
 
@@ -444,13 +442,13 @@ SoWinGLWidget::glWidgetProc( HWND window,
     case WM_LBUTTONDOWN:
     case WM_MBUTTONDOWN:
     case WM_RBUTTONDOWN:
-      SetCapture( window );
+      (void)SetCapture( window );
       return 0;
 
     case WM_LBUTTONUP:
     case WM_MBUTTONUP:
     case WM_RBUTTONUP:
-      ReleaseCapture( );
+      (void)ReleaseCapture( );
       return 0;
 
     case WM_KILLFOCUS:
@@ -458,7 +456,7 @@ SoWinGLWidget::glWidgetProc( HWND window,
       return 0;
 
     case WM_SETCURSOR:
-      SetCursor( object->getCursor( ) );
+      (void)SetCursor( object->getCursor( ) );
       return 0;
  
     }
@@ -799,21 +797,8 @@ SoWinGLWidgetP::createGLContext( HWND window )
   BOOL ok;
 
 	assert( IsWindow( window ) );
-	
-  wglMakeCurrent( NULL, NULL );
 
-	if ( this->hdcNormal ) {
-		int r = ReleaseDC( window,  this->hdcNormal );
-		assert( r && "ReleaseDC failed -- investigate" );
-	}
-  if ( this->ctxNormal ) {
-    BOOL r = wglDeleteContext( this->ctxNormal );
-		assert( r && "wglDeleteContext failed -- investigate" );
-	}
-  if ( this->ctxOverlay ) {
-    BOOL r = wglDeleteContext( this->ctxOverlay );
-		assert( r && "wglDeleteContext failed -- investigate" );
-	}
+  // All contexts were destroyed or released in onDestroy()
   
   this->hdcNormal = GetDC( window );
 	assert( this->hdcNormal && "GetDC failed -- investigate" );
@@ -925,7 +910,7 @@ SoWinGLWidgetP::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 #endif // SOWIN_DEBUG
 
   PAINTSTRUCT ps;
-  this->hdcNormal = BeginPaint( window, & ps );
+  this->hdcNormal = Win32::BeginPaint( window, & ps );
 
 	BOOL ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
 	assert( ok && "The rendering context could not be made current." );
@@ -940,7 +925,7 @@ SoWinGLWidgetP::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 
   wglMakeCurrent( NULL, NULL );
 
-  EndPaint( window, & ps );
+  Win32::EndPaint( window, & ps );
 
   return 0;
 }
@@ -948,10 +933,18 @@ SoWinGLWidgetP::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 LRESULT
 SoWinGLWidgetP::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
+  wglMakeCurrent( NULL, NULL );
+  
   SoAny::si( )->unregisterGLContext( ( void * ) this->owner );
  
-  wglDeleteContext( this->ctxNormal );
-  ReleaseDC( window, this->hdcNormal );
+  BOOL r = wglDeleteContext( this->ctxNormal );
+  assert( r && "wglDeleteContext failed -- investigate" );
+  this->ctxNormal = NULL;
+  
+  Win32::ReleaseDC( window, this->hdcNormal );
+  this->hdcNormal = NULL;
+
+  // FIXME: Overlay not supported. mariusbu 20010808.
 
   return 0;
 }
