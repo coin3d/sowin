@@ -1,0 +1,20 @@
+=====================================================================
+
+000 The CTRL key can get "stuck", due to how SoWinKeyboardDevice
+    detects modifier keys only when they are pressed or released.
+
+    20020618 mortene, detected by oso.
+
+=====================================================================
+
+001 SoWinPlaneViewer will crash when rotating, because of our call to
+    get the range of valid line sizes when throwing up the
+    superimposition "anchor" graphics.
+
+    By adding a counter to the glLock / glUnlock methods of
+    SoWinGLWidget, one can see that they doesn't match up (the counter
+    dips below zero). The bug is very likely related to this.
+
+    20020618 mortene.
+
+=====================================================================
