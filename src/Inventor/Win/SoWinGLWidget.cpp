@@ -818,8 +818,8 @@ SoWinGLWidgetP::buildNormalGLWidget( HWND manager )
   assert( IsWindow( normalwidget ) );
   this->owner->realized = FALSE;
   this->normalWidget = normalwidget;
-  this->glSize = SbVec2s( rect.right - rect.left,
-    rect.bottom - rect.top );
+  this->owner->setGLSize( SbVec2s( rect.right - rect.left,
+    rect.bottom - rect.top ) );
 }
 
 void
