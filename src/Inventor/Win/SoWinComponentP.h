@@ -1,3 +1,6 @@
+#ifndef SOWINCOMPONENTP_H
+#define SOWINCOMPONENTP_H
+
 /**************************************************************************\
  *
  *  This file is part of the Coin GUI toolkit libraries.
@@ -21,8 +24,9 @@
  *
 \**************************************************************************/
 
-#ifndef SOWINCOMPONENTP_H
-#define SOWINCOMPONENTP_H
+#ifndef SOWIN_INTERNAL
+#error this is a private header file
+#endif /* !SOWIN_INTERNAL */
 
 #include <Inventor/Win/SoGuiComponentP.h>
 #include <Inventor/Win/SoWinCursor.h>

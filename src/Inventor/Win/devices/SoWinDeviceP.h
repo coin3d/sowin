@@ -1,3 +1,6 @@
+#ifndef SOWIN_DEVICEP_H
+#define SOWIN_DEVICEP_H
+
 /**************************************************************************
  *
  *  This file is part of the Coin SoWin GUI binding library.
@@ -17,8 +20,9 @@
  *
  **************************************************************************/
 
-#ifndef SOWIN_DEVICEP_H
-#define SOWIN_DEVICEP_H
+#ifndef SOWIN_INTERNAL
+#error this is a private header file
+#endif /* !SOWIN_INTERNAL */
 
 // FIXME: ugly hack done by mariusbu to share this define between
 // SoWinMouse and SoWinKeyboard. Should instead find out how we could

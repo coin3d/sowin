@@ -1,3 +1,6 @@
+#ifndef SOWINEXAMINERVIEWERP_H
+#define SOWINEXAMINERVIEWERP_H
+
 /**************************************************************************\
  *
  *  This file is part of the Coin GUI toolkit libraries.
@@ -21,8 +24,9 @@
  *
 \**************************************************************************/
 
-#ifndef SOWINEXAMINERVIEWERP_H
-#define SOWINEXAMINERVIEWERP_H
+#ifndef SOWIN_INTERNAL
+#error this is a private header file
+#endif /* !SOWIN_INTERNAL */
 
 #include <Inventor/Win/viewers/SoGuiExaminerViewerP.h>
 
