@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4e from Makefile.am.
+# Makefile.in generated automatically by automake 1.4l from Makefile.am.
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -10,6 +10,8 @@
 # but WITHOUT ANY WARRANTY, to the extent permitted by law; without
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
+
+@SET_MAKE@
 
 SHELL = @SHELL@
 
@@ -31,11 +33,9 @@ infodir = @infodir@
 mandir = @mandir@
 includedir = @includedir@
 oldincludedir = /usr/include
-
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
-
 top_builddir = ../../../..
 
 ACLOCAL = @ACLOCAL@
@@ -49,23 +49,18 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_HEADER = $(INSTALL_DATA)
 transform = @program_transform_name@
-
 NORMAL_INSTALL = :
 PRE_INSTALL = :
 POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-
 build_alias = @build_alias@
 build_triplet = @build@
 host_alias = @host_alias@
 host_triplet = @host@
 target_alias = @target_alias@
 target_triplet = @target@
-
-@SET_MAKE@
-AMDEP = @AMDEP@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
@@ -85,7 +80,6 @@ GUI = @GUI@
 Gui = @Gui@
 HTML_DOC_DIR = @HTML_DOC_DIR@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
-INSTALL_STRIP_PROGRAM_ENV = @INSTALL_STRIP_PROGRAM_ENV@
 LIBFLAGS = @LIBFLAGS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
@@ -93,7 +87,6 @@ LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
 LT_REVISION = @LT_REVISION@
 MAINT = @MAINT@
-MAKEINFO = @MAKEINFO@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
@@ -109,11 +102,11 @@ SOWIN_MAJOR_VERSION = @SOWIN_MAJOR_VERSION@
 SOWIN_MICRO_VERSION = @SOWIN_MICRO_VERSION@
 SOWIN_MINOR_VERSION = @SOWIN_MINOR_VERSION@
 SOWIN_VERSION = @SOWIN_VERSION@
-STRIP = @STRIP@
 SUFFIX = @SUFFIX@
 VERSION = @VERSION@
 WIDGET = @WIDGET@
-_am_include = @_am_include@
+am__include = @am__include@
+am__quote = @am__quote@
 gui = @gui@
 install_sh = @install_sh@
 path_tag = @path_tag@
@@ -124,15 +117,14 @@ sowin_dox_build_dir = @sowin_dox_build_dir@
 sowin_dox_src_dir = @sowin_dox_src_dir@
 win_srcdir = @win_srcdir@
 
-
 @BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = viewers.lst
 @BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoWinViewers.la
 
 INCLUDES = -I$(top_srcdir)/src
 LIBS = 
 
-############################################################################
 
+############################################################################
 BUILT_SOURCES = \
 	SoWinViewer.h \
 	SoWinViewer.cpp \
@@ -157,9 +149,9 @@ ViewerSources = \
 	SoWinPlaneViewer.h
 
 
+
 ############################################################################
 # libtool setup
-
 libSoWinViewers_la_SOURCES = \
 	$(ViewerSources)
 
@@ -168,9 +160,9 @@ nodist_libSoWinViewers_la_SOURCES = \
 	$(BUILT_SOURCES)
 
 
+
 ############################################################################
 # custom setup
-
 viewers_lst_SOURCES = \
 	$(ViewerSources)
 
@@ -179,9 +171,9 @@ nodist_viewers_lst_SOURCES = \
 	$(BUILT_SOURCES)
 
 
+
 ############################################################################
 # headers
-
 SoWinViewersincdir = $(includedir)/Inventor/Win/viewers
 SoWinViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinFullViewer.h \
@@ -197,80 +189,72 @@ CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
-
-DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)/src
-CPPFLAGS = @CPPFLAGS@
-LDFLAGS = @LDFLAGS@
 viewers_lst_AR = $(AR) cru
-viewers_lst_LIBADD = 
+viewers_lst_LIBADD =
 am_viewers_lst_OBJECTS = SoWinFullViewer.$(OBJEXT) \
-SoWinExaminerViewer.$(OBJEXT) SoWinPlaneViewer.$(OBJEXT)
+	SoWinExaminerViewer.$(OBJEXT) SoWinPlaneViewer.$(OBJEXT)
 nodist_viewers_lst_OBJECTS = SoWinViewer.$(OBJEXT) \
-SoAnyFullViewer.$(OBJEXT) SoAnyExaminerViewer.$(OBJEXT) \
-SoAnyPlaneViewer.$(OBJEXT)
+	SoAnyFullViewer.$(OBJEXT) SoAnyExaminerViewer.$(OBJEXT) \
+	SoAnyPlaneViewer.$(OBJEXT)
 viewers_lst_OBJECTS = $(am_viewers_lst_OBJECTS) \
-$(nodist_viewers_lst_OBJECTS)
-AR = ar
+	$(nodist_viewers_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
-libSoWinViewers_la_LDFLAGS = 
-libSoWinViewers_la_LIBADD = 
+libSoWinViewers_la_LDFLAGS =
+libSoWinViewers_la_LIBADD =
 am_libSoWinViewers_la_OBJECTS = SoWinFullViewer.lo \
-SoWinExaminerViewer.lo SoWinPlaneViewer.lo
+	SoWinExaminerViewer.lo SoWinPlaneViewer.lo
 nodist_libSoWinViewers_la_OBJECTS = SoWinViewer.lo SoAnyFullViewer.lo \
-SoAnyExaminerViewer.lo SoAnyPlaneViewer.lo
+	SoAnyExaminerViewer.lo SoAnyPlaneViewer.lo
 libSoWinViewers_la_OBJECTS = $(am_libSoWinViewers_la_OBJECTS) \
-$(nodist_libSoWinViewers_la_OBJECTS)
-CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-CXXFLAGS = @CXXFLAGS@
+	$(nodist_libSoWinViewers_la_OBJECTS)
+
+DEFS = @DEFS@
+DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/SoAnyExaminerViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyExaminerViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyFullViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyFullViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyPlaneViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyPlaneViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinExaminerViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinExaminerViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinFullViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinFullViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinPlaneViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinPlaneViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinViewer.Plo $(DEPDIR)/SoWinViewer.Po
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+CXXFLAGS = @CXXFLAGS@
 CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
+	$(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(viewers_lst_SOURCES) $(libSoWinViewers_la_SOURCES)
 HEADERS = $(SoWinViewersinc_HEADERS) $(nodist_SoWinViewersinc_HEADERS)
 
-depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP@DEP_FILES = $(DEPDIR)/SoAnyExaminerViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoAnyExaminerViewer.Po $(DEPDIR)/SoAnyFullViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoAnyFullViewer.Po $(DEPDIR)/SoAnyPlaneViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoAnyPlaneViewer.Po $(DEPDIR)/SoWinExaminerViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoWinExaminerViewer.Po $(DEPDIR)/SoWinFullViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoWinFullViewer.Po $(DEPDIR)/SoWinPlaneViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoWinPlaneViewer.Po $(DEPDIR)/SoWinViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoWinViewer.Po
 DIST_COMMON = $(SoWinViewersinc_HEADERS) Makefile.am Makefile.in
-
 SOURCES = $(viewers_lst_SOURCES) $(nodist_viewers_lst_SOURCES) $(libSoWinViewers_la_SOURCES) $(nodist_libSoWinViewers_la_SOURCES)
-OBJECTS = $(am_viewers_lst_OBJECTS) $(nodist_viewers_lst_OBJECTS) $(am_libSoWinViewers_la_OBJECTS) $(nodist_libSoWinViewers_la_OBJECTS)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .cpp .h .lo .o .obj
-
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/Inventor/Win/viewers/Makefile
-
-Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
-	cd $(top_builddir) && \
-	  CONFIG_HEADERS= CONFIG_LINKS= \
-	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
-
-clean-noinstLIBRARIES:
-	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-
-mostlyclean-compile:
-	-rm -f *.$(OBJEXT) core *.core
-
-distclean-compile:
-	-rm -f *.tab.c
+.SUFFIXES: .cpp .lo .o .obj
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -280,12 +264,67 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
+	cd $(top_srcdir) && \
+	  $(AUTOMAKE) --gnu  src/Inventor/Win/viewers/Makefile
+Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) && \
+	  CONFIG_HEADERS= CONFIG_LINKS= \
+	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+
+AR = ar
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
-
-libSoWinViewers.la: $(libSoWinViewers_la_OBJECTS) $(libSoWinViewers_la_DEPENDENCIES)
+libSoWinViewers.la: $(libSoWinViewers_la_OBJECTS) $(libSoWinViewers_la_DEPENDENCIES) 
 	$(CXXLINK)  $(libSoWinViewers_la_LDFLAGS) $(libSoWinViewers_la_OBJECTS) $(libSoWinViewers_la_LIBADD) $(LIBS)
+
+mostlyclean-compile:
+	-rm -f *.$(OBJEXT) core *.core
+
+distclean-compile:
+	-rm -f *.tab.c
+
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyExaminerViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyExaminerViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyFullViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyFullViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyPlaneViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyPlaneViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinExaminerViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinExaminerViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinFullViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinFullViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinPlaneViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinPlaneViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinViewer.Po@am__quote@
+
+distclean-depend:
+	-rm -rf $(DEPDIR)
+
+.cpp.o:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+
+.cpp.obj:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
+
+.cpp.lo:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+CXXDEPMODE = @CXXDEPMODE@
+uninstall-info-am:
 
 uninstall-SoWinViewersincHEADERS:
 	@$(NORMAL_UNINSTALL)
@@ -330,49 +369,10 @@ TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 GTAGS:
 	here=`CDPATH=: && cd $(top_builddir) && pwd` \
 	  && cd $(top_srcdir) \
-	  && gtags -i $$here
+	  && gtags -i $(GTAGS_ARGS) $$here
 
 distclean-tags:
-	-rm -f TAGS ID
-
-@AMDEP@@_am_include@ $(DEPDIR)/SoAnyExaminerViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoAnyExaminerViewer.Po
-@AMDEP@@_am_include@ $(DEPDIR)/SoAnyFullViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoAnyFullViewer.Po
-@AMDEP@@_am_include@ $(DEPDIR)/SoAnyPlaneViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoAnyPlaneViewer.Po
-@AMDEP@@_am_include@ $(DEPDIR)/SoWinExaminerViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoWinExaminerViewer.Po
-@AMDEP@@_am_include@ $(DEPDIR)/SoWinFullViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoWinFullViewer.Po
-@AMDEP@@_am_include@ $(DEPDIR)/SoWinPlaneViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoWinPlaneViewer.Po
-@AMDEP@@_am_include@ $(DEPDIR)/SoWinViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoWinViewer.Po
-
-distclean-depend:
-	-rm -rf $(DEPDIR)
-
-@AMDEP@CXXDEPMODE = @CXXDEPMODE@
-
-.cpp.o:
-@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
-
-.cpp.lo:
-@AMDEP@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
-
-.cpp.obj:
-@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
-
+	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
@@ -382,7 +382,11 @@ distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 distdir: $(DISTFILES)
 	$(mkinstalldirs) $(distdir)/$(top_srcdir)/src/Inventor/Win/viewers
 	@for file in $(DISTFILES); do \
-	  d=$(srcdir); \
+	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
+	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
+	  if test "$$dir" != "$$file" && test "$$dir" != "."; then \
+	    $(mkinstalldirs) "$(distdir)/$$dir"; \
+	  fi; \
 	  if test -d $$d/$$file; then \
 	    cp -pR $$d/$$file $(distdir) \
 	    || exit 1; \
@@ -408,24 +412,21 @@ install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 
 installcheck: installcheck-am
-
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
-	  INSTALL_PROGRAM_ENV='$(INSTALL_STRIP_PROGRAM_ENV)' install
-
+	  `test -z '$(STRIP)' || \
+	    echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
 mostlyclean-generic:
 
 clean-generic:
 
 distclean-generic:
-	-rm -f Makefile $(CONFIG_CLEAN_FILES)
-	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
 	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-	-rm -f Makefile.in
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
@@ -437,11 +438,11 @@ distclean: distclean-am
 distclean-am: clean-am distclean-compile distclean-depend \
 	distclean-generic distclean-libtool distclean-tags
 
-dvi:
+dvi: dvi-am
 
 dvi-am:
 
-info:
+info: info-am
 
 info-am:
 
@@ -450,7 +451,7 @@ install-data-am: install-SoWinViewersincHEADERS \
 
 install-exec-am:
 
-install-info:
+install-info: install-info-am
 
 install-man:
 
@@ -465,20 +466,21 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-SoWinViewersincHEADERS \
+uninstall-am: uninstall-SoWinViewersincHEADERS uninstall-info-am \
 	uninstall-nodist_SoWinViewersincHEADERS
 
-.PHONY: all all-am check check-am clean clean-generic clean-libtool \
-	clean-noinstLIBRARIES clean-noinstLTLIBRARIES distclean \
-	distclean-compile distclean-depend distclean-generic \
+.PHONY: GTAGS all all-am check check-am clean clean-generic \
+	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
+	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
 	info-am install install-SoWinViewersincHEADERS install-am \
 	install-data install-data-am install-exec install-exec-am \
-	install-info install-man install-nodist_SoWinViewersincHEADERS \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	tags uninstall uninstall-SoWinViewersincHEADERS uninstall-am \
+	install-info install-info-am install-man \
+	install-nodist_SoWinViewersincHEADERS install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool tags uninstall \
+	uninstall-SoWinViewersincHEADERS uninstall-am uninstall-info-am \
 	uninstall-nodist_SoWinViewersincHEADERS
 
 
@@ -554,7 +556,6 @@ install-nodist_SoWinViewersincHEADERS: $(nodist_SoWinViewersinc_HEADERS)
 	done
 
 # EOF ######################################################################
-
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
