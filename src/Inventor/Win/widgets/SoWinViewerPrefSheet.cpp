@@ -27,7 +27,6 @@ static const char rcsid[] =
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 
-
 SoWinViewerPrefSheet::SoWinViewerPrefSheet( void )
 {
   this->constructor( );
@@ -40,11 +39,12 @@ SoWinViewerPrefSheet::~SoWinViewerPrefSheet( void )
 
 void SoWinViewerPrefSheet::create( HWND parent )
 {
+  int y = 10; // Start at 10 pixels
   this->createMainWidget( parent );
-  this->createSeekWidgets( parent );
-  this->createZoomWidgets( parent );
-  this->createClippingWidgets( parent );
-  this->createSpinnWidgets( parent );
+  y = this->createSeekWidgets( this->mainWidget, 0, y );
+  y = this->createZoomWidgets( this->mainWidget, 0, y );
+  y = this->createClippingWidgets( this->mainWidget, 0, y );
+  y = this->createSpinnWidgets( this->mainWidget, 0, y );
 }
 
 void SoWinViewerPrefSheet::destroy( void )
@@ -73,6 +73,7 @@ void SoWinViewerPrefSheet::setTitle( const char * title )
 
 void SoWinViewerPrefSheet::constructor( void )
 {
+  this->lineHeight = 30; // FIXME: check font size
   this->className = "SoWinViewerPrefSheet";
   this->mainWidget = NULL;
 }
@@ -122,44 +123,120 @@ void SoWinViewerPrefSheet::destroyMainWidget( void )
   UnregisterClass( this->className, SoWin::getInstance( ) );
 }
 
-void SoWinViewerPrefSheet::createSeekWidgets( HWND parent )
+int SoWinViewerPrefSheet::createSeekWidgets( HWND parent, int x, int y )
 {
+  assert( IsWindow( parent ) );
+  
+  this->seekWidgets[0] = this->createLabelWidget( parent, "Seek animation time:", 10, y );
+  this->seekWidgets[1] = this->createEditWidget( parent, 64, 185, y );
+  this->seekWidgets[2] = this->createLabelWidget( parent, "seconds", 255, y );
+  y += this->lineHeight;
+  
+  this->seekWidgets[3] = this->createLabelWidget( parent, "Seek to:", 10, y );
+  this->seekWidgets[4] = this->createRadioWidget( parent, "point", 100, y );
+  this->seekWidgets[5] = this->createRadioWidget( parent, "object", 200, y );
+  y += this->lineHeight;
 
+  this->seekWidgets[6] = this->createLabelWidget( parent, "Seek distance:", 10, y );
+  this->seekDistWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, parent, 150, y );
+  this->seekWidgets[7] = this->createEditWidget( parent, 64, 280, y );
+  y += this->lineHeight;
+
+  this->seekWidgets[8] = this->createRadioWidget( parent, "percentage", 10, y );
+  this->seekWidgets[9] = this->createRadioWidget( parent, "absolute", 110, y );
+  y += this->lineHeight;
+  
+  return y;
 }
 
 void SoWinViewerPrefSheet::destroySeekWidgets( void )
 {
-
+  for ( int i = 0; i < 10; i++ )
+    if ( IsWindow( this->seekWidgets[i] ) )
+      DestroyWindow( this->seekWidgets[i] );
+  //if ( this->seekDistWheel )
+  //delete this->seekDistWheel;
 }
 
-void SoWinViewerPrefSheet::createZoomWidgets( HWND parent )
+int SoWinViewerPrefSheet::createZoomWidgets( HWND parent, int x, int y )
 {
+  assert( IsWindow( parent ) );
 
+  this->zoomWidgets[0] = this->createLabelWidget( parent, "Camera zoom:", 10, y );
+  this->zoomWidgets[1] = this->createSliderWidget( parent, 118, 150, y );
+  this->zoomWidgets[2] = this->createEditWidget( parent, 64, 280, y );
+  y += this->lineHeight;
+
+  this->zoomWidgets[3] = this->createLabelWidget( parent, "Zoom slider ranges from:", 10, y );
+  this->zoomWidgets[4] = this->createEditWidget( parent, 64, 185, y );
+  this->zoomWidgets[5] = this->createLabelWidget( parent, "to:", 255, y );
+  this->zoomWidgets[6] = this->createEditWidget( parent, 64, 280, y );
+  y += this->lineHeight;
+    
+  return y;
 }
 
 void SoWinViewerPrefSheet::destroyZoomWidgets( void )
 {
-
+  for ( int i = 0; i < 7; i++ )
+    if ( IsWindow( this->zoomWidgets[i] ) )
+      DestroyWindow( this->zoomWidgets[i] );
 }
 
-void SoWinViewerPrefSheet::createClippingWidgets( HWND parent )
+int SoWinViewerPrefSheet::createClippingWidgets( HWND parent, int x, int y )
 {
+  assert( IsWindow( parent ) );
 
+  this->clippingWidgets[0] = this->createCheckWidget( parent, "Auto clipping planes", 10, y );
+  y += this->lineHeight;
+
+  this->clippingWidgets[1] = this->createLabelWidget( parent, "Near plane:", 10, y );
+  this->nearPlaneWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, parent, 150, y );
+  this->clippingWidgets[2] = this->createEditWidget( parent, 64, 280, y );
+  y += this->lineHeight;
+  
+  this->clippingWidgets[3] = this->createLabelWidget( parent, "Far plane:", 10, y );
+  this->farPlaneWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, parent, 150, y );
+  this->clippingWidgets[4] = this->createEditWidget( parent, 64, 280, y );
+  y += this->lineHeight;
+  
+  return y;
 }
 
 void SoWinViewerPrefSheet::destroyClippingWidgets( void )
 {
-
+  for ( int i = 0; i < 5; i++ )
+    if ( IsWindow( this->clippingWidgets[i] ) )
+      DestroyWindow( this->clippingWidgets[i] );
+  // delete nearPlaneWheel;
+  // delete farPlaneWheel;
 }
 
-void SoWinViewerPrefSheet::createSpinnWidgets( HWND parent )
+int SoWinViewerPrefSheet::createSpinnWidgets( HWND parent, int x, int y )
 {
+  assert( IsWindow( parent ) );
 
+  this->spinnWidgets[0] = this->createCheckWidget( parent, "Enable spinn animation", 10, y );
+  y += this->lineHeight;
+
+  this->spinnWidgets[1] = this->createCheckWidget( parent, "Show point of rotation axes", 10, y );
+  y += this->lineHeight;
+  
+  this->spinnWidgets[2] = this->createLabelWidget( parent, "Axes size:", 10, y );
+  this->axesSizeWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, parent, 150, y );
+  this->spinnWidgets[3] = this->createEditWidget( parent, 64, 280, y );
+  y += this->lineHeight;
+  
+  
+  return y;
 }
 
 void SoWinViewerPrefSheet::destroySpinnWidgets( void )
 {
-
+  for ( int i = 0; i < 4; i++ )
+    if ( IsWindow( this->spinnWidgets[i] ) )
+      DestroyWindow( this->spinnWidgets[i] );
+  // delete axisSizeWheel;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -202,4 +279,95 @@ LRESULT SoWinViewerPrefSheet::onDestroy( HWND window, UINT message, WPARAM wpara
 {
   this->destroy( );
   return 0;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//  (private)
+//
+
+HWND SoWinViewerPrefSheet::createLabelWidget( HWND parent, const char * text, int x, int y )
+{
+  assert( IsWindow( parent ) );
+	HWND hwnd = CreateWindowEx( NULL,
+                              "STATIC",
+		                          ( text ? text : "" ),
+		                          WS_VISIBLE | WS_CHILD | SS_LEFT,
+		                          x, y,
+		                          strlen( text ) * 8, 16, // SIZE
+		                          parent,
+		                          NULL,
+		                          SoWin::getInstance( ),
+		                          NULL );
+	assert( IsWindow( hwnd ) );
+	return hwnd;  
+}
+
+HWND SoWinViewerPrefSheet::createEditWidget( HWND parent, int width, int x, int y )
+{
+  assert( IsWindow( parent ) );
+	HWND hwnd = CreateWindowEx( WS_EX_CLIENTEDGE,
+                              "EDIT",
+		                          "",
+                              WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL,// | ES_NUMBER,
+		                          x, y,
+		                          width, 20, // SIZE
+		                          parent,
+		                          NULL,
+		                          SoWin::getInstance( ),
+		                          NULL );
+	assert( IsWindow( hwnd ) );
+	return hwnd;  
+}
+
+HWND SoWinViewerPrefSheet::createRadioWidget( HWND parent, const char * text, int x, int y )
+{
+  assert( IsWindow( parent ) );
+	HWND hwnd = CreateWindowEx( NULL,
+                              "BUTTON",
+		                          ( text ? text : "" ),
+                              WS_VISIBLE | WS_CHILD | BS_RADIOBUTTON,
+		                          x, y,
+		                          14 + strlen( text ) * 8, 16, // SIZE
+		                          parent,
+		                          NULL,
+		                          SoWin::getInstance( ),
+		                          NULL );
+	assert( IsWindow( hwnd ) );
+	return hwnd;  
+}
+
+HWND SoWinViewerPrefSheet::createSliderWidget( HWND parent, int width, int x, int y )
+{
+  assert( IsWindow( parent ) );
+	HWND hwnd = CreateWindowEx( NULL, //WS_EX_CLIENTEDGE
+                              "SCROLLBAR",
+                              "",
+                              WS_CHILD | WS_VISIBLE | SBS_HORZ,
+		                          x, y,
+                              width, 18,
+                              parent,
+                              NULL,
+                              SoWin::getInstance( ),
+                              NULL );
+	assert( IsWindow( hwnd ) );
+	return hwnd;  
+}
+
+HWND SoWinViewerPrefSheet::createCheckWidget( HWND parent, const char * text, int x, int y )
+{
+  assert( IsWindow( parent ) );
+	HWND hwnd = CreateWindowEx( NULL,
+                              "BUTTON",
+		                          ( text ? text : "" ),
+                              WS_VISIBLE | WS_CHILD | BS_CHECKBOX,
+		                          x, y,
+		                          14 + strlen( text ) * 8, 16, // SIZE
+		                          parent,
+		                          NULL,
+		                          SoWin::getInstance( ),
+		                          NULL );
+	assert( IsWindow( hwnd ) );
+	return hwnd;  
 }

@@ -23,6 +23,7 @@
 
 #include <sowindefs.h>
 #include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
 #include <Inventor/Win/widgets/SoAnyPopupMenu.h>
@@ -343,10 +344,15 @@ SoWinFullViewer::setStereoDialog( SoWinStereoDialog * newDialog )
 void
 SoWinFullViewer::selectedPrefs( void )
 {
-  // FIXME: open prefs window.
+  char appName[128];
   
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  if ( this->prefsheet == NULL ) {
+    this->prefsheet = new SoWinViewerPrefSheet( );
+  }
+  this->prefsheet->create( );//this->viewerWidget );
+  GetWindowText( SoWin::getTopLevelWidget( ), appName, 128 );
+  this->prefsheet->setTitle( appName );
+  //this->prefsheet->show( TRUE );
 }
 /*
 void
@@ -465,7 +471,7 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 
   this->prefmenu = NULL;
   
-  this->prefwindow = NULL;
+  this->prefsheet = NULL;
   //this->prefwindowtitle = "Viewer Preference Sheet";
   
 	this->leftWheel = NULL;
@@ -763,9 +769,7 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
 	// Popup
 	assert( this->prefmenu != NULL );
 	this->common->prepareMenu( this->prefmenu );
-  
-  assert( IsWindow( this->renderAreaWidget ) );
-  this->displayPopupMenu( point.x, point.y, this->renderAreaWidget );//this->viewerWidget );
+  this->displayPopupMenu( point.x, point.y, this->renderAreaWidget );/*this->viewerWidget*/
 }
 
 void
@@ -1441,6 +1445,6 @@ SoWinFullViewer::goFullScreen( SbBool enable )
         height - DECORATION_SIZE,
         TRUE );
   }
-  InvalidateRect( this->viewerWidget, NULL, TRUE );
+  InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
 }
 

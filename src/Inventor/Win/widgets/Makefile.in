@@ -142,7 +142,9 @@ WIDGETSOURCES = \
 	SoWinPopupMenu.cpp \
 	SoWinPopupMenu.h \
 	SoWinBitmapButton.cpp \
-	SoWinBitmapButton.h
+	SoWinBitmapButton.h \
+	SoWinViewerPrefSheet.cpp \
+	SoWinViewerPrefSheet.h
 
 
 ############################################################################
@@ -169,10 +171,11 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 widgets_lst_AR = $(AR) cru
-widgets_lst_LIBADD = 
+widgets_lst_LIBADD =
 am_widgets_lst_OBJECTS = SoAnyPopupMenu.$(OBJEXT) \
 SoAnyThumbWheel.$(OBJEXT) SoWinThumbWheel.$(OBJEXT) \
-SoWinPopupMenu.$(OBJEXT) SoWinBitmapButton.$(OBJEXT)
+SoWinPopupMenu.$(OBJEXT) SoWinBitmapButton.$(OBJEXT) \
+SoWinViewerPrefSheet.$(OBJEXT)
 widgets_lst_OBJECTS = $(am_widgets_lst_OBJECTS)
 AR = ar
 LTLIBRARIES = $(noinst_LTLIBRARIES)
@@ -180,7 +183,7 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libSoWinWidgets_la_LDFLAGS = 
 libSoWinWidgets_la_LIBADD = 
 am_libSoWinWidgets_la_OBJECTS = SoAnyPopupMenu.lo SoAnyThumbWheel.lo \
-SoWinThumbWheel.lo SoWinPopupMenu.lo SoWinBitmapButton.lo
+SoWinThumbWheel.lo SoWinPopupMenu.lo SoWinBitmapButton.lo SoWinViewerPrefSheet.lo
 libSoWinWidgets_la_OBJECTS = $(am_libSoWinWidgets_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -199,7 +202,8 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@ $(DEPDIR)/SoAnyThumbWheel.Po $(DEPDIR)/SoWinBitmapButton.Plo \
 @AMDEP@ $(DEPDIR)/SoWinBitmapButton.Po $(DEPDIR)/SoWinPopupMenu.Plo \
 @AMDEP@ $(DEPDIR)/SoWinPopupMenu.Po $(DEPDIR)/SoWinThumbWheel.Plo \
-@AMDEP@ $(DEPDIR)/SoWinThumbWheel.Po
+@AMDEP@ $(DEPDIR)/SoWinThumbWheel.Po $(DEPDIR)/SoWinViewerPrefSheet.Plo \
+@AMDEP@ $(DEPDIR)/SoWinViewerPrefSheet.Po
 DIST_COMMON = Makefile.am Makefile.in
 
 SOURCES = $(widgets_lst_SOURCES) $(libSoWinWidgets_la_SOURCES)
@@ -286,6 +290,8 @@ distclean-tags:
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinPopupMenu.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinThumbWheel.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinThumbWheel.Po
+@AMDEP@@_am_include@ $(DEPDIR)/SoWinViewerPrefSheet.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoWinViewerPrefSheet.Po
 
 distclean-depend:
 	-rm -rf $(DEPDIR)

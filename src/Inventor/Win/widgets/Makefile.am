@@ -25,7 +25,10 @@ WIDGETSOURCES = \
 	SoWinPopupMenu.cpp \
 	SoWinPopupMenu.h \
 	SoWinBitmapButton.cpp \
-	SoWinBitmapButton.h
+	SoWinBitmapButton.h \
+        SoWinViewerPrefSheet.cpp \
+        SoWinViewerPrefSheet.h
+
 
 ############################################################################
 

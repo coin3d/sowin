@@ -35,19 +35,19 @@ public:
 protected:
   void constructor( void );
 
-  void createMainWidget( HWND parent );
+  void createMainWidget( HWND parent);
   void destroyMainWidget( void );
 
-  void createSeekWidgets( HWND parent );
+  int createSeekWidgets( HWND parent, int x, int y );
   void destroySeekWidgets( void );
 
-  void createZoomWidgets( HWND parent );
+  int createZoomWidgets( HWND parent, int x, int y );
   void destroyZoomWidgets( void );
 
-  void createClippingWidgets( HWND parent );
+  int createClippingWidgets( HWND parent, int x, int y );
   void destroyClippingWidgets( void );
 
-  void createSpinnWidgets( HWND parent );
+  int createSpinnWidgets( HWND parent, int x, int y );
   void destroySpinnWidgets( void );
 
   // Event handlers
@@ -61,8 +61,28 @@ protected:
   LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   
 private:
-  HWND mainWidget;
+  HWND createLabelWidget( HWND parent, const char * text = NULL, int x = 0, int y = 0 );
+  HWND createEditWidget( HWND parent, int width = 64, int x = 0, int y = 0 );
+  HWND createRadioWidget( HWND parent, const char * text = NULL, int x = 0, int y = 0 );
+  HWND createSliderWidget( HWND parent, int width = 64, int x = 0, int y = 0 );
+  HWND createCheckWidget( HWND parent, const char * text = NULL, int x = 0, int y = 0 );
+
+  int lineHeight;
   const char * className;
+  
+  HWND mainWidget;
+  
+  HWND seekWidgets[10];
+  SoWinThumbWheel * seekDistWheel;
+
+  HWND zoomWidgets[7];
+
+  HWND clippingWidgets[5];
+  SoWinThumbWheel * nearPlaneWheel;
+  SoWinThumbWheel * farPlaneWheel;
+
+  HWND spinnWidgets[4];
+  SoWinThumbWheel * axesSizeWheel;
 };
 
 #endif  // SOWIN_VIEWERPREFSHEET_H

@@ -27,6 +27,7 @@
 class SoFieldSensor;
 class SoWinBitmapButton;
 class SoWinThumbWheel;
+class SoWinViewerPrefSheet;
 class SoAnyPopupMenu;
 
 // App button callback functions
@@ -255,7 +256,7 @@ private:
   SoAnyPopupMenu * prefmenu;
   SoAnyFullViewer * const common;
 
-  HWND prefwindow; // preference window
+  SoWinViewerPrefSheet * prefsheet; // preference window
 
   SbBool menuenabled;
   SbBool decorations;
