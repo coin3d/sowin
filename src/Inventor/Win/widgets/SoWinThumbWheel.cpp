@@ -675,7 +675,7 @@ SoWinThumbWheel::blitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int
   assert( memorydc!=NULL && "CreateCompatibleDC() failed -- investigate" );
   HBITMAP oldBitmap = ( HBITMAP ) SelectObject( memorydc, bitmap );
   Win32::BitBlt( dc, x, y, width, height, memorydc, 0, 0, SRCCOPY );
-  SelectObject( memorydc, oldBitmap );
+  (void)SelectObject( memorydc, oldBitmap );
   DeleteDC( memorydc );
 }
 

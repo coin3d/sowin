@@ -31,14 +31,12 @@
 
 class Win32 {
 public:
-  static void MoveWindow(HWND, int, int, int, int, BOOL);
-  static void EnableWindow(HWND, BOOL);
-
-  static void SwapBuffers(HDC);
-
-  static void GetTextExtentPoint(HDC, LPCTSTR, int, LPSIZE);
-
   static void BitBlt(HDC, int, int, int, int, HDC, int, int, DWORD);
+  static void EnableWindow(HWND, BOOL);
+  static void GetTextExtentPoint(HDC, LPCTSTR, int, LPSIZE);
+  static void MoveWindow(HWND, int, int, int, int, BOOL);
+  static HGDIOBJ SelectObject(HDC, HGDIOBJ);
+  static void SwapBuffers(HDC);
   
 private:
   static void showLastErr(void);

@@ -104,6 +104,18 @@ Win32::BitBlt(HDC hdcDest, // handle to destination device context
   assert( r && "BitBlt() failed -- investigate");
 }
 
+HGDIOBJ
+Win32::SelectObject(HDC hdc,          // handle to device context
+		    HGDIOBJ hgdiobj   // handle to object
+		    )
+{
+  HGDIOBJ o = ::SelectObject( hdc, hgdiobj );
+  BOOL fail = ((o == NULL) || (o == (HGDIOBJ)GDI_ERROR));
+  assert( !fail && "SelectObject() failed -- investigate");
+  return o;
+}
+
+
 void
 Win32::SwapBuffers(HDC hdc  // device context whose buffers get swapped
 		   )
