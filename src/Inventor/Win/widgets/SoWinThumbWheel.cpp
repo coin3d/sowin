@@ -36,11 +36,9 @@ SoWinThumbWheel::SoWinThumbWheel( HWND parent,
                                   int y,
                                   char * name )
 {
-  RECT rect = { x, y, x + this->sizeHint( ).cx, y + this->sizeHint( ).cy };
   this->constructor( SoWinThumbWheel::Vertical );
+  RECT rect = { x, y, x + this->sizeHint( ).cx, y + this->sizeHint( ).cy };
   this->buildWidget( parent, rect, name );
-
-  this->move( x, y );
 } // SoWinThumbWheel( )
 
 SoWinThumbWheel::SoWinThumbWheel( Orientation orientation,
@@ -49,17 +47,9 @@ SoWinThumbWheel::SoWinThumbWheel( Orientation orientation,
                                   int y,
                                   char * name )
 {
+  this->constructor( orientation ); // set orientation
   RECT rect = { x, y, sizeHint( ).cx, sizeHint( ).cy };
-    
-  if ( orientation == SoWinThumbWheel::Vertical ) {
-    rect.right = this->sizeHint( ).cy;
-    rect.bottom = this->sizeHint( ).cx;
-  }
-
-  this->constructor( orientation );
   this->buildWidget( parent, rect, name );
-
-	this->move( x, y );
 } // SoWinThumbWheel()
 
 
@@ -102,7 +92,6 @@ void
 SoWinThumbWheel::setOrientation( Orientation orientation )
 {
   this->orient = orientation;
-  UpdateWindow( this->wheelWindow );
 } // setOrientation()
 
 SoWinThumbWheel::Orientation
@@ -415,6 +404,8 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect, char * name )
   windowclass.cbWndExtra = 4;
 
   RegisterClass( & windowclass );
+
+  _cprintf( "x: %d\ny: %d\ncx: %d\ncy: %d\n", rect.left, rect.top, rect.right, rect.bottom );
 
   this->wheelWindow = CreateWindow(
                                     wndclassname,
