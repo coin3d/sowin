@@ -1286,17 +1286,9 @@ SoWinGLWidgetP::createGLContext(HWND window)
     wc.lpszMenuName   = NULL;
     wc.lpszClassName  = "sowin_glwidget_temp";
     
-    if (!RegisterClass(&wc)) {
-      DWORD dummy;
-      SbString err = Win32::getWin32Err(dummy);
-      SbString s = "Could not register class, ";
-      s += "as RegisterClass failed with error message: ";
-      s += err;
-      SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
+    if (!Win32::RegisterClass(&wc))
       goto panic;
-    }
   }
-
   
   i = 0;
   do {
