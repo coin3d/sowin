@@ -35,10 +35,12 @@ endif
 
 libSoWinDevices_la_SOURCES = \
 	SoWinDevice.cpp \
+	SoWinDeviceP.h \
 	SoWinInputFocus.cpp \
 	SoWinKeyboard.cpp \
 	SoWinMouse.cpp \
-	SoWinSpaceball.cpp
+	SoWinSpaceball.cpp \
+	SoWinSpaceballP.h
 
 nodist_libSoWinDevices_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)

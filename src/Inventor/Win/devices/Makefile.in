@@ -413,10 +413,12 @@ DISTCLEANFILES = \
 # libtool setup
 libSoWinDevices_la_SOURCES = \
 	SoWinDevice.cpp \
+	SoWinDeviceP.h \
 	SoWinInputFocus.cpp \
 	SoWinKeyboard.cpp \
 	SoWinMouse.cpp \
-	SoWinSpaceball.cpp
+	SoWinSpaceball.cpp \
+	SoWinSpaceballP.h
 
 
 nodist_libSoWinDevices_la_SOURCES = \
