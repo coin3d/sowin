@@ -1297,8 +1297,7 @@ SoWinGLWidgetP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lpara
 // Wrap wglMakeCurrent() for convenience with regard to verbose
 // warning output when it fails -- which it really shouldn't.  :-/
 //
-// FIXME: change function-signature to have a void return
-// value. 20020718 mortene.
+// The wglMakeCurrent(hdc, hglrc) call *has* been observed to fail.
 BOOL
 SoWinGLWidgetP::wglMakeCurrent(HDC hdc, HGLRC hglrc)
 {
