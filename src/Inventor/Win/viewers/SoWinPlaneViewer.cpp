@@ -119,9 +119,9 @@ SoWinPlaneViewer::SoWinPlaneViewer(
   SoWinFullViewer::BuildFlag flag, 
   SoWinViewer::Type type )
 : inherited( parent, name, embed, flag, type, FALSE )
-, common( new SoAnyPlaneViewer( this ) )
-, pimpl( new SoWinPlaneViewerP( this ) )  
 {
+  this->common = new SoAnyPlaneViewer( this );
+  PRIVATE( this ) = new SoWinPlaneViewerP( this );
   PRIVATE( this )->constructor( TRUE );
 } // SoWinPlaneViewer()
 

@@ -121,10 +121,10 @@ SoWinExaminerViewer::SoWinExaminerViewer(
   SbBool embed,
   SoWinFullViewer::BuildFlag flag,
   SoWinViewer::Type type )
-: inherited( parent, name, embed, flag, type, FALSE )
-, common( new SoAnyExaminerViewer( this ) )
-, pimpl( new SoWinExaminerViewerP( this ) )
+  : inherited( parent, name, embed, flag, type, FALSE )
 {
+  this->common = new SoAnyExaminerViewer( this );
+  PRIVATE( this ) = new SoWinExaminerViewerP( this );
   PRIVATE( this )->constructor( TRUE );
 } // SoWinExaminerViewer()
 

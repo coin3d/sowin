@@ -122,9 +122,9 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
                                   BuildFlag flag,
                                   SoWinViewer::Type type,
                                   SbBool build ) :
-  inherited( parent, name, embedded, type, FALSE ),
-  common( new SoAnyFullViewer( this ) )   // FIXME: warning
+  inherited( parent, name, embedded, type, FALSE )
 {
+  this->common = new SoAnyFullViewer( this );
   this->pimpl = new SoWinFullViewerP( this );
 
   PRIVATE( this )->msgHook = NULL;
