@@ -451,7 +451,7 @@ SoWinFullViewerP::buildLeftWheel(HWND parent)
                         "RotX");
   PUBLIC(this)->leftWheel->registerCallback(this->leftWheelCB);
   PUBLIC(this)->leftWheel->registerViewer(PUBLIC(this));
-  PUBLIC(this)->leftWheel->setRangeBoundaryHandling(SoWinThumbWheel::MODULATE);
+  PUBLIC(this)->leftWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
   PUBLIC(this)->leftWheel->setLabelOffset(0,
                                           ((DECORATION_SIZE - PUBLIC(this)->leftWheel->sizeHint().cx) / 2)
                                           + DECORATION_BUFFER + 1);
@@ -473,7 +473,7 @@ SoWinFullViewerP::buildBottomWheel(HWND parent)
                         "RotY");
   PUBLIC(this)->bottomWheel->registerCallback(this->bottomWheelCB);
   PUBLIC(this)->bottomWheel->registerViewer(PUBLIC(this));
-  PUBLIC(this)->bottomWheel->setRangeBoundaryHandling(SoWinThumbWheel::MODULATE);
+  PUBLIC(this)->bottomWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
   PUBLIC(this)->bottomWheel->setLabelOffset(-4, 0);
 
   return PUBLIC(this)->bottomWheel->getWidget();
