@@ -372,10 +372,10 @@ void
 SoWinFullViewer::setViewing( SbBool enable )
 {
   if ( ( enable && this->isViewing( ) ) || ( ! enable && ! this->isViewing( ) ) ) {
-#if SOWIN_DEBUG && 1 // debug
-    SoDebugError::postWarning( "SoWinFullViewer::setViewing, view mode already ",
+#if SOWIN_DEBUG
+    SoDebugError::postWarning( "SoWinFullViewer::setViewing", "view mode already %s",
                                enable ? "on" : "off" );
-#endif // debug
+#endif // SOWIN_DEBUG
     return;
   }
 
