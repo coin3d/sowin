@@ -401,11 +401,6 @@ SoWinKeyboard::disable(HWND widget, SoWinEventHandler * callbackproc, void * dat
 const SoEvent *
 SoWinKeyboard::translateEvent(MSG * msg)
 {
-
-  // FIXME: this method should also set the event position - the last
-  // known cursor (location2) position.  20040709 larsa
-
-
   if ((msg->message != WM_KEYDOWN) && (msg->message != WM_KEYUP) &&
       (msg->message != WM_SYSKEYDOWN) && (msg->message != WM_SYSKEYUP)) {
     return NULL;
@@ -471,6 +466,10 @@ SoWinKeyboard::translateEvent(MSG * msg)
       SoWinDeviceP::modifierKeys |= MK_ALT;
     }
   }
+
+  SbVec2s pos = this->getLastEventPosition();
+  this->setEventPosition(PRIVATE(this)->kbdevent, pos[0], pos[1]);
+  SoDebugError::postInfo("", "position: %d %d\n", pos[0], pos[1]);
 
   PRIVATE(this)->kbdevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
   PRIVATE(this)->kbdevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);

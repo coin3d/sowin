@@ -414,11 +414,3 @@ int main(int argc, char **argv)
 
     20040607 mortene.
 
-=====================================================================
-
-020 SoWinKeyboard::translateEvent() doesn't set event position
-
-    SoEvent->setPosition() must be called with the last known
-    cursor location in SoWinKeyboard::translateEvent().
-
-    20040709 larsa.
