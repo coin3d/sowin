@@ -57,8 +57,6 @@ built-sources: $(BUILT_SOURCES)
 
 ############################################################################
 
-built-sources: $(BUILT_SOURCES)
-
 sowindefs.h: $(srcdir)/sowindefs.h.in
 	@./config.status --file=sowindefs.h
 
@@ -162,5 +160,8 @@ src/Inventor/Win/devices/spwinput_x11.cpp: \
 ############################################################################
 
 doxygen-docs:
+	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
+
+doxygen-doc:
 	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
 
