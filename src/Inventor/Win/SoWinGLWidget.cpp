@@ -468,6 +468,8 @@ SoWinGLWidget::setQuadBufferStereo(const SbBool enable)
 void 
 SoWinGLWidget::setAccumulationBuffer(const SbBool enable)
 {
+  // FIXME: not implemented yet. 20020503 mortene.
+  SOWIN_STUB();
 }
 
 /*!
@@ -486,6 +488,8 @@ SoWinGLWidget::getAccumulationBuffer(void) const
 void 
 SoWinGLWidget::setStencilBuffer(const SbBool enable)
 {
+  // FIXME: not implemented yet. 20020503 mortene.
+  SOWIN_STUB();
 }
 
 /*!
