@@ -1,0 +1,17 @@
+cfg
+html
+htmlhelp
+man
+Debug
+Release
+sowin-config
+sowin-default.cfg
+sogui.doxygen
+config.status
+config.log
+*.dll
+*.pdb
+sowin1.suo
+sowin1.ncb
+libtool
+Makefile
