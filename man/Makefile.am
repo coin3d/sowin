@@ -1,1 +1,9 @@
-## FIXME: not implemented yet. 20011115 mortene.
+
+if BUILD_MANPAGES
+MAN3DIR = man3
+else
+MAN3DIR = 
+endif
+
+SUBDIRS = man1 $(MAN3DIR)
+
