@@ -24,8 +24,6 @@
 #include <windows.h>
 #include <Gl/gl.h>
 
-#include <sowindefs.h>
-
 #include <Inventor/SbBasic.h>
 #include <Inventor/SbLinear.h>
 

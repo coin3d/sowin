@@ -1,7 +1,6 @@
 #ifndef SOWIN_KEYCODES_H
 #define SOWIN_KEYCODES_H
 
-#include <sowindefs.h>
 /*
 #define SOWIN_KEY_OEM_3        0x29    // |
 #define SOWIN_KEY_1            0x02
