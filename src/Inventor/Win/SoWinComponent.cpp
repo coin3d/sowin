@@ -901,19 +901,17 @@ SoWinComponent::openHelpCard(const char * name)
   Sets the cursor for this component.
 */
 void 
-SoWinComponent::setCursor(const SoWinCursor & cursor)
+SoWinComponent::setComponentCursor(const SoWinCursor & cursor)
 {
   PRIVATE(this)->cursor = cursor;
-  MessageBox(PRIVATE(this)->parent,
-             "The cursor functionality has not been implemented.",
-             "SoWin", MB_ICONEXCLAMATION | MB_OK);
+  SOWIN_STUB();
 }
 
 /*!
   Returns the current cursor for this component.
 */
 const SoWinCursor &
-SoWinComponent::getCursor(void) const
+SoWinComponent::getComponentCursor(void) const
 {
   return PRIVATE(this)->cursor;
 }
