@@ -24,11 +24,6 @@
 // Pulls in __COIN_SOWIN__ define used below.
 #include <Inventor/Win/SoWinBasic.h>
 
-// #ifdef __COIN_SOQT__
-// #include <qmetaobject.h>
-// #include <moc_SoQtObject.icc>
-// #endif // __COIN_SOQT__
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H

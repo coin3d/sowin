@@ -4,7 +4,7 @@
 #
 # 20041214 larsa
 
-rm -rf sowin1.dsp sowin1.dsw installsowinheaders.bat
+rm -f sowin1.dsp sowin1.dsw installsowinheaders.bat
 
 ../../configure --enable-msvcdsp --with-msvcrt=mt || exit 1
 make
