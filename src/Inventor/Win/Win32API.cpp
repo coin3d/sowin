@@ -57,6 +57,53 @@ Win32::showLastErr(void)
   (void)printf("\n*** GetLastError()==%d => %s\n", lasterr, s.getString());
 }
 
+HWND
+Win32::CreateWindow_(LPCTSTR lpClassName,  // pointer to registered class name
+                     LPCTSTR lpWindowName, // pointer to window name
+                     DWORD dwStyle,        // window style
+                     int x,                // horizontal position of window
+                     int y,                // vertical position of window
+                     int nWidth,           // window width
+                     int nHeight,          // window height
+                     HWND hWndParent,      // handle to parent or owner window
+                     HMENU hMenu,          // handle to menu or child-window identifier
+                     HANDLE hInstance,     // handle to application instance
+                     LPVOID lpParam        // pointer to window-creation data
+                     )
+{
+  HWND hwnd = ::CreateWindow(lpClassName, lpWindowName, dwStyle, x, y,
+                             nWidth, nHeight, hWndParent, hMenu,
+                             // FIXME: ugly cast, get rid of it. 20020315 mortene.
+                             (HINSTANCE__ *)hInstance, lpParam);
+  if (hwnd == NULL) { Win32::showLastErr(); }
+  assert((hwnd != NULL) && ::IsWindow(hwnd) && "CreateWindow() failed -- investigate");
+  return hwnd;
+}
+
+HWND
+Win32::CreateWindowEx_(DWORD dwExStyle,      // extended window style
+                       LPCTSTR lpClassName,  // pointer to registered class name
+                       LPCTSTR lpWindowName, // pointer to window name
+                       DWORD dwStyle,        // window style
+                       int x,                // horizontal position of window
+                       int y,                // vertical position of window
+                       int nWidth,           // window width
+                       int nHeight,          // window height
+                       HWND hWndParent,      // handle to parent or owner window
+                       HMENU hMenu,          // handle to menu or child-window identifier
+                       HANDLE hInstance,     // handle to application instance
+                       LPVOID lpParam        // pointer to window-creation data
+                       )
+{
+  HWND hwnd = ::CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle,
+                               x, y, nWidth, nHeight, hWndParent, hMenu,
+                               // FIXME: ugly cast, get rid of it. 20020315 mortene.
+                               (HINSTANCE__ *)hInstance, lpParam);
+  if (hwnd == NULL) { Win32::showLastErr(); }
+  assert((hwnd != NULL) && ::IsWindow(hwnd) && "CreateWindowEx() failed -- investigate");
+  return hwnd;
+}
+
 void
 Win32::MoveWindow(HWND hWnd,      // handle to window
                   int X,          // horizontal position

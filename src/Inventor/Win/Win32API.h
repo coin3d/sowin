@@ -28,10 +28,16 @@
 // our behalf, while still keeping the sourcecode nice and clean.
 
 #include <windows.h>
+#include <winuser.h>
 #include <Inventor/SbString.h>
 
 class Win32 {
 public:
+  // Must suffix these two to other names than the originals, as they
+  // seem to be #define macros.
+  static HWND CreateWindow_(LPCTSTR, LPCTSTR, DWORD, int, int, int, int, HWND, HMENU, HANDLE, LPVOID);
+  static HWND CreateWindowEx_(DWORD, LPCTSTR, LPCTSTR, DWORD, int, int, int, int, HWND, HMENU, HANDLE, LPVOID);
+
   static void BitBlt(HDC, int, int, int, int, HDC, int, int, DWORD);
   static void EnableWindow(HWND, BOOL);
   static void GetTextExtentPoint(HDC, LPCTSTR, int, LPSIZE);
