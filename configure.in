@@ -293,6 +293,10 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
 
 SIM_EXPAND_DIR_VARS
 
+# Functions from the gdi32.lib library is used.
+LIBS="$LIBS -lgdi32"
+SOWIN_EXTRA_LIBS="$SOWIN_EXTRA_LIBS -lgdi32"
+
 # **************************************************************************
 # Remove redundant options from certain option lists.
 
@@ -310,6 +314,8 @@ SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
 if $BUILD_WITH_MSVC; then
   CPPFLAGS="-DSOWIN_MAKE_DLL $CPPFLAGS"
 
+  SOWIN_EXTRA_CPPFLAGS="$SOWIN_EXTRA_CPPFLAGS -DSOWIN_DLL"
+
   # We use a version suffix on the .dll-file, so several incompatible
   # (major) versions can be installed on a system.
   #
@@ -318,7 +324,6 @@ if $BUILD_WITH_MSVC; then
   # list all libs used upon `sowin-config --libs`, as we can then
   # also use them from "parent" code (remember that their interfaces
   # is not exposed from the DLL) without any fuss.
-  SOWIN_EXTRA_CPPFLAGS="$SOWIN_EXTRA_CPPFLAGS -DSOWIN_DLL"
   SOWIN_EXTRA_LIBS="-lsowin$SOWIN_MAJOR_VERSION $SOWIN_EXTRA_LIBS"
 
 else

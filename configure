@@ -4104,6 +4104,10 @@ includedir="`eval echo $includedir`"
 infodir="`eval echo $infodir`"
 mandir="`eval echo $mandir`"
 
+# Functions from the gdi32.lib library is used.
+LIBS="$LIBS -lgdi32"
+SOWIN_EXTRA_LIBS="$SOWIN_EXTRA_LIBS -lgdi32"
+
 # **************************************************************************
 # Remove redundant options from certain option lists.
 
@@ -4197,6 +4201,8 @@ LIBS=$sim_ac_uniqued_list
 if $BUILD_WITH_MSVC; then
   CPPFLAGS="-DSOWIN_MAKE_DLL $CPPFLAGS"
 
+  SOWIN_EXTRA_CPPFLAGS="$SOWIN_EXTRA_CPPFLAGS -DSOWIN_DLL"
+
   # We use a version suffix on the .dll-file, so several incompatible
   # (major) versions can be installed on a system.
   #
@@ -4205,7 +4211,6 @@ if $BUILD_WITH_MSVC; then
   # list all libs used upon `sowin-config --libs`, as we can then
   # also use them from "parent" code (remember that their interfaces
   # is not exposed from the DLL) without any fuss.
-  SOWIN_EXTRA_CPPFLAGS="$SOWIN_EXTRA_CPPFLAGS -DSOWIN_DLL"
   SOWIN_EXTRA_LIBS="-lsowin$SOWIN_MAJOR_VERSION $SOWIN_EXTRA_LIBS"
 
 else
@@ -4328,7 +4333,7 @@ sed '/^$/d;s/^/| /' confdefs.h >&5
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
 ac_clean_files="$ac_clean_files $CONFIG_STATUS"
-{ echo "$as_me:4331: creating $CONFIG_STATUS" >&5
+{ echo "$as_me:4336: creating $CONFIG_STATUS" >&5
 echo "creating $CONFIG_STATUS" >&6;}
 cat >$CONFIG_STATUS <<\_ACEOF
 #! /bin/sh
@@ -4792,7 +4797,7 @@ done; }
   esac
 
   if test x"$ac_file" != x-; then
-    { echo "$as_me:4795: creating $ac_file" >&5
+    { echo "$as_me:4800: creating $ac_file" >&5
 echo "creating $ac_file" >&6;}
     rm -f "$ac_file"
   fi
@@ -4885,7 +4890,7 @@ for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   * )   ac_file_in=$ac_file.in ;;
   esac
 
-  test x"$ac_file" != x- && { echo "$as_me:4888: creating $ac_file" >&5
+  test x"$ac_file" != x- && { echo "$as_me:4893: creating $ac_file" >&5
 echo "creating $ac_file" >&6;}
 
   # First look for the input files in the build tree, otherwise in the
@@ -5025,7 +5030,7 @@ cat >>$CONFIG_STATUS <<\EOF
   rm -f $tmp/in
   if test x"$ac_file" != x-; then
     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
-      { echo "$as_me:5028: $ac_file is unchanged" >&5
+      { echo "$as_me:5033: $ac_file is unchanged" >&5
 echo "$ac_file is unchanged" >&6;}
     else
       ac_dir=`expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
@@ -5165,7 +5170,7 @@ if test "$no_recursion" != yes; then
     # parts of a large source tree are present.
     test -d $srcdir/$ac_subdir || continue
 
-    { echo "$as_me:5168: configuring in $ac_subdir" >&5
+    { echo "$as_me:5173: configuring in $ac_subdir" >&5
 echo "configuring in $ac_subdir" >&6;}
     case $srcdir in
     .) ;;
@@ -5211,7 +5216,7 @@ done; }
     elif test -f $ac_sub_srcdir/configure.in; then
       ac_sub_configure=$ac_configure
     else
-      { echo "$as_me:5214: WARNING: no configuration information is in $ac_subdir" >&5
+      { echo "$as_me:5219: WARNING: no configuration information is in $ac_subdir" >&5
 echo "$as_me: warning: no configuration information is in $ac_subdir" >&2; }
       ac_sub_configure=
     fi
@@ -5229,7 +5234,7 @@ echo "$as_me: warning: no configuration information is in $ac_subdir" >&2; }
         *) INSTALL=$ac_dots$ac_given_INSTALL ;;
       esac
 
-      { echo "$as_me:5232: running $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir" >&5
+      { echo "$as_me:5237: running $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir" >&5
 echo "running $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir" >&6;}
       # The eval makes quoting arguments work.
       if eval $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir

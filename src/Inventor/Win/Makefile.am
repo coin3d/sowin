@@ -31,8 +31,7 @@ libSoWin_la_SOURCES = \
 libSoWin_la_LIBADD = \
 	devices/libSoWinDevices.la \
 	viewers/libSoWinViewers.la \
-	widgets/libSoWinWidgets.la \
-	-lgdi32
+	widgets/libSoWinWidgets.la
 
 libSoWin_la_LDFLAGS = \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
@@ -43,6 +42,7 @@ libSoWinincdir = $(includedir)/Inventor/Win
 
 libSoWininc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/SoWin.h \
+	$(top_srcdir)/src/Inventor/Win/SoWinObject.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinComponent.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinGLWidget.h \
 	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
