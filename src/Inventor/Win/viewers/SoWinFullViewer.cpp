@@ -429,7 +429,8 @@ SoWinFullViewer::buildWidget(HWND parent)
   assert(IsWindow(parent));
   
   PRIVATE(this)->msgHook =
-    Win32::SetWindowsHookEx(WH_CALLWNDPROC, SoWinFullViewerP::callWndProc,
+    Win32::SetWindowsHookEx(WH_CALLWNDPROC, 
+			    (HOOKPROC)SoWinFullViewerP::callWndProc,
                             NULL, GetCurrentThreadId());
   
   this->viewerWidget = parent;

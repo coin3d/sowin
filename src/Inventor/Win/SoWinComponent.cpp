@@ -286,7 +286,8 @@ SoWinComponent::SoWinComponent(const HWND parent,
   if (IsWindow(parent) && embed) {
     PRIVATE(this)->parent = parent;
     PRIVATE(this)->msgHook =
-      Win32::SetWindowsHookEx(WH_CALLWNDPROC, SoWinComponentP::callWndProc,
+      Win32::SetWindowsHookEx(WH_CALLWNDPROC, 
+			      (HOOKPROC)SoWinComponentP::callWndProc,
                               NULL, GetCurrentThreadId());
   }
   else {

@@ -597,7 +597,7 @@ SoWinP::sensorQueueChanged(void * cbdata)
     SoWinP::timerSensorId = SetTimer(SoWinP::mainWidget,
                                       1,
                                       interval.getMsecValue(),
-                                      SoWinP::timerSensorCB);
+                                      (TIMERPROC)SoWinP::timerSensorCB);
 
     SoWinP::timerSensorActive = TRUE;
   }
@@ -612,7 +612,7 @@ SoWinP::sensorQueueChanged(void * cbdata)
       SoWinP::idleSensorId = SetTimer(SoWinP::mainWidget,
                                        2,
                                        0,
-                                       SoWinP::idleSensorCB);
+                                       (TIMERPROC)SoWinP::idleSensorCB);
       SoWinP::idleSensorActive = TRUE;
     }
 
@@ -621,7 +621,7 @@ SoWinP::sensorQueueChanged(void * cbdata)
       SoWinP::delaySensorId = SetTimer(SoWinP::mainWidget,
                                         3,
                                         timeout,
-                                        SoWinP::delaySensorCB);
+                                        (TIMERPROC)SoWinP::delaySensorCB);
       SoWinP::delaySensorActive = TRUE;
     }
   }
