@@ -33,29 +33,29 @@ ATOM SoWinThumbWheel::wheelWndClassAtom = NULL;
 int SoWinThumbWheel::wheelWidgetCounter = 0;
 
 SoWinThumbWheel::SoWinThumbWheel(HWND parent,
-                                  long id,
-                                  int x,
-                                  int y,
-                                  char * name)
+                                 long id,
+                                 int x,
+                                 int y,
+                                 char * name)
 {
   this->constructor(SoWinThumbWheel::Vertical);
   RECT rect = { x, y, x + this->sizeHint().cx, y + this->sizeHint().cy };
   this->buildWidget(parent, rect, name);
   this->setId(id);
-} // SoWinThumbWheel()
+}
 
 SoWinThumbWheel::SoWinThumbWheel(Orientation orientation,
-                                  HWND parent,
-                                  long id,
-                                  int x,
-                                  int y,
-                                  char * name)
+                                 HWND parent,
+                                 long id,
+                                 int x,
+                                 int y,
+                                 char * name)
 {
   this->constructor(orientation);
   RECT rect = { x, y, sizeHint().cx, sizeHint().cy };
   this->buildWidget(parent, rect, name);
   this->setId(id);
-} // SoWinThumbWheel()
+}
 
 
 SoWinThumbWheel::~SoWinThumbWheel(void)
@@ -72,7 +72,7 @@ SoWinThumbWheel::~SoWinThumbWheel(void)
     Win32::DestroyWindow(this->labelWindow);
   if (SoWinThumbWheel::wheelWidgetCounter <= 0)
     Win32::UnregisterClass("ThumbWheel Widget", SoWin::getInstance());
-} // ~SoWinThumbWheel()
+}
 
 SIZE
 SoWinThumbWheel::sizeHint(void) const
@@ -91,7 +91,7 @@ SoWinThumbWheel::sizeHint(void) const
     size.cy = length;
     return size;
   }
-} // sizeHint()
+}
 
 HWND
 SoWinThumbWheel::getWidget(void)
@@ -115,7 +115,7 @@ void
 SoWinThumbWheel::setOrientation(Orientation orientation)
 {
   this->orient = orientation;
-} // setOrientation()
+}
 
 SoWinThumbWheel::Orientation
 SoWinThumbWheel::orientation(void) const
@@ -156,11 +156,11 @@ SoWinThumbWheel::onPaint(HWND window, UINT message, WPARAM wparam, LPARAM lparam
   this->initWheel(d, w);
 
   int pixmap = this->wheel->getBitmapForValue(this->tempWheelValue,
-                                               (this->state == SoWinThumbWheel::Disabled) ?
-                                               SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED);
- 
+                                              (this->state == SoWinThumbWheel::Disabled) ?
+                                              SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED);
+
   this->blitBitmap(this->pixmaps[pixmap], hdc, 0, 0, this->width() - 2, this->height() - 2);
- 
+
   this->currentPixmap = pixmap;
 
   Win32::EndPaint(window, & ps);
@@ -173,10 +173,10 @@ SoWinThumbWheel::onLButtonDown(HWND window, UINT message, WPARAM wparam, LPARAM 
   if (this->state != SoWinThumbWheel::Idle)
     return 0;
 
- short x =  LOWORD(lparam);
- short y =  HIWORD(lparam);
- 
- SetCapture(window);
+  short x =  LOWORD(lparam);
+  short y =  HIWORD(lparam);
+
+  SetCapture(window);
 
   this->state = SoWinThumbWheel::Dragging;
   if (this->orient == SoWinThumbWheel::Vertical)
@@ -185,7 +185,7 @@ SoWinThumbWheel::onLButtonDown(HWND window, UINT message, WPARAM wparam, LPARAM 
     this->mouseDownPos = x;
 
   this->mouseLastPos = this->mouseDownPos;
- 
+
   if ((this->viewerCB != NULL) && (this->viewer != NULL))
     this->viewerCB(this->viewer, NULL); // let CB know we want whateverWheelStart()
 
@@ -200,19 +200,19 @@ SoWinThumbWheel::onMouseMove(HWND window, UINT message, WPARAM wparam, LPARAM lp
 
   short x =  LOWORD(lparam);
   short y =  HIWORD(lparam);
- 
+
   if (this->orient == SoWinThumbWheel::Vertical)
     this->mouseLastPos = y;
   else
     this->mouseLastPos = x;
- 
+
   this->tempWheelValue =
     this->wheel->calculateValue(this->wheelValue,
-                                 this->mouseDownPos,
-                                 this->mouseLastPos - this->mouseDownPos);
+                                this->mouseDownPos,
+                                this->mouseLastPos - this->mouseDownPos);
 
   Win32::InvalidateRect(this->wheelWindow, NULL, FALSE);
- 
+
   float * value = & this->tempWheelValue;
   if ((this->viewerCB != NULL) && (this->viewer != NULL)) {
     this->viewerCB(this->viewer, (void **) & value);
@@ -239,12 +239,12 @@ SoWinThumbWheel::onLButtonUp(HWND window, UINT message, WPARAM wparam, LPARAM lp
   this->mouseLastPos = this->mouseDownPos;
   this->state = SoWinThumbWheel::Idle;
 
- if ((this->viewerCB != NULL) && (this->viewer != NULL))  
+  if ((this->viewerCB != NULL) && (this->viewer != NULL))
     this->viewerCB(this->viewer, (void **) -1); // let CB know we want whateverWheelFinish()
 
   return 0;
 }
-   
+
 LRESULT CALLBACK
 SoWinThumbWheel::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
@@ -295,10 +295,10 @@ SoWinThumbWheel::windowProc(HWND window, UINT message, WPARAM wparam, LPARAM lpa
 int
 SoWinThumbWheel::width(void)
 {
- RECT rect;
- Win32::GetWindowRect(this->wheelWindow, & rect);
- return (rect.right - rect.left);
- 
+  RECT rect;
+  Win32::GetWindowRect(this->wheelWindow, & rect);
+  return (rect.right - rect.left);
+
   //return this->sizeHint().cx;
 }
 
@@ -308,7 +308,7 @@ SoWinThumbWheel::height(void)
   RECT rect;
   Win32::GetWindowRect(this->wheelWindow, & rect);
   return (rect.bottom - rect.top);
- 
+
   //return this->sizeHint().cy;
 }
 
@@ -319,7 +319,7 @@ SoWinThumbWheel::move(int x, int y, int width, int height)
   this->size(width, height);
   this->move(x, y);
 }
-  
+
 void
 SoWinThumbWheel::move(int x, int y)
 {
@@ -331,18 +331,18 @@ SoWinThumbWheel::move(int x, int y)
 
     RECT rect;
     Win32::GetClientRect(this->labelWindow, & rect);
-    
+
     if (this->orient == SoWinThumbWheel::Vertical) {
       Win32::SetWindowPos(this->labelWindow, NULL,
-                           x + this->labelOffset.x,
-                           y + this->labelOffset.y + this->height(),
-                           0, 0, flags);
+                          x + this->labelOffset.x,
+                          y + this->labelOffset.y + this->height(),
+                          0, 0, flags);
     }
     else {
       Win32::SetWindowPos(this->labelWindow, NULL,
-                           x + this->labelOffset.x - rect.right,
-                           y + this->labelOffset.y,
-                           0, 0, flags);
+                          x + this->labelOffset.x - rect.right,
+                          y + this->labelOffset.y,
+                          0, 0, flags);
     }
   }
 }
@@ -380,7 +380,7 @@ SoWinThumbWheel::registerCallback(thumbWheelCB * func)
 void
 SoWinThumbWheel::registerViewer(SoWinFullViewer * viewer)
 {
- this->viewer = viewer;
+  this->viewer = viewer;
 }
 
 void
@@ -398,7 +398,7 @@ SoWinThumbWheel::constructor(Orientation orientation)
   this->viewer = NULL;
   this->viewerCB = NULL;
   this->labelWindow = NULL;
-} // constructor()
+}
 
 HWND
 SoWinThumbWheel::buildWidget(HWND parent, RECT rect, char * name)
@@ -423,7 +423,7 @@ SoWinThumbWheel::buildWidget(HWND parent, RECT rect, char * name)
     windowclass.cbWndExtra = 4;
 
     SoWinThumbWheel::wheelWndClassAtom = Win32::RegisterClass(& windowclass);
-    
+
   }
 
   SoWinThumbWheel::wheelWidgetCounter++;
@@ -445,10 +445,10 @@ SoWinThumbWheel::buildWidget(HWND parent, RECT rect, char * name)
                                            this);
 
   if (name) {
-    this->labelWindow = createLabel(parent, rect.right, rect.bottom, name);
+    this->labelWindow = this->createLabel(parent, rect.right, rect.bottom, name);
   }
   this->setLabelOffset(0, 0);
- 
+
   return this->wheelWindow;
 }
 
@@ -484,15 +484,15 @@ SoWinThumbWheel::initWheel(int diameter, int width)
   for (int i = 0; i < this->numPixmaps; i++) {
     this->pixmaps[i] = this->createDIB(pwidth, pheight, 32, &bits);
     this->wheel->drawBitmap(i, bits, (this->orient == Vertical) ?
-                             SoAnyThumbWheel::VERTICAL : SoAnyThumbWheel::HORIZONTAL);
+                            SoAnyThumbWheel::VERTICAL : SoAnyThumbWheel::HORIZONTAL);
   }
-} // initWheel()
+}
 
 // *************************************************************************
 
 void
 SoWinThumbWheel::setEnabled(bool enable)
-{  
+{
   if (enable)
     this->state = SoWinThumbWheel::Idle;
   else
@@ -500,13 +500,13 @@ SoWinThumbWheel::setEnabled(bool enable)
   Win32::InvalidateRect(this->wheelWindow, NULL, FALSE);
   if (IsWindow(this->labelWindow))
     Win32::EnableWindow(this->labelWindow, enable);
-} // setEnabled()
+}
 
 bool
 SoWinThumbWheel::isEnabled(void) const
 {
   return (this->state != SoWinThumbWheel::Disabled);
-} // isEnabled()
+}
 
 void
 SoWinThumbWheel::setValue(float value)
@@ -514,7 +514,7 @@ SoWinThumbWheel::setValue(float value)
   this->wheelValue = this->tempWheelValue = value;
   this->mouseDownPos = this->mouseLastPos;
   Win32::InvalidateRect(this->wheelWindow, NULL, FALSE);
-} // setValue()
+}
 
 float
 SoWinThumbWheel::value(void) const
@@ -532,7 +532,7 @@ void
 SoWinThumbWheel::setLabelText(char * text)
 {
   assert(IsWindow(this->wheelWindow));
-  
+
   if (IsWindow(this->labelWindow)) {
     Win32::SetWindowText(this->labelWindow, text);
   }
@@ -540,18 +540,18 @@ SoWinThumbWheel::setLabelText(char * text)
     RECT rect;
     HWND parent = GetParent(this->wheelWindow);
     Win32::GetWindowRect(this->wheelWindow, & rect);
-    this->labelWindow = createLabel(parent, rect.right + this->labelOffset.x,
-                                     rect.bottom + labelOffset.y, text);
+    this->labelWindow = this->createLabel(parent, rect.right + this->labelOffset.x,
+                                          rect.bottom + labelOffset.y, text);
   }
-      
+
   int len = strlen(text);
   HDC hdc = Win32::GetDC(this->labelWindow);
   SIZE textSize;
   Win32::GetTextExtentPoint(hdc, text, len, & textSize);
-  
+
   UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
   Win32::SetWindowPos(this->labelWindow, NULL, 0, 0,
-                       textSize.cx + 2, textSize.cy, flags);
+                      textSize.cx + 2, textSize.cy, flags);
 }
 
 void
@@ -588,7 +588,7 @@ SoWinThumbWheel::setRangeBoundaryHandling(boundaryHandling handling)
   default:
     assert(0 && "impossible");
   }
-} // setRangeBoundaryHandling()
+}
 
 // *************************************************************************
 
@@ -606,13 +606,14 @@ SoWinThumbWheel::getRangeBoundaryHandling(void) const
     assert(0 && "impossible");
   }
   return CLAMP; // never reached
-} // getRangeBoundaryHandling()
+}
 
 HWND
 SoWinThumbWheel::createLabel(HWND parent, int x, int y, char * text)
 {
   assert(IsWindow(parent));
-  SIZE textSize = this->getTextSize(parent, text); // FIXME: assumes the same font as parent
+  // FIXME: assumes the same font as parent
+  SIZE textSize = this->getTextSize(parent, text);
   HWND hwnd = Win32::CreateWindow_("STATIC",
                                    (text ? text : " "),
                                    WS_VISIBLE | WS_CHILD | SS_CENTER,
@@ -622,7 +623,7 @@ SoWinThumbWheel::createLabel(HWND parent, int x, int y, char * text)
                                    NULL,
                                    SoWin::getInstance(),
                                    NULL);
- return hwnd;
+  return hwnd;
 }
 
 HBITMAP
@@ -637,7 +638,7 @@ SoWinThumbWheel::createDIB(int width, int height, int bpp, void ** bits) // 16||
 
   HANDLE heap = GetProcessHeap();
   BITMAPINFO * format = (BITMAPINFO *) HeapAlloc(heap, 0, heapspace);
- 
+
   BITMAPINFOHEADER * header = (BITMAPINFOHEADER *) format;
   header->biSize = sizeof(BITMAPINFOHEADER);
   header->biWidth = width;
@@ -676,7 +677,7 @@ SIZE
 SoWinThumbWheel::getTextSize(HWND window, char * text)
 {
   assert(IsWindow(window));
-  
+
   int len = strlen(text);
   HDC hdc = Win32::GetDC(window);
 
