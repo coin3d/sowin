@@ -464,7 +464,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os BUILD_WITH_MSVC SOWIN_MAJOR_VERSION SOWIN_MINOR_VERSION SOWIN_MICRO_VERSION SOWIN_VERSION LT_CURRENT LT_REVISION LT_AGE sowin_build_dir sowin_src_dir sowin_w32_build_dir sowin_w32_src_dir CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CPP CXX CXXFLAGS ac_ct_CXX SOGUI_MSVC_LIBC INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB CXXCPP F77 FFLAGS ac_ct_F77 LIBTOOL SOGUI_EXTRA_CPPFLAGS SOGUI_EXTRA_CFLAGS SOGUI_EXTRA_CXXFLAGS SOGUI_EXTRA_LDFLAGS SOGUI_EXTRA_LIBS DSUFFIX Gui gui GUI WIDGET EVENT COMPONENTHEADER sim_ac_makensis_exe CONFIG SUFFIX MAC_FRAMEWORK_TRUE MAC_FRAMEWORK_FALSE htmldir htmlhelpdir SOGUI_DOC_HTML SOGUI_DOC_MAN SOGUI_DOC_HTML_HELP sogui_build_dir sogui_src_dir sogui_html_dir sogui_html_help_dir sogui_man_dir BUILD_MANPAGES_TRUE BUILD_MANPAGES_FALSE BUILD_HTMLPAGES_TRUE BUILD_HTMLPAGES_FALSE BUILD_HTMLHELP_TRUE BUILD_HTMLHELP_FALSE sim_ac_hhc_exe sim_ac_doxygen_exe sim_ac_perl_exe path_tag SOGUI_MAJOR_VERSION SOGUI_MINOR_VERSION BUILD_LIBRARY_TRUE BUILD_LIBRARY_FALSE BUILD_METAFILES_TRUE BUILD_METAFILES_FALSE HAVE_JOYSTICK_LINUX_TRUE HAVE_JOYSTICK_LINUX_FALSE sim_ac_coin_configcmd soqt_build_dir soqt_src_dir soqt_w32_build_dir soqt_w32_src_dir LIBFLAGS BUILD_WITH_MSVC_TRUE BUILD_WITH_MSVC_FALSE win_srcdir sowin_configure_date COIN_COMPILER SOWIN_DSP_LIBS SOWIN_DSP_INCS SOWIN_DSP_DEFS LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os BUILD_WITH_MSVC SOWIN_MAJOR_VERSION SOWIN_MINOR_VERSION SOWIN_MICRO_VERSION SOWIN_VERSION LT_CURRENT LT_REVISION LT_AGE sowin_build_dir sowin_src_dir sowin_w32_build_dir sowin_w32_src_dir CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CPP CXX CXXFLAGS ac_ct_CXX SOGUI_MSVC_LIBC INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB CXXCPP F77 FFLAGS ac_ct_F77 LIBTOOL SOGUI_EXTRA_CPPFLAGS SOGUI_EXTRA_CFLAGS SOGUI_EXTRA_CXXFLAGS SOGUI_EXTRA_LDFLAGS SOGUI_EXTRA_LIBS DSUFFIX Gui gui GUI WIDGET EVENT COMPONENTHEADER sim_ac_makensis_exe CONFIG SUFFIX MAC_FRAMEWORK_TRUE MAC_FRAMEWORK_FALSE htmldir htmlhelpdir SOGUI_DOC_HTML SOGUI_DOC_MAN SOGUI_DOC_HTML_HELP sogui_build_dir sogui_src_dir sogui_html_dir sogui_html_help_dir sogui_man_dir BUILD_MANPAGES_TRUE BUILD_MANPAGES_FALSE BUILD_HTMLPAGES_TRUE BUILD_HTMLPAGES_FALSE BUILD_HTMLHELP_TRUE BUILD_HTMLHELP_FALSE sim_ac_hhc_exe sim_ac_doxygen_exe sim_ac_perl_exe path_tag SOGUI_MAJOR_VERSION BUILD_LIBRARY_TRUE BUILD_LIBRARY_FALSE BUILD_METAFILES_TRUE BUILD_METAFILES_FALSE HAVE_JOYSTICK_LINUX_TRUE HAVE_JOYSTICK_LINUX_FALSE sim_ac_coin_configcmd soqt_build_dir soqt_src_dir soqt_w32_build_dir soqt_w32_src_dir LIBFLAGS BUILD_WITH_MSVC_TRUE BUILD_WITH_MSVC_FALSE win_srcdir sowin_configure_date COIN_COMPILER SOWIN_DSP_LIBS SOWIN_DSP_INCS SOWIN_DSP_DEFS LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -20540,8 +20540,6 @@ esac
 # The following variables are used in sogui.doxygen.in
 SOGUI_MAJOR_VERSION=1
 
-SOGUI_MINOR_VERSION=1
-
 
 # **************************************************************************
 
@@ -22596,7 +22594,6 @@ s,@sim_ac_doxygen_exe@,$sim_ac_doxygen_exe,;t t
 s,@sim_ac_perl_exe@,$sim_ac_perl_exe,;t t
 s,@path_tag@,$path_tag,;t t
 s,@SOGUI_MAJOR_VERSION@,$SOGUI_MAJOR_VERSION,;t t
-s,@SOGUI_MINOR_VERSION@,$SOGUI_MINOR_VERSION,;t t
 s,@BUILD_LIBRARY_TRUE@,$BUILD_LIBRARY_TRUE,;t t
 s,@BUILD_LIBRARY_FALSE@,$BUILD_LIBRARY_FALSE,;t t
 s,@BUILD_METAFILES_TRUE@,$BUILD_METAFILES_TRUE,;t t
