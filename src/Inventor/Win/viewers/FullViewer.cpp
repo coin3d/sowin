@@ -660,7 +660,7 @@ SoWinFullViewer::openPopupMenu(const SbVec2s position)
   RECT clientrect;
   Win32::GetClientRect(this->renderAreaWidget, &clientrect);
 
-  this->prefmenu->popUp(GetActiveWindow(),
+  this->prefmenu->popUp(this->renderAreaWidget,
                         position[0], clientrect.bottom - position[1]);
 }
 
