@@ -44,7 +44,8 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
                               SbBool embed,
                               int glModes,
                               SbBool build )
-  : SoWinComponent( parent, name, embed )
+  : SoWinComponent( parent, name, embed ),
+    waitForExpose( TRUE )
 {
   this->managerWidget = NULL;
   this->doubleBufferWidget = NULL;
@@ -447,6 +448,8 @@ SoWinGLWidget::buildWidget( HWND parent )
     this->buildNormalGLWidget( & this->pfd );
   }
 
+  this->waitForExpose = TRUE;
+
   SoWin::addMessageHook( this->managerWidget, WM_SIZE );
   return this->managerWidget;
 }
@@ -696,6 +699,7 @@ SoWinGLWidget::glWindowProc( HWND window,
         return object->onSize( window, message, wparam, lparam );
 
       case WM_PAINT:
+        object->waitForExpose = FALSE; // flips flag on first expose
         return object->onPaint( window, message, wparam, lparam );
 
       case WM_DESTROY:
