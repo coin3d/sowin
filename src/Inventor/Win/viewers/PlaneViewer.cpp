@@ -24,7 +24,6 @@
 // *************************************************************************
 
 #include <Inventor/errors/SoDebugError.h>
-#include <Inventor/projectors/SbPlaneProjector.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 
@@ -33,6 +32,7 @@
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
 
 #include <Inventor/Win/viewers/SoWinPlaneViewer.h>
+#include <Inventor/Win/viewers/SoWinPlaneViewerP.h>
 
 #include <Inventor/Win/common/pixmaps/ortho.xpm>
 #include <Inventor/Win/common/pixmaps/perspective.xpm>
@@ -42,54 +42,63 @@
 
 // ************************************************************************
 
-// The private data for the SoWinFullViewer.
+// SoQtPlaneViewerP "private implementation" class.
 
-class SoWinPlaneViewerP {
+#define PUBLIC(ptr) (ptr->pub)
+#define PRIVATE(ptr) (ptr->pimpl)
+
+SoWinPlaneViewerP::SoWinPlaneViewerP(SoWinPlaneViewer * publ)
+  : SoGuiPlaneViewerP(publ)
+{
+}
+
+SoWinPlaneViewerP::~SoWinPlaneViewerP()
+{
+}
+
+// This contains the real constructor code (the two constructors are only
+// entry points for this method).
+void
+SoWinPlaneViewerP::constructor(SbBool build)
+{
+  this->commonConstructor(); // init generic stuff
+
+  PUBLIC(this)->setClassName("SoWinPlaneViewer");
   
-public:
+  if (! build) return;
+
+  HWND viewer = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
+  PUBLIC(this)->setBaseWidget(viewer);
   
-  // Constructor.
-  SoWinPlaneViewerP(SoWinPlaneViewer * o) {
-    this->owner = o;
-  }
+  PUBLIC(this)->setLeftWheelString("TransY");
+  PUBLIC(this)->setBottomWheelString("TransX");  
 
-  // Destructor.
-  ~SoWinPlaneViewerP() {
-  }
+  PUBLIC(this)->setSize(SbVec2s(555, 515));
+}
 
-  void constructor(SbBool build);
+void
+SoWinPlaneViewerP::xClicked(void)
+{
+  this->viewPlaneX();
+}
 
-  enum PlaneViewerMode {
-    IDLE_MODE,
-    DOLLY_MODE,
-    TRANSLATE_MODE,
-    ROTZ_WAIT_MODE,
-    ROTZ_MODE,
-    SEEK_WAIT_MODE,
-    SEEK_MODE
-  } mode;
+void
+SoWinPlaneViewerP::yClicked(void)
+{
+  this->viewPlaneY();
+}
 
-  void setModeFromState(unsigned int state);
-  void setMode(PlaneViewerMode mode);
+void
+SoWinPlaneViewerP::zClicked(void)
+{
+  this->viewPlaneZ();
+}
 
-  SbVec2f prevMousePosition;
-
-  SbPlaneProjector * projector;
-
-  static void visibilityCB(void * data, SbBool visible);
-
-  void xClicked(void);
-  void yClicked(void);
-  void zClicked(void);
-  void cameratoggleClicked(void);
-  
-private:
-  
-  SoWinPlaneViewer * owner;
-  
-};
-
-#define PRIVATE(o) (o->pimpl)
+void
+SoWinPlaneViewerP::cameratoggleClicked(void)
+{
+  PUBLIC(this)->toggleCameraType();
+}
 
 // ************************************************************************
 
@@ -98,90 +107,36 @@ private:
 #define VIEWERBUTTON_Z (VIEWERBUTTON_SEEK + 3)
 #define VIEWERBUTTON_CAMERA (VIEWERBUTTON_SEEK + 4)
 
-/*!
-  The public constructor.
-*/
-
-SoWinPlaneViewer::SoWinPlaneViewer(
-  HWND parent,
-  const char * const name, 
-  SbBool embed,
-  SoWinFullViewer::BuildFlag flag, 
-  SoWinViewer::Type type)
-: inherited(parent, name, embed, flag, type, FALSE)
+// Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
+SoWinPlaneViewer::SoWinPlaneViewer(HWND parent,
+                                   const char * const name, 
+                                   SbBool embed,
+                                   SoWinFullViewer::BuildFlag flag, 
+                                   SoWinViewer::Type type)
+  : inherited(parent, name, embed, flag, type, FALSE)
 {
   PRIVATE(this) = new SoWinPlaneViewerP(this);
   PRIVATE(this)->constructor(TRUE);
-} // SoWinPlaneViewer()
+}
 
-// ************************************************************************
-
-/*!
-  A protected constructor.
-*/
-
-SoWinPlaneViewer::SoWinPlaneViewer(
-  HWND parent,
-  const char * const name, 
-  SbBool embed, 
-  SoWinFullViewer::BuildFlag flag, 
-  SoWinViewer::Type type, 
-  SbBool build)
+// Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
+SoWinPlaneViewer::SoWinPlaneViewer(HWND parent,
+                                   const char * const name, 
+                                   SbBool embed, 
+                                   SoWinFullViewer::BuildFlag flag, 
+                                   SoWinViewer::Type type, 
+                                   SbBool build)
   : inherited(parent, name, embed, flag, type, FALSE)
 {
   PRIVATE(this) = new SoWinPlaneViewerP(this);
   PRIVATE(this)->constructor(build);
-} // SoWinPlaneViewer()
+}
 
-// ************************************************************************
-
-/*!
-  \internal
-
-  This contains the real constructor code (the two constructors are only
-  entry points for this method).
-*/
-
-void
-SoWinPlaneViewerP::constructor(// private
-  SbBool build)
+// Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
+SoWinPlaneViewer::~SoWinPlaneViewer()
 {
-  this->owner->commonConstructor(); // init generic stuff
-
-  this->mode = IDLE_MODE;
-
-  this->projector = new SbPlaneProjector;
-  SbViewVolume vv;
-  vv.ortho(-1, 1, -1, 1, -1, 1);
-  this->projector->setViewVolume(vv);
-
-  this->owner->addVisibilityChangeCallback(SoWinPlaneViewerP::visibilityCB, this->owner);
-
-  this->owner->setClassName("SoWinPlaneViewer");
-  
-  if (! build) return;
-
-  HWND viewer = this->owner->buildWidget(this->owner->getParentWidget());
-  this->owner->setBaseWidget(viewer);
-  
-  this->owner->setLeftWheelString("TransY");
-  this->owner->setBottomWheelString("TransX");  
-
-  this->owner->setSize(SbVec2s(555, 515));
-} // constructor()
-
-// ************************************************************************
-
-/*!
-  The destructor.
-*/
-
-SoWinPlaneViewer::~SoWinPlaneViewer(
-  void)
-{
-  delete PRIVATE(this)->projector;
-  delete this->pimpl;
-} // ~SoWinPlaneViewer()
+  delete PRIVATE(this);
+}
 
 // ************************************************************************
 
@@ -301,11 +256,10 @@ SoWinPlaneViewer::actualRedraw(// virtual
 */
 
 void
-SoWinPlaneViewer::createPrefSheet(// virtual
-  void)
+SoWinPlaneViewer::createPrefSheet(void)
 {
   inherited::createPrefSheet();
-} // createPrefSheet()
+}
 
 // ************************************************************************
 
@@ -361,154 +315,6 @@ SoWinPlaneViewer::openViewerHelpCard(// virtual
 {
   this->openHelpCard("SoWinPlaneViewer.help");
 } // openViewerHelpCard()
-
-// ************************************************************************
-
-/*!
-  \internal
-*/
-
-void
-SoWinPlaneViewerP::xClicked(
-  void)
-{
-  owner->viewPlaneX();
-} // xClicked()
-
-/*!
-  \internal
-*/
-
-void
-SoWinPlaneViewerP::yClicked(
-  void)
-{
-  owner->viewPlaneY();
-} // yClicked()
-
-/*!
-  \internal
-*/
-
-void
-SoWinPlaneViewerP::zClicked(
-  void)
-{
-  owner->viewPlaneZ();
-} // zClicked()
-
-/*!
-  \internal
-*/
-
-void
-SoWinPlaneViewerP::cameratoggleClicked(
-  void)
-{
-  this->owner->toggleCameraType();
-} // cameraToggleClicked()
-
-// ************************************************************************
-
-/*!
-  \internal
-*/
-
-void
-SoWinPlaneViewerP::visibilityCB(// static
-  void * data,
-  SbBool visible)
-{
-  SoWinPlaneViewer * thisp = (SoWinPlaneViewer *) data;
-
-/*
-  examiner viewer does this, we don't have to...
-  if (thisp->isAnimating()) {
-    if (visible)
-      thisp->timerTrigger->schedule();
-    else
-      thisp->timerTrigger->unschedule();
-  }
-*/
-} // visibilityCB()
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
-void
-SoWinPlaneViewerP::setModeFromState(// private
-  unsigned int state)
-{
-
-  PlaneViewerMode mode = IDLE_MODE;
-
-  const unsigned int maskedstate =
-    state & (MK_LBUTTON | MK_MBUTTON | MK_CONTROL);
-
-  switch (maskedstate) {
-  case 0:
-    mode = IDLE_MODE;
-    break;
-
-  case MK_LBUTTON://LeftButton:
-    mode = TRANSLATE_MODE;
-    break;
-
-  case MK_MBUTTON://MidButton:
-  case (MK_LBUTTON | MK_CONTROL):
-    mode = DOLLY_MODE;
-    break;
-
-  case MK_CONTROL://ControlButton:
-    mode = ROTZ_WAIT_MODE;
-    break;
-
-  case (MK_MBUTTON | MK_CONTROL):
-  case (MK_LBUTTON | MK_MBUTTON | MK_CONTROL):
-    mode = ROTZ_MODE;
-    break;
-
-  default:
-    SoDebugError::postWarning("SoWinPlaneViewer::setModeFromState",
-      "state not handled: %d", maskedstate);
-    break;
-
-  } // switch (maskedstate)
-
-  this->setMode(mode);
-} // setModeFromState()
-
-/*!
-*/
-
-void
-SoWinPlaneViewerP::setMode(
-  PlaneViewerMode mode)
-{
-  // FIXME: set cursor...
-
-  switch (mode) {
-  case IDLE_MODE:
-    while (this->owner->getInteractiveCount())
-      this->owner->interactiveCountDec();
-    break;
-
-  case TRANSLATE_MODE:
-  case DOLLY_MODE:
-  case ROTZ_MODE:
-    while (this->owner->getInteractiveCount())
-      this->owner->interactiveCountDec();
-    break;
-
-  default:
-    break;
-  } // switch (mode)
-
-  this->mode = mode;
-} // setMode()
 
 // ************************************************************************
 
