@@ -43,7 +43,9 @@ if BUILD_LIBRARY
 bin_SCRIPTS = so@gui@-config
 
 m4datadir = $(datadir)/aclocal
-dist_m4data_DATA = so@gui@.m4
+# Don't replace "win" with "@gui@" here, is it will pøkk up
+# for ``make dist''.
+dist_m4data_DATA = sowin.m4
 
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = so@gui@-@CONFIG@.cfg
