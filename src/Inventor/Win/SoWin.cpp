@@ -70,7 +70,7 @@ public:
   static char * appName;
   static char * className;
 
-  
+  static SbBool useParentEventHandler;
   static WNDPROC parentEventHandler;
 
 private:
@@ -93,6 +93,7 @@ SbBool SoWinP::delaySensorActive = FALSE;
 int SoWinP::idleSensorId = 0;
 SbBool SoWinP::idleSensorActive = FALSE;
 WNDPROC SoWinP::parentEventHandler = NULL;
+SbBool SoWinP::useParentEventHandler = TRUE;
 
 // *************************************************************************
 
@@ -133,6 +134,7 @@ SoWin::init( int argc,
 	
   SIZE size = { 500, 500 };
   HWND toplevel = SoWin::createWindow( ( char * ) appName, ( char * ) className, size, NULL );
+  SoWinP::useParentEventHandler = FALSE;
   
   SoWin::init( toplevel );
   
@@ -152,9 +154,11 @@ SoWin::init( HWND const topLevelWidget )
   SoDB::getSensorManager( )->setChangedCallback( SoWinP::sensorQueueChanged, NULL );
   if ( IsWindow( topLevelWidget ) ) 
     SoWinP::mainWidget = topLevelWidget;
-  
-  SoWinP::parentEventHandler = ( WNDPROC ) GetWindowLong( topLevelWidget, GWL_WNDPROC );
-  SetWindowLong( topLevelWidget, GWL_WNDPROC, ( long ) SoWin::eventHandler );
+
+  if ( SoWinP::useParentEventHandler ) {
+    SoWinP::parentEventHandler = ( WNDPROC ) GetWindowLong( topLevelWidget, GWL_WNDPROC );
+    SetWindowLong( topLevelWidget, GWL_WNDPROC, ( long ) SoWin::eventHandler );
+  }
 }
 
 void
@@ -383,7 +387,7 @@ SoWin::eventHandler( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
       break;
     }
 
-  if ( SoWinP::parentEventHandler )
+  if ( SoWinP::useParentEventHandler && SoWinP::parentEventHandler )
     return SoWinP::parentEventHandler( window, message, wparam, lparam );
 
   if ( handled )
