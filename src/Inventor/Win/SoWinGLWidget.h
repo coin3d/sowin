@@ -106,10 +106,13 @@ protected:
   virtual void sizeChanged( const SbVec2s newSize );
   virtual void widgetChanged( HWND newWidget );
     
-  void setGlxSize( SbVec2s newSize );
-  void setGLSize( SbVec2s newSize );  // Coin spesific
-  const SbVec2s getGlxSize( void ) const;
-  const SbVec2s getGLSize( void ) const;
+  void setGLSize( SbVec2s newSize );
+  SbVec2s getGLSize( void ) const;
+  float getGLAspectRatio(void) const;
+
+  void setGlxSize( SbVec2s newSize ) { this->setGLSize( newSize ); }
+  const SbVec2s getGlxSize( void ) const { return this->getGLSize(); }
+  float getGlxAspectRatio(void) const { return this->getGLAspectRatio(); }
     
   //static void eventHandler( HWND, SoWinGLWidget *, MSG *, BOOL * );
   static LRESULT eventHandler( HWND hwnd,
@@ -148,6 +151,7 @@ protected:
   void glLock( void );
   void glUnlock( void );
   void glSwapBuffers( void );
+  void glFlushBuffer( void );
 
   UINT colorMap;	// set when color index is used
   UINT overlayColorMap; // set when overlay is used

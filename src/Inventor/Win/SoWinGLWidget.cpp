@@ -324,12 +324,6 @@ SoWinGLWidget::widgetChanged( HWND newWidget )
 }
     
 void
-SoWinGLWidget::setGlxSize( SbVec2s newSize )
-{
-  this->setGLSize( newSize );
-}
-
-void
 SoWinGLWidget::setGLSize( SbVec2s newSize )  // Coin spesific
 {
   short width, height;
@@ -344,17 +338,19 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )  // Coin spesific
               TRUE );
 }
 
-const SbVec2s
-SoWinGLWidget::getGlxSize( void ) const
-{
-  return this->getGLSize( );
-}
-
-const SbVec2s
+SbVec2s
 SoWinGLWidget::getGLSize( void ) const
 {
   return this->glSize;
 }
+
+float
+SoWinGLWidget::getGLAspectRatio(
+  void ) const
+{
+  return (float) this->glSize[0] / (float) this->glSize[1];
+}
+
     
 LRESULT
 SoWinGLWidget::eventHandler( HWND hwnd,
@@ -573,6 +569,7 @@ SoWinGLWidget::glFlushBuffer( void )
   glFlush( );
 }
 
+/*
 float
 SoWinGLWidget::getGLAspectRatio( void )
 {
@@ -580,6 +577,7 @@ SoWinGLWidget::getGLAspectRatio( void )
   this->glSize.getValue( width, height );
   return ( ( float ) width / ( float ) height );
 }
+*/
 
 void
 SoWinGLWidget::setWindowPosition( POINT position )
