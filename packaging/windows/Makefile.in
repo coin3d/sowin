@@ -267,11 +267,12 @@ build-files/$(project)$(major).dsp: $(Project)-$(VERSION)
 	version=`echo "@VERSION@" | sed -e 's%\.%\\\.%g'`; \
 	cp $(project)$(major).dsp $(project)$(major).dsp.orig; \
 	cat $(project)$(major).dsp.orig | \
-	  sed -e "s%$$wbuilddir%\$$\(COIN3DDIR\)%g" \
-	      -e "s%$$escC3D%\$$\(COIN3DDIR\)%gi" \
+	  sed -e "s%$$wbuilddir%\.\.\\\\\.\.%g" \
+	      -e "s%$$escC3D%\.\.\\\\\.\.%gi" \
+	      -e "s%\.\.\\\\source\\\\$(Project)-$$version%\.\.\\\\\.\.\\\\source\\\\$(Project)-$(major)%g" \
 	      -e "s%/out:\"%/out:\"\.\.\\\\\.\.\\\\bin\\\\%g" \
-	      -e "s%$(project)$(major)d\.dll\"%$(project)$(major)d\.dll\" /pdb:\"\.\.\\\\\.\.\\\\bin\\\\$(project)$(major)d.pdb%g" \
-	      -e "s%\.\.\\\\source\\\\SoWin-$$version%\.\.\\\\\.\.\\\\source\\\\SoWin-$(major)%g" \
+	      -e "s%$(project)$(major)d\.dll\"%$(project)$(major)d\.dll\" /pdb:\"\.\.\\\\\.\.\\\\bin\\\\$(project)$(major)d.pdb\" /implib:\"\.\.\\\\\.\.\\\\lib\\\\$(project)$(major)d.lib\"%g" \
+	      -e "s%$(project)$(major)\.dll\"%$(project)$(major)\.dll\" /implib:\"\.\.\\\\\.\.\\\\lib\\\\$(project)$(major).lib\"%g" \
 	  > $(project)$(major).dsp; \
 	rm $(project)$(major).dsp.orig
 
