@@ -215,10 +215,8 @@ SoWin::hide( HWND const widget )
 void
 SoWin::setWidgetSize( HWND widget, const SbVec2s size )
 {
-  SIZE old_size;
-  HDC hdc = GetDC( SoWinP::mainWidget );
-
-  SetWindowExtEx( hdc, size[ 0 ], size[ 1 ], & old_size );
+	UINT flags = SWP_NOMOVE | SWP_NOZORDER;
+	SetWindowPos( widget, NULL, 0, 0, size[0], size[1], flags);
 } 
 
 SbVec2s
@@ -281,19 +279,11 @@ SoWin::nextEvent( int appContext, MSG * msg )
 HWND
 SoWin::getShellWidget( HWND hwnd )
 {
-  assert( IsWindow( hwnd ) );
 
-  HWND parent = NULL;
-  HWND ancestor = NULL;
-    
-  parent = GetParent( hwnd );
+  while ( IsWindow( GetParent( hwnd ) ) )
+    hwnd = GetParent( hwnd );
 
-  while ( parent ) {
-   ancestor = parent;
-   parent = GetParent( ancestor );
-  }
-
-  return ancestor;
+  return hwnd;
 }
 
 void
@@ -500,13 +490,10 @@ BOOL CALLBACK
 SoWinP::sizeChildProc( HWND window, LPARAM lparam )
 {
   if ( GetParent( window ) == SoWin::getTopLevelWidget( ) ) {
-    
     UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
     SetWindowPos( window, NULL, 0, 0, LOWORD( lparam ), HIWORD( lparam ), flags );
-
-    return TRUE;
   }
-  return FALSE;
+  return TRUE;
 }
 
 LRESULT
