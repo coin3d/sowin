@@ -409,7 +409,8 @@ SoWinKeyboard::enable( HWND, // widget,
                        void *, // data,
                        HWND ) // window )
 {
-  SOWIN_STUB();
+  // Win32 has no way of enabling the keyboard. mariusbu 20010823.
+  // Do nothing.
 } // enable()
 
 /*!
@@ -421,7 +422,8 @@ SoWinKeyboard::disable( HWND, // widget,
                         SoWinEventHandler * , // callbackproc,
                         void * ) // data )
 {
-  SOWIN_STUB();
+  // Win32 has no way of disabling the keyboard. mariusbu 20010823.
+  // Do nothing.
 } // disable()
 
 // *************************************************************************

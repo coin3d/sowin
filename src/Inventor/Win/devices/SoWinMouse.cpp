@@ -62,15 +62,15 @@ SoWinMouse::~SoWinMouse( void )
 void
 SoWinMouse::enable(HWND, SoWinEventHandler * , void *, HWND)
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
+  // Win32 has no way of enabling the mouse. mariusbu 20010823.
+  // Do nothing.
 }
 
 void
 SoWinMouse::disable(HWND, SoWinEventHandler * , void * )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
+  // Win32 has no way of disabling the mouse. mariusbu 20010823.
+  // Do nothing.
 }
 
 // *************************************************************************
