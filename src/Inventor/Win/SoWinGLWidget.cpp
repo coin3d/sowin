@@ -711,7 +711,7 @@ SoWinGLWidget::glWindowProc( HWND window,
     object->processEvent( & msg );
     
     // Steal focus from other windows - get keystrokes
-    if( ( ! object->haveFocus )/* && ( GetCapture( ) == object->parent )*/ ) {
+    if( ( ! object->haveFocus ) && object->stealFocus/* && ( GetCapture( ) == object->parent )*/ ) {
       object->haveFocus = ( BOOL ) SetFocus( window );
     }
     

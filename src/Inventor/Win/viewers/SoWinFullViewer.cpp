@@ -49,7 +49,7 @@ const int DECORATION_BUFFER = 5;
 
 SOWIN_OBJECT_ABSTRACT_SOURCE( SoWinFullViewer );
 
-SbBool SoWinFullViewer::doButtonBar = FALSE;
+SbBool SoWinFullViewer::doButtonBar = TRUE;
 
 void
 SoWinFullViewer::setDecoration( SbBool enable )
@@ -108,6 +108,8 @@ SoWinFullViewer::setDecoration( SbBool enable )
       height,
       FALSE );
   }
+
+  InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
 }
 
 SbBool
@@ -287,7 +289,8 @@ SoWinFullViewer::setCamera( SoCamera * newCamera )
 
 		this->setRightWheelString(orthotype ? "Zoom" : "Dolly");
 
-		VIEWERBUTTON( VIEWERBUTTON_PERSPECTIVE )->setBitmap( orthotype ? 1 : 0 );
+    if ( VIEWERBUTTON( VIEWERBUTTON_PERSPECTIVE ) ) // may not be there if !isButtonBar( )
+      VIEWERBUTTON( VIEWERBUTTON_PERSPECTIVE )->setBitmap( orthotype ? 1 : 0 );
 
 //      if ( this->cameratogglebutton ) {
 //        this->cameratogglebutton->setPixmap( orthotype ?
@@ -522,18 +525,18 @@ SoWinFullViewer::buildWidget( HWND parent )
   DWORD style;
   if ( IsWindow( parent ) ) {
     GetClientRect( parent, & rect );
-    style = WS_CHILD;
+    style = WS_CHILD | WS_VISIBLE;
   }
   else {
     rect.right = 500;
     rect.bottom = 420;
-    style = WS_OVERLAPPEDWINDOW;
+    style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
   }
 
   this->viewerWidget = CreateWindow( wndclassname,
                                      wndclassname,
                                      style,
-                                     0,
+                                     CW_USEDEFAULT,
                                      0,
                                      rect.right,
                                      rect.bottom,
@@ -555,7 +558,6 @@ SoWinFullViewer::buildWidget( HWND parent )
 	if ( this->decorations )
 			this->buildDecoration( this->viewerWidget );
   
-  ShowWindow( this->viewerWidget, SW_SHOW );
   ShowWindow( this->renderAreaWidget, SW_SHOW );
 
   return this->viewerWidget;
@@ -569,9 +571,10 @@ SoWinFullViewer::buildDecoration( HWND parent )
   this->buildRightWheel( parent );
 	//this->buildZoomSlider( parent );
 
-	//FIXME: handle dobuttonBar ?
-	this->buildViewerButtons( parent );
-	this->buildAppButtons( parent );
+	if ( SoWinFullViewer::doButtonBar ) {
+    this->buildViewerButtons( parent );
+    this->buildAppButtons( parent );
+  }
 }
 
 HWND
@@ -1227,15 +1230,17 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 		MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
 			LOWORD( lparam ) - ( 2 * DECORATION_SIZE ), HIWORD( lparam ) - DECORATION_SIZE, repaint );
 	}
-	
-  // Viewer buttons
-	for( i = 0; i < numViewerButtons; i++ )
-		VIEWERBUTTON( i )->move( LOWORD( lparam ) - DECORATION_SIZE, DECORATION_SIZE * i );
 
-	// App buttons
-	for( i = 0; i < numAppButtons; i++ )
-		MoveWindow( APPBUTTON( i ),	0, ( DECORATION_SIZE * ( i + numViewerButtons ) ),
-			DECORATION_SIZE, DECORATION_SIZE, repaint );
+  if ( SoWinFullViewer::doButtonBar ) {
+    // Viewer buttons
+    for( i = 0; i < numViewerButtons; i++ )
+      VIEWERBUTTON( i )->move( LOWORD( lparam ) - DECORATION_SIZE, DECORATION_SIZE * i );
+
+    // App buttons
+    for( i = 0; i < numAppButtons; i++ )
+      MoveWindow( APPBUTTON( i ),	0, ( DECORATION_SIZE * ( i + numViewerButtons ) ),
+        DECORATION_SIZE, DECORATION_SIZE, repaint );
+  }
 
 	// Wheels
 	
