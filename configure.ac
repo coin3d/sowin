@@ -42,20 +42,6 @@ if $sim_ac_try_msvc; then
     *-cygwin) SIM_AC_ERROR([no-msvc++]) ;;
     esac
   ])
-  if $BUILD_WITH_MSVC; then
-    SIM_AC_SETUP_MSVCRT([
-      CPPFLAGS="$CPPFLAGS $sim_ac_msvcrt_CPPFLAGS"
-      CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
-      CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
-      LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
-      LIBS="$LIBS $sim_ac_msvcrt_LIBS"
-      # sim_ac_msvcrt_LIBLIBS is set up at the end
-      # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
-      LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
-      LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
-      AC_SUBST([SOGUI_MSVC_LIBC], [$sim_ac_msvcrt])
-    ])
-  fi
 fi
 
 # **************************************************************************
@@ -93,6 +79,22 @@ AC_PROG_CXX
 
 AC_OBJEXT
 AC_EXEEXT
+
+# moved below AC_PROG_CC so -g is preserved in $C[XX]FLAGS - 20020521 mortene
+if $BUILD_WITH_MSVC; then
+  SIM_AC_SETUP_MSVCRT([
+    CPPFLAGS="$CPPFLAGS $sim_ac_msvcrt_CPPFLAGS"
+    CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
+    CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
+    LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
+    LIBS="$LIBS $sim_ac_msvcrt_LIBS"
+    # sim_ac_msvcrt_LIBLIBS is set up at the end
+    # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
+    LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
+    LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
+    AC_SUBST([SOGUI_MSVC_LIBC], [$sim_ac_msvcrt])
+  ])
+fi
 
 # **************************************************************************
 
