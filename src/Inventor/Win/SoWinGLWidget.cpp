@@ -935,7 +935,6 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   //
   // - individual color bit settings (cRedBits, cGreenBits, cBlueBits)
   // - cAccumBits (with individual R, G, B, A)
-  // - cStencilBits
   // - cAuxBuffers
 
   return weight;
