@@ -58,7 +58,13 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     various sorts of difficult to understand problems.
 
     20021118 mortene.
-    
+ 
+    UPDATE 20030604 mortene: this is now automatically detected in
+    Coin (at least I think so, I haven't yet tested if it actually
+    works), and a MessageBox() which explains the problem will pop
+    up. The problem will likely still be hard to _solve_ for the app
+    programmer, though..
+   
 =====================================================================
 
 005 Wrapped in ActiveX as a browser plug-in, Coin + SoWin crashes on
@@ -140,5 +146,29 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
 
     20030214 mortene.
+
+=====================================================================
+
+010 Uninstalling SoWin from the Nullsoft installer system (makensis)
+    fails in nasty ways.
+
+    thammer: "Uninstalling sowin doesn't work. Some directories are
+    wiped out entirely (deleting coin and simage specific files too),
+    and some sowin files aren't deleted."
+
+    The first part of this is bad. Consider for instance that this
+    means an SoWin _*upgrade_* will destroy the underlying Coin
+    installation.
+
+    20030604 mortene.
+
+=====================================================================
+
+011 sowin-config from a binary Windows package doesn't report correct
+    paths for everything.
+
+    At least the include-paths are wrong.
+
+    20030604 mortene, reported by thammer.
 
 =====================================================================
