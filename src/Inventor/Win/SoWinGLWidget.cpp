@@ -90,9 +90,9 @@ SoWinGLWidget::~SoWinGLWidget()
     Win32::DestroyWindow(PRIVATE(this)->overlayWidget);
   SoWinGLWidgetP::widgetCounter--;
   if (SoWinGLWidgetP::widgetCounter <= 0) {
-    Win32::UnregisterClass("Manager Widget", SoWin::getInstance());
+    Win32::UnregisterClass("Manager Widget", NULL);
     SoWinGLWidgetP::managerWndClassAtom = 0;
-    Win32::UnregisterClass("GL Widget", SoWin::getInstance());
+    Win32::UnregisterClass("GL Widget", NULL);
     SoWinGLWidgetP::glWndClassAtom = 0;
   }
   delete this->pimpl;
@@ -492,7 +492,7 @@ SoWinGLWidget::buildWidget(HWND parent)
   if (! SoWinGLWidgetP::managerWndClassAtom) {
     WNDCLASS windowclass;
     windowclass.lpszClassName = "Manager Widget";
-    windowclass.hInstance = SoWin::getInstance();
+    windowclass.hInstance = NULL;
     windowclass.lpfnWndProc = SoWinGLWidgetP::mgrWidgetProc;
     windowclass.style = 0;
     windowclass.lpszMenuName = NULL;
@@ -521,7 +521,7 @@ SoWinGLWidget::buildWidget(HWND parent)
                                             rect.bottom,
                                             parent,
                                             menu,
-                                            SoWin::getInstance(),
+                                            NULL,
                                             this);
 
   PRIVATE(this)->managerWidget = managerwidget;
@@ -759,7 +759,7 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
   if (!SoWinGLWidgetP::glWndClassAtom) {
     WNDCLASS windowclass;
     windowclass.lpszClassName = wndclassname;
-    windowclass.hInstance = SoWin::getInstance();
+    windowclass.hInstance = NULL;
     windowclass.lpfnWndProc = SoWinGLWidgetP::glWidgetProc;
     windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     windowclass.lpszMenuName = NULL;
@@ -791,7 +791,7 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
                                              rect.right, rect.bottom,
                                              manager,
                                              NULL,
-                                             SoWin::getInstance(),
+                                             NULL,
                                              PUBLIC(this));
 
   this->normalWidget = normalwidget;

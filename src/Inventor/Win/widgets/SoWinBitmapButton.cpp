@@ -182,7 +182,7 @@ SoWinBitmapButton::buildWidget(HWND parent, RECT rect)
                                             rect.right, rect.bottom,
                                             parent,
                                             NULL,
-                                            SoWin::getInstance(),
+                                            NULL,
                                             NULL);
 
   return this->buttonWindow;

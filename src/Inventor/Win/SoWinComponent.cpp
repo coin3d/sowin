@@ -73,7 +73,7 @@ SoWinComponentP::~SoWinComponentP()
   // mariusbu 20010803.
 #if 0 // tmp disabled
   if (SoWinComponentP::wndClassAtom) { // if wndclass is registered
-    Win32::UnregisterClass("Component Widget", SoWin::getInstance());
+    Win32::UnregisterClass("Component Widget", NULL);
     SoWinComponentP::wndClassAtom = NULL;
   }
 #endif // tmp disabled
@@ -673,11 +673,11 @@ SoWinComponent::buildFormWidget(HWND parent)
 
     WNDCLASS windowclass;
     windowclass.lpszClassName = "Component Widget";
-    windowclass.hInstance = SoWin::getInstance();
+    windowclass.hInstance = NULL;
     windowclass.lpfnWndProc = SoWinComponentP::frameWindowHandler;
     windowclass.style = CS_OWNDC;
     windowclass.lpszMenuName = NULL;
-    windowclass.hIcon = LoadIcon(SoWin::getInstance(), icon);
+    windowclass.hIcon = LoadIcon(NULL, icon);
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = brush;
     windowclass.cbClsExtra = 0;
@@ -697,7 +697,7 @@ SoWinComponent::buildFormWidget(HWND parent)
                                            500, 500,
                                            parent,
                                            NULL,
-                                           SoWin::getInstance(),
+                                           NULL,
                                            NULL);
 
   (void)Win32::SetWindowLong(parentwidget, GWL_USERDATA, (LONG)this);
@@ -854,7 +854,7 @@ SoWinComponentP::getNativeCursor(const SoWinCursor::CustomCursor * cc)
   }
 
   // FIXME: plug this memory leak by using DestroyCursor(). 20011126 mortene.
-  HCURSOR c = Win32::CreateCursor(SoWin::getInstance(),
+  HCURSOR c = Win32::CreateCursor(NULL,
                                   cc->hotspot[0], cc->hotspot[1],
                                   cursorwidth, cursorheight,
                                   ANDbitmap, XORbitmap);

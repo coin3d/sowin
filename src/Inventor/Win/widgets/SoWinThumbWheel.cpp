@@ -71,7 +71,7 @@ SoWinThumbWheel::~SoWinThumbWheel(void)
   if (IsWindow(this->labelWindow))
     Win32::DestroyWindow(this->labelWindow);
   if (SoWinThumbWheel::wheelWidgetCounter <= 0)
-    Win32::UnregisterClass("ThumbWheel Widget", SoWin::getInstance());
+    Win32::UnregisterClass("ThumbWheel Widget", NULL);
 }
 
 SIZE
@@ -409,7 +409,7 @@ SoWinThumbWheel::buildWidget(HWND parent, RECT rect, char * name)
     WNDCLASS windowclass;
 
     windowclass.lpszClassName = wndclassname;
-    windowclass.hInstance = SoWin::getInstance();
+    windowclass.hInstance = NULL;
     windowclass.lpfnWndProc = SoWinThumbWheel::windowProc;
     windowclass.style = CS_HREDRAW | CS_VREDRAW;
     windowclass.lpszMenuName = NULL;
@@ -438,7 +438,7 @@ SoWinThumbWheel::buildWidget(HWND parent, RECT rect, char * name)
                                            rect.bottom,
                                            parent,
                                            menu,
-                                           SoWin::getInstance(),
+                                           NULL,
                                            this);
 
   if (name) {
@@ -612,7 +612,7 @@ SoWinThumbWheel::createLabel(HWND parent, int x, int y, char * text)
                                    textSize.cx + 2, textSize.cy, // SIZE
                                    parent,
                                    NULL,
-                                   SoWin::getInstance(),
+                                   NULL,
                                    NULL);
   return hwnd;
 }

@@ -201,7 +201,7 @@ SoWin::init(HWND toplevelwidget)
     //  {
     //    WNDCLASSEX wcl;
     //    wcl.cbSize = sizeof(WNDCLASSEX);
-    //    wcl.hInstance = SoWin::getInstance();
+    //    wcl.hInstance = NULL;
     //    wcl.lpszClassName = "My Window";
     //    wcl.lpfnWndProc = WindowFunc;
     //    wcl.style = 0;
@@ -320,6 +320,7 @@ SoWin::done(void)
 }
 
 /*!
+  FIXME: doc
  */
 BOOL
 SoWin::dispatchEvent(MSG * msg)
@@ -426,6 +427,7 @@ SoWin::createSimpleErrorDialog(HWND const widget,
 }
 
 /*!
+  FIXME: doc
  */
 HWND
 SoWin::createWindow(char * title, char * className, SIZE size, HWND parent, HMENU menu)
@@ -443,12 +445,13 @@ SoWin::createWindow(char * title, char * className, SIZE size, HWND parent, HMEN
                                        size.cy,
                                        parent,
                                        menu,
-                                       SoWin::getInstance(),
+                                       NULL,
                                        NULL);
   return widget;
 }
 
 /*!
+  FIXME: doc
  */
 SbBool
 SoWin::nextEvent(int appContext, MSG * msg)
@@ -479,23 +482,6 @@ SoWin::getShellWidget(HWND hwnd)
   return hwnd;
 }
 
-/*!
- */
-void
-SoWin::setInstance(HINSTANCE instance)
-{
-  SoWinP::Instance = instance;
-}
-
-/*!
- */
-HINSTANCE
-SoWin::getInstance(void)
-{
-  return SoWinP::Instance;
-}
-
-
 // Return value of SOWIN_MSGS_TO_CONSOLE environment variable.
 SbBool
 SoWinP::pipeErrorMessagesToConsole(void)
@@ -521,6 +507,7 @@ SoWinP::errorHandlerCB(const SoError * error, void * data)
 }
 
 /*!
+  FIXME: doc
  */
 void
 SoWin::doIdleTasks(void)
@@ -536,6 +523,7 @@ SoWin::doIdleTasks(void)
 //
 
 /*!
+  FIXME: doc
  */
 void
 SoWin::registerWindowClass(const char * const className)
@@ -546,11 +534,11 @@ SoWin::registerWindowClass(const char * const className)
   HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
 
   windowclass.lpszClassName = className;
-  windowclass.hInstance = SoWin::getInstance();
+  windowclass.hInstance = NULL;
   windowclass.lpfnWndProc = SoWin::eventHandler;
   windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = LoadIcon(SoWin::getInstance(), icon);
+  windowclass.hIcon = LoadIcon(NULL, icon);
   windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
   windowclass.hbrBackground = brush;
   windowclass.cbClsExtra = 0;
@@ -560,14 +548,16 @@ SoWin::registerWindowClass(const char * const className)
 }
 
 /*!
+  FIXME: doc
  */
 void
 SoWin::unRegisterWindowClass(const char * const className)
 {
-  Win32::UnregisterClass(className, SoWin::getInstance());
+  Win32::UnregisterClass(className, NULL);
 }
 
 /*!
+  FIXME: doc
  */
 LRESULT CALLBACK
 SoWin::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
@@ -605,8 +595,6 @@ SoWin::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 //  (private)
 //
 
-/*!
- */
 void CALLBACK
 SoWinP::timerSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
@@ -617,8 +605,6 @@ SoWinP::timerSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoGuiP::sensorQueueChanged(NULL);
 }
 
-/*!
- */
 void CALLBACK
 SoWinP::delaySensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
@@ -629,8 +615,6 @@ SoWinP::delaySensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoGuiP::sensorQueueChanged(NULL);
 }
 
-/*!
- */
 void CALLBACK
 SoWinP::idleSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
@@ -640,8 +624,6 @@ SoWinP::idleSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoWin::doIdleTasks();
 }
 
-/*!
- */
 LRESULT
 SoWinP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
@@ -649,8 +631,6 @@ SoWinP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
   return 0;
 }
 
-/*!
- */
 LRESULT
 SoWinP::onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
