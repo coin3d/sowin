@@ -37,7 +37,9 @@
 #endif
 
 
-typedef void SoWinEventHandler(HWND, void *, MSG *, SbBool *);
+// typedef void SoWinEventHandler(HWND, void *, MSG *, SbBool *);
+typedef LRESULT SoWinEventHandler(HWND, UINT, WPARAM, LPARAM);
+
 typedef void (*SoWinEventHandlerPtr)(HWND, void *, MSG *, SbBool *);
 
 class SOWIN_DLL_API SoWinDevice : public SoWinObject {
