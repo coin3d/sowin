@@ -229,6 +229,27 @@ SoWinGLWidget::getStencilBuffer(void) const
   return PRIVATE(this)->stencilenabled;
 }
 
+
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
+void
+SoWinGLWidget::setAlphaChannel(const SbBool enable)
+{
+  if (!enable == !PRIVATE(this)->alphachannelenabled) { return; }
+
+  PRIVATE(this)->alphachannelenabled = enable;
+
+  Win32::DestroyWindow(this->getNormalWidget());
+  PRIVATE(this)->buildNormalGLWidget(PRIVATE(this)->managerWidget);
+}
+
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
+SbBool
+SoWinGLWidget::getAlphaChannel(void) const
+{
+  return PRIVATE(this)->alphachannelenabled;
+}
+
+
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::isQuadBufferStereo(void) const
@@ -742,7 +763,8 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
                                  SbBool want_stereo, /* default FALSE */
                                  SbBool want_accum, /* default FALSE */
                                  SbBool want_stencil, /* default FALSE */
-                                 SbBool want_overlay) /* default FALSE */
+                                 SbBool want_overlay, /* default FALSE */
+                                 SbBool want_alphachannel) /* default FALSE */
 {
   if ((pfd->dwFlags & PFD_SUPPORT_OPENGL) == 0) { return -FLT_MAX; }
   // We only care for on-screen windows for now. If we ever want to
@@ -796,6 +818,7 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   // something) depth buffer, since 32 bits resolution is not
   // supported on those cards (only 16 and / or 24 bits resolution).
   const double PER_COLOR_BIT = 1;
+  const double PER_ALPHA_BIT = 0.75;
   const double PER_DEPTH_BIT = 2.5;
 
   const double PER_ACCUMULATION_BIT = 0.5;
@@ -853,6 +876,9 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
       ((pfd->dwFlags & PFD_SWAP_LAYER_BUFFERS) ? 1 : 0);
   }
 
+  if (want_alphachannel) 
+    weight += pfd->cAlphaBits * PER_ALPHA_BIT;
+
   const SbBool hw_accel = ((pfd->dwFlags & PFD_GENERIC_FORMAT) == 0);
   // Note: there are two types of possible "non-generic"
   // configurations. From a 1996 Usenet posting by a Microsoft
@@ -894,7 +920,6 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   // mortene.
   weight += (hw_accel ? 1 : 0) * HARDWARE_ACCELERATED;
 
-
   weight += pfd->cDepthBits * PER_DEPTH_BIT;
   weight += pfd->cColorBits * PER_COLOR_BIT;
 
@@ -909,7 +934,6 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   //   - PFD_SWAP_EXCHANGE
   //
   // - individual color bit settings (cRedBits, cGreenBits, cBlueBits)
-  // - cAlphaBits
   // - cAccumBits (with individual R, G, B, A)
   // - cStencilBits
   // - cAuxBuffers
@@ -1030,7 +1054,8 @@ SoWinGLWidgetP::createGLContext(HWND window)
                                        this->stencilenabled,
                                        // FIXME: overlay support not
                                        // implemented yet. 20020720 mortene.
-                                       FALSE);
+                                       FALSE,
+                                       this->alphachannelenabled);
 
     if (SoWinGLWidgetP::debugGLContextCreation()) {
       SoWinGLWidgetP::dumpPixelFormat(this->hdcNormal, format);

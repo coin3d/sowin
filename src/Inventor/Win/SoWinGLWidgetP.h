@@ -50,7 +50,8 @@ public:
                                  SbBool want_stereo = FALSE,
                                  SbBool want_accum = FALSE,
                                  SbBool want_stencil = FALSE,
-                                 SbBool want_overlay = FALSE);
+                                 SbBool want_overlay = FALSE,
+				 SbBool want_alphachannel = FALSE);
 
   void buildNormalGLWidget(HWND manager);
   void buildOverlayGLWidget(HWND manager);
@@ -87,7 +88,7 @@ public:
   SbBool havefocus;
 
   int glModes;
-  SbBool accumulationenabled, stencilenabled;
+  SbBool accumulationenabled, stencilenabled, alphachannelenabled;
   int bordersize;
   int lockcounter;
   int overlaylockcounter;
