@@ -69,6 +69,9 @@ public:
       if ( SoWinComponentP::sowincomplist->getLength( ) == 0 ) {
         delete SoWinComponentP::sowincomplist;
         SoWinComponentP::sowincomplist = NULL;
+
+        // Only unregister classname when all component windows have been destroyed.
+        Win32::UnregisterClass( this->classname.getString( ), SoWin::getInstance( ) );
       }
     }
 
@@ -182,7 +185,7 @@ SoWinComponent::~SoWinComponent( void )
     BOOL r = DestroyWindow( PRIVATE( this )->widget );
     assert( r && "DestroyWindow() failed -- investigate" );
   }
-  Win32::UnregisterClass( this->getClassName( ), SoWin::getInstance( ) );
+  
   delete this->pimpl;
 }
 
