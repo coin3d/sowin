@@ -17,6 +17,24 @@
  *
  **************************************************************************/
 
+// *************************************************************************
+
+// Class documentation in common/SoGuiCommon.cpp.in.
+
+/*!
+  \mainpage
+
+  %SoWin is a C++ GUI toolkit for using Coin with the Microsoft
+  Windows Win32 API.  It can also be used on top of Open Inventor from
+  SGI and TGS.  The API is based on the InventorXt API originally from
+  SGI.
+
+  The corresponding documentation for Coin is located at
+  <URL:http://doc.coin3d.org/Coin/>.
+*/
+
+// *************************************************************************
+
 #include <Inventor/SbTime.h>
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInteraction.h>
