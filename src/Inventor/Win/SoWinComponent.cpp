@@ -1023,6 +1023,7 @@ SoWinComponent::setWidgetCursor(HWND w, const SoWinCursor & cursor)
   if (cursor.getShape() == SoWinCursor::CUSTOM_BITMAP) {
     const SoWinCursor::CustomCursor * cc = &cursor.getCustomCursor();
     SetCursor(SoWinComponentP::getNativeCursor(cc));
+    ShowCursor(TRUE);
   }
   else {
     switch (cursor.getShape()) {
