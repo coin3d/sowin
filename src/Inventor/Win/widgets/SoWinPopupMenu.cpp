@@ -214,17 +214,18 @@ SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
   assert( IsMenu( rec->parent ) );
   
   MENUITEMINFO info;
-  
+  // (no need to ZeroMemory() structure)
+
   info.cbSize = sizeof( MENUITEMINFO );
   info.fMask = MIIM_STATE;
   
   if ( enabled ) {
     rec->flags |= ITEM_ENABLED;
-    info.fState = MFS_ENABLED | MFS_GRAYED;
+    info.fState = MFS_ENABLED;
   }
   else {
     rec->flags &= ~ITEM_ENABLED;    
-    info.fState = MFS_DISABLED;
+    info.fState = MFS_DISABLED | MFS_GRAYED;
   }
   
   Win32::SetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
