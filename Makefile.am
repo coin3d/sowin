@@ -34,7 +34,7 @@ CLEANFILES = \
 
 DISTCLEANFILES = \
 	libtool \
-	build/so@gui@.doxygen \
+	build/sowin.doxygen \
 	$(SoGui_BuiltFiles) \
 	$(SoGui_BuiltMetaFiles)
 
@@ -53,13 +53,8 @@ cfgdata_DATA = so@gui@-@CONFIG@.cfg
 endif
 
 EXTRA_DIST = \
-	LICENSE.LGPL \
-	HACKING \
-	build/so@gui@.doxygen.in \
-	cfg/m4/doxy4win.pl \
+	build/sowin.doxygen.in \
 	cfg/m4/sowin.m4 \
-	cfg/m4/wrapmsvc.cpp \
-	cfg/m4/wrapmsvc.exe \
 	$(SoGuiCommonDistFiles)
 
 # Target which is present to make it simple to only generate all the source
