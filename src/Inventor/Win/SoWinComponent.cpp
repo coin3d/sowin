@@ -186,14 +186,14 @@ SoWinComponent::~SoWinComponent( void )
 void
 SoWinComponent::show( void )
 {
-  ShowWindow( this->getShellWidget( ), SW_SHOW );
-  InvalidateRect( this->getShellWidget( ), NULL, FALSE );
+  ShowWindow( PRIVATE( this )->widget, SW_SHOW );
+  InvalidateRect( PRIVATE( this )->widget, NULL, FALSE );
 }
 
 void
 SoWinComponent::hide( void )
 {
-  ShowWindow( this->getShellWidget( ), SW_HIDE );
+  ShowWindow( PRIVATE( this )->widget, SW_HIDE );
 }
 
 void
