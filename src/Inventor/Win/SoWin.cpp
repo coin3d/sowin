@@ -153,7 +153,20 @@ SoWin::init(int & argc, char ** argv,
   }
  
   SIZE size = { 500, 500 };
-  HWND toplevel = SoWin::createWindow((char *) appname, (char *) classname, size, NULL);
+  HWND toplevel =
+    Win32::CreateWindowEx_(NULL, // exstyle
+                           classname,
+                           appname,
+                           WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, // style
+                           CW_USEDEFAULT,
+                           CW_USEDEFAULT,
+                           size.cx,
+                           size.cy,
+                           NULL, // parent
+                           NULL, // menu
+                           NULL,
+                           NULL);
+
   SoWinP::useParentEventHandler = FALSE;
   
   SoWin::init(toplevel);
@@ -443,30 +456,6 @@ SoWin::createSimpleErrorDialog(HWND const widget,
   }
 
   MessageBox(widget, errstr.getString(), t.getString(), MB_OK | MB_ICONERROR | MB_TASKMODAL);
-}
-
-/*!
-  FIXME: doc
- */
-HWND
-SoWin::createWindow(char * title, char * className, SIZE size, HWND parent, HMENU menu)
-{
-  DWORD style = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
-  DWORD exstyle = NULL;
-
-  HWND widget = Win32::CreateWindowEx_(exstyle,
-                                       className,
-                                       title,
-                                       style,
-                                       CW_USEDEFAULT,
-                                       CW_USEDEFAULT,
-                                       size.cx,
-                                       size.cy,
-                                       parent,
-                                       menu,
-                                       NULL,
-                                       NULL);
-  return widget;
 }
 
 /*!
