@@ -456,6 +456,7 @@ SoWinFullViewer::buildLeftWheel( HWND parent )
                                          this->leftWheelStr );
   this->leftWheel->registerCallback( this->leftWheelCB );
 	this->leftWheel->registerViewer( this );
+	this->leftWheel->setRangeBoundaryHandling( SoWinThumbWheel::MODULATE );
 
   return NULL;
 }
@@ -472,6 +473,7 @@ SoWinFullViewer::buildBottomWheel( HWND parent )
                                            this->bottomWheelStr );
   this->bottomWheel->registerCallback( this->bottomWheelCB );
 	this->bottomWheel->registerViewer( this );
+	this->bottomWheel->setRangeBoundaryHandling( SoWinThumbWheel::MODULATE );
 
   return NULL;
 }
@@ -488,6 +490,7 @@ SoWinFullViewer::buildRightWheel( HWND parent )
                                           this->rightWheelStr );
   this->rightWheel->registerCallback( this->rightWheelCB );
 	this->rightWheel->registerViewer( this );
+	this->rightWheel->setRangeBoundaryHandling( SoWinThumbWheel::ACCUMULATE );
 
   return NULL;
 }
@@ -675,6 +678,7 @@ void
 SoWinFullViewer::setLeftWheelValue( const float value )
 {
   this->leftWheelVal = value;
+	this->leftWheel->setValue( value );
 }
 
 float
@@ -687,6 +691,7 @@ void
 SoWinFullViewer::setRightWheelValue( const float value )
 {
   this->rightWheelVal = value;
+	this->rightWheel->setValue( value );
 }
 
 float
@@ -699,6 +704,7 @@ void
 SoWinFullViewer::setBottomWheelValue( const float value )
 {
   this->bottomWheelVal = value;
+	this->bottomWheel->setValue( value );
 }
 
 void
@@ -928,7 +934,7 @@ SoWinFullViewer::rightWheelCB( SoWinFullViewer * viewer, void * * data )
 		viewer->rightWheelFinish( );
 		return;
 	}
-
+	//_cprintf( "%f\n", ** ( float ** ) data );
 	viewer->rightWheelMotion( ** ( float ** ) data );
 }
 
@@ -1015,7 +1021,19 @@ LRESULT
 SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   assert( renderAreaWidget != NULL );
-  MoveWindow( renderAreaWidget,
+
+	// If we are in fullscreen, we only see the renderarea
+	if ( this->isFullScreen() ) {
+			MoveWindow( renderAreaWidget,
+				          0,
+                  0,
+                  LOWORD( lparam ),
+                  HIWORD( lparam ),
+                  FALSE );
+			return 0; 
+	}
+	
+	MoveWindow( renderAreaWidget,
               0 + renderAreaOffset.left,
               0 + renderAreaOffset.top,
               LOWORD( lparam ) + renderAreaOffset.right,
