@@ -234,6 +234,9 @@ SoWinExaminerViewer::setCamera( // virtual
 {
   inherited::setCamera( newCamera );
 
+  if ( ! newCamera )
+    return;
+
   SbBool orthotype =
     newCamera->getTypeId( ).isDerivedFrom( SoOrthographicCamera::getClassTypeId( ) );
   
@@ -359,8 +362,9 @@ const char *
 SoWinExaminerViewer::getDefaultWidgetName( // virtual
   void ) const
 {
-  static const char defaultWidgetName[] = "SoWinExaminerViewer";
-  return defaultWidgetName;
+  //static const char defaultWidgetName[] = "SoWinExaminerViewer";
+  //return defaultWidgetName;
+  return "SoWinExaminerViewer";
 } // getDefaultWidgetName()
 
 // *************************************************************************
@@ -373,8 +377,9 @@ const char *
 SoWinExaminerViewer::getDefaultTitle(
 	void ) const
 {
-  static const char defaultTitle[] = "Examiner Viewer";
-  return defaultTitle;
+  //static const char defaultTitle[] = "Examiner Viewer";
+  //return defaultTitle;
+  return "Examiner Viewer";
 } // getDefaultTitle()
 
 // *************************************************************************
@@ -387,8 +392,9 @@ const char *
 SoWinExaminerViewer::getDefaultIconTitle(
 	void ) const
 {
-  static const char defaultIconTitle[] = "Examiner Viewer";
-  return defaultIconTitle;
+  //static const char defaultIconTitle[] = "Examiner Viewer";
+  //return defaultIconTitle;
+  return "Examiner Viewer";
 } // getDefaultIconTitle()
 
 // *************************************************************************

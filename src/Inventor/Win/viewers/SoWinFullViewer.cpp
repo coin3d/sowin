@@ -149,15 +149,14 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 	PRIVATE( this )->createAppPushButtonData = NULL;
 
   if ( buildNow ) {
-    HWND window;
+    
     this->setClassName( "SoWinFullViewer" );
-    if ( ! embedded )
-      window = this->buildWidget( this->getParentWidget( ) );
-    else  
-      window = this->buildWidget( parent );
+    
+    HWND window = this->buildWidget( this->getParentWidget( ) );
     this->setBaseWidget( window );
+    
   }
-
+   
   this->setSize( SbVec2s( 500, 420 ) );
 
   if ( ! this->isViewing( ) )
@@ -896,15 +895,7 @@ SoWinFullViewer::vwrWidgetProc(
 
   return DefWindowProc( window, message, wparam, lparam );
 }
-/*
-LRESULT
-SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
-	if ( ! this->isViewing( ) )
-    this->setViewing( TRUE );
-  return 0;
-}
-*/
+
 LRESULT
 SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {

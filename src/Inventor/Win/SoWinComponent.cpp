@@ -64,6 +64,7 @@ public:
   ~SoWinComponentP( ) {
 
     if ( SoWinComponentP::sowincomplist ) {
+      SoWinComponentP::sowincomplist->removeItem( this->owner );
       if ( SoWinComponentP::sowincomplist->getLength( ) == 0 ) {
         delete SoWinComponentP::sowincomplist;
         SoWinComponentP::sowincomplist = NULL;
@@ -176,8 +177,8 @@ SoWinComponent::~SoWinComponent( void )
 {
   if ( IsWindow( PRIVATE( this )->widget ) )
     DestroyWindow( PRIVATE( this )->widget );
-  UnregisterClass( this->getWidgetName( ), SoWin::getInstance( ) );
-  delete pimpl;
+  UnregisterClass( this->getClassName( ), SoWin::getInstance( ) );
+  delete this->pimpl;
 }
 
 void
@@ -361,12 +362,8 @@ SoWinComponent::setTitle( const char * const title )
   if ( title ) PRIVATE( this )->title = title;
   else PRIVATE( this )->title = "";
 
-  if ( IsWindow( PRIVATE( this )->parent ) && title ) {
+  if ( IsWindow( PRIVATE( this )->parent ) && title )
     SetWindowText( PRIVATE( this )->parent , ( LPCTSTR ) PRIVATE( this )->title.getString( ) );
-  } 
-  else {
-    SetWindowText( PRIVATE( this )->widget, ( LPCTSTR ) PRIVATE( this )->title.getString( ) );
-  }
 }
 
 const char *
@@ -460,7 +457,7 @@ SoWinComponent::buildFormWidget( HWND parent )
                          parent,
                          NULL,
                          SoWin::getInstance( ),
-                         PRIVATE( this ) );
+                         NULL );
 
   assert( IsWindow( widget ) );
   return widget;
@@ -469,15 +466,17 @@ SoWinComponent::buildFormWidget( HWND parent )
 const char *
 SoWinComponent::getDefaultWidgetName( void ) const
 {
-  static const char defaultWidgetTitle[] = "SoWinComponent";
-  return defaultWidgetTitle;
+  //static const char defaultWidgetTitle[] = "SoWinComponent";
+  //return defaultWidgetTitle;
+  return "SoWinComponent";
 }
 
 const char *
 SoWinComponent::getDefaultTitle( void ) const
 {
-  static const char defaultTitle[] = "SoWinComponent";
-  return defaultTitle;
+  //static const char defaultTitle[] = "Win Component";
+  //return defaultTitle;
+  return "Win Component";
 }
 
 void

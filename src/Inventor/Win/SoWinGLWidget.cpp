@@ -822,7 +822,8 @@ SoWinGLWidgetP::createGLContext( HWND window )
   
   pixelFormat = ChoosePixelFormat( hdc, & this->pfdNormal );
   ok = SetPixelFormat( hdc, pixelFormat, & this->pfdNormal );
-  assert( ok );
+  //assert( ok );
+  if ( ! ok ) return FALSE;
 
   SoWinGLWidget * share = ( SoWinGLWidget * )
 		SoAny::si( )->getSharedGLContext( NULL, NULL );
@@ -837,7 +838,8 @@ SoWinGLWidgetP::createGLContext( HWND window )
 	SoAny::si( )->registerGLContext( ( void * ) this->owner, NULL, NULL );
 
   ok = wglMakeCurrent( hdc, hrc );
-  assert( ok );
+  //assert( ok );
+  if ( ! ok ) return FALSE;
 
   this->hdcNormal = hdc;
   this->ctxNormal = hrc;

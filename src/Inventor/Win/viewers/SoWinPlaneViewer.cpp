@@ -169,7 +169,7 @@ SoWinPlaneViewerP::constructor( // private
   this->owner->setBottomWheelString( "transX" );
 
   if ( ! build ) return;
-  
+
   HWND viewer = this->owner->buildWidget( this->owner->getParentWidget( ) );
   this->owner->setBaseWidget( viewer );
 
@@ -266,8 +266,9 @@ const char *
 SoWinPlaneViewer::getDefaultWidgetName( // virtual
   void ) const
 {
-  static const char defaultWidgetName[] = "SoWinPlaneViewer";
-  return defaultWidgetName;
+  //static const char defaultWidgetName[] = "SoWinPlaneViewer";
+  //return defaultWidgetName;
+  return "SoWinPlaneViewer";
 } // getDefaultWidgetName()
 
 // ************************************************************************
@@ -280,8 +281,9 @@ const char *
 SoWinPlaneViewer::getDefaultTitle( // virtual
   void ) const
 {
-  static const char defaultTitle[] = "Plane Viewer";
-  return defaultTitle;
+  //static const char defaultTitle[] = "Plane Viewer";
+  //return defaultTitle;
+  return "Plane Viewer";
 } // getDefaultTitle()
 
 // ************************************************************************
@@ -294,8 +296,9 @@ const char *
 SoWinPlaneViewer::getDefaultIconTitle( // virtual
   void ) const
 {
-  static const char defaultIconTitle[] = "Plane Viewer";
-  return defaultIconTitle;
+  //static const char defaultIconTitle[] = "Plane Viewer";
+  //return defaultIconTitle;
+  return "Plane Viewer";
 } // getDefaultIconTitle()
 
 // ************************************************************************

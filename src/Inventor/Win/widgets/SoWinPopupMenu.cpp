@@ -260,10 +260,10 @@ SoWinPopupMenu::_setMenuItemMarked( int itemid, SbBool marked )
   if ( marked )
     rec->flags |= ITEM_MARKED;
   else
-		rec->flags &= ~ITEM_MARKED;
+    rec->flags &= ~ITEM_MARKED;
   
 	assert( CheckMenuItem( rec->parent, rec->itemid,
-    MF_BYCOMMAND | ( /*marked*/ ( rec->flags & ITEM_MARKED ) ?  MF_CHECKED : MF_UNCHECKED ) )
+    MF_BYCOMMAND | ( ( rec->flags & ITEM_MARKED ) ?  MF_CHECKED : MF_UNCHECKED ) )
     != 0xFFFFFFFF );
 	/*
   if ( marked )
