@@ -310,8 +310,6 @@ SoWinPlaneViewer::onCommand( // virtual
   return 0;
 } // onCommand()
 
-//setModeFromState( keys ); 
-
 // ************************************************************************
 
 /*!
@@ -552,7 +550,7 @@ void
 SoWinPlaneViewer::setModeFromState( // private
   unsigned int state )
 {
-  _cprintf( "setModeFromState\n" );
+
   PlaneViewerMode mode = IDLE_MODE;
 
   const unsigned int maskedstate =
