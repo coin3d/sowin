@@ -40,21 +40,21 @@ BUILT_SOURCES = \
 #	src/Inventor/Win/devices/spwinput.h \
 #	src/Inventor/Win/devices/spwinput_x11.cpp
 
-bin_SCRIPTS = sowin-config
+bin_SCRIPTS = so@gui@-config
 
 m4datadir = $(datadir)/aclocal
-m4data_DATA = sowin.m4
+m4data_DATA = so@gui@.m4
 
 cfgdatadir = $(datadir)/Coin/conf
-cfgdata_DATA = sowin-@CONFIG@.cfg
+cfgdata_DATA = so@gui@-@CONFIG@.cfg
 
-sowin-@CONFIG@.cfg: Makefile sowin.cfg.in
-	@$(SHELL) config.status --file=$@:sowin.cfg.in
+so@gui@-config: Makefile config.status $(srcdir)/src/Inventor/@Gui@/common/sogui-config.in
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/sogui-config.in
 
 EXTRA_DIST = \
 	LICENSE.LGPL \
-	sowin-config \
-	sowin.cfg.in \
+	src/Inventor/Win/common/sogui-config.in \
+	src/Inventor/Win/common/sogui.cfg.in \
 	cfg/ltconfig \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \

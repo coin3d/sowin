@@ -94,13 +94,11 @@ OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
+SOGUI_EXTRA_CPPFLAGS = @SOGUI_EXTRA_CPPFLAGS@
+SOGUI_EXTRA_LDFLAGS = @SOGUI_EXTRA_LDFLAGS@
+SOGUI_EXTRA_LIBS = @SOGUI_EXTRA_LIBS@
 SOWIN_DOC_HTML = @SOWIN_DOC_HTML@
 SOWIN_DOC_MAN = @SOWIN_DOC_MAN@
-SOWIN_EXTRA_CFLAGS = @SOWIN_EXTRA_CFLAGS@
-SOWIN_EXTRA_CPPFLAGS = @SOWIN_EXTRA_CPPFLAGS@
-SOWIN_EXTRA_CXXFLAGS = @SOWIN_EXTRA_CXXFLAGS@
-SOWIN_EXTRA_LDFLAGS = @SOWIN_EXTRA_LDFLAGS@
-SOWIN_EXTRA_LIBS = @SOWIN_EXTRA_LIBS@
 SOWIN_MAJOR_VERSION = @SOWIN_MAJOR_VERSION@
 SOWIN_MICRO_VERSION = @SOWIN_MICRO_VERSION@
 SOWIN_MINOR_VERSION = @SOWIN_MINOR_VERSION@
@@ -161,18 +159,18 @@ BUILT_SOURCES = \
 
 #	src/Inventor/Win/devices/spwinput.h \
 #	src/Inventor/Win/devices/spwinput_x11.cpp
-bin_SCRIPTS = sowin-config
+bin_SCRIPTS = so@gui@-config
 
 m4datadir = $(datadir)/aclocal
-m4data_DATA = sowin.m4
+m4data_DATA = so@gui@.m4
 
 cfgdatadir = $(datadir)/Coin/conf
-cfgdata_DATA = sowin-@CONFIG@.cfg
+cfgdata_DATA = so@gui@-@CONFIG@.cfg
 
 EXTRA_DIST = \
 	LICENSE.LGPL \
-	sowin-config \
-	sowin.cfg.in \
+	src/Inventor/Win/common/sogui-config.in \
+	src/Inventor/Win/common/sogui.cfg.in \
 	cfg/ltconfig \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \
@@ -223,7 +221,7 @@ subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
-CONFIG_CLEAN_FILES = build/sowin.doxygen
+CONFIG_CLEAN_FILES = sowin-$CONFIG.cfg build/sowin.doxygen
 SCRIPTS = $(bin_SCRIPTS)
 
 DIST_SOURCES =
@@ -268,6 +266,8 @@ $(srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(srcdir)/configure.in $(ACLOCAL_M4)
 
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.in cfg/m4/changesonly.m4 cfg/m4/check_be.m4 cfg/m4/check_dl.m4 cfg/m4/check_inventor.m4 cfg/m4/check_jpeglib.m4 cfg/m4/check_linkstyle.m4 cfg/m4/check_mac.m4 cfg/m4/check_mathlib.m4 cfg/m4/check_motif.m4 cfg/m4/check_nprintf.m4 cfg/m4/check_oggvorbis.m4 cfg/m4/check_openal.m4 cfg/m4/check_opengl.m4 cfg/m4/check_pnglib.m4 cfg/m4/check_pthread.m4 cfg/m4/check_qt.m4 cfg/m4/check_tifflib.m4 cfg/m4/check_ungif.m4 cfg/m4/check_x11.m4 cfg/m4/check_zlib.m4 cfg/m4/coin.m4 cfg/m4/compile_debug.m4 cfg/m4/compile_exceptions.m4 cfg/m4/compile_functionname.m4 cfg/m4/compile_profiling.m4 cfg/m4/compile_rtti.m4 cfg/m4/compile_symbols.m4 cfg/m4/compile_warnings.m4 cfg/m4/compiler_capabilities.m4 cfg/m4/configuration_summary.m4 cfg/m4/cvschanges.m4 cfg/m4/dates.m4 cfg/m4/dime.m4 cfg/m4/doxygen_detection.m4 cfg/m4/errors.m4 cfg/m4/expand_dir_vars.m4 cfg/m4/general.m4 cfg/m4/gettext.m4 cfg/m4/guile.m4 cfg/m4/lcmessage.m4 cfg/m4/libtool.m4 cfg/m4/linux_api.m4 cfg/m4/macro_quoting.m4 cfg/m4/misc_compiler.m4 cfg/m4/modifierlist.m4 cfg/m4/msvccc.m4 cfg/m4/network.m4 cfg/m4/path_conversion.m4 cfg/m4/profit.m4 cfg/m4/progtest.m4 cfg/m4/reconfigure.m4 cfg/m4/simage.m4 cfg/m4/smallchange.m4 cfg/m4/sobe.m4 cfg/m4/sockets.m4 cfg/m4/sogtk.m4 cfg/m4/sogui.m4 cfg/m4/somac.m4 cfg/m4/soqt.m4 cfg/m4/sowin.m4 cfg/m4/soxt.m4 cfg/m4/uniqify.m4
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
+sowin-$CONFIG.cfg: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Gtk/common/sogui.cfg.in
+	cd $(top_builddir) && CONFIG_FILES=$@:src/Inventor/Gtk/common/sogui.cfg.in CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 build/sowin.doxygen: $(top_builddir)/config.status $(top_srcdir)/build/sowin.doxygen.in
 	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 install-binSCRIPTS: $(bin_SCRIPTS)
@@ -430,7 +430,7 @@ GZIP_ENV = --best
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/build $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/src/Inventor/Win/common $(distdir)/src/Inventor/Win/common/pixmaps
+	$(mkinstalldirs) $(distdir)/build $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/src/Inventor/Gtk/common $(distdir)/src/Inventor/Win/common $(distdir)/src/Inventor/Win/common/pixmaps
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -594,8 +594,8 @@ uninstall-info: uninstall-info-recursive
 	uninstall-recursive
 
 
-sowin-@CONFIG@.cfg: Makefile sowin.cfg.in
-	@$(SHELL) config.status --file=$@:sowin.cfg.in
+so@gui@-config: Makefile config.status $(srcdir)/src/Inventor/@Gui@/common/sogui-config.in
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/sogui-config.in
 
 # this screws up "make distclean"
 # Makefile: $(BUILT_SOURCES)
