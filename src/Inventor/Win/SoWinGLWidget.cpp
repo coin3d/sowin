@@ -353,14 +353,14 @@ SoWinGLWidget::getPixelFormat(void)
 
 // FIXME: make doc in SoQtGLWidget valid for this also. 20011116 mortene.
 void
-SoWinGLWidget::setOverlayPlanes(const SbBool onoff)
+SoWinGLWidget::setOverlayRender(const SbBool onoff)
 {
   SOWIN_STUB();
 }
 
 // FIXME: make doc in SoQtGLWidget valid for this also. 20011116 mortene.
 SbBool
-SoWinGLWidget::isOverlayPlanes(void) const
+SoWinGLWidget::isOverlayRender(void) const
 {
   SOWIN_STUB();
   return FALSE;
