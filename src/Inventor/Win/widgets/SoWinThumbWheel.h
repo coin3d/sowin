@@ -36,7 +36,7 @@ class SoAnyThumbWheel;
 
 // *************************************************************************
 
-class SOWIN_DLL_API SoWinThumbWheel {
+class SoWinThumbWheel {
 
 public:
   enum Interaction { START, MOVE, END };
@@ -57,8 +57,8 @@ public:
     Disabled
   };
 
-  SoWinThumbWheel(HWND parent = 0, long id = -1, int x = 0, int y = 0, char * name = 0);
-  SoWinThumbWheel(Orientation, HWND parent = 0, long id = -1, int x = 0, int y = 0, char * name = 0);
+  SoWinThumbWheel(HWND parent = 0, long id = -1, int x = 0, int y = 0, const char * name = 0);
+  SoWinThumbWheel(Orientation, HWND parent = 0, long id = -1, int x = 0, int y = 0, const char * name = 0);
   ~SoWinThumbWheel(void);
 
   void setId(long id);
@@ -73,7 +73,7 @@ public:
   void setEnabled(SbBool enable);
   SbBool isEnabled(void) const;
 
-  void setLabelText(char * text);
+  void setLabelText(const char * text);
   void setLabelOffset(int x, int y);
   SIZE getLabelSize(void);
 
@@ -95,54 +95,54 @@ public:
 protected:
 
   LRESULT CALLBACK onCreate(HWND window,
-                             UINT message,
-                             WPARAM wparam,
-                             LPARAM lparam);
-
-  LRESULT CALLBACK onSize(HWND window,
-                           UINT message,
-                           WPARAM wparam,
-                           LPARAM lparam);
-
-  LRESULT CALLBACK onPaint(HWND window,
                             UINT message,
                             WPARAM wparam,
                             LPARAM lparam);
 
+  LRESULT CALLBACK onSize(HWND window,
+                          UINT message,
+                          WPARAM wparam,
+                          LPARAM lparam);
+
+  LRESULT CALLBACK onPaint(HWND window,
+                           UINT message,
+                           WPARAM wparam,
+                           LPARAM lparam);
+
   LRESULT CALLBACK onLButtonDown(HWND window,
-                                  UINT message,
-                                  WPARAM wparam,
-                                  LPARAM lparam);
+                                 UINT message,
+                                 WPARAM wparam,
+                                 LPARAM lparam);
 
   LRESULT CALLBACK onLButtonUp(HWND window,
-                                UINT message,
-                                WPARAM wparam,
-                                LPARAM lparam);
+                               UINT message,
+                               WPARAM wparam,
+                               LPARAM lparam);
 
   LRESULT CALLBACK onMouseMove(HWND window,
-                                UINT message,
-                                WPARAM wparam,
-                                LPARAM lparam);
+                               UINT message,
+                               WPARAM wparam,
+                               LPARAM lparam);
 
   LRESULT CALLBACK onDestroy(HWND window,
-                              UINT message,
-                              WPARAM wparam,
-                              LPARAM lparam);
+                             UINT message,
+                             WPARAM wparam,
+                             LPARAM lparam);
 
   static LRESULT CALLBACK windowProc(HWND window,
-                                      UINT message,
-                                      WPARAM wparam,
-                                      LPARAM lparam);
+                                     UINT message,
+                                     WPARAM wparam,
+                                     LPARAM lparam);
 
 private:
   
   void constructor(Orientation);
-  HWND buildWidget(HWND parent, RECT rect, char * name);
+  HWND buildWidget(HWND parent, RECT rect, const char * name);
   void initWheel(int diameter, int width);
-  HWND createLabel(HWND parent, int x, int y, char * text);
+  HWND createLabel(HWND parent, int x, int y, const char * text);
   HBITMAP createDIB(int width, int height, int bpp, void ** bits);
   void blitBitmap(HBITMAP bitmap, HDC dc, int x,int y, int width, int height) const;
-  SIZE getTextSize(HWND window, char * text);
+  SIZE getTextSize(HWND window, const char * text);
 
   Orientation orient;
   State state;

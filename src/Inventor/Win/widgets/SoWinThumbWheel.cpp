@@ -40,7 +40,7 @@ SoWinThumbWheel::SoWinThumbWheel(HWND parent,
                                  long id,
                                  int x,
                                  int y,
-                                 char * name)
+                                 const char * name)
 {
   this->constructor(SoWinThumbWheel::Vertical);
   RECT rect = { x, y, x + this->sizeHint().cx, y + this->sizeHint().cy };
@@ -53,7 +53,7 @@ SoWinThumbWheel::SoWinThumbWheel(Orientation orientation,
                                  long id,
                                  int x,
                                  int y,
-                                 char * name)
+                                 const char * name)
 {
   this->constructor(orientation);
   RECT rect = { x, y, sizeHint().cx, sizeHint().cy };
@@ -402,7 +402,7 @@ SoWinThumbWheel::constructor(Orientation orientation)
 }
 
 HWND
-SoWinThumbWheel::buildWidget(HWND parent, RECT rect, char * name)
+SoWinThumbWheel::buildWidget(HWND parent, RECT rect, const char * name)
 {
 
   HMENU menu = NULL;
@@ -524,7 +524,7 @@ SoWinThumbWheel::value(void) const
 }
 
 void
-SoWinThumbWheel::setLabelText(char * text)
+SoWinThumbWheel::setLabelText(const char * text)
 {
   assert(IsWindow(this->wheelWindow));
 
@@ -604,7 +604,7 @@ SoWinThumbWheel::getRangeBoundaryHandling(void) const
 }
 
 HWND
-SoWinThumbWheel::createLabel(HWND parent, int x, int y, char * text)
+SoWinThumbWheel::createLabel(HWND parent, int x, int y, const char * text)
 {
   assert(IsWindow(parent));
   // FIXME: assumes the same font as parent
@@ -669,7 +669,7 @@ SoWinThumbWheel::blitBitmap(HBITMAP bitmap, HDC dc, int x,int y, int width, int 
 }
 
 SIZE
-SoWinThumbWheel::getTextSize(HWND window, char * text)
+SoWinThumbWheel::getTextSize(HWND window, const char * text)
 {
   assert(IsWindow(window));
 
