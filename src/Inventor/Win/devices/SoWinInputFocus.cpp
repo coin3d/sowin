@@ -33,7 +33,7 @@ public:
 SoWinInputFocus::SoWinInputFocus(int mask)
 {
   PRIVATE(this) = new SoWinInputFocusP(this);
-  this->eventmask = mask;
+  PRIVATE(this)->eventmask = mask;
 }
 
 SoWinInputFocus::~SoWinInputFocus()
