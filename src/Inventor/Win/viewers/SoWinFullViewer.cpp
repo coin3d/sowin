@@ -1134,11 +1134,17 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
   assert( IsWindow( this->owner->renderAreaWidget ) );
 
   if ( this->decorations ) {
-    MoveWindow( this->owner->renderAreaWidget, DECORATION_SIZE, 0,
-                cx - ( 2 * DECORATION_SIZE ), cy - DECORATION_SIZE, repaint );
+    BOOL r = MoveWindow( this->owner->renderAreaWidget, DECORATION_SIZE, 0,
+                         cx - ( 2 * DECORATION_SIZE ), cy - DECORATION_SIZE,
+                         repaint );
+    // If MoveWindow() ever fails, we need to start investigating why.
+    assert( r );
   }
   else {
-    MoveWindow( this->owner->renderAreaWidget, 0, 0, cx, cy, repaint );
+    BOOL r = MoveWindow( this->owner->renderAreaWidget, 0, 0, cx, cy,
+                         repaint );
+    // If MoveWindow() ever fails, we need to start investigating why.
+    assert( r );
     return 0;
   }
 
