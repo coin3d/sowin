@@ -227,24 +227,6 @@ SoWinExaminerViewer::onCommand(HWND window,
 /*!
 */
 void
-SoWinExaminerViewer::setAnimationEnabled(const SbBool enable)
-{
-  PRIVATE(this)->setGenericAnimationEnabled(enable);
-}
-
-/*!
-*/
-void
-SoWinExaminerViewer::setFeedbackSize(const int size)
-{
-  PRIVATE(this)->setGenericFeedbackSize(size);
-}
-
-// *************************************************************************
-
-/*!
-*/
-void
 SoWinExaminerViewerP::cameratoggleClicked(void)
 {
   if (PUBLIC(this)->getCamera()) PUBLIC(this)->toggleCameraType();
