@@ -269,6 +269,8 @@ build-files/$(project)$(major).dsp: $(Project)-$(VERSION)
 	cat $(project)$(major).dsp.orig | \
 	  sed -e "s%$$wbuilddir%\$$\(COIN3DDIR\)%g" \
 	      -e "s%$$escC3D%\$$\(COIN3DDIR\)%gi" \
+	      -e "s%/out:\"%/out:\"\.\.\\\\\.\.\\\\bin\\\\%g" \
+	      -e "s%sowin$(major)d\.dll\"%sowin$(major)d\.dll\" /pdb:\"\.\.\\\\\.\.\\\\bin\\\\sowin$(major)d.pdb%g" \
 	      -e "s%\.\.\\\\source\\\\SoWin-$$version%\.\.\\\\\.\.\\\\source\\\\SoWin-$(major)%g" \
 	  > $(project)$(major).dsp; \
 	rm $(project)$(major).dsp.orig
