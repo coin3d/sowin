@@ -116,7 +116,7 @@ SoWinObject::init(void)
 */
 HWND
 SoWin::init(const char * const appName,
-             const char * const className)
+            const char * const className)
 {
   int argc = 1;
   char * argv[] = { (char *) appName, NULL };
@@ -133,10 +133,10 @@ SoWin::init(const char * const appName,
 */
 
 HWND
-SoWin::init(int argc,
-             char ** argv,
-             const char * const appName,
-             const char * const className)
+SoWin::init(int & argc,
+            char ** argv,
+            const char * const appName,
+            const char * const className)
 {
   if (appName)
     SoWinP::appName = strcpy(new char [ strlen(appName) + 1 ], appName);

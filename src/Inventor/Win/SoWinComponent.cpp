@@ -525,7 +525,7 @@ SoWinComponent::setSize(const SbVec2s size)
   \sa setSize()
 */
 SbVec2s
-SoWinComponent::getSize(void)
+SoWinComponent::getSize(void) const
 {
   RECT rect;
   Win32::GetWindowRect(this->getShellWidget(), & rect);
