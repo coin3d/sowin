@@ -503,7 +503,6 @@ HWND SoWinViewerPrefSheet::createCheckWidget( HWND parent, long id, const char *
 		                          NULL );
 	assert( IsWindow( hwnd ) );
   SetWindowLong( hwnd, GWL_ID, id );
-  SendMessage( hwnd, SBM_ENABLE_ARROWS, ( WPARAM ) ESB_ENABLE_BOTH, 0 );
 	return hwnd;  
 }
 

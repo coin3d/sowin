@@ -262,12 +262,14 @@ SoWinGLWidget::setDoubleBuffer( SbBool set )
   else {
     PRIVATE( this )->glModes ^= SO_GL_DOUBLE;
   }
+  DestroyWindow( this->getGLWidget( ) );
+  PRIVATE( this )->buildNormalGLWidget( );
 }
 
 SbBool
 SoWinGLWidget::isDoubleBuffer( void )
 {
-  return ( PRIVATE( this )->glModes & SO_GL_DOUBLE );
+  return ( PRIVATE( this )->glModes & SO_GL_DOUBLE ? TRUE : FALSE );
 }
 
 void
@@ -307,9 +309,14 @@ SoWinGLWidget::isDrawToFrontBufferEnable( void ) const
 void
 SoWinGLWidget::setQuadBufferStereo( const SbBool enable )
 {
-  // FIXME: do proper implementation. 20001123 mortene.
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  if (enable) {
+    PRIVATE( this )->glModes |= SO_GL_STEREO;
+  }
+  else {
+    PRIVATE( this )->glModes ^= SO_GL_STEREO;
+  }
+  DestroyWindow( this->getGLWidget( ) );
+  PRIVATE( this )->buildNormalGLWidget( );
 }
 
 /*!
@@ -318,10 +325,7 @@ SoWinGLWidget::setQuadBufferStereo( const SbBool enable )
 SbBool
 SoWinGLWidget::isQuadBufferStereo( void ) const
 {
-  // FIXME: do proper implementation. 20001123 mortene.
-  // FIXME: function not implemented
-  // SOWIN_STUB();
-  return FALSE;
+  return ( PRIVATE( this )->glModes & SO_GL_STEREO ? TRUE : FALSE );
 }
 
 void
@@ -813,7 +817,8 @@ SoWinGLWidgetP::createGLContext( HWND window )
   this->pfdNormal.dwFlags = PFD_DRAW_TO_WINDOW |
                             PFD_SUPPORT_OPENGL |
                             PFD_SWAP_LAYER_BUFFERS |
-                            // PFD_STEREO |
+                            ( this->glModes & SO_GL_STEREO ?
+                            PFD_STEREO : 0 ) |
                             ( this->glModes & SO_GL_DOUBLE ?
                             PFD_DOUBLEBUFFER : 0 );
   this->pfdNormal.iPixelType = PFD_TYPE_RGBA;
@@ -822,8 +827,9 @@ SoWinGLWidgetP::createGLContext( HWND window )
   
   pixelFormat = ChoosePixelFormat( hdc, & this->pfdNormal );
   ok = SetPixelFormat( hdc, pixelFormat, & this->pfdNormal );
-  //assert( ok );
-  if ( ! ok ) return FALSE;
+
+  assert( ok );
+  //if ( ! ok ) return FALSE;
 
   SoWinGLWidget * share = ( SoWinGLWidget * )
 		SoAny::si( )->getSharedGLContext( NULL, NULL );
@@ -838,8 +844,9 @@ SoWinGLWidgetP::createGLContext( HWND window )
 	SoAny::si( )->registerGLContext( ( void * ) this->owner, NULL, NULL );
 
   ok = wglMakeCurrent( hdc, hrc );
-  //assert( ok );
-  if ( ! ok ) return FALSE;
+  
+  assert( ok );
+  //if ( ! ok ) return FALSE;
 
   this->hdcNormal = hdc;
   this->ctxNormal = hrc;
