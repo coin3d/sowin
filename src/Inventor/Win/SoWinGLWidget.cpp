@@ -17,6 +17,12 @@
  *
  **************************************************************************/
 
+/*!
+  \class SoWinGLWidget SoWinGLWidget.h Inventor/Win/SoWinGLWidget.h
+  \brief The SoWinGLWidget class contains an OpenGL canvas.
+*/
+// FIXME: proper class documentation. 20010925 mortene.
+
 #include <windows.h>
 #include <GL/gl.h>
 
@@ -1045,7 +1051,7 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
 
   this->normalWidget = normalwidget;
   this->owner->setGLSize(SbVec2s(rect.right - rect.left,
-                                   rect.bottom - rect.top));
+                                 rect.bottom - rect.top));
 }
 
 void
