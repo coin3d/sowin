@@ -224,12 +224,13 @@ SoWinComponent::goFullScreen( const SbBool enable )
     data->exstyle = SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
     data->widget = hwnd;
 
-    MoveWindow( hwnd,
-                0,
-                0,
-                GetSystemMetrics( SM_CXSCREEN ),
-                GetSystemMetrics( SM_CYSCREEN ),
-                TRUE );
+    BOOL r = MoveWindow( hwnd,
+                         0,
+                         0,
+                         GetSystemMetrics( SM_CXSCREEN ),
+                         GetSystemMetrics( SM_CYSCREEN ),
+                         TRUE );
+    assert( r && "MoveWindow() failed -- investigate" );
     
     // Add to list of fullscreen windows
     SoWinComponentP::sowinfullscreenlist->append( data );
@@ -255,12 +256,13 @@ SoWinComponent::goFullScreen( const SbBool enable )
     SetWindowLong( hwnd, GWL_STYLE, data->style );
     SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
 
-    MoveWindow( hwnd,
-                data->pos[0],
-                data->pos[1],
-                data->size[0],
-                data->size[1],
-                TRUE );
+    BOOL r = MoveWindow( hwnd,
+                         data->pos[0],
+                         data->pos[1],
+                         data->size[0],
+                         data->size[1],
+                         TRUE );
+    assert( r && "MoveWindow() failed -- investigate" );
     
     // Remove from list of fullscreen windows
     SoWinComponentP::sowinfullscreenlist->remove( i );

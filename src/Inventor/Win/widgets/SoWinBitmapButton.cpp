@@ -114,14 +114,15 @@ SoWinBitmapButton::move( int x, int y )
 void
 SoWinBitmapButton::move( int x, int y, int width, int height )
 {
- assert( IsWindow( this->buttonWindow ) );
-  MoveWindow( this->buttonWindow, x, y, width, height, FALSE );
+  assert( IsWindow( this->buttonWindow ) );
+  BOOL r = MoveWindow( this->buttonWindow, x, y, width, height, FALSE );
+  assert( r && "MoveWindow() failed -- investigate" );
 }
 
 void
 SoWinBitmapButton::size( int width, int height )
 {
- assert( IsWindow( this->buttonWindow ) );  
+  assert( IsWindow( this->buttonWindow ) );  
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
   SetWindowPos( this->buttonWindow, NULL, 0, 0, width, height, flags );
 }
@@ -129,13 +130,13 @@ SoWinBitmapButton::size( int width, int height )
 void
 SoWinBitmapButton::show( void )
 {
- ShowWindow( this->buttonWindow, SW_SHOW );
+  ShowWindow( this->buttonWindow, SW_SHOW );
 }
 
 void
 SoWinBitmapButton::hide( void )
 {
- ShowWindow( this->buttonWindow, SW_HIDE );
+  ShowWindow( this->buttonWindow, SW_HIDE );
 }
 
 void
@@ -147,24 +148,23 @@ SoWinBitmapButton::registerCallback( bitmapButtonCB * func )
 void
 SoWinBitmapButton::registerViewer( SoWinFullViewer * viewer )
 {
- this->viewer = viewer;
+  this->viewer = viewer;
 }
 
 void
 SoWinBitmapButton::constructor( void )
 {
- this->buttonWindow = NULL;
- this->viewerCB = NULL;
- this->viewer = NULL;
- this->bitmapList = new SbPList;
+  this->buttonWindow = NULL;
+  this->viewerCB = NULL;
+  this->viewer = NULL;
+  this->bitmapList = new SbPList;
   this->depth = 0;
 } // constructor()
 
 void
 SoWinBitmapButton::destructor( void )
 {
-  for ( int i = this->bitmapList->getLength( );
-        i >= 0; i-- ) {
+  for ( int i = this->bitmapList->getLength( ); i >= 0; i-- ) {
     DeleteObject( this->bitmapList->get( i ) );
     this->bitmapList->remove( i );
   }

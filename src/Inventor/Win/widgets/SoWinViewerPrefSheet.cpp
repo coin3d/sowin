@@ -61,19 +61,19 @@ void SoWinViewerPrefSheet::create( HWND parent )
 void SoWinViewerPrefSheet::size( void )
 { 
   RECT rect;
-  int height;
-
   GetClientRect( this->mainWidget, & rect );
-  height = rect.bottom;
+  int height = rect.bottom;
   
   GetWindowRect( this->mainWidget, & rect );
 
-  MoveWindow( this->mainWidget,
-              rect.left,
-              rect.top,
-              ( rect.right - rect.left ), // FIXME no adjustment to width yet
-              ( rect.bottom - rect.top ) + ( ( this->y + 10 )  - height ),
-              TRUE );
+  BOOL r = MoveWindow( this->mainWidget,
+                       rect.left,
+                       rect.top,
+                       // FIXME no adjustment to width yet
+                       ( rect.right - rect.left ),
+                       ( rect.bottom - rect.top ) + ( ( this->y + 10 )  - height ),
+                       TRUE );
+  assert( r && "MoveWindow() failed -- investigate" );
 }
 
 void SoWinViewerPrefSheet::destroy( void )

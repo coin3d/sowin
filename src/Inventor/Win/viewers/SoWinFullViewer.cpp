@@ -1137,14 +1137,12 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
     BOOL r = MoveWindow( this->owner->renderAreaWidget, DECORATION_SIZE, 0,
                          cx - ( 2 * DECORATION_SIZE ), cy - DECORATION_SIZE,
                          repaint );
-    // If MoveWindow() ever fails, we need to start investigating why.
-    assert( r );
+    assert( r && "MoveWindow() failed -- investigate" );
   }
   else {
     BOOL r = MoveWindow( this->owner->renderAreaWidget, 0, 0, cx, cy,
                          repaint );
-    // If MoveWindow() ever fails, we need to start investigating why.
-    assert( r );
+    assert( r && "MoveWindow() failed -- investigate" );
     return 0;
   }
 
@@ -1155,10 +1153,12 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
       VIEWERBUTTON_O( i )->move( cx - DECORATION_SIZE, DECORATION_SIZE * i );
 
     // App buttons
-    for( i = 0; i < numAppButtons; i++ )
-      MoveWindow( APPBUTTON_O( i ), 0, ( DECORATION_SIZE * ( i + numViewerButtons ) ),
-                  DECORATION_SIZE, DECORATION_SIZE, repaint );
-
+    for( i = 0; i < numAppButtons; i++ ) {
+      BOOL r = MoveWindow( APPBUTTON_O( i ),
+                           0, ( DECORATION_SIZE * ( i + numViewerButtons ) ),
+                           DECORATION_SIZE, DECORATION_SIZE, repaint );
+      assert( r && "MoveWindow() failed -- investigate" );
+    }
   }
 
   // Wheels
