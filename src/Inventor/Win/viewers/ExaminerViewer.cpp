@@ -246,6 +246,7 @@ SoWinExaminerViewer::onCommand(HWND window,
 void
 SoWinExaminerViewer::createPrefSheet(void)
 {
+  // FIXME: not implemented according to correct API yet. 20020603 mortene.
   inherited::createPrefSheet(); // create standard parts
   this->prefsheet->createSpinWidgets(this);
   this->prefsheet->size();
