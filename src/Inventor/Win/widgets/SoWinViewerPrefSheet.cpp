@@ -851,6 +851,10 @@ LRESULT SoWinViewerPrefSheet::onCommand( HWND window, UINT message, WPARAM wpara
     case SPIN_AXES_EDIT:
       if ( nc == EN_CHANGE ) {
         float value =  this->getEditValue( ctrl );
+        if ( value <= 1. ) {
+          value = 1.;
+          this->setEditValue( ctrl, value );
+        }
         this->spinViewer->setFeedbackSize( value );
         this->axesSizeWheel->setValue( AXES_SIZE_TO_WHEEL( value ) );
       }
