@@ -58,6 +58,9 @@ public:
   LRESULT onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 
+  static BOOL wglMakeCurrent(HDC hdc, HGLRC hglrc);
+  static int ChoosePixelFormat(HDC hdc, CONST PIXELFORMATDESCRIPTOR * ppfd);
+
   HWND managerWidget;
   HWND normalWidget;
   HWND overlayWidget;
@@ -262,10 +265,15 @@ SoWinGLWidget::setNormalVisual( PIXELFORMATDESCRIPTOR * vis )
   assert( vis != NULL );
   assert( PRIVATE( this )->hdcNormal != NULL );
 
-  memcpy( ( & PRIVATE( this )->pfdNormal ), vis, sizeof( PIXELFORMATDESCRIPTOR ) );
+  (void)memcpy( ( & PRIVATE( this )->pfdNormal ), vis,
+                sizeof( PIXELFORMATDESCRIPTOR ) );
 
   int format = ChoosePixelFormat( PRIVATE( this )->hdcNormal, vis );
+  if (format == 0) { return; }
   this->setPixelFormat( format );
+  // FIXME: I think we're supposed to use this explicitly set
+  // pixelformat for constructing the OpenGL context device. Looks
+  // like this is not done. 20010924 mortene.
 } // setNormalVisual()
 
 /*!
@@ -285,7 +293,8 @@ SoWinGLWidget::setOverlayVisual( PIXELFORMATDESCRIPTOR * vis )
   assert( vis != NULL );
   assert( PRIVATE( this )->hdcNormal != NULL );
   
-  memcpy( ( & PRIVATE( this )->pfdOverlay ), vis, sizeof( PIXELFORMATDESCRIPTOR ) );
+  (void)memcpy( ( & PRIVATE( this )->pfdOverlay ), vis,
+                sizeof( PIXELFORMATDESCRIPTOR ) );
   
   int format = ChoosePixelFormat( PRIVATE( this )->hdcOverlay, vis );
   this->setPixelFormat( format );
@@ -843,7 +852,8 @@ SbBool
 SoWinGLWidget::makeNormalCurrent( void )
 {
   // FIXME: wglRealizeLayerPalette() ? mariusbu 20010801
-  return ( wglMakeCurrent( ( HDC ) PRIVATE( this )->hdcNormal, PRIVATE( this )->ctxNormal ) );
+  return SoWinGLWidgetP::wglMakeCurrent( PRIVATE( this )->hdcNormal,
+                                         PRIVATE( this )->ctxNormal );
 }
 
 SbBool
@@ -870,8 +880,12 @@ SoWinGLWidget::swapOverlayBuffers( void )
 void
 SoWinGLWidget::glLockNormal( void )
 {
+  // FIXME: shouldn't there be a counter for the lock level here?
+  // 20010924 mortene.
+
   assert( PRIVATE( this )->hdcNormal != NULL );
-  wglMakeCurrent( PRIVATE( this )->hdcNormal, PRIVATE( this )->ctxNormal );
+  (void)SoWinGLWidgetP::wglMakeCurrent( PRIVATE( this )->hdcNormal,
+                                        PRIVATE( this )->ctxNormal );
 } // glLockNormal()
 
 /*!
@@ -880,7 +894,10 @@ SoWinGLWidget::glLockNormal( void )
 void
 SoWinGLWidget::glUnlockNormal( void )
 {
-  wglMakeCurrent( NULL, NULL );
+  // FIXME: shouldn't there be a counter for the lock level here?
+  // 20010924 mortene.
+
+  (void)SoWinGLWidgetP::wglMakeCurrent( NULL, NULL );
 } // glUnlockNormal()
 
 /*!
@@ -890,7 +907,11 @@ SoWinGLWidget::glUnlockNormal( void )
 void
 SoWinGLWidget::glLockOverlay( void )
 {
-  wglMakeCurrent( PRIVATE( this )->hdcOverlay, PRIVATE( this )->ctxOverlay ); 
+  // FIXME: shouldn't there be a counter for the lock level here?
+  // 20010924 mortene.
+
+  (void)SoWinGLWidgetP::wglMakeCurrent( PRIVATE( this )->hdcOverlay,
+                                        PRIVATE( this )->ctxOverlay ); 
 } // glLockOverlay()
 
 /*!
@@ -899,7 +920,10 @@ SoWinGLWidget::glLockOverlay( void )
 void
 SoWinGLWidget::glUnlockOverlay( void )
 {
-  wglMakeCurrent( NULL, NULL );
+  // FIXME: shouldn't there be a counter for the lock level here?
+  // 20010924 mortene.
+
+  (void)SoWinGLWidgetP::wglMakeCurrent( NULL, NULL );
 } // glUnlockOverlay()
 
 /*!
@@ -917,6 +941,7 @@ SoWinGLWidget::glSwapBuffers( void )
 void
 SoWinGLWidget::glFlushBuffer( void )
 {
+  // FIXME: make OpenGL context(s) current first? 20010924 mortene.
   glFlush( );
 } // glFlushBuffer()
 
@@ -1055,19 +1080,14 @@ SoWinGLWidgetP::createGLContext( HWND window )
   if ( share != NULL )
     wglShareLists( PRIVATE( share )->ctxNormal, this->ctxNormal );
   
-	SoAny::si( )->registerGLContext( ( void * ) this->owner, NULL, NULL );
+  SoAny::si( )->registerGLContext( ( void * ) this->owner, NULL, NULL );
 
-  ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
-
-  if ( ! ok ) {
-    #if SOWIN_DEBUG && 1
-    SoDebugError::postWarning( "SoWinGLWidget::createGLContext",
-      "The rendering context could not be made current." );
-    #endif // SOWIN_DEBUG
+  // FIXME: what's this good for -- first setting then unsetting?
+  // 20010924 mortene.
+  if (!SoWinGLWidgetP::wglMakeCurrent( this->hdcNormal, this->ctxNormal ) ||
+      !SoWinGLWidgetP::wglMakeCurrent( NULL, NULL )) {
     return FALSE;
   }
-
-  wglMakeCurrent( NULL, NULL );
 
   return TRUE;
 }
@@ -1115,8 +1135,9 @@ SoWinGLWidgetP::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam
   PAINTSTRUCT ps;
   this->hdcNormal = Win32::BeginPaint( window, & ps );
 
-	BOOL ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
-	assert( ok && "The rendering context could not be made current." );
+  if (!SoWinGLWidgetP::wglMakeCurrent( this->hdcNormal, this->ctxNormal )) {
+    return 0;
+  }
 
   if ( ! this->glRealized ) {
     this->glRealized = TRUE;
@@ -1126,8 +1147,10 @@ SoWinGLWidgetP::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam
     this->owner->redraw( );
   }
 
-  wglMakeCurrent( NULL, NULL );
-
+  // Release context.
+  if (!SoWinGLWidgetP::wglMakeCurrent( NULL, NULL )) { return 0; }
+  // FIXME: should perhaps the next call go before the gl-context
+  // release?  20010925 mortene.
   Win32::EndPaint( window, & ps );
 
   return 0;
@@ -1136,12 +1159,13 @@ SoWinGLWidgetP::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 LRESULT
 SoWinGLWidgetP::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  wglMakeCurrent( NULL, NULL );
+  // Release context.
+  if (!SoWinGLWidgetP::wglMakeCurrent( NULL, NULL )) { return 0; }
   
   SoAny::si( )->unregisterGLContext( ( void * ) this->owner );
  
   BOOL r = wglDeleteContext( this->ctxNormal );
-  assert( r && "wglDeleteContext failed -- investigate" );
+  assert( r && "wglDeleteContext() failed -- investigate" );
   this->ctxNormal = NULL;
   
   Win32::ReleaseDC( window, this->hdcNormal );
@@ -1150,4 +1174,49 @@ SoWinGLWidgetP::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lpar
   // FIXME: Overlay not supported. mariusbu 20010808.
 
   return 0;
+}
+
+// Wrap wglMakeCurrent() for convenience with regard to verbose
+// warning output when it fails -- which it really shouldn't.  :-/
+BOOL
+SoWinGLWidgetP::wglMakeCurrent(HDC hdc, HGLRC hglrc)
+{
+  // FIXME: workaround for problems with wglMakeCurrent(NULL, NULL)
+  // with the Microsoft GDI Generic 1.1.0 driver. 20010924 mortene.
+  //
+  // FIXME UPDATE: it seems necessary to be able to do
+  // wglMakeCurrent(NULL, NULL) anyway, or there will be too little
+  // updates. 20010924 mortene.
+  //
+  // if (hglrc == NULL) { glFlush(); return TRUE; }
+  if (hglrc == NULL) { ::wglMakeCurrent(NULL, NULL); return TRUE; }
+
+  if (::wglMakeCurrent(hdc, hglrc)) { return TRUE; }
+
+  DWORD dummy;
+  SbString err = Win32::getWin32Err(dummy);
+  SbString s = "The rendering context <%p, %p>, could not be made current, ";
+  s += "as wglMakeCurrent() failed with error message: ";
+  s += err;
+  SoDebugError::postWarning("SoWinGLWidgetP::wglMakeCurrent", s.getString(),
+                            hdc, hglrc);
+  return FALSE;
+}
+
+// Wrap ChoosePixelFormat() for convenience with regard to verbose
+// warning output when it fails, which can easily happen.
+int
+SoWinGLWidgetP::ChoosePixelFormat(HDC hdc, CONST PIXELFORMATDESCRIPTOR * ppfd)
+{
+  int format = ::ChoosePixelFormat( hdc, ppfd );
+  if (format == 0) {
+    DWORD dummy;
+    SbString err = Win32::getWin32Err(dummy);
+    SbString s = "The given pixelformat could not be used, ";
+    s += "ChoosePixelFormat() failed with: ";
+    s += err;
+    SoDebugError::postWarning("SoWinGLWidgetP::ChoosePixelFormat",
+                              s.getString());
+  }
+  return format;
 }
