@@ -416,7 +416,7 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect, char * name )
     windowclass.lpszClassName = wndclassname;
     windowclass.hInstance = SoWin::getInstance( );
     windowclass.lpfnWndProc = SoWinThumbWheel::windowProc;
-    windowclass.style = NULL;
+    windowclass.style = CS_HREDRAW | CS_VREDRAW;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
     windowclass.hCursor = NULL;

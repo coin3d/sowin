@@ -215,15 +215,12 @@ SoWinFullViewer::setDecoration( SbBool enable )
   RECT rect;
   Win32::GetClientRect( this->viewerWidget, & rect );
   PRIVATE( this )->layoutWidgets( rect.right, rect.bottom );
-
   if ( enable ) {
     rect.right -= DECORATION_SIZE * 2;
     rect.bottom -= DECORATION_SIZE;
   }
-    
   SoWinRenderArea::sizeChanged( SbVec2s( rect.right, rect.bottom ) );
   Win32::InvalidateRect( this->getParentWidget( ), NULL, TRUE );
-
 }
 
 SbBool
@@ -476,18 +473,13 @@ SoWinFullViewer::buildDecoration( HWND parent )
     
     SoWinFullViewerP::doneButtonBar = TRUE;
   }
-
-  // FIXME: remove. mariusbu 20010808.
-  // reposition all widgets
-  //RECT rect;
-  //Win32::GetClientRect( parent, & rect );
-  //this->sizeChanged( SbVec2s( rect.right, rect.bottom ) );
 }
 
 HWND
 SoWinFullViewer::buildLeftWheel( HWND parent )
 {
   // Create coords are not needed - the widget is moved into place
+  // by layoutWidgets
   this->leftWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
                                          parent,
                                          0,
@@ -497,7 +489,9 @@ SoWinFullViewer::buildLeftWheel( HWND parent )
   this->leftWheel->registerCallback( PRIVATE( this )->leftWheelCB );
   this->leftWheel->registerViewer( this );
   this->leftWheel->setRangeBoundaryHandling( SoWinThumbWheel::MODULATE );
-  this->leftWheel->setLabelOffset( -9, 12 );
+  this->leftWheel->setLabelOffset( 0,
+    ( ( DECORATION_SIZE - this->leftWheel->sizeHint( ).cx ) / 2 )
+    + DECORATION_BUFFER + 1 );
 
   return leftWheel->getWidget( );
 }
@@ -506,6 +500,7 @@ HWND
 SoWinFullViewer::buildBottomWheel( HWND parent )
 {
   // Create coords are not needed - the widget is moved into place
+  // by layoutWidgets
   this->bottomWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal,
                                            parent,
                                            1,
@@ -515,7 +510,7 @@ SoWinFullViewer::buildBottomWheel( HWND parent )
   this->bottomWheel->registerCallback( PRIVATE( this )->bottomWheelCB );
   this->bottomWheel->registerViewer( this );
   this->bottomWheel->setRangeBoundaryHandling( SoWinThumbWheel::MODULATE );
-  this->bottomWheel->setLabelOffset( -5, -2 );
+  this->bottomWheel->setLabelOffset( -4, 0 );
 
   return this->bottomWheel->getWidget( );
 }
@@ -524,6 +519,7 @@ HWND
 SoWinFullViewer::buildRightWheel( HWND parent )
 {
   // Create coords are not needed - the widget is moved into place
+  // by layoutWidgets
   this->rightWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
                                           parent,
                                           2,
@@ -533,7 +529,10 @@ SoWinFullViewer::buildRightWheel( HWND parent )
   this->rightWheel->registerCallback( PRIVATE( this )->rightWheelCB );
   this->rightWheel->registerViewer( this );
   this->rightWheel->setRangeBoundaryHandling( SoWinThumbWheel::ACCUMULATE );
-  this->rightWheel->setLabelOffset( -17, 12 );
+  this->rightWheel->setLabelOffset(
+    - ( this->bottomWheel->getLabelSize( ).cx - this->rightWheel->sizeHint( ).cx ),
+    ( ( DECORATION_SIZE - this->leftWheel->sizeHint( ).cx ) / 2 )
+    + DECORATION_BUFFER + 1 );
 
   return this->rightWheel->getWidget( );
 }
@@ -659,7 +658,7 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
 
   assert( this->prefmenu != NULL );
   this->common->prepareMenu( this->prefmenu );
-  this->displayPopupMenu( point.x, point.y, this->getNormalWidget( ) );
+  this->displayPopupMenu( point.x, point.y, /*this->getNormalWidget( )*/GetActiveWindow( ) );
 }
 
 void
@@ -1131,7 +1130,8 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
   // Bottom wheel
   if ( this->owner->bottomWheel ) {
 
-    x = DECORATION_SIZE + this->owner->leftWheel->getLabelSize( ).cx + 10;
+    x += this->owner->leftWheel->getLabelSize( ).cx +
+      this->owner->bottomWheel->getLabelSize( ).cx + 8;
     y = ( cy - DECORATION_SIZE ) +
       ( ( DECORATION_SIZE / 2 ) - ( this->owner->bottomWheel->sizeHint( ).cy / 2 ) + 1 );
 
@@ -1155,10 +1155,10 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
   // Right wheel
   if ( this->owner->rightWheel ) {
 
-    x = ( cx - DECORATION_SIZE ) +
-      ( ( DECORATION_SIZE / 2 ) - ( this->owner->rightWheel->sizeHint( ).cx / 2 ) + 1 );
-
     width = this->owner->rightWheel->sizeHint( ).cx;
+
+    x = ( cx - DECORATION_SIZE ) +
+      ( ( DECORATION_SIZE / 2 ) - ( width / 2 ) + 1 );
 
     top = numViewerButtons * DECORATION_SIZE + DECORATION_BUFFER;
 
