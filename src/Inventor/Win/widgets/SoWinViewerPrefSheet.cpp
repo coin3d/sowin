@@ -121,7 +121,7 @@ void SoWinViewerPrefSheet::createMainWidget( HWND parent )
 
   DWORD style = WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE; // WS_OVERLAPETWINDOW
 
-  this->mainWidget = CreateWindowEx( WS_EX_TOPMOST, // NULL
+  this->mainWidget = CreateWindowEx( NULL,//WS_EX_TOPMOST,
                                      wndclassname,
                                      wndclassname,
                                      style,
@@ -292,6 +292,9 @@ SoWinViewerPrefSheet::processEvent( HWND window, UINT message, WPARAM wparam, LP
 
 LRESULT SoWinViewerPrefSheet::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
+  SetActiveWindow( window );
+  SetFocus( window );
+  ReleaseCapture( );
   return 0;
 }
 
@@ -404,8 +407,6 @@ SIZE SoWinViewerPrefSheet::getTextSize( HWND window, const char * text )
 
 	SIZE size;
 	GetTextExtentPoint( hdc, text, len, & size );
-
-  _cprintf( " %s: %d x %d \n", text, size.cx, size.cy );
 
   return size;
 }
