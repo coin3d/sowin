@@ -1,10 +1,25 @@
 #ifndef IVF_COMPONENT_H
 #define IVF_COMPONENT_H
 
+#include <afxwin.h>
+
+class SbColor;
+class SbViewportRegion;
+class SoError;
 class SoNode;
+class SoGroup;
 class SoCamera;
+class SoEventCallback;
 class SoGLRenderAction;
 class SoSceneManager;
+class SoSelection;
+class SoPath;
+class SoPathList;
+class SoPickedPoint;
+class SoOffscreenRenderer;
+
+class SoWinClipboard;
+class SoWinComponent;
 
 #include <Ivf/IvfBasic.h>
 

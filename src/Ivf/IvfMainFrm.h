@@ -1,6 +1,8 @@
 #ifndef IVF_MAINFRAME_H
 #define IVF_MAINFRAME_H
 
+#include <afxwin.h>
+
 #include <Ivf/IvfBasic.h>
 
 #include <IvfEnterScope.h>

@@ -1,6 +1,18 @@
 #ifndef IVF_DOCUMENT_H
 #define IVF_DOCUMENT_H
 
+#include <afxwin.h>
+
+class CInlineItem;
+class CInlineQueue;
+class CAsyncFileQueue;
+
+class SoWWWAnchor;
+class SoSwitch;
+class SoInfo;
+
+class CIvfAsyncFile;
+
 #include <Inventor/actions/SoCallbackAction.h>
 
 #include <Ivf/IvfBasic.h>
@@ -13,6 +25,7 @@
 
 class IVF_DLL_API CIvfDocument {
   friend class CIvfComponent;
+
 public:
   CIvfDocument(void);
   virtual ~CIvfDocument(void);
@@ -157,7 +170,7 @@ protected:
   void OpenLocalAsyncDoc(CIvfAsyncFile * asyncfile);
 
   void OnProcessPendingInline(WPARAM wparam, LPARAM lparam);
-  void ProcessPendingTexture2(CInlineItem * item, BOOL);
+  void ProcessPendingTexture2(CInlineItem *, BOOL);
 
   void PostInlineLocation(SoNode *, char *, void *);
   char * MakeFullUrlPath(char *out, const char * in);
@@ -229,7 +242,7 @@ protected:
   BOOL m_bDefHeadlightVal;
   float motionSpeedHintVal;
 
-  IvfViewerType viewerTypeHintSet;
+  CIvfComponent::IvfViewerType viewerTypeHintSet;
 
   SbString * sceneTitle;
   SbString * docInfoString;
@@ -263,6 +276,7 @@ protected:
 
   static SoCallbackAction::Response CheckForLightsCB(void * closure, 
                                                      SoCallbackAction * action,
+                                                     const SoNode * node);
 
 
   static SoCallbackAction::Response CountNodesCB(void * closure, 

@@ -1,7 +1,7 @@
 #ifndef IVF_APP_H
 #define IVF_APP_H
 
-#include <Ivf/IvfBasic.h>
+#include <afxwin.h>
 
 class CDocument;
 class CDocTemplate;
@@ -21,6 +21,8 @@ typedef CIvfDocument * (* IvfCvtAfxDocProc)(CDocument *);
 typedef CDocument * (* IvfCvtIvfDocProc)(CIvfDocument *);
 typedef CIvfMainFrame * (* IvfCvtAfxFrameProc)(CFrameWnd *);
 
+#include <Ivf/IvfBasic.h>
+
 #include <IvfEnterScope.h>
 
 class IVF_DLL_API CIvfApp {
@@ -28,7 +30,7 @@ public:
   CIvfApp(void);
   ~CIvfApp(void);
 
-  static void IvfInitInstance(CWinApp * app, CIvfApp * ivfapp, IvfCvtAfxViewProc afxviewproc, IvfCvtIvfComponentProc ivfcomponentproc, IvfCvtAfxWndProc afxwndproc, IvfCvtIvfComponentProcW ivfcomponentprocw, IvfCvtAfxDocProc afxdocproc, IvfCvtIvfDocProc ivfdocproc, IvfCvtAfxFrameProc afxframeproc, void * pCreateArgs, BOOL nCreateComponent);
+  static void IvfInitInstance(CWinApp * app, CIvfApp * ivfapp, IvfCvtAfxViewProc afxviewproc, IvfCvtIvfComponentProc ivfcomponentproc, IvfCvtAfxWndProc afxwndproc, IvfCvtIvfComponentProcW ivfcomponentprocw, IvfCvtAfxDocProc afxdocproc, IvfCvtIvfDocProc ivfdocproc, IvfCvtAfxFrameProc afxframeproc, void * createargs, BOOL createcomponent);
   static void IvfExitInstance(void);
   static void IvfOnIdle(LONG count);
   static void IvfInitSoWin(CWnd * toplevel);
@@ -82,7 +84,7 @@ IvfCvtIvfComponent(CIvfComponent * ivfcomponent)                     \
 }                                                                    \
                                                                      \
 static CIvfDocument *                                                \
-IvfCvtAfxDoc(CDocument * afxdocument)                                \
+IvfCvtAfxDoc(CDocument * afxdocument)                     Viewers           \
 {                                                                    \
   return (AppDocClassName *) afxdocument;                            \
 }                                                                    \

@@ -1,4 +1,6 @@
 
+DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+
 lib_LIBRARIES = ivf.lib
 
 ivf_lib_SOURCES = \
@@ -6,6 +8,7 @@ ivf_lib_SOURCES = \
 	IvfApp.cpp IvfApp.h \
 	IvfArchiveInput.cpp IvfArchiveInput.h \
 	IvfArchiveOutput.cpp IvfArchiveOutput.h \
+	IvfAsyncFile.cpp IvfAsyncFile.h \
 	IvfComponent.cpp IvfComponent.h \
 	IvfDocument.cpp IvfDocument.h \
 	IvfExaminerViewer.cpp Viewers/IvfExaminerViewer.h \
