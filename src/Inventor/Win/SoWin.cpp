@@ -217,25 +217,22 @@ public:
   static SbBool pipeErrorMessagesToConsole(void);
 
   static int timerSensorId;
-  static SbBool timerSensorActive;
   static void CALLBACK timerSensorCB(HWND window,
-                                      UINT message,
-                                      UINT idevent,
-                                      DWORD dwtime);
-
-  static int delaySensorId;
-  static SbBool delaySensorActive;
-  static void CALLBACK delaySensorCB(HWND window,
-                                      UINT message,
-                                      UINT idevent,
-                                      DWORD dwtime);
-
-  static int idleSensorId;
-  static SbBool idleSensorActive;
-  static void CALLBACK idleSensorCB(HWND window,
                                      UINT message,
                                      UINT idevent,
                                      DWORD dwtime);
+
+  static int delaySensorId;
+  static void CALLBACK delaySensorCB(HWND window,
+                                     UINT message,
+                                     UINT idevent,
+                                     DWORD dwtime);
+
+  static int idleSensorId;
+  static void CALLBACK idleSensorCB(HWND window,
+                                    UINT message,
+                                    UINT idevent,
+                                    DWORD dwtime);
   static void doIdleTasks(void);
   
   static LRESULT onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
@@ -262,14 +259,13 @@ HINSTANCE SoWinP::Instance = NULL;
 HWND SoWinP::mainWidget = NULL;
 char * SoWinP::appName = NULL;
 char * SoWinP::className = NULL;
-int SoWinP::timerSensorId = 0;
-SbBool SoWinP::timerSensorActive = FALSE;
-int SoWinP::delaySensorId = 0;
-SbBool SoWinP::delaySensorActive = FALSE;
-int SoWinP::idleSensorId = 0;
-SbBool SoWinP::idleSensorActive = FALSE;
 WNDPROC SoWinP::parentEventHandler = NULL;
 SbBool SoWinP::useParentEventHandler = TRUE;
+
+/* value 0 signifies "inactive": */
+int SoWinP::timerSensorId = 0;
+int SoWinP::delaySensorId = 0;
+int SoWinP::idleSensorId = 0;
 
 #define ENVVAR_NOT_INITED INT_MAX
 
@@ -366,6 +362,8 @@ SoWin::mainLoop(void)
 {
   MSG msg;
   while (TRUE) {
+    // FIXME: shouldn't this be a while loop, i.e. process all
+    // messages, before doing the idle tasks? 20040721 mortene.
     if (GetQueueStatus(QS_ALLINPUT) != 0) { // if messagequeue != empty
       if (GetMessage(& msg, NULL, 0, 0)) { // if msg != WM_QUIT
         TranslateMessage(& msg);
@@ -373,7 +371,7 @@ SoWin::mainLoop(void)
       }
       else break; // msg == WM_QUIT
     }
-    else if (SoWinP::idleSensorActive) {
+    else if (SoWinP::idleSensorId != 0) {
       SoWinP::doIdleTasks();
     }
     else {
@@ -621,9 +619,11 @@ SoWinP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 LRESULT
 SoWinP::onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  if (SoWinP::idleSensorActive) KillTimer(NULL, SoWinP::idleSensorId);
-  if (SoWinP::timerSensorActive) KillTimer(NULL, SoWinP::timerSensorId);
-  if (SoWinP::delaySensorActive) KillTimer(NULL, SoWinP::delaySensorId);
+  if (SoWinP::idleSensorId != 0) Win32::KillTimer(NULL, SoWinP::idleSensorId);
+  if (SoWinP::timerSensorId != 0) Win32::KillTimer(NULL, SoWinP::timerSensorId);
+  if (SoWinP::delaySensorId != 0) Win32::KillTimer(NULL, SoWinP::delaySensorId);
+
+  SoWinP::idleSensorId = SoWinP::timerSensorId = SoWinP::delaySensorId = 0;
 
   Win32::UnregisterClass(SoWinP::className, NULL);
 
@@ -645,49 +645,55 @@ SoGuiP::sensorQueueChanged(void * cbdata)
     SbTime interval = timevalue - SbTime::getTimeOfDay();
 
     if (interval.getValue() < 0.0) interval.setValue(0.0);
-    if (SoWinP::timerSensorActive) KillTimer(NULL, SoWinP::timerSensorId);
+    if (SoWinP::timerSensorId != 0) Win32::KillTimer(NULL, SoWinP::timerSensorId);
     
-    SoWinP::timerSensorId = SetTimer(SoWinP::mainWidget,
-                                      1,
-                                      interval.getMsecValue(),
-                                      (TIMERPROC)SoWinP::timerSensorCB);
-
-    SoWinP::timerSensorActive = TRUE;
+    SoWinP::timerSensorId =
+      Win32::SetTimer(NULL,
+                      /* ignored because of NULL first argument: */ 0,
+                      interval.getMsecValue(),
+                      (TIMERPROC)SoWinP::timerSensorCB);
   }
-  else if (SoWinP::timerSensorActive) {
-    KillTimer(NULL, SoWinP::timerSensorId);
-    SoWinP::timerSensorActive = FALSE;
+  else if (SoWinP::timerSensorId != 0) {
+    Win32::KillTimer(NULL, SoWinP::timerSensorId);
+    SoWinP::timerSensorId = 0;
   }
 
   if (sensormanager->isDelaySensorPending()) {
         
-    if (! SoWinP::idleSensorActive) {
-      SoWinP::idleSensorId = SetTimer(SoWinP::mainWidget,
-                                       2,
-                                       0,
-                                       (TIMERPROC)SoWinP::idleSensorCB);
-      SoWinP::idleSensorActive = TRUE;
+    if (SoWinP::idleSensorId == 0) {
+      SoWinP::idleSensorId =
+        Win32::SetTimer(NULL,
+                        /* ignored because of NULL first argument: */ 0,
+
+                        // FIXME: this seems like a rather bogus way
+                        // of setting up a timer to check when the
+                        // system goes idle. Should investigate how
+                        // this actually works, and perhaps if there
+                        // is some other mechanism we could
+                        // use. 20040721 mortene.
+                        USER_TIMER_MINIMUM,
+
+                        (TIMERPROC)SoWinP::idleSensorCB);
     }
 
-    if (! SoWinP::delaySensorActive) {
+    if (SoWinP::delaySensorId == 0) {
       unsigned long timeout = SoDB::getDelaySensorTimeout().getMsecValue();
-      SoWinP::delaySensorId = SetTimer(SoWinP::mainWidget,
-                                        3,
-                                        timeout,
-                                        (TIMERPROC)SoWinP::delaySensorCB);
-      SoWinP::delaySensorActive = TRUE;
+      SoWinP::delaySensorId =
+        Win32::SetTimer(NULL,
+                        /* ignored because of NULL first argument: */ 0,
+                        timeout,
+                        (TIMERPROC)SoWinP::delaySensorCB);
     }
   }
   else {
-                             
-    if (SoWinP::idleSensorActive) {
-      KillTimer(NULL, SoWinP::idleSensorId);
-      SoWinP::idleSensorActive = FALSE;
+    if (SoWinP::idleSensorId != 0) {
+      Win32::KillTimer(NULL, SoWinP::idleSensorId);
+      SoWinP::idleSensorId = 0;
     }
 
-    if (SoWinP::delaySensorActive) {
-      KillTimer(NULL, SoWinP::delaySensorId);
-      SoWinP::delaySensorActive = FALSE;
+    if (SoWinP::delaySensorId != 0) {
+      Win32::KillTimer(NULL, SoWinP::delaySensorId);
+      SoWinP::delaySensorId = 0;
     }
   }
 }
