@@ -356,13 +356,10 @@ SoGuiCommonDistFiles = \
   BUGS.txt \
   src/Inventor/@Gui@/common/BUGS.txt \
   \
-  cfg/m4/errors.txt \
-  cfg/m4/doxy4win.pl \
-  cfg/m4/gendsp.m4 \
-  cfg/m4/gendsp.sh \
-  cfg/m4/wrapmsvc.m4 \
-  cfg/m4/wrapmsvc.cpp \
-  cfg/m4/wrapmsvc.exe \
+  cfg/errors.txt \
+  cfg/doxy4win.pl \
+  cfg/gendsp.sh \
+  cfg/wrapmsvc.exe \
   \
   src/Inventor/@Gui@/common/ChangeLog \
   src/Inventor/@Gui@/common/Makefile.common \
@@ -874,7 +871,7 @@ uninstall-am: uninstall-SoWinEnginesincHEADERS uninstall-info-am
 $(top_builddir)/sogui.doxygen: $(top_srcdir)/src/Inventor/@Gui@/common/sogui.doxygen.in $(top_builddir)/config.status
 	@cd $(top_builddir); \
 	$(SHELL) config.status --file=sogui.doxygen:src/Inventor/@Gui@/common/sogui.doxygen.in; \
-	$(top_srcdir)/cfg/m4/doxy4win.pl sogui.doxygen; \
+	$(top_srcdir)/cfg/doxy4win.pl sogui.doxygen; \
 	rm -f sogui.doxygen.bak;
 
 $(top_builddir)/so@gui@-config: $(top_srcdir)/src/Inventor/@Gui@/common/sogui-config.in $(top_builddir)/config.status
