@@ -10437,7 +10437,7 @@ fi
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOWIN_DLL"
   fi
 
-  debugfile="`pwd`/src/Inventor/Win/sowin$SOWIN_MAJOR_VERSION.pdb"
+  debugfile="`pwd`/src/Inventor/Win/sowin${SOWIN_MAJOR_VERSION}${SUFFIX}.pdb"
   debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
   if $SOWIN_STATIC; then
     if test x${sim_ac_configuration_settings+set} != xset; then
@@ -10467,8 +10467,8 @@ else
   sim_ac_configuration_settings="$sim_ac_configuration_settings|SoWin build type:dynamic .dll + .pdb"
 fi
 
-      CXXFLAGS="/Fd$debugfile $CXXFLAGS"
       CFLAGS="/Fd$debugfile $CFLAGS"
+      CXXFLAGS="/Fd$debugfile $CXXFLAGS"
       LIBFLAGS="$LIBFLAGS /DEBUG /PDB:sowin$SOWIN_MAJOR_VERSION$SUFFIX.pdb"
       ;;
     esac
