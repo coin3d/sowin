@@ -296,7 +296,7 @@ SoWinBitmapButton::createDIB( int width, int height, int bpp, void ** bits ) // 
 HBITMAP
 SoWinBitmapButton::parseXpm( char ** xpm ) // convert from xpm to 24 bit DIB ( demands hex colors )
 {
-	int i, j, k, l;
+	int i, j, k, l, m, x, y;
 	int width;
 	int height;
 	int depth;
@@ -310,7 +310,11 @@ SoWinBitmapButton::parseXpm( char ** xpm ) // convert from xpm to 24 bit DIB ( d
 	void * dest;
 	HBITMAP hbmp;
 
+	int colorValue;
+	char pixelSize;
+
 	depth = 24; // default depth is 24 bits per pixel
+	pixelSize = depth / 8;
 
 	// get width
 	strStart = xpm[0];
@@ -367,38 +371,44 @@ SoWinBitmapButton::parseXpm( char ** xpm ) // convert from xpm to 24 bit DIB ( d
 
 	// create bitmap
 	hbmp = this->createDIB( width, height, depth, & dest );
-
-	DWORD colorValue;
 	
 	// put pixels
 	for ( i = 0; i < height; i++ ) {
 
 		line = xpm[i + 1 + numColors];
+
+		y = i * width * pixelSize;
 		
 		for ( j = 0; j < width; j++ ) {
 
-			for ( k = 0; k < numColors; k++ ) {
+			x = j * pixelSize;
 
+			// for every color
+			for ( k = 0; k < numColors; k++ ) {
+				
 				for ( l = 0; l < numChars; l++ )
 					if ( charLookupTable[( k * numChars ) + l] != line[( j * numChars ) + l] )
 						break;
 
+				// if we found the char in the lookup table
 				if ( l >= numChars ) {
 					
 					if ( colorLookupTable[k] == -1 )
 						colorValue = GetSysColor( COLOR_3DFACE ); // FIXME: make param
 					else
-						colorValue =  colorLookupTable[k];
+						colorValue = colorLookupTable[k];
 					
-					( ( char * ) dest )[( i * width * 3 ) + ( j * 3 )] =
-						( char ) ( colorValue & 0x000000FF );
-					
-					( ( char * ) dest )[( i * width * 3 ) + ( j * 3 ) + 1] =
-						( char ) ( ( colorValue & 0x0000FF00 ) >> 8 );
+					// FIXME: may not work with depth < 24
+					// for each color byte in the pixel
+					for ( m = 0; m < pixelSize; m++ ) {
 
-					( ( char * ) dest )[( i * width * 3 ) + ( j * 3 ) + 2] =
-						( char ) ( ( colorValue & 0x00FF0000 ) >> 16 );
-					
+						// put color byte ( and only one byte )
+						( ( char * ) dest )[y + x + m] =
+							( char ) ( ( colorValue & ( 0x000000FF << ( m << 3 ) ) ) >> ( m << 3 ) );	
+						
+					}
+
+					// next pixel
 					break;
 					
 				}
