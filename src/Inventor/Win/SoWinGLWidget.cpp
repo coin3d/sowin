@@ -457,9 +457,11 @@ SoWinGLWidget::buildWidget( HWND parent )
   }
 
   this->waitForExpose = TRUE;
-
-  if ( IsWindow( this->parent ) )
+  
+  if ( ( this->parent == SoWin::getTopLevelWidget( ) ) ||
+    ( GetParent( this->parent ) == SoWin::getTopLevelWidget( ) ) )
     SoWin::addMessageHook( this->managerWidget, WM_SIZE );
+  
   return this->managerWidget;
 }
 
@@ -636,9 +638,9 @@ SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // FIXME: pfd
   if ( this->glModes & SO_GL_DOUBLE ) {// ( vis->dwFlags & PFD_DOUBLEBUFFER )
     this->doubleBufferWidget = normalwidget;
   }
-  else {
+  //else {
     this->singleBufferWidget = normalwidget;
-  }
+    //}
   ShowWindow( normalwidget, SW_SHOW );
 }
 
@@ -752,8 +754,6 @@ SoWinGLWidget::createGLContext( HWND window )
 {
   int nPixelFormat;
   BOOL ok;
-
-  _cprintf( "createGLContext\n" );
   
   wglMakeCurrent( NULL, NULL );
   wglDeleteContext( this->ctxNormal );
@@ -907,13 +907,13 @@ SoWinGLWidget::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lpara
 SbBool
 SoWinGLWidget::hasOverlayGLArea( void ) const
 {
-  return ( ( ( SoWinGLWidget * ) this )->getOverlayWidget( ) != NULL );
+  return ( IsWindow( ( ( SoWinGLWidget * ) this )->getOverlayWidget( ) ) );
 }
 
 SbBool
 SoWinGLWidget::hasNormalGLArea( void ) const
 {
-  return ( ( ( SoWinGLWidget * ) this )->getNormalWidget( ) != NULL );
+  return ( IsWindow( ( ( SoWinGLWidget * ) this )->getNormalWidget( ) ) );
 }
 
 SbBool

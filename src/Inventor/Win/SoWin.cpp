@@ -653,7 +653,7 @@ LRESULT
 SoWin::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
 	// On resizing the mainWidget, resize all child windows too
- 
+  
   if ( messageHookList ) {
     int length = messageHookList->getLength( );
 		MessageHook * hook;

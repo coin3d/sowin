@@ -1317,6 +1317,9 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 		
 		this->rightWheel->move( x, y, width, height );
 	}
+
+  if ( ! IsWindow( this->parent ) )
+    InvalidateRect( window, NULL, TRUE );
 	
   return 0;
 }
