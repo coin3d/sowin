@@ -379,8 +379,8 @@ void SoWinViewerPrefSheet::destroySeekWidgets( void )
   for ( int i = 0; i < 10; i++ )
     if ( IsWindow( this->seekWidgets[i] ) )
       DestroyWindow( this->seekWidgets[i] );
-  //if ( this->seekDistWheel )
-  //delete this->seekDistWheel;
+  if ( this->seekDistWheel )
+    delete this->seekDistWheel;
   this->seekViewer = NULL;
 }
 
@@ -397,8 +397,10 @@ void SoWinViewerPrefSheet::destroyClippingWidgets( void )
   for ( int i = 0; i < 5; i++ )
     if ( IsWindow( this->clippingWidgets[i] ) )
       DestroyWindow( this->clippingWidgets[i] );
-  // delete nearPlaneWheel;
-  // delete farPlaneWheel;
+  if ( this->nearPlaneWheel )
+    delete nearPlaneWheel;
+  if ( this->farPlaneWheel )
+    delete farPlaneWheel;
   this->clippingViewer = NULL;
 }
 
@@ -407,7 +409,8 @@ void SoWinViewerPrefSheet::destroySpinWidgets( void )
   for ( int i = 0; i < 4; i++ )
     if ( IsWindow( this->spinWidgets[i] ) )
       DestroyWindow( this->spinWidgets[i] );
-  // delete axisSizeWheel;
+  if ( this->axesSizeWheel )
+    delete this->axesSizeWheel;
   this->spinViewer = NULL;
 }
 

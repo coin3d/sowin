@@ -179,9 +179,8 @@ SoWinFullViewer::~SoWinFullViewer( void )
     this->appButtonList->remove( i );
   }
   
-  // FIXME: causes error. mariusbu 20010726.
-  //delete this->viewerButtonList;
-  //delete this->appButtonList;
+  delete this->viewerButtonList;
+  delete this->appButtonList;
   delete this->pimpl;
 
 }

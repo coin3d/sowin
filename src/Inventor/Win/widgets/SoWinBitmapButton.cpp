@@ -163,8 +163,12 @@ SoWinBitmapButton::constructor( void )
 void
 SoWinBitmapButton::destructor( void )
 {
-	// FIXME: DeleteObject all bitmaps
-	delete this->bitmapList;
+  for ( int i = this->bitmapList->getLength( );
+        i >= 0; i-- ) {
+    DeleteObject( this->bitmapList->get( i ) );
+    this->bitmapList->remove( i );
+  }
+  delete this->bitmapList;
 } // destructor()
 
 HWND
