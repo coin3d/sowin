@@ -421,8 +421,10 @@ SoWinFullViewer::buildWidget( HWND parent )
   assert( IsWindow( parent ) );
   this->viewerWidget = parent;
 
-  PRIVATE( this )->parentEventHandler =
-    ( WNDPROC ) SetWindowLong( parent, GWL_WNDPROC, ( long ) SoWinFullViewer::vwrWidgetProc );
+  SetLastError(0);
+  LONG l = SetWindowLong( parent, GWL_WNDPROC, ( long ) SoWinFullViewer::vwrWidgetProc );
+  PRIVATE( this )->parentEventHandler = ( WNDPROC ) l;
+  assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
 
   this->renderAreaWidget = inherited::buildWidget( this->viewerWidget );
   assert( IsWindow( this->renderAreaWidget ) );
@@ -430,10 +432,9 @@ SoWinFullViewer::buildWidget( HWND parent )
   if ( IsWindow( this->getGLWidget( ) ) ) {
 
     SetLastError( 0 );
-    assert(
-           ( SetWindowLong( this->getGLWidget( ), GWL_WNDPROC,
-                            ( LONG ) SoWinFullViewer::glWidgetProc ) != 0 )
-           && ( GetLastError( ) == 0 ) );
+    LONG l = SetWindowLong( this->getGLWidget( ), GWL_WNDPROC,
+                            ( LONG ) SoWinFullViewer::glWidgetProc );
+    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
 
   }
   else assert ( 0 && "No glWidget" ); // FIXME: do something more informative. mariusbu 20010724.

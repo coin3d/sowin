@@ -157,7 +157,9 @@ SoWin::init( HWND const topLevelWidget )
 
   if ( SoWinP::useParentEventHandler ) {
     SoWinP::parentEventHandler = ( WNDPROC ) GetWindowLong( topLevelWidget, GWL_WNDPROC );
-    SetWindowLong( topLevelWidget, GWL_WNDPROC, ( long ) SoWin::eventHandler );
+    SetLastError(0);
+    LONG l = SetWindowLong( topLevelWidget, GWL_WNDPROC, ( long ) SoWin::eventHandler );
+    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
   }
 }
 
@@ -338,7 +340,7 @@ SoWin::registerWindowClass( const char * const className )
   WNDCLASS windowclass;
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
- LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
+  LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
   HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
 
   windowclass.lpszClassName = className;
@@ -358,7 +360,8 @@ SoWin::registerWindowClass( const char * const className )
 void
 SoWin::unRegisterWindowClass( const char * const className )
 {
-  UnregisterClass( className, SoWin::getInstance( ) );
+  BOOL r = UnregisterClass( className, SoWin::getInstance( ) );
+  assert( r && "UnregisterClass() failed -- investigate" );
 }
 
 LRESULT CALLBACK

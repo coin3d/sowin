@@ -95,7 +95,9 @@ SoWinThumbWheel::getWidget( void )
 void
 SoWinThumbWheel::setId( long id )
 {
-  SetWindowLong( this->wheelWindow, GWL_ID, id );
+  SetLastError(0);
+  LONG l = SetWindowLong( this->wheelWindow, GWL_ID, id );
+  assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
 }
 
 long
@@ -249,7 +251,10 @@ SoWinThumbWheel::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lp
   if ( message == WM_CREATE ) {
     CREATESTRUCT * createstruct;
     createstruct = ( CREATESTRUCT * ) lparam;
-    SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
+
+    SetLastError(0);
+    LONG l = SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
+    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
 
     SoWinThumbWheel * object = ( SoWinThumbWheel * )( createstruct->lpCreateParams );
     return object->onCreate( window, message, wparam, lparam );

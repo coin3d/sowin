@@ -135,8 +135,10 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
 
 SoWinGLWidget::~SoWinGLWidget( void )
 {
-  UnregisterClass( "SoWinGLWidget_glwidget", SoWin::getInstance( ) );
-  UnregisterClass( "SoWinGLWidget_managerwidget", SoWin::getInstance( ) );
+  BOOL r = UnregisterClass( "SoWinGLWidget_glwidget", SoWin::getInstance( ) );
+  assert( r && "UnregisterClass() failed -- investigate" );
+  r = UnregisterClass( "SoWinGLWidget_managerwidget", SoWin::getInstance( ) );
+  assert( r && "UnregisterClass() failed -- investigate" );
   delete this->pimpl;
 }
 
@@ -262,7 +264,8 @@ SoWinGLWidget::setDoubleBuffer( SbBool set )
   else {
     PRIVATE( this )->glModes &= ~SO_GL_DOUBLE;
   }
-  DestroyWindow( this->getGLWidget( ) );
+  BOOL r = DestroyWindow( this->getGLWidget( ) );
+  assert( r && "DestroyWindow() failed -- investigate" );
   PRIVATE( this )->buildNormalGLWidget( );
 }
 
@@ -315,7 +318,8 @@ SoWinGLWidget::setQuadBufferStereo( const SbBool enable )
   else {
     PRIVATE( this )->glModes &= ~SO_GL_STEREO;
   }
-  DestroyWindow( this->getGLWidget( ) );
+  BOOL r = DestroyWindow( this->getGLWidget( ) );
+  assert( r && "DestroyWindow() failed -- investigate" );
   PRIVATE( this )->buildNormalGLWidget( );
 }
 
@@ -389,7 +393,9 @@ SoWinGLWidget::mgrWidgetProc( HWND window,
   if ( message == WM_CREATE ) {
     CREATESTRUCT * createstruct;
     createstruct = ( CREATESTRUCT * ) lparam;
-    SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
+    SetLastError(0);
+    LONG l = SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
+    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
     return 0;
   }
 
@@ -415,7 +421,10 @@ SoWinGLWidget::glWidgetProc( HWND window,
   if ( message == WM_CREATE ) {
     CREATESTRUCT * createstruct;
     createstruct = ( CREATESTRUCT * ) lparam;
-    SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
+
+    SetLastError(0);
+    LONG l = SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
+    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
 
     SoWinGLWidget * object = ( SoWinGLWidget * )( createstruct->lpCreateParams );
     return PRIVATE( object )->onCreate( window, message, wparam, lparam );

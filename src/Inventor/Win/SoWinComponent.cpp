@@ -177,9 +177,12 @@ SoWinComponent::~SoWinComponent( void )
   }
   delete PRIVATE( this )->visibilitychangeCBs;
   
-  if ( IsWindow( PRIVATE( this )->widget ) )
-    DestroyWindow( PRIVATE( this )->widget );
-  UnregisterClass( this->getClassName( ), SoWin::getInstance( ) );
+  if ( IsWindow( PRIVATE( this )->widget ) ) {
+    BOOL r = DestroyWindow( PRIVATE( this )->widget );
+    assert( r && "DestroyWindow() failed -- investigate" );
+  }
+  BOOL r = UnregisterClass( this->getClassName( ), SoWin::getInstance( ) );
+  assert( r && "UnregisterClass() failed -- investigate" );
   delete this->pimpl;
 }
 
@@ -222,8 +225,17 @@ SoWinComponent::goFullScreen( const SbBool enable )
     data->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
 
     // Go fullscreen
-    data->style = SetWindowLong( hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE );
-    data->exstyle = SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
+
+    SetLastError(0);
+    LONG l = SetWindowLong( hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE );
+    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+    data->style = l;
+
+    SetLastError(0);
+    l = SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
+    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+    data->exstyle = l;
+
     data->widget = hwnd;
 
     r = MoveWindow( hwnd,
@@ -255,8 +267,14 @@ SoWinComponent::goFullScreen( const SbBool enable )
     if ( ! data ) return;
 
     // Go normal
-    SetWindowLong( hwnd, GWL_STYLE, data->style );
-    SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
+
+    SetLastError(0);
+    LONG l = SetWindowLong( hwnd, GWL_STYLE, data->style );
+    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+
+    SetLastError(0);
+    l = SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
+    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
 
     BOOL r = MoveWindow( hwnd,
                          data->pos[0],
