@@ -1,8 +1,22 @@
 # **************************************************************************
 # SoWin/configure.in
 
-AC_INIT(src/Inventor/Win/SoWin.cpp)
-AC_CONFIG_AUX_DIR(cfg)
+m4_define([SOWIN_MAJOR], [0])
+m4_define([SOWIN_MINOR], [9])
+m4_define([SOWIN_MICRO], [99])
+m4_define([SOWIN_BETA],  [])
+m4_define([SOWIN_VERSION_STRING],
+          [SOWIN_MAJOR.SOWIN_MINOR.SOWIN_MICRO[]SOWIN_BETA])
+
+m4_define([SOWIN_ABI_CURRENT],  [m4_eval((SOWIN_MAJOR*20)+SOWIN_MINOR)])
+m4_define([SOWIN_ABI_REVISION], [SOWIN_MICRO])
+m4_define([SOWIN_ABI_AGE],      [SOWIN_MINOR])
+
+# **************************************************************************
+AC_INIT([SoWin], [SOWIN_VERSION_STRING], [coin-bugs@coin3d.org])
+
+AC_CONFIG_SRCDIR([src/Inventor/Win/SoWin.cpp])
+AC_CONFIG_AUX_DIR([cfg])
 AC_CANONICAL_SYSTEM
 
 if test x"${with_inventor+set}" = x"set"; then
@@ -17,30 +31,30 @@ SIM_AC_SETUP_MSVC_IFELSE([],
   esac
 ])
 
+if $BUILD_WITH_MSVC; then
+  SIM_AC_SETUP_MSVCRT([
+    CPPFLAGS="$CPPFLAGS $sim_ac_msvcrt_CPPFLAGS"
+    CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
+    CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
+    LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
+    LIBS="$LIBS $sim_ac_msvcrt_LIBS"
+  ])
+fi
+
 # **************************************************************************
 # Library versioning. For information about our versioning strategy, see the
 # document ``HACKING'' in the Coin CVS module.
 
-SOWIN_MAJOR_VERSION=0
-SOWIN_MINOR_VERSION=9
-SOWIN_MICRO_VERSION=99
-SOWIN_VERSION=$SOWIN_MAJOR_VERSION.$SOWIN_MINOR_VERSION.$SOWIN_MICRO_VERSION
+AC_SUBST([SOWIN_MAJOR_VERSION], [SOWIN_MAJOR])
+AC_SUBST([SOWIN_MINOR_VERSION], [SOWIN_MINOR])
+AC_SUBST([SOWIN_MICRO_VERSION], [SOWIN_MICRO])
+AC_SUBST([SOWIN_VERSION], [SOWIN_VERSION_STRING])
 VERSION=$SOWIN_VERSION
 
-AC_SUBST(SOWIN_MAJOR_VERSION)
-AC_SUBST(SOWIN_MINOR_VERSION)
-AC_SUBST(SOWIN_MICRO_VERSION)
-AC_SUBST(SOWIN_VERSION)
-
 # Libtool versioning
-LT_CURRENT=$SOWIN_MAJOR_VERSION
-LT_AGE=0
-LT_REVISION=`expr $SOWIN_MINOR_VERSION \* 100 + $SOWIN_MICRO_VERSION`
-
-AC_SUBST(LT_CURRENT)
-AC_SUBST(LT_REVISION)
-AC_SUBST(LT_AGE)
-
+AC_SUBST([LT_CURRENT], [SOWIN_ABI_CURRENT])
+AC_SUBST([LT_REVISION], [SOWIN_ABI_REVISION])
+AC_SUBST([LT_AGE], [SOWIN_ABI_AGE])
 
 AC_DEFINE_UNQUOTED(SOWIN_MAJOR_VERSION, $SOWIN_MAJOR_VERSION,
   [Define to the major version of SoWin])
@@ -67,7 +81,7 @@ AC_EXEEXT
 
 AM_INIT_AUTOMAKE(SoWin, $SOWIN_VERSION)
 
-AM_CONFIG_HEADER(src/config.h)
+AM_CONFIG_HEADER([src/config.h])
 
 AM_DISABLE_STATIC
 AM_MAINTAINER_MODE
@@ -81,12 +95,9 @@ fi
 AC_PROG_LIBTOOL
 
 # These are used for constructing the sowin-config file.
-SOGUI_EXTRA_CPPFLAGS=$CPPFLAGS
-SOGUI_EXTRA_LDFLAGS=$LDFLAGS
-SOGUI_EXTRA_LIBS=$LIBS
-AC_SUBST(SOGUI_EXTRA_CPPFLAGS)
-AC_SUBST(SOGUI_EXTRA_LDFLAGS)
-AC_SUBST(SOGUI_EXTRA_LIBS)
+AC_SUBST([SOGUI_EXTRA_CPPFLAGS], [$CPPFLAGS])
+AC_SUBST([SOGUI_EXTRA_LDFLAGS], [$LDFLAGS])
+AC_SUBST([SOGUI_EXTRA_LIBS], [$LIBS])
 
 sim_ac_build_library=true
 AC_ARG_ENABLE(
@@ -307,8 +318,7 @@ if test x${enable_static+set} = xset; then
   esac
 fi
 
-LIBFLAGS=
-AC_SUBST(LIBFLAGS)
+AC_SUBST([LIBFLAGS], [])
 
 # **************************************************************************
 # Remaining setup based on platform.
@@ -318,6 +328,9 @@ AM_CONDITIONAL(BUILD_WITH_MSVC, $BUILD_WITH_MSVC)
 if $sim_ac_build_library; then
 if $BUILD_WITH_MSVC; then
   rm -f vc60.pdb
+  LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
+  LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
+
   if $SOWIN_STATIC; then
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOWIN_NOT_DLL"
   else
@@ -329,10 +342,10 @@ if $BUILD_WITH_MSVC; then
   debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
   if $SOWIN_STATIC; then
     SIM_AC_CONFIGURATION_SETTING([SoWin build type], [static .lib])
-    LIBFLAGS="-LIB"
+    LIBFLAGS="-LIB $LIBFLAGS"
     LIBFLAGS="$LIBFLAGS /OUT:sowin$SOWIN_MAJOR_VERSION$SUFFIX.lib"
   else
-    LIBFLAGS="-DLL /INCREMENTAL:NO"
+    LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
     case $enable_symbols in
     no | false)
       SIM_AC_CONFIGURATION_SETTING([SoWin build type],
@@ -348,6 +361,7 @@ if $BUILD_WITH_MSVC; then
     esac
     LIBFLAGS="$LIBFLAGS /OUT:sowin$SOWIN_MAJOR_VERSION$SUFFIX.dll"
   fi
+  SIM_AC_CONFIGURATION_SETTING([C library version], [$sim_ac_msvcrt])
 
   # We use a version suffix on the .dll-file, so several incompatible
   # (major) versions can be installed on a system.

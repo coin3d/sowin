@@ -1,7 +1,30 @@
 
 SoWin DLL
 =========
-If SoWin is compiled as a DLL and you try to link against it, make sure
-you define SOWIN_DLL for your project.  Things might seems to work without
-it for a while, but eventually you will get strange exceptions and heap
-errors.
+
+  If SoWin is compiled as a DLL and you try to link against it, make sure
+  you define SOWIN_DLL for your project.  Things might seems to work without
+  it for a while, but eventually you will get strange exceptions and heap
+  errors.
+
+SoWin C Library Linkage
+=======================
+
+  Configure and build the same way as you would on UNIX-based systems,
+  i.e.
+
+        $ [srcdir]/configure
+        $ make install
+
+  To specify which C library Coin should be linked against, you should
+  use the --with-msvcrt=<crt> option.  You have the following choices
+  (short aliases on the right):
+
+    singlethread-static        [ /ml  | ml  | libc    ]   (default)
+    singlethread-static-debug  [ /mld | mld | libcd   ]
+    multithread-static         [ /mt  | mt  | libcmt  ]
+    multithread-static-debug   [ /mtd | mtd | libcmtd ]
+    multithread-dynamic        [ /md  | md  | msvcrt  ]
+    multithread-dynamic-debug  [ /mdd | mdd | msvcrtd ]
+
+
