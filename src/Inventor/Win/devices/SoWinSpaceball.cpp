@@ -39,17 +39,38 @@
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/devices/SoWinSpaceball.h>
 
+// *************************************************************************
+
+class SoWinSpaceballP {
+public:
+  UINT eventMask;
+  SoMotion3Event * motionEvent;
+  SoSpaceballButtonEvent * buttonEvent;
+  HWND parentWidget;
+  float rotScale, transScale;
+//   SoMotion3Event * translateMotionEvent(MSG * motionEvent);
+//   SoSpaceballButtonEvent * translateButtonEvent(MSG * buttonEvent, SoButtonEvent::State whichState);
+//   SoMotion3Event * translateMotionEventMagellan(MSG * motionEvent);
+};
+
+#define PRIVATE(p) (p->pimpl)
+
+// *************************************************************************
+
 SOWIN_OBJECT_SOURCE(SoWinSpaceball);
 
+// *************************************************************************
 
 SoWinSpaceball::SoWinSpaceball(int mask)
 {
+  PRIVATE(this) = new SoWinSpaceballP;
   SOWIN_STUB();
 }
 
 SoWinSpaceball::~SoWinSpaceball(void)
 {
   SOWIN_STUB();
+  delete PRIVATE(this);
 }
     
 void
@@ -80,25 +101,25 @@ SoWinSpaceball::translateEvent(MSG * msg)
 void
 SoWinSpaceball::setRotationScaleFactor(float factor)
 {
-  this->rotScale = factor;
+  PRIVATE(this)->rotScale = factor;
 }
 
 float
 SoWinSpaceball::getRotationScaleFactor(void) const
 {
-  return this->rotScale;
+  return PRIVATE(this)->rotScale;
 }
 
 void
 SoWinSpaceball::setTranslationScaleFactor(float factor)
 {
-  this->transScale = factor;
+  PRIVATE(this)->transScale = factor;
 }
 
 float
 SoWinSpaceball::getTranslationScaleFactor(void) const
 {
-  return this->transScale;
+  return PRIVATE(this)->transScale;
 }
 
 SbBool
