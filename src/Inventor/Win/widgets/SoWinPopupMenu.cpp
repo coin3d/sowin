@@ -208,7 +208,9 @@ void
 SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-  assert( rec != NULL && "no such menu" );
+
+  assert( rec && "could not find item record" );
+  assert( IsMenu( rec->parent ) );
   
 #if 1 // old code
   if ( enabled )
@@ -240,8 +242,8 @@ SbBool
 SoWinPopupMenu::getMenuItemEnabled( int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-
-  assert( rec != NULL && "no such menu" );
+  
+  assert( rec && "could not find item record" );
   assert( IsMenu( rec->parent ) );
 
   //MENUITEMINFO  menuiteminfo;
