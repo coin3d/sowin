@@ -102,10 +102,10 @@ SoWinPlaneViewerP::cameratoggleClicked(void)
 
 // ************************************************************************
 
-#define VIEWERBUTTON_X (VIEWERBUTTON_SEEK + 1)
-#define VIEWERBUTTON_Y (VIEWERBUTTON_SEEK + 2)
-#define VIEWERBUTTON_Z (VIEWERBUTTON_SEEK + 3)
-#define VIEWERBUTTON_CAMERA (VIEWERBUTTON_SEEK + 4)
+#define VIEWERBUTTON_X 0
+#define VIEWERBUTTON_Y 1
+#define VIEWERBUTTON_Z 2
+#define VIEWERBUTTON_CAMERA 3
 
 // Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
 SoWinPlaneViewer::SoWinPlaneViewer(HWND parent,
@@ -151,9 +151,7 @@ SoWinPlaneViewer::setCamera(SoCamera * camera)
     this->setRightWheelString(orthogonal ? "Zoom" : "Dolly");
     
     if (this->isDoButtonBar()) // may not be there if !doButtonBar
-      ((SoWinBitmapButton *) (* this->viewerButtonList) [VIEWERBUTTON_CAMERA])->setBitmap(
-        orthogonal ? 1 : 0);
-  
+      ((SoWinBitmapButton *)PRIVATE(this)->camerabutton)->setBitmap(orthogonal ? 1 : 0);
   }
   inherited::setCamera(camera);
 }
@@ -190,25 +188,25 @@ SoWinPlaneViewer::onCommand(HWND window,
 
  switch (id) {
 
-    case VIEWERBUTTON_CAMERA:
-      PRIVATE(this)->cameratoggleClicked();
-      return 0;
+ case VIEWERBUTTON_CAMERA:
+   PRIVATE(this)->cameratoggleClicked();
+   return 0;
+   
+ case VIEWERBUTTON_X:
+   PRIVATE(this)->xClicked();
+   return 0;
 
-    case VIEWERBUTTON_X:
-      PRIVATE(this)->xClicked();
-      return 0;
+ case VIEWERBUTTON_Y:
+   PRIVATE(this)->yClicked();
+   return 0;
 
-    case VIEWERBUTTON_Y:
-      PRIVATE(this)->yClicked();
-      return 0;
+ case VIEWERBUTTON_Z:
+   PRIVATE(this)->zClicked();
+   return 0;
 
-    case VIEWERBUTTON_Z:
-      PRIVATE(this)->zClicked();
-      return 0;
-
-    default:
-      return inherited::onCommand(window, message, wparam, lparam);
-  }
+ default:
+   return inherited::onCommand(window, message, wparam, lparam);
+ }
 
   return 0;
 }
@@ -235,33 +233,33 @@ SoWinPlaneViewer::buildViewerButtonsEx(HWND parent,
                                        int y,
                                        int size)
 {
- SoWinBitmapButton * button;
+  SoWinBitmapButton * button;
 
- button = new SoWinBitmapButton(parent, x, y, size, size, 24, "x", NULL);
- button->addBitmap(x_xpm);
- button->setBitmap(0);
- button->setId(VIEWERBUTTON_X);
- this->viewerButtonList->append(button);
+  button = new SoWinBitmapButton(parent, x, y, size, size, 24, "x", NULL);
+  button->addBitmap(x_xpm);
+  button->setBitmap(0);
+  button->setId(VIEWERBUTTON_X);
+  this->viewerButtonList->append(button);
   
- button = new SoWinBitmapButton(parent, x, y, size, size, 24, "y", NULL);
- button->addBitmap(y_xpm);
- button->setBitmap(0);
- button->setId(VIEWERBUTTON_Y);
- this->viewerButtonList->append(button);
+  button = new SoWinBitmapButton(parent, x, y, size, size, 24, "y", NULL);
+  button->addBitmap(y_xpm);
+  button->setBitmap(0);
+  button->setId(VIEWERBUTTON_Y);
+  this->viewerButtonList->append(button);
 
   button = new SoWinBitmapButton(parent, x, y, size, size, 24, "z", NULL);
- button->addBitmap(z_xpm);
- button->setBitmap(0);
- button->setId(VIEWERBUTTON_Z);
- this->viewerButtonList->append(button);
+  button->addBitmap(z_xpm);
+  button->setBitmap(0);
+  button->setId(VIEWERBUTTON_Z);
+  this->viewerButtonList->append(button);
   
- button = new SoWinBitmapButton(parent, x, y, size, size, 24, "camera", NULL);
- button->addBitmap(perspective_xpm);
- button->addBitmap(ortho_xpm);
- button->setBitmap(0);
- button->setId(VIEWERBUTTON_CAMERA);
- this->viewerButtonList->append(button);
-    
+  button = new SoWinBitmapButton(parent, x, y, size, size, 24, "camera", NULL);
+  button->addBitmap(perspective_xpm);
+  button->addBitmap(ortho_xpm);
+  button->setBitmap(0);
+  button->setId(VIEWERBUTTON_CAMERA);
+  this->viewerButtonList->append(button);
+  PRIVATE(this)->camerabutton = button;
 }
 
 // ************************************************************************

@@ -116,6 +116,8 @@ protected:
   LRESULT onThumbWheel(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   
 private:
+  void setCameraZoom(SoWinFullViewer * viewer, float val);
+  float getCameraZoom(SoWinFullViewer * viewer);
  
   int lineHeight;
   int x, y;

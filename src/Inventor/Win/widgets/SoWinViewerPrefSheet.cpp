@@ -17,13 +17,12 @@
  *
  **************************************************************************/
 
-static const char rcsid[] =
-"$Id$";
-
 #include <Inventor/errors/SoDebugError.h>
 
 #include <sowindefs.h>
 #include <Inventor/nodes/SoCamera.h>
+#include <Inventor/nodes/SoPerspectiveCamera.h>
+#include <Inventor/nodes/SoOrthographicCamera.h>
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/viewers/SoWinFullViewer.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
@@ -311,9 +310,48 @@ void SoWinViewerPrefSheet::initSeekWidgets(SoWinFullViewer * viewer)
   this->setChecked(this->seekWidgets[9], ! viewer->isSeekValuePercentage());
 }
 
-void SoWinViewerPrefSheet::initZoomWidgets(SoWinFullViewer * viewer)
+void
+SoWinViewerPrefSheet::setCameraZoom(SoWinFullViewer * viewer, float val)
 {
-  float zoom = viewer->getCameraZoom();
+  SoCamera * cam = viewer->getCamera();
+  if (! cam) return; // can happen for empty scenegraph
+
+  SoType t = cam->getTypeId();
+
+  if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
+    ((SoPerspectiveCamera *) cam)->heightAngle = val * 2.0f * M_PI / 360.0f;
+  else if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
+    ((SoOrthographicCamera *) cam)->height = val;
+
+#if SOWIN_DEBUG
+  else assert(0);
+#endif // SOWIN_DEBUG
+}
+
+float
+SoWinViewerPrefSheet::getCameraZoom(SoWinFullViewer * viewer)
+{
+  SoCamera * cam = viewer->getCamera();
+  if (! cam) return 0.0f; // can happen for empty scenegraph
+
+  SoType t = cam->getTypeId();
+
+  if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
+    return ((SoPerspectiveCamera *) cam)->heightAngle.getValue() /
+      2.0f * 360.0f / M_PI;
+  else if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
+    return ((SoOrthographicCamera *) cam)->height.getValue();
+
+#if SOWIN_DEBUG
+  assert(0);
+#endif // SOWIN_DEBUG
+  return 0.0f;
+}
+
+void
+SoWinViewerPrefSheet::initZoomWidgets(SoWinFullViewer * viewer)
+{
+  float zoom = this->getCameraZoom(viewer);
 
   this->setSliderRange(this->zoomWidgets[1],
     (int) viewer->zoomrange[0],
@@ -760,7 +798,7 @@ LRESULT SoWinViewerPrefSheet::onCommand(HWND window, UINT message, WPARAM wparam
           value = zoomViewer->zoomrange[1];
           this->setEditValue(ctrl, value);
         }
-        this->zoomViewer->setCameraZoom(value);
+        this->setCameraZoom(this->zoomViewer, value);
         this->setSliderValue(this->zoomWidgets[1], (int) value);
       }
       break;
@@ -773,7 +811,7 @@ LRESULT SoWinViewerPrefSheet::onCommand(HWND window, UINT message, WPARAM wparam
           break;
         }
         this->zoomViewer->zoomrange[0] = value;
-        if (zoomViewer->getCameraZoom() < value)
+        if (this->getCameraZoom(zoomViewer) < value)
           this->setEditValue(this->zoomWidgets[2], value); // will cause new message        
         this->setSliderRange(this->zoomWidgets[1],
                               (int) zoomViewer->zoomrange[0],
@@ -789,7 +827,7 @@ LRESULT SoWinViewerPrefSheet::onCommand(HWND window, UINT message, WPARAM wparam
           break;
         }
         this->zoomViewer->zoomrange[1] = value;
-        if (zoomViewer->getCameraZoom() > value)
+        if (this->getCameraZoom(zoomViewer) > value)
           this->setEditValue(this->zoomWidgets[2], value); // will cause new message
         this->setSliderRange(this->zoomWidgets[1],
                               (int) zoomViewer->zoomrange[0],
@@ -935,8 +973,3 @@ LRESULT SoWinViewerPrefSheet::onThumbWheel(HWND window, UINT message, WPARAM wpa
   
   return 0;
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-//
-//  (private)
-//

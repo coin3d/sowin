@@ -82,6 +82,8 @@ public:
   void constructor(SbBool build);
   void cameratoggleClicked(void);
 
+  SoWinBitmapButton * camerabutton;
+
 private:
   SoWinExaminerViewer * owner;
 };
@@ -94,7 +96,7 @@ SOWIN_OBJECT_SOURCE(SoWinExaminerViewer);
 
 // *************************************************************************
 
-#define VIEWERBUTTON_CAMERA (VIEWERBUTTON_SEEK + 1)
+#define VIEWERBUTTON_CAMERA 0
 
 /*!
   Constructor.  See parent class for explanation of arguments.
@@ -214,8 +216,7 @@ SoWinExaminerViewer::setCamera(SoCamera * newCamera)
     newCamera->getTypeId().isDerivedFrom(SoOrthographicCamera::getClassTypeId());
 
   if (this->isDoButtonBar()) { // may not be there if !doButtonBar
-    void * btn = this->viewerButtonList->get(VIEWERBUTTON_CAMERA);
-    SoWinBitmapButton * wbtn = (SoWinBitmapButton *)btn;
+    SoWinBitmapButton * wbtn = PRIVATE(this)->camerabutton;
     // If viewer was made without decorations, button will not have
     // been made yet.
     if (wbtn) { wbtn->setBitmap(isorthotype ? 1 : 0); }
@@ -236,14 +237,12 @@ SoWinExaminerViewer::buildViewerButtonsEx(HWND parent,
                                           int y,
                                           int size)
 {
-  SoWinBitmapButton * button;
-
-  button = new SoWinBitmapButton(parent, x, y, size, size, 24, "perspective", NULL);
-  button->addBitmap(perspective_xpm);
-  button->addBitmap(ortho_xpm);
-  button->setBitmap(0);
-  button->setId(VIEWERBUTTON_CAMERA);
-  this->viewerButtonList->append(button);
+  PRIVATE(this)->camerabutton = new SoWinBitmapButton(parent, x, y, size, size, 24, "perspective", NULL);
+  PRIVATE(this)->camerabutton->addBitmap(perspective_xpm);
+  PRIVATE(this)->camerabutton->addBitmap(ortho_xpm);
+  PRIVATE(this)->camerabutton->setBitmap(0);
+  PRIVATE(this)->camerabutton->setId(VIEWERBUTTON_CAMERA);
+  this->viewerButtonList->append(PRIVATE(this)->camerabutton);
 }
 
 // *************************************************************************

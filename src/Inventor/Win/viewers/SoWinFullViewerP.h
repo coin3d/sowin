@@ -38,6 +38,19 @@ public:
   SoWinFullViewerP(SoWinFullViewer * publ);
   ~SoWinFullViewerP();
 
+  enum ButtonId {
+    VIEWERBUTTON_PICK,
+    VIEWERBUTTON_VIEW,
+    VIEWERBUTTON_HELP,
+    VIEWERBUTTON_HOME,
+    VIEWERBUTTON_SET_HOME,
+    VIEWERBUTTON_VIEW_ALL,
+    VIEWERBUTTON_SEEK
+  };
+
+  class SoWinBitmapButton * viewerButton(int idx);
+  HWND appButton(int idx);
+
   static void rightWheelCB(SoWinFullViewer * viewer, void ** data);
   static void bottomWheelCB(SoWinFullViewer * viewer, void ** data);
   static void leftWheelCB(SoWinFullViewer * viewer, void ** data);
@@ -51,6 +64,12 @@ public:
 
   virtual void selectedPrefs(void);
   void seekbuttonClicked(void);
+
+  void showDecorationWidgets(SbBool onOff);
+
+  HWND buildLeftWheel(HWND parent);
+  HWND buildBottomWheel(HWND parent);
+  HWND buildRightWheel(HWND parent);
   
   int layoutWidgets(int cx, int cy);
   static LRESULT CALLBACK systemEventHook(int code, WPARAM wparam, LPARAM lparam);

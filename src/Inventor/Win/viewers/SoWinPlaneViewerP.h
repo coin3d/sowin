@@ -45,6 +45,8 @@ public:
   void yClicked(void);
   void zClicked(void);
   void cameratoggleClicked(void);
+
+  class SoWinBitmapButton * camerabutton;
 };
 
 // ************************************************************************
