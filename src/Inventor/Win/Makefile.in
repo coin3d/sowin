@@ -606,6 +606,9 @@ DISTCLEANFILES = \
 @BUILD_WITH_MSVC_TRUE@lib_LIBRARIES = sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
 @BUILD_WITH_MSVC_FALSE@lib_LTLIBRARIES = libSoWin@SUFFIX@.la
 
+@BUILD_IVF_TRUE@IvfLstFile = ../../Ivf/ivf.lst
+@BUILD_IVF_FALSE@IvfLstFile = 
+
 
 ############################################################################
 # libtool setup
@@ -661,7 +664,8 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	engines/engines.lst \
 	nodes/nodes.lst \
 	viewers/viewers.lst \
-	widgets/widgets.lst
+	widgets/widgets.lst \
+	$(IvfLstFile)
 
 
 
@@ -689,9 +693,15 @@ CONFIG_CLEAN_FILES =
 LIBRARIES = $(lib_LIBRARIES)
 
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_AR = $(AR) cru
-sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = \
-	devices/devices.lst editors/editors.lst engines/engines.lst \
-	nodes/nodes.lst viewers/viewers.lst widgets/widgets.lst
+@BUILD_IVF_TRUE@sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = \
+@BUILD_IVF_TRUE@	devices/devices.lst editors/editors.lst \
+@BUILD_IVF_TRUE@	engines/engines.lst nodes/nodes.lst \
+@BUILD_IVF_TRUE@	viewers/viewers.lst widgets/widgets.lst \
+@BUILD_IVF_TRUE@	../../Ivf/ivf.lst
+@BUILD_IVF_FALSE@sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = \
+@BUILD_IVF_FALSE@	devices/devices.lst editors/editors.lst \
+@BUILD_IVF_FALSE@	engines/engines.lst nodes/nodes.lst \
+@BUILD_IVF_FALSE@	viewers/viewers.lst widgets/widgets.lst
 am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoWin.$(OBJEXT) \
 	SoWinComponent.$(OBJEXT) SoWinGLWidget.$(OBJEXT) \
 	Win32API.$(OBJEXT)

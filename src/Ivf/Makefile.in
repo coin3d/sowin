@@ -214,9 +214,9 @@ win_srcdir = @win_srcdir@
 
 DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
-lib_LIBRARIES = ivf.lib
+lib_LIBRARIES = ivf.lst
 
-ivf_lib_SOURCES = \
+ivf_lst_SOURCES = \
 	IvfBasic.h \
 	IvfApp.cpp IvfApp.h \
 	IvfArchiveInput.cpp IvfArchiveInput.h \
@@ -266,9 +266,9 @@ CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(lib_LIBRARIES)
 
-ivf_lib_AR = $(AR) cru
-ivf_lib_LIBADD =
-am_ivf_lib_OBJECTS = IvfApp.$(OBJEXT) IvfArchiveInput.$(OBJEXT) \
+ivf_lst_AR = $(AR) cru
+ivf_lst_LIBADD =
+am_ivf_lst_OBJECTS = IvfApp.$(OBJEXT) IvfArchiveInput.$(OBJEXT) \
 	IvfArchiveOutput.$(OBJEXT) IvfAsyncFile.$(OBJEXT) \
 	IvfComponent.$(OBJEXT) IvfDocument.$(OBJEXT) \
 	IvfExaminerViewer.$(OBJEXT) IvfFlyViewer.$(OBJEXT) \
@@ -276,7 +276,7 @@ am_ivf_lib_OBJECTS = IvfApp.$(OBJEXT) IvfArchiveInput.$(OBJEXT) \
 	IvfRenderArea.$(OBJEXT) IvfResource.$(OBJEXT) \
 	IvfSceneViewer.$(OBJEXT) IvfSrvrItem.$(OBJEXT) \
 	IvfStdViewer.$(OBJEXT) IvfWalkViewer.$(OBJEXT)
-ivf_lib_OBJECTS = $(am_ivf_lib_OBJECTS)
+ivf_lst_OBJECTS = $(am_ivf_lst_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/IvfApp.Po \
@@ -310,12 +310,12 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(ivf_lib_SOURCES)
+DIST_SOURCES = $(ivf_lst_SOURCES)
 HEADERS = $(ivfinc_HEADERS) $(ivfviewersinc_HEADERS)
 
 DIST_COMMON = $(ivfinc_HEADERS) $(ivfviewersinc_HEADERS) Makefile.am \
 	Makefile.in
-SOURCES = $(ivf_lib_SOURCES)
+SOURCES = $(ivf_lst_SOURCES)
 
 all: all-am
 
@@ -356,10 +356,6 @@ uninstall-libLIBRARIES:
 
 clean-libLIBRARIES:
 	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
-ivf.lib: $(ivf_lib_OBJECTS) $(ivf_lib_DEPENDENCIES) 
-	-rm -f ivf.lib
-	$(ivf_lib_AR) ivf.lib $(ivf_lib_OBJECTS) $(ivf_lib_LIBADD)
-	$(RANLIB) ivf.lib
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -644,6 +640,11 @@ uninstall-am: uninstall-info-am uninstall-ivfincHEADERS \
 	uninstall-ivfincHEADERS uninstall-ivfviewersincHEADERS \
 	uninstall-libLIBRARIES
 
+
+ivf.lst: Makefile $(ivf_lst_OBJECTS)
+	@echo "Linking ivf.lst..."; \
+	rm -f $@; \
+	for i in $(ivf_lst_OBJECTS); do echo $$i >>$@; done
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -1,9 +1,9 @@
 
 DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
-lib_LIBRARIES = ivf.lib
+lib_LIBRARIES = ivf.lst
 
-ivf_lib_SOURCES = \
+ivf_lst_SOURCES = \
 	IvfBasic.h \
 	IvfApp.cpp IvfApp.h \
 	IvfArchiveInput.cpp IvfArchiveInput.h \
@@ -43,4 +43,9 @@ ivfviewersinc_HEADERS = \
 	Viewers/IvfSceneViewer.h \
 	Viewers/IvfStdViewer.h \
 	Viewers/IvfWalkViewer.h
+
+ivf.lst: Makefile $(ivf_lst_OBJECTS)
+	@echo "Linking ivf.lst..."; \
+	rm -f $@; \
+	for i in $(ivf_lst_OBJECTS); do echo $$i >>$@; done
 

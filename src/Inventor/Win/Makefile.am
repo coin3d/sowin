@@ -31,6 +31,12 @@ else
 lib_LTLIBRARIES = libSoWin@SUFFIX@.la
 endif
 
+if BUILD_IVF
+IvfLstFile = ../../Ivf/ivf.lst
+else
+IvfLstFile =
+endif
+
 ############################################################################
 # libtool setup
 
@@ -80,7 +86,8 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	engines/engines.lst \
 	nodes/nodes.lst \
 	viewers/viewers.lst \
-	widgets/widgets.lst
+	widgets/widgets.lst \
+	$(IvfLstFile)
 
 ############################################################################
 # header installation
