@@ -502,24 +502,24 @@ SoWinFullViewer::openPopupMenu(const SbVec2s position)
 }
 
 void
-SoWinFullViewer::setLeftWheelString(const char * name)
+SoWinFullViewer::setLeftWheelString(const char * const name)
 {
   if(this->leftWheel)
-    this->leftWheel->setLabelText((char *) name);
+    this->leftWheel->setLabelText(name);
 }
 
 void
-SoWinFullViewer::setBottomWheelString(const char * name)
+SoWinFullViewer::setBottomWheelString(const char * const name)
 {
   if(this->bottomWheel)
-    this->bottomWheel->setLabelText((char *) name);
+    this->bottomWheel->setLabelText(name);
 }
 
 void
-SoWinFullViewer::setRightWheelString(const char * name)
+SoWinFullViewer::setRightWheelString(const char * const name)
 {
   if(this->rightWheel)
-    this->rightWheel->setLabelText((char *) name);
+    this->rightWheel->setLabelText(name);
 }
 
 LRESULT
