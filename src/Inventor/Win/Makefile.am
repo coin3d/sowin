@@ -6,7 +6,7 @@ include common/Makefile.common
 ############################################################################
 ##
 
-SUBDIRS = devices viewers widgets
+SUBDIRS = devices editors engines nodes viewers widgets
 
 DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_builddir)/data -I$(top_srcdir)/src
 
@@ -46,6 +46,9 @@ nodist_libSoWin@SUFFIX@_la_SOURCES = \
 
 libSoWin@SUFFIX@_la_LIBADD = \
 	devices/libSoWinDevices.la \
+	editors/libSoWinEditors.la \
+	engines/libSoGuiEngines.la \
+	nodes/libSoGuiNodes.la \
 	viewers/libSoWinViewers.la \
 	widgets/libSoWinWidgets.la
 
@@ -70,6 +73,9 @@ nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \
+	editors/editors.lst \
+	engines/engines.lst \
+	nodes/nodes.lst \
 	viewers/viewers.lst \
 	widgets/widgets.lst
 
@@ -86,7 +92,9 @@ nodist_SoWininc_HEADERS = \
 	SoWinCursor.h \
 	SoWinComponent.h \
 	SoWinGLWidget.h \
-	SoWinRenderArea.h
+	SoWinRenderArea.h \
+	SoWinColorEditor.h \
+	SoWinMaterialEditor.h
 
 install-SoWinincHEADERS: $(SoWininc_HEADERS)
 	@$(NORMAL_INSTALL)
