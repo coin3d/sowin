@@ -101,3 +101,44 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     20030204 mortene.
 
 =====================================================================
+
+009 SoWin crashes on something that works with SoQt.
+
+    The following example works with SoQt, but crashes on start-up
+    with SoWin:
+
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+
+    #include <Inventor/@Gui@/So@Gui@.h>
+    #include <Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.h>
+    
+    #include <Inventor/nodes/SoCone.h>
+    #include <Inventor/nodes/SoSphere.h>
+    
+    int
+    main(int argc, char **argv)
+    {
+      @WIDGET@ mainWindow = So@Gui@::init(argv[0]);
+    
+      So@Gui@ExaminerViewer *viewer1 = new So@Gui@ExaminerViewer(mainWindow);
+      viewer1->setSceneGraph(new SoCone);
+      viewer1->viewAll();
+    
+      So@Gui@RenderArea *viewer2 = new So@Gui@RenderArea( NULL, "viewer", 
+                                                          true, true, true);
+      viewer2->setSceneGraph(new SoSphere);
+    
+      viewer1->show();
+      viewer2->show();
+       
+      So@Gui@::show(mainWindow);
+      So@Gui@::mainLoop();
+    
+      return 0;
+    }
+
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+
+    20030214 mortene.
+
+=====================================================================
