@@ -671,7 +671,7 @@ SoGuiP::sensorQueueChanged(void * cbdata)
                         // this actually works, and perhaps if there
                         // is some other mechanism we could
                         // use. 20040721 mortene.
-                        USER_TIMER_MINIMUM,
+                        0,
 
                         (TIMERPROC)SoWinP::idleSensorCB);
     }
