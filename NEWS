@@ -1,6 +1,9 @@
-New in SoWin 1.1.1a (so far):
-* bugfixes:
-  - handles mouse device wheel button
+New in SoWin 1.2.0 (2003-12-12):
+* Alpha channel support for viewers
+* Improved pixelformat selection when setting up OpenGL device contexts
+* Support the VRMLViewpoint node
+* Spaceball support
+* Handle mouse device wheel button
 
 New in SoWin 1.1.0 (2003-04-30):
 * SoWinColorEditor
