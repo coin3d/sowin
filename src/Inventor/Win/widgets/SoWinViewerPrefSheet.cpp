@@ -608,7 +608,7 @@ void SoWinViewerPrefSheet::setEnabled( HWND hwnd, BOOL enable )
 		style |= WS_DISABLED;
 
 	SetWindowLong( hwnd, GWL_STYLE, style );
-  //InvalidateRect( hwnd, NULL, FALSE );
+  InvalidateRect( hwnd, NULL, TRUE );
   //UpdateWindow( hwnd );
 }
 
@@ -778,10 +778,14 @@ LRESULT SoWinViewerPrefSheet::onCommand( HWND window, UINT message, WPARAM wpara
         this->setChecked( this->clippingWidgets[0], ! autoCl );
         this->nearPlaneWheel->setEnabled( autoCl );
         this->farPlaneWheel->setEnabled( autoCl );
-        for ( int i = 1; i < 5; i++ ) {
+        
+        this->setEditValue( this->clippingWidgets[2],
+                            clippingViewer->getCamera( )->nearDistance.getValue( ) );
+        this->setEditValue( this->clippingWidgets[4],
+                            clippingViewer->getCamera( )->farDistance.getValue( ) );
+                
+        for ( int i = 1; i < 5; i++ )
           this->setEnabled( this->clippingWidgets[i], autoCl );
-          InvalidateRect( this->clippingWidgets[i], NULL, FALSE );
-        }
         
       }
       break;
@@ -821,13 +825,10 @@ LRESULT SoWinViewerPrefSheet::onCommand( HWND window, UINT message, WPARAM wpara
         this->setChecked( this->spinWidgets[0], ! anim );
 
         setEnabled( this->spinWidgets[1], ! anim );
-        InvalidateRect( this->spinWidgets[1], NULL, FALSE );
 
         if ( visible ) {
           setEnabled( this->spinWidgets[2], ! anim );
-          InvalidateRect( this->spinWidgets[1], NULL, FALSE );
           setEnabled( this->spinWidgets[3], ! anim );
-          InvalidateRect( this->spinWidgets[1], NULL, FALSE );
           this->axesSizeWheel->setEnabled( ! anim );
         }
         
@@ -841,9 +842,7 @@ LRESULT SoWinViewerPrefSheet::onCommand( HWND window, UINT message, WPARAM wpara
         this->setChecked( this->spinWidgets[1], ! visible );
 
         setEnabled( this->spinWidgets[2], ! visible );
-        InvalidateRect( this->spinWidgets[1], NULL, FALSE );
         setEnabled( this->spinWidgets[3], ! visible );
-        InvalidateRect( this->spinWidgets[1], NULL, FALSE );
         this->axesSizeWheel->setEnabled( ! visible );
       }
       break;
