@@ -2823,7 +2823,7 @@ if test -f "$ltmain" && test -n "$tagnames"; then
 
   # Extract list of available tagged configurations in $ofile.
   # Note that this assumes the entire list is on one line.
-  available_tags=`grep "^available_tags=" "${ofile}" | $SED -e 's/available_tags=\(.*$\)/\1/' -e 's/\"//g'`
+  available_tags=`grep "^available_tags=" "${ofile}" | $SED -e 's/\"//g' -e 's/^available_tags= *//'`
 
   lt_save_ifs="$IFS"; IFS="${IFS}$PATH_SEPARATOR,"
   for tagname in $tagnames; do
@@ -7986,12 +7986,17 @@ AC_HELP_STRING([--with-coin=DIR], [give prefix location of Coin]),
     esac],
   [])
 
+case $build in
+*-mks ) sim_ac_pathsep=";" ;;
+* )     sim_ac_pathsep="${PATH_SEPARATOR}" ;;
+esac
+
 if $sim_ac_coin_desired; then
   sim_ac_path=$PATH
   test -z "$sim_ac_coin_extrapath" || ## search in --with-coin path
-    sim_ac_path=$sim_ac_coin_extrapath/bin:$sim_ac_path
+    sim_ac_path="$sim_ac_coin_extrapath/bin${sim_ac_pathsep}$sim_ac_path"
   test x"$prefix" = xNONE ||          ## search in --prefix path
-    sim_ac_path=$sim_ac_path:$prefix/bin
+    sim_ac_path="$sim_ac_path${sim_ac_pathsep}$prefix/bin"
 
   AC_PATH_PROG(sim_ac_coin_configcmd, coin-config, false, $sim_ac_path)
 
@@ -8036,7 +8041,7 @@ if $sim_ac_coin_desired; then
     ])
     sim_ac_coin_avail=$sim_cv_coin_avail
   else
-    locations=`IFS=:; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
+    locations=`IFS="${sim_ac_pathsep}"; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
     AC_MSG_WARN([cannot find 'coin-config' at any of these locations:
 $locations])
   fi
@@ -8566,6 +8571,8 @@ AC_DEFUN([SIM_AC_DATE_ISO8601], [
 
 AC_DEFUN([SIM_AC_DATE_RFC822], [
   eval "$1=\"`date '+%a, %d %b %Y %X %z'`\""
+  eval "$1_DAYSTRING=\"`date '+%a'`\""
+  eval "$1_NODAYSTRING=\"`date '+%d %b %Y %X %z'`\""
 ])
 
 # old alias

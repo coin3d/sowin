@@ -479,7 +479,7 @@ no_recursion=
 prefix=NONE
 program_prefix=NONE
 program_suffix=NONE
-program_transform_name=s,x,x,
+program_transform_name=s%x%x%
 silent=
 site=
 srcdir=
@@ -1131,8 +1131,8 @@ esac
 # absolute.
 ac_abs_builddir=`cd "$ac_dir" && cd $ac_builddir && pwd`
 ac_abs_top_builddir=`cd "$ac_dir" && cd ${ac_top_builddir}. && pwd`
-ac_abs_srcdir=`cd "$ac_dir" && cd $ac_srcdir && pwd`
-ac_abs_top_srcdir=`cd "$ac_dir" && cd $ac_top_srcdir && pwd`
+ac_abs_srcdir=`test -d "$ac_dir"/$ac_srcdir && cd "$ac_dir" && cd $ac_srcdir && pwd`
+ac_abs_top_srcdir=`test -d "$ac_dir"/$ac_top_srcdir && cd "$ac_dir" && cd $ac_top_srcdir && pwd`
 
     cd $ac_dir
     # Check for guested configure; otherwise get Cygnus style configure.
@@ -1625,7 +1625,7 @@ target_os=`echo $ac_cv_target | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
 # will get canonicalized.
 test -n "$target_alias" &&
   test "$program_prefix$program_suffix$program_transform_name" = \
-    NONENONEs,x,x, &&
+    NONENONEs%x%x% &&
   program_prefix=${target_alias}-
 
 
@@ -3431,9 +3431,9 @@ test "$program_prefix" != NONE &&
 test "$program_suffix" != NONE &&
   program_transform_name="s,\$,$program_suffix,;$program_transform_name"
 # Double any \ or $.  echo might interpret backslashes.
-# By default was `s,x,x', remove it if useless.
+# By default was `s%x%x%', remove it if useless.
 cat <<\_ACEOF >conftest.sed
-s/[\\$]/&&/g;s/;s,x,x,$//
+s/[\\$]/&&/g;s/;s%x%x%$//
 _ACEOF
 program_transform_name=`echo $program_transform_name | sed -f conftest.sed`
 rm conftest.sed
@@ -9446,7 +9446,7 @@ echo "$as_me: WARNING: using \`LTCC=$LTCC', extracted from \`$ofile'" >&2;}
 
   # Extract list of available tagged configurations in $ofile.
   # Note that this assumes the entire list is on one line.
-  available_tags=`grep "^available_tags=" "${ofile}" | $SED -e 's/available_tags=\(.*$\)/\1/' -e 's/\"//g'`
+  available_tags=`grep "^available_tags=" "${ofile}" | $SED -e 's/\"//g' -e 's/^available_tags= *//'`
 
   lt_save_ifs="$IFS"; IFS="${IFS}$PATH_SEPARATOR,"
   for tagname in $tagnames; do
@@ -20674,12 +20674,17 @@ if test "${with_coin+set}" = set; then
     esac
 fi;
 
+case $build in
+*-mks ) sim_ac_pathsep=";" ;;
+* )     sim_ac_pathsep="${PATH_SEPARATOR}" ;;
+esac
+
 if $sim_ac_coin_desired; then
   sim_ac_path=$PATH
   test -z "$sim_ac_coin_extrapath" || ## search in --with-coin path
-    sim_ac_path=$sim_ac_coin_extrapath/bin:$sim_ac_path
+    sim_ac_path="$sim_ac_coin_extrapath/bin${sim_ac_pathsep}$sim_ac_path"
   test x"$prefix" = xNONE ||          ## search in --prefix path
-    sim_ac_path=$sim_ac_path:$prefix/bin
+    sim_ac_path="$sim_ac_path${sim_ac_pathsep}$prefix/bin"
 
   # Extract the first word of "coin-config", so it can be a program name with args.
 set dummy coin-config; ac_word=$2
@@ -20809,7 +20814,7 @@ echo "$as_me:$LINENO: result: $sim_cv_coin_avail" >&5
 echo "${ECHO_T}$sim_cv_coin_avail" >&6
     sim_ac_coin_avail=$sim_cv_coin_avail
   else
-    locations=`IFS=:; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
+    locations=`IFS="${sim_ac_pathsep}"; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
     { echo "$as_me:$LINENO: WARNING: cannot find 'coin-config' at any of these locations:
 $locations" >&5
 echo "$as_me: WARNING: cannot find 'coin-config' at any of these locations:
@@ -22437,6 +22442,7 @@ _ACEOF
 cat >>$CONFIG_STATUS <<\_ACEOF
 for ac_file in : $CONFIG_FILES; do test "x$ac_file" = x: && continue
   # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
+  true # MKS oddity
   case $ac_file in
   - | *:- | *:-:* ) # input from stdin
         cat >$tmp/stdin
@@ -22514,8 +22520,8 @@ esac
 # absolute.
 ac_abs_builddir=`cd "$ac_dir" && cd $ac_builddir && pwd`
 ac_abs_top_builddir=`cd "$ac_dir" && cd ${ac_top_builddir}. && pwd`
-ac_abs_srcdir=`cd "$ac_dir" && cd $ac_srcdir && pwd`
-ac_abs_top_srcdir=`cd "$ac_dir" && cd $ac_top_srcdir && pwd`
+ac_abs_srcdir=`test -d "$ac_dir"/$ac_srcdir && cd "$ac_dir" && cd $ac_srcdir && pwd`
+ac_abs_top_srcdir=`test -d "$ac_dir"/$ac_top_srcdir && cd "$ac_dir" && cd $ac_top_srcdir && pwd`
 
 
   case $INSTALL in
@@ -22617,6 +22623,7 @@ ac_uD=',;t'
 
 for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
+  true # MKS oddity
   case $ac_file in
   - | *:- | *:-:* ) # input from stdin
         cat >$tmp/stdin
@@ -22888,8 +22895,8 @@ esac
 # absolute.
 ac_abs_builddir=`cd "$ac_dir" && cd $ac_builddir && pwd`
 ac_abs_top_builddir=`cd "$ac_dir" && cd ${ac_top_builddir}. && pwd`
-ac_abs_srcdir=`cd "$ac_dir" && cd $ac_srcdir && pwd`
-ac_abs_top_srcdir=`cd "$ac_dir" && cd $ac_top_srcdir && pwd`
+ac_abs_srcdir=`test -d "$ac_dir"/$ac_srcdir && cd "$ac_dir" && cd $ac_srcdir && pwd`
+ac_abs_top_srcdir=`test -d "$ac_dir"/$ac_top_srcdir && cd "$ac_dir" && cd $ac_top_srcdir && pwd`
 
 
   { echo "$as_me:$LINENO: executing $ac_dest commands" >&5
