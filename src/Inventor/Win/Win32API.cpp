@@ -30,17 +30,20 @@ Win32::showLastErr(void)
 
   BOOL result =
     FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-		  FORMAT_MESSAGE_FROM_SYSTEM |
-		  FORMAT_MESSAGE_IGNORE_INSERTS,
-		  NULL,
-		  lasterr,
-		  0,
-		  (LPTSTR)&buffer,
-		  0,
-		  NULL);
+                  FORMAT_MESSAGE_FROM_SYSTEM |
+                  FORMAT_MESSAGE_IGNORE_INSERTS,
+                  NULL,
+                  lasterr,
+                  0,
+                  (LPTSTR)&buffer,
+                  0,
+                  NULL);
 
   if (result) {
-    (void)printf("\n*** GetLastError()==%d (\"%s\")\n", lasterr, buffer);
+    // Don't use fprintf(), as compiling in stdout or stderr file
+    // descriptor pointer values is problematic when SoWin is built as
+    // a DLL.
+    (void)printf("\n*** GetLastError()==%d => %s\n", lasterr, buffer);
     (void)LocalFree(buffer);
   }
 }
@@ -61,8 +64,8 @@ Win32::MoveWindow(HWND hWnd,      // handle to window
 
 void
 Win32::EnableWindow(HWND hWnd,     // handle to window
-		    BOOL bEnable   // flag for enabling or disabling input
-		    )
+                    BOOL bEnable   // flag for enabling or disabling input
+                    )
 {
   BOOL enabled = ::IsWindowEnabled(hWnd);
   if (enabled && bEnable) { return; }
@@ -76,10 +79,10 @@ Win32::EnableWindow(HWND hWnd,     // handle to window
 
 void
 Win32::GetTextExtentPoint(HDC hdc,           // handle to device context
-			  LPCTSTR lpString,  // pointer to text string
-			  int cbString,      // number of characters in string
-			  LPSIZE lpSize      // pointer to structure for string size
-			  )
+                          LPCTSTR lpString,  // pointer to text string
+                          int cbString,      // number of characters in string
+                          LPSIZE lpSize      // pointer to structure for string size
+                          )
 {
   BOOL r = ::GetTextExtentPoint( hdc, lpString, cbString, lpSize );
   if (!r) { Win32::showLastErr(); }
@@ -88,26 +91,26 @@ Win32::GetTextExtentPoint(HDC hdc,           // handle to device context
   
 void
 Win32::BitBlt(HDC hdcDest, // handle to destination device context
-	      int nXDest,  // x-coordinate of destination rectangle's upper-left corner
-	      int nYDest,  // y-coordinate of destination rectangle's upper-left corner
-	      int nWidth,  // width of destination rectangle
-	      int nHeight, // height of destination rectangle
-	      HDC hdcSrc,  // handle to source device context
-	      int nXSrc,   // x-coordinate of source rectangle's upper-left corner
-	      int nYSrc,   // y-coordinate of source rectangle's upper-left corner
-	      DWORD dwRop  // raster operation code
-	      )
+              int nXDest,  // x-coordinate of destination rectangle's upper-left corner
+              int nYDest,  // y-coordinate of destination rectangle's upper-left corner
+              int nWidth,  // width of destination rectangle
+              int nHeight, // height of destination rectangle
+              HDC hdcSrc,  // handle to source device context
+              int nXSrc,   // x-coordinate of source rectangle's upper-left corner
+              int nYSrc,   // y-coordinate of source rectangle's upper-left corner
+              DWORD dwRop  // raster operation code
+              )
 {
   BOOL r = ::BitBlt( hdcDest, nXDest, nYDest, nWidth, nHeight,
-		     hdcSrc, nXSrc, nYSrc, dwRop );
+                     hdcSrc, nXSrc, nYSrc, dwRop );
   if (!r) { Win32::showLastErr(); }
   assert( r && "BitBlt() failed -- investigate");
 }
 
 HGDIOBJ
 Win32::SelectObject(HDC hdc,          // handle to device context
-		    HGDIOBJ hgdiobj   // handle to object
-		    )
+                    HGDIOBJ hgdiobj   // handle to object
+                    )
 {
   HGDIOBJ o = ::SelectObject( hdc, hgdiobj );
   BOOL fail = ((o == NULL) || (o == (HGDIOBJ)GDI_ERROR));
@@ -118,7 +121,7 @@ Win32::SelectObject(HDC hdc,          // handle to device context
 
 void
 Win32::SwapBuffers(HDC hdc  // device context whose buffers get swapped
-		   )
+                   )
 {
   BOOL r = ::SwapBuffers(hdc);
   if (!r) { Win32::showLastErr(); }
@@ -127,8 +130,8 @@ Win32::SwapBuffers(HDC hdc  // device context whose buffers get swapped
 
 void
 Win32::UnregisterClass(LPCTSTR lpClassName,  // address of class name string
-		       HINSTANCE hInstance   // handle of application instance
-		       )
+                       HINSTANCE hInstance   // handle of application instance
+                       )
 {
   BOOL r = ::UnregisterClass(lpClassName, hInstance);
   if (!r) { Win32::showLastErr(); }
@@ -144,8 +147,8 @@ Win32::DestroyWindow(HWND hWnd)      // handle to window or control
 }
 
 void
-Win32::SetWindowText(HWND hWnd,      // handle to window or control
-           LPCTSTR lpString)         // address of string
+Win32::SetWindowText(HWND hWnd,       // handle to window or control
+                     LPCTSTR lpString)// address of string
 {
   BOOL r = ::SetWindowText( hWnd, lpString );
   if (!r) { Win32::showLastErr(); }
@@ -164,7 +167,7 @@ Win32::InvalidateRect(HWND hWnd,     // handle of window with changed update reg
 
 void
 Win32::GetWindowRect(HWND hWnd,      // handle to window
-           LPRECT lpRect)            // address of structure for window coordinates
+                     LPRECT lpRect)  // address of structure for window coordinates
 {
   BOOL r = ::GetWindowRect(hWnd, lpRect);
   if (!r) { Win32::showLastErr(); }  
@@ -173,7 +176,7 @@ Win32::GetWindowRect(HWND hWnd,      // handle to window
 
 void
 Win32::GetClientRect(HWND hWnd,      // handle to window
-           LPRECT lpRect)            // address of structure for window coordinates
+                     LPRECT lpRect)  // address of structure for window coordinates
 {
   BOOL r = ::GetClientRect(hWnd, lpRect);
   if (!r) { Win32::showLastErr(); }  
@@ -182,13 +185,14 @@ Win32::GetClientRect(HWND hWnd,      // handle to window
 
 LONG
 Win32::SetWindowLong(HWND hWnd,       // handle of window
-           int nIndex,                // offset of value to set
-           LONG dwNewLong)            // new value
+                     int nIndex,      // offset of value to set
+                     LONG dwNewLong)  // new value
 {
   SetLastError(0);
   LONG l = ::SetWindowLong(hWnd, nIndex, dwNewLong);
-  //if (!l) { Win32::showLastErr(); }  
-  assert( ! ( l==0 && ::GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+  BOOL failed = l==0 && ::GetLastError()!=0;
+  if ( failed ) { Win32::showLastErr(); }  
+  assert( !failed && "SetWindowLong() failed -- investigate" );
   return l;
 }
 
@@ -196,9 +200,11 @@ LONG
 Win32::GetWindowLong(HWND hWnd,       // handle of window
            int nIndex)                // offset of value to set
 {
+  SetLastError(0);
   LONG l = ::GetWindowLong(hWnd, nIndex);
-  if (!l) { Win32::showLastErr(); }  
-  assert( l && "GetWindowLong() failed -- investigate" );
+  BOOL failed = l==0 && ::GetLastError()!=0;
+  if ( failed ) { Win32::showLastErr(); }  
+  assert( !failed && "GetWindowLong() failed -- investigate" );
   return l;
 }
 
