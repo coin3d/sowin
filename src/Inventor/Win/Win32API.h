@@ -40,6 +40,10 @@ public:
   static void UnregisterClass(LPCTSTR, HINSTANCE);
   static void DestroyWindow(HWND);
   static void SetWindowText(HWND, LPCTSTR);
+  static void InvalidateRect(HWND, CONST RECT *, BOOL);
+  static void GetWindowRect(HWND, LPRECT);
+  static LONG SetWindowLong(HWND, int, LONG);
+  static LONG GetWindowLong(HWND, int);
    
 private:
   static void showLastErr(void);

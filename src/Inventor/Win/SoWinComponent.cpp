@@ -185,8 +185,7 @@ SoWinComponent::~SoWinComponent( void )
   delete PRIVATE( this )->visibilitychangeCBs;
   
   if ( IsWindow( PRIVATE( this )->widget ) ) {
-    BOOL r = DestroyWindow( PRIVATE( this )->widget );
-    assert( r && "DestroyWindow() failed -- investigate" );
+    Win32::DestroyWindow( PRIVATE( this )->widget );
   }
   
   delete this->pimpl;
@@ -196,8 +195,7 @@ void
 SoWinComponent::show( void )
 {
   (void)ShowWindow( PRIVATE( this )->widget, SW_SHOW );
-  BOOL r = InvalidateRect( PRIVATE( this )->widget, NULL, FALSE );
-  assert( r && "InvalidateRect() failed -- investigate" );
+  Win32::InvalidateRect( PRIVATE( this )->widget, NULL, FALSE );
 }
 
 void
@@ -225,8 +223,7 @@ SoWinComponent::goFullScreen( const SbBool enable )
     RECT rect;
 
     // Save size and position
-    BOOL r = GetWindowRect( hwnd, & rect );
-    assert( r && "GetWindowRect() failed -- investigate" );
+    Win32::GetWindowRect( hwnd, & rect );
     data->pos.setValue( rect.left, rect.top );
     data->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
 
@@ -274,12 +271,10 @@ SoWinComponent::goFullScreen( const SbBool enable )
     // Go normal
 
     SetLastError(0);
-    LONG l = SetWindowLong( hwnd, GWL_STYLE, data->style );
-    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+    LONG l = Win32::SetWindowLong( hwnd, GWL_STYLE, data->style );
 
     SetLastError(0);
-    l = SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
-    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+    l = Win32::SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
 
     Win32::MoveWindow( hwnd,
                        data->pos[0],
@@ -355,7 +350,7 @@ SoWinComponent::getShellWidget( void ) const
   
   do {
     hwnd = parent;
-    style = GetWindowLong( hwnd, GWL_STYLE );
+    style = Win32::GetWindowLong( hwnd, GWL_STYLE );
     if ( style & WS_OVERLAPPEDWINDOW ) break;
     parent = GetParent( hwnd );
   } while( IsWindow( parent ) );

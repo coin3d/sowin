@@ -147,7 +147,48 @@ void
 Win32::SetWindowText(HWND hWnd,      // handle to window or control
            LPCTSTR lpString)         // address of string
 {
-  BOOL r = ::SetWindowText( hWnd , lpString );
+  BOOL r = ::SetWindowText( hWnd, lpString );
   if (!r) { Win32::showLastErr(); }
   assert( r && "SetWindowText() failed -- investigate" );
+}
+
+void
+Win32::InvalidateRect(HWND hWnd,     // handle of window with changed update region
+           CONST RECT *lpRect,       // address of rectangle coordinates
+           BOOL bErase)              // erase-background flag
+{
+  BOOL r = ::InvalidateRect(hWnd, lpRect, bErase);
+  if (!r) { Win32::showLastErr(); }
+  assert( r && "InvalidateRect() failed -- investigate" );
+}
+
+void
+Win32::GetWindowRect(HWND hWnd,      // handle to window
+           LPRECT lpRect)            // address of structure for window coordinates
+{
+  BOOL r = ::GetWindowRect(hWnd, lpRect);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "GetWindowRect() failed -- investigate" );
+}
+
+LONG
+Win32::SetWindowLong(HWND hWnd,       // handle of window
+           int nIndex,                // offset of value to set
+           LONG dwNewLong)            // new value
+{
+  SetLastError(0);
+  LONG r = ::SetWindowLong(hWnd, nIndex, dwNewLong);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "SetWindowLong() failed -- investigate" );
+  return r;
+}
+
+LONG
+Win32::GetWindowLong(HWND hWnd,       // handle of window
+           int nIndex)                // offset of value to set
+{
+  LONG r = ::GetWindowLong(hWnd, nIndex);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "GetWindowLong() failed -- investigate" );
+  return r;
 }
