@@ -23,7 +23,7 @@ cppflags="@SOWIN_EXTRA_CPPFLAGS@"
 ldflags="@SOWIN_EXTRA_LDFLAGS@"
 libs="@SOWIN_EXTRA_LIBS@"
 
-datadir="@sowin_data_dir@"
+datadir="@datadir@"
 
 while test $# -gt 0
 do
