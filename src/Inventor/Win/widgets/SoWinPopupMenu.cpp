@@ -39,8 +39,8 @@ static const char rcsid[] =
 
 struct MenuRecord {
   int menuid;
-  const char * name;
-  const char * title;
+  char * name;
+  char * title;
   HMENU menu;
   HMENU parent;
 }; // struct MenuRecord
@@ -48,8 +48,8 @@ struct MenuRecord {
 struct ItemRecord {
   int itemid;
   int flags;
-  const char * name;
-  const char * title;
+  char * name;
+  char * title;
   HMENU parent;
 }; // struct ItemRecord
 
