@@ -38,8 +38,8 @@ public:
   SoWinBitmapButtonP(SoWinBitmapButton * master)
   {
     this->owner = master;
-    this->viewerCB = NULL;
-    this->viewer = NULL;
+    this->clickproc = NULL;
+    this->clickprocdata = NULL;
     this->buttonWindow = NULL;
     this->depth = 0;
   }
@@ -59,8 +59,12 @@ public:
   SbPList bitmapList;
   int depth;
 
-  bitmapButtonCB * viewerCB;
-  SoWinFullViewer * viewer; // owner object pointer
+  SoWinBitmapButton::ClickedProc * clickproc;
+  void * clickprocdata;
+
+  WNDPROC prevwndfunc;
+  static LRESULT CALLBACK button_proc(HWND hwnd, UINT msg,
+                                      WPARAM wparam, LPARAM lparam);
 
 private:
   SoWinBitmapButton * owner;
@@ -115,32 +119,9 @@ SoWinBitmapButton::SoWinBitmapButton(HWND parent,
 
 }
 
-SoWinBitmapButton::SoWinBitmapButton(HWND button)
-{
-  PRIVATE(this) = new SoWinBitmapButtonP(this);
-
-  assert(IsWindow(button));
-
-  char name[8];
-  GetClassName(button, name, 8);
-  assert(strcmp(name, "BUTTON") == 0);
-
-  PRIVATE(this)->buttonWindow = button;
-  HBITMAP bm = (HBITMAP)SendMessage(PRIVATE(this)->buttonWindow, BM_GETIMAGE,
-                                    (WPARAM) IMAGE_BITMAP, 0);
-  this->addBitmap(bm);
-}
-
 SoWinBitmapButton::~SoWinBitmapButton(void)
 {
   delete PRIVATE(this);
-}
-
-SIZE
-SoWinBitmapButton::sizeHint(void) const
-{
-  SIZE size = { 30, 30 };
-  return size;
 }
 
 HWND
@@ -150,7 +131,7 @@ SoWinBitmapButton::getWidget(void)
 }
 
 int
-SoWinBitmapButton::width(void)
+SoWinBitmapButton::width(void) const
 {
   RECT rect;
   Win32::GetWindowRect(PRIVATE(this)->buttonWindow, & rect);
@@ -158,7 +139,7 @@ SoWinBitmapButton::width(void)
 }
 
 int
-SoWinBitmapButton::height(void)
+SoWinBitmapButton::height(void) const
 {
   RECT rect;
   Win32::GetWindowRect(PRIVATE(this)->buttonWindow, & rect);
@@ -181,7 +162,7 @@ SoWinBitmapButton::move(int x, int y, int width, int height)
 }
 
 void
-SoWinBitmapButton::size(int width, int height)
+SoWinBitmapButton::resize(int width, int height)
 {
   assert(IsWindow(PRIVATE(this)->buttonWindow));
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
@@ -201,15 +182,32 @@ SoWinBitmapButton::hide(void)
 }
 
 void
-SoWinBitmapButton::registerCallback(bitmapButtonCB * func)
+SoWinBitmapButton::registerClickedProc(ClickedProc * func, void * userdata)
 {
-  PRIVATE(this)->viewerCB = func;
+  PRIVATE(this)->clickproc = func;
+  PRIVATE(this)->clickprocdata = userdata;
 }
 
-void
-SoWinBitmapButton::registerViewer(SoWinFullViewer * viewer)
+LRESULT CALLBACK
+SoWinBitmapButtonP::button_proc(HWND hwnd, UINT msg,
+                                WPARAM wparam, LPARAM lparam)
 {
-  PRIVATE(this)->viewer = viewer;
+  LONG l = Win32::GetWindowLong(hwnd, GWL_USERDATA);
+  SoWinBitmapButtonP * that = (SoWinBitmapButtonP *)l;
+
+  // FIXME: this is a really ugly hack, as WM_LBUTTONUP is way
+  // insufficient for making sure an actual press was done. What
+  // should be done is to catch the WM_COMMAND message of the parent
+  // window. To do that we need to add an extra indirection of a
+  // parent window frame. 20030424 mortene.
+
+  switch (msg) {
+  case WM_LBUTTONUP:
+    if (that->clickproc) { that->clickproc(that->owner, that->clickprocdata); }
+    break;
+  }
+
+  return CallWindowProc(that->prevwndfunc, hwnd, msg, wparam, lparam);
 }
 
 HWND
@@ -218,41 +216,23 @@ SoWinBitmapButtonP::buildWidget(HWND parent, RECT rect)
   assert(IsWindow(parent));
 
   this->buttonWindow =
-    Win32::CreateWindow_("BUTTON",
-                         NULL,
+    Win32::CreateWindow_("BUTTON", // lpClassName
+                         NULL, // lpWindowName
                          WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS |
-                         BS_PUSHBUTTON | BS_BITMAP | BS_CENTER,
-                         rect.left, rect.top,
-                         rect.right, rect.bottom,
-                         parent,
-                         NULL,
-                         NULL,
-                         NULL);
+                         BS_PUSHBUTTON | BS_BITMAP | BS_CENTER, // dwStyle
+                         rect.left, rect.top, // position
+                         rect.right, rect.bottom, // window width & height
+                         parent, // hWndParent (owner window)
+                         NULL, // hMenu
+                         NULL, // hInstance (application instance)
+                         NULL); // lpParam (window-creation data)
+
+  this->prevwndfunc = (WNDPROC)
+    Win32::SetWindowLong(this->buttonWindow, GWL_WNDPROC,
+                         (LONG)SoWinBitmapButtonP::button_proc);
+  (void)Win32::SetWindowLong(this->buttonWindow, GWL_USERDATA, (LONG)this);
+
   return this->buttonWindow;
-}
-
-void
-SoWinBitmapButton::setId(long id)
-{
-  (void)Win32::SetWindowLong(PRIVATE(this)->buttonWindow, GWL_ID, id);
-}
-
-long
-SoWinBitmapButton::getId(void)
-{
-  return Win32::GetWindowLong(PRIVATE(this)->buttonWindow, GWL_ID);
-}
-
-void
-SoWinBitmapButton::setState(SbBool pushed)
-{
- (void)SendMessage(PRIVATE(this)->buttonWindow, BM_SETSTATE, (WPARAM) pushed, 0);
-}
-
-SbBool
-SoWinBitmapButton::getState(void) const
-{
- return (SendMessage(PRIVATE(this)->buttonWindow, BM_GETSTATE, 0, 0) & BST_PUSHED);
 }
 
 void
@@ -265,6 +245,20 @@ SbBool
 SoWinBitmapButton::isEnabled(void) const
 {
   return (! (Win32::GetWindowLong(PRIVATE(this)->buttonWindow, GWL_STYLE) & WS_DISABLED));
+}
+
+void
+SoWinBitmapButton::setPressedState(SbBool enable)
+{
+  (void)SendMessage(PRIVATE(this)->buttonWindow, BM_SETSTATE,
+                    (WPARAM)enable, 0);
+}
+
+SbBool
+SoWinBitmapButton::getPressedState(void) const
+{
+  return (SendMessage(PRIVATE(this)->buttonWindow, BM_GETSTATE, 0, 0) &
+          BST_PUSHED);
 }
 
 void
@@ -290,7 +284,7 @@ SoWinBitmapButton::addBitmap(const char ** xpm)
 }
 
 HBITMAP
-SoWinBitmapButton::getBitmap(int index)
+SoWinBitmapButton::getBitmap(int index) const
 {
   return (HBITMAP) PRIVATE(this)->bitmapList[index];
 }

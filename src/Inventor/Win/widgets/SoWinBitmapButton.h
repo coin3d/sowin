@@ -34,8 +34,6 @@
 
 class SoWinFullViewer;
 
-typedef void bitmapButtonCB(SoWinFullViewer * viewer, void ** data);
-
 // *************************************************************************
 
 class SOWIN_DLL_API SoWinBitmapButton {
@@ -53,38 +51,33 @@ public:
                     int depth = 0,
                     const char * name = NULL,
                     void * bits = NULL);
-  SoWinBitmapButton(HWND button);
   ~SoWinBitmapButton();
-
-  void setId(long id);
-  long getId(void);
-
-  void setState(SbBool pushed);
-  SbBool getState(void) const;
 
   void setEnabled(SbBool enable);
   SbBool isEnabled(void) const;
 
+  void setPressedState(SbBool enable);
+  SbBool getPressedState(void) const;
+
   void addBitmap(HBITMAP hbmp);
   void addBitmap(int width, int height, int bpp, void * src);
   void addBitmap(const char ** xpm);
-  HBITMAP getBitmap(int index);
+  HBITMAP getBitmap(int index) const;
   void setBitmap(int index);
 
   HWND getWidget(void);
-  SIZE sizeHint(void) const;
 
-  int width(void);
-  int height(void);
+  int width(void) const;
+  int height(void) const;
   void move(int x, int y);
   void move(int x, int y, int width, int height);
-  void size(int width, int height);
+  void resize(int width, int height);
 
   void show(void);
   void hide(void);
 
-  void registerCallback(bitmapButtonCB * func);
-  void registerViewer(SoWinFullViewer * viewer);
+  typedef void ClickedProc(SoWinBitmapButton * button, void * userdata);
+  void registerClickedProc(ClickedProc * func, void * userdata);
 
 private:
   class SoWinBitmapButtonP * pimpl;
