@@ -66,6 +66,7 @@ endif
 EXTRA_DIST = \
 	LICENSE.GPL \
 	cfg/sowin.m4 \
+	cfg/gendsp.sh.in \
 	docs/ChangeLog.v1.0.0 \
 	docs/ChangeLog.v1.2.0 \
 	docs/announcement-1_1_0.txt \

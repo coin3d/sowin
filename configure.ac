@@ -66,6 +66,8 @@ sowin_src_dir=`cd "$srcdir"; pwd`
 sowin_w32_build_dir=`cygpath -w "$sowin_build_dir" 2>/dev/null || echo "$sowin_build_dir"`
 sowin_w32_src_dir=`cygpath -w "$sowin_src_dir" 2>/dev/null || echo "$sowin_src_dir"`
 
+SIM_AC_RELATIVE_SRC_DIR
+
 AC_SUBST([sowin_build_dir])
 AC_SUBST([sowin_src_dir])
 AC_SUBST([sowin_w32_build_dir])
@@ -524,7 +526,12 @@ AC_OUTPUT([
 	man/man3/Makefile
 	html/Makefile
 	htmlhelp/Makefile
+	cfg/gendsp.sh
 ])
+
+if test -f cfg/gendsp.sh; then
+  chmod +x cfg/gendsp.sh
+fi
 
 SIM_AC_CONFIGURATION_SETTING([Installation Prefix], [$prefix])
 
