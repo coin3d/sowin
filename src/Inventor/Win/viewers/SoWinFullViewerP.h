@@ -51,6 +51,8 @@ public:
   class SoWinBitmapButton * viewerButton(int idx);
   HWND appButton(int idx);
 
+  static void setThumbWheelValue(void * wheel, float val);
+
   static void rightWheelCB(SoWinFullViewer * viewer, void ** data);
   static void bottomWheelCB(SoWinFullViewer * viewer, void ** data);
   static void leftWheelCB(SoWinFullViewer * viewer, void ** data);

@@ -1081,4 +1081,10 @@ SoWinFullViewerP::appButton(int idx)
   return (HWND) ((*(PUBLIC(this)->appButtonList))[idx]);
 }
 
+void
+SoWinFullViewerP::setThumbWheelValue(void * wheel, float val)
+{
+  ((SoWinThumbWheel *)wheel)->setValue(val);
+}
+
 // *************************************************************************
