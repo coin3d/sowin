@@ -172,37 +172,6 @@ SoWinFullViewer::isDecoration(void) const
 }
 
 void
-SoWinFullViewerP::showDecorationWidgets(SbBool enable)
-{
-  int i;
-  int numViewerButtons = PUBLIC(this)->viewerButtonList->getLength();
-  int numAppButtons = PUBLIC(this)->appButtonList->getLength();
-
-  // Viewer buttons
-  for(i = 0; i < numViewerButtons; i++) {
-    (void)ShowWindow(this->viewerButton(i)->getWidget(),
-                     (enable ? SW_SHOW : SW_HIDE));
-  }
-
-  // App buttons
-  for(i = 0; i < numAppButtons; i++) {
-    (void)ShowWindow(this->appButton(i), (enable ? SW_SHOW : SW_HIDE));
-  }
-
-  // Thumbwheels
-  if (enable) {
-    PUBLIC(this)->leftWheel->show();
-    PUBLIC(this)->bottomWheel->show();
-    PUBLIC(this)->rightWheel->show();
-  }
-  else {
-    PUBLIC(this)->leftWheel->hide();
-    PUBLIC(this)->bottomWheel->hide();
-    PUBLIC(this)->rightWheel->hide();
-  }
-}
-
-void
 SoWinFullViewer::setPopupMenuEnabled(SbBool enable)
 {
 #if SOWIN_DEBUG
@@ -871,6 +840,37 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
   }
 
   return 0;
+}
+
+void
+SoWinFullViewerP::showDecorationWidgets(SbBool enable)
+{
+  int i;
+  int numViewerButtons = PUBLIC(this)->viewerButtonList->getLength();
+  int numAppButtons = PUBLIC(this)->appButtonList->getLength();
+
+  // Viewer buttons
+  for(i = 0; i < numViewerButtons; i++) {
+    (void)ShowWindow(this->viewerButton(i)->getWidget(),
+                     (enable ? SW_SHOW : SW_HIDE));
+  }
+
+  // App buttons
+  for(i = 0; i < numAppButtons; i++) {
+    (void)ShowWindow(this->appButton(i), (enable ? SW_SHOW : SW_HIDE));
+  }
+
+  // Thumbwheels
+  if (enable) {
+    PUBLIC(this)->leftWheel->show();
+    PUBLIC(this)->bottomWheel->show();
+    PUBLIC(this)->rightWheel->show();
+  }
+  else {
+    PUBLIC(this)->leftWheel->hide();
+    PUBLIC(this)->bottomWheel->hide();
+    PUBLIC(this)->rightWheel->hide();
+  }
 }
 
 LRESULT CALLBACK

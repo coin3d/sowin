@@ -48,6 +48,8 @@
 
 // SoQtPlaneViewerP "private implementation" class.
 
+#ifndef DOXYGEN_SKIP_THIS
+
 #define PUBLIC(ptr) (ptr->pub)
 #define PRIVATE(ptr) (ptr->pimpl)
 
@@ -103,6 +105,8 @@ SoWinPlaneViewerP::cameratoggleClicked(void)
 {
   PUBLIC(this)->toggleCameraType();
 }
+
+#endif // DOXYGEN_SKIP_THIS
 
 // ************************************************************************
 

@@ -44,6 +44,8 @@
 
 // The private data for the SoWinExaminerViewer.
 
+#ifndef DOXYGEN_SKIP_THIS
+
 SoWinExaminerViewerP::SoWinExaminerViewerP(SoWinExaminerViewer * o)
   : SoGuiExaminerViewerP(o)
 {
@@ -52,6 +54,42 @@ SoWinExaminerViewerP::SoWinExaminerViewerP(SoWinExaminerViewer * o)
 SoWinExaminerViewerP::~SoWinExaminerViewerP()
 {
 }
+
+// This contains the real constructor code (the two constructors are
+// only entry points for this method).
+void
+SoWinExaminerViewerP::constructor(SbBool build)
+{
+  this->genericConstructor();
+
+  PUBLIC(this)->setClassName("SoWinExaminerViewer");
+  PUBLIC(this)->setPopupMenuString("Examiner Viewer");
+
+  if (! build) return;
+
+  HWND widget = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
+  PUBLIC(this)->setBaseWidget(widget);
+
+  PUBLIC(this)->setLeftWheelString("RotX");
+  PUBLIC(this)->setBottomWheelString("RotY");
+
+  PUBLIC(this)->setCursorEnabled(TRUE);
+  PUBLIC(this)->setAnimationEnabled(TRUE);
+
+  PUBLIC(this)->setSize(SbVec2s(500, 421));
+  // FIXME: If the new size is the same as the old size, Windows will
+  // never size the widget, and layoutWidgets() will never be
+  // called. mariusbu 20010823.
+
+}
+
+void
+SoWinExaminerViewerP::cameratoggleClicked(void)
+{
+  if (PUBLIC(this)->getCamera()) PUBLIC(this)->toggleCameraType();
+}
+
+#endif // DOXYGEN_SKIP_THIS
 
 // *************************************************************************
 
@@ -96,41 +134,6 @@ SoWinExaminerViewer::SoWinExaminerViewer(HWND parent,
 {
   PRIVATE(this) = new SoWinExaminerViewerP(this);
   PRIVATE(this)->constructor(build);
-}
-
-// *************************************************************************
-
-/*!
-  \internal
-
-  This contains the real constructor code (the two constructors are only
-  entry points for this method).
-*/
-
-void
-SoWinExaminerViewerP::constructor(SbBool build)
-{
-  this->genericConstructor();
-
-  PUBLIC(this)->setClassName("SoWinExaminerViewer");
-  PUBLIC(this)->setPopupMenuString("Examiner Viewer");
-
-  if (! build) return;
-
-  HWND widget = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
-  PUBLIC(this)->setBaseWidget(widget);
-
-  PUBLIC(this)->setLeftWheelString("RotX");
-  PUBLIC(this)->setBottomWheelString("RotY");
-
-  PUBLIC(this)->setCursorEnabled(TRUE);
-  PUBLIC(this)->setAnimationEnabled(TRUE);
-
-  PUBLIC(this)->setSize(SbVec2s(500, 421));
-  // FIXME: If the new size is the same as the old size, Windows will
-  // never size the widget, and layoutWidgets() will never be
-  // called. mariusbu 20010823.
-
 }
 
 // *************************************************************************
@@ -218,16 +221,6 @@ SoWinExaminerViewer::onCommand(HWND window,
     return inherited::onCommand(window, message, wparam, lparam);
 
   return 0;
-}
-
-// *************************************************************************
-
-/*!
-*/
-void
-SoWinExaminerViewerP::cameratoggleClicked(void)
-{
-  if (PUBLIC(this)->getCamera()) PUBLIC(this)->toggleCameraType();
 }
 
 // *************************************************************************
