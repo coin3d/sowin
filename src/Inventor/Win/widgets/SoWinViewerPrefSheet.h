@@ -39,9 +39,35 @@ public:
   void createSeekWidgets( SoWinFullViewer * viewer );
   void createZoomWidgets( SoWinFullViewer * viewer );
   void createClippingWidgets( SoWinFullViewer * viewer );
-  void createSpinnWidgets( SoWinExaminerViewer * viewer );
+  void createSpinWidgets( SoWinExaminerViewer * viewer );
   
 protected:
+  
+  enum widgetId {
+    
+    SEEK_TIME_EDIT,
+    SEEK_TO_PT_RADIO,
+    SEEK_TO_OBJ_RADIO,
+    SEEK_DIST_WHEEL,
+    SEEK_DIST_EDIT,
+    SEEK_DIST_PCT_RADIO,
+    SEEK_DIST_ABS_RADIO,
+    ZOOM_SLIDER,
+    ZOOM_EDIT,
+    ZOOM_RANGE_FROM_EDIT,
+    ZOOM_RANGE_TO_EDIT,
+    CLIPPING_AUTO_CHECK,
+    CLIPPING_NEAR_WHEEL,
+    CLIPPING_NEAR_EDIT,
+    CLIPPING_FAR_WHEEL,
+    CLIPPING_FAR_EDIT,
+    SPIN_ENABLE_CHECK,
+    SPIN_AXES_CHECK,
+    SPIN_AXES_WHEEL,
+    SPIN_AXES_EDIT
+    
+  };
+
   void constructor( void );
 
   void createMainWidget( HWND parent );
@@ -49,14 +75,32 @@ protected:
   void initSeekWidgets( SoWinFullViewer * viewer );
   void initZoomWidgets( SoWinFullViewer * viewer );
   void initClippingWidgets( SoWinFullViewer * viewer );
-  void initSpinnWidgets( SoWinExaminerViewer * viewer );
+  void initSpinWidgets( SoWinExaminerViewer * viewer );
 
   void destroyMainWidget( void );
   void destroySeekWidgets( void );
   void destroyZoomWidgets( void );  
   void destroyClippingWidgets( void );
-  void destroySpinnWidgets( void );
+  void destroySpinWidgets( void );
 
+  HWND createLabelWidget( HWND parent, const char * text = NULL, int x = 0, int y = 0 );
+  HWND createEditWidget( HWND parent, long id, int width = 64, int x = 0, int y = 0 );
+  HWND createRadioWidget( HWND parent, long id, const char * text = NULL, int x = 0, int y = 0 );
+  HWND createSliderWidget( HWND parent, long id, int width = 64, int x = 0, int y = 0 );
+  HWND createCheckWidget( HWND parent, long id, const char * text = NULL, int x = 0, int y = 0 );
+  
+  void setSliderValue( HWND slider, int value );
+  int getSliderValue( HWND slider );
+  void setSliderRange( HWND slider, int min, int max );
+  SIZE getSliderRange( HWND slider );
+  void setChecked( HWND hwnd, BOOL check );
+  void setEnabled( HWND hwnd, BOOL enable );
+  
+  SIZE getTextSize( HWND window, const char * text );
+  int getFontHeight( HWND window );
+
+  void setEditValue( HWND edit, float value );
+  float getEditValue( HWND edit );
   
   // Event handlers
 
@@ -68,26 +112,11 @@ protected:
   LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  LRESULT onScroll( HWND window, UINT message, WPARAM wparam, LPARAM lparam );  
   LRESULT onThumbWheel( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   
 private:
-  HWND createLabelWidget( HWND parent, const char * text = NULL, int x = 0, int y = 0 );
-  HWND createEditWidget( HWND parent, long id, int width = 64, int x = 0, int y = 0 );
-  HWND createRadioWidget( HWND parent, long id, const char * text = NULL, int x = 0, int y = 0 );
-  HWND createSliderWidget( HWND parent, long id, int width = 64, int x = 0, int y = 0 );
-  HWND createCheckWidget( HWND parent, long id, const char * text = NULL, int x = 0, int y = 0 );
-
-  SIZE getTextSize( HWND window, const char * text );
-  int getFontHeight( HWND window );
-
-  void setSliderValue( HWND slider, int value );
-  int getSliderValue( HWND slider );
-  void setSliderRange( HWND slider, int min, int max );
-  SIZE getSliderRange( HWND slider );
-
-  void setChecked( HWND hwnd, BOOL check );
-  void setEnabled( HWND hwnd, BOOL enable );
-  
+ 
   int lineHeight;
   int x, y;
   const char * className;
@@ -104,13 +133,13 @@ private:
   SoWinThumbWheel * nearPlaneWheel;
   SoWinThumbWheel * farPlaneWheel;
 
-  HWND spinnWidgets[4];
+  HWND spinWidgets[4];
   SoWinThumbWheel * axesSizeWheel;
 
   SoWinFullViewer * seekViewer;
   SoWinFullViewer * zoomViewer;
   SoWinFullViewer * clippingViewer;
-  SoWinExaminerViewer * spinnViewer;  
+  SoWinExaminerViewer * spinViewer;  
 };
 
 #endif  // SOWIN_VIEWERPREFSHEET_H

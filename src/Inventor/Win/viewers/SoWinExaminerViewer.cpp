@@ -541,7 +541,7 @@ void
 SoWinExaminerViewer::createPrefSheet( void )
 {
   inherited::createPrefSheet( );
-  this->prefsheet->createSpinnWidgets( this );
+  this->prefsheet->createSpinWidgets( this );
   this->prefsheet->size( );
  
   // FIXME: create and init parts
