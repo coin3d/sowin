@@ -170,7 +170,7 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
     this->setViewing(TRUE);
 }
 
-SoWinFullViewer::~SoWinFullViewer(void)
+SoWinFullViewer::~SoWinFullViewer()
 {
   (void)SoWinFullViewerP::parentHWNDmappings->remove((unsigned long)this->getParentWidget());
 
@@ -196,10 +196,11 @@ SoWinFullViewer::~SoWinFullViewer(void)
     this->appButtonList->remove(i);
   }
 
+  delete this->prefmenu;
+
   delete this->viewerButtonList;
   delete this->appButtonList;
   delete this->pimpl;
-
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -663,13 +664,6 @@ SoWinFullViewer::openPopupMenu(const SbVec2s position)
 
   this->prefmenu->popUp(this->renderAreaWidget,
                         position[0], clientrect.bottom - position[1]);
-}
-
-void
-SoWinFullViewer::destroyPopupMenu(void)
-{
-  delete this->prefmenu;
-  this->prefmenu = NULL;
 }
 
 void
