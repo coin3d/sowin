@@ -537,7 +537,7 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )
   PRIVATE( this )->glSize = newSize;
   this->sizeChanged( newSize );
 
-  UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
   SetWindowPos( this->getNormalWidget( ), NULL, 0, 0, width, height, flags );
 }
 
