@@ -31,7 +31,7 @@ typedef void thumbWheelCB( SoWinFullViewer * viewer, void ** data );
 
 // *************************************************************************
 
-class SOWIN_DLL_EXPORT SoWinThumbWheel
+class SoWinThumbWheel
 {
 
 public:
