@@ -264,15 +264,13 @@ SoWinGLWidget::setPixelFormat(int format)
     SoDebugError::postWarning("SoWinGLWidget::setPixelFormat", s.getString());
   }
 
-  // FIXME: does this function actually work as expected?
-  // Test. 20011208 mortene.
+  // FIXME: does this function actually work as expected?  Unlikely,
+  // as I believe we also need to destroy and re-construct the GL
+  // context. 20011208 mortene.
 
   // FIXME: we should make sure we are robust if a non-supported
   // pixelformat is attempted set -- ie, the "old" format is continued
   // used. 20011208 mortene.
-
-  // FIXME: on success, we need to update the glModes flags according
-  // to the properties of the new format. 20011208 mortene.
 }
 
 /*!
@@ -300,14 +298,14 @@ SoWinGLWidget::isOverlayRender(void) const
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
-SoWinGLWidget::setDoubleBuffer(SbBool set)
+SoWinGLWidget::setDoubleBuffer(SbBool flag)
 {
-  if (set) {
-    PRIVATE(this)->glModes |= SO_GL_DOUBLE;
-  }
-  else {
-    PRIVATE(this)->glModes &= ~SO_GL_DOUBLE;
-  }
+  int old = PRIVATE(this)->glModes;
+  if (flag) { PRIVATE(this)->glModes |= SO_GL_DOUBLE; }
+  else { PRIVATE(this)->glModes &= ~SO_GL_DOUBLE; }
+
+  if (PRIVATE(this)->glModes == old) { return; }
+
   Win32::DestroyWindow(this->getNormalWidget());
   PRIVATE(this)->buildNormalGLWidget(PRIVATE(this)->managerWidget);
 }
@@ -316,9 +314,6 @@ SoWinGLWidget::setDoubleBuffer(SbBool set)
 SbBool
 SoWinGLWidget::isDoubleBuffer(void) const
 {
-  // FIXME: this is not good enough -- should check the _actual_
-  // pixelformat we get from ChoosePixelFormat() in
-  // createGLContext(). 20020719 mortene.
   return (PRIVATE(this)->glModes & SO_GL_DOUBLE ? TRUE : FALSE);
 }
 
@@ -352,14 +347,14 @@ SoWinGLWidget::isDrawToFrontBufferEnable(void) const
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
-SoWinGLWidget::setQuadBufferStereo(const SbBool enable)
+SoWinGLWidget::setQuadBufferStereo(const SbBool flag)
 {
-  if (enable) {
-    PRIVATE(this)->glModes |= SO_GL_STEREO;
-  }
-  else {
-    PRIVATE(this)->glModes &= ~SO_GL_STEREO;
-  }
+  int old = PRIVATE(this)->glModes;
+  if (flag) { PRIVATE(this)->glModes |= SO_GL_STEREO; }
+  else { PRIVATE(this)->glModes &= ~SO_GL_STEREO; }
+
+  if (PRIVATE(this)->glModes == old) { return; }
+
   Win32::DestroyWindow(this->getNormalWidget());
   PRIVATE(this)->buildNormalGLWidget(PRIVATE(this)->managerWidget);
 }
@@ -399,9 +394,6 @@ SoWinGLWidget::getStencilBuffer(void) const
 SbBool
 SoWinGLWidget::isQuadBufferStereo(void) const
 {
-  // FIXME: this is not good enough -- should check the _actual_
-  // pixelformat we get from ChoosePixelFormat() in
-  // createGLContext(). 20020719 mortene.
   return (PRIVATE(this)->glModes & SO_GL_STEREO ? TRUE : FALSE);
 }
 
@@ -912,14 +904,16 @@ SoWinGLWidgetP::listAvailablePixelFormats(HDC hdc)
 }
 
 BOOL
-SoWinGLWidgetP::createGLContext(HWND window)
+SoWinGLWidgetP::createGLContext(HWND window,
+                                SbBool doublebuffer, SbBool stereo,
+                                SbBool overlay)
 {
   assert(IsWindow(window) && "createGLContext() argument failed IsWindow() check!");
 
   // FIXME: overlay planes not properly supported yet. Returning FALSE
   // will cause the caller (SoWinGLWidgetP::onCreate()) to try without
   // the overlay planes. 20010920 mortene.
-  if (this->glModes & SO_GL_OVERLAY) { return FALSE; }
+  if (overlay) { return FALSE; }
 
   // All contexts were destroyed or released in onDestroy()
 
@@ -935,8 +929,8 @@ SoWinGLWidgetP::createGLContext(HWND window)
   this->pfdNormal.nSize = sizeof(PIXELFORMATDESCRIPTOR);
   this->pfdNormal.nVersion = 1;
   this->pfdNormal.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL |
-    (this->glModes & SO_GL_STEREO ? PFD_STEREO : 0) |
-    (this->glModes & SO_GL_DOUBLE ? PFD_DOUBLEBUFFER : 0);
+    (stereo ? PFD_STEREO : 0) |
+    (doublebuffer ? PFD_DOUBLEBUFFER : 0);
   this->pfdNormal.iPixelType = PFD_TYPE_RGBA;
   this->pfdNormal.cColorBits = 24; // Total RGB bits, excluding alpha.
   this->pfdNormal.cDepthBits = 32;
@@ -953,6 +947,10 @@ SoWinGLWidgetP::createGLContext(HWND window)
   // depth buffer precision was achieved.
   //
   // pederb.
+
+  // FIXME: this can be embedded in our planned replacement for
+  // ChoosePixelFormat(). (See FIXME in
+  // SoWinGLWidgetP::ChoosePixelFormat()). 20020719 mortene.
 	
   PIXELFORMATDESCRIPTOR tmpdescriptor;
   if (DescribePixelFormat(this->hdcNormal,
@@ -982,7 +980,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
     DWORD dummy;
     SbString err = Win32::getWin32Err(dummy);
     SbString s = "SetPixelFormat(";
-    s.addIntString(this->glModes);
+    s.addIntString(pixelformat);
     s += ") failed with error message ";
     s += err;
     SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
@@ -1061,8 +1059,8 @@ SoWinGLWidgetP::createGLContext(HWND window)
   if (! this->ctxNormal) {
     DWORD dummy;
     SbString err = Win32::getWin32Err(dummy);
-    SbString s = "The rendering context for format ";
-    s.addIntString(this->glModes);
+    SbString s = "The rendering context for pixelformat ";
+    s.addIntString(pixelformat);
     s += " could not be created, as ";
     s += "wglCreateContext() failed with error message: ";
     s += err;
@@ -1072,9 +1070,8 @@ SoWinGLWidgetP::createGLContext(HWND window)
 
 #if 0 // temporary disabled because overlay planes is not supported yet
   // create overlay
-  if (this->glModes & SO_GL_OVERLAY) {
+  if (overlay) {
     this->ctxOverlay = wglCreateLayerContext(this->hdcOverlay, 1);
-
     // FIXME: set overlay plane. mariusbu 20010801.
   }
 #endif // tmp disabled
@@ -1098,9 +1095,21 @@ SoWinGLWidgetP::createGLContext(HWND window)
     return FALSE;
   }
 
-  // FIXME: need to set up the app-programmer visible format flags
-  // from what kind of canvas we actually got. (Like we do in
-  // SoQtGLWidget.cpp.)  20011018 mortene.
+  // Sets up the app-programmer visible format flags from what kind of
+  // canvas we actually got.
+  {
+    PIXELFORMATDESCRIPTOR desc;
+    int notnull = DescribePixelFormat(this->hdcNormal, pixelformat,
+                                      sizeof(PIXELFORMATDESCRIPTOR), &desc);
+    assert((notnull != 0) && "incomprehensible DescribePixelFormat() error");
+    this->glModes = 0;
+    this->glModes |= (desc.iPixelType == PFD_TYPE_RGBA) ? SO_GL_RGB : 0;
+    this->glModes |= (desc.dwFlags & PFD_DOUBLEBUFFER) ? SO_GL_DOUBLE : 0;
+    this->glModes |= (desc.cDepthBits > 0) ? SO_GL_ZBUFFER : 0;
+    this->glModes |= (desc.dwFlags & PFD_STEREO) ? SO_GL_STEREO : 0;
+    // FIXME: check for overlay planes when support for this is
+    // implemented. 20020719 mortene.
+  }
 
   return TRUE;
 }
@@ -1119,10 +1128,13 @@ SoWinGLWidgetP::onCreate(HWND window, UINT message, WPARAM wparam, LPARAM lparam
   SbBool tried_nodouble = FALSE;
   SbBool tried_withdouble = FALSE;
 
-  // FIXME: add more "downgrade" possibilities. mariusbu 20010802.
-  // FIXME: also try combinations of several downgrade bits.  mortene 20010920.
+  // FIXME: fix this mess by writing our own ChoosePixelFormat()
+  // replacement, see SoWinGLWidgetP::ChoosePixelFormat().
+  // mortene 20020719.
 label:
-  if (! this->createGLContext(window)) {
+  if (!this->createGLContext(window, this->glModes & SO_GL_DOUBLE,
+                             this->glModes & SO_GL_STEREO,
+                             this->glModes & SO_GL_OVERLAY)) {
     this->glModes = orgmodes; // reset before trying new setting
 
     // Downgrading is ordered from what seems "most likely to help".
@@ -1172,6 +1184,12 @@ label:
         exit(1);
       }
     }
+  }
+
+  if (SoWinGLWidgetP::debugGLContextCreation() && (orgmodes != this->glModes)) {
+    SoDebugError::postWarning("SoWinGLWidgetP::onCreate",
+                              "wanted glModes==0x%x, got 0x%x",
+                              orgmodes, this->glModes);
   }
 
   SetFocus(window);
@@ -1264,7 +1282,12 @@ SoWinGLWidgetP::wglMakeCurrent(HDC hdc, HGLRC hglrc)
 int
 SoWinGLWidgetP::ChoosePixelFormat(HDC hdc, CONST PIXELFORMATDESCRIPTOR * ppfd)
 {
+  // FIXME: should _really_ replace Win32 ChoosePixelFormat() method
+  // with our own strategy for scanning through and weighting the
+  // available pixelformats, so we have full control over what is
+  // going on. 20020719 mortene.
   int format = ::ChoosePixelFormat(hdc, ppfd);
+
   if (format == 0) {
     DWORD dummy;
     SbString err = Win32::getWin32Err(dummy);

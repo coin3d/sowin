@@ -42,7 +42,8 @@ public:
 
   void buildNormalGLWidget(HWND manager);
   void buildOverlayGLWidget(HWND manager);
-  BOOL createGLContext(HWND window);
+  BOOL createGLContext(HWND window, SbBool doublebuffer, SbBool stereo,
+                       SbBool overlay);
 
   static LRESULT eventHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
