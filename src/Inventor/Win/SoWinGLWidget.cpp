@@ -894,7 +894,7 @@ SoWinGLWidget::glLockNormal(void)
 
   assert(PRIVATE(this)->hdcNormal != NULL);
   (void)SoWinGLWidgetP::wglMakeCurrent(PRIVATE(this)->hdcNormal,
-                                        PRIVATE(this)->ctxNormal);
+                                       PRIVATE(this)->ctxNormal);
 }
 
 /*!
@@ -941,7 +941,9 @@ void
 SoWinGLWidget::glSwapBuffers(void)
 {
   assert(PRIVATE(this)->hdcNormal != NULL);
-  Win32::SwapBuffers(PRIVATE(this)->hdcNormal);
+  BOOL ok = wglSwapLayerBuffers(PRIVATE(this)->hdcNormal, WGL_SWAP_MAIN_PLANE);
+  // FIXME: should have better error reporting and handling. 20020528 mortene.
+  assert(ok == TRUE);
 }
 
 /*!
