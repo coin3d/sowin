@@ -35,14 +35,13 @@ DISTCLEANFILES = \
 # libtool setup
 
 libSoWinViewers_la_SOURCES = \
-	SoWinFullViewer.cpp \
-	SoWinFullViewer.h \
 	SoWinExaminerViewer.cpp \
 	SoWinExaminerViewer.h \
 	SoWinPlaneViewer.cpp \
 	SoWinPlaneViewer.h \
 	SoWinWalkViewer.cpp \
-	SoWinWalkViewer.h
+	SoWinWalkViewer.h \
+	FullViewer.cpp
 
 nodist_libSoWinViewers_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)
@@ -52,14 +51,13 @@ nodist_libSoWinViewers_la_SOURCES = \
 # custom setup
 
 viewers_lst_SOURCES = \
-	SoWinFullViewer.cpp \
-	SoWinFullViewer.h \
 	SoWinExaminerViewer.cpp \
 	SoWinExaminerViewer.h \
 	SoWinPlaneViewer.cpp \
 	SoWinPlaneViewer.h \
 	SoWinWalkViewer.cpp \
-	SoWinWalkViewer.h
+	SoWinWalkViewer.h \
+	FullViewer.cpp
 
 nodist_viewers_lst_SOURCES = \
 	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)
@@ -75,7 +73,6 @@ viewers.lst: Makefile $(viewers_lst_OBJECTS)
 
 SoWinViewersincdir = $(includedir)/Inventor/Win/viewers
 SoWinViewersinc_HEADERS = \
-	SoWinFullViewer.h \
 	SoWinExaminerViewer.h \
 	SoWinPlaneViewer.h \
 	SoWinWalkViewer.h
@@ -83,6 +80,7 @@ SoWinViewersinc_HEADERS = \
 nodist_SoWinViewersinc_HEADERS = \
 	SoWinViewer.h \
 	SoWinConstrainedViewer.h \
+	SoWinFullViewer.h \
 	SoWinFlyViewer.h
 
 install-SoWinViewersincHEADERS: $(SoWinViewersinc_HEADERS)
