@@ -38,6 +38,7 @@
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
 #include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
+#include <Inventor/Win/viewers/SoWinExaminerViewerP.h>
 
 #include <Inventor/Win/common/pixmaps/perspective.xpm>
 #include <Inventor/Win/common/pixmaps/ortho.xpm>
@@ -47,29 +48,14 @@
 
 // The private data for the SoWinExaminerViewer.
 
-class SoWinExaminerViewerP {
+SoWinExaminerViewerP::SoWinExaminerViewerP(SoWinExaminerViewer * o)
+  : SoGuiExaminerViewerP(o)
+{
+}
 
-public:
-
-  // Constructor.
-  SoWinExaminerViewerP(SoWinExaminerViewer * o) {
-    this->owner = o;
-  }
-
-  // Destructor.
-  ~SoWinExaminerViewerP() {
-  }
-
-  void constructor(SbBool build);
-  void cameratoggleClicked(void);
-
-  SoWinBitmapButton * camerabutton;
-
-private:
-  SoWinExaminerViewer * owner;
-};
-
-#define PRIVATE(o) (o->pimpl)
+SoWinExaminerViewerP::~SoWinExaminerViewerP()
+{
+}
 
 // *************************************************************************
 
@@ -126,24 +112,24 @@ SoWinExaminerViewer::SoWinExaminerViewer(HWND parent,
 void
 SoWinExaminerViewerP::constructor(SbBool build)
 {
-  this->owner->genericConstructor();
+  this->genericConstructor();
 
-  this->owner->setClassName("SoWinExaminerViewer");
-  this->owner->setPopupMenuString("Examiner Viewer");
-  this->owner->setPrefSheetString("Examiner Viewer Preference Sheet");
+  PUBLIC(this)->setClassName("SoWinExaminerViewer");
+  PUBLIC(this)->setPopupMenuString("Examiner Viewer");
+  PUBLIC(this)->setPrefSheetString("Examiner Viewer Preference Sheet");
 
   if (! build) return;
 
-  HWND widget = this->owner->buildWidget(this->owner->getParentWidget());
-  this->owner->setBaseWidget(widget);
+  HWND widget = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
+  PUBLIC(this)->setBaseWidget(widget);
 
-  this->owner->setLeftWheelString("RotX");
-  this->owner->setBottomWheelString("RotY");
+  PUBLIC(this)->setLeftWheelString("RotX");
+  PUBLIC(this)->setBottomWheelString("RotY");
 
-  this->owner->setCursorEnabled(TRUE);
-  this->owner->setAnimationEnabled(TRUE);
+  PUBLIC(this)->setCursorEnabled(TRUE);
+  PUBLIC(this)->setAnimationEnabled(TRUE);
 
-  this->owner->setSize(SbVec2s(500, 421));
+  PUBLIC(this)->setSize(SbVec2s(500, 421));
   // FIXME: If the new size is the same as the old size, Windows will
   // never size the widget, and layoutWidgets() will never be
   // called. mariusbu 20010823.
@@ -158,8 +144,8 @@ SoWinExaminerViewerP::constructor(SbBool build)
 
 SoWinExaminerViewer::~SoWinExaminerViewer()
 {
-  delete this->pimpl;
-  this->genericDestructor();
+  PRIVATE(this)->genericDestructor();
+  delete PRIVATE(this);
 }
 
 // *************************************************************************
@@ -258,7 +244,7 @@ void
 SoWinExaminerViewer::setAnimationEnabled(const SbBool enable)
 {
   // FIXME: update pref-sheet widget with the value. 20020603 mortene.
-  this->setGenericAnimationEnabled(enable);
+  PRIVATE(this)->setGenericAnimationEnabled(enable);
 }
 
 /*!
@@ -267,7 +253,7 @@ void
 SoWinExaminerViewer::setFeedbackSize(const int size)
 {
   // FIXME: update pref-sheet widget with the value. 20020603 mortene.
-  this->setGenericFeedbackSize(size);
+  PRIVATE(this)->setGenericFeedbackSize(size);
 }
 
 // *************************************************************************
@@ -277,7 +263,7 @@ SoWinExaminerViewer::setFeedbackSize(const int size)
 void
 SoWinExaminerViewerP::cameratoggleClicked(void)
 {
-  if (this->owner->getCamera()) this->owner->toggleCameraType();
+  if (PUBLIC(this)->getCamera()) PUBLIC(this)->toggleCameraType();
 }
 
 // *************************************************************************
