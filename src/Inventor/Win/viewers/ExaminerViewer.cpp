@@ -17,6 +17,10 @@
  *
  **************************************************************************/
 
+// Class documentation in common/viewers/SoGuiExaminerViewer.cpp.in.
+
+// *************************************************************************
+
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 #include <Inventor/fields/SoSFTime.h>
@@ -38,29 +42,6 @@
 #include <Inventor/Win/common/pixmaps/perspective.xpm>
 #include <Inventor/Win/common/pixmaps/ortho.xpm>
 #include <Inventor/Win/SoWinCursor.h>
-
-/*!
-  \class SoWinExaminerViewer SoWinExaminerViewer.h Inventor/Win/viewers/SoWinExaminerViewer.h
-  \brief The SoWinExaminerViewer class is a full-fledged model viewer
-  with functionality for rotation, pan, zoom, etc.
-  \ingroup sowinviewers
-
-  TODO: more doc
-  ...overview of what this class provides over parent class...
-  ...keyboard combinations...mousebutton combinations...explain pan,
-  rotate, zoom, dolly, seek...explain the fact that we're moving the
-  camera, not the scene...
-  ...viewer modes (examine vs interact) w/ explanation of what they are
-  useful for...
-  ...screenshot...
-  ...example code...
-
-  \sa SoWinWalkViewer, SoWinFlyViewer, SoWinPlaneViewer, SoWinCollisionViewer
-*/
-
-/*¡
-  SoWinExaminerViewer is missing the class description documentation.
-*/
 
 // *************************************************************************
 
@@ -183,22 +164,6 @@ SoWinExaminerViewer::~SoWinExaminerViewer()
 
 // *************************************************************************
 
-/*!
-  This method overloaded from parent class to make sure the mouse
-  pointer cursor is updated.
-*/
-
-void
-SoWinExaminerViewer::setViewing(SbBool enable)
-{
-  this->setMode(enable ?
-                         SoWinExaminerViewer::EXAMINE :
-                         SoWinExaminerViewer::INTERACT);
-  inherited::setViewing(enable);
-}
-
-// *************************************************************************
-
 // Documented in superclass.
 void
 SoWinExaminerViewer::setCamera(SoCamera * newCamera)
@@ -248,50 +213,6 @@ SoWinExaminerViewer::buildViewerButtonsEx(HWND parent,
 // *************************************************************************
 
 /*!
-  Overloaded to provide the examiner viewer functionality on the left
-  thumbwheel (x axis rotation).
-*/
-
-void
-SoWinExaminerViewer::leftWheelMotion(float value)
-{
-  if (this->isAnimating())
-    this->stopAnimating();
-
- inherited::leftWheelMotion(
-  this->rotXWheelMotion(value, this->getLeftWheelValue()));
-}
-
-/*!
-  Overloaded to provide the examiner viewer functionality on the bottom
-  thumbwheel (y axis rotation).
-*/
-
-void
-SoWinExaminerViewer::bottomWheelMotion(float value)
-{
-  if (this->isAnimating())
-    this->stopAnimating();
-
-  inherited::bottomWheelMotion(
-  this->rotYWheelMotion(value, this->getBottomWheelValue()));
-}
-
-/*!
-  Overloaded to provide the examiner viewer functionality on the left
-  thumbwheel (dolly/zoom).
-*/
-
-void
-SoWinExaminerViewer::rightWheelMotion(float value)
-{
- this->zoom(this->getRightWheelValue() - value);
- inherited::rightWheelMotion(value);
-}
-
-// *************************************************************************
-
-/*!
   This method overloaded from parent class to handle button messages
   from viewer specific buttons (camera toggle).
 */
@@ -317,47 +238,6 @@ SoWinExaminerViewer::onCommand(HWND window,
 
 // *************************************************************************
 
-void
-SoWinExaminerViewer::setCursorRepresentation(int mode)
-{
-  // FIXME: with the new So@Gui@Cursor class, this has actually become
-  // a possibly generic method for all So* toolkits. Move to common
-  // code. 20011125 mortene.
-
-  if (!this->isCursorEnabled()) {
-    this->setComponentCursor(SoWinCursor::getBlankCursor());
-    return;
-  }
-
-  switch (mode) {
-  case SoWinExaminerViewer::INTERACT:
-    this->setComponentCursor(SoWinCursor(SoWinCursor::DEFAULT));
-    break;
-
-  case SoWinExaminerViewer::EXAMINE:
-  case SoWinExaminerViewer::DRAGGING:
-    this->setComponentCursor(SoWinCursor::getRotateCursor());
-    break;
-
-  case SoWinExaminerViewer::ZOOMING:
-    this->setComponentCursor(SoWinCursor::getZoomCursor());
-    break;
-
-  case SoWinExaminerViewer::WAITING_FOR_SEEK:
-    this->setComponentCursor(SoWinCursor(SoWinCursor::CROSSHAIR));
-    break;
-
-  case SoWinExaminerViewer::WAITING_FOR_PAN:
-  case SoWinExaminerViewer::PANNING:
-    this->setComponentCursor(SoWinCursor::getPanCursor());
-    break;
-
-  default: assert(0); break;
-  }
-}
-
-// *************************************************************************
-
 /*!
   \internal
 
@@ -376,6 +256,7 @@ SoWinExaminerViewer::createPrefSheet(void)
 void
 SoWinExaminerViewer::setAnimationEnabled(const SbBool enable)
 {
+  // FIXME: update pref-sheet widget with the value. 20020603 mortene.
   this->setGenericAnimationEnabled(enable);
 }
 
@@ -384,19 +265,11 @@ SoWinExaminerViewer::setAnimationEnabled(const SbBool enable)
 void
 SoWinExaminerViewer::setFeedbackSize(const int size)
 {
+  // FIXME: update pref-sheet widget with the value. 20020603 mortene.
   this->setGenericFeedbackSize(size);
 }
 
 // *************************************************************************
-
-/*!
-*/
-void
-SoWinExaminerViewer::afterRealizeHook(void)
-{
-  this->setCursorRepresentation(this->currentmode);
-  inherited::afterRealizeHook();
-}
 
 /*!
 */
