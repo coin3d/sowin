@@ -129,7 +129,7 @@ SoWinSpaceball::translateEvent(MSG * msg)
            PRIVATE(this)->motion3Event->setRotation(
              PRIVATE(this)->makeRotation((float)data[SI_RX],(float)data[SI_RY],(float)data[SI_RZ]));
 
-           return (SoEvent *) NULL;//PRIVATE(this)->motion3Event;
+           return PRIVATE(this)->motion3Event;
         }
         else if (spwEvent.type == SI_BUTTON_EVENT) {
           return (SoEvent *) NULL;
