@@ -1,21 +1,21 @@
-/**************************************************************************\
+/**************************************************************************
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  This file is part of the Coin SoWin GUI binding library.
+ *  Copyright (C) 2000 by Systems in Motion.  All rights reserved.
  *
- *  This file is part of the Coin library.
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public License
+ *  version 2.1 as published by the Free Software Foundation.  See the
+ *  file LICENSE.LGPL at the root directory of the distribution for
+ *  more details.
  *
- *  This file may be distributed under the terms of the Q Public License
- *  as defined by Troll Tech AS of Norway and appearing in the file
- *  LICENSE.QPL included in the packaging of this file.
+ *  If you want to use Coin SoWin for applications not compatible with the
+ *  LGPL, please contact SIM to aquire a Professional Edition License.
  *
- *  If you want to use Coin in applications not covered by licenses
- *  compatible with the QPL, you can contact SIM to aquire a
- *  Professional Edition license for Coin.
+ *  Systems in Motion, Prof Brochs gate 6, N-7030 Trondheim, NORWAY
+ *  http://www.sim.no/ support@sim.no Voice: +47 22114160 Fax: +47 22207097
  *
- *  Systems in Motion AS, Prof. Brochs gate 6, N-7030 Trondheim, NORWAY
- *  http://www.sim.no/ sales@sim.no Voice: +47 22114160 Fax: +47 67172912
- *
-\**************************************************************************/
+ **************************************************************************/
 
 /*!
   \class SoWinInputFocus SoWinInputFocus.h Inventor/Win/devices/SoWinInputFocus.h
@@ -40,7 +40,7 @@ SOWIN_OBJECT_SOURCE(SoWinInputFocus);
 
 SoWinInputFocus::SoWinInputFocus( UINT mask )
 {
-    this->mask = mask;
+  this->mask = mask;
 } // SoWinInputFocus()
 
 /*!
@@ -58,13 +58,12 @@ SoWinInputFocus::~SoWinInputFocus( void )
 */
 
 void
-SoWinInputFocus::enable(
-    HWND, // widget,
-    SoWinEventHandler *, // handler,
-    void * , // closure
-    HWND ) // window
+SoWinInputFocus::enable( HWND, // widget,
+                         SoWinEventHandler *, // handler,
+                         void * , // closure
+                         HWND ) // window
 {
-    SOWIN_STUB();
+  SOWIN_STUB();
 } // enable()
 
 /*!
@@ -72,12 +71,11 @@ SoWinInputFocus::enable(
 */
 
 void
-SoWinInputFocus::disable(
-    HWND, // widget,
-    SoWinEventHandler *, // handler,
-    void * ) // closure )
+SoWinInputFocus::disable( HWND, // widget,
+                          SoWinEventHandler *, // handler,
+                          void * ) // closure )
 {
-    SOWIN_STUB();
+  SOWIN_STUB();
 } // disable()
 
 // *************************************************************************
@@ -87,12 +85,10 @@ SoWinInputFocus::disable(
 */
 
 const SoEvent *
-SoWinInputFocus::translateEvent(
-    MSG * ) // event )
+SoWinInputFocus::translateEvent( MSG * ) // event )
 {
-    SOWIN_STUB();
-    return NULL;
+  SOWIN_STUB();
+  return NULL;
 } // translateEvent()
 
 // *************************************************************************
-

@@ -1,19 +1,19 @@
 /**************************************************************************
  *
+ *  This file is part of the Coin SoWin GUI binding library.
  *  Copyright (C) 2000 by Systems in Motion.  All rights reserved.
  *
- *  This file is part of the Coin library.
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public License
+ *  version 2.1 as published by the Free Software Foundation.  See the
+ *  file LICENSE.LGPL at the root directory of the distribution for
+ *  more details.
  *
- *  This file may be distributed under the terms of the Q Public License
- *  as defined by Troll Tech AS of Norway and appearing in the file
- *  LICENSE.QPL included in the packaging of this file.
+ *  If you want to use Coin SoWin for applications not compatible with the
+ *  LGPL, please contact SIM to aquire a Professional Edition License.
  *
- *  If you want to use Coin in applications not covered by licenses
- *  compatible with the QPL, you can contact SIM to aquire a
- *  Professional Edition license for Coin.
- *
- *  Systems in Motion AS, Prof. Brochs gate 6, N-7030 Trondheim, NORWAY
- *  http://www.sim.no/ sales@sim.no Voice: +47 22114160 Fax: +47 67172912
+ *  Systems in Motion, Prof Brochs gate 6, N-7030 Trondheim, NORWAY
+ *  http://www.sim.no/ support@sim.no Voice: +47 22114160 Fax: +47 22207097
  *
  **************************************************************************/
 
@@ -41,186 +41,216 @@ SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinFullViewer);
 
 SbBool SoWinFullViewer::doButtonBar = FALSE;
 
-void SoWinFullViewer::setDecoration( SbBool set )
+void
+SoWinFullViewer::setDecoration( SbBool set )
 {
-    // FIXME: function not implemented
-    this->decorations = set;
+  // FIXME: function not implemented
+  this->decorations = set;
 }
 
-SbBool SoWinFullViewer::isDecoration( void )
+SbBool
+SoWinFullViewer::isDecoration( void )
 {
-    return this->decorations;
+  return this->decorations;
 }
 
-void SoWinFullViewer::setPopupMenuEnabled( SbBool set )
+void
+SoWinFullViewer::setPopupMenuEnabled( SbBool set )
 {
-    // FIXME: function not implemented
-    this->popupEnabled = set;
+  // FIXME: function not implemented
+  this->popupEnabled = set;
 }
 
-SbBool SoWinFullViewer::isPopupMenuEnabled( void )
+SbBool
+SoWinFullViewer::isPopupMenuEnabled( void )
 {
-    return this->popupEnabled;
+  return this->popupEnabled;
 }
 
-void SoWinFullViewer::setDoButtonBar( SbBool set )
+void
+SoWinFullViewer::setDoButtonBar( SbBool set )
 {
-    // FIXME: function not implemented
-    SoWinFullViewer::doButtonBar = set;
+  // FIXME: function not implemented
+  SoWinFullViewer::doButtonBar = set;
 }
 
-SbBool SoWinFullViewer::isDoButtonBar( void )
+SbBool
+SoWinFullViewer::isDoButtonBar( void )
 {
-    return SoWinFullViewer::doButtonBar;
+  return SoWinFullViewer::doButtonBar;
 }
 
-void SoWinFullViewer::setClientPopupMenu( HMENU menu )
+void
+SoWinFullViewer::setClientPopupMenu( HMENU menu )
 {
-    // FIXME: function not implemented
-    this->clientPopup = menu;
+  // FIXME: function not implemented
+  this->clientPopup = menu;
 }
 
-SbBool SoWinFullViewer::isClientPopupMenuInstalled( void ) 
+SbBool
+SoWinFullViewer::isClientPopupMenuInstalled( void ) 
 {
-    return ( this->clientPopup != NULL );
+  return ( this->clientPopup != NULL );
 }
     
-HWND SoWinFullViewer::getAppPushButtonParent( void ) const
+HWND
+SoWinFullViewer::getAppPushButtonParent( void ) const
 {
-    return this->appButtonForm;
+  return this->appButtonForm;
 }
     
-void SoWinFullViewer::addAppPushButton( HWND newButton )
+void
+SoWinFullViewer::addAppPushButton( HWND newButton )
 {
-    // FIXME: function not implemented
-    this->appButtonList->append( newButton );
+  // FIXME: function not implemented
+  this->appButtonList->append( newButton );
 }
 
-void SoWinFullViewer::insertAppPushButton( HWND newButton, int index )
+void
+SoWinFullViewer::insertAppPushButton( HWND newButton, int index )
 {
-    // FIXME: function not implemented
-    this->appButtonList->insert( newButton, index );
+  // FIXME: function not implemented
+  this->appButtonList->insert( newButton, index );
 }
 
-void SoWinFullViewer::removeAppPushButton( HWND oldButton )
+void
+SoWinFullViewer::removeAppPushButton( HWND oldButton )
 {
-    // FIXME: function not implemented
-    int index = this->appButtonList->find( oldButton );
-    this->appButtonList->remove( index );
+  // FIXME: function not implemented
+  int index = this->appButtonList->find( oldButton );
+  this->appButtonList->remove( index );
 }
 
-int SoWinFullViewer::findAppPushButton( HWND oldButton )
+int
+SoWinFullViewer::findAppPushButton( HWND oldButton )
 {
-    return this->appButtonList->find( oldButton );
+  return this->appButtonList->find( oldButton );
 }
 
-int SoWinFullViewer::lengthAppPushButton( void )
+int
+SoWinFullViewer::lengthAppPushButton( void )
 {
-    return this->appButtonList->getLength( );
+  return this->appButtonList->getLength( );
 }
 
-HWND SoWinFullViewer::getRenderAreaWidget( void )
+HWND
+SoWinFullViewer::getRenderAreaWidget( void )
 {
-    return this->renderAreaWidget;
+  return this->renderAreaWidget;
 }
 
-void SoWinFullViewer::setViewing( SbBool set )
+void
+SoWinFullViewer::setViewing( SbBool set )
 {
-    if ( ( set && this->isViewing( ) ) || ( ! set && ! this->isViewing( ) ) ) {
+  if ( ( set && this->isViewing( ) ) || ( ! set && ! this->isViewing( ) ) ) {
 #if SOWIN_DEBUG && 1 // debug
-        SoDebugError::postWarning( "SoWinFullViewer::setViewing, view mode already ",
-                                   set ? "on" : "off");
+    SoDebugError::postWarning( "SoWinFullViewer::setViewing, view mode already ",
+                               set ? "on" : "off");
 #endif // debug
-        return;
-    }
+    return;
+  }
 
-    inherited::setViewing( set );
+  inherited::setViewing( set );
 
-// FIXME:
-/*
+  // FIXME:
+  /*
     VIEWERBUTTON( EXAMINE_BUTTON )->setOn( set );
     VIEWERBUTTON( INTERACT_BUTTON )->setOn( set ? FALSE : TRUE);
     VIEWERBUTTON( SEEK_BUTTON )->setEnabled( set );
-*/
+  */
 }
 
-void SoWinFullViewer::setCamera( SoCamera * camera )
+void
+SoWinFullViewer::setCamera( SoCamera * camera )
 {
-    inherited::setCamera(camera);
+  inherited::setCamera(camera);
 
-    if ( this->prefmenu ) { // prefwindow
-        this->setZoomSliderPosition(this->getCameraZoom());
-        this->setZoomFieldString(this->getCameraZoom());
+  if ( this->prefmenu ) { // prefwindow
+    this->setZoomSliderPosition(this->getCameraZoom());
+    this->setZoomFieldString(this->getCameraZoom());
 
-        SbBool on = camera ? TRUE : FALSE;
-/*      this->zoomSlider->setEnabled(on);
-        this->zoomField->setEnabled(on);
-        this->zoomrangefrom->setEnabled(on);
-        this->zoomrangeto->setEnabled(on);*/
-    }
+    SbBool on = camera ? TRUE : FALSE;
+    /*      this->zoomSlider->setEnabled(on);
+            this->zoomField->setEnabled(on);
+            this->zoomrangefrom->setEnabled(on);
+            this->zoomrangeto->setEnabled(on);*/
+  }
 }
 
-void SoWinFullViewer::hide( void )
+void
+SoWinFullViewer::hide( void )
 {
-    ShowWindow( this->viewerWidget, SW_HIDE );
+  ShowWindow( this->viewerWidget, SW_HIDE );
 }
 
 /*
-SoWinStereoDialog * SoWinFullViewer::getStereoDialog( void )
+SoWinStereoDialog *
+SoWinFullViewer::getStereoDialog( void )
 {
     return this->stereoDialogBox;
 }
 
-void SoWinFullViewer::setStereoDialog( SoWinStereoDialog * newDialog )
+void
+SoWinFullViewer::setStereoDialog( SoWinStereoDialog * newDialog )
 {
     this->stereoDialogBox = newDialog;
 }
 */
-void SoWinFullViewer::addPushAppButtonCallback( PushAppButtonCB * callback, void * data )
+
+void
+SoWinFullViewer::addPushAppButtonCallback( PushAppButtonCB * callback, void * data )
 {
-    this->customPushBtnCB = callback;
-    this->customPushBtnData = data ;
+  this->customPushBtnCB = callback;
+  this->customPushBtnData = data ;
 }
 
-void SoWinFullViewer::addRedrawAppButtonCallback( RedrawAppButtonCB * callback, void * data)
+void
+SoWinFullViewer::addRedrawAppButtonCallback( RedrawAppButtonCB * callback, void * data)
 {
-    this->customRedrawBtnCB = callback;
-    this->customRedrawBtnData = data;
+  this->customRedrawBtnCB = callback;
+  this->customRedrawBtnData = data;
 }
 
-void SoWinFullViewer::selectedPrefs( void )
+void
+SoWinFullViewer::selectedPrefs( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::resetToHomePosition( void )
+void
+SoWinFullViewer::resetToHomePosition( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::saveHomePosition( void )
+void
+SoWinFullViewer::saveHomePosition( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::viewAll( void )
+void
+SoWinFullViewer::viewAll( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::seekbuttonClicked( void )
+void
+SoWinFullViewer::seekbuttonClicked( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::copyView( SbTime time )
+void
+SoWinFullViewer::copyView( SbTime time )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::pasteView( SbTime time )
+void
+SoWinFullViewer::pasteView( SbTime time )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -235,381 +265,429 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
                                   BuildFlag flag,
                                   SoWinViewer::Type type, 
                                   SbBool buildNow) : 
-inherited(parent, name, embedded, type, buildNow ),
-common( new SoAnyFullViewer( this ) )   // FIXME: warning
+  inherited(parent, name, embedded, type, buildNow ),
+  common( new SoAnyFullViewer( this ) )   // FIXME: warning
 {
 
-    rightWheelStr = "Motion X";
-    bottomWheelStr = "Motion Y";
-    leftWheelStr = "Motion Z";
+  rightWheelStr = "Motion X";
+  bottomWheelStr = "Motion Y";
+  leftWheelStr = "Motion Z";
 
-    //this->zoomrange = SbVec2f(1.0f, 140.0f);
+  //this->zoomrange = SbVec2f(1.0f, 140.0f);
 
-    //this->prefwindow = NULL;
-    //this->prefwindowtitle = "Viewer Preference Sheet";
+  //this->prefwindow = NULL;
+  //this->prefwindowtitle = "Viewer Preference Sheet";
 
-    this->viewerWidget = NULL;
-    this->renderAreaWidget = NULL;
+  this->viewerWidget = NULL;
+  this->renderAreaWidget = NULL;
 
-    this->menuenabled = buildNow & SoWinFullViewer::BUILD_POPUP;
-    this->decorations = ( buildNow & SoWinFullViewer::BUILD_DECORATION ) ? TRUE : FALSE;
+  this->menuenabled = buildNow & SoWinFullViewer::BUILD_POPUP;
+  this->decorations = ( buildNow & SoWinFullViewer::BUILD_DECORATION ) ? TRUE : FALSE;
 
-    this->prefmenu = NULL;
-    this->menutitle = "Viewer Menu";
+  this->prefmenu = NULL;
+  this->menutitle = "Viewer Menu";
 
-    this->viewerButtonWidgets = new SbPList;
-    this->appButtonList = new SbPList;
-    this->appButtonForm = NULL;
+  this->viewerButtonWidgets = new SbPList;
+  this->appButtonList = new SbPList;
+  this->appButtonForm = NULL;
 
-    this->setSize( SbVec2s( 500, 400 ) );
+  this->setSize( SbVec2s( 500, 400 ) );
 
-    if ( buildNow ) {
-        this->setClassName( "SoWinFullViewer" );
-        HWND window = this->buildWidget( parent );
-        this->setBaseWidget( window );
-    }
+  if ( buildNow ) {
+    this->setClassName( "SoWinFullViewer" );
+    HWND window = this->buildWidget( parent );
+    this->setBaseWidget( window );
+  }
 }
 
 SoWinFullViewer::~SoWinFullViewer( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::pushButtonCB( HWND, int id, void * )
+void
+SoWinFullViewer::pushButtonCB( HWND, int id, void * )
 {
-    // FIXME: function not implemented    
+  // FIXME: function not implemented    
 }
 
-void SoWinFullViewer::pushAppButtonCB( HWND hwnd, int id, void * data )
+void
+SoWinFullViewer::pushAppButtonCB( HWND hwnd, int id, void * data )
 {
-    if ( this->customPushBtnCB )
-        this->customPushBtnCB( hwnd, id, data, customPushBtnData );
+  if ( this->customPushBtnCB )
+    this->customPushBtnCB( hwnd, id, data, customPushBtnData );
 }
 
-void SoWinFullViewer::redrawAppButtonCB( LPDRAWITEMSTRUCT lpdis )
+void
+SoWinFullViewer::redrawAppButtonCB( LPDRAWITEMSTRUCT lpdis )
 {
-    if ( this->customRedrawBtnCB )
-        this->customRedrawBtnCB( lpdis, customRedrawBtnData );
+  if ( this->customRedrawBtnCB )
+    this->customRedrawBtnCB( lpdis, customRedrawBtnData );
 }
     
-HWND SoWinFullViewer::getButtonWidget( void ) const
+HWND
+SoWinFullViewer::getButtonWidget( void ) const
 {
-    return this->appButtonForm;
+  return this->appButtonForm;
 }
 
-HWND SoWinFullViewer::buildWidget( HWND parent )
+HWND
+SoWinFullViewer::buildWidget( HWND parent )
 {
-    // FIXME: use this->buildFormWidget
+  // FIXME: use this->buildFormWidget
 
-    assert( IsWindow( parent ) );
+  assert( IsWindow( parent ) );
 
-    WNDCLASS windowclass;
+  WNDCLASS windowclass;
 
-    LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
-    LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
-    HBRUSH brush = ( HBRUSH ) GetStockObject( COLOR_BACKGROUND );
-    HMENU menu = NULL;
-    LPSTR wndclassname = "SoWinFullViewer_glwidget";
+  LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
+  LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
+  HBRUSH brush = ( HBRUSH ) GetStockObject( COLOR_BACKGROUND );
+  HMENU menu = NULL;
+  LPSTR wndclassname = "SoWinFullViewer_glwidget";
 
-    windowclass.lpszClassName = wndclassname;
-    windowclass.hInstance = SoWin::getInstance( );
-    windowclass.lpfnWndProc = SoWinFullViewer::mgrWindowProc;
-    windowclass.style = CS_HREDRAW|CS_VREDRAW|CS_OWNDC;
-    windowclass.lpszMenuName = NULL;
-    windowclass.hIcon = LoadIcon( NULL, icon );
-    windowclass.hCursor = LoadCursor( NULL, cursor );
-    windowclass.hbrBackground = this->backgroundBrush = brush;
-    windowclass.cbClsExtra = 0;
-    windowclass.cbWndExtra = 4;
+  windowclass.lpszClassName = wndclassname;
+  windowclass.hInstance = SoWin::getInstance( );
+  windowclass.lpfnWndProc = SoWinFullViewer::mgrWindowProc;
+  windowclass.style = CS_HREDRAW|CS_VREDRAW|CS_OWNDC;
+  windowclass.lpszMenuName = NULL;
+  windowclass.hIcon = LoadIcon( NULL, icon );
+  windowclass.hCursor = LoadCursor( NULL, cursor );
+  windowclass.hbrBackground = this->backgroundBrush = brush;
+  windowclass.cbClsExtra = 0;
+  windowclass.cbWndExtra = 4;
 
-    RegisterClass( & windowclass );
+  RegisterClass( & windowclass );
 
-    RECT rect;
-    DWORD style;
-    if ( IsWindow( parent ) ) {
-        GetClientRect( parent, & rect );
-        style = WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_BORDER | WS_CHILD;
-    } else {
-        rect.right = SoWin_DefaultWidth;
-        rect.bottom = SoWin_DefaultHeight;
-        style = WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_OVERLAPPEDWINDOW;
-    }
+  RECT rect;
+  DWORD style;
+  if ( IsWindow( parent ) ) {
+    GetClientRect( parent, & rect );
+    style = WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_BORDER | WS_CHILD;
+  } else {
+    rect.right = SoWin_DefaultWidth;
+    rect.bottom = SoWin_DefaultHeight;
+    style = WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_OVERLAPPEDWINDOW;
+  }
 
-    this->viewerWidget = CreateWindow( wndclassname,
-						               wndclassname,
-						               style,
-						               0,
-                                       0,
-                                       rect.right,
-                                       rect.bottom,
-						               parent,
-						               menu,
-						               SoWin::getInstance( ),
-						               this );
-    assert( IsWindow( this->viewerWidget ) );
+  this->viewerWidget = CreateWindow( wndclassname,
+                                     wndclassname,
+                                     style,
+                                     0,
+                                     0,
+                                     rect.right,
+                                     rect.bottom,
+                                     parent,
+                                     menu,
+                                     SoWin::getInstance( ),
+                                     this );
+  assert( IsWindow( this->viewerWidget ) );
 
-    this->renderAreaWidget = inherited::buildWidget( this->viewerWidget );
-    assert( IsWindow( this->renderAreaWidget ) );
+  this->renderAreaWidget = inherited::buildWidget( this->viewerWidget );
+  assert( IsWindow( this->renderAreaWidget ) );
 
-    ZeroMemory( &renderAreaOffset, sizeof( renderAreaOffset ) );
+  ZeroMemory( &renderAreaOffset, sizeof( renderAreaOffset ) );
 
-    if ( this->decorations ) {
-        renderAreaOffset.top = 0;
-        renderAreaOffset.left = 30;
-        renderAreaOffset.right = -60;
-        renderAreaOffset.bottom = -30;
-        this->buildDecoration( this->viewerWidget );
-        //this->showDecorationWidgets( TRUE );
-    }
+  if ( this->decorations ) {
+    renderAreaOffset.top = 0;
+    renderAreaOffset.left = 30;
+    renderAreaOffset.right = -60;
+    renderAreaOffset.bottom = -30;
+    this->buildDecoration( this->viewerWidget );
+    //this->showDecorationWidgets( TRUE );
+  }
 
-    MoveWindow( SoWin::getTopLevelWidget( ), 0, 0, 500, 400, TRUE );
+  MoveWindow( SoWin::getTopLevelWidget( ), 0, 0, 500, 400, TRUE );
 
-    if ( this->menuenabled )
-        this->buildPopupMenu( );
+  if ( this->menuenabled )
+    this->buildPopupMenu( );
 
-    ShowWindow( this->viewerWidget, SW_SHOW );
-    ShowWindow( this->renderAreaWidget, SW_SHOW );
+  ShowWindow( this->viewerWidget, SW_SHOW );
+  ShowWindow( this->renderAreaWidget, SW_SHOW );
 
-    SoWin::addMessageHook( this->viewerWidget, WM_SIZE );
-    return this->viewerWidget;
+  SoWin::addMessageHook( this->viewerWidget, WM_SIZE );
+  return this->viewerWidget;
 }
+
 /*
 void SoWinFullViewer::buildLeftWheel( HWND parent )
 {
     // FIXME: function not implemented
 }
 */
-void SoWinFullViewer::buildDecoration( HWND parent )
+
+void
+SoWinFullViewer::buildDecoration( HWND parent )
 {
-    // FIXME: function not implemented
-    this->buildLeftTrim( parent );
+  // FIXME: function not implemented
+  this->buildLeftTrim( parent );
 }
 
-HWND SoWinFullViewer::buildLeftTrim( HWND parent )
+HWND
+SoWinFullViewer::buildLeftTrim( HWND parent )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 
-    this->leftWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
-                                           parent,
-                                           5,
-                                           250,
-                                           this->leftWheelStr );
+  this->leftWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
+                                         parent,
+                                         5,
+                                         250,
+                                         this->leftWheelStr );
 
 
-    this->leftWheel->registerCallback( rightWheelCB );
-    return NULL;
+  this->leftWheel->registerCallback( rightWheelCB );
+  return NULL;
 }
 
-HWND SoWinFullViewer::buildBottomTrim( HWND parent )
+HWND
+SoWinFullViewer::buildBottomTrim( HWND parent )
 {
-    // FIXME: function not implemented
-    return NULL;
+  // FIXME: function not implemented
+  return NULL;
 }
 
-HWND SoWinFullViewer::buildRightTrim( HWND parent )
+HWND
+SoWinFullViewer::buildRightTrim( HWND parent )
 {
-    // FIXME: function not implemented
-    return NULL;
+  // FIXME: function not implemented
+  return NULL;
 }
 
-HWND SoWinFullViewer::buildZoomSlider( HWND parent )
+HWND
+SoWinFullViewer::buildZoomSlider( HWND parent )
 {
-    // FIXME: function not implemented
-    return NULL;
+  // FIXME: function not implemented
+  return NULL;
 }
 
-HWND SoWinFullViewer::buildAppButtons( HWND parent )
+HWND
+SoWinFullViewer::buildAppButtons( HWND parent )
 {
-    // FIXME: function not implemented
-    return NULL;
+  // FIXME: function not implemented
+  return NULL;
 }
 
-HWND SoWinFullViewer::buildViewerButtons( HWND parent )
+HWND
+SoWinFullViewer::buildViewerButtons( HWND parent )
 {
-    // FIXME: function not implemented
-    return NULL;
+  // FIXME: function not implemented
+  return NULL;
 }
 
-void SoWinFullViewer::createViewerButtons( HWND parent )
+void
+SoWinFullViewer::createViewerButtons( HWND parent )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::openStereoDialog( void )
+void
+SoWinFullViewer::openStereoDialog( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::buildPopupMenu( void )
+void
+SoWinFullViewer::buildPopupMenu( void )
 {
-    // FIXME: function not implemented
-    this->prefmenu = common->setupStandardPopupMenu( );
+  // FIXME: function not implemented
+  this->prefmenu = common->setupStandardPopupMenu( );
 }
 
-void SoWinFullViewer::setPopupMenuString( const char * name )
+void
+SoWinFullViewer::setPopupMenuString( const char * name )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::openPopupMenu( const SbVec2s position )
+void
+SoWinFullViewer::openPopupMenu( const SbVec2s position )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::destroyPopupMenu( void )
+void
+SoWinFullViewer::destroyPopupMenu( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-int SoWinFullViewer::displayPopupMenu( int x, int y, HWND owner )
+int
+SoWinFullViewer::displayPopupMenu( int x, int y, HWND owner )
 {
-    // FIXME: function not implemented
-    //this->popupPreCallback( );
+  // FIXME: function not implemented
+  //this->popupPreCallback( );
 
     //this->popupPostCallback( );
-    return 0;
+  return 0;
 }
 
-HWND SoWinFullViewer::buildFunctionsSubmenu( HWND popup )
+HWND
+SoWinFullViewer::buildFunctionsSubmenu( HWND popup )
 {
-    // FIXME: function not implemented
-    return NULL;
+  // FIXME: function not implemented
+  return NULL;
 }
 
-HWND SoWinFullViewer::buildDrawStyleSubmenu( HWND popup )
+HWND
+SoWinFullViewer::buildDrawStyleSubmenu( HWND popup )
 {
-    // FIXME: function not implemented
-    return NULL;
+  // FIXME: function not implemented
+  return NULL;
 }
 
-void SoWinFullViewer::setPrefSheetString( const char * name )
+void
+SoWinFullViewer::setPrefSheetString( const char * name )
 {
-    this->prefSheetStr = name;
+  this->prefSheetStr = name;
 }
 
-void SoWinFullViewer::createPrefSheet( void )
+void
+SoWinFullViewer::createPrefSheet( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::createPrefSheetShellAndForm( HWND shell, HWND form )
+void
+SoWinFullViewer::createPrefSheetShellAndForm( HWND shell, HWND form )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::createDefaultPrefSheetParts( HWND widgetList[], int num, HWND form )
+void
+SoWinFullViewer::createDefaultPrefSheetParts( HWND widgetList[], int num, HWND form )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::layoutPartsAndMapPrefSheet( HWND widgetList[], int num, HWND form, HWND shell )
+void
+SoWinFullViewer::layoutPartsAndMapPrefSheet( HWND widgetList[], int num, HWND form, HWND shell )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-HWND SoWinFullViewer::createSeekPrefSheetGuts( HWND parent )
+HWND
+SoWinFullViewer::createSeekPrefSheetGuts( HWND parent )
 {
-    // FIXME: function not implemented
-    return NULL;
+  // FIXME: function not implemented
+  return NULL;
 }
 
-HWND SoWinFullViewer::createSeekDistPrefSheetGuts( HWND parent )
+HWND
+SoWinFullViewer::createSeekDistPrefSheetGuts( HWND parent )
 {
-    // FIXME: function not implemented
-    return NULL;
+  // FIXME: function not implemented
+  return NULL;
 }
 
-HWND SoWinFullViewer::createZoomPrefSheetGuts( HWND parent )
+HWND
+SoWinFullViewer::createZoomPrefSheetGuts( HWND parent )
 {
-    // FIXME: function not implemented
-    return NULL;
+  // FIXME: function not implemented
+  return NULL;
 }
 
-HWND SoWinFullViewer::createClippingPrefSheetGuts( HWND parent )
+HWND
+SoWinFullViewer::createClippingPrefSheetGuts( HWND parent )
 {
-    // FIXME: function not implemented
-    return NULL;
+  // FIXME: function not implemented
+  return NULL;
 }
 
-HWND SoWinFullViewer::createStereoPrefSheetGuts( HWND parent )
+HWND
+SoWinFullViewer::createStereoPrefSheetGuts( HWND parent )
 {
-    // FIXME: function not implemented
-    return NULL;
+  // FIXME: function not implemented
+  return NULL;
 }
 
-void SoWinFullViewer::rightWheelMotion( float )
+void
+SoWinFullViewer::rightWheelMotion( float )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::bottomWheelMotion( float )
+void
+SoWinFullViewer::bottomWheelMotion( float )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::leftWheelMotion( float )
+void
+SoWinFullViewer::leftWheelMotion( float )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::rightWheelStart( void )
+void
+SoWinFullViewer::rightWheelStart( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::bottomWheelStart( void )
+void
+SoWinFullViewer::bottomWheelStart( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::leftWheelStart( void )
+void
+SoWinFullViewer::leftWheelStart( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::rightWheelFinish( void )
+void
+SoWinFullViewer::rightWheelFinish( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::bottomWheelFinish( void )
+void
+SoWinFullViewer::bottomWheelFinish( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::leftWheelFinish( void )
+void
+SoWinFullViewer::leftWheelFinish( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::setBottomWheelString( const char * name )
+void
+SoWinFullViewer::setBottomWheelString( const char * name )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::setLeftWheelString( const char * name )
+void
+SoWinFullViewer::setLeftWheelString( const char * name )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::setRightWheelString( const char * name )
+void
+SoWinFullViewer::setRightWheelString( const char * name )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::openViewerHelpCard( void )
+void
+SoWinFullViewer::openViewerHelpCard( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::afterRealizeHook( void )
+void
+SoWinFullViewer::afterRealizeHook( void )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-HWND SoWinFullViewer::getViewerWidget( void )
+HWND
+SoWinFullViewer::getViewerWidget( void )
 {
-    return this->viewerWidget;
+  return this->viewerWidget;
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -618,169 +696,191 @@ HWND SoWinFullViewer::getViewerWidget( void )
 //
 //
 
-void SoWinFullViewer::doAppButtonLayout( int start )
+void
+SoWinFullViewer::doAppButtonLayout( int start )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::setCameraZoom( float zoom )
+void
+SoWinFullViewer::setCameraZoom( float zoom )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-float SoWinFullViewer::getCameraZoom( void )
+float
+SoWinFullViewer::getCameraZoom( void )
 {
-    // FIXME: function not implemented
-    return 0.0f;
+  // FIXME: function not implemented
+  return 0.0f;
 }
 
-void SoWinFullViewer::setZoomSliderPosition( float zoom )
+void
+SoWinFullViewer::setZoomSliderPosition( float zoom )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::setZoomFieldString( float zoom )
+void
+SoWinFullViewer::setZoomFieldString( float zoom )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::zoomSliderCB( HWND, SoWinFullViewer *, void ** )
+void
+SoWinFullViewer::zoomSliderCB( HWND, SoWinFullViewer *, void ** )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::zoomFieldCB( HWND, SoWinFullViewer *, void ** )   // was XPointer *
+void
+SoWinFullViewer::zoomFieldCB( HWND, SoWinFullViewer *, void ** )   // was XPointer *
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::zoomSensorCB( void *, SoSensor *)
+void
+SoWinFullViewer::zoomSensorCB( void *, SoSensor *)
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::visibilityChangeCB( void * pt, SbBool visible )
+void
+SoWinFullViewer::visibilityChangeCB( void * pt, SbBool visible )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::rightWheelCB( SoWinFullViewer * viewer, void * * data )
+void
+SoWinFullViewer::rightWheelCB( SoWinFullViewer * viewer, void * * data )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::bottomWheelCB( SoWinFullViewer * viewer, void ** data )
+void
+SoWinFullViewer::bottomWheelCB( SoWinFullViewer * viewer, void ** data )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-void SoWinFullViewer::leftWheelCB  ( SoWinFullViewer * viewer, void ** data )
+void
+SoWinFullViewer::leftWheelCB  ( SoWinFullViewer * viewer, void ** data )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
 }
 
-LRESULT CALLBACK SoWinFullViewer::mgrWindowProc( HWND window,
-                                                 UINT message,
-		 					                     WPARAM wparam,
-                                                 LPARAM lparam )
+LRESULT CALLBACK
+SoWinFullViewer::mgrWindowProc( HWND window,
+                                UINT message,
+                                WPARAM wparam,
+                                LPARAM lparam )
 {
-    if ( message == WM_CREATE ) {
-		CREATESTRUCT * createstruct;
-		createstruct = ( CREATESTRUCT * ) lparam;
-		SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
-        SoWinFullViewer * object = ( SoWinFullViewer * ) GetWindowLong( window, 0 );
-		return object->onCreate( window, message, wparam, lparam );
-	}
+  if ( message == WM_CREATE ) {
+    CREATESTRUCT * createstruct;
+    createstruct = ( CREATESTRUCT * ) lparam;
+    SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
+    SoWinFullViewer * object = ( SoWinFullViewer * ) GetWindowLong( window, 0 );
+    return object->onCreate( window, message, wparam, lparam );
+  }
 
-	SoWinFullViewer * object = ( SoWinFullViewer * ) GetWindowLong( window, 0 );
+  SoWinFullViewer * object = ( SoWinFullViewer * ) GetWindowLong( window, 0 );
 
-    if ( object && window == object->getViewerWidget( ) ) {
+  if ( object && window == object->getViewerWidget( ) ) {
 
-        if( GetFocus( ) != object->getNormalWidget( ) )
-            SetFocus( object->getNormalWidget( ) );
+    if( GetFocus( ) != object->getNormalWidget( ) )
+      SetFocus( object->getNormalWidget( ) );
 
-        switch ( message )
-        {
-            case WM_LBUTTONDOWN:
-                return 0;
+    switch ( message )
+      {
+      case WM_LBUTTONDOWN:
+        return 0;
 
-            case WM_SIZE:
-                return object->onSize( window, message, wparam, lparam );
-/*
-            case WM_PAINT:  // FIXME: blocks paint message for glWidget
-                return object->onPaint( window, message, wparam, lparam );
-*/
-            case WM_DESTROY:
-                return object->onDestroy( window, message, wparam, lparam );
-        }
-	}
-    return DefWindowProc( window, message, wparam, lparam );
-}
-LRESULT CALLBACK SoWinFullViewer::btnWindowProc( HWND window,
-                                                 UINT message,
-		 					                     WPARAM wparam,
-                                                 LPARAM lparam )
-{
-    // FIXME: function not implemented
-    return DefWindowProc( window, message, wparam, lparam );
+      case WM_SIZE:
+        return object->onSize( window, message, wparam, lparam );
+        /*
+          case WM_PAINT:  // FIXME: blocks paint message for glWidget
+          return object->onPaint( window, message, wparam, lparam );
+        */
+      case WM_DESTROY:
+        return object->onDestroy( window, message, wparam, lparam );
+      }
+  }
+  return DefWindowProc( window, message, wparam, lparam );
 }
 
-LRESULT CALLBACK SoWinFullViewer::appBtnWindowProc( HWND window,
-                                                    UINT message,
-	  	 					                        WPARAM wparam,
-                                                    LPARAM lparam )
+LRESULT CALLBACK
+SoWinFullViewer::btnWindowProc( HWND window,
+                                UINT message,
+                                WPARAM wparam,
+                                LPARAM lparam )
 {
-    // FIXME: function not implemented
-    return DefWindowProc( window, message, wparam, lparam );
+  // FIXME: function not implemented
+  return DefWindowProc( window, message, wparam, lparam );
 }
 
-LRESULT CALLBACK SoWinFullViewer::txtWindowProc( HWND window,
-                                                 UINT message,
-		 					                     WPARAM wparam,
-                                                 LPARAM lparam )
+LRESULT CALLBACK
+SoWinFullViewer::appBtnWindowProc( HWND window,
+                                   UINT message,
+                                   WPARAM wparam,
+                                   LPARAM lparam )
 {
-    // FIXME: function not implemented
-    return DefWindowProc( window, message, wparam, lparam );
+  // FIXME: function not implemented
+  return DefWindowProc( window, message, wparam, lparam );
 }
 
-LRESULT SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT CALLBACK
+SoWinFullViewer::txtWindowProc( HWND window,
+                                UINT message,
+                                WPARAM wparam,
+                                LPARAM lparam )
 {
-    // FIXME: function not implemented
-    this->setViewing( FALSE );
-    return 0;
+  // FIXME: function not implemented
+  return DefWindowProc( window, message, wparam, lparam );
 }
 
-LRESULT SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT
+SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-
-    HWND managerWidget = this->getManagerWidget( );
-    MoveWindow( managerWidget,
-                0 + renderAreaOffset.left,
-                0 + renderAreaOffset.top,
-                LOWORD( lparam ) + renderAreaOffset.right,
-                HIWORD( lparam ) + renderAreaOffset.bottom,
-                FALSE );
-
-    // left trim
-    this->leftWheel->move( renderAreaOffset.left - this->leftWheel->width( ) - 2,
-                           HIWORD( lparam ) + renderAreaOffset.bottom - this->leftWheel->height( ) + 1 );
-    // FIXME: function not implemented
-    return 0;
+  // FIXME: function not implemented
+  this->setViewing( FALSE );
+  return 0;
 }
 
-LRESULT SoWinFullViewer::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT
+SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-    // FIXME: function not implemented
-    return 0;
+
+  HWND managerWidget = this->getManagerWidget( );
+  MoveWindow( managerWidget,
+              0 + renderAreaOffset.left,
+              0 + renderAreaOffset.top,
+              LOWORD( lparam ) + renderAreaOffset.right,
+              HIWORD( lparam ) + renderAreaOffset.bottom,
+              FALSE );
+
+  // left trim
+  this->leftWheel->move( renderAreaOffset.left - this->leftWheel->width( ) - 2,
+                         HIWORD( lparam ) + renderAreaOffset.bottom - this->leftWheel->height( ) + 1 );
+  // FIXME: function not implemented
+  return 0;
 }
 
-LRESULT SoWinFullViewer::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT
+SoWinFullViewer::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-    // FIXME: function not implemented
-    return 0;
+  // FIXME: function not implemented
+  return 0;
 }
 
-void SoWinFullViewer::drawDecorations( SoWinFullViewer * viewer, HWND hwnd, HDC hdc )
+LRESULT
+SoWinFullViewer::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
+  return 0;
+}
+
+void
+SoWinFullViewer::drawDecorations( SoWinFullViewer * viewer, HWND hwnd, HDC hdc )
+{
+  // FIXME: function not implemented
 }
