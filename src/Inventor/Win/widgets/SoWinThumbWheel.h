@@ -35,16 +35,23 @@ class SoWinThumbWheel
 {
 
 public:
-  enum Orientation { Horizontal, Vertical };
+  enum Orientation {
+		Horizontal,
+		Vertical
+	};
   enum boundaryHandling {
     CLAMP,
     MODULATE,
     ACCUMULATE
   };
-  enum State { Idle, Dragging, Disabled };
+  enum State {
+		Idle,
+		Dragging,
+		Disabled
+	};
 
-  SoWinThumbWheel( HWND parent = 0, int x = 0, int y = 0, const char * name = 0 );
-  SoWinThumbWheel( Orientation, HWND parent = 0, int x = 0, int y = 0, const char * name = 0 );
+  SoWinThumbWheel( HWND parent = 0, int x = 0, int y = 0, char * name = 0 );
+  SoWinThumbWheel( Orientation, HWND parent = 0, int x = 0, int y = 0, char * name = 0 );
   ~SoWinThumbWheel( void );
 
   void setOrientation( Orientation );
@@ -56,6 +63,9 @@ public:
   void setEnabled( bool enable );
   bool isEnabled( void ) const;
 
+	void setLabelText( char * text );
+	void setLabelOffset( int x, int y );
+
   void setRangeBoundaryHandling( boundaryHandling handling );
   boundaryHandling getRangeBoundaryHandling( void ) const;
 
@@ -66,7 +76,6 @@ public:
   void move( int x, int y );
   void registerCallback( thumbWheelCB * func );
 	void registerViewer( SoWinFullViewer * viewer );
-
 protected:
 
   LRESULT CALLBACK onCreate( HWND window,
@@ -111,8 +120,9 @@ protected:
 
 private:
   void constructor( Orientation );
-  HWND buildWidget( HWND parent, RECT rect );
+  HWND buildWidget( HWND parent, RECT rect, char * name );
   void initWheel( int diameter, int width );
+	HWND createLabel( HWND parent, int x, int y, char * text );
   HBITMAP createDIB( int width, int height, int bpp, void ** bits );
   void BlitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int height ) const;
   void drawShadePanel( HDC hdc, int x, int y, int width, int height, int border, SbBool elevated );
@@ -128,7 +138,10 @@ private:
   int numPixmaps;
   int currentPixmap;
 
-  HWND windowHandle;
+  HWND wheelWindow;
+	HWND labelWindow;
+
+	POINT labelOffset;
 
   thumbWheelCB * viewerCB;
 	SoWinFullViewer * viewer; // owner object pointer

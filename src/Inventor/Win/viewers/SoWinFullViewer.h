@@ -114,6 +114,7 @@ protected:
   SoWinThumbWheel * leftWheel;
   SoWinThumbWheel * extraWheel;
 
+	// FIXME: remove ( let SoWinThumbWheel save the string and value )
   char * rightWheelStr;
   char * bottomWheelStr;
   char * leftWheelStr;
@@ -123,11 +124,6 @@ protected:
   float bottomWheelVal;
   float leftWheelVal;
   float extraWheelVal;
-
-  HWND rightWheelLabel;
-  HWND bottomWheelLabel;
-  HWND leftWheelLabel;
-  HWND extraWheelLabel;
 
   SbPList * viewerButtonWidgets;
 
@@ -188,13 +184,13 @@ protected:
   HWND createClippingPrefSheetGuts( HWND parent );
   HWND createStereoPrefSheetGuts( HWND parent );
     
-  float getLeftWheelValue(void) const;
+  float getLeftWheelValue( void ) const;
   void setLeftWheelValue( const float value );
 
-  float getBottomWheelValue(void) const;
+  float getBottomWheelValue( void ) const;
   void setBottomWheelValue( const float value );
 
-  float getRightWheelValue(void) const;
+  float getRightWheelValue( void ) const;
   void setRightWheelValue( const float value );
 
   virtual void rightWheelMotion( float );
@@ -235,6 +231,9 @@ private:
   HWND appButtonForm;
   SbPList * appButtonList;
 
+	//SbPList * viewerButtonList;
+	HWND viewerButtons[8];
+
   //SoWinStereoDialog * stereoDialogBox ; // FIXME: not implemented yet
     
   SbVec2f zoomSldRange;
@@ -248,7 +247,7 @@ private:
   static void zoomFieldCB( HWND, SoWinFullViewer *, void ** );
   static void zoomSensorCB( void *, SoSensor *);
     
-  SoWinBitmapButton * buttonList[10];
+  //SoWinBitmapButton * buttonList[10];
 
   HWND prefSheetShellWidget;
   const char * prefSheetStr;  // - const

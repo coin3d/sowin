@@ -36,18 +36,18 @@ static const int SHADEBORDERWIDTH = 2;
 SoWinThumbWheel::SoWinThumbWheel( HWND parent,
                                   int x,
                                   int y,
-                                  const char * name )
+                                  char * name )
 {
   RECT rect = { x, y, x + sizeHint( ).cx, y + sizeHint( ).cy };
   this->constructor( SoWinThumbWheel::Vertical );
-  this->buildWidget( parent, rect );
+  this->buildWidget( parent, rect, name );
 } // SoWinThumbWheel( )
 
 SoWinThumbWheel::SoWinThumbWheel( Orientation orientation,
                                   HWND parent,
                                   int x,
                                   int y,
-                                  const char * name )
+                                  char * name )
 {
   RECT rect = { x, y, sizeHint( ).cx, sizeHint( ).cy };
     
@@ -57,7 +57,7 @@ SoWinThumbWheel::SoWinThumbWheel( Orientation orientation,
   }
 
   this->constructor( orientation );
-  this->buildWidget( parent, rect );
+  this->buildWidget( parent, rect, name );
 
 	this->viewer = NULL;
 	this->viewerCB = NULL;
@@ -97,14 +97,14 @@ SoWinThumbWheel::sizeHint( void ) const
 HWND
 SoWinThumbWheel::getWidget( void )
 {
-  return this->windowHandle;
+  return this->wheelWindow;
 }
 
 void
 SoWinThumbWheel::setOrientation( Orientation orientation )
 {
   this->orient = orientation;
-  UpdateWindow( this->windowHandle );
+  UpdateWindow( this->wheelWindow );
 } // setOrientation()
 
 SoWinThumbWheel::Orientation
@@ -252,7 +252,7 @@ SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM wparam, LPARAM l
                                                       this->mouseDownPos,
                                                       this->mouseLastPos - this->mouseDownPos );
 
-  InvalidateRect( this->windowHandle, NULL, FALSE );
+  InvalidateRect( this->wheelWindow, NULL, FALSE );
 	
   float * value = & this->tempWheelValue;
 	assert( this->viewerCB != NULL );
@@ -341,7 +341,35 @@ SoWinThumbWheel::height( void )
 void
 SoWinThumbWheel::move( int x, int y )
 {
-  MoveWindow( this->windowHandle, x, y, this->width( ), this->height( ), TRUE );
+	// Wheel
+
+  MoveWindow( this->wheelWindow, x, y, this->width( ), this->height( ), TRUE );
+
+	// Label
+
+	char windowText[80]; // FIXME: use GetWindowTextLength
+	int len = GetWindowText( this->labelWindow, windowText, 80 );
+
+	HDC hdc = GetDC( this->labelWindow );
+
+	SIZE textSize;
+	GetTextExtentPoint( hdc, windowText, len, & textSize );
+	
+	// FIXME: compute correct position
+	if ( this->orient == SoWinThumbWheel::Vertical )
+		MoveWindow( this->labelWindow,
+			          x + labelOffset.x,
+			          y + this->height( ) + labelOffset.y,
+			          textSize.cx,
+			          textSize.cy,
+			          TRUE );
+	else
+		MoveWindow( this->labelWindow,
+			          x - textSize.cx + labelOffset.x,
+			          y + labelOffset.y,
+			          textSize.cx,
+			          textSize.cy,
+			          TRUE );
 }
 
 void
@@ -372,7 +400,7 @@ SoWinThumbWheel::constructor( Orientation orientation )
 } // constructor()
 
 HWND
-SoWinThumbWheel::buildWidget( HWND parent, RECT rect )
+SoWinThumbWheel::buildWidget( HWND parent, RECT rect, char * name )
 {
   WNDCLASS windowclass;
   HMENU menu = NULL;
@@ -392,12 +420,13 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect )
 
   RegisterClass( & windowclass );
 
-  this->windowHandle = CreateWindow(
+  this->wheelWindow = CreateWindow(
                                     wndclassname,
                                     "ThumbWheel",
-                                    WS_CLIPCHILDREN|
-                                    WS_CLIPSIBLINGS|
-                                    WS_CHILD,//|
+																		WS_VISIBLE |
+                                    WS_CLIPCHILDREN |
+                                    WS_CLIPSIBLINGS |
+                                    WS_CHILD,// |
                                     //WS_DLGFRAME,//WS_BORDER,
                                     rect.left,
                                     rect.top,
@@ -408,11 +437,12 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect )
                                     SoWin::getInstance( ),
                                     this );
 
-  assert( IsWindow( this->windowHandle ) );
-  ShowWindow( this->windowHandle, SW_SHOW );
+  assert( IsWindow( this->wheelWindow ) );
 
-  //SoWin::addMessageHook( this->windowHandle, WM_SIZE );
-  return this->windowHandle;
+	this->labelWindow = createLabel( parent, rect.right, rect.bottom, name );
+	this->setLabelOffset( 0, 0 );
+	
+  return this->wheelWindow;
 }
 
 void
@@ -460,7 +490,7 @@ SoWinThumbWheel::setEnabled( bool enable )
     this->state = SoWinThumbWheel::Idle;
   else
     this->state = SoWinThumbWheel::Disabled;
-  UpdateWindow( this->windowHandle );
+  UpdateWindow( this->wheelWindow );
 } // setEnabled()
 
 bool
@@ -474,7 +504,7 @@ SoWinThumbWheel::setValue( float value )
 {
   this->wheelValue = this->tempWheelValue = value;
   this->mouseDownPos = this->mouseLastPos;
-  UpdateWindow( this->windowHandle );
+  UpdateWindow( this->wheelWindow );
 } // setValue()
 
 float
@@ -482,6 +512,19 @@ SoWinThumbWheel::value( void ) const
 {
   // FIXME: tempWheelValue ?
   return this->wheelValue;
+}
+
+void
+SoWinThumbWheel::setLabelText( char * text )
+{
+	SetWindowText( this->labelWindow, text );
+}
+
+void
+SoWinThumbWheel::setLabelOffset( int x, int y )
+{
+	this->labelOffset.x = x;
+	this->labelOffset.y = y;
 }
 
 // *************************************************************************
@@ -522,6 +565,24 @@ SoWinThumbWheel::getRangeBoundaryHandling( void ) const
   return CLAMP; // never reached
 } // getRangeBoundaryHandling()
 
+HWND
+SoWinThumbWheel::createLabel( HWND parent, int x, int y, char * text )
+{
+	HWND hwnd = CreateWindow( "STATIC",
+		                        ( text ? text : "" ),
+		                        WS_VISIBLE | WS_CHILD | SS_CENTER,
+		                        x, y,
+		                        strlen( text ) * 8, 14, // SIZE
+		                        parent,
+		                        NULL,
+		                        SoWin::getInstance( ),
+		                        NULL );
+	assert( IsWindow( hwnd ) );
+	HDC hdc = GetDC( hwnd );
+	SetBkMode( hdc, TRANSPARENT );
+	//SetBkColor( hdc,  COLOR_BACKGROUND );
+	return hwnd;
+}
 
 HBITMAP
 SoWinThumbWheel::createDIB( int width, int height, int bpp, void ** bits ) // 16||24||32 bpp
