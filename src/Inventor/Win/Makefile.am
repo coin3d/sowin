@@ -35,7 +35,6 @@ libSoWin@SUFFIX@_la_SOURCES = \
 	SoWin.cpp \
 	SoWinComponent.cpp \
 	SoWinGLWidget.cpp \
-	SoWinMaterialList.cpp \
 	Win32API.cpp \
 	Win32API.h
 
@@ -58,7 +57,6 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoWin.cpp \
 	SoWinComponent.cpp \
 	SoWinGLWidget.cpp \
-	SoWinMaterialList.cpp \
 	Win32API.cpp \
 	Win32API.h
 
@@ -84,8 +82,7 @@ nodist_SoWininc_HEADERS = \
 	SoWinCursor.h \
 	SoWinComponent.h \
 	SoWinGLWidget.h \
-	SoWinRenderArea.h \
-	SoWinMaterialList.h
+	SoWinRenderArea.h
 
 install-SoWinincHEADERS: $(SoWininc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -132,36 +129,30 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 
 install-exec-local:
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
-	if @BUILD_WITH_MSVC@; then \
-	  for ext in dll pdb; do \
-	    file="$$basename.$$ext"; \
-	    if test -f "$$file"; then \
-	      $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
-	      echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
-	      $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file"; \
-	    fi \
-	  done; \
-	else :; fi
+	for ext in dll pdb; do \
+	  file="$$basename.$$ext"; \
+	  if test -f "$$file"; then \
+	    $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
+	    echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+	    $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+	  fi \
+	done
 
 install-data-local:
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
-	if @BUILD_WITH_MSVC@; then \
-	  for ext in lib; do \
-	    file="$$basename.$$ext"; \
-	    if test -f "$$file"; then \
-	      $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
-	      echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
-	      $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
-	    fi \
-	  done; \
-	else :; fi
+	for ext in lib; do \
+	  file="$$basename.$$ext"; \
+	  if test -f "$$file"; then \
+	    $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
+	    echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	    $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	  fi \
+	done
 
 uninstall-local: uninstall-SoWinincHEADERS uninstall-nodist_SoWinincHEADERS
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
-	for file in \
-	  "$(DESTDIR)$(bindir)/$$basename.dll" \
-	  "$(DESTDIR)$(bindir)/$$basename.pdb" \
-	  "$(DESTDIR)$(libdir)/$$basename.lib"; do \
+	for ext in dll pdb lib; do \
+	  file="$(DESTDIR)$(bindir)/$$basename.$$ext"; \
 	  if test -f "$$file"; then \
 	    echo " rm -f" "$$file"; \
 	    echo rm -f "$$file"; \
