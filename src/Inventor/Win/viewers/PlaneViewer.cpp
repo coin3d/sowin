@@ -56,6 +56,7 @@
 SoWinPlaneViewerP::SoWinPlaneViewerP(SoWinPlaneViewer * publ)
   : SoGuiPlaneViewerP(publ)
 {
+  PRIVATE(this)->camerabutton = NULL;
 }
 
 SoWinPlaneViewerP::~SoWinPlaneViewerP()
