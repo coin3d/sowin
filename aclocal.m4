@@ -8179,9 +8179,8 @@ fi
 
 sim_ac_hhc_exe=
 case $host in
-  *-cygwin)
-    AC_PATH_PROG([sim_ac_hhc_exe], [hhc])
-  ;;
+  *-cygwin) AC_PATH_PROG([sim_ac_hhc_exe], [hhc]) ;;
+  *)        AC_SUBST(sim_ac_hhc_exe) ;;
 esac
 
 if test x"$want_html_help" = x"yes"; then
