@@ -43,7 +43,7 @@ SetOverwrite on
 
 SetOutPath $INSTDIR\html\SoWin
 File @win_prefix@\html\SoWin\*.html
-File @win_prefix@\html\SoWin\*.gif
+File @win_prefix@\html\SoWin\*.png
 File @win_prefix@\html\SoWin\*.css
 
 SectionEnd
