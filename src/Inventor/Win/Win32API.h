@@ -80,6 +80,7 @@ public:
                               CONST VOID *, CONST VOID *);
   static HCURSOR LoadCursor(HINSTANCE, LPCTSTR);
   static void ClientToScreen(HWND, LPPOINT);
+  static HWND SetFocus(HWND);
 
   // Internal and external interface to GetLastError() + FormatMessage().
   static SbString getWin32Err(DWORD & lasterr);

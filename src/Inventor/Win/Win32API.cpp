@@ -536,3 +536,12 @@ Win32::DestroyMenu(HMENU hMenu)
   if (!r) { Win32::showLastErr(); }  
   assert(r && "DestroyMenu() failed -- investigate");
 }
+
+HWND
+Win32::SetFocus(HWND hWnd)
+{
+  HWND h = ::SetFocus(hWnd);
+  if (h == NULL) { Win32::showLastErr(); }  
+  assert(h && "SetFocus() failed -- investigate");
+  return h;
+}
