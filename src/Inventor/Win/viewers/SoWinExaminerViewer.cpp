@@ -200,7 +200,7 @@ SoWinExaminerViewer::setCamera( // virtual
   SbBool orthotype =
     newCamera->getTypeId( ).isDerivedFrom( SoOrthographicCamera::getClassTypeId( ) );
   
-  if ( SoWinFullViewer::doButtonBar ) // may not be there if !doButtonBar
+  if ( this->isDoButtonBar( ) ) // may not be there if !doButtonBar
     ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_PERSPECTIVE] )->setBitmap(
     orthotype ? 1 : 0 );
   

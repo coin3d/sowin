@@ -44,6 +44,7 @@ SOWIN_OBJECT_ABSTRACT_SOURCE( SoWinComponent );
 // The private data for the SoWinComponent.
 
 class SoWinComponentP {
+  
 public:
   // Constructor.
   SoWinComponentP( SoWinComponent * o ) {
@@ -284,8 +285,10 @@ SoWinComponent::setSize( const SbVec2s size )
 {
   PRIVATE( this )->size = size;
 
-  HWND hwnd = ( IsWindow( PRIVATE( this )->parent ) ?
-    PRIVATE( this )->parent : PRIVATE( this )->widget );
+  // FIXME: does this fix the bug reported by eossystems? mariusbu 20010723.
+  //HWND hwnd = ( IsWindow( PRIVATE( this )->parent ) ?
+  //  PRIVATE( this )->parent : PRIVATE( this )->widget );
+  HWND hwnd = PRIVATE( this )->widget;
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
   SetWindowPos( hwnd, NULL, 0, 0, size[0], size[1], flags );
 }

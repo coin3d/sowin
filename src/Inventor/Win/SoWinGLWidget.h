@@ -27,6 +27,7 @@
 #include <Inventor/Win/SoWinComponent.h>
 
 class SoWinGLArea;
+class SoWinGLWidgetP;
 
 enum GLModes {
   SO_GL_RGB      = 0x01, SO_GLX_RGB      = SO_GL_RGB,
@@ -42,6 +43,7 @@ enum GLModes {
 
 class SOWIN_DLL_API SoWinGLWidget : public SoWinComponent {
   SOWIN_OBJECT_ABSTRACT_HEADER( SoWinGLWidget, SoWinComponent );
+  friend class SoWinGLWidgetP;
 
 public:
   
@@ -84,11 +86,11 @@ public:
   void setCursor( HCURSOR newCursor );
   HCURSOR getCursor( void );
 
-  SbBool hasOverlayGLArea( void ) const;
-  SbBool hasNormalGLArea( void ) const;
+  SbBool hasOverlayGLArea( void );
+  SbBool hasNormalGLArea( void );
 
   // FIXME: implemented in SoQt. mariusbu 20010719.
-  //unsigned long getOverlayTransparentPixel( void );
+  // unsigned long getOverlayTransparentPixel( void );
 
   void processExternalEvent( HWND window,
                              UINT message,
@@ -103,8 +105,20 @@ protected:
                  int glModes = SO_GL_RGB,
                  SbBool build = TRUE );
 
-  virtual ~SoWinGLWidget( void );
+  ~SoWinGLWidget( void );
 
+  
+  static LRESULT CALLBACK glWidgetProc( HWND window,
+                                        UINT message,
+                                        WPARAM wparam,
+                                        LPARAM lparam );
+
+
+  static LRESULT CALLBACK mgrWidgetProc( HWND window,
+                                         UINT message,
+                                         WPARAM wparam,
+                                         LPARAM lparam );
+  
   virtual void processEvent( MSG * msg );
   virtual void redraw( void ) = 0;
   virtual void redrawOverlay( void );
@@ -154,57 +168,13 @@ protected:
   void glSwapBuffers( void );
   void glFlushBuffer( void );
 
-  SbBool waitForExpose;
-  SbBool drawToFrontBuffer;
-  
   HWND parent;
   HWND toplevel;
+  SbBool waitForExpose;
 
-private:  
+private:
 
-  static LRESULT CALLBACK glWindowProc( HWND window,
-                                        UINT message,
-                                        WPARAM wparam,
-                                        LPARAM lparam );
-
-
-  static LRESULT CALLBACK managerWindowProc( HWND window,
-                                             UINT message,
-                                             WPARAM wparam,
-                                             LPARAM lparam );
-
-  void buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd = NULL );
-  void buildOverlayGLWidget( PIXELFORMATDESCRIPTOR * pfd = NULL );
-  BOOL createGLContext( HWND window );
-
-  LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-
-  HWND managerWidget;
-  HWND normalWidget;
-  HWND overlayWidget;
-
-  HGLRC ctxNormal;
-  HGLRC ctxOverlay;
-
-  HDC hdcNormal;
-  HDC hdcOverlay;
-
-  SbVec2s glSize;
-  SbBool enableDrawToFrontBuffer;
-
-  PIXELFORMATDESCRIPTOR pfdNormal;
-  PIXELFORMATDESCRIPTOR pfdOverlay;
-
-  BOOL haveFocus;
-  BOOL stealFocus;
-  BOOL haveBorder;
-  HCURSOR currentCursor;
-
-  int glModes;
-  int borderSize;
+  SoWinGLWidgetP * pimpl;
 
 }; // class SoWinGLWidget
 
