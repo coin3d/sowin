@@ -32,7 +32,8 @@ class SoAnyExaminerViewer;
 class SOWIN_DLL_API SoWinExaminerViewer : public SoWinFullViewer {
   SOWIN_OBJECT_HEADER(SoWinExaminerViewer, SoWinFullViewer);
   friend class SoAnyExaminerViewer;
-
+  friend class SoWinViewerPrefSheet;
+  
 public:
   SoWinExaminerViewer(
     HWND parent = NULL,
@@ -85,6 +86,7 @@ protected:
 
   virtual void afterRealizeHook( void );
 
+  virtual void createPrefSheet( void );
 	// Button clicked
 	virtual void cameratoggleClicked( void );
 

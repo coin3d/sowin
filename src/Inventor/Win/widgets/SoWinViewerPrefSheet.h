@@ -21,6 +21,8 @@
 #define  SOWIN_VIEWERPREFSHEET_H
 
 class SoWinThumbWheel;
+class SoWinFullViewer;
+class SoWinExaminerViewer;
 
 class SOWIN_DLL_API SoWinViewerPrefSheet {
   
@@ -28,29 +30,34 @@ public:
   SoWinViewerPrefSheet( void );
   ~SoWinViewerPrefSheet( void );
   void create( HWND parent = NULL );
+  void size( void );
   void destroy( void );
   void show( SbBool show );
   HWND getWidget( void );
   void setTitle( const char * title );
+
+  void createSeekWidgets( SoWinFullViewer * viewer );
+  void createZoomWidgets( SoWinFullViewer * viewer );
+  void createClippingWidgets( SoWinFullViewer * viewer );
+  void createSpinnWidgets( SoWinExaminerViewer * viewer );
   
 protected:
   void constructor( void );
 
-  void createMainWidget( HWND parent);
+  void createMainWidget( HWND parent );
+
+  void initSeekWidgets( SoWinFullViewer * viewer );
+  void initZoomWidgets( SoWinFullViewer * viewer );
+  void initClippingWidgets( SoWinFullViewer * viewer );
+  void initSpinnWidgets( SoWinExaminerViewer * viewer );
+
   void destroyMainWidget( void );
-
-  int createSeekWidgets( HWND parent, int x, int y );
   void destroySeekWidgets( void );
-
-  int createZoomWidgets( HWND parent, int x, int y );
-  void destroyZoomWidgets( void );
-
-  int createClippingWidgets( HWND parent, int x, int y );
+  void destroyZoomWidgets( void );  
   void destroyClippingWidgets( void );
-
-  int createSpinnWidgets( HWND parent, int x, int y );
   void destroySpinnWidgets( void );
 
+  
   // Event handlers
 
   static LRESULT CALLBACK processEvent( HWND window,
@@ -60,19 +67,31 @@ protected:
 
   LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  LRESULT onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  LRESULT onThumbWheel( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   
 private:
   HWND createLabelWidget( HWND parent, const char * text = NULL, int x = 0, int y = 0 );
-  HWND createEditWidget( HWND parent, int width = 64, int x = 0, int y = 0 );
-  HWND createRadioWidget( HWND parent, const char * text = NULL, int x = 0, int y = 0 );
-  HWND createSliderWidget( HWND parent, int width = 64, int x = 0, int y = 0 );
-  HWND createCheckWidget( HWND parent, const char * text = NULL, int x = 0, int y = 0 );
+  HWND createEditWidget( HWND parent, long id, int width = 64, int x = 0, int y = 0 );
+  HWND createRadioWidget( HWND parent, long id, const char * text = NULL, int x = 0, int y = 0 );
+  HWND createSliderWidget( HWND parent, long id, int width = 64, int x = 0, int y = 0 );
+  HWND createCheckWidget( HWND parent, long id, const char * text = NULL, int x = 0, int y = 0 );
 
   SIZE getTextSize( HWND window, const char * text );
   int getFontHeight( HWND window );
 
+  void setSliderValue( HWND slider, int value );
+  int getSliderValue( HWND slider );
+  void setSliderRange( HWND slider, int min, int max );
+  SIZE getSliderRange( HWND slider );
+
+  void setChecked( HWND hwnd, BOOL check );
+  void setEnabled( HWND hwnd, BOOL enable );
+  
   int lineHeight;
+  int x, y;
   const char * className;
+  const char * title;
   
   HWND mainWidget;
   
@@ -87,6 +106,11 @@ private:
 
   HWND spinnWidgets[4];
   SoWinThumbWheel * axesSizeWheel;
+
+  SoWinFullViewer * seekViewer;
+  SoWinFullViewer * zoomViewer;
+  SoWinFullViewer * clippingViewer;
+  SoWinExaminerViewer * spinnViewer;  
 };
 
 #endif  // SOWIN_VIEWERPREFSHEET_H

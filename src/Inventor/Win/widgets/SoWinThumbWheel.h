@@ -29,6 +29,9 @@ class SoWinFullViewer;
 
 typedef void thumbWheelCB( SoWinFullViewer * viewer, void ** data );
 
+//#define WM_USER 0x0400
+#define WM_THUMBWHEEL 0x0401
+
 // *************************************************************************
 
 class SOWIN_DLL_API SoWinThumbWheel {
@@ -49,10 +52,13 @@ public:
 		Disabled
 	};
 
-  SoWinThumbWheel( HWND parent = 0, int x = 0, int y = 0, char * name = 0 );
-  SoWinThumbWheel( Orientation, HWND parent = 0, int x = 0, int y = 0, char * name = 0 );
+  SoWinThumbWheel( HWND parent = 0, long id = -1, int x = 0, int y = 0, char * name = 0 );
+  SoWinThumbWheel( Orientation, HWND parent = 0, long id = -1, int x = 0, int y = 0, char * name = 0 );
   ~SoWinThumbWheel( void );
 
+  void setId( long id );
+  long id( void ) const;
+  
   void setOrientation( Orientation );
   Orientation orientation( void ) const;
 

@@ -309,19 +309,7 @@ SoWinFullViewer::setStereoDialog( SoWinStereoDialog * newDialog )
 void
 SoWinFullViewer::selectedPrefs( void )
 {
-  char appName[128];
-  
-  if ( this->prefsheet == NULL ) {
-    this->prefsheet = new SoWinViewerPrefSheet( );
-  }
-  
-  if ( ! IsWindow( this->prefsheet->getWidget( ) ) ) {
-    this->prefsheet->create( );//this->viewerWidget );
-    GetWindowText( SoWin::getTopLevelWidget( ), appName, 128 );
-    this->prefsheet->setTitle( appName );
-    //this->prefsheet->show( TRUE );
-  }
-  else SetActiveWindow( this->prefsheet->getWidget( ) );
+  this->createPrefSheet( );
 }
 /*
 void
@@ -437,19 +425,18 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 
   this->menuenabled = ( flag & SoWinFullViewer::BUILD_POPUP ) ? TRUE : FALSE;
   this->decorations = ( flag & SoWinFullViewer::BUILD_DECORATION ) ? TRUE : FALSE;
+    
+  this->viewerButtonList = new SbPList;
+  this->appButtonList = new SbPList;
 
   this->prefmenu = NULL;
-  
-  this->prefsheet = NULL;
-  //this->prefwindowtitle = "Viewer Preference Sheet";
+  this->prefsheet = new SoWinViewerPrefSheet( );
+  this->prefsheet->setTitle( "Viewer Preference Sheet" );
   
 	this->leftWheel = NULL;
   this->bottomWheel = NULL;
   this->rightWheel = NULL;
   this->extraWheel = NULL; // Is this needed? mariusbu 20010611.
-
-  this->viewerButtonList = new SbPList;
-  this->appButtonList = new SbPList;
 
 	this->appPushButtonCB = NULL;
 	this->appPushButtonData = NULL;
@@ -465,11 +452,17 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
     HWND window = this->buildWidget( parent );
     this->setBaseWidget( window );
   }
+
+  this->zoomrange = SbVec2f( 1.0f, 140.0f ); // FIXME: make init function
 }
 
 SoWinFullViewer::~SoWinFullViewer( void )
 {
 	// FIXME: remember to dealocate resources
+      
+  delete this->viewerButtonList;
+  delete this->appButtonList;
+
 }
 /*    
 HWND
@@ -486,7 +479,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   WNDCLASS windowclass;
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
-	LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );  
+	LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
   HMENU menu = NULL;
   HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
   LPSTR wndclassname = ( LPSTR ) this->getClassName( );
@@ -564,8 +557,10 @@ SoWinFullViewer::buildDecoration( HWND parent )
 	//this->buildZoomSlider( parent );
 
 	if ( SoWinFullViewer::doButtonBar ) {
+    
     this->buildViewerButtons( parent );
     this->buildAppButtons( parent );
+    
     SoWinFullViewer::doneButtonBar = TRUE;
   }
 
@@ -581,6 +576,7 @@ SoWinFullViewer::buildLeftWheel( HWND parent )
   // Create coords are not needed - the widget is moved into place (see onSize)
   this->leftWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
                                          parent,
+                                         0,
 		                                     0,
                                          0,
                                          "RotX" );
@@ -598,6 +594,7 @@ SoWinFullViewer::buildBottomWheel( HWND parent )
 	// Create coords are not needed - the widget is moved into place (see onSize)
   this->bottomWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal,
 		                                       parent,
+                                           1,
 		                                       0,
                                            0,
                                            "RotY" );
@@ -615,6 +612,7 @@ SoWinFullViewer::buildRightWheel( HWND parent )
 	// Create coords are not needed - the widget is moved into place (see onSize)
   this->rightWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
                                           parent,
+                                          2,
 		                                      0,
                                           0,
                                           "Dolly" );
@@ -786,15 +784,21 @@ SoWinFullViewer::displayPopupMenu( int x, int y, HWND owner )
 void
 SoWinFullViewer::setPrefSheetString( const char * name )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  this->prefsheet->setTitle( name );
 }
 
 void
 SoWinFullViewer::createPrefSheet( void )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+
+  this->prefsheet->create( );
+  
+  this->prefsheet->createSeekWidgets( this );
+  this->prefsheet->createZoomWidgets( this );
+  this->prefsheet->createClippingWidgets( this );
+  this->prefsheet->size( );
+ 
+  // FIXME: create and init parts
 }
 /*
 void

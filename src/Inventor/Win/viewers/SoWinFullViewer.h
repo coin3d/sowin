@@ -39,6 +39,7 @@ class SOWIN_DLL_API SoWinFullViewer : public SoWinViewer {
   SOWIN_OBJECT_ABSTRACT_HEADER( SoWinFullViewer, SoWinViewer );
 
   friend class SoAnyFullViewer;
+  friend class SoWinViewerPrefSheet;
 public:
 
   enum BuildFlag {
@@ -100,7 +101,7 @@ public:
   // SoWinStereoDialog * getStereoDialog( void );
   // void setStereoDialog( SoWinStereoDialog * newDialog );
 	    
-  void selectedPrefs( void );
+  virtual void selectedPrefs( void );
   //void resetToHomePosition( void );
   //void saveHomePosition( void );
   //void viewAll( void );
@@ -211,6 +212,9 @@ protected:
   SoWinThumbWheel * extraWheel;
     
   SbBool popupEnabled;
+
+  SbVec2f zoomrange;
+  SoWinViewerPrefSheet * prefsheet; // preference window
   
 private:
     
@@ -260,8 +264,6 @@ private:
   
   SoAnyPopupMenu * prefmenu;
   SoAnyFullViewer * const common;
-
-  SoWinViewerPrefSheet * prefsheet; // preference window
 
   SbBool menuenabled;
   SbBool decorations;

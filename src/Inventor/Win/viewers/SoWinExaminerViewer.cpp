@@ -36,8 +36,10 @@ static const char rcsid[] =
 #include <Inventor/Win/SoWin.h>
 
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
+#include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
 #include <Inventor/Win/viewers/SoAnyExaminerViewer.h>
+
 
 #include <Inventor/Win/SoWinCursors.h>
 
@@ -533,6 +535,17 @@ SoWinExaminerViewer::setCursorRepresentation(
 } // setCursorRepresentation()
 
 // *************************************************************************
+
+
+void
+SoWinExaminerViewer::createPrefSheet( void )
+{
+  inherited::createPrefSheet( );
+  this->prefsheet->createSpinnWidgets( this );
+  this->prefsheet->size( );
+ 
+  // FIXME: create and init parts
+}
 
 void
 SoWinExaminerViewer::setAnimationEnabled(

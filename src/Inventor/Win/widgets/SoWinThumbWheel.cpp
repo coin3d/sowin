@@ -32,6 +32,7 @@ static const char rcsid[] =
 // *************************************************************************
 
 SoWinThumbWheel::SoWinThumbWheel( HWND parent,
+                                  long id,
                                   int x,
                                   int y,
                                   char * name )
@@ -39,17 +40,20 @@ SoWinThumbWheel::SoWinThumbWheel( HWND parent,
   this->constructor( SoWinThumbWheel::Vertical );
   RECT rect = { x, y, x + this->sizeHint( ).cx, y + this->sizeHint( ).cy };
   this->buildWidget( parent, rect, name );
+  this->setId( id );
 } // SoWinThumbWheel( )
 
 SoWinThumbWheel::SoWinThumbWheel( Orientation orientation,
                                   HWND parent,
+                                  long id,
                                   int x,
                                   int y,
                                   char * name )
 {
-  this->constructor( orientation ); // set orientation
+  this->constructor( orientation );
   RECT rect = { x, y, sizeHint( ).cx, sizeHint( ).cy };
   this->buildWidget( parent, rect, name );
+  this->setId( id );
 } // SoWinThumbWheel()
 
 
@@ -86,6 +90,18 @@ HWND
 SoWinThumbWheel::getWidget( void )
 {
   return this->wheelWindow;
+}
+
+void
+SoWinThumbWheel::setId( long id )
+{
+  SetWindowLong( this->wheelWindow, GWL_ID, id );
+}
+
+long
+SoWinThumbWheel::id( void ) const
+{
+  return GetWindowLong( this->wheelWindow, GWL_ID );
 }
 
 void
@@ -192,6 +208,11 @@ SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM wparam, LPARAM l
   float * value = & this->tempWheelValue;
 	if ( ( this->viewerCB != NULL ) && ( this->viewer != NULL ) )
     this->viewerCB( this->viewer, ( void ** ) & value );
+  else {
+    WPARAM wparam = GetWindowLong( window, GWL_ID );
+    LPARAM lparam = ( LPARAM ) value;
+    SendMessage( GetParent( window ), WM_THUMBWHEEL, wparam, lparam );
+  }
 
 	return 0;
 }
@@ -404,8 +425,6 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect, char * name )
   windowclass.cbWndExtra = 4;
 
   RegisterClass( & windowclass );
-
-  _cprintf( "x: %d\ny: %d\ncx: %d\ncy: %d\n", rect.left, rect.top, rect.right, rect.bottom );
 
   this->wheelWindow = CreateWindow(
                                     wndclassname,
