@@ -24,6 +24,7 @@
 #include <sowindefs.h>
 #include <Inventor/Win/Win32API.h>
 #include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/SoWinCursor.h>
 #include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
@@ -56,7 +57,6 @@ class SoWinFullViewerP {
 public:
   SoWinFullViewerP(SoWinFullViewer * o) {
     this->owner = o;
-    this->cursor = NULL;
   }
 
   static void rightWheelCB(SoWinFullViewer * viewer, void ** data);
@@ -91,7 +91,7 @@ public:
   static SbBool doneButtonBar;
   static SbBool doButtonBar;
 
-  const SoWinCursor * cursor;
+  SoWinCursor cursor;
 
 private:
   SoWinFullViewer * owner;
@@ -365,7 +365,7 @@ SoWinFullViewer::setComponentCursor(const SoWinCursor & cursor)
   // method will set the cursor for the top-most parent widget, which
   // makes it affect all sub-widgets, like the decorations stuff.
 
-  PRIVATE(this)->cursor = &cursor;
+  PRIVATE(this)->cursor = cursor;
   SoWinComponent::setWidgetCursor(this->getRenderAreaWidget(), cursor);
 }
 
@@ -1191,8 +1191,8 @@ SoWinFullViewerP::callWndProc(int code, WPARAM wparam, LPARAM lparam)
     switch (msg->message) {
     case WM_SETCURSOR:
       SoWinComponent::setWidgetCursor(object->getRenderAreaWidget(),
-                                      *(PRIVATE(object)->cursor));
-      return 0;
+                                      PRIVATE(object)->cursor);
+      break;
 
     case WM_COMMAND:
       object->onCommand(msg->hwnd, msg->message, msg->wParam, msg->lParam);
