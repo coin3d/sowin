@@ -221,6 +221,26 @@ maintainer-clean-libtool:
 libSoWinDevices.la: $(libSoWinDevices_la_OBJECTS) $(libSoWinDevices_la_DEPENDENCIES)
 	$(CXXLINK)  $(libSoWinDevices_la_LDFLAGS) $(libSoWinDevices_la_OBJECTS) $(libSoWinDevices_la_LIBADD) $(LIBS)
 
+install-libSoWinDevicesincHEADERS: $(libSoWinDevicesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(libSoWinDevicesincdir)
+	@list='$(libSoWinDevicesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  if cmp -s $$d$$p $(DESTDIR)$(libSoWinDevicesincdir)/$$f; then :; else \
+	    echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoWinDevicesincdir)/$$f"; \
+	    $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoWinDevicesincdir)/$$f; \
+	  fi; \
+	done
+
+uninstall-libSoWinDevicesincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(libSoWinDevicesinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(libSoWinDevicesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(libSoWinDevicesincdir)/$$f; \
+	done
+
 tags: TAGS
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
@@ -378,34 +398,6 @@ all-redirect all-am all install-strip installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
-
-############################################################################
-
-SoWinInputFocus.cpp: ../SoWinBasic.h
-SoWinKeyboard.cpp: ../SoWinBasic.h
-SoWinMouse.cpp: ../SoWinBasic.h
-SoWinSpaceball.cpp: ../SoWinBasic.h
-
-../SoWinBasic.h: $(top_srcdir)/src/Inventor/Win/common/SoGuiBasic.h.in
-	( cd $(top_builddir); $(MAKE) built-sources )
-
-install-libSoWinDevicesincHEADERS: $(libSoWinDevicesinc_HEADERS)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoWinDevicesincdir)
-	@list='$(libSoWinDevicesinc_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoWinDevicesincdir)/$$f"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoWinDevicesincdir)/$$f; \
-	done
-
-uninstall-libSoWinDevicesincHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(libSoWinDevicesinc_HEADERS)'; for p in $$list; do \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libSoWinDevicesincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libSoWinDevicesincdir)/$$f; \
-	done
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
