@@ -89,7 +89,10 @@ public:
     if ( message == WM_SIZE && component ) {
       component->sizeChanged( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
     }
-    
+    if ( message == WM_CLOSE && component ) {
+      component->hide( );
+      return 0;
+    }
     return DefWindowProc( window, message, wparam, lparam );
   }
   
@@ -234,6 +237,11 @@ SoWinComponent::~SoWinComponent( void )
 void
 SoWinComponent::show( void )
 {
+  /*
+  if( ! IsWindow( PRIVATE( this )->parent ) ) {
+    //build widget
+  }
+  */
   (void)ShowWindow( PRIVATE( this )->parent, SW_SHOW );
   Win32::InvalidateRect( PRIVATE( this )->parent, NULL, FALSE );
 }
@@ -289,11 +297,11 @@ SoWinComponent::setFullScreen( const SbBool enable )
     // FIXME: isn't there a specific method in the Win32 API for
     // maximizing a window? If yes, use that mechanism instead of this
     // "homegrown" method with MoveWindow() resizing. 20010820 mortene.
-    //Win32::ShowWindow( hwnd, SW_MAXIMIZE );
+    //ShowWindow( hwnd, SW_MAXIMIZE );
   }
   else {
     // Go "normal".
-    //Win32::ShowWindow( hwnd, SW_RESTORE );
+    //ShowWindow( hwnd, SW_RESTORE );
     (void)Win32::SetWindowLong( hwnd, GWL_STYLE, data->style | WS_VISIBLE );
     (void)Win32::SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
     
