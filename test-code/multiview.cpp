@@ -82,11 +82,22 @@ viewerWindowProc(
   WPARAM wparam,
   LPARAM lparam)
 {
-	if (message == WM_SIZE) {
-    SoWinFullViewer * v =
+  SoWinFullViewer * v =
       (SoWinFullViewer *)GetWindowLong(window, GWL_USERDATA);
-		if (v) sizeWindow(v->getWidget(), LOWORD(lparam), HIWORD(lparam));
+
+  if (message == WM_SIZE) {
+		if (v) v->setSize(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
   }
+
+  if (message == WM_DESTROY) {
+    if (v) {
+      if (v->getTypeId() == SoWinPlaneViewer::getClassTypeId())
+        delete (SoWinPlaneViewer *)v;
+      else
+        delete (SoWinExaminerViewer *)v;
+    }
+  }
+  
 	return DefWindowProc(window, message, wparam, lparam);
 }
 
@@ -223,10 +234,5 @@ WinMain(
                                 // when created. We size them back.
   SoWin::mainLoop();
 
-  delete pviewer_a;
-  delete eviewer;
-  delete pviewer_b;
-  delete pviewer_c;
-  
   return 0;
 }
