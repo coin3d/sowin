@@ -54,6 +54,7 @@ private:
   int	events;
   SoLocation2Event * locationEvent;	// mouse motion
   SoMouseButtonEvent * buttonEvent;	// mouse button
+  int downCount;
 };
 
 #define SO_WIN_ALL_MOUSE_EVENTS SoWinMouse::ALL_EVENTS
