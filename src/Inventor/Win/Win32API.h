@@ -42,6 +42,7 @@ public:
   static void SetWindowText(HWND, LPCTSTR);
   static void InvalidateRect(HWND, CONST RECT *, BOOL);
   static void GetWindowRect(HWND, LPRECT);
+  static void GetClientRect(HWND, LPRECT);	
   static LONG SetWindowLong(HWND, int, LONG);
   static LONG GetWindowLong(HWND, int);
    

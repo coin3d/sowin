@@ -171,6 +171,15 @@ Win32::GetWindowRect(HWND hWnd,      // handle to window
   assert( r && "GetWindowRect() failed -- investigate" );
 }
 
+void
+Win32::GetClientRect(HWND hWnd,      // handle to window
+           LPRECT lpRect)            // address of structure for window coordinates
+{
+  BOOL r = ::GetClientRect(hWnd, lpRect);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "GetClientRect() failed -- investigate" );
+}
+
 LONG
 Win32::SetWindowLong(HWND hWnd,       // handle of window
            int nIndex,                // offset of value to set

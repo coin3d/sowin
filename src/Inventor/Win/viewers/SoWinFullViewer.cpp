@@ -1144,7 +1144,6 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
   int i, x, y, width, height, bottom, right, top;
   int numViewerButtons = this->owner->viewerButtonList->getLength( );
   int numAppButtons = this->owner->appButtonList->getLength( );
-  BOOL repaint = ( IsWindow( this->owner->parent ) ? FALSE : TRUE );
 
   // RenderArea
   assert( IsWindow( this->owner->renderAreaWidget ) );
@@ -1152,11 +1151,11 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
   if ( this->decorations ) {
     Win32::MoveWindow( this->owner->renderAreaWidget, DECORATION_SIZE, 0,
                        cx - ( 2 * DECORATION_SIZE ), cy - DECORATION_SIZE,
-                       repaint );
+                       TRUE );
   }
   else {
     Win32::MoveWindow( this->owner->renderAreaWidget, 0, 0, cx, cy,
-                       repaint );
+                       TRUE );
     return 0;
   }
 
@@ -1170,7 +1169,7 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
     for( i = 0; i < numAppButtons; i++ ) {
       Win32::MoveWindow( APPBUTTON_O( i ),
                          0, ( DECORATION_SIZE * ( i + numViewerButtons ) ),
-                         DECORATION_SIZE, DECORATION_SIZE, repaint );
+                         DECORATION_SIZE, DECORATION_SIZE, TRUE );
     }
   }
 
