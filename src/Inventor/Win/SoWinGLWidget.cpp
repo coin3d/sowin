@@ -17,11 +17,9 @@
  *
  **************************************************************************/
 
-/*!
-  \class SoWinGLWidget SoWinGLWidget.h Inventor/Win/SoWinGLWidget.h
-  \brief The SoWinGLWidget class contains an OpenGL canvas.
-*/
-// FIXME: proper class documentation. 20010925 mortene.
+// Class documentation in common/SoGuiGLWidgetCommon.cpp.in.
+
+// *************************************************************************
 
 #if HAVE_CONFIG_H
 #include <config.h>
@@ -70,9 +68,7 @@ int SoWinGLWidgetP::widgetCounter = 0;
 //  (protected)
 //
 
-/*!
-  Protected constructor.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SoWinGLWidget::SoWinGLWidget(HWND parent,
                               const char * name,
                               SbBool embed,
@@ -110,9 +106,7 @@ SoWinGLWidget::SoWinGLWidget(HWND parent,
   this->setBaseWidget(PRIVATE(this)->managerWidget);
 }
 
-/*!
-  Protected destructor.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SoWinGLWidget::~SoWinGLWidget()
 {
   if (IsWindow(PRIVATE(this)->managerWidget))
@@ -153,16 +147,14 @@ SoWinGLWidget::getOverlayWindow(void) const
   return PRIVATE(this)->overlayWidget;
 }
 
-/*!
- */
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 HWND
 SoWinGLWidget::getNormalWidget(void) const
 {
   return PRIVATE(this)->normalWidget;
 }
 
-/*!
- */
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 HWND
 SoWinGLWidget::getOverlayWidget(void) const
 {
@@ -290,14 +282,14 @@ SoWinGLWidget::getPixelFormat(void)
   return GetPixelFormat(PRIVATE(this)->hdcNormal);
 }
 
-// FIXME: make doc in SoQtGLWidget valid for this also. 20011116 mortene.
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::setOverlayRender(const SbBool onoff)
 {
   SOWIN_STUB();
 }
 
-// FIXME: make doc in SoQtGLWidget valid for this also. 20011116 mortene.
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::isOverlayRender(void) const
 {
@@ -305,12 +297,7 @@ SoWinGLWidget::isOverlayRender(void) const
   return FALSE;
 }
 
-/*!
-  Switch between single and double buffer mode for the OpenGL canvas.
-  The default is to use a single buffer canvas.
-
-  \sa isDoubleBuffer()
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::setDoubleBuffer(SbBool set)
 {
@@ -324,61 +311,42 @@ SoWinGLWidget::setDoubleBuffer(SbBool set)
   PRIVATE(this)->buildNormalGLWidget(PRIVATE(this)->managerWidget);
 }
 
-/*!
-  Returns the status of the buffer mode.
-
-  \sa setDoubleBuffer()
- */
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::isDoubleBuffer(void) const
 {
   return (PRIVATE(this)->glModes & SO_GL_DOUBLE ? TRUE : FALSE);
 }
 
-/*!
-  Specify that there should be a border around the OpenGL canvas (or not).
-
-  \sa isBorder()
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::setBorder(SbBool f)
 {
   PRIVATE(this)->bordersize = f ? SO_BORDER_THICKNESS : 0;
 }
 
-/*!
-  Returns whether or not there's a border around the OpenGL canvas.
-
-  \sa setBorder()
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::isBorder(void) const
 {
   return PRIVATE(this)->bordersize == SO_BORDER_THICKNESS;
 }
 
-/*!
-  If this is set to \c TRUE, rendering will happen in the front buffer
-  even if the current rendering mode is double buffered.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::setDrawToFrontBufferEnable(SbBool enable)
 {
   PRIVATE(this)->drawToFrontBuffer = enable;
 }
 
-/*!
-  \sa setDrawToFrontBufferEnable()
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::isDrawToFrontBufferEnable(void) const
 {
   return PRIVATE(this)->drawToFrontBuffer;
 }
 
-/*!
-  Enables or disables quad buffer stereo.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::setQuadBufferStereo(const SbBool enable)
 {
@@ -393,10 +361,7 @@ SoWinGLWidget::setQuadBufferStereo(const SbBool enable)
 }
 
 
-/*!  
-  Enables/disables the OpenGL accumulation buffer. Not implemented
-  yet for this toolkit.  
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void 
 SoWinGLWidget::setAccumulationBuffer(const SbBool enable)
 {
@@ -404,19 +369,14 @@ SoWinGLWidget::setAccumulationBuffer(const SbBool enable)
   SOWIN_STUB();
 }
 
-/*!
-  Returns whether the OpenGL accumulation buffer is enabled.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool 
 SoWinGLWidget::getAccumulationBuffer(void) const
 {
   return FALSE;
 }
 
-/*!
-  Enables/disables the OpenGL stencil buffer. Not implemented yet
-  for this toolkit.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void 
 SoWinGLWidget::setStencilBuffer(const SbBool enable)
 {
@@ -424,50 +384,35 @@ SoWinGLWidget::setStencilBuffer(const SbBool enable)
   SOWIN_STUB();
 }
 
-/*!
-  Returns whether the OpenGL stencil buffer is enabled.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool 
 SoWinGLWidget::getStencilBuffer(void) const
 {
   return FALSE;
 }
 
-/*!
-  Returns \c TRUE if quad buffer stereo is enabled for this widget.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::isQuadBufferStereo(void) const
 {
   return (PRIVATE(this)->glModes & SO_GL_STEREO ? TRUE : FALSE);
 }
 
-/*!
-  Should return \c TRUE if an overlay GL drawing area exists.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::hasOverlayGLArea(void) const
 {
   return (IsWindow(this->getOverlayWidget()) ? TRUE : FALSE);
 }
 
-/*!
-  Should return \c TRUE if a normal GL drawing area exists.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::hasNormalGLArea(void) const
 {
   return (IsWindow(this->getNormalWidget()) ? TRUE : FALSE);
 }
 
-/*!
-  Will be called whenever scene graph needs to be redrawn.  If this
-  method return \c FALSE, redraw() will be called immediately.
-
-  Default method simply returns \c FALSE. Override this method to
-  schedule a redraw and return \c TRUE if you're trying to do The
-  Right Thing.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::glScheduleRedraw(void)
 {
@@ -546,32 +491,21 @@ SoWinGLWidget::glWidgetProc(HWND window, UINT message,
   return DefWindowProc(window, message, wparam, lparam);
 }
 
-/*!
- */
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::redraw(void)
 {
   // virtual - does nothing
 }
 
-/*!
-  Renders the overlay scene graph. Default method is empty. Subclasses
-  should override this method.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::redrawOverlay(void)
 {
   // virtual - does nothing
 }
 
-/*!
-  Any events from the native window system that goes to the OpenGL
-  canvas gets piped through this method.
-
-  It is overridden in the subclasses to catch user interaction with
-  the render canvas in the viewers, aswell as forwarding relevant
-  events to the scenegraph.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::processEvent(MSG * msg)
 {
@@ -585,10 +519,7 @@ SoWinGLWidget::processEvent(MSG * msg)
   //                          mortene.
 }
 
-/*!
-  Will be called when GL widget should initialize graphic, after
-  the widget has been created. Default method enabled GL_DEPTH_TEST.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::initGraphic(void)
 {
@@ -597,12 +528,7 @@ SoWinGLWidget::initGraphic(void)
   this->glUnlockNormal();
 }
 
-/*!
-  Will be called after the overlay widget has been created, and
-  subclasses should override this to initialize overlay stuff.
-
-  Default method does nothing.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::initOverlayGraphic(void)
 {
@@ -616,15 +542,7 @@ SoWinGLWidget::sizeChanged(const SbVec2s & newSize)
   // virtual - does nothing
 }
 
-/*!
-  This is the method which gets called whenever we change which OpenGL
-  widget is used.
-
-  Should be overridden in subclasses which directly or indirectly
-  store the return value from the SoWinGLWidget::getGLWidget() method.
-
-  \sa sizeChanged()
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::widgetChanged(HWND newWidget)
 {
@@ -633,9 +551,7 @@ SoWinGLWidget::widgetChanged(HWND newWidget)
   // or after switching from single->double buffer)
 }
 
-/*!
-  Sets the size of the GL canvas.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::setGLSize(SbVec2s newSize)
 {
@@ -656,18 +572,14 @@ SoWinGLWidget::setGLSize(SbVec2s newSize)
                       flags);
 }
 
-/*!
-  Return the dimensions of the OpenGL canvas.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbVec2s
 SoWinGLWidget::getGLSize(void) const
 {
   return PRIVATE(this)->glSize;
 }
 
-/*!
-  Return the aspect ratio of the OpenGL canvas.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 float
 SoWinGLWidget::getGLAspectRatio(void) const
 {
@@ -675,26 +587,6 @@ SoWinGLWidget::getGLAspectRatio(void) const
     (float) PRIVATE(this)->glSize[1];
 }
 
-/*!
-  \fn void SoWinGLWidget::setGlxSize(const SbVec2s size)
-  This function has been renamed to the more appropriate setGLSize.
-  \sa setGLSize
-*/
-
-/*!
-  \fn SbVec2s SoWinGLWidget::getGlxSize(void) const
-  This function has been renamed to the more appropriate getGLSize.
-  \sa getGLSize
-*/
-
-/*!
-  \fn float SoWinGLWidget::getGlxAspectRatio(void) const
-  This function has been renamed to the more appropriate getGLAspectRatio.
-  \sa getGLAspectRatio
-*/
-
-/*!
- */
 LRESULT // Used by SoWinRenderArea
 SoWinGLWidgetP::eventHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -703,9 +595,7 @@ SoWinGLWidgetP::eventHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPar
   return 0;
 }
 
-/*!
-  FIXME: doc
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 unsigned long
 SoWinGLWidget::getOverlayTransparentPixel(void)
 {
@@ -715,10 +605,7 @@ SoWinGLWidget::getOverlayTransparentPixel(void)
   return 0;
 }
 
-/*!
-  Returns TRUE if the normal GL context is in RGBA mode.
-  Return FALSE if color index mode is used.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::isRGBMode(void)
 {
@@ -805,19 +692,14 @@ SoWinGLWidget::getGlxMgrWidget(void)
 }
 */
 
-/*!
-  FIXME: doc
- */
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 HWND
 SoWinGLWidget::getGLWidget(void) const
 {
   return this->getNormalWindow();
 }
 
-/*!
-  This method calls make-current on the correct context and ups the lock
-  level.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::glLockNormal(void)
 {
@@ -829,9 +711,7 @@ SoWinGLWidget::glLockNormal(void)
                                        PRIVATE(this)->ctxNormal);
 }
 
-/*!
-  This method drops the lock level.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::glUnlockNormal(void)
 {
@@ -841,10 +721,7 @@ SoWinGLWidget::glUnlockNormal(void)
   (void)SoWinGLWidgetP::wglMakeCurrent(NULL, NULL);
 }
 
-/*!
-  This method calls make-current on the correct context and ups the lock
-  level.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::glLockOverlay(void)
 {
@@ -855,9 +732,7 @@ SoWinGLWidget::glLockOverlay(void)
                                         PRIVATE(this)->ctxOverlay);
 }
 
-/*!
-  This method drops the lock level.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::glUnlockOverlay(void)
 {
@@ -867,8 +742,7 @@ SoWinGLWidget::glUnlockOverlay(void)
   (void)SoWinGLWidgetP::wglMakeCurrent(NULL, NULL);
 }
 
-/*!
- */
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::glSwapBuffers(void)
 {
@@ -878,9 +752,7 @@ SoWinGLWidget::glSwapBuffers(void)
   assert(ok == TRUE);
 }
 
-/*!
-  Flush the current GL buffer. Simply calls glFlush().
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::glFlushBuffer(void)
 {
