@@ -108,7 +108,7 @@ $(project)_source.txt: $(Project)-$(VERSION) Makefile
 	  > $(project)_source.txt
 
 buildfileslist.nsi: $(project)_build.txt Makefile
-	( prevdir=; for path in ./$(project)$(major).* `cat $(project)_build.txt`; do \
+	( prevdir=; for path in `cat $(project)_build.txt`; do \
 	  dir=`echo $$path | sed 's/\/[^\/]*$$//'`; \
 	  if test x"$$dir" != x"$$prevdir"; then \
 	    prevdir=$$dir; \
@@ -125,7 +125,10 @@ buildfileslist.nsi: $(project)_build.txt Makefile
 
 $(project)_build.txt: buildfiles
 	(cd build-files; \
-	find . -type f -name "*.h") > $(project)_build.txt
+	echo "./$(project)$(major).dsp"; \
+	echo "./$(project)$(major).dsw"; \
+	find . -type f -name "*.h" -o -name "*.cpp" -o -name "*.c" \
+	  -o -name "*.ih" -o -name "*.icc") > $(project)_build.txt
 
 uninstall.nsi: Makefile
 	( cd $(sdk_prefix); \
