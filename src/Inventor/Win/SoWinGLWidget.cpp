@@ -1211,10 +1211,8 @@ SoWinGLWidgetP::createGLContext(HWND window)
 
   SbBool didtry = FALSE;
 
-  const char * pixelformatoverride = NULL;
   int format = 1, maxformat = -1;  
   SbGuiList <so_pixel_format*> pflist;
-  int overrideformat = -1;
   so_pixel_format * pf;
   SbBool foundone = FALSE;
   int i = 0;
@@ -1225,7 +1223,17 @@ SoWinGLWidgetP::createGLContext(HWND window)
   // on remote client systems where the pixelformat weighting selects
   // a sub-optimal format. If the latter, this can be used as a
   // stop-gap solution until we fix the weighting algorithm.
-  pixelformatoverride = SoAny::si()->getenv("SOWIN_OVERRIDE_PIXELFORMAT");
+  //
+  // OIV_FORCE_PIXEL_FORMAT matches what TGS uses for their
+  // InventorWin library. SOWIN_OVERRIDE_PIXELFORMAT is for backward
+  // compatibility with old client code.
+
+  int overrideformat = -1;
+  const char * pixelformatoverride =
+    SoAny::si()->getenv("OIV_FORCE_PIXEL_FORMAT");
+  if (!pixelformatoverride) {
+    pixelformatoverride = SoAny::si()->getenv("SOWIN_OVERRIDE_PIXELFORMAT");
+  }
   if (pixelformatoverride) {
     overrideformat = atoi(pixelformatoverride);
   }
