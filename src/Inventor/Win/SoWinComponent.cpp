@@ -33,6 +33,7 @@
 #include <Inventor/Win/viewers/SoWinFullViewer.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
 #include <Inventor/Win/viewers/SoWinPlaneViewer.h>
+#include <Inventor/Win/SoWinCursor.h>
 #include <sowindefs.h> // SOWIN_STUB
 #include <Inventor/Win/Win32API.h>
 
@@ -890,9 +891,32 @@ void
 SoWinComponent::openHelpCard(const char * name)
 {
   MessageBox(PRIVATE(this)->parent,
-    "The help functionality has not been implemented.",
-    "SoWin", MB_ICONEXCLAMATION | MB_OK);
+             "The help functionality has not been implemented.",
+             "SoWin", MB_ICONEXCLAMATION | MB_OK);
 } // openHelpCard()
+
+
+/*!
+  Sets the cursor for this component.
+*/
+void 
+SoWinComponent::setCursor(const SoWinCursor & cursor)
+{
+  PRIVATE(this)->cursor = cursor;
+  MessageBox(PRIVATE(this)->parent,
+             "The cursor functionality has not been implemented.",
+             "SoWin", MB_ICONEXCLAMATION | MB_OK);
+}
+
+/*!
+  Returns the current cursor for this component.
+*/
+const SoWinCursor &
+SoWinComponent::getCursor(void) const
+{
+  return PRIVATE(this)->cursor;
+}
+
 
 ///////////////////////////////////////////////////////////////////
 //

@@ -146,6 +146,8 @@ SoGui_src_Inventor_Gui_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/SoAny.h \
   $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Basic.h \
+  $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.h \
+  $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursors.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursors.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.h \
@@ -287,6 +289,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/sogui-config.1.in \
   src/Inventor/@Gui@/common/sogui.cfg.in \
   src/Inventor/@Gui@/common/SoGuiBasic.h.in \
+  src/Inventor/@Gui@/common/SoGuiCursor.h.in \
+  src/Inventor/@Gui@/common/SoGuiCursor.cpp.in \
   src/Inventor/@Gui@/common/SoGuiCursors.h.in \
   src/Inventor/@Gui@/common/SoGuiCursors.cpp.in \
   src/Inventor/@Gui@/common/SoGuiObject.h.in \
@@ -444,6 +448,7 @@ nodist_SoWininc_HEADERS = \
 	SoWin.h \
 	SoWinBasic.h \
 	SoWinObject.h \
+	SoWinCursor.h \
 	SoWinCursors.h \
 	SoWinComponent.h \
 	SoWinGLWidget.h \
@@ -463,10 +468,10 @@ am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoWin.$(OBJEXT) \
 	SoWinComponent.$(OBJEXT) SoWinGLWidget.$(OBJEXT) \
 	SoWinMaterialList.$(OBJEXT) Win32API.$(OBJEXT)
 nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoAny.$(OBJEXT) \
-	So@Gui@Cursors.$(OBJEXT) So@Gui@Object.$(OBJEXT) \
-	So@Gui@Common.$(OBJEXT) So@Gui@GLWidgetCommon.$(OBJEXT) \
-	So@Gui@RenderArea.$(OBJEXT) SoAnyMaterialList.$(OBJEXT) \
-	SoAnyMaterialListBuiltins.$(OBJEXT)
+	So@Gui@Cursor.$(OBJEXT) So@Gui@Cursors.$(OBJEXT) \
+	So@Gui@Object.$(OBJEXT) So@Gui@Common.$(OBJEXT) \
+	So@Gui@GLWidgetCommon.$(OBJEXT) So@Gui@RenderArea.$(OBJEXT) \
+	SoAnyMaterialList.$(OBJEXT) SoAnyMaterialListBuiltins.$(OBJEXT)
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = \
 	$(am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
 	$(nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS)
@@ -476,10 +481,10 @@ libSoWin@SUFFIX@_la_DEPENDENCIES = devices/libSoWinDevices.la \
 	viewers/libSoWinViewers.la widgets/libSoWinWidgets.la
 am_libSoWin@SUFFIX@_la_OBJECTS = SoWin.lo SoWinComponent.lo \
 	SoWinGLWidget.lo SoWinMaterialList.lo Win32API.lo
-nodist_libSoWin@SUFFIX@_la_OBJECTS = SoAny.lo So@Gui@Cursors.lo \
-	So@Gui@Object.lo So@Gui@Common.lo So@Gui@GLWidgetCommon.lo \
-	So@Gui@RenderArea.lo SoAnyMaterialList.lo \
-	SoAnyMaterialListBuiltins.lo
+nodist_libSoWin@SUFFIX@_la_OBJECTS = SoAny.lo So@Gui@Cursor.lo \
+	So@Gui@Cursors.lo So@Gui@Object.lo So@Gui@Common.lo \
+	So@Gui@GLWidgetCommon.lo So@Gui@RenderArea.lo \
+	SoAnyMaterialList.lo SoAnyMaterialListBuiltins.lo
 libSoWin@SUFFIX@_la_OBJECTS = $(am_libSoWin@SUFFIX@_la_OBJECTS) \
 	$(nodist_libSoWin@SUFFIX@_la_OBJECTS)
 
@@ -491,6 +496,8 @@ LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/So@Gui@Common.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@Common.Po \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@Cursor.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@Cursor.Po \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@Cursors.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@Cursors.Po \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@GLWidgetCommon.Plo \
@@ -591,6 +598,8 @@ uninstall-libLIBRARIES:
 clean-libLIBRARIES:
 	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
 SoAny.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+So@Gui@Cursor.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
 So@Gui@Cursors.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursors.cpp
 So@Gui@Object.$(OBJEXT): \
@@ -625,6 +634,7 @@ uninstall-libLTLIBRARIES:
 clean-libLTLIBRARIES:
 	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
 SoAny.lo: $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+So@Gui@Cursor.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
 So@Gui@Cursors.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursors.cpp
 So@Gui@Object.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
 So@Gui@Common.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
@@ -647,6 +657,8 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@Common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@Common.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@Cursor.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@Cursor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@Cursors.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@Cursors.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@GLWidgetCommon.Plo@am__quote@
@@ -710,6 +722,24 @@ SoAny.lo: $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
 @AMDEP_TRUE@	depfile='$(DEPDIR)/SoAny.Plo' tmpdepfile='$(DEPDIR)/SoAny.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAny.lo `test -f $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+
+So@Gui@Cursor.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' object='So@Gui@Cursor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@Cursor.Po' tmpdepfile='$(DEPDIR)/So@Gui@Cursor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Cursor.o `test -f $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+
+So@Gui@Cursor.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' object='So@Gui@Cursor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@Cursor.Po' tmpdepfile='$(DEPDIR)/So@Gui@Cursor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Cursor.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp`
+
+So@Gui@Cursor.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' object='So@Gui@Cursor.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@Cursor.Plo' tmpdepfile='$(DEPDIR)/So@Gui@Cursor.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Cursor.lo `test -f $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
 
 So@Gui@Cursors.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursors.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursors.cpp' object='So@Gui@Cursors.o' libtool=no @AMDEPBACKSLASH@
@@ -1120,6 +1150,12 @@ $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.h: $(top_srcdir)/src/Inventor/@
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiObject.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Object.cpp:src/Inventor/@Gui@/common/SoGuiObject.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiCursor.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Cursor.h:src/Inventor/@Gui@/common/SoGuiCursor.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiCursor.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Cursor.cpp:src/Inventor/@Gui@/common/SoGuiCursor.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursors.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiCursors.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Cursors.h:src/Inventor/@Gui@/common/SoGuiCursors.h.in )

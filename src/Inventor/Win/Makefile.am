@@ -81,6 +81,7 @@ nodist_SoWininc_HEADERS = \
 	SoWin.h \
 	SoWinBasic.h \
 	SoWinObject.h \
+	SoWinCursor.h \
 	SoWinCursors.h \
 	SoWinComponent.h \
 	SoWinGLWidget.h \
