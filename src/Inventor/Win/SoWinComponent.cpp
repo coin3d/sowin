@@ -59,47 +59,22 @@ SoWinComponentP::SoWinComponentP(SoWinComponent * o)
 {
   this->cursor = NULL;
   this->parent = NULL;
-
-  if (! SoWinComponentP::sowincomplist) {
-    SoWinComponentP::sowincomplist = new SbPList;
-  }
-  SoWinComponentP::sowincomplist->append((void *) o);
-#if SOWIN_DEBUG && 0 // debug
-  SoDebugError::postInfo("SoWinComponentP::SoWinComponentP",
-                         "add %p to sowincomplist %p",
-                         o, SoWinComponentP::sowincomplist);
-#endif // debug
 }
 
 SoWinComponentP::~SoWinComponentP()
 {
-  if (SoWinComponentP::sowincomplist) {
-#if SOWIN_DEBUG && 0 // debug
-    SoDebugError::postInfo("SoWinComponentP::~SoWinComponentP",
-                           "remove %p from sowincomplist %p, length: %d->%d",
-                           PUBLIC(this), SoWinComponentP::sowincomplist,
-                           SoWinComponentP::sowincomplist->getLength(),
-                           SoWinComponentP::sowincomplist->getLength() - 1);
-#endif // debug
-    SoWinComponentP::sowincomplist->removeItem(PUBLIC(this));
-    if (SoWinComponentP::sowincomplist->getLength() == 0) {
-      delete SoWinComponentP::sowincomplist;
-      SoWinComponentP::sowincomplist = NULL;
-
-      // FIXME: only unregister classname when all component windows
-      // have been destroyed.  CreateWindow() get the default "Win
-      // Component" name, even when created by viewers like
-      // SoWinExaminerViewer. Is this a bug? In that case fix this
-      // too!
-      //
-      // mariusbu 20010803.
-
-      if (SoWinComponentP::wndClassAtom) { // if wndclass is registered
-        Win32::UnregisterClass("Component Widget", SoWin::getInstance());
-        SoWinComponentP::wndClassAtom = NULL;
-      }
-    }
+  // FIXME: only unregister classname when all component windows have
+  // been destroyed.  CreateWindow() get the default "Win Component"
+  // name, even when created by viewers like SoWinExaminerViewer. Is
+  // this a bug? In that case fix this too!
+  //
+  // mariusbu 20010803.
+#if 0 // tmp disabled
+  if (SoWinComponentP::wndClassAtom) { // if wndclass is registered
+    Win32::UnregisterClass("Component Widget", SoWin::getInstance());
+    SoWinComponentP::wndClassAtom = NULL;
   }
+#endif // tmp disabled
 }
 
 void
@@ -154,7 +129,6 @@ SoWinComponentP::systemEventFilter(int code, WPARAM wparam, LPARAM lparam)
 }
 
 ATOM SoWinComponentP::wndClassAtom = NULL;
-SbPList * SoWinComponentP::sowincomplist = NULL;
 SbDict * SoWinComponentP::cursordict = NULL;
 HHOOK SoWinComponentP::hookhandle = NULL;
 SbDict * SoWinComponentP::embeddedparents = NULL;
@@ -266,6 +240,8 @@ SoWinComponent::SoWinComponent(const HWND parent,
 */
 SoWinComponent::~SoWinComponent(void)
 {
+  if (PRIVATE(this)->widget) { this->unregisterWidget(PRIVATE(this)->widget); }
+
   for (int i = PRIVATE(this)->visibilitychangeCBs->getLength(); i > 0; i--) {
     PRIVATE(this)->visibilitychangeCBs->remove(i);
   }
@@ -274,7 +250,7 @@ SoWinComponent::~SoWinComponent(void)
   (void)SoWinComponentP::embeddedparents->remove((unsigned long)this->getParentWidget());
 
   // Clean up static data if this is the last component.
-  if (SoWinComponentP::sowincomplist->getLength() == 1) {
+  if (SoGuiComponentP::nrofcomponents == 1) {
     // Global MSG hook.
     assert(SoWinComponentP::hookhandle != NULL);
     Win32::UnhookWindowsHookEx(SoWinComponentP::hookhandle);
@@ -619,23 +595,6 @@ SoWinComponent::setWindowCloseCallback(SoWinComponentCB * func, void * data)
 }
 
 /*!
-  Finds and returns the SoWinComponent corresponding to the given
-  HWND, if any. If no SoWinComponent is the "owner" of the widget,
-  \c NULL will be returned.
-*/
-SoWinComponent *
-SoWinComponent::getComponent(HWND const widget)
-{
-  for (int i = 0; i < SoWinComponentP::sowincomplist->getLength(); i++) {
-    SoWinComponent * c = (SoWinComponent *) SoWinComponentP::sowincomplist->get(i);
-    if (c->getWidget() == widget) {
-      return c;
-    }
-  }
-  return NULL;
-}
-
-/*!
   Set \a widget as focus proxy. Returns previously set focus proxy.
 
   \sa getFocusProxy()
@@ -675,7 +634,10 @@ void
 SoWinComponent::setBaseWidget(HWND widget)
 {
   assert(IsWindow(widget));
+
+  if (PRIVATE(this)->widget) { this->unregisterWidget(PRIVATE(this)->widget); }
   PRIVATE(this)->widget = widget;
+  this->registerWidget(PRIVATE(this)->widget)
 }
 
 /*!
