@@ -54,3 +54,14 @@
     20021118 mortene.
     
 =====================================================================
+
+005 Wrapped in ActiveX as a browser plug-in, Coin + SoWin crashes on
+    plug-in exit.
+
+    We've got a reproducible case for this from an external Coin
+    user. (Code that works with TGS's Inventor + InventorWin, but
+    fails with Coin + SoWin.) To get the code, ask mortene.
+
+    20021218 mortene.
+
+=====================================================================
