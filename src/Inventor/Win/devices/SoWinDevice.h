@@ -25,22 +25,7 @@
 #include <Inventor/Win/SoWinObject.h>
 #include <wtypes.h>
 
-#define ButtonPressMask   0x01
-#define ButtonReleaseMask 0x02
-#define PointerMotionMask 0x04
-#define ButtonMotionMask  0x08
-#define KeyPressMask      0x10
-#define KeyReleaseMask    0x20
-
-#ifndef MK_ALT
-#define MK_ALT 0x02
-#endif
-
-
-// typedef void SoWinEventHandler(HWND, void *, MSG *, SbBool *);
 typedef LRESULT SoWinEventHandler(HWND, UINT, WPARAM, LPARAM);
-
-typedef void (*SoWinEventHandlerPtr)(HWND, void *, MSG *, SbBool *);
 
 class SOWIN_DLL_API SoWinDevice : public SoWinObject {
   SOWIN_OBJECT_ABSTRACT_HEADER(SoWinDevice, SoWinObject);
@@ -60,13 +45,11 @@ public:
   static void initClasses(void);
 
 protected:
-  // set the window coordinate from the passed x,y value. This will flip
-  // the y value to convert from X coordinates to So coordinates.
   void setEventPosition(SoEvent * event, int x, int y) const;
-  static long modifierKeys;
     
 private:
-  SbVec2s size;
+  class SoWinDeviceP * pimpl;
+  friend class SoWinDeviceP;
 };
 
 #endif // !SOWIN_DEVICE_H

@@ -28,12 +28,17 @@
 
 #include <sowindefs.h>
 #include <Inventor/Win/devices/SoWinDevice.h>
+#include <Inventor/Win/devices/SoWinDeviceP.h>
 #include <Inventor/Win/devices/SoWinInputFocus.h>
 #include <Inventor/Win/devices/SoWinKeyboard.h>
 #include <Inventor/Win/devices/SoWinMouse.h>
 #include <Inventor/Win/devices/SoWinSpaceball.h>
 
-long SoWinDevice::modifierKeys = 0;
+// *************************************************************************
+
+long SoWinDeviceP::modifierKeys = 0;
+
+#define PRIVATE(p) (p->pimpl)
 
 // *************************************************************************
 
@@ -47,37 +52,38 @@ SoWinDevice::initClasses(void)
   SoWinKeyboard::initClass();
   SoWinMouse::initClass();
   SoWinSpaceball::initClass();
-} // initClasses()
+}
 
 // *************************************************************************
 
 SoWinDevice::SoWinDevice(void)
-  : size(0, 0)
 {
+  PRIVATE(this) = new SoWinDeviceP;
+  PRIVATE(this)->size = SbVec2s(0, 0);
 }
 
-SoWinDevice::~SoWinDevice(void)
+SoWinDevice::~SoWinDevice()
 {
-
+  delete PRIVATE(this);
 }
 
 void
 SoWinDevice::setWindowSize(const SbVec2s newSize)
 {
-  size = newSize;
+  PRIVATE(this)->size = newSize;
 }
 
 const SbVec2s 
 SoWinDevice::getWindowSize(void) const
 {
-  return this->size;
+  return PRIVATE(this)->size;
 }
 
 void
 SoWinDevice::setEventPosition(SoEvent *event, int x, int y) const
 {
   assert(event != NULL);
-  SbVec2s position(x, this->size[1] - y - 1);
+  SbVec2s position(x, PRIVATE(this)->size[1] - y - 1);
   event->setPosition(position);
 }
 
