@@ -43,7 +43,7 @@ static const char rcsid[] =
 
 #include <Inventor/Win/common/pixmaps/perspective.xpm>
 #include <Inventor/Win/common/pixmaps/ortho.xpm>
-#include <Inventor/Win/SoWinCursors.h>
+#include <Inventor/Win/SoWinCursor.h>
 
 /*!
   \class SoWinExaminerViewer SoWinExaminerViewer.h Inventor/Win/viewers/SoWinExaminerViewer.h
@@ -73,9 +73,9 @@ static const char rcsid[] =
 // The private data for the SoWinExaminerViewer.
 
 class SoWinExaminerViewerP {
-  
+
 public:
-  
+
   // Constructor.
   SoWinExaminerViewerP(SoWinExaminerViewer * o) {
     this->owner = o;
@@ -84,19 +84,12 @@ public:
   // Destructor.
   ~SoWinExaminerViewerP() {
   }
-  
+
   void constructor(SbBool build);
   void cameratoggleClicked(void);
 
- HCURSOR defaultcursor;
- HCURSOR rotatecursor;
- HCURSOR pancursor;
- HCURSOR zoomcursor;
-
 private:
-  
   SoWinExaminerViewer * owner;
-  
 };
 
 #define PRIVATE(o) (o->pimpl)
@@ -161,11 +154,6 @@ void
 SoWinExaminerViewerP::constructor(
  SbBool build)
 {
-  this->defaultcursor = NULL;
-  this->rotatecursor = NULL;
-  this->pancursor = NULL;
-  this->zoomcursor = NULL;
-
   this->owner->setClassName("SoWinExaminerViewer");
   this->owner->setPopupMenuString("Examiner Viewer");
   this->owner->setPrefSheetString("Examiner Viewer Preference Sheet");
@@ -174,18 +162,18 @@ SoWinExaminerViewerP::constructor(
 
   HWND widget = this->owner->buildWidget(this->owner->getParentWidget());
   this->owner->setBaseWidget(widget);
-  
+
   this->owner->setLeftWheelString("RotX");
-  this->owner->setBottomWheelString("RotY");  
+  this->owner->setBottomWheelString("RotY");
 
   this->owner->setCursorEnabled(TRUE);
   this->owner->setAnimationEnabled(TRUE);
-  
+
   this->owner->setSize(SbVec2s(500, 421));
   // FIXME: If the new size is the same as the old size, Windows will
   // never size the widget, and layoutWidgets() will never be
   // called. mariusbu 20010823.
-  
+
 } // constructor()
 
 // *************************************************************************
@@ -197,12 +185,6 @@ SoWinExaminerViewerP::constructor(
 SoWinExaminerViewer::~SoWinExaminerViewer(
  void)
 {
-  // Cursors.
-  DeleteObject(PRIVATE(this)->zoomcursor);
-  DeleteObject(PRIVATE(this)->pancursor);
-  DeleteObject(PRIVATE(this)->rotatecursor);
-  DeleteObject(PRIVATE(this)->defaultcursor);
-
   delete this->pimpl;
   delete this->common;
 } // ~SoWinExaminerViewer()
@@ -242,7 +224,7 @@ SoWinExaminerViewer::setCamera(// virtual
 
   SbBool isorthotype =
     newCamera->getTypeId().isDerivedFrom(SoOrthographicCamera::getClassTypeId());
-  
+
   if (this->isDoButtonBar()) { // may not be there if !doButtonBar
     void * btn = this->viewerButtonList->get(VIEWERBUTTON_CAMERA);
     SoWinBitmapButton * wbtn = (SoWinBitmapButton *)btn;
@@ -250,7 +232,7 @@ SoWinExaminerViewer::setCamera(// virtual
     // been made yet.
     if (wbtn) { wbtn->setBitmap(isorthotype ? 1 : 0); }
   }
-  
+
 } // setCamera()
 
 /*!
@@ -266,7 +248,7 @@ SoWinExaminerViewer::buildViewerButtonsEx(// virtual
   int size)
 {
   SoWinBitmapButton * button;
-  
+
   button = new SoWinBitmapButton(parent, x, y, size, size, 24, "perspective", NULL);
   button->addBitmap(perspective_xpm);
   button->addBitmap(ortho_xpm);
@@ -421,7 +403,7 @@ SoWinExaminerViewer::openViewerHelpCard(
 SbBool
 SoWinExaminerViewer::processSoEvent(
   const SoEvent * const event)
-{ 
+{
   if (common->processSoEvent(event))
     return TRUE;
 
@@ -499,122 +481,43 @@ SoWinExaminerViewer::actualRedraw(
 
 // *************************************************************************
 
-/*!
-  \internal
-
-  Set cursor graphics according to mode.
-*/
-
 void
-SoWinExaminerViewer::setCursorRepresentation(
- int mode)
+SoWinExaminerViewer::setCursorRepresentation(int mode)
 {
-  if (! PRIVATE(this)->defaultcursor) {
-  PRIVATE(this)->defaultcursor = LoadCursor(NULL, IDC_ARROW);
-    
-  unsigned char so_win_rotate_neg[so_win_rotate_width][so_win_rotate_height];
-  unsigned char so_win_rotate_mask_neg[so_win_rotate_width][so_win_rotate_height];    
-  unsigned char so_win_zoom_neg[so_win_rotate_width][so_win_rotate_height];
-  unsigned char so_win_zoom_mask_neg[so_win_rotate_width][so_win_rotate_height];
-  unsigned char so_win_pan_neg[so_win_rotate_width][so_win_rotate_height];
-  unsigned char so_win_pan_mask_neg[so_win_rotate_width][so_win_rotate_height];
-  
-  {
-    unsigned int i, j, k;
-    
-    unsigned char * bitmaps[] = {
-      so_win_rotate_bitmap, so_win_rotate_mask_bitmap,
-      so_win_zoom_bitmap, so_win_zoom_mask_bitmap,
-      so_win_pan_bitmap, so_win_pan_mask_bitmap
-    };
-   
-    unsigned int bitmapsizes[] = {
-      (so_win_rotate_width + 7) / 8 * so_win_rotate_height,
-      (so_win_zoom_width + 7) / 8 * so_win_zoom_height,
-      (so_win_pan_width + 7) / 8 * so_win_pan_height,
-    };
+  // FIXME: with the new So@Gui@Cursor class, this has actually become
+  // a possibly generic method for all So* toolkits. Move to common
+  // code. 20011125 mortene.
 
-    unsigned char * negs[] = {
-      (unsigned char *) so_win_rotate_neg, (unsigned char *) so_win_rotate_mask_neg,
-      (unsigned char *) so_win_zoom_neg, (unsigned char *) so_win_zoom_mask_neg,
-      (unsigned char *) so_win_pan_neg, (unsigned char *) so_win_pan_mask_neg,
-    };
-
-    unsigned char byte;
-    for (i = 0; i < (sizeof(bitmapsizes) / sizeof(unsigned int)); i++) {
-      for (j = 0; j < bitmapsizes[i]; j++) {
-
-        // reverse bits - GDI paints pixels from bottom right to top left
-        
-        // reverse color bits and then not the byte
-        byte = (unsigned char ) bitmaps[i * 2][j];
-        byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
-        byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
-        byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
-        negs[i * 2][j] = ~byte;
-
-        // reverse mask bits and then not the byte
-        byte = (unsigned char ) bitmaps[i * 2 + 1][j];
-        byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
-        byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
-        byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
-        negs[i * 2 + 1][j] = ~byte;
-        
-      }
-    }
-
-    // hack to remove anoying pixels
-    so_win_zoom_neg[0][3] &= 0xf0;
-    so_win_zoom_neg[0][2] &= 0x0f;
-
-  }
-    
-  PRIVATE(this)->zoomcursor = CreateCursor(SoWin::getInstance(), so_win_zoom_x_hot,
-    so_win_zoom_y_hot, so_win_zoom_width, so_win_zoom_height, so_win_zoom_mask_neg,
-    so_win_zoom_neg);
-  
-  PRIVATE(this)->pancursor = CreateCursor(SoWin::getInstance(), so_win_pan_x_hot,
-    so_win_pan_y_hot, so_win_pan_width, so_win_pan_height, so_win_pan_mask_neg,
-    so_win_pan_neg);
-  
-  PRIVATE(this)->rotatecursor = CreateCursor(SoWin::getInstance(), so_win_rotate_x_hot,
-    so_win_rotate_y_hot, so_win_rotate_width, so_win_rotate_height, so_win_rotate_mask_neg,
-    so_win_rotate_neg);
-      
-  }
- 
-  if (! this->isCursorEnabled()) {
-    ShowCursor(FALSE);
+  if (!this->isCursorEnabled()) {
+    this->setComponentCursor(SoWinCursor(SoWinCursor::BLANK));
     return;
   }
-  else ShowCursor(TRUE);
-  
+
   switch (mode) {
-    case SoAnyExaminerViewer::INTERACT:
-      this->setCursor(LoadCursor(NULL, IDC_ARROW));// this->arrowcursor
-      break;
+  case SoAnyExaminerViewer::INTERACT:
+    this->setComponentCursor(SoWinCursor(SoWinCursor::DEFAULT));
+    break;
 
-    case SoAnyExaminerViewer::EXAMINE:
-    case SoAnyExaminerViewer::DRAGGING:
-      this->setCursor(PRIVATE(this)->rotatecursor);
-      break;
+  case SoAnyExaminerViewer::EXAMINE:
+  case SoAnyExaminerViewer::DRAGGING:
+    this->setComponentCursor(SoWinCursor::getRotateCursor());
+    break;
 
-    case SoAnyExaminerViewer::ZOOMING:
-      this->setCursor(PRIVATE(this)->zoomcursor);
-      break;
+  case SoAnyExaminerViewer::ZOOMING:
+    this->setComponentCursor(SoWinCursor::getZoomCursor());
+    break;
 
-    case SoAnyExaminerViewer::WAITING_FOR_SEEK:
-      this->setCursor(LoadCursor(NULL, IDC_CROSS));// this->crosscursor
-      break;
+  case SoAnyExaminerViewer::WAITING_FOR_SEEK:
+    this->setComponentCursor(SoWinCursor(SoWinCursor::CROSSHAIR));
+    break;
 
-    case SoAnyExaminerViewer::WAITING_FOR_PAN:
-    case SoAnyExaminerViewer::PANNING:
-      this->setCursor(PRIVATE(this)->pancursor);
-      break;
+  case SoAnyExaminerViewer::WAITING_FOR_PAN:
+  case SoAnyExaminerViewer::PANNING:
+    this->setComponentCursor(SoWinCursor::getPanCursor());
+    break;
 
-    default: assert(0); break;
+  default: assert(0); break;
   }
- 
 } // setCursorRepresentation()
 
 // *************************************************************************
