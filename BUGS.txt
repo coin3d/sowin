@@ -172,3 +172,14 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     20030604 mortene, reported by thammer.
 
 =====================================================================
+
+012 Push button up/down status not working for "scene"/"camera"
+    interaction buttons.
+
+    It's ok from the start when firing up e.g. the ExaminerViewer, but
+    when switching to "scene interaction" mode (and also back again)
+    the down status of the button doesn't stick.
+
+    20030610 mortene.
+
+=====================================================================
