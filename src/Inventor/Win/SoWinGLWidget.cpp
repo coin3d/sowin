@@ -436,8 +436,7 @@ SoWinGLWidget::buildWidget( HWND parent )
                                       wndclassname,
                                       WS_CLIPCHILDREN |
                                       WS_CLIPSIBLINGS |
-                                      WS_CHILD |
-                                      WS_BORDER,
+                                      WS_CHILD,
                                       this->windowPosition.x,
                                       this->windowPosition.y,
                                       rect.right,
@@ -708,7 +707,7 @@ SoWinGLWidget::glWindowProc( HWND window,
     object->processEvent( & msg );
     
     // Steal focus from other windows - get keystrokes
-    if( ( ! object->haveFocus ) && ( GetCapture( ) == object->parent ) ) {
+    if( ( ! object->haveFocus )/* && ( GetCapture( ) == object->parent )*/ ) {
       object->haveFocus = ( BOOL ) SetFocus( window );
     }
     

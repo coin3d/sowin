@@ -1158,6 +1158,19 @@ SoWinFullViewer::mgrWindowProc( HWND window,
       case WM_DESTROY:
         return object->onDestroy( window, message, wparam, lparam );
 				
+			case WM_COMMAND:
+			  return object->onCommand( window, message, wparam, lparam );
+
+			case WM_MEASUREITEM:
+				return object->onMeasureItem( window, message, wparam, lparam );
+
+			case WM_DRAWITEM:
+				return object->onDrawItem( window, message, wparam, lparam );
+
+        // FIXME: this is only a workaround for a bug in SoAnyExaminerviewer.cpp.in
+        // It will decrease interactoveCount on a *BUTTONUP event even without a *BUTTONDOWN
+        // event.
+        /*
 			case WM_LBUTTONDOWN:
 			case WM_MBUTTONDOWN:
 			case WM_RBUTTONDOWN:
@@ -1169,23 +1182,16 @@ SoWinFullViewer::mgrWindowProc( HWND window,
 			case WM_RBUTTONUP:
 				ReleaseCapture( );
 				return 0;
-
-        /*
-      case WM_SETCURSOR:
-        SetCursor( LoadCursor( SoWin::getInstance( ), IDC_ARROW ) );
-        return 0;
-        */
-				
-			case WM_COMMAND:
-			  return object->onCommand( window, message, wparam, lparam );
-
-			case WM_MEASUREITEM:
-				return object->onMeasureItem( window, message, wparam, lparam );
-
-			case WM_DRAWITEM:
-				return object->onDrawItem( window, message, wparam, lparam );
-				
+				*/
+      
+			case WM_SETCURSOR:
+        if ( object->getCursor( ) == GetCursor( ) ) {
+          SetCursor( LoadCursor( SoWin::getInstance( ), IDC_ARROW ) );
+          return 0;
+        }
+        
     }
+    
   }
   return DefWindowProc( window, message, wparam, lparam );
 }
