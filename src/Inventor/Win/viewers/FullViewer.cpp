@@ -52,23 +52,14 @@
 static const int DECORATION_SIZE = 30;
 static const int DECORATION_BUFFER = 5;
 
-SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinFullViewer);
-
-SbBool SoWinFullViewerP::doButtonBar = TRUE;
-SbBool SoWinFullViewerP::doneButtonBar = FALSE;
-HHOOK SoWinFullViewerP::hookhandle = NULL;
-int SoWinFullViewerP::nrinstances = 0;
-SbDict * SoWinFullViewerP::parentHWNDmappings = NULL;
-
 #define PRIVATE(o) (o->pimpl)
 #define PUBLIC(o) (o->pub)
 
+// *************************************************************************
 
-///////////////////////////////////////////////////////////////////
-//
-//  Constructor / Destructor
-//  (protected)
-//
+SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinFullViewer);
+
+// *************************************************************************
 
 SoWinFullViewer::SoWinFullViewer(HWND parent,
                                  const char * name,
@@ -146,15 +137,10 @@ SoWinFullViewer::~SoWinFullViewer()
   delete PRIVATE(this);
 }
 
-///////////////////////////////////////////////////////////////////
-//
-//  (public)
-//
-
 void
 SoWinFullViewer::setDecoration(SbBool enable)
 {
-#if SOWIN_DEBUG & 1
+#if SOWIN_DEBUG
   if ((enable && this->isDecoration()) ||
        (! enable && ! this->isDecoration())) {
     SoDebugError::postWarning("SoWinFullViewer::setDecoration",
@@ -420,70 +406,6 @@ SoWinFullViewer::buildDecoration(HWND parent)
 }
 
 HWND
-SoWinFullViewerP::buildLeftWheel(HWND parent)
-{
-  // Create coords are not needed - the widget is moved into place
-  // by layoutWidgets
-  PUBLIC(this)->leftWheel =
-    new SoWinThumbWheel(SoWinThumbWheel::Vertical,
-                        parent,
-                        0,
-                        0,
-                        0,
-                        "RotX");
-  PUBLIC(this)->leftWheelVal = PUBLIC(this)->leftWheel->value();
-  PUBLIC(this)->leftWheel->setCallback(this->leftWheelCB, this);
-  PUBLIC(this)->leftWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
-  PUBLIC(this)->leftWheel->setLabelOffset(0,
-                                          ((DECORATION_SIZE - PUBLIC(this)->leftWheel->sizeHint().cx) / 2)
-                                          + DECORATION_BUFFER + 1);
-
-  return PUBLIC(this)->leftWheel->getWidget();
-}
-
-HWND
-SoWinFullViewerP::buildBottomWheel(HWND parent)
-{
-  // Create coords are not needed - the widget is moved into place
-  // by layoutWidgets
-  PUBLIC(this)->bottomWheel =
-    new SoWinThumbWheel(SoWinThumbWheel::Horizontal,
-                        parent,
-                        1,
-                        0,
-                        0,
-                        "RotY");
-  PUBLIC(this)->bottomWheelVal = PUBLIC(this)->bottomWheel->value();
-  PUBLIC(this)->bottomWheel->setCallback(this->bottomWheelCB, this);
-  PUBLIC(this)->bottomWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
-  PUBLIC(this)->bottomWheel->setLabelOffset(-4, 0);
-
-  return PUBLIC(this)->bottomWheel->getWidget();
-}
-
-HWND
-SoWinFullViewerP::buildRightWheel(HWND parent)
-{
-  // Create coords are not needed - the widget is moved into place
-  // by layoutWidgets
-  PUBLIC(this)->rightWheel =
-    new SoWinThumbWheel(SoWinThumbWheel::Vertical,
-                        parent,
-                        2,
-                        0,
-                        0,
-                        "Dolly");
-  PUBLIC(this)->rightWheelVal = PUBLIC(this)->rightWheel->value();
-  PUBLIC(this)->rightWheel->setCallback(this->rightWheelCB, this);
-  PUBLIC(this)->rightWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
-  PUBLIC(this)->rightWheel->setLabelOffset(- (PUBLIC(this)->bottomWheel->getLabelSize().cx - PUBLIC(this)->rightWheel->sizeHint().cx),
-                                           ((DECORATION_SIZE - PUBLIC(this)->leftWheel->sizeHint().cx) / 2)
-                                           + DECORATION_BUFFER + 1);
-
-  return PUBLIC(this)->rightWheel->getWidget();
-}
-
-HWND
 SoWinFullViewer::buildViewerButtons(HWND parent)
 {
   // Set id's so they can be used as indices in the list later
@@ -681,17 +603,85 @@ SoWinFullViewer::onDrawItem(HWND window, UINT message, WPARAM wparam, LPARAM lpa
   return 0;
 }
 
+// *************************************************************************
+
+#ifndef DOXYGEN_SKIP_THIS
+
+SbBool SoWinFullViewerP::doButtonBar = TRUE;
+SbBool SoWinFullViewerP::doneButtonBar = FALSE;
+HHOOK SoWinFullViewerP::hookhandle = NULL;
+int SoWinFullViewerP::nrinstances = 0;
+SbDict * SoWinFullViewerP::parentHWNDmappings = NULL;
+
+HWND
+SoWinFullViewerP::buildLeftWheel(HWND parent)
+{
+  // Create coords are not needed - the widget is moved into place
+  // by layoutWidgets
+  PUBLIC(this)->leftWheel =
+    new SoWinThumbWheel(SoWinThumbWheel::Vertical,
+                        parent,
+                        0,
+                        0,
+                        0,
+                        "RotX");
+  PUBLIC(this)->leftWheelVal = PUBLIC(this)->leftWheel->value();
+  PUBLIC(this)->leftWheel->setCallback(this->leftWheelCB, this);
+  PUBLIC(this)->leftWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
+  PUBLIC(this)->leftWheel->setLabelOffset(0,
+                                          ((DECORATION_SIZE - PUBLIC(this)->leftWheel->sizeHint().cx) / 2)
+                                          + DECORATION_BUFFER + 1);
+
+  return PUBLIC(this)->leftWheel->getWidget();
+}
+
+HWND
+SoWinFullViewerP::buildBottomWheel(HWND parent)
+{
+  // Create coords are not needed - the widget is moved into place
+  // by layoutWidgets
+  PUBLIC(this)->bottomWheel =
+    new SoWinThumbWheel(SoWinThumbWheel::Horizontal,
+                        parent,
+                        1,
+                        0,
+                        0,
+                        "RotY");
+  PUBLIC(this)->bottomWheelVal = PUBLIC(this)->bottomWheel->value();
+  PUBLIC(this)->bottomWheel->setCallback(this->bottomWheelCB, this);
+  PUBLIC(this)->bottomWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
+  PUBLIC(this)->bottomWheel->setLabelOffset(-4, 0);
+
+  return PUBLIC(this)->bottomWheel->getWidget();
+}
+
+HWND
+SoWinFullViewerP::buildRightWheel(HWND parent)
+{
+  // Create coords are not needed - the widget is moved into place
+  // by layoutWidgets
+  PUBLIC(this)->rightWheel =
+    new SoWinThumbWheel(SoWinThumbWheel::Vertical,
+                        parent,
+                        2,
+                        0,
+                        0,
+                        "Dolly");
+  PUBLIC(this)->rightWheelVal = PUBLIC(this)->rightWheel->value();
+  PUBLIC(this)->rightWheel->setCallback(this->rightWheelCB, this);
+  PUBLIC(this)->rightWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
+  PUBLIC(this)->rightWheel->setLabelOffset(- (PUBLIC(this)->bottomWheel->getLabelSize().cx - PUBLIC(this)->rightWheel->sizeHint().cx),
+                                           ((DECORATION_SIZE - PUBLIC(this)->leftWheel->sizeHint().cx) / 2)
+                                           + DECORATION_BUFFER + 1);
+
+  return PUBLIC(this)->rightWheel->getWidget();
+}
+
 void
 SoWinFullViewerP::seekbuttonClicked(void)
 {
   PUBLIC(this)->setSeekMode(PUBLIC(this)->isSeekMode() ? FALSE : TRUE);
 }
-
-///////////////////////////////////////////////////////////////////
-//
-//  (private)
-//
-//
 
 void
 SoWinFullViewerP::leftWheelCB(SoWinThumbWheel::Interaction type, float val,
@@ -999,5 +989,7 @@ SoWinFullViewerP::setThumbWheelValue(void * wheel, float val)
 {
   ((SoWinThumbWheel *)wheel)->setValue(val);
 }
+
+#endif // !DOXYGEN_SKIP_THIS
 
 // *************************************************************************
