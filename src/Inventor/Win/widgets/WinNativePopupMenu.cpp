@@ -386,26 +386,29 @@ WinNativePopupMenu::removeMenuItem(int itemid)
 void
 WinNativePopupMenu::popUp(HWND inside, int x, int y)
 {
+  POINT point;
+  point.x = x;
+  point.y = y;
+  Win32::ClientToScreen(inside, &point);
 
   MenuRecord * menurec = this->getMenuRecord(0);
   this->selectedItem = TrackPopupMenu(menurec->menu,
-                                       TPM_LEFTALIGN |
-                                       TPM_TOPALIGN |
-                                       TPM_RIGHTBUTTON |
-                                       TPM_RETURNCMD |
-                                       (this->notify ? 0 : TPM_NONOTIFY),
-                                       x,
-                                       y,
-                                       0,
-                                       inside,
-                                       NULL);
+                                      TPM_LEFTALIGN |
+                                      TPM_TOPALIGN |
+                                      TPM_RIGHTBUTTON |
+                                      TPM_RETURNCMD |
+                                      (this->notify ? 0 : TPM_NONOTIFY),
+                                      point.x,
+                                      point.y,
+                                      0,
+                                      inside,
+                                      NULL);
   
   if (this->selectedItem == 0)
     return;
   
   ItemRecord * itemrec = this->getItemRecord(this->selectedItem);
   assert(itemrec != NULL);
-  
 } // popUp()
 
 int

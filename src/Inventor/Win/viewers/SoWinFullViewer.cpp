@@ -640,23 +640,13 @@ SoWinFullViewer::setPopupMenuString(const char * name)
 void
 SoWinFullViewer::openPopupMenu(const SbVec2s position)
 {
-  short x, y;
-  position.getValue(x, y);
-
-  // Get the right coords
-  RECT clientRect;
-  Win32::GetClientRect(this->renderAreaWidget, & clientRect);
-
-  POINT point;
-  point.y = clientRect.bottom - y;
-  point.x = x;
-
-  BOOL r = ClientToScreen(this->renderAreaWidget, & point);
-  assert(r && "ClientToScreen() failed -- investigate");
-
   assert(this->prefmenu != NULL);
   this->common->prepareMenu(this->prefmenu);
-  this->displayPopupMenu(point.x, point.y, GetActiveWindow());
+
+  RECT clientrect;
+  Win32::GetClientRect(this->renderAreaWidget, &clientrect);
+  this->displayPopupMenu(position[0], clientrect.bottom - position[1],
+                         GetActiveWindow());
 }
 
 void
