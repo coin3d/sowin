@@ -20,6 +20,7 @@ BUILT_SOURCES = \
 	src/Inventor/Win/SoWinObject.cpp \
 	src/Inventor/Win/SoWinRenderArea.h \
 	src/Inventor/Win/SoWinRenderArea.cpp \
+	src/Inventor/Win/common/gl.h \
 	src/Inventor/Win/viewers/SoWinViewer.h \
 	src/Inventor/Win/viewers/SoWinViewer.cpp \
 	src/Inventor/Win/viewers/SoAnyFullViewer.h \
@@ -80,6 +81,7 @@ EXTRA_DIST = \
 	src/Inventor/Win/common/SoAnyThumbWheel.cpp.in \
 	src/Inventor/Win/common/SoAnyPopupMenu.h.in \
 	src/Inventor/Win/common/SoAnyPopupMenu.cpp.in \
+	src/Inventor/Win/common/gl.h.in \
 	src/Inventor/Win/common/spwinput.h.in \
 	src/Inventor/Win/common/spwinput_x11.cpp.in \
 	src/Inventor/Win/common/pixmaps/help.xpm \
@@ -147,6 +149,13 @@ src/Inventor/Win/SoWinRenderArea.h: \
 src/Inventor/Win/SoWinRenderArea.cpp: \
   $(srcdir)/src/Inventor/Win/common/SoGuiRenderArea.cpp.in
 	@./config.status --file=$@:src/Inventor/Win/common/SoGuiRenderArea.cpp.in
+
+src/Inventor/Win/common/gl.h: $(srcdir)/src/Inventor/Win/common/gl.h.in
+	@if test -d src/Inventor/Win/common; then :; else \
+	  echo " mkdir src/Inventor/Win/common"; \
+	  mkdir src/Inventor/Win/common; \
+	fi
+	@./config.status --file=$@:src/Inventor/Win/common/gl.h.in
 
 src/Inventor/Win/viewers/SoWinViewer.h: \
   $(srcdir)/src/Inventor/Win/common/SoGuiViewer.h.in

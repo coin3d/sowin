@@ -5,6 +5,10 @@ AC_INIT(src/Inventor/Win/SoWin.h)
 AC_CONFIG_AUX_DIR(cfg)
 AC_CANONICAL_SYSTEM
 
+if test x"${with_inventor+set}" = x"set"; then
+  AC_MSG_ERROR([SoWin has not been tuned for linking against non-Coin Inventor implementations yet])
+fi
+
 SIM_AC_SETUP_MSVC_IFELSE([],
 [  case $host in
   *-cygwin)
