@@ -304,36 +304,27 @@ SoWin::getTopLevelWidget(void)
   return SoWinP::mainWidget;
 } // getTopLevelWidget()
 
-/*!
-  This will pop up an error dialog. It's just a simple wrap-around for
-  the Win32 API MessageBox() call, provided for easier porting from
-  applications using the Open Inventor SoXt component classes, aswell
-  as being a convenient way for the application programmer or from
-  SoWin components to throw up an obtrusive application-global error
-  dialog.
-
-  If \a widget is \c NULL, the dialog will be modal for the whole
-  application (all windows will be blocked for input). If not, only
-  the window for the given \a widget will be blocked.
-
-  \a dialogTitle is the title of the dialog box. \a errorStr1 and \a
-  errorStr2 contains the text which will be shown in the dialog box.
-
-  There will only be a single "Ok" button for the user to press.
-*/
+// Documented in common/SoGuiCommon.cpp.in.
+//
+// Just a simple wrap-around for the Win32 API MessageBox() call,
+// provided for easier porting from applications using the Open
+// Inventor SoXt component classes.
 void
-SoWin::createSimpleErrorDialog(HWND const widget, const char * const dialogTitle, const char * const errorStr1, const char * const errorStr2)
+SoWin::createSimpleErrorDialog(HWND const widget,
+                               const char * const title,
+                               const char * const string1,
+                               const char * const string2)
 {
   
-  SbString title(dialogTitle ? dialogTitle : "");
-  SbString errstr(errorStr1 ? errorStr1 : "");
+  SbString t(title ? title : "");
+  SbString errstr(string1 ? string1 : "");
 
-  if (errorStr2) {
+  if (string2) {
     errstr += '\n';
-    errstr += errorStr2;
+    errstr += string2;
   }
 
-  MessageBox(widget, errstr.getString(), title.getString(), MB_OK | MB_ICONERROR | MB_TASKMODAL);
+  MessageBox(widget, errstr.getString(), t.getString(), MB_OK | MB_ICONERROR | MB_TASKMODAL);
 } // createSimpleErrorDialog()
 
 /*!
