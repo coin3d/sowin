@@ -253,19 +253,26 @@ SoWinComponent::hide( void )
   (void)ShowWindow( PRIVATE( this )->parent, SW_HIDE );
 }
 
-void
-SoWinComponent::goFullScreen( const SbBool enable )
+/*!
+  Toggle full screen mode for this component, if possible.
+
+  Returns \c FALSE if operation failed.  This might happen if the
+  toolkit doesn't support attempts at making the component cover the
+  complete screen or if the component is not a toplevel window.
+*/
+SbBool
+SoWinComponent::setFullScreen( const SbBool enable )
 {
+  if (onoff == THIS->fullscreen) { return TRUE; }
+
   HWND hwnd = this->getParentWidget( );
-  while( IsWindow( GetParent( hwnd ) ) )
-    hwnd = GetParent( hwnd );
+  // FIXME: hmm.. this looks suspicious. Shouldn't we just return
+  // FALSE if the (base)widget is not a shellwidget? 20010817 mortene.
+  while( IsWindow( GetParent( hwnd ) ) ) { hwnd = GetParent( hwnd ); }
 
   SoWinComponentP::fullscreenData * data = NULL;
 
   if ( enable ) {
-
-    if ( this->isFullScreen( ) )
-      return;
 
     data = new SoWinComponentP::fullscreenData;
     
@@ -298,9 +305,6 @@ SoWinComponent::goFullScreen( const SbBool enable )
   }
   else {
 
-    if ( ! this->isFullScreen( ) )
-      return;
-
     // Find in list of fullscreen windows
     SoWinComponentP::fullscreenData * d = NULL;
     int i;
@@ -311,7 +315,12 @@ SoWinComponent::goFullScreen( const SbBool enable )
         break;
       }
     }
-    if ( ! data ) return;
+
+    // FIXME: isn't this really an assert condition? The code looks
+    // suspicious in general -- shouldn't "being fullscreen" be a
+    // property of the window checkable through an API call?  (Perhaps
+    // that's not supported with the Win32 API?) 20010817 mortene.
+    if ( ! data ) { return FALSE; }
 
     // Go normal
     (void)Win32::SetWindowLong( hwnd, GWL_STYLE, data->style | WS_VISIBLE );
@@ -328,6 +337,8 @@ SoWinComponent::goFullScreen( const SbBool enable )
     SoWinComponentP::sowinfullscreenlist->remove( i );
     delete data;
   }
+
+  return FALSE;
 }
 
 SbBool

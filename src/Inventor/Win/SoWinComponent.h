@@ -46,8 +46,8 @@ public:
   virtual void show( void );
   virtual void hide( void );
   
-  void goFullScreen( const SbBool enable );
   SbBool isFullScreen( void ) const;
+  SbBool setFullScreen( const SbBool enable );
 
   SbBool isVisible( void );
   HWND getWidget( void ) const;
