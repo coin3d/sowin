@@ -31,7 +31,8 @@ libSoWin_la_SOURCES = \
 libSoWin_la_LIBADD = \
 	devices/libSoWinDevices.la \
 	viewers/libSoWinViewers.la \
-	widgets/libSoWinWidgets.la
+	widgets/libSoWinWidgets.la \
+	-lgdi32
 
 libSoWin_la_LDFLAGS = \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
