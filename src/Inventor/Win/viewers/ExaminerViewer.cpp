@@ -17,11 +17,6 @@
  *
  **************************************************************************/
 
-#if SOWIN_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOWIN_DEBUG
-
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 #include <Inventor/fields/SoSFTime.h>
@@ -630,6 +625,27 @@ SoWinExaminerViewerP::cameratoggleClicked(void) // virtual
 
 // *************************************************************************
 
-#if SOWIN_DEBUG
-static const char * getSoWinExaminerViewerRCSID(void) { return rcsid; }
-#endif
+// FIXME: these are present in the other So* toolkits, but was missing
+// in SoWin. Why? 20020111 mortene.
+
+void
+SoWinExaminerViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
+{
+  // FIXME: not activated in SoWinFullViewer yet. 20020111 mortene.
+//    inherited::createViewerButtons(parent, buttonlist);
+}
+
+void
+SoWinExaminerViewer::processEvent(MSG * event)
+{
+  inherited::processEvent(event);
+}
+
+HWND
+SoWinExaminerViewer::makeSubPreferences(HWND parent)
+{
+  // FIXME: not activated in SoWinFullViewer yet. 20020111 mortene.
+//    return inherited::makeSubPreferences(parent);
+  return NULL;
+}
+

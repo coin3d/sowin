@@ -17,11 +17,6 @@
  *
  **************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif
-
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/projectors/SbPlaneProjector.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
@@ -652,6 +647,18 @@ SoWinPlaneViewerP::setMode(
 
 // ************************************************************************
 
-#if SOWIN_DEBUG
-//static const char * getSoWinPlaneViewerRCSId(void) { return rcsid; }
-#endif
+// FIXME: these are present in the other So* toolkits, but was missing
+// in SoWin. Why? 20020111 mortene.
+
+void
+SoWinPlaneViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
+{
+  // FIXME: not activated in SoWinFullViewer yet. 20020111 mortene.
+//    inherited::createViewerButtons(parent, buttonlist);
+}
+
+void
+SoWinPlaneViewer::processEvent(MSG * event)
+{
+  inherited::processEvent(event);
+}
