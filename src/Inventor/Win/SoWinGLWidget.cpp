@@ -26,7 +26,6 @@
 #endif // HAVE_CONFIG_H
 
 #include <Inventor/Win/common/gl.h>
-
 #include <Inventor/SbVec2s.h>
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/SoWinBasic.h>
@@ -35,11 +34,8 @@
 #include <Inventor/Win/SoAny.h>
 #include <sowindefs.h>
 #include <Inventor/Win/Win32API.h>
-
-#if SOWIN_DEBUG
 #include <Inventor/errors/SoDebugError.h>
-#include <conio.h>
-#endif // SOWIN_DEBUG
+#include <float.h> // FLT_MAX
 
 static const int SO_BORDER_THICKNESS = 2;
 
@@ -195,18 +191,8 @@ SoWinGLWidget::setStealFocus(SbBool doStealFocus)
 void
 SoWinGLWidget::setNormalVisual(PIXELFORMATDESCRIPTOR * vis)
 {
-  assert(vis != NULL);
-  assert(PRIVATE(this)->hdcNormal != NULL);
-
-  // FIXME: just overwriting the current format is not a good idea, in
-  // case the new format doesn't work on our current display. 20011208 mortene.
-  (void)memcpy((& PRIVATE(this)->pfdNormal), vis,
-                sizeof(PIXELFORMATDESCRIPTOR));
-
-  int format = SoWinGLWidgetP::ChoosePixelFormat(PRIVATE(this)->hdcNormal, vis);
-  if (format == 0) { return; }
-
-  this->setPixelFormat(format);
+  // FIXME: remove this method. 20020720 mortene.
+  SOWIN_STUB();
 }
 
 /*!
@@ -222,21 +208,8 @@ SoWinGLWidget::getNormalVisual(void)
 void
 SoWinGLWidget::setOverlayVisual(PIXELFORMATDESCRIPTOR * vis)
 {
-  // FIXME: overlay not supported. mariusbu 20010719.
-  assert(vis != NULL);
-  assert(PRIVATE(this)->hdcNormal != NULL);
-
-  // FIXME: just overwriting the current format is not a good idea, in
-  // case the new format doesn't work on our current display. 20011208 mortene.
-  (void)memcpy((& PRIVATE(this)->pfdOverlay), vis,
-                sizeof(PIXELFORMATDESCRIPTOR));
-
-  int format = SoWinGLWidgetP::ChoosePixelFormat(PRIVATE(this)->hdcOverlay, vis);
-  if (format == 0) { return; }
-
-  this->setPixelFormat(format);
-  // FIXME: AFAICS, setPixelFormat() only takes care of the _normal_
-  // OpenGL context / canvas, *not* the overlay context. 20011208 mortene.
+  // FIXME: remove this method. 20020720 mortene.
+  SOWIN_STUB();
 }
 
 /*!
@@ -285,15 +258,14 @@ SoWinGLWidget::getPixelFormat(void)
 void
 SoWinGLWidget::setOverlayRender(const SbBool onoff)
 {
-  SOWIN_STUB();
+  PRIVATE(this)->glModes |= SO_GL_OVERLAY;
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::isOverlayRender(void) const
 {
-  SOWIN_STUB();
-  return FALSE;
+  return (PRIVATE(this)->glModes & SO_GL_OVERLAY) != 0;
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
@@ -824,167 +796,316 @@ SoWinGLWidgetP::debugGLContextCreation(void)
   return val > 0;
 }
 
+// This is our replacement for the Win32 / OpenGL ChoosePixelFormat()
+// function. Returns -FLT_MAX for pixelformats incompatible with
+// OpenGL rendering (in onscreen windows), otherwise a value that
+// indicates it's "goodness", where larger value means it seems better
+// suited for what is requested.
+double
+SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
+                                 SbBool want_rgb, /* default TRUE */
+                                 SbBool want_dblbuffer, /* default TRUE */
+                                 SbBool want_zbuffer, /* default TRUE */
+                                 SbBool want_stereo, /* default FALSE */
+                                 SbBool want_overlay) /* default FALSE */
+{
+  if ((pfd->dwFlags & PFD_SUPPORT_OPENGL) == 0) { return -FLT_MAX; }
+  // We only care for on-screen windows for now. If we ever want to
+  // use this weighting method for offscreen buffers aswell, we should
+  // extend with another argument for the function signature to check
+  // specifically for this.
+  if ((pfd->dwFlags & PFD_DRAW_TO_WINDOW) == 0) { return -FLT_MAX; }
+
+  // FIXME: I believe these pixelformats to be unsupported, as we
+  // don't set up any palettes yet:
+  if ((pfd->dwFlags & (PFD_NEED_PALETTE|PFD_NEED_SYSTEM_PALETTE)) != 0) { return -FLT_MAX; }
+
+
+  // *** set up parameter constants for weighing *****************
+
+  // a baseline value
+  const double MAX_IMPORTANCE = 1000.0;
+
+  // very important to get right, as it will have a _major_ impact on
+  // the rendering
+  const double RGBA_VS_COLORINDEX = MAX_IMPORTANCE;
+
+  // equally important -- no zbuffer means rendering will be
+  // incomprehensible
+  const double ZBUFFER_PRESENT = MAX_IMPORTANCE;
+
+  // veeery close to being as important as the two first "musts" (as
+  // we generally _will_ have non-accelerated pixelformats available
+  // even on drivers with vendor-specific OpenGL ICDs for gfx
+  // hardware)
+  const double HARDWARE_ACCELERATED = MAX_IMPORTANCE - 1;
+
+  // singlebuffer sucks when you want doublebuffer
+  const double DOUBLEBUFFER_PRESENT = MAX_IMPORTANCE / 2;
+
+  // the next three are often hard to find
+  const double STEREO_PRESENT = MAX_IMPORTANCE / 10;
+  const double OVERLAYS_AVAILABLE = MAX_IMPORTANCE / 30;
+  const double PER_OVERLAY_PLANE = MAX_IMPORTANCE / 90;
+
+  // Depth buffer resolution is a lot more important than color
+  // resolution, actually, as really low z-buffer resolution (8 or
+  // even 16 bits) causes unexpected nasty visual artifacts for many
+  // types of scenes.
+  //
+  // Setting depth resolution to be this much more important than
+  // color resolution also fixes a problem with Win32
+  // ChoosePixelFormat() we've experienced with some NVidia drivers
+  // (with GeForce2MX and GeForce2Go cards): if we requested a 32 bit
+  // depth buffer, ChoosePixelFormat() returned an 8 bit (or
+  // something) depth buffer, since 32 bits resolution is not
+  // supported on those cards (only 16 and / or 24 bits resolution).
+  const double PER_COLOR_BIT = 1;
+  const double PER_DEPTH_BIT = 2.5;
+
+
+  // *** calculate weight for given pixelformat ******************
+
+  double weight = 0.0;
+
+  // want_rgb && PFD_TYPE_RGBA         =>  +1
+  // want_rgb && PFD_TYPE_COLORINDEX   =>  -1
+  // !want_rgb && PFD_TYPE_RGBA        =>  -1
+  // !want_rgb && PFD_TYPE_COLORINDEX  =>  +1
+  int sign = (want_rgb ? 1 : -1) * ((pfd->iPixelType == PFD_TYPE_RGBA) ? 1 : -1);
+  weight += RGBA_VS_COLORINDEX * sign;
+
+  const SbBool has_zbuffer = (pfd->cDepthBits > 0);
+  // want_zbuffer && has_zbuffer    =>  +1
+  // want_zbuffer && !has_zbuffer   =>  -1
+  // !want_zbuffer && has_zbuffer   =>  -1
+  // !want_zbuffer && !has_zbuffer  =>  +1
+  sign = (want_zbuffer ? 1 : -1) * (has_zbuffer ? 1 : -1);
+  weight += ZBUFFER_PRESENT * sign;
+
+  const SbBool has_dblbuffer = ((pfd->dwFlags & PFD_DOUBLEBUFFER) != 0);
+  if (want_dblbuffer && has_dblbuffer) { weight += DOUBLEBUFFER_PRESENT; }
+  // otherwise ignore -- no need to punish doublebuffer mode if we
+  // requested singlebuffer mode, as singlebuffer can flawlessly be
+  // "faked" in doublebuffer
+
+  const SbBool has_stereo = ((pfd->dwFlags & PFD_STEREO) != 0);
+  if (want_stereo && has_stereo) { weight += STEREO_PRESENT; }
+  // otherwise ignore -- no need to punish stereo mode if we requested mono
+
+  if (want_overlay) {
+    const int nr_planes = pfd->bReserved & 0x07;
+    weight += ((nr_planes > 0) ? 1 : 0) * OVERLAYS_AVAILABLE;
+    weight += PER_OVERLAY_PLANE * nr_planes;
+    weight += OVERLAYS_AVAILABLE / 10 *
+      ((pfd->dwFlags & PFD_SWAP_LAYER_BUFFERS) ? 1 : 0);
+  }
+
+  const SbBool hw_accel = ((pfd->dwFlags & PFD_GENERIC_FORMAT) == 0);
+  // Note: there are two types of possible "non-generic"
+  // configurations. From a 1996 Usenet posting by a Microsoft
+  // engineer:
+  //
+  // ---8<--- [snip] --------8<--- [snip] --------8<--- [snip] -----
+  //
+  // [...] In the upcoming OpenGL 1.1 for Windows NT/95, we have added
+  // a new flag PFD_GENERIC_ACCELERATED (0x00001000) to identify an
+  // OpenGL Mini Client Driver (MCD).  [...]
+  //
+  // So there are now 3 different classes of hardware identified by pixel 
+  // formats:
+  //
+  // 1. (pfd->flags & (PFD_GENERIC_FORMAT | PFD_GENERIC_ACCELERATED)) == 0
+  //     => OpenGL Installable Client Driver (e.g. Intergraph, AccelGraphics...)
+  //
+  // 2. (pfd->flags & (PFD_GENERIC_FORMAT | PFD_GENERIC_ACCELERATED)) == (PFD_GENERIC_FORMAT | PFD_GENERIC_ACCELERATE)
+  //     => OpenGL Mini Client Driver (e.g. Matrox Millennium...)
+  //
+  // 3. (pfd->flags & (PFD_GENERIC_FORMAT | PFD_GENERIC_ACCELERATED)) == PFD_GENERIC_FORMAT
+  //     => OpenGL Generic (software) Implementation
+  //
+  // Hock San Lee
+  // Microsoft
+  //
+  // ---8<--- [snip] --------8<--- [snip] --------8<--- [snip] -----
+  //
+  // I couldn't figure out whether there are any quality differences
+  // between a "Mini Client Driver" and an "Installable Client
+  // Driver", or even if they can be present at the same time, but it
+  // seems safe to assume that just not having PFD_GENERIC_FORMAT
+  // present means we have hardware-accelerated rendering.
+  //
+  // Anyone reading this who could educate me further on MS OpenGL
+  // acceleration issues and hardware drivers -- please feel free to
+  // do so.
+  //
+  // mortene.
+  weight += (hw_accel ? 1 : 0) * HARDWARE_ACCELERATED;
+
+
+  weight += pfd->cDepthBits * PER_DEPTH_BIT;
+  weight += pfd->cColorBits * PER_COLOR_BIT;
+
+  // The following are "don't care" properties for now (which is
+  // likely to change when we implement missing pieces of
+  // SoWinGLWidget):
+  //
+  // dwFlags:
+  //   - PFD_DRAW_TO_BITMAP
+  //   - PFD_SUPPORT_GDI
+  //   - PFD_SWAP_COPY
+  //   - PFD_SWAP_EXCHANGE
+  //
+  // - individual color bit settings (cRedBits, cGreenBits, cBlueBits)
+  // - cAlphaBits
+  // - cAccumBits (with individual R, G, B, A)
+  // - cStencilBits
+  // - cAuxBuffers
+
+  return weight;
+}
+
 // List all available pixel formats in an SoDebugError window for the
 // given device context.
 void
-SoWinGLWidgetP::listAvailablePixelFormats(HDC hdc)
+SoWinGLWidgetP::dumpPixelFormat(HDC hdc, int format)
 {
   PIXELFORMATDESCRIPTOR desc;
-  int format = 1, maxformat = -1;
+  int maxformat = DescribePixelFormat(hdc, format,
+                                      sizeof(PIXELFORMATDESCRIPTOR), &desc);
+  if (maxformat == 0) {
+    DWORD dummy;
+    SbString err = Win32::getWin32Err(dummy);
+    SbString s = "DescribePixelFormat() failed with error message: ";
+    s += err;
+    SoDebugError::post("SoWinGLWidgetP::dumpPixelFormat", s.getString());
+    return;
+  }
 
+  struct dwFlagsPair { int flag; const char * name; };
+  struct dwFlagsPair dwFlags[] = {
+    { PFD_DRAW_TO_WINDOW, "DRAW_TO_WINDOW" },
+    { PFD_DRAW_TO_BITMAP, "DRAW_TO_BITMAP" },
+    { PFD_SUPPORT_GDI, "SUPPORT_GDI" },
+    { PFD_SUPPORT_OPENGL, "SUPPORT_OPENGL" },
+    { PFD_GENERIC_ACCELERATED, "GENERIC_ACCELERATED" },
+    { PFD_GENERIC_FORMAT, "GENERIC_FORMAT" },
+    { PFD_NEED_PALETTE, "NEED_PALETTE" },
+    { PFD_NEED_SYSTEM_PALETTE, "NEED_SYSTEM_PALETTE" },
+    { PFD_DOUBLEBUFFER, "DOUBLEBUFFER" },
+    { PFD_STEREO, "STEREO" },
+    { PFD_SWAP_LAYER_BUFFERS, "SWAP_LAYER_BUFFERS" },
+    { PFD_SWAP_COPY, "SWAP_COPY" },
+    { PFD_SWAP_EXCHANGE, "SWAP_EXCHANGE" }
+  };
+
+  SbString dwFlagsStr("");
+  for (int i=0; i < (sizeof(dwFlags) / sizeof(dwFlags[0])); i++) {
+    if (dwFlags[i].flag & desc.dwFlags) {
+      if (dwFlagsStr.getLength() > 0) { dwFlagsStr += '|'; }
+      dwFlagsStr += dwFlags[i].name;
+    }
+  }
+
+  SbString iPixelType("unknown");
+  if (desc.iPixelType == PFD_TYPE_RGBA) { iPixelType = "RGBA"; }
+  if (desc.iPixelType == PFD_TYPE_COLORINDEX) { iPixelType = "COLORINDEX"; }
+
+  SoDebugError::postInfo("SoWinGLWidgetP::dumpPixelFormat",
+                         "\npixelformat %d:\n"
+                         "  dwFlags==%s (0x%x)\n"
+                         "  iPixelType==%s\n"
+                         "  cColorBits==%d\n"
+                         "  [cRedBits, cGreenBits, cBlueBits, cAlphaBits]==[%d, %d, %d, %d]\n"
+                         "  [cRedShift, cGreenShift, cBlueShift, cAlphaShift]==[%d, %d, %d, %d]\n"
+                         "  cAccumBits==%d\n"
+                         "  [cAccumRedBits, cAccumGreenBits, cAccumBlueBits, cAccumAlphaBits]==[%d, %d, %d, %d]\n"
+                         "  cDepthBits==%d\n"
+                         "  cStencilBits==%d\n"
+                         "  cAuxBuffers==%d\n"
+                         "  overlayplanes==%d, underlayplanes==%d  (0x%x)\n"
+                         "  transparent color or index == 0x%x"
+                         , format
+                         , dwFlagsStr.getString(), desc.dwFlags
+                         , iPixelType.getString()
+                         , desc.cColorBits
+                         , desc.cRedBits, desc.cGreenBits, desc.cBlueBits, desc.cAlphaBits
+                         , desc.cRedShift, desc.cGreenShift, desc.cBlueShift, desc.cAlphaShift
+                         , desc.cAccumBits, desc.cAccumRedBits, desc.cAccumGreenBits, desc.cAccumBlueBits, desc.cAccumAlphaBits
+                         , desc.cDepthBits, desc.cStencilBits, desc.cAuxBuffers
+                         , desc.bReserved & 0x7, (desc.bReserved & (0xff - 0x7)) >> 3, desc.bReserved
+                         , desc.dwVisibleMask
+                         );
+}
+
+void
+SoWinGLWidgetP::createGLContext(HWND window)
+{
+  assert(IsWindow(window));
+
+  SoWinGLWidget * share = NULL;
+
+  // All contexts were destroyed or released in onDestroy().
+
+  this->hdcNormal = GetDC(window);
+  assert(this->hdcNormal && "GetDC failed -- investigate");
+  this->hdcOverlay = this->hdcNormal;
+
+  int format = 1, maxformat = -1, bestformat = -1;
+  double maxweight = -FLT_MAX;
+  PIXELFORMATDESCRIPTOR desc;
   do {
-    maxformat = DescribePixelFormat(hdc, format,
+    maxformat = DescribePixelFormat(this->hdcNormal, format,
                                     sizeof(PIXELFORMATDESCRIPTOR), &desc);
     if (maxformat == 0) {
       DWORD dummy;
       SbString err = Win32::getWin32Err(dummy);
       SbString s = "DescribePixelFormat() failed with error message: ";
       s += err;
-      SoDebugError::post("SoWinGLWidgetP::listAvailablePixelFormats",
-                         s.getString());
-      return;
+      SoDebugError::post("SoWinGLWidgetP::createGLContext", s.getString());
+      goto panic;
     }
 
-    struct dwFlagsPair { int flag; const char * name; };
-    struct dwFlagsPair dwFlags[] = {
-      { PFD_DRAW_TO_WINDOW, "DRAW_TO_WINDOW" },
-      { PFD_DRAW_TO_BITMAP, "DRAW_TO_BITMAP" },
-      { PFD_SUPPORT_GDI, "SUPPORT_GDI" },
-      { PFD_SUPPORT_OPENGL, "SUPPORT_OPENGL" },
-      { PFD_GENERIC_ACCELERATED, "GENERIC_ACCELERATED" },
-      { PFD_GENERIC_FORMAT, "GENERIC_FORMAT" },
-      { PFD_NEED_PALETTE, "NEED_PALETTE" },
-      { PFD_NEED_SYSTEM_PALETTE, "NEED_SYSTEM_PALETTE" },
-      { PFD_DOUBLEBUFFER, "DOUBLEBUFFER" },
-      { PFD_STEREO, "STEREO" },
-      { PFD_SWAP_LAYER_BUFFERS, "SWAP_LAYER_BUFFERS" },
-      { PFD_SWAP_COPY, "SWAP_COPY" },
-      { PFD_SWAP_EXCHANGE, "SWAP_EXCHANGE" }
-    };
+    double weight =
+      SoWinGLWidgetP::weighPixelFormat(&desc,
+                                       (this->glModes & SO_GL_RGB) != 0,
+                                       (this->glModes & SO_GL_DOUBLE) != 0,
+                                       (this->glModes & SO_GL_ZBUFFER) != 0,
+                                       (this->glModes & SO_GL_STEREO) != 0,
+                                       // FIXME: overlay support not
+                                       // implemented yet. 20020720 mortene.
+                                       FALSE);
 
-    SbString dwFlagsStr("");
-    for (int i=0; i < (sizeof(dwFlags) / sizeof(dwFlags[0])); i++) {
-      if (dwFlags[i].flag & desc.dwFlags) {
-        if (dwFlagsStr.getLength() > 0) { dwFlagsStr += '|'; }
-        dwFlagsStr += dwFlags[i].name;
-      }
+    if (SoWinGLWidgetP::debugGLContextCreation()) {
+      SoWinGLWidgetP::dumpPixelFormat(this->hdcNormal, format);
+      SoDebugError::postInfo("SoWinGLWidgetP::createGLContext",
+                             "weight==%f\n", weight);
     }
 
-    SbString iPixelType("unknown");
-    if (desc.iPixelType == PFD_TYPE_RGBA) { iPixelType = "RGBA"; }
-    if (desc.iPixelType == PFD_TYPE_COLORINDEX) { iPixelType = "COLORINDEX"; }
+    if (weight >= maxweight) {
+      maxweight = weight;
+      bestformat = format;
+      (void)memcpy(&this->pfdNormal, &desc, sizeof(PIXELFORMATDESCRIPTOR));
+    }
 
-    SoDebugError::postInfo("SoWinGLWidgetP::listAvailablePixelFormats",
-                           "\npixelformat %d:\n"
-                           "  dwFlags==%s (0x%x)\n"
-                           "  iPixelType==%s\n"
-                           "  cColorBits==%d\n"
-                           "  [cRedBits, cGreenBits, cBlueBits, cAlphaBits]==[%d, %d, %d, %d]\n"
-                           "  [cRedShift, cGreenShift, cBlueShift, cAlphaShift]==[%d, %d, %d, %d]\n"
-                           "  cAccumBits==%d\n"
-                           "  [cAccumRedBits, cAccumGreenBits, cAccumBlueBits, cAccumAlphaBits]==[%d, %d, %d, %d]\n"
-                           "  cDepthBits==%d\n"
-                           "  cStencilBits==%d\n"
-                           "  cAuxBuffers==%d\n"
-                           "  overlayplanes==%d, underlayplanes==%d  (0x%x)\n"
-                           "  transparent color or index == 0x%x\n"
-                           , format
-                           , dwFlagsStr.getString(), desc.dwFlags
-                           , iPixelType.getString()
-                           , desc.cColorBits
-                           , desc.cRedBits, desc.cGreenBits, desc.cBlueBits, desc.cAlphaBits
-                           , desc.cRedShift, desc.cGreenShift, desc.cBlueShift, desc.cAlphaShift
-                           , desc.cAccumBits, desc.cAccumRedBits, desc.cAccumGreenBits, desc.cAccumBlueBits, desc.cAccumAlphaBits
-                           , desc.cDepthBits, desc.cStencilBits, desc.cAuxBuffers
-                           , desc.bReserved & 0x7, (desc.bReserved & (0xff - 0x7)) >> 3, desc.bReserved
-                           , desc.dwVisibleMask
-                           );
     format++;
   } while (format <= maxformat);
-}
-
-BOOL
-SoWinGLWidgetP::createGLContext(HWND window,
-                                SbBool doublebuffer, SbBool stereo,
-                                SbBool overlay)
-{
-  assert(IsWindow(window) && "createGLContext() argument failed IsWindow() check!");
-
-  // FIXME: overlay planes not properly supported yet. Returning FALSE
-  // will cause the caller (SoWinGLWidgetP::onCreate()) to try without
-  // the overlay planes. 20010920 mortene.
-  if (overlay) { return FALSE; }
-
-  // All contexts were destroyed or released in onDestroy()
-
-  this->hdcNormal = GetDC(window);
-  assert(this->hdcNormal && "GetDC failed -- investigate");
-  this->hdcOverlay = this->hdcNormal;
 
   if (SoWinGLWidgetP::debugGLContextCreation()) {
-    SoWinGLWidgetP::listAvailablePixelFormats(this->hdcNormal);
+    SoDebugError::postInfo("SoWinGLWidgetP::createGLContext",
+                           "bestformat==%d, maxweight==%f",
+                           bestformat, maxweight);
   }
 
-  (void)memset(&this->pfdNormal, 0, sizeof(PIXELFORMATDESCRIPTOR));
-  this->pfdNormal.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-  this->pfdNormal.nVersion = 1;
-  this->pfdNormal.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL |
-    (stereo ? PFD_STEREO : 0) |
-    (doublebuffer ? PFD_DOUBLEBUFFER : 0);
-  this->pfdNormal.iPixelType = PFD_TYPE_RGBA;
-  this->pfdNormal.cColorBits = 24; // Total RGB bits, excluding alpha.
-  this->pfdNormal.cDepthBits = 32;
-
-  int pixelformat = SoWinGLWidgetP::ChoosePixelFormat(this->hdcNormal,
-                                                      &this->pfdNormal);
-  if (pixelformat == 0) { return FALSE; }
-
-  // This is a woraround for problems we experienced with GeForce2MX
-  // and GeForce2Go cards. If we requested a 32 bit depth buffer,
-  // ChoosePixelFormat returned an 8 bit (or something) depth buffer,
-  // since 32 bits is not supported on those cards. By testing the
-  // returned pixel format, and trying 24 and 16 bits depth, a better
-  // depth buffer precision was achieved.
-  //
-  // pederb.
-
-  // FIXME: this can be embedded in our planned replacement for
-  // ChoosePixelFormat(). (See FIXME in
-  // SoWinGLWidgetP::ChoosePixelFormat()). 20020719 mortene.
-	
-  PIXELFORMATDESCRIPTOR tmpdescriptor;
-  if (DescribePixelFormat(this->hdcNormal,
-                          pixelformat,
-                          sizeof(PIXELFORMATDESCRIPTOR),
-                          &tmpdescriptor) != 0) {
-    if (tmpdescriptor.cDepthBits < 24) {
-      this->pfdNormal.cDepthBits = 24;
-      pixelformat = SoWinGLWidgetP::ChoosePixelFormat(this->hdcNormal,
-                                                      &this->pfdNormal);
-      if (pixelformat == 0) return FALSE;
-      if (DescribePixelFormat(this->hdcNormal,
-                              pixelformat,
-                              sizeof(PIXELFORMATDESCRIPTOR),
-                              &tmpdescriptor) != 0) {
-        if (tmpdescriptor.cDepthBits < 16) {
-          this->pfdNormal.cDepthBits = 16;
-          pixelformat = SoWinGLWidgetP::ChoosePixelFormat(this->hdcNormal,
-                                                          &this->pfdNormal);
-          if (pixelformat == 0) return FALSE;
-        }
-      }
-    }
-  }
-
-  if (!SetPixelFormat(this->hdcNormal, pixelformat, &this->pfdNormal)) {
+  if (!SetPixelFormat(this->hdcNormal, bestformat, &this->pfdNormal)) {
     DWORD dummy;
     SbString err = Win32::getWin32Err(dummy);
     SbString s = "SetPixelFormat(";
-    s.addIntString(pixelformat);
+    s.addIntString(bestformat);
     s += ") failed with error message ";
     s += err;
     SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
-    return FALSE;
+    goto panic;
   }
 
   // FIXME: if the pixelformat set up is _not_ an RGB (truecolor)
@@ -1059,13 +1180,13 @@ SoWinGLWidgetP::createGLContext(HWND window,
   if (! this->ctxNormal) {
     DWORD dummy;
     SbString err = Win32::getWin32Err(dummy);
-    SbString s = "The rendering context for pixelformat ";
-    s.addIntString(pixelformat);
+    SbString s = "The rendering context for pixel format ";
+    s.addIntString(bestformat);
     s += " could not be created, as ";
     s += "wglCreateContext() failed with error message: ";
     s += err;
     SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
-    return FALSE;
+    goto panic;
   }
 
 #if 0 // temporary disabled because overlay planes is not supported yet
@@ -1077,8 +1198,7 @@ SoWinGLWidgetP::createGLContext(HWND window,
 #endif // tmp disabled
 
   // share context
-  SoWinGLWidget * share = (SoWinGLWidget *)
-  SoAny::si()->getSharedGLContext(NULL, NULL);
+  share = (SoWinGLWidget *)SoAny::si()->getSharedGLContext(NULL, NULL);
 
   if (share != NULL) {
     BOOL ok = wglShareLists(PRIVATE(share)->ctxNormal, this->ctxNormal);
@@ -1092,100 +1212,58 @@ SoWinGLWidgetP::createGLContext(HWND window,
   // 20010924 mortene.
   if (!SoWinGLWidgetP::wglMakeCurrent(this->hdcNormal, this->ctxNormal) ||
       !SoWinGLWidgetP::wglMakeCurrent(NULL, NULL)) {
-    return FALSE;
+    SoDebugError::post("SoWinGLWidgetP::createGLContext",
+                       "Couldn't make the picked GL context current! "
+                       "Something is seriously wrong on this system!");
+    goto panic;
   }
 
   // Sets up the app-programmer visible format flags from what kind of
   // canvas we actually got.
   {
-    PIXELFORMATDESCRIPTOR desc;
-    int notnull = DescribePixelFormat(this->hdcNormal, pixelformat,
-                                      sizeof(PIXELFORMATDESCRIPTOR), &desc);
-    assert((notnull != 0) && "incomprehensible DescribePixelFormat() error");
     this->glModes = 0;
-    this->glModes |= (desc.iPixelType == PFD_TYPE_RGBA) ? SO_GL_RGB : 0;
-    this->glModes |= (desc.dwFlags & PFD_DOUBLEBUFFER) ? SO_GL_DOUBLE : 0;
-    this->glModes |= (desc.cDepthBits > 0) ? SO_GL_ZBUFFER : 0;
-    this->glModes |= (desc.dwFlags & PFD_STEREO) ? SO_GL_STEREO : 0;
+    this->glModes |= (this->pfdNormal.iPixelType == PFD_TYPE_RGBA) ? SO_GL_RGB : 0;
+    this->glModes |= (this->pfdNormal.dwFlags & PFD_DOUBLEBUFFER) ? SO_GL_DOUBLE : 0;
+    this->glModes |= (this->pfdNormal.cDepthBits > 0) ? SO_GL_ZBUFFER : 0;
+    this->glModes |= (this->pfdNormal.dwFlags & PFD_STEREO) ? SO_GL_STEREO : 0;
     // FIXME: check for overlay planes when support for this is
     // implemented. 20020719 mortene.
   }
 
-  return TRUE;
+  return;
+
+panic:
+  // FIXME: clean up as good as possible, in case the application has
+  // registered a "fatal error" handler callback and is able to run
+  // without the functionality provided by SoWin.
+  //
+  // Note that this must be done _before_ calling
+  // SoAny::invokeFatalErrorHandler(), since the fatal error handler
+  // might throw an exception -- in which case it will not return by
+  // using our stack address.
+  //
+  // 20011014 mortene.
+
+  // FIXME: should provide more details about the error condition, if
+  // possible. Could for instance use the GL vendor and / or version
+  // and / or renderer string to smoke out the exact ATI driver known
+  // to cause problems in accelerated mode (when DirectX is in
+  // non-accelerated mode at the same time) -- as reported by Alan
+  // Walford of Eos. 20011014 mortene.
+  SbString s = "Could not find any supported OpenGL mode on your system.";
+  if (!SoAny::si()->invokeFatalErrorHandler(s, SoWin::NO_OPENGL_CANVAS)) {
+    // FIXME: this will actually cause the application to exit before
+    // the error dialog has been shown. 20011123 mortene.
+    exit(1);
+  }
+  return;
 }
 
 LRESULT
 SoWinGLWidgetP::onCreate(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-
-#if SOWIN_DEBUG && 0
-  SoDebugError::postInfo("SoWinGLWidget::onCreate", "called");
-#endif // SOWIN_DEBUG
-
   int orgmodes = this->glModes;
-  SbBool tried_nostereo = FALSE;
-  SbBool tried_nooverlay = FALSE;
-  SbBool tried_nodouble = FALSE;
-  SbBool tried_withdouble = FALSE;
-
-  // FIXME: fix this mess by writing our own ChoosePixelFormat()
-  // replacement, see SoWinGLWidgetP::ChoosePixelFormat().
-  // mortene 20020719.
-label:
-  if (!this->createGLContext(window, this->glModes & SO_GL_DOUBLE,
-                             this->glModes & SO_GL_STEREO,
-                             this->glModes & SO_GL_OVERLAY)) {
-    this->glModes = orgmodes; // reset before trying new setting
-
-    // Downgrading is ordered from what seems "most likely to help".
-
-    if ((orgmodes & SO_GL_OVERLAY) && !tried_nooverlay) {
-      this->glModes &= ~SO_GL_OVERLAY;
-      tried_nooverlay = TRUE;
-      goto label;
-    }
-    else if ((orgmodes & SO_GL_STEREO) && !tried_nostereo) {
-      this->glModes &= ~SO_GL_STEREO;
-      tried_nostereo = TRUE;
-      goto label;
-    }
-    else if ((orgmodes & SO_GL_DOUBLE) && !tried_nodouble) {
-      this->glModes &= ~SO_GL_DOUBLE;
-      tried_nodouble = TRUE;
-      goto label;
-    }
-    else if (!(orgmodes & SO_GL_DOUBLE) && !tried_withdouble) {
-      this->glModes |= SO_GL_DOUBLE;
-      tried_withdouble = TRUE;
-      goto label;
-    }
-    else {
-      // FIXME: clean up as good as possible, in case the application
-      // has registered a "fatal error" handler callback and is able
-      // to run without the functionality provided by SoWin.
-      //
-      // Note that this must be done _before_ calling
-      // SoAny::invokeFatalErrorHandler(), since the fatal error
-      // handler might throw an exception -- in which case it will not
-      // return by using our stack address.
-      //
-      // 20011014 mortene.
-
-      // FIXME: should provide more details about the error condition,
-      // if possible. Could for instance use the GL vendor and / or
-      // version and / or renderer string to smoke out the exact ATI
-      // driver known to cause problems in accelerated mode (when
-      // DirectX is in non-accelerated mode at the same time) -- as
-      // reported by Alan Walford of Eos. 20011014 mortene.
-      SbString s = "Could not find any supported OpenGL mode on your system.";
-      if (!SoAny::si()->invokeFatalErrorHandler(s, SoWin::NO_OPENGL_CANVAS)) {
-        // FIXME: this will actually cause the application to exit
-        // before the error dialog has been shown. 20011123 mortene.
-        exit(1);
-      }
-    }
-  }
-
+  this->createGLContext(window);
   if (SoWinGLWidgetP::debugGLContextCreation() && (orgmodes != this->glModes)) {
     SoDebugError::postWarning("SoWinGLWidgetP::onCreate",
                               "wanted glModes==0x%x, got 0x%x",
@@ -1275,27 +1353,4 @@ SoWinGLWidgetP::wglMakeCurrent(HDC hdc, HGLRC hglrc)
   SoDebugError::postWarning("SoWinGLWidgetP::wglMakeCurrent", s.getString(),
                             hdc, hglrc);
   return FALSE;
-}
-
-// Wrap ChoosePixelFormat() for convenience with regard to verbose
-// warning output when it fails, which can easily happen.
-int
-SoWinGLWidgetP::ChoosePixelFormat(HDC hdc, CONST PIXELFORMATDESCRIPTOR * ppfd)
-{
-  // FIXME: should _really_ replace Win32 ChoosePixelFormat() method
-  // with our own strategy for scanning through and weighting the
-  // available pixelformats, so we have full control over what is
-  // going on. 20020719 mortene.
-  int format = ::ChoosePixelFormat(hdc, ppfd);
-
-  if (format == 0) {
-    DWORD dummy;
-    SbString err = Win32::getWin32Err(dummy);
-    SbString s = "The given pixelformat could not be used, ";
-    s += "ChoosePixelFormat() failed with: ";
-    s += err;
-    SoDebugError::postWarning("SoWinGLWidgetP::ChoosePixelFormat",
-                              s.getString());
-  }
-  return format;
 }

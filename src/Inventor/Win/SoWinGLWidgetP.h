@@ -38,12 +38,17 @@ public:
   ~SoWinGLWidgetP();
 
   static SbBool debugGLContextCreation(void);
-  static void listAvailablePixelFormats(HDC hdc);
+  static void dumpPixelFormat(HDC hdc, int format);
+  static double weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
+                                 SbBool want_rgb = TRUE,
+                                 SbBool want_dblbuffer = TRUE,
+                                 SbBool want_zbuffer = TRUE,
+                                 SbBool want_stereo = FALSE,
+                                 SbBool want_overlay = FALSE);
 
   void buildNormalGLWidget(HWND manager);
   void buildOverlayGLWidget(HWND manager);
-  BOOL createGLContext(HWND window, SbBool doublebuffer, SbBool stereo,
-                       SbBool overlay);
+  void createGLContext(HWND window);
 
   static LRESULT eventHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -52,7 +57,6 @@ public:
   LRESULT onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
 
   static BOOL wglMakeCurrent(HDC hdc, HGLRC hglrc);
-  static int ChoosePixelFormat(HDC hdc, CONST PIXELFORMATDESCRIPTOR * ppfd);
 
   static LRESULT CALLBACK glWidgetProc(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   static LRESULT CALLBACK mgrWidgetProc(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
