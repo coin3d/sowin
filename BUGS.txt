@@ -275,9 +275,29 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     ::SetClassLong(hwnd, GCL_HCURSOR, hcursor) himself and just ignore
     the cursor handling in SoWinComponent.
 
-    Why are we not just calling ::SetClassLong(w, GCL_HCURSOR, <native
-    cursor>) in SoWinComponent::setWidgetCursor(). That would remove
-    the need to do anything special in
-    SoWinFullViewerP::systemEventHook(), at leats.
+    A possible implementation of SoWinComponent::setWidgetCursor()
+    would be to call call ::SetClassLong(w, GCL_HCURSOR, <native
+    cursor>. (That would remove the need to do anything special in
+    SoWinFullViewerP::systemEventHook(), at least). The problem with
+    this solution is that it sets the cursor for the windows _class_
+    of the supplied windows handle. This means that all windows using
+    the same class will get their cursor changed too, which is
+    probably not acceptable. The correct (only?) way to set the cursor
+    of a window is to have the window's windows procedure handle the
+    WM_SETCURSOR message, and calling ::SetCursor() from there. _If_
+    this is to be done from SoWinComponent::setWidgetCursor(), I think
+    it would have to be done by hooking into the (supplied) window's
+    window procedure. Personally, I think this is rather nasty, and
+    would suggest we live with a flawed setWidgetCursor() (one that
+    just calls ::SetCursor()) and just make sure it's documented
+    properly. It's straightforward for the application programmer to
+    set cursors for windows anyway.
+
+    One thing that _would_ be usefull would be to set which cursor
+    should be used inside a renderarea. The windows procedure of the
+    renderarea should then pick up WM_SETCURSOR events and set the
+    cursor there. I'm not sure how to currectly set the cursor when
+    leaving the renderarea - it might be handled automatically because
+    all surrounding windows will have a default cursor.
 
     20040219 thammer
