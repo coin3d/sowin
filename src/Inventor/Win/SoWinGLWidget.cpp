@@ -749,8 +749,10 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
 LRESULT // Used by SoWinRenderArea
 SoWinGLWidgetP::eventHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  // FIXME: the function gets registered and all in SoWinRenderArea,
+  // so why does event handling differ in SoWin versus SoXt and SoQt?
+  // 20030411 mortene.
+  assert(FALSE && "should not be in use");
   return 0;
 }
 
