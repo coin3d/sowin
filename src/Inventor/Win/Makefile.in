@@ -387,6 +387,7 @@ libSoWin@SUFFIX@_la_SOURCES = \
 	SoWin.cpp \
 	SoWinComponent.cpp \
 	SoWinGLWidget.cpp \
+	SoWinMaterialList.cpp \
 	Win32API.cpp \
 	Win32API.h
 
@@ -413,6 +414,7 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoWin.cpp \
 	SoWinComponent.cpp \
 	SoWinGLWidget.cpp \
+	SoWinMaterialList.cpp \
 	Win32API.cpp \
 	Win32API.h
 
@@ -441,7 +443,8 @@ nodist_SoWininc_HEADERS = \
 	SoWinCursors.h \
 	SoWinComponent.h \
 	SoWinGLWidget.h \
-	SoWinRenderArea.h
+	SoWinRenderArea.h \
+	SoWinMaterialList.h
 
 subdir = src/Inventor/Win
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -454,7 +457,7 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = \
 	devices/devices.lst viewers/viewers.lst widgets/widgets.lst
 am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoWin.$(OBJEXT) \
 	SoWinComponent.$(OBJEXT) SoWinGLWidget.$(OBJEXT) \
-	Win32API.$(OBJEXT)
+	SoWinMaterialList.$(OBJEXT) Win32API.$(OBJEXT)
 nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoAny.$(OBJEXT) \
 	So@Gui@Cursors.$(OBJEXT) So@Gui@Object.$(OBJEXT) \
 	So@Gui@RenderArea.$(OBJEXT) SoAnyMaterialList.$(OBJEXT) \
@@ -467,7 +470,7 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 libSoWin@SUFFIX@_la_DEPENDENCIES = devices/libSoWinDevices.la \
 	viewers/libSoWinViewers.la widgets/libSoWinWidgets.la
 am_libSoWin@SUFFIX@_la_OBJECTS = SoWin.lo SoWinComponent.lo \
-	SoWinGLWidget.lo Win32API.lo
+	SoWinGLWidget.lo SoWinMaterialList.lo Win32API.lo
 nodist_libSoWin@SUFFIX@_la_OBJECTS = SoAny.lo So@Gui@Cursors.lo \
 	So@Gui@Object.lo So@Gui@RenderArea.lo SoAnyMaterialList.lo \
 	SoAnyMaterialListBuiltins.lo
@@ -494,8 +497,10 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/SoWinComponent.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinComponent.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinGLWidget.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoWinGLWidget.Po $(DEPDIR)/Win32API.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/Win32API.Po
+@AMDEP_TRUE@	$(DEPDIR)/SoWinGLWidget.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinMaterialList.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinMaterialList.Po \
+@AMDEP_TRUE@	$(DEPDIR)/Win32API.Plo $(DEPDIR)/Win32API.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -641,6 +646,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinComponent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinGLWidget.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinGLWidget.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinMaterialList.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinMaterialList.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Win32API.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Win32API.Po@am__quote@
 

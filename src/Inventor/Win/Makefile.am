@@ -35,6 +35,7 @@ libSoWin@SUFFIX@_la_SOURCES = \
 	SoWin.cpp \
 	SoWinComponent.cpp \
 	SoWinGLWidget.cpp \
+	SoWinMaterialList.cpp \
 	Win32API.cpp \
 	Win32API.h
 
@@ -57,6 +58,7 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoWin.cpp \
 	SoWinComponent.cpp \
 	SoWinGLWidget.cpp \
+	SoWinMaterialList.cpp \
 	Win32API.cpp \
 	Win32API.h
 
@@ -82,7 +84,8 @@ nodist_SoWininc_HEADERS = \
 	SoWinCursors.h \
 	SoWinComponent.h \
 	SoWinGLWidget.h \
-	SoWinRenderArea.h
+	SoWinRenderArea.h \
+	SoWinMaterialList.h
 
 install-SoWinincHEADERS: $(SoWininc_HEADERS)
 	@$(NORMAL_INSTALL)
