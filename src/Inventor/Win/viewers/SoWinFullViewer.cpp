@@ -68,48 +68,11 @@ SoWinFullViewer::setDecoration( SbBool enable )
 
   this->decorations = enable;
   this->showDecorationWidgets( enable );
-  
+
 	// reposition all widgets
   RECT rect;
-  int width, height;
-  
-  GetWindowRect( this->viewerWidget, & rect );
-  width = rect.right - rect.left;
-  height = rect.bottom - rect.top;
-
-  // FIXME: Hack - force resize
-  // ( all positioning of widgets is done in onSize )
-
-  if ( IsWindow( this->parent ) ) {
-    MoveWindow( this->viewerWidget,
-      1,
-      1,
-      width - 1,
-      height - 1,
-      FALSE );
-    
-    MoveWindow( this->viewerWidget,
-      0,
-      0,
-      width,
-      height,
-      FALSE );
-  }
-  else {
-    MoveWindow( this->viewerWidget,
-      rect.left + 1,
-      rect.top + 1,
-      width - 1,
-      height - 1,
-      FALSE );
-    
-    MoveWindow( this->viewerWidget,
-      rect.left,
-      rect.top,
-      width,
-      height,
-      FALSE );
-  }
+  GetClientRect( this->viewerWidget, & rect );
+  this->layoutWidgets( rect.right, rect.bottom );
 
   InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
 }
@@ -349,10 +312,14 @@ SoWinFullViewer::selectedPrefs( void )
   if ( this->prefsheet == NULL ) {
     this->prefsheet = new SoWinViewerPrefSheet( );
   }
-  this->prefsheet->create( );//this->viewerWidget );
-  GetWindowText( SoWin::getTopLevelWidget( ), appName, 128 );
-  this->prefsheet->setTitle( appName );
-  //this->prefsheet->show( TRUE );
+  
+  if ( ! IsWindow( this->prefsheet->getWidget( ) ) ) {
+    this->prefsheet->create( );//this->viewerWidget );
+    GetWindowText( SoWin::getTopLevelWidget( ), appName, 128 );
+    this->prefsheet->setTitle( appName );
+    //this->prefsheet->show( TRUE );
+  }
+  else SetActiveWindow( this->prefsheet->getWidget( ) );
 }
 /*
 void
@@ -575,9 +542,6 @@ SoWinFullViewer::buildWidget( HWND parent )
   if ( this->menuenabled )
     this->buildPopupMenu( );
   
-  if( parent == SoWin::getTopLevelWidget( ) )
-    SoWin::addMessageHook( this->viewerWidget, WM_SIZE );
-
 	if ( this->decorations )
 			this->buildDecoration( this->viewerWidget );
   
@@ -599,6 +563,12 @@ SoWinFullViewer::buildDecoration( HWND parent )
     this->buildAppButtons( parent );
     SoWinFullViewer::doneButtonBar = TRUE;
   }
+
+	// reposition all widgets
+  RECT rect;
+  GetClientRect( parent, & rect );
+  this->layoutWidgets( rect.right, rect.bottom );
+
 }
 
 HWND
@@ -1198,10 +1168,12 @@ SoWinFullViewer::fullViewerProc(
         if ( object->getCursor( ) == GetCursor( ) )
           SetCursor( LoadCursor( SoWin::getInstance( ), IDC_ARROW ) );
         return 0;
-        
+
       case WM_LBUTTONDOWN:
+        /*
       case WM_MBUTTONDOWN:
-      case WM_RBUTTONDOWN:
+      case WM_RBUTTONDOWN:*/
+        _cprintf( "FOCUS\n" );
         SetFocus( object->getGLWidget( ) );
         return 0;
 
@@ -1218,7 +1190,7 @@ SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lpar
   
   MoveWindow(
     ( IsWindow( this->parent ) ? this->parent : this->viewerWidget ),
-    0, 0, 500, 420, TRUE ); // FIXME: make default values
+    0, 0, 500, 420, FALSE ); // FIXME: make default values
   
   return 0;
 }
@@ -1226,125 +1198,7 @@ SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lpar
 LRESULT
 SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-	int i, x, y, width, height, bottom, right, top;
-	int numViewerButtons = this->viewerButtonList->getLength( );
-	int	numAppButtons = this->appButtonList->getLength( );
-  BOOL repaint = ( IsWindow( this->parent ) ? FALSE : TRUE );
-  
-	// RenderArea
-	assert( IsWindow( this->renderAreaWidget ) );
-	
-	if ( this->isDecoration( ) ) {
-		MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
-			LOWORD( lparam ) - ( 2 * DECORATION_SIZE ), HIWORD( lparam ) - DECORATION_SIZE, repaint );
-	}
-  else {
-    MoveWindow( this->renderAreaWidget, 0, 0, LOWORD( lparam ), HIWORD( lparam ), repaint );
-		return 0; 
-	}
-
-  if ( SoWinFullViewer::doButtonBar ) {
-    // Viewer buttons
-    for( i = 0; i < numViewerButtons; i++ )
-      VIEWERBUTTON( i )->move( LOWORD( lparam ) - DECORATION_SIZE, DECORATION_SIZE * i );
-
-    // App buttons
-    for( i = 0; i < numAppButtons; i++ )
-      MoveWindow( APPBUTTON( i ),	0, ( DECORATION_SIZE * ( i + numViewerButtons ) ),
-        DECORATION_SIZE, DECORATION_SIZE, repaint );
-  }
-
-	// Wheels
-	
-	bottom = ( HIWORD( lparam ) - ( DECORATION_SIZE + DECORATION_BUFFER ) );
-	right = ( LOWORD( lparam ) - (
-    ( this->rightWheel ? this->rightWheel->getLabelSize( ).cx : 0 ) + 8 ) );
-  //( DECORATION_SIZE + DECORATION_BUFFER ) );
-	
-	// Left wheel
-  if ( this->leftWheel ) {
-
-		x = ( DECORATION_SIZE / 2 ) - ( this->leftWheel->sizeHint( ).cx / 2 ) - 1;
-		width = this->leftWheel->sizeHint( ).cx;
-
-		top = numAppButtons * DECORATION_SIZE + DECORATION_BUFFER;
-		
-		// if area is large enough for original height
-		if ( ( bottom - top ) > this->leftWheel->sizeHint( ).cy ) {
-
-			height = this->leftWheel->sizeHint( ).cy;
-
-			y = bottom - height;
-
-		} // else we must use all available space
-		else {
-
-			y = top;
-
-			height = bottom - top;
-			
-		}
-		
-		this->leftWheel->move( x, y, width, height );
-	}
-	
-  // Bottom wheel
-	if ( this->bottomWheel ) {
-
-		x = DECORATION_SIZE + leftWheel->getLabelSize( ).cx + 10;
-		y = ( HIWORD( lparam ) - DECORATION_SIZE ) +
-			( ( DECORATION_SIZE / 2 ) - ( this->bottomWheel->sizeHint( ).cy / 2 ) + 1 );
-		
-		height = this->bottomWheel->sizeHint( ).cy;
-		
-		if ( right < ( x + this->bottomWheel->sizeHint( ).cx ) ) {
-
-			width = right - x;
-			
-		}
-		else {
-
-			width =  this->bottomWheel->sizeHint( ).cx;
-			
-		}	
-
-		this->bottomWheel->move( x, y, width, height );
-			
-	}
-	
-  // Right wheel
-  if ( this->rightWheel ) {
-		
-		x = ( LOWORD( lparam ) - DECORATION_SIZE ) +
-			( ( DECORATION_SIZE / 2 ) - ( this->rightWheel->sizeHint( ).cx / 2 ) + 1 );
-		
-		width = this->rightWheel->sizeHint( ).cx;
-
-		top = numViewerButtons * DECORATION_SIZE + DECORATION_BUFFER;
-		
-		// if area is large enough for original height
-		if ( ( bottom - top ) > this->rightWheel->sizeHint( ).cy ) {
-
-			height = this->rightWheel->sizeHint( ).cy;
-
-			y = bottom - height;
-
-		} // else we must use all available space
-		else {
-
-			y = top;
-
-			height = bottom - top;
-			
-		}
-		
-		this->rightWheel->move( x, y, width, height );
-	}
-
-  if ( ! IsWindow( this->parent ) )
-    InvalidateRect( window, NULL, TRUE );
-	
-  return 0;
+  return this->layoutWidgets( LOWORD( lparam ), HIWORD( lparam ) );
 }
 
 LRESULT
@@ -1488,7 +1342,7 @@ SoWinFullViewer::glWidgetProc(
     if ( object && ( message == WM_RBUTTONDOWN ) ) {
 
       object->processExternalEvent( window, message, wparam, lparam );
-      _cprintf( "intercepted message\n" );
+      
       return 0;
     
     }
@@ -1498,3 +1352,126 @@ SoWinFullViewer::glWidgetProc(
   return SoWinGLWidget::glWindowProc( window, message, wparam, lparam );
 }
 
+int
+SoWinFullViewer::layoutWidgets( int cx, int cy )
+{
+	int i, x, y, width, height, bottom, right, top;
+	int numViewerButtons = this->viewerButtonList->getLength( );
+	int	numAppButtons = this->appButtonList->getLength( );
+  BOOL repaint = ( IsWindow( this->parent ) ? FALSE : TRUE );
+  
+	// RenderArea
+	assert( IsWindow( this->renderAreaWidget ) );
+	
+	if ( this->isDecoration( ) ) {
+		MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
+			cx - ( 2 * DECORATION_SIZE ), cy - DECORATION_SIZE, repaint );
+	}
+  else {
+    MoveWindow( this->renderAreaWidget, 0, 0, cx, cy, repaint );
+		return 0; 
+	}
+
+  if ( SoWinFullViewer::doButtonBar ) {
+    // Viewer buttons
+    for( i = 0; i < numViewerButtons; i++ )
+      VIEWERBUTTON( i )->move( cx - DECORATION_SIZE, DECORATION_SIZE * i );
+
+    // App buttons
+    for( i = 0; i < numAppButtons; i++ )
+      MoveWindow( APPBUTTON( i ),	0, ( DECORATION_SIZE * ( i + numViewerButtons ) ),
+        DECORATION_SIZE, DECORATION_SIZE, repaint );
+  }
+
+	// Wheels
+	
+	bottom = ( cy - ( DECORATION_SIZE + DECORATION_BUFFER ) );
+	right = ( cx - (
+    ( this->rightWheel ? this->rightWheel->getLabelSize( ).cx : 0 ) + 8 ) );
+  //( DECORATION_SIZE + DECORATION_BUFFER ) );
+	
+	// Left wheel
+  if ( this->leftWheel ) {
+
+		x = ( DECORATION_SIZE / 2 ) - ( this->leftWheel->sizeHint( ).cx / 2 ) - 1;
+		width = this->leftWheel->sizeHint( ).cx;
+
+		top = numAppButtons * DECORATION_SIZE + DECORATION_BUFFER;
+		
+		// if area is large enough for original height
+		if ( ( bottom - top ) > this->leftWheel->sizeHint( ).cy ) {
+
+			height = this->leftWheel->sizeHint( ).cy;
+
+			y = bottom - height;
+
+		} // else we must use all available space
+		else {
+
+			y = top;
+
+			height = bottom - top;
+			
+		}
+		
+		this->leftWheel->move( x, y, width, height );
+	}
+	
+  // Bottom wheel
+	if ( this->bottomWheel ) {
+
+		x = DECORATION_SIZE + leftWheel->getLabelSize( ).cx + 10;
+		y = ( cy - DECORATION_SIZE ) +
+			( ( DECORATION_SIZE / 2 ) - ( this->bottomWheel->sizeHint( ).cy / 2 ) + 1 );
+		
+		height = this->bottomWheel->sizeHint( ).cy;
+		
+		if ( right < ( x + this->bottomWheel->sizeHint( ).cx ) ) {
+
+			width = right - x;
+			
+		}
+		else {
+
+			width =  this->bottomWheel->sizeHint( ).cx;
+			
+		}	
+
+		this->bottomWheel->move( x, y, width, height );
+			
+	}
+	
+  // Right wheel
+  if ( this->rightWheel ) {
+		
+		x = ( cx - DECORATION_SIZE ) +
+			( ( DECORATION_SIZE / 2 ) - ( this->rightWheel->sizeHint( ).cx / 2 ) + 1 );
+		
+		width = this->rightWheel->sizeHint( ).cx;
+
+		top = numViewerButtons * DECORATION_SIZE + DECORATION_BUFFER;
+		
+		// if area is large enough for original height
+		if ( ( bottom - top ) > this->rightWheel->sizeHint( ).cy ) {
+
+			height = this->rightWheel->sizeHint( ).cy;
+
+			y = bottom - height;
+
+		} // else we must use all available space
+		else {
+
+			y = top;
+
+			height = bottom - top;
+			
+		}
+		
+		this->rightWheel->move( x, y, width, height );
+	}
+  /*
+  if ( ! IsWindow( this->parent ) )
+    InvalidateRect( this->viewerWidget, NULL, TRUE );
+  */
+  return 0;
+}

@@ -32,13 +32,6 @@
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/devices/SoWinDevice.h>
 
-struct MessageHook
-{
-  HWND hWnd;
-  HWND hParent;
-  UINT message;
-};
-
 class SoSensor;
 
 // default values when creating window ( !embed )
@@ -100,9 +93,6 @@ public:
 
   // "SoWININTERNAL public"
   static void errorHandlerCB( const SoError * error, void * data );
-  static void addMessageHook( HWND hwnd, UINT message );
-  static void removeMessageHook( HWND hwnd, UINT message );
-
   //
   static void addExtensionEventHandler( HWND window,
                                         int extensionEventType,
@@ -144,6 +134,10 @@ protected:
                                       UINT message,
                                       WPARAM wparam,
                                       LPARAM lparam );
+
+    
+  static BOOL CALLBACK sizeChildProc( HWND window, LPARAM lparam );
+
   /*
     static FARPROC m_procCtl3dColorChange;
     static HINSTANCE m_hCtl3d;
@@ -154,6 +148,7 @@ protected:
     void * &clientData);
   */
 private:
+  
   static void sensorQueueChanged( void * cbdata );
 
   static int timerSensorId;
@@ -176,11 +171,7 @@ private:
                                      UINT message,
                                      UINT idevent,
                                      DWORD dwtime );
-
-  static LRESULT onAny( HWND window,
-                        UINT message,
-                        WPARAM wparam,
-                        LPARAM lparam );
+  
   static LRESULT onSize( HWND window,
                          UINT message,
                          WPARAM wparam,
@@ -198,10 +189,7 @@ private:
   static HWND mainWidget;
   static char * appName;
   static char * className;
-  static SbList< MessageHook * > * messageHookList;
 
 }; // class SoWin
 
 #endif // !SOWIN_H
-
-

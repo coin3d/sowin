@@ -43,7 +43,6 @@ int SoWin::delaySensorId = 0;
 SbBool SoWin::delaySensorActive = FALSE;
 int SoWin::idleSensorId = 0;
 SbBool SoWin::idleSensorActive = FALSE;
-SbList< MessageHook * > * SoWin::messageHookList = NULL;
 
 // *************************************************************************
 
@@ -102,8 +101,6 @@ SoWin::init( HWND const topLevelWidget )
   SoDB::getSensorManager( )->setChangedCallback( SoWin::sensorQueueChanged, NULL );
   if ( IsWindow( topLevelWidget ) ) 
     SoWin::mainWidget = topLevelWidget;
-
-  SoWin::messageHookList = new SbList< MessageHook * >;
 }
 
 void
@@ -350,22 +347,6 @@ SoWin::errorHandlerCB( const SoError * error, void * data )
 }
 
 void
-SoWin::addMessageHook( HWND hwnd, UINT message )
-{
-  MessageHook * hook = new MessageHook;
-  hook->hWnd = hwnd;
-  hook->message = message;
-
-  SoWin::messageHookList->append( hook );
-}
-
-void
-SoWin::removeMessageHook( HWND hwnd, UINT message )
-{
-  // FIXME: not implemented
-}
-
-void
 SoWin::addExtensionEventHandler( HWND window,
                                  int extensionEventType,
                                  SoWinEventHandler * callbackproc,
@@ -521,8 +502,6 @@ SoWin::unRegisterWindowClass( const char * const className )
 LRESULT CALLBACK
 SoWin::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  SoWin::onAny( window, message, wparam, lparam );
-
   switch( message )
     {
     case WM_SIZE:
@@ -629,50 +608,21 @@ SoWin::sensorQueueChanged( void * cbdata )
 }
 
 LRESULT
-SoWin::onAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
-  // Let windows with messagehooks get the message
-  // FIXME: is this really needed (seems that all they need is W_SIZE)?
-  /*
-  BOOL messageHandeled = FALSE;
-  
-  if ( messageHookList ) {
-    int length = messageHookList->getLength( );
-    MessageHook * const * hookList = messageHookList->getArrayPtr( );
-    for ( int i = 0; i < length; i++ )
-      if ( hookList[ i ]->message == message ) {
-        UpdateWindow( hookList[ i ]->hWnd );
-        messageHandeled = TRUE;
-      }
-  }
-  */
-  return 0;
-}
-
-LRESULT
 SoWin::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-	// On resizing the mainWidget, resize all child windows too
   
-  if ( messageHookList ) {
-    int length = messageHookList->getLength( );
-		MessageHook * hook;
-    for ( int i = 0; i < length; i++ ) {
-			hook = ( MessageHook * )( * messageHookList )[i];
-      if ( hook->message == message ) { // WM_SIZE
-        MoveWindow( hook->hWnd,
-                    0,
-                    0,
-                    LOWORD( lparam ),
-                    HIWORD( lparam ),
-                    FALSE );
-      }
-		}
-  }
-	
+  EnumChildWindows( window, SoWin::sizeChildProc, lparam );  
 	InvalidateRect( window, NULL, TRUE );
 	
   return 0;
+}
+
+BOOL CALLBACK
+SoWin::sizeChildProc( HWND window, LPARAM lparam )
+{
+  if ( GetParent( window ) == SoWin::getTopLevelWidget( ) )
+    MoveWindow( window, 0, 0, LOWORD( lparam ), HIWORD( lparam ), FALSE );
+  return TRUE;
 }
 
 LRESULT
@@ -685,8 +635,6 @@ SoWin::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 LRESULT
 SoWin::onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  delete SoWin::messageHookList;  // FIXME: remove hooks first
-
   if ( SoWin::idleSensorActive ) KillTimer( NULL, SoWin::idleSensorId );
   if ( SoWin::timerSensorActive ) KillTimer( NULL, SoWin::timerSensorId );
   if ( SoWin::delaySensorActive ) KillTimer( NULL, SoWin::delaySensorId );
@@ -695,27 +643,6 @@ SoWin::onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 
   return 0;
 }
-/*
-  SetWindowsHookEx( WH_CALLWNDPROC, this->callWndProc, SoWin::getInstance( ), 0 );
-  
-LRESULT CALLBACK 
-SoWin::callWndProc( int code, WPARAM wparam , LPARAM lparam )
-{
-  CWPSTRUCT * cwp = ( CWPSTRUCT * ) lparam;
-
-  if ( code == HC_ACTION ) {// process message
-    if ( cwp->hwnd == this->parent ) {// intercept message to parent
-      if ( cwp->message == WM_SIZE ) {
-        MoveWindow( this->viewerWidget, 0, 0, LOWORD( cwp->lParam ), HIWORD( cwp->lParam ), FALSE );
-        // FIXME: get position
-      }
-    }
-  }
-  
-  if ( code < 0 )
-  CallNextHookEx( );
-}
-*/
 
 
 

@@ -463,7 +463,7 @@ SoWinGLWidget::buildWidget( HWND parent )
                                       this );
 
   assert( IsWindow( managerwidget ) );
-
+  
   this->managerWidget = managerwidget; // FIXME: make param in build*GLWidget
 
   if ( this->glModes & SO_GL_OVERLAY ) {
@@ -474,10 +474,6 @@ SoWinGLWidget::buildWidget( HWND parent )
   }
 
   this->waitForExpose = TRUE;
-  
-  if ( ( parent == SoWin::getTopLevelWidget( ) ) ||
-    ( GetParent( parent ) == SoWin::getTopLevelWidget( ) ) )
-    SoWin::addMessageHook( managerwidget, WM_SIZE );
   
   return managerwidget;
 }

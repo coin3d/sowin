@@ -248,6 +248,8 @@ private:
 	LRESULT onDrawItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 	LRESULT onMeasureItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 
+  int layoutWidgets( int cx, int cy );
+
 	// App button callbacks
   AppPushButtonCB * appPushButtonCB;
 	void * appPushButtonData;
