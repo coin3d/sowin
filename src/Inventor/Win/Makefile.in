@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4e from Makefile.am
+# Makefile.in generated automatically by automake 1.4e from Makefile.am.
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -47,7 +47,6 @@ INSTALL = @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
-INSTALL_STRIP_FLAG =
 INSTALL_HEADER = $(INSTALL_DATA)
 transform = @program_transform_name@
 
@@ -82,7 +81,6 @@ DSUFFIX = @DSUFFIX@
 EVENT = @EVENT@
 GUI = @GUI@
 Gui = @Gui@
-INSTALL_HEADER = @INSTALL_HEADER@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTALL_STRIP_PROGRAM_ENV = @INSTALL_STRIP_PROGRAM_ENV@
 LIBFLAGS = @LIBFLAGS@
@@ -171,22 +169,24 @@ libSoWininc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/SoWinGLWidget.h \
 	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
 
+EXEEXT =
+OBJEXT = o
 subdir = src/Inventor/Win
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = 
-LTLIBRARIES =  $(lib_LTLIBRARIES)
+CONFIG_CLEAN_FILES =
+LTLIBRARIES = $(lib_LTLIBRARIES)
 
 
 DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-libSoWin@SUFFIX@_la_DEPENDENCIES =  devices/libSoWinDevices.la \
+libSoWin@SUFFIX@_la_DEPENDENCIES = devices/libSoWinDevices.la \
 viewers/libSoWinViewers.la widgets/libSoWinWidgets.la
-am_libSoWin@SUFFIX@_la_OBJECTS =  SoWinObject.lo SoWinRenderArea.lo \
+am_libSoWin@SUFFIX@_la_OBJECTS = SoWinObject.lo SoWinRenderArea.lo \
 SoWin.lo SoWinComponent.lo SoWinGLWidget.lo
-libSoWin@SUFFIX@_la_OBJECTS =  $(am_libSoWin@SUFFIX@_la_OBJECTS)
+libSoWin@SUFFIX@_la_OBJECTS = $(am_libSoWin@SUFFIX@_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXFLAGS = @CXXFLAGS@
@@ -197,54 +197,57 @@ COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CF
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES =  $(libSoWin@SUFFIX@_la_SOURCES)
-DATA =  $(noinst_DATA)
+DIST_SOURCES = $(libSoWin@SUFFIX@_la_SOURCES)
+DATA = $(noinst_DATA)
 
-HEADERS =  $(libSoWininc_HEADERS)
+HEADERS = $(libSoWininc_HEADERS)
 
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP@DEP_FILES =  $(DEPDIR)/SoWin.Plo $(DEPDIR)/SoWinComponent.Plo \
-@AMDEP@$(DEPDIR)/SoWinGLWidget.Plo $(DEPDIR)/SoWinObject.Plo \
-@AMDEP@$(DEPDIR)/SoWinRenderArea.Plo
-DIST_COMMON =  $(libSoWininc_HEADERS) Makefile.am Makefile.in
+@AMDEP@DEP_FILES = $(DEPDIR)/SoWin.Plo $(DEPDIR)/SoWinComponent.Plo \
+@AMDEP@ $(DEPDIR)/SoWinGLWidget.Plo $(DEPDIR)/SoWinObject.Plo \
+@AMDEP@ $(DEPDIR)/SoWinRenderArea.Plo
+DIST_COMMON = $(libSoWininc_HEADERS) Makefile.am Makefile.in
 
-DIST_SUBDIRS =  $(SUBDIRS)
+DIST_SUBDIRS = $(SUBDIRS)
 SOURCES = $(libSoWin@SUFFIX@_la_SOURCES)
 OBJECTS = $(am_libSoWin@SUFFIX@_la_OBJECTS)
 
-all: all-redirect
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
+
 .SUFFIXES:
-.SUFFIXES: .c .cpp .h .lo .o
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Inventor/Win/Makefile
+.SUFFIXES: .c .cpp .h .lo .o .obj
 
-Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
-	cd $(top_builddir) \
-	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
+	cd $(top_srcdir) && \
+	  $(AUTOMAKE) --gnu  src/Inventor/Win/Makefile
 
-
-clean-libLTLIBRARIES:
-	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
-
+Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) && \
+	  CONFIG_HEADERS= CONFIG_LINKS= \
+	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
 	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
 	  if test -f $$p; then \
-	    echo " $(LIBTOOL)  --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$p $(DESTDIR)$(libdir)/$$p"; \
-	    $(LIBTOOL)  --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$p $(DESTDIR)$(libdir)/$$p; \
+	    echo " $(LIBTOOL) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$p $(DESTDIR)$(libdir)/$$p"; \
+	    $(LIBTOOL) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$p $(DESTDIR)$(libdir)/$$p; \
 	  else :; fi; \
 	done
 
 uninstall-libLTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
 	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
-	  echo " $(LIBTOOL)  --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p"; \
-	  $(LIBTOOL)  --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p; \
+	  echo " $(LIBTOOL) --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p"; \
+	  $(LIBTOOL) --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p; \
 	done
 
+clean-libLTLIBRARIES:
+	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
+
 mostlyclean-compile:
-	-rm -f *.o core *.core
+	-rm -f *.$(OBJEXT) core *.core
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -260,7 +263,6 @@ distclean-libtool:
 
 libSoWin@SUFFIX@.la: $(libSoWin@SUFFIX@_la_OBJECTS) $(libSoWin@SUFFIX@_la_DEPENDENCIES)
 	$(CXXLINK) -rpath $(libdir) $(libSoWin@SUFFIX@_la_LDFLAGS) $(libSoWin@SUFFIX@_la_OBJECTS) $(libSoWin@SUFFIX@_la_LIBADD) $(LIBS)
-
 install-libSoWinincHEADERS: $(libSoWininc_HEADERS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libSoWinincdir)
@@ -286,7 +288,8 @@ uninstall-libSoWinincHEADERS:
 #     (which will cause the Makefiles to be regenerated when you run `make');
 # (2) otherwise, pass the desired values on the `make' command line.
 all-recursive install-data-recursive install-exec-recursive \
-installdirs-recursive install-recursive uninstall-recursive  \
+installdirs-recursive install-recursive uninstall-recursive \
+install-info-recursive uninstall-info-recursive \
 check-recursive installcheck-recursive info-recursive dvi-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
 	dot_seen=no; \
@@ -396,6 +399,12 @@ distclean-depend:
 @AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
 
+.cpp.obj:
+@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
+
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
@@ -428,40 +437,26 @@ distdir: $(DISTFILES)
 	      || exit 1; \
 	  fi; \
 	done
-info-am:
-info: info-recursive
-dvi-am:
-dvi: dvi-recursive
 check-am: all-am
 check: check-recursive
-installcheck-am:
-installcheck: installcheck-recursive
-all-redirect: $(BUILT_SOURCES)
-	$(MAKE) $(AM_MAKEFLAGS) all-recursive
+all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS) all-local
 
-install-exec-am: install-libLTLIBRARIES
-	@$(NORMAL_INSTALL)
-	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
+installdirs: installdirs-recursive
+installdirs-am:
+	$(mkinstalldirs) $(DESTDIR)$(libdir) $(DESTDIR)$(libSoWinincdir)
+
+install: install-recursive
 install-exec: install-exec-recursive
-
-install-data-am: install-libSoWinincHEADERS
-	@$(NORMAL_INSTALL)
-	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 install-data: install-data-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
-install: install-recursive
-uninstall-am: uninstall-libLTLIBRARIES uninstall-libSoWinincHEADERS
-uninstall: uninstall-recursive
-all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS) all-local
+
+installcheck: installcheck-recursive
+
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
 	  INSTALL_PROGRAM_ENV='$(INSTALL_STRIP_PROGRAM_ENV)' install
-installdirs: installdirs-recursive
-installdirs-am:
-	$(mkinstalldirs)  $(DESTDIR)$(libdir) $(DESTDIR)$(libSoWinincdir)
-
 
 mostlyclean-generic:
 
@@ -476,9 +471,50 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 	-rm -f Makefile.in
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
+clean: clean-recursive
+
+clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
+	mostlyclean-am
+
+distclean: distclean-recursive
+
+distclean-am: clean-am distclean-compile distclean-depend \
+	distclean-generic distclean-libtool distclean-tags
+
+dvi:
+
+dvi-am:
+
+info:
+
+info-am:
+
+install-data-am: install-libSoWinincHEADERS
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
+
+install-exec-am: install-libLTLIBRARIES
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
+
+install-info:
+
+install-man:
+
+installcheck-am:
+
+maintainer-clean: maintainer-clean-recursive
+
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
-.PHONY: all all-am all-local all-recursive all-redirect check check-am \
+mostlyclean: mostlyclean-recursive
+
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool
+
+uninstall-am: uninstall-libLTLIBRARIES uninstall-libSoWinincHEADERS
+
+.PHONY: all all-am all-local all-recursive check check-am \
 	check-recursive clean clean-generic clean-libLTLIBRARIES \
 	clean-libtool clean-recursive distclean distclean-compile \
 	distclean-depend distclean-generic distclean-libtool \
@@ -486,32 +522,16 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 	dvi-recursive info info-am info-recursive install install-am \
 	install-data install-data-am install-data-recursive \
 	install-exec install-exec-am install-exec-recursive \
-	install-libLTLIBRARIES install-libSoWinincHEADERS \
-	install-recursive install-strip installcheck installcheck-am \
+	install-info install-info-recursive install-libLTLIBRARIES \
+	install-libSoWinincHEADERS install-man install-recursive \
+	install-strip installcheck installcheck-am \
 	installcheck-recursive installdirs installdirs-am \
 	installdirs-recursive maintainer-clean maintainer-clean-generic \
 	maintainer-clean-recursive mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
 	tags tags-recursive uninstall uninstall-am \
-	uninstall-libLTLIBRARIES uninstall-libSoWinincHEADERS \
-	uninstall-recursive
-
-distclean: distclean-recursive
-
-clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
-	mostlyclean-am
-
-distclean-am: clean-am distclean-compile distclean-depend \
-	distclean-generic distclean-libtool distclean-tags
-
-maintainer-clean: maintainer-clean-recursive
-
-mostlyclean-am: mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool
-
-mostlyclean: mostlyclean-recursive
-
-clean: clean-recursive
+	uninstall-info-recursive uninstall-libLTLIBRARIES \
+	uninstall-libSoWinincHEADERS uninstall-recursive
 
 
 ############################################################################
