@@ -430,26 +430,25 @@ SoWinThumbWheel::buildWidget(HWND parent, RECT rect, char * name)
 
   SoWinThumbWheel::wheelWidgetCounter++;
 
-  this->wheelWindow = CreateWindow(wndclassname,
-                                    wndclassname,
-                                    WS_VISIBLE |
-                                    WS_CLIPCHILDREN |
-                                    WS_CLIPSIBLINGS |
-                                    WS_CHILD |
-                                    WS_BORDER,
-                                    rect.left,
-                                    rect.top,
-                                    rect.right,
-                                    rect.bottom,
-                                    parent,
-                                    menu,
-                                    SoWin::getInstance(),
-                                    this);
+  this->wheelWindow = Win32::CreateWindow_(wndclassname,
+                                           wndclassname,
+                                           WS_VISIBLE |
+                                           WS_CLIPCHILDREN |
+                                           WS_CLIPSIBLINGS |
+                                           WS_CHILD |
+                                           WS_BORDER,
+                                           rect.left,
+                                           rect.top,
+                                           rect.right,
+                                           rect.bottom,
+                                           parent,
+                                           menu,
+                                           SoWin::getInstance(),
+                                           this);
 
-  assert(IsWindow(this->wheelWindow));
-
-  if (name)
+  if (name) {
     this->labelWindow = createLabel(parent, rect.right, rect.bottom, name);
+  }
   this->setLabelOffset(0, 0);
  
   return this->wheelWindow;
@@ -616,16 +615,15 @@ SoWinThumbWheel::createLabel(HWND parent, int x, int y, char * text)
 {
   assert(IsWindow(parent));
   SIZE textSize = this->getTextSize(parent, text); // FIXME: assumes the same font as parent
-  HWND hwnd = CreateWindow("STATIC",
-                            (text ? text : " "),
-                            WS_VISIBLE | WS_CHILD | SS_CENTER,
-                            x, y,
-                            textSize.cx + 2, textSize.cy, // SIZE
-                            parent,
-                            NULL,
-                            SoWin::getInstance(),
-                            NULL);
- assert(IsWindow(hwnd));
+  HWND hwnd = Win32::CreateWindow_("STATIC",
+                                   (text ? text : " "),
+                                   WS_VISIBLE | WS_CHILD | SS_CENTER,
+                                   x, y,
+                                   textSize.cx + 2, textSize.cy, // SIZE
+                                   parent,
+                                   NULL,
+                                   SoWin::getInstance(),
+                                   NULL);
  return hwnd;
 }
 

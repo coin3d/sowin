@@ -177,18 +177,16 @@ SoWinBitmapButton::buildWidget(HWND parent, RECT rect)
 
   assert(IsWindow(parent));
 
-  this->buttonWindow = CreateWindow("BUTTON",
-                                     NULL,
-                                     WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS |
-                                     BS_PUSHBUTTON | BS_BITMAP | BS_CENTER,
-                                     rect.left, rect.top,
-                                     rect.right, rect.bottom,
-                                     parent,
-                                     NULL,
-                                     SoWin::getInstance(),
-                                     NULL);
-
-  assert(IsWindow(this->buttonWindow));
+  this->buttonWindow = Win32::CreateWindow_("BUTTON",
+                                            NULL,
+                                            WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS |
+                                            BS_PUSHBUTTON | BS_BITMAP | BS_CENTER,
+                                            rect.left, rect.top,
+                                            rect.right, rect.bottom,
+                                            parent,
+                                            NULL,
+                                            SoWin::getInstance(),
+                                            NULL);
 
   return this->buttonWindow;
 }

@@ -279,20 +279,18 @@ void SoWinViewerPrefSheet::createMainWidget(HWND parent)
   
   DWORD style = WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE;
 
-  this->mainWidget = CreateWindowEx(NULL,
-                                     wndclassname,
-                                     this->title.getString(),
-                                     style,
-                                     CW_USEDEFAULT,
-                                     CW_USEDEFAULT,
-                                     370,
-                                     400,
-                                     parent,
-                                     menu,
-                                     SoWin::getInstance(),
-                                     this);
-  
-  assert(IsWindow(this->mainWidget));
+  this->mainWidget = Win32::CreateWindowEx_(NULL,
+                                            wndclassname,
+                                            this->title.getString(),
+                                            style,
+                                            CW_USEDEFAULT,
+                                            CW_USEDEFAULT,
+                                            370,
+                                            400,
+                                            parent,
+                                            menu,
+                                            SoWin::getInstance(),
+                                            this);
   (void)SetActiveWindow(this->mainWidget);
 }
 
@@ -448,37 +446,34 @@ HWND SoWinViewerPrefSheet::createLabelWidget(HWND parent, const char * text, int
 {
   assert(IsWindow(parent));
   SIZE textSize = this->getTextSize(parent, text); // FIXME: assumes the same font as parent
-  HWND hwnd = CreateWindowEx(NULL,
-                              "STATIC",
-                              (text ? text : ""),
-                              WS_VISIBLE | WS_CHILD | SS_LEFT,
-                              x, y,
-                              textSize.cx, textSize.cy,
-                              parent,
-                              NULL,
-                              SoWin::getInstance(),
-                              NULL);
-  assert(IsWindow(hwnd));
+  HWND hwnd = Win32::CreateWindowEx_(NULL,
+                                     "STATIC",
+                                     (text ? text : ""),
+                                     WS_VISIBLE | WS_CHILD | SS_LEFT,
+                                     x, y,
+                                     textSize.cx, textSize.cy,
+                                     parent,
+                                     NULL,
+                                     SoWin::getInstance(),
+                                     NULL);
   return hwnd;  
 }
 
 HWND SoWinViewerPrefSheet::createEditWidget(HWND parent, long id, int width, int x, int y)
 {
   assert(IsWindow(parent));
-  HWND hwnd = CreateWindowEx(WS_EX_CLIENTEDGE,
-                              "EDIT",
-                              "",
-                              WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL,
-                              x, y,
-                              width, this->getFontHeight(parent) + 4,
-                              parent,
-                              NULL,
-                              SoWin::getInstance(),
-                            NULL);
-  assert(IsWindow(hwnd));
+  HWND hwnd = Win32::CreateWindowEx_(WS_EX_CLIENTEDGE,
+                                     "EDIT",
+                                     "",
+                                     WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL,
+                                     x, y,
+                                     width, this->getFontHeight(parent) + 4,
+                                     parent,
+                                     NULL,
+                                     SoWin::getInstance(),
+                                     NULL);
 
   (void)Win32::SetWindowLong(hwnd, GWL_ID, id); 
-
   return hwnd;
 }
 
@@ -486,18 +481,16 @@ HWND SoWinViewerPrefSheet::createRadioWidget(HWND parent, long id, const char * 
 {
   assert(IsWindow(parent));
   SIZE textSize = this->getTextSize(parent, text); // FIXME: assumes the same font as parent  
-  HWND hwnd = CreateWindowEx(NULL,
-                              "BUTTON",
-                              (text ? text : ""),
-                              WS_VISIBLE | WS_CHILD | BS_RADIOBUTTON | BS_LEFT,
-                              x, y,
-                              30 + textSize.cx, textSize.cy,
-                              parent,
-                              NULL,
-                              SoWin::getInstance(),
-                              NULL);
-  assert(IsWindow(hwnd));
-
+  HWND hwnd = Win32::CreateWindowEx_(NULL,
+                                     "BUTTON",
+                                     (text ? text : ""),
+                                     WS_VISIBLE | WS_CHILD | BS_RADIOBUTTON | BS_LEFT,
+                                     x, y,
+                                     30 + textSize.cx, textSize.cy,
+                                     parent,
+                                     NULL,
+                                     SoWin::getInstance(),
+                                     NULL);
   (void)Win32::SetWindowLong(hwnd, GWL_ID, id);
   return hwnd;
 }
@@ -505,18 +498,16 @@ HWND SoWinViewerPrefSheet::createRadioWidget(HWND parent, long id, const char * 
 HWND SoWinViewerPrefSheet::createSliderWidget(HWND parent, long id, int width, int x, int y)
 {
   assert(IsWindow(parent));
-  HWND hwnd = CreateWindowEx(NULL,
-                              "SCROLLBAR",
-                              "",
-                              WS_CHILD | WS_VISIBLE | SBS_HORZ,
-                              x, y,
-                              width, this->getFontHeight(parent) + 2,
-                              parent,
-                              NULL,
-                              SoWin::getInstance(),
-                              NULL);
-  assert(IsWindow(hwnd));
-
+  HWND hwnd = Win32::CreateWindowEx_(NULL,
+                                     "SCROLLBAR",
+                                     "",
+                                     WS_CHILD | WS_VISIBLE | SBS_HORZ,
+                                     x, y,
+                                     width, this->getFontHeight(parent) + 2,
+                                     parent,
+                                     NULL,
+                                     SoWin::getInstance(),
+                                     NULL);
   (void)Win32::SetWindowLong(hwnd, GWL_ID, id);
   return hwnd;  
 }
@@ -525,18 +516,16 @@ HWND SoWinViewerPrefSheet::createCheckWidget(HWND parent, long id, const char * 
 {
   assert(IsWindow(parent));
   SIZE textSize = this->getTextSize(parent, text); // FIXME: assumes the same font as parent  
-  HWND hwnd = CreateWindowEx(NULL,
-                              "BUTTON",
-                              (text ? text : ""),
-                              WS_VISIBLE | WS_CHILD | BS_CHECKBOX | BS_LEFT,
-                              x, y,
-                              30 + textSize.cx, textSize.cy,
-                              parent,
-                              NULL,
-                              SoWin::getInstance(),
-                              NULL);
-  assert(IsWindow(hwnd));
-
+  HWND hwnd = Win32::CreateWindowEx_(NULL,
+                                     "BUTTON",
+                                     (text ? text : ""),
+                                     WS_VISIBLE | WS_CHILD | BS_CHECKBOX | BS_LEFT,
+                                     x, y,
+                                     30 + textSize.cx, textSize.cy,
+                                     parent,
+                                     NULL,
+                                     SoWin::getInstance(),
+                                     NULL);
   (void)Win32::SetWindowLong(hwnd, GWL_ID, id);
   return hwnd;  
 }
