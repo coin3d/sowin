@@ -202,6 +202,7 @@ private:
 
 }; // class SoWin
 
+#if 0 // FIXME: WTF is this good for? 20001123 mortene.
 // *************************************************************************
 // Globals
 
@@ -217,5 +218,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
 
 // !Globals
 // *************************************************************************
+#endif // tmp (?) disabled
 
-#endif // ! SOWIN_H
+#endif // !SOWIN_H

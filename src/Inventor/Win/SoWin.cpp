@@ -597,6 +597,7 @@ LRESULT SoWin::onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
     return 0;
 }
 
+#if 0 // FIXME: see comment at the end of SoWin.h. 20001123 mortene.
 ///////////////////////////////////////////////////////////////////
 //
 //  (globals)
@@ -698,3 +699,4 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif // !SOWIN_INTERNAL
 
 // Globals
+#endif // tmp (?) disabled
