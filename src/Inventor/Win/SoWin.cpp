@@ -57,6 +57,8 @@ class SoWinP {
 public:
 
   static BOOL CALLBACK sizeChildProc(HWND window, LPARAM lparam);
+  static void errorHandlerCB(const class SoError * error, void * data);
+  static SbBool pipeErrorMessagesToConsole(void);
 
   static int timerSensorId;
   static SbBool timerSensorActive;
@@ -145,7 +147,7 @@ SoWin::init(HWND toplevelwidget)
   SoInteraction::init();
   SoWinObject::init();
 
-  SoDebugError::setHandlerCallback(SoWin::errorHandlerCB, NULL);
+  SoDebugError::setHandlerCallback(SoWinP::errorHandlerCB, NULL);
 
   SoDB::getSensorManager()->setChangedCallback(SoGuiP::sensorQueueChanged, NULL);
   if (IsWindow(toplevelwidget)) 
@@ -480,25 +482,29 @@ SoWin::getInstance(void)
   return SoWinP::Instance;
 }
 
-/*!
- */
-void
-SoWin::errorHandlerCB(const SoError * error, void * data)
+
+// Return value of SOWIN_MSGS_TO_CONSOLE environment variable.
+SbBool
+SoWinP::pipeErrorMessagesToConsole(void)
 {
-  // Normally, errors, warnings and info goes to a dialog box..
-#if 1
-  SbString debugstring = error->getDebugString();
+  static const char * conmsgs = SoAny::si()->getenv("SOWIN_MSGS_TO_CONSOLE");
+  int val = conmsgs ? atoi(conmsgs) : 0;
+  return val > 0;
+}
 
-  MessageBox(NULL,
-              (LPCTSTR) debugstring.getString(),
-              "SoError",
-              MB_OK | MB_ICONERROR);
-#else
-  // ..but during development it might be better to pipe it to the
-  // console, so keep this #if/#else/#endif wrapper for convenience.
-
-  (void)printf("%s\n", error->getDebugString().getString());
-#endif
+void
+SoWinP::errorHandlerCB(const SoError * error, void * data)
+{
+  // Normally, errors, warnings and info goes to a dialog box in
+  // SoWin, but during development it might be better to pipe it to
+  // the console.
+  if (SoWinP::pipeErrorMessagesToConsole()) {
+    (void)printf("%s\n", error->getDebugString().getString());
+  }
+  else {
+    SbString debugstring = error->getDebugString();
+    MessageBox(NULL, (LPCTSTR) debugstring.getString(), "SoError", MB_OK | MB_ICONERROR);
+  }
 }
 
 /*!
