@@ -390,10 +390,7 @@ fi
 
 AC_DEFUN([AM_AUX_DIR_EXPAND], [
 # expand $ac_aux_dir to an absolute path
-if test "${CDPATH+set}" = set; then
-  CDPATH=${ZSH_VERSION+.}:   # as recommended in autoconf.texi
-fi
-am_aux_dir=`cd $ac_aux_dir && pwd`
+am_aux_dir=`CDPATH=:; cd $ac_aux_dir && pwd`
 ])
 
 # AM_PROG_INSTALL_SH
@@ -4723,6 +4720,224 @@ fi
 ])
 
 
+#
+# This file contains misc "macro-containers" for stuff that is
+# common between the various configure.ac files of the So* libraries.
+#
+# Note: none of the macros in this file is likely to be well designed
+# and made for generic use in any project.
+#
+
+# Usage:
+#   SIM_AC_SOGUI_SETUP_DOXYGEN( LIBRARY-NAME )
+#
+# Description:
+#   Do the necessary configurations for setting up HTML and man-page
+#   building by the Doxygen documentation system.
+#
+# Authors:
+#   Morten Eriksen, <mortene@sim.no>
+#   Lars Jørgen Aas, <larsa@sim.no>
+
+
+AC_DEFUN([SIM_AC_SOGUI_SETUP_DOXYGEN],
+[
+AC_ARG_VAR([htmldir],
+           [destination for HTML docs (default ${datadir}/$1/html)])
+
+AC_ARG_ENABLE(html,
+  AC_HELP_STRING([--enable-html], [build and install $1 HTML documentation]),
+  [case $enableval in
+    yes | true) want_html=yes ;;
+    *)          want_html=no ;;
+  esac],
+  [want_html=no])
+
+case $htmldir in
+"")
+  htmldir="$datadir/$1/html"
+  ;;
+/*)
+  # do nothing - absolute path
+  ;;
+*)
+  htmldir="\${prefix}/$htmldir"
+  ;;
+esac
+
+AC_SUBST(htmldir)
+
+AC_ARG_ENABLE(man,
+  AC_HELP_STRING([--enable-man], [build and install $1 man pages]),
+  [case $enableval in
+    yes | true) want_man=yes ;;
+    *)          want_man=no ;;
+  esac],
+  [want_man=no])
+
+# Used in the Doxygen parameter file.
+AC_SUBST([SOGUI_DOC_HTML], [`echo $want_html | tr '[a-z]' '[A-Z]'`])
+AC_SUBST([SOGUI_DOC_MAN], [`echo $want_man | tr '[a-z]' '[A-Z]'`])
+
+AC_SUBST([sogui_build_dir], [`pwd`])
+AC_SUBST([sogui_src_dir], [`cd $srcdir; pwd`])
+AC_SUBST([sogui_html_dir], [`pwd`/html])
+AC_SUBST([sogui_man_dir], [`pwd`/man])
+
+AM_CONDITIONAL(BUILD_MANPAGES, test x"$want_man" = x"yes")
+AM_CONDITIONAL(BUILD_HTMLPAGES, test x"$want_html" = x"yes")
+
+if test x"$want_man" = x"yes"; then
+  SIM_AC_CONFIGURATION_SETTING([manpage installation], [$mandir])
+fi
+
+if test x"$want_html" = x"yes"; then
+  SIM_AC_CONFIGURATION_SETTING([HTML installation], [$htmldir])
+fi
+
+if test x"$want_html" != xno -o x"$want_man" != xno; then
+  # Stop any attempts at using Doxygen under MSWin, as it's not working yet.
+  case $host in
+  *-cygwin) AC_MSG_ERROR([Sorry, Doxygen-generation of documentation does not work under Cygwin yet.]) ;;
+  esac
+
+  SIM_AC_DOXYGEN_TOOL([], [SIM_AC_ERROR([no-doxygen])])
+
+  AC_PATH_PROG(sim_ac_perl_exe, perl, false, $PATH)
+  if test x"$sim_ac_perl_exe" = xfalse; then
+    AC_MSG_WARN(Could not find the Perl executable)
+  fi
+fi
+]) # SIM_AC_SOGUI_SETUP_DOXYGEN()
+
+# **************************************************************************
+# configuration_summary.m4
+#
+# This file contains some utility macros for making it easy to have a short
+# summary of the important configuration settings printed at the end of the
+# configure run.
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+#
+
+# **************************************************************************
+# SIM_AC_CONFIGURATION_SETTING( DESCRIPTION, SETTING )
+#
+# This macro registers a configuration setting to be dumped by the
+# SIM_AC_CONFIGURATION_SUMMARY macro.
+
+AC_DEFUN([SIM_AC_CONFIGURATION_SETTING],
+[if test x${sim_ac_configuration_settings+set} != xset; then
+  sim_ac_configuration_settings="$1:$2"
+else
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|$1:$2"
+fi
+]) # SIM_AC_CONFIGURATION_SETTING
+
+# **************************************************************************
+# SIM_AC_CONFIGURATION_WARNING( WARNING )
+#
+# This macro registers a configuration warning to be dumped by the
+# SIM_AC_CONFIGURATION_SUMMARY macro.
+
+AC_DEFUN([SIM_AC_CONFIGURATION_WARNING],
+[if test x${sim_ac_configuration_warnings+set} != xset; then
+  sim_ac_configuration_warnings="$1"
+else
+  sim_ac_configuration_warnings="$sim_ac_configuration_warnings|$1"
+fi
+]) # SIM_AC_CONFIGURATION_WARNING
+
+# **************************************************************************
+# SIM_AC_CONFIGURATION_SUMMARY
+#
+# This macro dumps the settings and warnings summary.
+
+AC_DEFUN([SIM_AC_CONFIGURATION_SUMMARY],
+[sim_ac_settings=$sim_ac_configuration_settings
+sim_ac_num_settings=`echo "$sim_ac_settings" | tr -d -c "|" | wc -c`
+sim_ac_maxlength=0
+while test $sim_ac_num_settings -ge 0; do
+  sim_ac_description=`echo "$sim_ac_settings" | cut -d: -f1`
+  sim_ac_length=`echo "$sim_ac_description" | wc -c`
+  if test $sim_ac_length -gt $sim_ac_maxlength; then
+    sim_ac_maxlength=`expr $sim_ac_length + 0`
+  fi
+  sim_ac_settings=`echo $sim_ac_settings | cut -d"|" -f2-`
+  sim_ac_num_settings=`expr $sim_ac_num_settings - 1`
+done
+
+sim_ac_maxlength=`expr $sim_ac_maxlength + 3`
+sim_ac_padding=`echo "                                             " |
+  cut -c1-$sim_ac_maxlength`
+
+sim_ac_num_settings=`echo "$sim_ac_configuration_settings" | tr -d -c "|" | wc -c`
+echo ""
+echo "$PACKAGE configuration settings:"
+while test $sim_ac_num_settings -ge 0; do
+  sim_ac_setting=`echo $sim_ac_configuration_settings | cut -d"|" -f1`
+  sim_ac_description=`echo "$sim_ac_setting" | cut -d: -f1`
+  sim_ac_status=`echo "$sim_ac_setting" | cut -d: -f2-`
+  # hopefully not too many terminals are too dumb for this
+  echo -e "$sim_ac_padding $sim_ac_status\r  $sim_ac_description:"
+  sim_ac_configuration_settings=`echo $sim_ac_configuration_settings | cut -d"|" -f2-`
+  sim_ac_num_settings=`expr $sim_ac_num_settings - 1`
+done
+
+if test x${sim_ac_configuration_warnings+set} = xset; then
+sim_ac_num_warnings=`echo "$sim_ac_configuration_warnings" | tr -d -c "|" | wc -c`
+echo ""
+echo "$PACKAGE configuration warnings:"
+while test $sim_ac_num_warnings -ge 0; do
+  sim_ac_warning=`echo "$sim_ac_configuration_warnings" | cut -d"|" -f1`
+  echo "  * $sim_ac_warning"
+  sim_ac_configuration_warnings=`echo $sim_ac_configuration_warnings | cut -d"|" -f2-`
+  sim_ac_num_warnings=`expr $sim_ac_num_warnings - 1`
+done
+fi
+]) # SIM_AC_CONFIGURATION_SUMMARY
+
+
+# Usage:
+#  SIM_AC_DOXYGEN_TOOL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+# Description:
+#   This macro locates the doxygen executable. If it is found, the
+#   variable $sim_ac_doxygen_exe is set to the full path- and
+#   executable name (if not found, it is set to "false") and
+#   $sim_ac_doxygen_avail is set to the version number (if not
+#   found, it is set to "no").
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN(SIM_AC_DOXYGEN_TOOL, [
+AC_ARG_WITH(
+  [doxygen],
+  AC_HELP_STRING([--with-doxygen=DIR],
+                 [DIR is the directory where the doxygen executable resides]),
+  [],
+  [with_doxygen=yes])
+
+sim_ac_doxygen_avail=no
+
+if test x"$with_doxygen" != xno; then
+  sim_ac_path=$PATH
+  if test x"$with_doxygen" != xyes; then
+    sim_ac_path=${with_doxygen}:$PATH
+  fi
+
+  AC_PATH_PROG(sim_ac_doxygen_exe, doxygen, false, $sim_ac_path)
+  if test x"$sim_ac_doxygen_exe" = xfalse; then
+    ifelse([$2], , :, [$2])
+  else
+    sim_ac_doxygen_avail=`$sim_ac_doxygen_exe -help 2> /dev/null | head -1 | sed 's%[[^ ]]\+ [[^ ]]\+ %%'`
+    $1
+  fi
+fi
+])
+
+
 # Usage:
 #   SIM_AC_HAVE_COIN_IFELSE( IF-FOUND, IF-NOT-FOUND )
 #
@@ -5186,45 +5401,6 @@ infodir="`eval echo $infodir`"
 mandir="`eval echo $mandir`"
 ])
 
-# Usage:
-#  SIM_AC_DOXYGEN_TOOL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-#
-# Description:
-#   This macro locates the doxygen executable. If it is found, the
-#   variable $sim_ac_doxygen_exe is set to the full path- and
-#   executable name (if not found, it is set to "false") and
-#   $sim_ac_doxygen_avail is set to the version number (if not
-#   found, it is set to "no").
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-
-AC_DEFUN(SIM_AC_DOXYGEN_TOOL, [
-AC_ARG_WITH(
-  [doxygen],
-  AC_HELP_STRING([--with-doxygen=DIR],
-                 [DIR is the directory where the doxygen executable resides]),
-  [],
-  [with_doxygen=yes])
-
-sim_ac_doxygen_avail=no
-
-if test x"$with_doxygen" != xno; then
-  sim_ac_path=$PATH
-  if test x"$with_doxygen" != xyes; then
-    sim_ac_path=${with_doxygen}:$PATH
-  fi
-
-  AC_PATH_PROG(sim_ac_doxygen_exe, doxygen, false, $sim_ac_path)
-  if test x"$sim_ac_doxygen_exe" = xfalse; then
-    ifelse([$2], , :, [$2])
-  else
-    sim_ac_doxygen_avail=`$sim_ac_doxygen_exe -help 2> /dev/null | head -1 | sed 's%[[^ ]]\+ [[^ ]]\+ %%'`
-    $1
-  fi
-fi
-])
-
-
 # **************************************************************************
 # SIM_AC_UNIQIFY_LIST( VARIABLE, LIST )
 #
@@ -5268,95 +5444,6 @@ exec_prefix=$sim_ac_save_exec_prefix
 # unset sim_ac_eval_item
 # unset sim_ac_eval_uniq
 ]) # SIM_AC_UNIQIFY_LIST
-
-
-# **************************************************************************
-# configuration_summary.m4
-#
-# This file contains some utility macros for making it easy to have a short
-# summary of the important configuration settings printed at the end of the
-# configure run.
-#
-# Authors:
-#   Lars J. Aas <larsa@sim.no>
-#
-
-# **************************************************************************
-# SIM_AC_CONFIGURATION_SETTING( DESCRIPTION, SETTING )
-#
-# This macro registers a configuration setting to be dumped by the
-# SIM_AC_CONFIGURATION_SUMMARY macro.
-
-AC_DEFUN([SIM_AC_CONFIGURATION_SETTING],
-[if test x${sim_ac_configuration_settings+set} != xset; then
-  sim_ac_configuration_settings="$1:$2"
-else
-  sim_ac_configuration_settings="$sim_ac_configuration_settings|$1:$2"
-fi
-]) # SIM_AC_CONFIGURATION_SETTING
-
-# **************************************************************************
-# SIM_AC_CONFIGURATION_WARNING( WARNING )
-#
-# This macro registers a configuration warning to be dumped by the
-# SIM_AC_CONFIGURATION_SUMMARY macro.
-
-AC_DEFUN([SIM_AC_CONFIGURATION_WARNING],
-[if test x${sim_ac_configuration_warnings+set} != xset; then
-  sim_ac_configuration_warnings="$1"
-else
-  sim_ac_configuration_warnings="$sim_ac_configuration_warnings|$1"
-fi
-]) # SIM_AC_CONFIGURATION_WARNING
-
-# **************************************************************************
-# SIM_AC_CONFIGURATION_SUMMARY
-#
-# This macro dumps the settings and warnings summary.
-
-AC_DEFUN([SIM_AC_CONFIGURATION_SUMMARY],
-[sim_ac_settings=$sim_ac_configuration_settings
-sim_ac_num_settings=`echo "$sim_ac_settings" | tr -d -c "|" | wc -c`
-sim_ac_maxlength=0
-while test $sim_ac_num_settings -ge 0; do
-  sim_ac_description=`echo "$sim_ac_settings" | cut -d: -f1`
-  sim_ac_length=`echo "$sim_ac_description" | wc -c`
-  if test $sim_ac_length -gt $sim_ac_maxlength; then
-    sim_ac_maxlength=`expr $sim_ac_length + 0`
-  fi
-  sim_ac_settings=`echo $sim_ac_settings | cut -d"|" -f2-`
-  sim_ac_num_settings=`expr $sim_ac_num_settings - 1`
-done
-
-sim_ac_maxlength=`expr $sim_ac_maxlength + 3`
-sim_ac_padding=`echo "                                             " |
-  cut -c1-$sim_ac_maxlength`
-
-sim_ac_num_settings=`echo "$sim_ac_configuration_settings" | tr -d -c "|" | wc -c`
-echo ""
-echo "$PACKAGE configuration settings:"
-while test $sim_ac_num_settings -ge 0; do
-  sim_ac_setting=`echo $sim_ac_configuration_settings | cut -d"|" -f1`
-  sim_ac_description=`echo "$sim_ac_setting" | cut -d: -f1`
-  sim_ac_status=`echo "$sim_ac_setting" | cut -d: -f2-`
-  # hopefully not too many terminals are too dumb for this
-  echo -e "$sim_ac_padding $sim_ac_status\r  $sim_ac_description:"
-  sim_ac_configuration_settings=`echo $sim_ac_configuration_settings | cut -d"|" -f2-`
-  sim_ac_num_settings=`expr $sim_ac_num_settings - 1`
-done
-
-if test x${sim_ac_configuration_warnings+set} = xset; then
-sim_ac_num_warnings=`echo "$sim_ac_configuration_warnings" | tr -d -c "|" | wc -c`
-echo ""
-echo "$PACKAGE configuration warnings:"
-while test $sim_ac_num_warnings -ge 0; do
-  sim_ac_warning=`echo "$sim_ac_configuration_warnings" | cut -d"|" -f1`
-  echo "  * $sim_ac_warning"
-  sim_ac_configuration_warnings=`echo $sim_ac_configuration_warnings | cut -d"|" -f2-`
-  sim_ac_num_warnings=`expr $sim_ac_num_warnings - 1`
-done
-fi
-]) # SIM_AC_CONFIGURATION_SUMMARY
 
 
 # Usage:

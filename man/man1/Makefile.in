@@ -89,7 +89,6 @@ EVENT = @EVENT@
 EXEEXT = @EXEEXT@
 GUI = @GUI@
 Gui = @Gui@
-HTML_DOC_DIR = @HTML_DOC_DIR@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LIBFLAGS = @LIBFLAGS@
 LIBTOOL = @LIBTOOL@
@@ -102,14 +101,14 @@ OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
+SOGUI_DOC_HTML = @SOGUI_DOC_HTML@
+SOGUI_DOC_MAN = @SOGUI_DOC_MAN@
 SOGUI_EXTRA_CFLAGS = @SOGUI_EXTRA_CFLAGS@
 SOGUI_EXTRA_CPPFLAGS = @SOGUI_EXTRA_CPPFLAGS@
 SOGUI_EXTRA_CXXFLAGS = @SOGUI_EXTRA_CXXFLAGS@
 SOGUI_EXTRA_LDFLAGS = @SOGUI_EXTRA_LDFLAGS@
 SOGUI_EXTRA_LIBS = @SOGUI_EXTRA_LIBS@
 SOGUI_MSVC_LIBC = @SOGUI_MSVC_LIBC@
-SOWIN_DOC_HTML = @SOWIN_DOC_HTML@
-SOWIN_DOC_MAN = @SOWIN_DOC_MAN@
 SOWIN_MAJOR_VERSION = @SOWIN_MAJOR_VERSION@
 SOWIN_MICRO_VERSION = @SOWIN_MICRO_VERSION@
 SOWIN_MINOR_VERSION = @SOWIN_MINOR_VERSION@
@@ -121,16 +120,20 @@ WIDGET = @WIDGET@
 am__include = @am__include@
 am__quote = @am__quote@
 gui = @gui@
+htmldir = @htmldir@
 install_sh = @install_sh@
-path_tag = @path_tag@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
+sim_ac_perl_exe = @sim_ac_perl_exe@
+sogui_build_dir = @sogui_build_dir@
+sogui_html_dir = @sogui_html_dir@
+sogui_man_dir = @sogui_man_dir@
+sogui_src_dir = @sogui_src_dir@
 sowin_configure_date = @sowin_configure_date@
-sowin_dox_build_dir = @sowin_dox_build_dir@
-sowin_dox_src_dir = @sowin_dox_src_dir@
 win_srcdir = @win_srcdir@
 
 SoGui_BuiltFiles = \
+  $(top_builddir)/sogui.doxygen \
   $(top_builddir)/so@gui@-config \
   $(top_builddir)/so@gui@-@CONFIG@.cfg
 
@@ -139,9 +142,7 @@ SoGui_src_BuiltFiles = \
   $(top_builddir)/src/so@gui@defs.h
 
 
-SoGui_build_BuiltFiles = \
-  $(top_builddir)/build/so@gui@.doxygen
-
+SoGui_build_BuiltFiles = 
 
 SoGui_src_Inventor_BuiltFiles = 
 
@@ -299,6 +300,7 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/ChangeLog \
   src/Inventor/@Gui@/common/Makefile.common \
   src/Inventor/@Gui@/common/sogui-config.in \
+  src/Inventor/@Gui@/common/sogui.doxygen.in \
   src/Inventor/@Gui@/common/sogui-config.1.in \
   src/Inventor/@Gui@/common/sogui.cfg.in \
   src/Inventor/@Gui@/common/SoGuiBasic.h.in \
@@ -555,6 +557,9 @@ uninstall-man: uninstall-man1
 
 ############################################################################
 
+$(top_builddir)/sogui.doxygen: $(top_srcdir)/src/Inventor/@Gui@/common/sogui.doxygen.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=sogui.doxygen:src/Inventor/@Gui@/common/sogui.doxygen.in )
+
 $(top_builddir)/so@gui@-config: $(top_srcdir)/src/Inventor/@Gui@/common/sogui-config.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=so@gui@-config:src/Inventor/@Gui@/common/sogui-config.in && chmod +x so@gui@-config )
 
@@ -702,11 +707,6 @@ $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.h: $(top_srcdir)/src
 
 $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/widgets/SoGuiPopupMenu.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp:src/Inventor/@Gui@/common/widgets/SoGuiPopupMenu.cpp.in )
-
-$(top_builddir)/build/so@gui@.doxygen: $(top_srcdir)/build/so@gui@.doxygen.in $(top_builddir)/config.status
-	@( cd $(top_builddir); \
-	   if test -d build; then :; else mkdir build; fi; \
-	   ./config.status --file=build/so@gui@.doxygen:build/so@gui@.doxygen.in )
 
 $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/common/sogui-config.1.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=man/man1/so@gui@-config.1:src/Inventor/@Gui@/common/sogui-config.1.in )
