@@ -51,6 +51,8 @@ SoWinGLWidgetP::SoWinGLWidgetP(SoWinGLWidget * o)
   : SoGuiGLWidgetP(o)
 {
   this->bordersize = 0;
+  this->lockcounter = 0;
+  this->overlaylockcounter = 0;
 }
 
 // Destructor.
@@ -703,40 +705,53 @@ SoWinGLWidget::getGLWidget(void) const
 void
 SoWinGLWidget::glLockNormal(void)
 {
-  // FIXME: shouldn't there be a counter for the lock level here?
-  // 20010924 mortene.
-
   assert(PRIVATE(this)->hdcNormal != NULL);
-  (void)SoWinGLWidgetP::wglMakeCurrent(PRIVATE(this)->hdcNormal,
-                                       PRIVATE(this)->ctxNormal);
+  assert(PRIVATE(this)->lockcounter >= 0);
+
+  PRIVATE(this)->lockcounter++;
+  if (PRIVATE(this)->lockcounter == 1) {
+    (void)SoWinGLWidgetP::wglMakeCurrent(PRIVATE(this)->hdcNormal,
+                                         PRIVATE(this)->ctxNormal);
+  }
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::glUnlockNormal(void)
 {
-  // FIXME: shouldn't there be a counter for the lock level here?
-  // 20010924 mortene.
+  if (PRIVATE(this)->lockcounter == 0) {
+#ifdef SOWIN_DEBUG  
+    SoDebugError::post("SoWinGLWidget::glUnlockNormal",
+                       "GL-context lock counter too low (internal error)");
+#endif // SOWIN_DEBUG  
+    return;
+  }
 
-  (void)SoWinGLWidgetP::wglMakeCurrent(NULL, NULL);
+  PRIVATE(this)->lockcounter--;
+
+  if (PRIVATE(this)->lockcounter == 0) {
+    // FIXME: shouldn't we rather reset to a stored previous context?
+    // 20020718 mortene.
+    (void)SoWinGLWidgetP::wglMakeCurrent(NULL, NULL);
+  }
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::glLockOverlay(void)
 {
-  // FIXME: shouldn't there be a counter for the lock level here?
+  // FIXME: there should be a counter for the lock level here.
   // 20010924 mortene.
 
   (void)SoWinGLWidgetP::wglMakeCurrent(PRIVATE(this)->hdcOverlay,
-                                        PRIVATE(this)->ctxOverlay);
+                                       PRIVATE(this)->ctxOverlay);
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::glUnlockOverlay(void)
 {
-  // FIXME: shouldn't there be a counter for the lock level here?
+  // FIXME: there should be a counter for the lock level here.
   // 20010924 mortene.
 
   (void)SoWinGLWidgetP::wglMakeCurrent(NULL, NULL);
@@ -1074,6 +1089,9 @@ SoWinGLWidgetP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lpara
 
 // Wrap wglMakeCurrent() for convenience with regard to verbose
 // warning output when it fails -- which it really shouldn't.  :-/
+//
+// FIXME: change function-signature to have a void return
+// value. 20020718 mortene.
 BOOL
 SoWinGLWidgetP::wglMakeCurrent(HDC hdc, HGLRC hglrc)
 {

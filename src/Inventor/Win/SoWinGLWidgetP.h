@@ -73,6 +73,8 @@ public:
 
   int glModes;
   int bordersize;
+  int lockcounter;
+  int overlaylockcounter;
 
   static ATOM managerWndClassAtom;
   static ATOM glWndClassAtom;
