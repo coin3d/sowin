@@ -153,6 +153,7 @@ SoWinComponent::SoWinComponent( const HWND parent,
   PRIVATE( this )->parent = parent;
   PRIVATE( this )->closeCB = NULL;
   PRIVATE( this )->closeCBdata = NULL;
+  PRIVATE( this )->visibilitychangeCBs = new SbPList;
  
   if ( name ) PRIVATE( this )->widgetname = name;
 
@@ -175,6 +176,12 @@ SoWinComponent::SoWinComponent( const HWND parent,
 
 SoWinComponent::~SoWinComponent( void )
 {
+  for ( int i = PRIVATE( this )->visibilitychangeCBs->getLength( );
+        i > 0; i-- ) {
+    PRIVATE( this )->visibilitychangeCBs->remove( i );
+  }
+  delete PRIVATE( this )->visibilitychangeCBs;
+  
   if ( IsWindow( PRIVATE( this )->widget ) )
     DestroyWindow( PRIVATE( this )->widget );
   UnregisterClass( this->getClassName( ), SoWin::getInstance( ) );
@@ -496,15 +503,24 @@ SoWinComponent::afterRealizeHook( void )
 void
 SoWinComponent::addVisibilityChangeCallback( SoWinComponentVisibilityCB * func, void * user )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
+  void ** combo = new void * [2];
+  combo[0] = func;
+  combo[1] = user;
+  PRIVATE( this )->visibilitychangeCBs->append( combo );
 }
 
 void
 SoWinComponent::removeVisibilityChangeCallback( SoWinComponentVisibilityCB * func, void * user )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
+  void ** combo;
+  for ( int i = 0; i < PRIVATE( this )->visibilitychangeCBs->getLength( ); i++ ) {
+    combo = ( void ** ) PRIVATE( this )->visibilitychangeCBs->get( i );
+    if ( ( combo[0] == func ) &&  ( combo[1] == user ) ) {
+      PRIVATE( this )->visibilitychangeCBs->remove( i );
+      delete combo;
+      return;
+    }
+  }
 }
 
 void

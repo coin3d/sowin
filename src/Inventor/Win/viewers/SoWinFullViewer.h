@@ -107,8 +107,6 @@ protected:
   virtual HWND buildLeftWheel( HWND parent );
   virtual HWND buildBottomWheel( HWND parent );
   virtual HWND buildRightWheel( HWND parent );
-  virtual HWND buildZoomSlider( HWND parent );
-  virtual void buildAppButtons( HWND parent );
   virtual void buildViewerButtons( HWND parent );
   virtual void buildViewerButtonsEx( HWND parent, int x, int y, int size );
   virtual void buildPopupMenu( void );

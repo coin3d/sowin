@@ -458,7 +458,7 @@ SoWinFullViewer::buildDecoration( HWND parent )
 	if ( SoWinFullViewerP::doButtonBar ) {
     
     this->buildViewerButtons( parent );
-    this->buildAppButtons( parent );
+    //this->buildAppButtons( parent ); // FIXME: remove ? mariusbu 20010727.
     
     SoWinFullViewerP::doneButtonBar = TRUE;
   }
@@ -522,22 +522,14 @@ SoWinFullViewer::buildRightWheel( HWND parent )
 
 	return this->rightWheel->getWidget( );
 }
-
-HWND
-SoWinFullViewer::buildZoomSlider( HWND parent )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB();
-  return NULL;
-}
-
+/*
 void
 SoWinFullViewer::buildAppButtons( HWND parent )
 {
   // FIXME: function not implemented
   SOWIN_STUB();
 }
-
+*/
 void
 SoWinFullViewer::buildViewerButtons( HWND parent )
 {
