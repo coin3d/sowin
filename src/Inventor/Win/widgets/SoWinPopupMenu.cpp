@@ -220,12 +220,21 @@ SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
   if ( rec == NULL )
     return;
   
- if ( enabled )
-  rec->flags |= ITEM_ENABLED;
- else
-  rec->flags &= ~ITEM_ENABLED;
-
- Win32::EnableMenuItem( rec->parent, rec->itemid, MF_BYCOMMAND | ( enabled ? MF_ENABLED : MF_GRAYED ) );
+  MENUITEMINFO info;
+  
+  info.cbSize = sizeof( MENUITEMINFO );
+  info.fMask = MIIM_STATE;
+  
+  if ( enabled ) {
+    rec->flags |= ITEM_ENABLED;
+    info.fState = MFS_ENABLED | MFS_GRAYED;
+  }
+  else {
+    rec->flags &= ~ITEM_ENABLED;    
+    info.fState = MFS_DISABLED;
+  }
+  
+  Win32::SetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
 } // setMenuItemEnabled()
 
 SbBool
@@ -407,6 +416,7 @@ SoWinPopupMenu::removeMenuItem( int itemid )
 void
 SoWinPopupMenu::popUp( HWND inside, int x, int y )
 {
+
   MenuRecord * menurec = this->getMenuRecord( 0 );
   this->selectedItem = TrackPopupMenu( menurec->menu,
                                        TPM_LEFTALIGN |
@@ -419,7 +429,7 @@ SoWinPopupMenu::popUp( HWND inside, int x, int y )
                                        0,
                                        inside,
                                        NULL );
-
+  
   if ( this->selectedItem == 0 )
     return;
   
