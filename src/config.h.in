@@ -3,6 +3,9 @@
 /* Define if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
+/* Define to use GetEnvironmentVariable() instead of getenv() */
+#undef HAVE_GETENVIRONMENTVARIABLE
+
 /* Define if you have the <GL/glu.h> header file. */
 #undef HAVE_GL_GLU_H
 
