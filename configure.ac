@@ -252,6 +252,7 @@ AC_SUBST(SUFFIX)
 # **************************************************************************
 
 sim_ac_build_library=true
+sim_ac_build_ivf=false
 AC_ARG_ENABLE(
   [build],
   [AC_HELP_STRING([--disable-build], [disable configuring for library build])],
@@ -262,9 +263,27 @@ AC_ARG_ENABLE(
     ;;
   esac])
 
+
+if $sim_ac_build_library; then
+  AC_ARG_ENABLE(
+    [ivf],
+    [AC_HELP_STRING([--enable-ivf], [enable build of the Ivf API])],
+    [case $enableval in
+      yes | true)
+        sim_ac_build_ivf=true
+        SIM_AC_CONFIGURATION_SETTING([Ivf build], [enabled])
+      ;;
+    esac])
+fi
+
 # **************************************************************************
 
 AM_CONDITIONAL(BUILD_LIBRARY, $sim_ac_build_library)
+AM_CONDITIONAL(BUILD_IVF, $sim_ac_build_ivf)
+
+if $sim_ac_build_ivf; then :; else
+  SIM_AC_CONFIGURATION_SETTING([Ivf build], [disabled])
+fi
 
 # **************************************************************************
 # Will naturally always be false for SoWin.
@@ -479,6 +498,7 @@ AC_OUTPUT([
 	sowin-$CONFIG.cfg:src/Inventor/Win/common/sogui.cfg.in
 	Makefile
 	src/Makefile
+	src/Ivf/Makefile
 	src/Inventor/Makefile
 	src/Inventor/Win/Makefile
 	src/Inventor/Win/devices/Makefile
