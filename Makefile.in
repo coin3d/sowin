@@ -496,6 +496,10 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceball.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceballP.h.in \
+  src/Inventor/@Gui@/common/docs/doxygen/header.html \
+  src/Inventor/@Gui@/common/docs/doxygen/footer.html \
+  src/Inventor/@Gui@/common/docs/doxygen/stylesheet.css \
+  src/Inventor/@Gui@/common/docs/doxygen/Coin_logo.png \
   src/Inventor/@Gui@/common/editors/ColorEditor.h.in \
   src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in \
   src/Inventor/@Gui@/common/editors/MaterialEditor.h.in \
@@ -889,7 +893,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/./src/Inventor/Win/common $(distdir)/cfg $(distdir)/docs $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/editors $(distdir)/src/Inventor/@Gui@/common/engines $(distdir)/src/Inventor/@Gui@/common/nodes $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Win/common
+	$(mkinstalldirs) $(distdir)/./src/Inventor/Win/common $(distdir)/cfg $(distdir)/docs $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/docs/doxygen $(distdir)/src/Inventor/@Gui@/common/editors $(distdir)/src/Inventor/@Gui@/common/engines $(distdir)/src/Inventor/@Gui@/common/nodes $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Win/common
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

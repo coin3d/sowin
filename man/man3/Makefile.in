@@ -494,6 +494,10 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceball.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceballP.h.in \
+  src/Inventor/@Gui@/common/docs/doxygen/header.html \
+  src/Inventor/@Gui@/common/docs/doxygen/footer.html \
+  src/Inventor/@Gui@/common/docs/doxygen/stylesheet.css \
+  src/Inventor/@Gui@/common/docs/doxygen/Coin_logo.png \
   src/Inventor/@Gui@/common/editors/ColorEditor.h.in \
   src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in \
   src/Inventor/@Gui@/common/editors/MaterialEditor.h.in \

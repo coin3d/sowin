@@ -496,6 +496,10 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceball.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceballP.h.in \
+  src/Inventor/@Gui@/common/docs/doxygen/header.html \
+  src/Inventor/@Gui@/common/docs/doxygen/footer.html \
+  src/Inventor/@Gui@/common/docs/doxygen/stylesheet.css \
+  src/Inventor/@Gui@/common/docs/doxygen/Coin_logo.png \
   src/Inventor/@Gui@/common/editors/ColorEditor.h.in \
   src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in \
   src/Inventor/@Gui@/common/editors/MaterialEditor.h.in \
@@ -1126,6 +1130,10 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 @BUILD_HTMLPAGES_TRUE@	@( cd $(top_builddir); "@sim_ac_doxygen_exe@" sogui.doxygen )
 
 @BUILD_HTMLPAGES_TRUE@filelist.txt: $(KEYHTMLPAGE)
+@BUILD_HTMLPAGES_TRUE@	@if cmp -s $(top_srcdir)/src/Inventor/Win/common/docs/doxygen/Coin_logo.png Coin_logo.png; then :; else \
+@BUILD_HTMLPAGES_TRUE@	  echo  " cp $(top_srcdir)/src/Inventor/Win/common/docs/doxygen/Coin_logo.png ."; \
+@BUILD_HTMLPAGES_TRUE@	  cp $(top_srcdir)/src/Inventor/Win/common/docs/doxygen/Coin_logo.png .; \
+@BUILD_HTMLPAGES_TRUE@	fi
 @BUILD_HTMLPAGES_TRUE@	@ls -1 | egrep '(\.html|\.png|\.gif|\.css)$$' >filelist.txt
 
 @BUILD_HTMLPAGES_TRUE@all-local: filelist.txt
