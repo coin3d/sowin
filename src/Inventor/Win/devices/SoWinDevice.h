@@ -46,23 +46,23 @@ class SOWIN_DLL_API SoWinDevice : public SoWinObject {
   SOWIN_OBJECT_ABSTRACT_HEADER(SoWinDevice, SoWinObject);
 
 public:
-  SoWinDevice( void );
-  ~SoWinDevice( void );
+  SoWinDevice(void);
+  ~SoWinDevice(void);
 
-  virtual void enable( HWND widget, SoWinEventHandler * callbackproc, void * data, HWND window = NULL ) = 0;
-  virtual void disable( HWND widget, SoWinEventHandler * callbackproc, void * data ) = 0;
+  virtual void enable(HWND widget, SoWinEventHandler * callbackproc, void * data, HWND window = NULL) = 0;
+  virtual void disable(HWND widget, SoWinEventHandler * callbackproc, void * data) = 0;
     
-  virtual const SoEvent * translateEvent( MSG * msg ) = 0;
+  virtual const SoEvent * translateEvent(MSG * msg) = 0;
 
-  void setWindowSize( const SbVec2s newSize );
-  const SbVec2s getWindowSize( void ) const;
+  void setWindowSize(const SbVec2s newSize);
+  const SbVec2s getWindowSize(void) const;
 
   static void initClasses(void);
 
 protected:
   // set the window coordinate from the passed x,y value. This will flip
   // the y value to convert from X coordinates to So coordinates.
-  void setEventPosition( SoEvent * event, int x, int y ) const;
+  void setEventPosition(SoEvent * event, int x, int y) const;
   static long modifierKeys;
     
 private:

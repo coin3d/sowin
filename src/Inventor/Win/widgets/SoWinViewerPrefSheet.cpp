@@ -32,203 +32,203 @@ static const char rcsid[] =
 #include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 #include <Inventor/Win/Win32API.h>
 
-#define AXES_SIZE_FROM_WHEEL( value ) ( value * 10 )
-#define AXES_SIZE_TO_WHEEL( value ) ( value / 10 )
+#define AXES_SIZE_FROM_WHEEL(value) (value * 10)
+#define AXES_SIZE_TO_WHEEL(value) (value / 10)
 
 ATOM SoWinViewerPrefSheet::wndClassAtom = NULL;
 int SoWinViewerPrefSheet::wndCounter = 0;
 
-SoWinViewerPrefSheet::SoWinViewerPrefSheet( void )
+SoWinViewerPrefSheet::SoWinViewerPrefSheet(void)
 {
-  this->constructor( );
+  this->constructor();
 }
 
-SoWinViewerPrefSheet::~SoWinViewerPrefSheet( void )
+SoWinViewerPrefSheet::~SoWinViewerPrefSheet(void)
 {
-    this->destroy( );
+    this->destroy();
 }
 
-void SoWinViewerPrefSheet::create( HWND parent )
+void SoWinViewerPrefSheet::create(HWND parent)
 {
-  if ( IsWindow( this->mainWidget ) ) {
-    HWND r = SetActiveWindow( this->mainWidget );
-    assert( ( r != NULL ) && "SetActiveWindow() failed -- investigate" );
+  if (IsWindow(this->mainWidget)) {
+    HWND r = SetActiveWindow(this->mainWidget);
+    assert((r != NULL) && "SetActiveWindow() failed -- investigate");
     return;
   }
 
   this->x = 10;
   this->y = 10;
   
-  this->createMainWidget( parent );
-  this->lineHeight = this->getFontHeight( this->mainWidget ) + 10;
+  this->createMainWidget(parent);
+  this->lineHeight = this->getFontHeight(this->mainWidget) + 10;
 }
 
-void SoWinViewerPrefSheet::size( void )
+void SoWinViewerPrefSheet::size(void)
 { 
   RECT rect;
-  Win32::GetClientRect( this->mainWidget, & rect );
+  Win32::GetClientRect(this->mainWidget, & rect);
   int height = rect.bottom;
   
-  Win32::GetWindowRect( this->mainWidget, & rect );
+  Win32::GetWindowRect(this->mainWidget, & rect);
 
-  Win32::MoveWindow( this->mainWidget,
+  Win32::MoveWindow(this->mainWidget,
                      rect.left,
                      rect.top,
                      // FIXME no adjustment to width yet
-                     ( rect.right - rect.left ),
-                     ( rect.bottom - rect.top ) + ( ( this->y + 10 )  - height ),
-                     TRUE );
+                     (rect.right - rect.left),
+                     (rect.bottom - rect.top) + ((this->y + 10)  - height),
+                     TRUE);
 }
 
-void SoWinViewerPrefSheet::destroy( void )
+void SoWinViewerPrefSheet::destroy(void)
 {
-  if ( IsWindow (this->mainWidget ) )
-    this->destroyMainWidget( );
-  if ( this->seekViewer )
-    this->destroySeekWidgets( );
-  if ( this->zoomViewer )
-    this->destroyZoomWidgets( );
-  if ( this->clippingViewer )
-    this->destroyClippingWidgets( );
-  if ( this->spinViewer )
-    this->destroySpinWidgets( );
+  if (IsWindow (this->mainWidget))
+    this->destroyMainWidget();
+  if (this->seekViewer)
+    this->destroySeekWidgets();
+  if (this->zoomViewer)
+    this->destroyZoomWidgets();
+  if (this->clippingViewer)
+    this->destroyClippingWidgets();
+  if (this->spinViewer)
+    this->destroySpinWidgets();
   this->x = this->y = 0;
 }
 
-void SoWinViewerPrefSheet::show( SbBool show )
+void SoWinViewerPrefSheet::show(SbBool show)
 {
-  // FIXME: update all widgets ( init )
-  (void)ShowWindow( this->mainWidget, ( show ? SW_SHOW : SW_HIDE ) );
-  if ( show ) {
-    (void)SetActiveWindow( this->mainWidget );
+  // FIXME: update all widgets (init)
+  (void)ShowWindow(this->mainWidget, (show ? SW_SHOW : SW_HIDE));
+  if (show) {
+    (void)SetActiveWindow(this->mainWidget);
   }
 }
 
-HWND SoWinViewerPrefSheet::getWidget( void )
+HWND SoWinViewerPrefSheet::getWidget(void)
 {
   return this->mainWidget;
 }
 
-void SoWinViewerPrefSheet::setTitle( const char * title )
+void SoWinViewerPrefSheet::setTitle(const char * title)
 {
-  if ( this->mainWidget ) {
-    Win32::SetWindowText( this->mainWidget, title );
+  if (this->mainWidget) {
+    Win32::SetWindowText(this->mainWidget, title);
   }
   this->title = title;
 }
 
-void SoWinViewerPrefSheet::createSeekWidgets( SoWinFullViewer * viewer )
+void SoWinViewerPrefSheet::createSeekWidgets(SoWinFullViewer * viewer)
 {
-  assert( IsWindow( this->mainWidget ) );
+  assert(IsWindow(this->mainWidget));
 
-  if ( this->seekViewer )// already created, destroy first
+  if (this->seekViewer)// already created, destroy first
     return;
   
   this->seekViewer = viewer;
   
-  this->seekWidgets[0] = this->createLabelWidget( this->mainWidget, "Seek animation time:", this->x, this->y );
-  this->seekWidgets[1] = this->createEditWidget( this->mainWidget, SEEK_TIME_EDIT, 64, this->x + 175, this->y );
-  this->seekWidgets[2] = this->createLabelWidget( this->mainWidget, "seconds", this->x + 245, this->y );
+  this->seekWidgets[0] = this->createLabelWidget(this->mainWidget, "Seek animation time:", this->x, this->y);
+  this->seekWidgets[1] = this->createEditWidget(this->mainWidget, SEEK_TIME_EDIT, 64, this->x + 175, this->y);
+  this->seekWidgets[2] = this->createLabelWidget(this->mainWidget, "seconds", this->x + 245, this->y);
   this->y += this->lineHeight;
   
-  this->seekWidgets[3] = this->createLabelWidget( this->mainWidget, "Seek to:", this->x, this->y );
-  this->seekWidgets[4] = this->createRadioWidget( this->mainWidget, SEEK_TO_PT_RADIO, "point",
-                                                  this->x + 90, this->y );
-  this->seekWidgets[5] = this->createRadioWidget( this->mainWidget, SEEK_TO_OBJ_RADIO, "object",
-                                                  this->x + 190, this->y );
+  this->seekWidgets[3] = this->createLabelWidget(this->mainWidget, "Seek to:", this->x, this->y);
+  this->seekWidgets[4] = this->createRadioWidget(this->mainWidget, SEEK_TO_PT_RADIO, "point",
+                                                  this->x + 90, this->y);
+  this->seekWidgets[5] = this->createRadioWidget(this->mainWidget, SEEK_TO_OBJ_RADIO, "object",
+                                                  this->x + 190, this->y);
   this->y += this->lineHeight;
 
-  this->seekWidgets[6] = this->createLabelWidget( this->mainWidget, "Seek distance:", this->x, this->y );
-  this->seekDistWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, this->mainWidget, SEEK_DIST_WHEEL,
-                                             this->x + 140, this->y );
-  this->seekWidgets[7] = this->createEditWidget( this->mainWidget, SEEK_DIST_EDIT, 64, this->x + 270, this->y );
+  this->seekWidgets[6] = this->createLabelWidget(this->mainWidget, "Seek distance:", this->x, this->y);
+  this->seekDistWheel = new SoWinThumbWheel(SoWinThumbWheel::Horizontal, this->mainWidget, SEEK_DIST_WHEEL,
+                                             this->x + 140, this->y);
+  this->seekWidgets[7] = this->createEditWidget(this->mainWidget, SEEK_DIST_EDIT, 64, this->x + 270, this->y);
   this->y += this->lineHeight;
 
-  this->seekWidgets[8] = this->createRadioWidget( this->mainWidget, SEEK_DIST_PCT_RADIO, "percentage",
-                                                  this->x, this->y );
-  this->seekWidgets[9] = this->createRadioWidget( this->mainWidget, SEEK_DIST_ABS_RADIO, "absolute",
-                                                  this->x + 100, this->y );
+  this->seekWidgets[8] = this->createRadioWidget(this->mainWidget, SEEK_DIST_PCT_RADIO, "percentage",
+                                                  this->x, this->y);
+  this->seekWidgets[9] = this->createRadioWidget(this->mainWidget, SEEK_DIST_ABS_RADIO, "absolute",
+                                                  this->x + 100, this->y);
   this->y += this->lineHeight;
 
-  this->initSeekWidgets( viewer );
+  this->initSeekWidgets(viewer);
 }
 
-void SoWinViewerPrefSheet::createZoomWidgets( SoWinFullViewer * viewer )
+void SoWinViewerPrefSheet::createZoomWidgets(SoWinFullViewer * viewer)
 {
-  assert( IsWindow( this->mainWidget ) );
+  assert(IsWindow(this->mainWidget));
   
-  if ( this->zoomViewer )// already created, destroy first
+  if (this->zoomViewer)// already created, destroy first
     return;
 
   this->zoomViewer = viewer;
 
-  this->zoomWidgets[0] = this->createLabelWidget( this->mainWidget, "Camera zoom:", this->x, this->y );
-  this->zoomWidgets[1] = this->createSliderWidget( this->mainWidget, ZOOM_SLIDER, 118, this->x + 140, this->y );
-  this->zoomWidgets[2] = this->createEditWidget( this->mainWidget, ZOOM_EDIT, 64, this->x + 270, this->y );
+  this->zoomWidgets[0] = this->createLabelWidget(this->mainWidget, "Camera zoom:", this->x, this->y);
+  this->zoomWidgets[1] = this->createSliderWidget(this->mainWidget, ZOOM_SLIDER, 118, this->x + 140, this->y);
+  this->zoomWidgets[2] = this->createEditWidget(this->mainWidget, ZOOM_EDIT, 64, this->x + 270, this->y);
   this->y += this->lineHeight;
 
-  this->zoomWidgets[3] = this->createLabelWidget( this->mainWidget, "Zoom slider ranges from:", this->x, this->y );
-  this->zoomWidgets[4] = this->createEditWidget( this->mainWidget, ZOOM_RANGE_FROM_EDIT, 64, this->x + 175, this->y );
-  this->zoomWidgets[5] = this->createLabelWidget( this->mainWidget, "to:", this->x + 245, this->y );
-  this->zoomWidgets[6] = this->createEditWidget( this->mainWidget, ZOOM_RANGE_TO_EDIT, 64, this->x + 270, this->y );
+  this->zoomWidgets[3] = this->createLabelWidget(this->mainWidget, "Zoom slider ranges from:", this->x, this->y);
+  this->zoomWidgets[4] = this->createEditWidget(this->mainWidget, ZOOM_RANGE_FROM_EDIT, 64, this->x + 175, this->y);
+  this->zoomWidgets[5] = this->createLabelWidget(this->mainWidget, "to:", this->x + 245, this->y);
+  this->zoomWidgets[6] = this->createEditWidget(this->mainWidget, ZOOM_RANGE_TO_EDIT, 64, this->x + 270, this->y);
   this->y += this->lineHeight;
 
-  this->initZoomWidgets( viewer );
+  this->initZoomWidgets(viewer);
 }
 
-void SoWinViewerPrefSheet::createClippingWidgets( SoWinFullViewer * viewer )
+void SoWinViewerPrefSheet::createClippingWidgets(SoWinFullViewer * viewer)
 {
-  assert( IsWindow( this->mainWidget ) );
+  assert(IsWindow(this->mainWidget));
   
-  if ( this->clippingViewer )// already created, destroy first
+  if (this->clippingViewer)// already created, destroy first
     return;
 
   this->clippingViewer = viewer;
 
-  this->clippingWidgets[0] = this->createCheckWidget( this->mainWidget, CLIPPING_AUTO_CHECK, "Auto clipping planes",
-                                                      this->x, this->y );
+  this->clippingWidgets[0] = this->createCheckWidget(this->mainWidget, CLIPPING_AUTO_CHECK, "Auto clipping planes",
+                                                      this->x, this->y);
   this->y += this->lineHeight;
 
-  this->clippingWidgets[1] = this->createLabelWidget( this->mainWidget, "Near plane:", this->x, this->y );
-  this->nearPlaneWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, this->mainWidget, CLIPPING_NEAR_WHEEL,
-                                              this->x + 140, this->y );
-  this->clippingWidgets[2] = this->createEditWidget( this->mainWidget, CLIPPING_NEAR_EDIT, 64, this->x + 270, this->y );
+  this->clippingWidgets[1] = this->createLabelWidget(this->mainWidget, "Near plane:", this->x, this->y);
+  this->nearPlaneWheel = new SoWinThumbWheel(SoWinThumbWheel::Horizontal, this->mainWidget, CLIPPING_NEAR_WHEEL,
+                                              this->x + 140, this->y);
+  this->clippingWidgets[2] = this->createEditWidget(this->mainWidget, CLIPPING_NEAR_EDIT, 64, this->x + 270, this->y);
   this->y += this->lineHeight;
   
-  this->clippingWidgets[3] = this->createLabelWidget( this->mainWidget, "Far plane:", this->x, this->y );
-  this->farPlaneWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, this->mainWidget, CLIPPING_FAR_WHEEL,
-                                             this->x + 140, this->y );
-  this->clippingWidgets[4] = this->createEditWidget( this->mainWidget, CLIPPING_FAR_EDIT, 64,
-                                                     this->x + 270, this->y );
+  this->clippingWidgets[3] = this->createLabelWidget(this->mainWidget, "Far plane:", this->x, this->y);
+  this->farPlaneWheel = new SoWinThumbWheel(SoWinThumbWheel::Horizontal, this->mainWidget, CLIPPING_FAR_WHEEL,
+                                             this->x + 140, this->y);
+  this->clippingWidgets[4] = this->createEditWidget(this->mainWidget, CLIPPING_FAR_EDIT, 64,
+                                                     this->x + 270, this->y);
   this->y += this->lineHeight;
 
-  this->initClippingWidgets( viewer );
+  this->initClippingWidgets(viewer);
 }
 
-void SoWinViewerPrefSheet::createSpinWidgets( SoWinExaminerViewer * viewer )
+void SoWinViewerPrefSheet::createSpinWidgets(SoWinExaminerViewer * viewer)
 {
-  assert( IsWindow( this->mainWidget ) );
+  assert(IsWindow(this->mainWidget));
   
-  if ( this->spinViewer )// already created, destroy first
+  if (this->spinViewer)// already created, destroy first
     return;
 
   this->spinViewer = viewer;
 
-  this->spinWidgets[0] = this->createCheckWidget( this->mainWidget, SPIN_ENABLE_CHECK, "Enable spin animation",
-                                                  this->x, this->y );
+  this->spinWidgets[0] = this->createCheckWidget(this->mainWidget, SPIN_ENABLE_CHECK, "Enable spin animation",
+                                                  this->x, this->y);
   this->y += this->lineHeight;
 
-  this->spinWidgets[1] = this->createCheckWidget( this->mainWidget, SPIN_AXES_CHECK, "Show point of rotation axes",
-                                                  this->x, this->y );
+  this->spinWidgets[1] = this->createCheckWidget(this->mainWidget, SPIN_AXES_CHECK, "Show point of rotation axes",
+                                                  this->x, this->y);
   this->y += this->lineHeight;
   
-  this->spinWidgets[2] = this->createLabelWidget( this->mainWidget, "Axes size:", this->x, this->y );
-  this->axesSizeWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, this->mainWidget, SPIN_AXES_WHEEL,
-                                             this->x + 140, this->y );
-  this->spinWidgets[3] = this->createEditWidget( this->mainWidget, SPIN_AXES_EDIT, 64, this->x + 270, this->y );
+  this->spinWidgets[2] = this->createLabelWidget(this->mainWidget, "Axes size:", this->x, this->y);
+  this->axesSizeWheel = new SoWinThumbWheel(SoWinThumbWheel::Horizontal, this->mainWidget, SPIN_AXES_WHEEL,
+                                             this->x + 140, this->y);
+  this->spinWidgets[3] = this->createEditWidget(this->mainWidget, SPIN_AXES_EDIT, 64, this->x + 270, this->y);
   this->y += this->lineHeight;
 
-  this->initSpinWidgets( viewer );
+  this->initSpinWidgets(viewer);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -236,7 +236,7 @@ void SoWinViewerPrefSheet::createSpinWidgets( SoWinExaminerViewer * viewer )
 //  (protected)
 //
 
-void SoWinViewerPrefSheet::constructor( void )
+void SoWinViewerPrefSheet::constructor(void)
 {
   this->lineHeight = 0;
   this->className = "SoWinViewerPrefSheet";
@@ -249,31 +249,31 @@ void SoWinViewerPrefSheet::constructor( void )
   this->spinViewer = NULL;  
 }
 
-void SoWinViewerPrefSheet::createMainWidget( HWND parent )
+void SoWinViewerPrefSheet::createMainWidget(HWND parent)
 {
   
-  LPSTR wndclassname = ( LPSTR ) this->className.getString( );
+  LPSTR wndclassname = (LPSTR) this->className.getString();
   HMENU menu = NULL;
 
-  if ( ! SoWinViewerPrefSheet::wndClassAtom ) {
+  if (! SoWinViewerPrefSheet::wndClassAtom) {
 
     WNDCLASS windowclass;
-    LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
-    LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
-    HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
+    LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
+    LPCTSTR cursor = MAKEINTRESOURCE(IDC_ARROW);
+    HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
 
     windowclass.lpszClassName = wndclassname;
-    windowclass.hInstance = SoWin::getInstance( );
+    windowclass.hInstance = SoWin::getInstance();
     windowclass.lpfnWndProc = SoWinViewerPrefSheet::processEvent;
     windowclass.style = CS_OWNDC;
     windowclass.lpszMenuName = NULL;
-    windowclass.hIcon = LoadIcon( NULL, icon );
-    windowclass.hCursor = LoadCursor( SoWin::getInstance( ), cursor );
+    windowclass.hIcon = LoadIcon(NULL, icon);
+    windowclass.hCursor = LoadCursor(SoWin::getInstance(), cursor);
     windowclass.hbrBackground = brush;
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = 4;
 
-    SoWinViewerPrefSheet::wndClassAtom = Win32::RegisterClass( & windowclass );
+    SoWinViewerPrefSheet::wndClassAtom = Win32::RegisterClass(& windowclass);
     
   }
 
@@ -281,9 +281,9 @@ void SoWinViewerPrefSheet::createMainWidget( HWND parent )
   
   DWORD style = WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE;
 
-  this->mainWidget = CreateWindowEx( NULL,
+  this->mainWidget = CreateWindowEx(NULL,
                                      wndclassname,
-                                     this->title.getString( ),
+                                     this->title.getString(),
                                      style,
                                      CW_USEDEFAULT,
                                      CW_USEDEFAULT,
@@ -291,368 +291,368 @@ void SoWinViewerPrefSheet::createMainWidget( HWND parent )
                                      400,
                                      parent,
                                      menu,
-                                     SoWin::getInstance( ),
-                                     this );
+                                     SoWin::getInstance(),
+                                     this);
   
-  assert( IsWindow( this->mainWidget ) );
-  (void)SetActiveWindow( this->mainWidget );
+  assert(IsWindow(this->mainWidget));
+  (void)SetActiveWindow(this->mainWidget);
 }
 
-void SoWinViewerPrefSheet::initSeekWidgets( SoWinFullViewer * viewer )
+void SoWinViewerPrefSheet::initSeekWidgets(SoWinFullViewer * viewer)
 {
-  this->setEditValue( this->seekWidgets[1], viewer->getSeekTime( ) );
+  this->setEditValue(this->seekWidgets[1], viewer->getSeekTime());
 
-  this->setChecked( this->seekWidgets[4], viewer->isDetailSeek( ) );
-  this->setChecked( this->seekWidgets[5], ! viewer->isDetailSeek( ) );
+  this->setChecked(this->seekWidgets[4], viewer->isDetailSeek());
+  this->setChecked(this->seekWidgets[5], ! viewer->isDetailSeek());
 
-  float distance =  viewer->getSeekDistance( );
-  this->setEditValue( this->seekWidgets[7], distance );
+  float distance =  viewer->getSeekDistance();
+  this->setEditValue(this->seekWidgets[7], distance);
     
-  this->seekDistWheel->setRangeBoundaryHandling( SoWinThumbWheel::ACCUMULATE );
-  this->seekDistWheel->setValue( distance );
+  this->seekDistWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
+  this->seekDistWheel->setValue(distance);
 
-  this->setChecked( this->seekWidgets[8], viewer->isSeekValuePercentage( ) );
-  this->setChecked( this->seekWidgets[9], ! viewer->isSeekValuePercentage( ) );
+  this->setChecked(this->seekWidgets[8], viewer->isSeekValuePercentage());
+  this->setChecked(this->seekWidgets[9], ! viewer->isSeekValuePercentage());
 }
 
-void SoWinViewerPrefSheet::initZoomWidgets( SoWinFullViewer * viewer )
+void SoWinViewerPrefSheet::initZoomWidgets(SoWinFullViewer * viewer)
 {
-  float zoom = viewer->getCameraZoom( );
+  float zoom = viewer->getCameraZoom();
 
-  this->setSliderRange( this->zoomWidgets[1],
-    ( int ) viewer->zoomrange[0],
-    ( int ) viewer->zoomrange[1] );
+  this->setSliderRange(this->zoomWidgets[1],
+    (int) viewer->zoomrange[0],
+    (int) viewer->zoomrange[1]);
 
-  this->setSliderValue( this->zoomWidgets[1], ( int ) zoom );
-  this->setEditValue( this->zoomWidgets[2], zoom );
+  this->setSliderValue(this->zoomWidgets[1], (int) zoom);
+  this->setEditValue(this->zoomWidgets[2], zoom);
   
-  this->setEditValue( this->zoomWidgets[4], viewer->zoomrange[0] );
-  this->setEditValue( this->zoomWidgets[6], viewer->zoomrange[1] );  
+  this->setEditValue(this->zoomWidgets[4], viewer->zoomrange[0]);
+  this->setEditValue(this->zoomWidgets[6], viewer->zoomrange[1]);  
 }
 
-void SoWinViewerPrefSheet::initClippingWidgets( SoWinFullViewer * viewer )
+void SoWinViewerPrefSheet::initClippingWidgets(SoWinFullViewer * viewer)
 {
-  BOOL autoCl =  viewer->isAutoClipping( );
-  this->setChecked( this->clippingWidgets[0], autoCl );
+  BOOL autoCl =  viewer->isAutoClipping();
+  this->setChecked(this->clippingWidgets[0], autoCl);
   
-  SoCamera * cam = viewer->getCamera( );
-  if( ! cam ) return;
+  SoCamera * cam = viewer->getCamera();
+  if(! cam) return;
   
-  float nearDist = cam->nearDistance.getValue( );
-  float farDist = cam->farDistance.getValue( );
+  float nearDist = cam->nearDistance.getValue();
+  float farDist = cam->farDistance.getValue();
 
-  this->nearPlaneWheel->setRangeBoundaryHandling( SoWinThumbWheel::ACCUMULATE );
-  this->nearPlaneWheel->setValue( nearDist );
+  this->nearPlaneWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
+  this->nearPlaneWheel->setValue(nearDist);
   
-  this->setEditValue( this->clippingWidgets[2], nearDist );
+  this->setEditValue(this->clippingWidgets[2], nearDist);
 
-  this->farPlaneWheel->setRangeBoundaryHandling( SoWinThumbWheel::ACCUMULATE );  
-  this->farPlaneWheel->setValue( farDist );
+  this->farPlaneWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);  
+  this->farPlaneWheel->setValue(farDist);
   
-  this->setEditValue( this->clippingWidgets[4], farDist );      
+  this->setEditValue(this->clippingWidgets[4], farDist);      
   
-  //enableClippingWidgets( autoCl ); // NB! checkbox is always enabled
-  if ( autoCl ) {
-    this->nearPlaneWheel->setEnabled( FALSE );
-    this->farPlaneWheel->setEnabled( FALSE );
-    for ( int i = 1; i < 5; i++ )
-      this->setEnabled( this->clippingWidgets[i], FALSE );
+  //enableClippingWidgets(autoCl); // NB! checkbox is always enabled
+  if (autoCl) {
+    this->nearPlaneWheel->setEnabled(FALSE);
+    this->farPlaneWheel->setEnabled(FALSE);
+    for (int i = 1; i < 5; i++)
+      this->setEnabled(this->clippingWidgets[i], FALSE);
   }
 }
 
-void SoWinViewerPrefSheet::initSpinWidgets( SoWinExaminerViewer * viewer )
+void SoWinViewerPrefSheet::initSpinWidgets(SoWinExaminerViewer * viewer)
 {
-  BOOL anim = viewer->isAnimationEnabled( );
-  this->setChecked( this->spinWidgets[0], anim );
+  BOOL anim = viewer->isAnimationEnabled();
+  this->setChecked(this->spinWidgets[0], anim);
 
-  BOOL visible = viewer->isFeedbackVisible( );
-  this->setChecked( this->spinWidgets[1], visible );
+  BOOL visible = viewer->isFeedbackVisible();
+  this->setChecked(this->spinWidgets[1], visible);
 
-  float size = viewer->getFeedbackSize( );
-  this->axesSizeWheel->setRangeBoundaryHandling( SoWinThumbWheel::ACCUMULATE );
-  this->axesSizeWheel->setValue( AXES_SIZE_TO_WHEEL( size ) );
-  this->setEditValue( this->spinWidgets[3], size );
+  float size = viewer->getFeedbackSize();
+  this->axesSizeWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
+  this->axesSizeWheel->setValue(AXES_SIZE_TO_WHEEL(size));
+  this->setEditValue(this->spinWidgets[3], size);
   
-  //enableSpinWidgets( anim ); // NB! checkbox is always enabled
-  if ( ! anim )
-    setEnabled( this->spinWidgets[1], FALSE );
+  //enableSpinWidgets(anim); // NB! checkbox is always enabled
+  if (! anim)
+    setEnabled(this->spinWidgets[1], FALSE);
   
-  if ( ! ( visible && anim ) ) {
-    setEnabled( this->spinWidgets[2], FALSE );
-    setEnabled( this->spinWidgets[3], FALSE );
-    this->axesSizeWheel->setEnabled( FALSE );
+  if (! (visible && anim)) {
+    setEnabled(this->spinWidgets[2], FALSE);
+    setEnabled(this->spinWidgets[3], FALSE);
+    this->axesSizeWheel->setEnabled(FALSE);
   }
 }
 
-void SoWinViewerPrefSheet::destroyMainWidget( void )
+void SoWinViewerPrefSheet::destroyMainWidget(void)
 {
-  Win32::DestroyWindow( this->mainWidget );
+  Win32::DestroyWindow(this->mainWidget);
   SoWinViewerPrefSheet::wndCounter--;
   
-  if ( SoWinViewerPrefSheet::wndCounter <= 0 && SoWinViewerPrefSheet::wndClassAtom ) {
-    Win32::UnregisterClass( this->className.getString( ), SoWin::getInstance( ) );
+  if (SoWinViewerPrefSheet::wndCounter <= 0 && SoWinViewerPrefSheet::wndClassAtom) {
+    Win32::UnregisterClass(this->className.getString(), SoWin::getInstance());
     SoWinViewerPrefSheet::wndClassAtom = NULL;
   }
   
   this->mainWidget = NULL;
 }
 
-void SoWinViewerPrefSheet::destroySeekWidgets( void )
+void SoWinViewerPrefSheet::destroySeekWidgets(void)
 {
-  for ( int i = 0; i < 10; i++ ) {
-    if ( IsWindow( this->seekWidgets[i] ) ) {
-      Win32::DestroyWindow( this->seekWidgets[i] );
+  for (int i = 0; i < 10; i++) {
+    if (IsWindow(this->seekWidgets[i])) {
+      Win32::DestroyWindow(this->seekWidgets[i]);
     }
   }
-  if ( this->seekDistWheel )
+  if (this->seekDistWheel)
     delete this->seekDistWheel;
   this->seekViewer = NULL;
 }
 
-void SoWinViewerPrefSheet::destroyZoomWidgets( void )
+void SoWinViewerPrefSheet::destroyZoomWidgets(void)
 {
-  for ( int i = 0; i < 7; i++ ) {
-    if ( IsWindow( this->zoomWidgets[i] ) ) {
-      Win32::DestroyWindow( this->zoomWidgets[i] );
+  for (int i = 0; i < 7; i++) {
+    if (IsWindow(this->zoomWidgets[i])) {
+      Win32::DestroyWindow(this->zoomWidgets[i]);
     }
   }
   this->zoomViewer = NULL;
 }
 
-void SoWinViewerPrefSheet::destroyClippingWidgets( void )
+void SoWinViewerPrefSheet::destroyClippingWidgets(void)
 {
-  for ( int i = 0; i < 5; i++ ) {
-    if ( IsWindow( this->clippingWidgets[i] ) ) {
-      Win32::DestroyWindow( this->clippingWidgets[i] );
+  for (int i = 0; i < 5; i++) {
+    if (IsWindow(this->clippingWidgets[i])) {
+      Win32::DestroyWindow(this->clippingWidgets[i]);
     }
   }
-  if ( this->nearPlaneWheel )
+  if (this->nearPlaneWheel)
     delete nearPlaneWheel;
-  if ( this->farPlaneWheel )
+  if (this->farPlaneWheel)
     delete farPlaneWheel;
   this->clippingViewer = NULL;
 }
 
-void SoWinViewerPrefSheet::destroySpinWidgets( void )
+void SoWinViewerPrefSheet::destroySpinWidgets(void)
 {
-  for ( int i = 0; i < 4; i++ ) {
-    if ( IsWindow( this->spinWidgets[i] ) ) {
-      Win32::DestroyWindow( this->spinWidgets[i] );
+  for (int i = 0; i < 4; i++) {
+    if (IsWindow(this->spinWidgets[i])) {
+      Win32::DestroyWindow(this->spinWidgets[i]);
     }
   }
 
-  if ( this->axesSizeWheel )
+  if (this->axesSizeWheel)
     delete this->axesSizeWheel;
   this->spinViewer = NULL;
 }
 
-HWND SoWinViewerPrefSheet::createLabelWidget( HWND parent, const char * text, int x, int y )
+HWND SoWinViewerPrefSheet::createLabelWidget(HWND parent, const char * text, int x, int y)
 {
-  assert( IsWindow( parent ) );
-  SIZE textSize = this->getTextSize( parent, text ); // FIXME: assumes the same font as parent
-  HWND hwnd = CreateWindowEx( NULL,
+  assert(IsWindow(parent));
+  SIZE textSize = this->getTextSize(parent, text); // FIXME: assumes the same font as parent
+  HWND hwnd = CreateWindowEx(NULL,
                               "STATIC",
-                              ( text ? text : "" ),
+                              (text ? text : ""),
                               WS_VISIBLE | WS_CHILD | SS_LEFT,
                               x, y,
                               textSize.cx, textSize.cy,
                               parent,
                               NULL,
-                              SoWin::getInstance( ),
-                              NULL );
-  assert( IsWindow( hwnd ) );
+                              SoWin::getInstance(),
+                              NULL);
+  assert(IsWindow(hwnd));
   return hwnd;  
 }
 
-HWND SoWinViewerPrefSheet::createEditWidget( HWND parent, long id, int width, int x, int y )
+HWND SoWinViewerPrefSheet::createEditWidget(HWND parent, long id, int width, int x, int y)
 {
-  assert( IsWindow( parent ) );
-  HWND hwnd = CreateWindowEx( WS_EX_CLIENTEDGE,
+  assert(IsWindow(parent));
+  HWND hwnd = CreateWindowEx(WS_EX_CLIENTEDGE,
                               "EDIT",
                               "",
                               WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL,
                               x, y,
-                              width, this->getFontHeight( parent ) + 4,
+                              width, this->getFontHeight(parent) + 4,
                               parent,
                               NULL,
-                              SoWin::getInstance( ),
-                            NULL );
-  assert( IsWindow( hwnd ) );
+                              SoWin::getInstance(),
+                            NULL);
+  assert(IsWindow(hwnd));
 
-  (void)Win32::SetWindowLong( hwnd, GWL_ID, id ); 
+  (void)Win32::SetWindowLong(hwnd, GWL_ID, id); 
 
   return hwnd;
 }
 
-HWND SoWinViewerPrefSheet::createRadioWidget( HWND parent, long id, const char * text, int x, int y )
+HWND SoWinViewerPrefSheet::createRadioWidget(HWND parent, long id, const char * text, int x, int y)
 {
-  assert( IsWindow( parent ) );
-  SIZE textSize = this->getTextSize( parent, text ); // FIXME: assumes the same font as parent  
-  HWND hwnd = CreateWindowEx( NULL,
+  assert(IsWindow(parent));
+  SIZE textSize = this->getTextSize(parent, text); // FIXME: assumes the same font as parent  
+  HWND hwnd = CreateWindowEx(NULL,
                               "BUTTON",
-                              ( text ? text : "" ),
+                              (text ? text : ""),
                               WS_VISIBLE | WS_CHILD | BS_RADIOBUTTON | BS_LEFT,
                               x, y,
                               30 + textSize.cx, textSize.cy,
                               parent,
                               NULL,
-                              SoWin::getInstance( ),
-                              NULL );
-  assert( IsWindow( hwnd ) );
+                              SoWin::getInstance(),
+                              NULL);
+  assert(IsWindow(hwnd));
 
-  (void)Win32::SetWindowLong( hwnd, GWL_ID, id );
+  (void)Win32::SetWindowLong(hwnd, GWL_ID, id);
   return hwnd;
 }
 
-HWND SoWinViewerPrefSheet::createSliderWidget( HWND parent, long id, int width, int x, int y )
+HWND SoWinViewerPrefSheet::createSliderWidget(HWND parent, long id, int width, int x, int y)
 {
-  assert( IsWindow( parent ) );
-  HWND hwnd = CreateWindowEx( NULL,
+  assert(IsWindow(parent));
+  HWND hwnd = CreateWindowEx(NULL,
                               "SCROLLBAR",
                               "",
                               WS_CHILD | WS_VISIBLE | SBS_HORZ,
                               x, y,
-                              width, this->getFontHeight( parent ) + 2,
+                              width, this->getFontHeight(parent) + 2,
                               parent,
                               NULL,
-                              SoWin::getInstance( ),
-                              NULL );
-  assert( IsWindow( hwnd ) );
+                              SoWin::getInstance(),
+                              NULL);
+  assert(IsWindow(hwnd));
 
-  (void)Win32::SetWindowLong( hwnd, GWL_ID, id );
+  (void)Win32::SetWindowLong(hwnd, GWL_ID, id);
   return hwnd;  
 }
 
-HWND SoWinViewerPrefSheet::createCheckWidget( HWND parent, long id, const char * text, int x, int y )
+HWND SoWinViewerPrefSheet::createCheckWidget(HWND parent, long id, const char * text, int x, int y)
 {
-  assert( IsWindow( parent ) );
-  SIZE textSize = this->getTextSize( parent, text ); // FIXME: assumes the same font as parent  
-  HWND hwnd = CreateWindowEx( NULL,
+  assert(IsWindow(parent));
+  SIZE textSize = this->getTextSize(parent, text); // FIXME: assumes the same font as parent  
+  HWND hwnd = CreateWindowEx(NULL,
                               "BUTTON",
-                              ( text ? text : "" ),
+                              (text ? text : ""),
                               WS_VISIBLE | WS_CHILD | BS_CHECKBOX | BS_LEFT,
                               x, y,
                               30 + textSize.cx, textSize.cy,
                               parent,
                               NULL,
-                              SoWin::getInstance( ),
-                              NULL );
-  assert( IsWindow( hwnd ) );
+                              SoWin::getInstance(),
+                              NULL);
+  assert(IsWindow(hwnd));
 
-  (void)Win32::SetWindowLong( hwnd, GWL_ID, id );
+  (void)Win32::SetWindowLong(hwnd, GWL_ID, id);
   return hwnd;  
 }
 
-SIZE SoWinViewerPrefSheet::getTextSize( HWND window, const char * text )
+SIZE SoWinViewerPrefSheet::getTextSize(HWND window, const char * text)
 {
-  assert( IsWindow( window ) );
+  assert(IsWindow(window));
   
-  int len = strlen( text );
-  HDC hdc = GetDC( window );
+  int len = strlen(text);
+  HDC hdc = GetDC(window);
 
   SIZE size;
-  Win32::GetTextExtentPoint( hdc, text, len, & size );
+  Win32::GetTextExtentPoint(hdc, text, len, & size);
   return size;
 }
 
-int SoWinViewerPrefSheet::getFontHeight( HWND window )
+int SoWinViewerPrefSheet::getFontHeight(HWND window)
 {
-  return this->getTextSize( window, "Ig" ).cy;
+  return this->getTextSize(window, "Ig").cy;
 }
 
 // Slider funcs
 
-void SoWinViewerPrefSheet::setSliderValue( HWND slider, int value )
+void SoWinViewerPrefSheet::setSliderValue(HWND slider, int value)
 {
   SCROLLINFO scrollInfo;
-  ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
-  scrollInfo.cbSize = sizeof( SCROLLINFO );
+  ZeroMemory(& scrollInfo, sizeof(SCROLLINFO));
+  scrollInfo.cbSize = sizeof(SCROLLINFO);
   scrollInfo.fMask = SIF_POS;
   scrollInfo.nPos = value;
  
-  SetScrollInfo( slider,
+  SetScrollInfo(slider,
                  SB_CTL,
-                 /*( this->orient == Horizontal ) SB_HORZ : SB_VERT )*/
+                 /*(this->orient == Horizontal) SB_HORZ : SB_VERT)*/
                  //SB_HORZ,
                  & scrollInfo,
-                 TRUE ); // FIXME: redraw needed?
+                 TRUE); // FIXME: redraw needed?
 }
 
-int SoWinViewerPrefSheet::getSliderValue( HWND slider )
+int SoWinViewerPrefSheet::getSliderValue(HWND slider)
 {
   SCROLLINFO scrollInfo;
-  ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
-  scrollInfo.cbSize = sizeof( SCROLLINFO );
+  ZeroMemory(& scrollInfo, sizeof(SCROLLINFO));
+  scrollInfo.cbSize = sizeof(SCROLLINFO);
   scrollInfo.fMask = SIF_POS;
 
-  GetScrollInfo( slider,
+  GetScrollInfo(slider,
                  SB_CTL,
-                 /*( this->orient == Horizontal ) SB_HORZ : SB_VERT )*/
+                 /*(this->orient == Horizontal) SB_HORZ : SB_VERT)*/
                  //SB_HORZ,
-                 & scrollInfo );
+                 & scrollInfo);
 
-  return ( scrollInfo.nPos );
+  return (scrollInfo.nPos);
 }
 
-void SoWinViewerPrefSheet::setSliderRange( HWND slider, int min, int max )
+void SoWinViewerPrefSheet::setSliderRange(HWND slider, int min, int max)
 {
   SCROLLINFO scrollInfo;
-  ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
-  scrollInfo.cbSize = sizeof( SCROLLINFO );
+  ZeroMemory(& scrollInfo, sizeof(SCROLLINFO));
+  scrollInfo.cbSize = sizeof(SCROLLINFO);
   scrollInfo.fMask = SIF_RANGE | SIF_PAGE;
   scrollInfo.nMin = min;
   scrollInfo.nMax = max;
-  scrollInfo.nPage = 1;//( ( max - min + 1 ) + min );
+  scrollInfo.nPage = 1;//((max - min + 1) + min);
  
-  SetScrollInfo( slider, SB_CTL, & scrollInfo, TRUE );
+  SetScrollInfo(slider, SB_CTL, & scrollInfo, TRUE);
 }
 
-SIZE SoWinViewerPrefSheet::getSliderRange( HWND slider )
+SIZE SoWinViewerPrefSheet::getSliderRange(HWND slider)
 {
   SCROLLINFO scrollInfo;
-  ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
-  scrollInfo.cbSize = sizeof( SCROLLINFO );
+  ZeroMemory(& scrollInfo, sizeof(SCROLLINFO));
+  scrollInfo.cbSize = sizeof(SCROLLINFO);
   scrollInfo.fMask = SIF_RANGE;
 
-  GetScrollInfo( slider,
+  GetScrollInfo(slider,
                  SB_CTL,
-                 /*( this->orient == Horizontal ) SB_HORZ : SB_VERT ),*/
+                 /*(this->orient == Horizontal) SB_HORZ : SB_VERT),*/
                  //SB_HORZ,
-                 & scrollInfo );
+                 & scrollInfo);
   
   SIZE range = { scrollInfo.nMin, scrollInfo.nMax }; 
   return range;
 }
 
-void SoWinViewerPrefSheet::setChecked( HWND hwnd, BOOL check )
+void SoWinViewerPrefSheet::setChecked(HWND hwnd, BOOL check)
 {  
-  (void)SendMessage( hwnd, BM_SETCHECK, ( WPARAM ) ( check ? BST_CHECKED : BST_UNCHECKED ), 0 );
+  (void)SendMessage(hwnd, BM_SETCHECK, (WPARAM) (check ? BST_CHECKED : BST_UNCHECKED), 0);
 }
 
-void SoWinViewerPrefSheet::setEnabled( HWND hwnd, BOOL enable )
+void SoWinViewerPrefSheet::setEnabled(HWND hwnd, BOOL enable)
 {
-  Win32::EnableWindow( hwnd, enable );
+  Win32::EnableWindow(hwnd, enable);
 }
 
-void SoWinViewerPrefSheet::setEditValue( HWND edit, float value )
+void SoWinViewerPrefSheet::setEditValue(HWND edit, float value)
 {
   const int BUFSIZE = 32;
   char str[BUFSIZE];
-  int l = sprintf( str, "%.3f", value );
-  assert( ( l < BUFSIZE-1 ) && "buffer too small" );
+  int l = sprintf(str, "%.3f", value);
+  assert((l < BUFSIZE-1) && "buffer too small");
 
-  Win32::SetWindowText( edit, str );
+  Win32::SetWindowText(edit, str);
 }
 
-float SoWinViewerPrefSheet::getEditValue( HWND edit )
+float SoWinViewerPrefSheet::getEditValue(HWND edit)
 {
   const int BUFSIZE = 32;
   char str[BUFSIZE];
   SetLastError(0);
-  int l = GetWindowText( edit, str, BUFSIZE );
-  assert( ! ( l==0 && GetLastError()!= 0 ) && "GetWindowText() failed -- investigate" );
-  assert( ( l < BUFSIZE-1 ) && "buffer too small" );
-  return ( float ) atof( str );
+  int l = GetWindowText(edit, str, BUFSIZE);
+  assert(! (l==0 && GetLastError()!= 0) && "GetWindowText() failed -- investigate");
+  assert((l < BUFSIZE-1) && "buffer too small");
+  return (float) atof(str);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -661,232 +661,232 @@ float SoWinViewerPrefSheet::getEditValue( HWND edit )
 //
 
 LRESULT CALLBACK
-SoWinViewerPrefSheet::processEvent( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinViewerPrefSheet::processEvent(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  if ( message == WM_CREATE ) {
+  if (message == WM_CREATE) {
     CREATESTRUCT * createstruct;
-    createstruct = ( CREATESTRUCT * ) lparam;
+    createstruct = (CREATESTRUCT *) lparam;
 
-    (void)Win32::SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
+    (void)Win32::SetWindowLong(window, 0, (LONG) (createstruct->lpCreateParams));
     
-    SoWinViewerPrefSheet * object = ( SoWinViewerPrefSheet * )( createstruct->lpCreateParams );
-    return object->onCreate( window, message, wparam, lparam );
+    SoWinViewerPrefSheet * object = (SoWinViewerPrefSheet *)(createstruct->lpCreateParams);
+    return object->onCreate(window, message, wparam, lparam);
   }
 
-  SoWinViewerPrefSheet * object = ( SoWinViewerPrefSheet * ) Win32::GetWindowLong( window, 0 );
+  SoWinViewerPrefSheet * object = (SoWinViewerPrefSheet *) Win32::GetWindowLong(window, 0);
 
-  if ( object && IsWindow( object->mainWidget ) ) {
+  if (object && IsWindow(object->mainWidget)) {
 
-    switch ( message )
+    switch (message)
       {
       case WM_DESTROY:
-        return object->onDestroy( window, message, wparam, lparam );
+        return object->onDestroy(window, message, wparam, lparam);
       case WM_COMMAND:
-        return object->onCommand( window, message, wparam, lparam );
+        return object->onCommand(window, message, wparam, lparam);
       case WM_HSCROLL:
-        return object->onScroll( window, message, wparam, lparam );  
+        return object->onScroll(window, message, wparam, lparam);  
       case WM_THUMBWHEEL:
-        return object->onThumbWheel( window, message, wparam, lparam );  
+        return object->onThumbWheel(window, message, wparam, lparam);  
       }
   }
-  return DefWindowProc( window, message, wparam, lparam );
+  return DefWindowProc(window, message, wparam, lparam);
 }
 
-LRESULT SoWinViewerPrefSheet::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT SoWinViewerPrefSheet::onCreate(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  HWND r = SetActiveWindow( window );
-  assert( ( r != NULL ) && "SetActiveWindow() failed -- investigate" );
-  SetFocus( window );
-  ReleaseCapture( );
+  HWND r = SetActiveWindow(window);
+  assert((r != NULL) && "SetActiveWindow() failed -- investigate");
+  SetFocus(window);
+  ReleaseCapture();
   return 0;
 }
 
-LRESULT SoWinViewerPrefSheet::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT SoWinViewerPrefSheet::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  this->destroy( );
+  this->destroy();
   return 0;
 }
 
-LRESULT SoWinViewerPrefSheet::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT SoWinViewerPrefSheet::onCommand(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  WORD nc = HIWORD( wparam );
-  WORD id = LOWORD( wparam );
-  HWND ctrl = ( HWND ) lparam;
+  WORD nc = HIWORD(wparam);
+  WORD id = LOWORD(wparam);
+  HWND ctrl = (HWND) lparam;
 
-  switch ( id ) {
+  switch (id) {
     
     case SEEK_TIME_EDIT:
-      if ( nc == EN_CHANGE ) {
-        this->seekViewer->setSeekTime( this->getEditValue( ctrl ) );
+      if (nc == EN_CHANGE) {
+        this->seekViewer->setSeekTime(this->getEditValue(ctrl));
       }
       break;
       
     case SEEK_TO_PT_RADIO:
-      if ( ! this->seekViewer->isDetailSeek( ) ) {
-        this->seekViewer->setDetailSeek( TRUE );
-        this->setChecked( this->seekWidgets[4], TRUE );
-        this->setChecked( this->seekWidgets[5], FALSE );
+      if (! this->seekViewer->isDetailSeek()) {
+        this->seekViewer->setDetailSeek(TRUE);
+        this->setChecked(this->seekWidgets[4], TRUE);
+        this->setChecked(this->seekWidgets[5], FALSE);
       }
       break;
       
     case SEEK_TO_OBJ_RADIO:
-      if ( this->seekViewer->isDetailSeek( ) ) {
-        this->seekViewer->setDetailSeek( FALSE );
-        this->setChecked( this->seekWidgets[4], FALSE );
-        this->setChecked( this->seekWidgets[5], TRUE );
+      if (this->seekViewer->isDetailSeek()) {
+        this->seekViewer->setDetailSeek(FALSE);
+        this->setChecked(this->seekWidgets[4], FALSE);
+        this->setChecked(this->seekWidgets[5], TRUE);
       }      
       break;
       
     case SEEK_DIST_EDIT:
-      if ( nc == EN_CHANGE ) {
-        float value =  this->getEditValue( ctrl );
-        if ( value <= .0 ) value = .0001; // .0 not allowed
-        this->seekViewer->setSeekDistance( value );
-        this->seekDistWheel->setValue( value );
+      if (nc == EN_CHANGE) {
+        float value =  this->getEditValue(ctrl);
+        if (value <= .0) value = .0001; // .0 not allowed
+        this->seekViewer->setSeekDistance(value);
+        this->seekDistWheel->setValue(value);
       }
       break;
       
     case SEEK_DIST_PCT_RADIO:
-      if ( ! this->seekViewer->isSeekValuePercentage( ) ) {
-        this->seekViewer->setSeekValueAsPercentage( TRUE );
-        this->setChecked( this->seekWidgets[8], TRUE );
-        this->setChecked( this->seekWidgets[9], FALSE );
+      if (! this->seekViewer->isSeekValuePercentage()) {
+        this->seekViewer->setSeekValueAsPercentage(TRUE);
+        this->setChecked(this->seekWidgets[8], TRUE);
+        this->setChecked(this->seekWidgets[9], FALSE);
       }
       break;
       
     case SEEK_DIST_ABS_RADIO:
-      if ( this->seekViewer->isSeekValuePercentage( ) ) {
-        this->seekViewer->setSeekValueAsPercentage( FALSE );
-        this->setChecked( this->seekWidgets[8], FALSE );
-        this->setChecked( this->seekWidgets[9], TRUE );
+      if (this->seekViewer->isSeekValuePercentage()) {
+        this->seekViewer->setSeekValueAsPercentage(FALSE);
+        this->setChecked(this->seekWidgets[8], FALSE);
+        this->setChecked(this->seekWidgets[9], TRUE);
       }
       break;
       
     case ZOOM_EDIT:
-      if ( nc == EN_CHANGE ) {
-        float value =  this->getEditValue( ctrl );
-        if ( value < zoomViewer->zoomrange[0] ) {
+      if (nc == EN_CHANGE) {
+        float value =  this->getEditValue(ctrl);
+        if (value < zoomViewer->zoomrange[0]) {
           value = zoomViewer->zoomrange[0];
-          this->setEditValue( ctrl, value );
+          this->setEditValue(ctrl, value);
         }
-        if ( value > zoomViewer->zoomrange[1] ) {
+        if (value > zoomViewer->zoomrange[1]) {
           value = zoomViewer->zoomrange[1];
-          this->setEditValue( ctrl, value );
+          this->setEditValue(ctrl, value);
         }
-        this->zoomViewer->setCameraZoom( value );
-        this->setSliderValue( this->zoomWidgets[1], ( int ) value );
+        this->zoomViewer->setCameraZoom(value);
+        this->setSliderValue(this->zoomWidgets[1], (int) value);
       }
       break;
       
     case ZOOM_RANGE_FROM_EDIT:
-      if ( nc == EN_CHANGE ) {
-        float value =  this->getEditValue( ctrl );
-        if ( value < 0.0 ) {
-          this->setEditValue( ctrl, 0.0 );
+      if (nc == EN_CHANGE) {
+        float value =  this->getEditValue(ctrl);
+        if (value < 0.0) {
+          this->setEditValue(ctrl, 0.0);
           break;
         }
         this->zoomViewer->zoomrange[0] = value;
-        if ( zoomViewer->getCameraZoom( ) < value )
-          this->setEditValue( this->zoomWidgets[2], value ); // will cause new message        
-        this->setSliderRange( this->zoomWidgets[1],
-                              ( int ) zoomViewer->zoomrange[0],
-                              ( int ) zoomViewer->zoomrange[1] );
+        if (zoomViewer->getCameraZoom() < value)
+          this->setEditValue(this->zoomWidgets[2], value); // will cause new message        
+        this->setSliderRange(this->zoomWidgets[1],
+                              (int) zoomViewer->zoomrange[0],
+                              (int) zoomViewer->zoomrange[1]);
       }
       break;
       
     case ZOOM_RANGE_TO_EDIT:
-      if ( nc == EN_CHANGE ) {
-        float value =  this->getEditValue( ctrl );
-        if ( value >= 180.0 ) {
-          this->setEditValue( ctrl, 179.999 );
+      if (nc == EN_CHANGE) {
+        float value =  this->getEditValue(ctrl);
+        if (value >= 180.0) {
+          this->setEditValue(ctrl, 179.999);
           break;
         }
         this->zoomViewer->zoomrange[1] = value;
-        if ( zoomViewer->getCameraZoom( ) > value )
-          this->setEditValue( this->zoomWidgets[2], value ); // will cause new message
-        this->setSliderRange( this->zoomWidgets[1],
-                              ( int ) zoomViewer->zoomrange[0],
-                              ( int ) zoomViewer->zoomrange[1] );
+        if (zoomViewer->getCameraZoom() > value)
+          this->setEditValue(this->zoomWidgets[2], value); // will cause new message
+        this->setSliderRange(this->zoomWidgets[1],
+                              (int) zoomViewer->zoomrange[0],
+                              (int) zoomViewer->zoomrange[1]);
       }
       break;
       
     case CLIPPING_AUTO_CHECK:
       {
-        BOOL autoCl = this->clippingViewer->isAutoClipping( );
-        this->clippingViewer->setAutoClipping( ! autoCl );
-        this->setChecked( this->clippingWidgets[0], ! autoCl );
-        this->nearPlaneWheel->setEnabled( autoCl );
-        this->farPlaneWheel->setEnabled( autoCl );
+        BOOL autoCl = this->clippingViewer->isAutoClipping();
+        this->clippingViewer->setAutoClipping(! autoCl);
+        this->setChecked(this->clippingWidgets[0], ! autoCl);
+        this->nearPlaneWheel->setEnabled(autoCl);
+        this->farPlaneWheel->setEnabled(autoCl);
         
-        this->setEditValue( this->clippingWidgets[2],
-                            clippingViewer->getCamera( )->nearDistance.getValue( ) );
-        this->setEditValue( this->clippingWidgets[4],
-                            clippingViewer->getCamera( )->farDistance.getValue( ) );
+        this->setEditValue(this->clippingWidgets[2],
+                            clippingViewer->getCamera()->nearDistance.getValue());
+        this->setEditValue(this->clippingWidgets[4],
+                            clippingViewer->getCamera()->farDistance.getValue());
                 
-        for ( int i = 1; i < 5; i++ )
-          this->setEnabled( this->clippingWidgets[i], autoCl );
+        for (int i = 1; i < 5; i++)
+          this->setEnabled(this->clippingWidgets[i], autoCl);
         
       }
       break;
       
     case CLIPPING_NEAR_EDIT:
-      if ( nc == EN_CHANGE ) {
-        float value =  this->getEditValue( ctrl );
-        float farDist = this->clippingViewer->getCamera( )->farDistance.getValue( );
-        if ( value >= farDist ) {
-          value = farDist - .0001; // FIXME: sprintf is rounding up value ( se setEditValue )
-          this->setEditValue( ctrl, value );
+      if (nc == EN_CHANGE) {
+        float value =  this->getEditValue(ctrl);
+        float farDist = this->clippingViewer->getCamera()->farDistance.getValue();
+        if (value >= farDist) {
+          value = farDist - .0001; // FIXME: sprintf is rounding up value (se setEditValue)
+          this->setEditValue(ctrl, value);
         }
-        this->clippingViewer->getCamera( )->nearDistance.setValue( value );
-        this->nearPlaneWheel->setValue( value );
+        this->clippingViewer->getCamera()->nearDistance.setValue(value);
+        this->nearPlaneWheel->setValue(value);
       }
       break;
       
     case CLIPPING_FAR_EDIT:
-      if ( nc == EN_CHANGE ) {
-        float value =  this->getEditValue( ctrl );
-        float nearDist = this->clippingViewer->getCamera( )->nearDistance.getValue( );
-        if ( value <= nearDist ) {
-          value = nearDist + .0001; // FIXME: sprintf is rounding up value ( se setEditValue )
-          this->setEditValue( ctrl, value );
+      if (nc == EN_CHANGE) {
+        float value =  this->getEditValue(ctrl);
+        float nearDist = this->clippingViewer->getCamera()->nearDistance.getValue();
+        if (value <= nearDist) {
+          value = nearDist + .0001; // FIXME: sprintf is rounding up value (se setEditValue)
+          this->setEditValue(ctrl, value);
         }
-        this->clippingViewer->getCamera( )->farDistance.setValue( value );
-        this->farPlaneWheel->setValue( value );
+        this->clippingViewer->getCamera()->farDistance.setValue(value);
+        this->farPlaneWheel->setValue(value);
       }
       break;
       
     case SPIN_ENABLE_CHECK:
       {
-        BOOL anim = this->spinViewer->isAnimationEnabled( );
-        BOOL visible = this->spinViewer->isFeedbackVisible( );
+        BOOL anim = this->spinViewer->isAnimationEnabled();
+        BOOL visible = this->spinViewer->isFeedbackVisible();
         
-        this->spinViewer->setAnimationEnabled( ! anim );
-        this->setChecked( this->spinWidgets[0], ! anim );
+        this->spinViewer->setAnimationEnabled(! anim);
+        this->setChecked(this->spinWidgets[0], ! anim);
         
       }
       break;
       
     case SPIN_AXES_CHECK:
       {
-        BOOL visible = this->spinViewer->isFeedbackVisible( );
-        this->spinViewer->setFeedbackVisibility( ! visible );
-        this->setChecked( this->spinWidgets[1], ! visible );
+        BOOL visible = this->spinViewer->isFeedbackVisible();
+        this->spinViewer->setFeedbackVisibility(! visible);
+        this->setChecked(this->spinWidgets[1], ! visible);
 
-        setEnabled( this->spinWidgets[2], ! visible );
-        setEnabled( this->spinWidgets[3], ! visible );
-        this->axesSizeWheel->setEnabled( ! visible );
+        setEnabled(this->spinWidgets[2], ! visible);
+        setEnabled(this->spinWidgets[3], ! visible);
+        this->axesSizeWheel->setEnabled(! visible);
       }
       break;
       
     case SPIN_AXES_EDIT:
-      if ( nc == EN_CHANGE ) {
-        float value =  this->getEditValue( ctrl );
-        if ( value <= 1. ) {
+      if (nc == EN_CHANGE) {
+        float value =  this->getEditValue(ctrl);
+        if (value <= 1.) {
           value = 1.;
-          this->setEditValue( ctrl, value );
+          this->setEditValue(ctrl, value);
         }
-        this->spinViewer->setFeedbackSize( value );
-        this->axesSizeWheel->setValue( AXES_SIZE_TO_WHEEL( value ) );
+        this->spinViewer->setFeedbackSize(value);
+        this->axesSizeWheel->setValue(AXES_SIZE_TO_WHEEL(value));
       }
       break;
       
@@ -895,53 +895,53 @@ LRESULT SoWinViewerPrefSheet::onCommand( HWND window, UINT message, WPARAM wpara
   return 0;
 }
 
-LRESULT SoWinViewerPrefSheet::onScroll( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT SoWinViewerPrefSheet::onScroll(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  int scrollCode = ( int ) LOWORD( wparam );
-  short pos = ( short ) HIWORD( wparam ); 
-  HWND scrollBar = ( HWND ) lparam;
+  int scrollCode = (int) LOWORD(wparam);
+  short pos = (short) HIWORD(wparam); 
+  HWND scrollBar = (HWND) lparam;
 
-  switch ( scrollCode ) {
+  switch (scrollCode) {
     case SB_PAGELEFT:
     case SB_LINELEFT:
-      pos = ( short ) this->getSliderValue( scrollBar );
-      this->setEditValue( this->zoomWidgets[2], ( float ) pos - 1 );
+      pos = (short) this->getSliderValue(scrollBar);
+      this->setEditValue(this->zoomWidgets[2], (float) pos - 1);
       return 0;
 
     case SB_PAGERIGHT:
     case SB_LINERIGHT:
-      pos = ( short ) this->getSliderValue( scrollBar );
-      this->setEditValue( this->zoomWidgets[2], ( float ) pos + 1 );
+      pos = (short) this->getSliderValue(scrollBar);
+      this->setEditValue(this->zoomWidgets[2], (float) pos + 1);
       return 0;
 
     case SB_THUMBPOSITION:
     case SB_THUMBTRACK:
-      this->setEditValue( this->zoomWidgets[2], ( float ) pos );
+      this->setEditValue(this->zoomWidgets[2], (float) pos);
       return 0;
   }
   
   return 0;
 }
 
-LRESULT SoWinViewerPrefSheet::onThumbWheel( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+LRESULT SoWinViewerPrefSheet::onThumbWheel(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
   
-  switch( wparam ) {
+  switch(wparam) {
 
     case SEEK_DIST_WHEEL:
-      this->setEditValue( this->seekWidgets[7], * ( float * ) lparam );
+      this->setEditValue(this->seekWidgets[7], * (float *) lparam);
       break;
       
     case CLIPPING_NEAR_WHEEL:
-      this->setEditValue( this->clippingWidgets[2], * ( float * ) lparam );
+      this->setEditValue(this->clippingWidgets[2], * (float *) lparam);
       break;
 
     case CLIPPING_FAR_WHEEL:
-      this->setEditValue( this->clippingWidgets[4], * ( float * ) lparam );
+      this->setEditValue(this->clippingWidgets[4], * (float *) lparam);
       break;
 
     case SPIN_AXES_WHEEL:
-      this->setEditValue( this->spinWidgets[3], AXES_SIZE_FROM_WHEEL( * ( float * ) lparam ) );
+      this->setEditValue(this->spinWidgets[3], AXES_SIZE_FROM_WHEEL(* (float *) lparam));
       break;
       
   }

@@ -35,20 +35,20 @@ public:
     ALL_EVENTS = KEY_PRESS | KEY_RELEASE
   };
 
-  SoWinKeyboard( UINT mask = ALL_EVENTS );
-  ~SoWinKeyboard( void );
+  SoWinKeyboard(UINT mask = ALL_EVENTS);
+  ~SoWinKeyboard(void);
     
-  virtual void enable( HWND widget, SoWinEventHandler * callbackproc, void * data, HWND window = NULL );
-  virtual void disable( HWND widget, SoWinEventHandler * callbackproc, void * data );
+  virtual void enable(HWND widget, SoWinEventHandler * callbackproc, void * data, HWND window = NULL);
+  virtual void disable(HWND widget, SoWinEventHandler * callbackproc, void * data);
     
-  virtual const SoEvent * translateEvent( MSG * msg );
+  virtual const SoEvent * translateEvent(MSG * msg);
   
 private:
-  static void makeTranslationTable( void );
+  static void makeTranslationTable(void);
     
   UINT events;
   static SoKeyboardEvent * keyboardEvent; // keyboard press or release
-  SoKeyboardEvent * makeKeyboardEvent( MSG * msg, SoButtonEvent::State s );
+  SoKeyboardEvent * makeKeyboardEvent(MSG * msg, SoButtonEvent::State s);
 
   // Mapping from WIN32 virtual keys to SoKeyboardEvent::Key enum
   static SbDict * translatetable;

@@ -29,81 +29,81 @@
 class SoWinComponent;
 class SoWinComponentP;
 
-typedef void SoWinComponentCB( void * user, SoWinComponent * component );
-typedef void SoWinComponentVisibilityCB( void * user, SbBool visible );
+typedef void SoWinComponentCB(void * user, SoWinComponent * component);
+typedef void SoWinComponentVisibilityCB(void * user, SbBool visible);
 
 // *************************************************************************
 
 class SOWIN_DLL_API SoWinComponent : SoWinObject {
 
-  SOWIN_OBJECT_ABSTRACT_HEADER( SoWinComponent, SoWinObject );
+  SOWIN_OBJECT_ABSTRACT_HEADER(SoWinComponent, SoWinObject);
   friend class SoWinComponentP;
   
 public:
   
-  virtual ~SoWinComponent( void );
+  virtual ~SoWinComponent(void);
 
-  virtual void show( void );
-  virtual void hide( void );
+  virtual void show(void);
+  virtual void hide(void);
   
-  SbBool isFullScreen( void ) const;
-  SbBool setFullScreen( const SbBool enable );
+  SbBool isFullScreen(void) const;
+  SbBool setFullScreen(const SbBool enable);
 
-  SbBool isVisible( void );
-  HWND getWidget( void ) const;
-  HWND baseWidget( void ) const;
-  HWND getBaseWidget( void ) const;
-  SbBool isTopLevelShell( void ) const;
-  HWND getShellWidget( void ) const;
-  HWND getParentWidget( void ) const;
+  SbBool isVisible(void);
+  HWND getWidget(void) const;
+  HWND baseWidget(void) const;
+  HWND getBaseWidget(void) const;
+  SbBool isTopLevelShell(void) const;
+  HWND getShellWidget(void) const;
+  HWND getParentWidget(void) const;
 
-  void setSize( const SbVec2s size );
-  SbVec2s getSize( void );
+  void setSize(const SbVec2s size);
+  SbVec2s getSize(void);
 
-  void setTitle( const char * const title );
-  const char * getTitle( void ) const;
+  void setTitle(const char * const title);
+  const char * getTitle(void) const;
   
-  void setIconTitle( const char * const title ) { this->setTitle( title ); };
-  const char * getIconTitle( void ) const { return this->getTitle( ); };
+  void setIconTitle(const char * const title) { this->setTitle(title); };
+  const char * getIconTitle(void) const { return this->getTitle(); };
 
-  void setWindowCloseCallback( SoWinComponentCB * func, void * data = NULL );
+  void setWindowCloseCallback(SoWinComponentCB * func, void * data = NULL);
 
-  static SoWinComponent * getComponent( HWND widget );
+  static SoWinComponent * getComponent(HWND widget);
 
-  const char * getWidgetName( void ) const;
-  const char * getClassName( void ) const;
+  const char * getWidgetName(void) const;
+  const char * getClassName(void) const;
   
-  static void initClasses( void );
+  static void initClasses(void);
   
-  HWND setFocusProxy( HWND widget );
-  HWND getFocusProxy( void );
+  HWND setFocusProxy(HWND widget);
+  HWND getFocusProxy(void);
   
 protected:
 
-  SoWinComponent( const HWND parent = NULL,
+  SoWinComponent(const HWND parent = NULL,
                   const char * const name = NULL,
-                  const SbBool embed = TRUE );
+                  const SbBool embed = TRUE);
 
-  void setBaseWidget( HWND widget );
-  void setClassName( const char * const name );
+  void setBaseWidget(HWND widget);
+  void setClassName(const char * const name);
 
-  HWND buildFormWidget( HWND parent );
+  HWND buildFormWidget(HWND parent);
 
-  virtual void sizeChanged( const SbVec2s newSize );
-  virtual const char * getDefaultWidgetName( void ) const;
-  virtual const char * getDefaultTitle( void ) const;
-  virtual const char * getDefaultIconTitle( void ) const { return this->getDefaultTitle( ); };
+  virtual void sizeChanged(const SbVec2s newSize);
+  virtual const char * getDefaultWidgetName(void) const;
+  virtual const char * getDefaultTitle(void) const;
+  virtual const char * getDefaultIconTitle(void) const { return this->getDefaultTitle(); };
 
-  virtual void windowCloseAction( void );
-  virtual void afterRealizeHook( void );
+  virtual void windowCloseAction(void);
+  virtual void afterRealizeHook(void);
 
-  void addVisibilityChangeCallback( SoWinComponentVisibilityCB * func, void * user = NULL );
-  void removeVisibilityChangeCallback( SoWinComponentVisibilityCB * func, void * user = NULL );
+  void addVisibilityChangeCallback(SoWinComponentVisibilityCB * func, void * user = NULL);
+  void removeVisibilityChangeCallback(SoWinComponentVisibilityCB * func, void * user = NULL);
 
-  void openHelpCard( const char * name );
+  void openHelpCard(const char * name);
 
-  void setResize( SbBool set );
-  SbBool getResize( void );
+  void setResize(SbBool set);
+  SbBool getResize(void);
 
   SbBool realized;
   

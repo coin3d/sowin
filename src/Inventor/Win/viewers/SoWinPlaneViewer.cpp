@@ -55,15 +55,15 @@ class SoWinPlaneViewerP {
 public:
   
   // Constructor.
-  SoWinPlaneViewerP( SoWinPlaneViewer * o ) {
+  SoWinPlaneViewerP(SoWinPlaneViewer * o) {
     this->owner = o;
   }
 
   // Destructor.
-  ~SoWinPlaneViewerP( ) {
+  ~SoWinPlaneViewerP() {
   }
 
-  void constructor( SbBool build );
+  void constructor(SbBool build);
 
   enum PlaneViewerMode {
     IDLE_MODE,
@@ -75,19 +75,19 @@ public:
     SEEK_MODE
   } mode;
 
-  void setModeFromState( unsigned int state );
-  void setMode( PlaneViewerMode mode );
+  void setModeFromState(unsigned int state);
+  void setMode(PlaneViewerMode mode);
 
   SbVec2f prevMousePosition;
 
   SbPlaneProjector * projector;
 
-  static void visibilityCB( void * data, SbBool visible );
+  static void visibilityCB(void * data, SbBool visible);
 
-  void xClicked( void );
-  void yClicked( void );
-  void zClicked( void );
-  void cameratoggleClicked( void );
+  void xClicked(void);
+  void yClicked(void);
+  void zClicked(void);
+  void cameratoggleClicked(void);
   
 private:
   
@@ -95,18 +95,18 @@ private:
   
 };
 
-#define PRIVATE( o ) ( o->pimpl )
+#define PRIVATE(o) (o->pimpl)
 
 // ************************************************************************
 
-SOWIN_OBJECT_SOURCE( SoWinPlaneViewer );
+SOWIN_OBJECT_SOURCE(SoWinPlaneViewer);
 
 // ************************************************************************
 
-#define VIEWERBUTTON_X ( VIEWERBUTTON_SEEK + 1 )
-#define VIEWERBUTTON_Y ( VIEWERBUTTON_SEEK + 2 )
-#define VIEWERBUTTON_Z ( VIEWERBUTTON_SEEK + 3 )
-#define VIEWERBUTTON_CAMERA ( VIEWERBUTTON_SEEK + 4 )
+#define VIEWERBUTTON_X (VIEWERBUTTON_SEEK + 1)
+#define VIEWERBUTTON_Y (VIEWERBUTTON_SEEK + 2)
+#define VIEWERBUTTON_Z (VIEWERBUTTON_SEEK + 3)
+#define VIEWERBUTTON_CAMERA (VIEWERBUTTON_SEEK + 4)
 
 /*!
   The public constructor.
@@ -117,12 +117,12 @@ SoWinPlaneViewer::SoWinPlaneViewer(
   const char * const name, 
   SbBool embed,
   SoWinFullViewer::BuildFlag flag, 
-  SoWinViewer::Type type )
-: inherited( parent, name, embed, flag, type, FALSE )
+  SoWinViewer::Type type)
+: inherited(parent, name, embed, flag, type, FALSE)
 {
-  this->common = new SoAnyPlaneViewer( this );
-  PRIVATE( this ) = new SoWinPlaneViewerP( this );
-  PRIVATE( this )->constructor( TRUE );
+  this->common = new SoAnyPlaneViewer(this);
+  PRIVATE(this) = new SoWinPlaneViewerP(this);
+  PRIVATE(this)->constructor(TRUE);
 } // SoWinPlaneViewer()
 
 // ************************************************************************
@@ -137,12 +137,12 @@ SoWinPlaneViewer::SoWinPlaneViewer(
   SbBool embed, 
   SoWinFullViewer::BuildFlag flag, 
   SoWinViewer::Type type, 
-  SbBool build )
-  : inherited( parent, name, embed, flag, type, FALSE )
+  SbBool build)
+  : inherited(parent, name, embed, flag, type, FALSE)
 {
-  this->common = new SoAnyPlaneViewer( this );
-  PRIVATE( this ) = new SoWinPlaneViewerP( this );
-  PRIVATE( this )->constructor( build );
+  this->common = new SoAnyPlaneViewer(this);
+  PRIVATE(this) = new SoWinPlaneViewerP(this);
+  PRIVATE(this)->constructor(build);
 } // SoWinPlaneViewer()
 
 // ************************************************************************
@@ -155,29 +155,29 @@ SoWinPlaneViewer::SoWinPlaneViewer(
 */
 
 void
-SoWinPlaneViewerP::constructor( // private
-  SbBool build )
+SoWinPlaneViewerP::constructor(// private
+  SbBool build)
 {
   this->mode = IDLE_MODE;
 
   this->projector = new SbPlaneProjector;
   SbViewVolume vv;
-  vv.ortho( -1, 1, -1, 1, -1, 1 );
-  this->projector->setViewVolume( vv );
+  vv.ortho(-1, 1, -1, 1, -1, 1);
+  this->projector->setViewVolume(vv);
 
-  this->owner->addVisibilityChangeCallback( SoWinPlaneViewerP::visibilityCB, this->owner );
+  this->owner->addVisibilityChangeCallback(SoWinPlaneViewerP::visibilityCB, this->owner);
 
-  this->owner->setClassName( "SoWinPlaneViewer" );
+  this->owner->setClassName("SoWinPlaneViewer");
   
-  if ( ! build ) return;
+  if (! build) return;
 
-  HWND viewer = this->owner->buildWidget( this->owner->getParentWidget( ) );
-  this->owner->setBaseWidget( viewer );
+  HWND viewer = this->owner->buildWidget(this->owner->getParentWidget());
+  this->owner->setBaseWidget(viewer);
   
-  this->owner->setLeftWheelString( "TransY" );
-  this->owner->setBottomWheelString( "TransX" );  
+  this->owner->setLeftWheelString("TransY");
+  this->owner->setBottomWheelString("TransX");  
 
-  this->owner->setSize( SbVec2s( 555, 515 ) );
+  this->owner->setSize(SbVec2s(555, 515));
 } // constructor()
 
 // ************************************************************************
@@ -187,9 +187,9 @@ SoWinPlaneViewerP::constructor( // private
 */
 
 SoWinPlaneViewer::~SoWinPlaneViewer(
-  void )
+  void)
 {
-  delete PRIVATE( this )->projector;
+  delete PRIVATE(this)->projector;
   delete this->pimpl;
   delete this->common;
 } // ~SoWinPlaneViewer()
@@ -201,10 +201,10 @@ SoWinPlaneViewer::~SoWinPlaneViewer(
 */
 
 void
-SoWinPlaneViewer::setViewing( // virtual
-  SbBool enable )
+SoWinPlaneViewer::setViewing(// virtual
+  SbBool enable)
 {
-  inherited::setViewing( enable );
+  inherited::setViewing(enable);
 } // setViewing()
 
 // ************************************************************************
@@ -214,21 +214,21 @@ SoWinPlaneViewer::setViewing( // virtual
 */
 
 void
-SoWinPlaneViewer::setCamera( // virtual
-  SoCamera * camera )
+SoWinPlaneViewer::setCamera(// virtual
+  SoCamera * camera)
 {
-  if ( camera ) {
+  if (camera) {
     SoType type = camera->getTypeId();
     SbBool orthogonal =
-      type.isDerivedFrom( SoOrthographicCamera::getClassTypeId( ) );
-    this->setRightWheelString( orthogonal ? "Zoom" : "Dolly" );
+      type.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
+    this->setRightWheelString(orthogonal ? "Zoom" : "Dolly");
     
-    if ( this->isDoButtonBar( ) ) // may not be there if !doButtonBar
-      ( ( SoWinBitmapButton * ) ( * this->viewerButtonList ) [VIEWERBUTTON_CAMERA] )->setBitmap(
-        orthogonal ? 1 : 0 );
+    if (this->isDoButtonBar()) // may not be there if !doButtonBar
+      ((SoWinBitmapButton *) (* this->viewerButtonList) [VIEWERBUTTON_CAMERA])->setBitmap(
+        orthogonal ? 1 : 0);
   
   }
-  inherited::setCamera( camera );
+  inherited::setCamera(camera);
 } // setCamera()
 
 // ************************************************************************
@@ -237,10 +237,10 @@ SoWinPlaneViewer::setCamera( // virtual
   FIXME: write doc
 */
 void
-SoWinPlaneViewer::setCursorEnabled( // virtual
-  SbBool enable )
+SoWinPlaneViewer::setCursorEnabled(// virtual
+  SbBool enable)
 {
-  inherited::setCursorEnabled( enable );
+  inherited::setCursorEnabled(enable);
 } // setCursorEnabled()
 
 // ************************************************************************
@@ -251,11 +251,11 @@ SoWinPlaneViewer::setCursorEnabled( // virtual
 
 HWND
 SoWinPlaneViewer::buildWidget(
-  HWND parent )
+  HWND parent)
 {
-  HWND widget = inherited::buildWidget( parent );
-  ( ( SoWinThumbWheel * )this->leftWheel )->setRangeBoundaryHandling( SoWinThumbWheel::ACCUMULATE );
-  ( ( SoWinThumbWheel * )this->bottomWheel )->setRangeBoundaryHandling( SoWinThumbWheel::ACCUMULATE );
+  HWND widget = inherited::buildWidget(parent);
+  ((SoWinThumbWheel *)this->leftWheel)->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
+  ((SoWinThumbWheel *)this->bottomWheel)->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
   return widget;
 } // buildWidget()
 
@@ -266,8 +266,8 @@ SoWinPlaneViewer::buildWidget(
 */
 
 const char *
-SoWinPlaneViewer::getDefaultWidgetName( // virtual
-  void ) const
+SoWinPlaneViewer::getDefaultWidgetName(// virtual
+  void) const
 {
   static const char defaultWidgetName[] = "SoWinPlaneViewer";
   return defaultWidgetName;
@@ -280,8 +280,8 @@ SoWinPlaneViewer::getDefaultWidgetName( // virtual
 */
 
 const char *
-SoWinPlaneViewer::getDefaultTitle( // virtual
-  void ) const
+SoWinPlaneViewer::getDefaultTitle(// virtual
+  void) const
 {
   static const char defaultTitle[] = "Plane Viewer";
   return defaultTitle;
@@ -294,8 +294,8 @@ SoWinPlaneViewer::getDefaultTitle( // virtual
 */
 
 const char *
-SoWinPlaneViewer::getDefaultIconTitle( // virtual
-  void ) const
+SoWinPlaneViewer::getDefaultIconTitle(// virtual
+  void) const
 {
   static const char defaultIconTitle[] = "Plane Viewer";
   return defaultIconTitle;
@@ -308,52 +308,52 @@ SoWinPlaneViewer::getDefaultIconTitle( // virtual
 */
 
 SbBool
-SoWinPlaneViewer::processSoEvent( // virtual, protected
-  const SoEvent * const event )
+SoWinPlaneViewer::processSoEvent(// virtual, protected
+  const SoEvent * const event)
 {
-  if ( common->processSoEvent( event ) )
+  if (common->processSoEvent(event))
     return TRUE;
 
-  return inherited::processSoEvent( event );
+  return inherited::processSoEvent(event);
 } // processSoEvent()
 
 /*!
   This method overloaded from parent class to handle button messages
-  from viewer specific buttons ( x, y, z and camera toggle ).
+  from viewer specific buttons (x, y, z and camera toggle).
 */
 
 LRESULT
-SoWinPlaneViewer::onCommand( // virtual
+SoWinPlaneViewer::onCommand(// virtual
   HWND window,
   UINT message,
   WPARAM wparam,
-  LPARAM lparam )
+  LPARAM lparam)
 {
  int i;
- short nc = HIWORD( wparam );// notification code
- short id = LOWORD( wparam );// item, control, or accelerator identifier
- HWND hwnd = ( HWND ) lparam;// control handle
+ short nc = HIWORD(wparam);// notification code
+ short id = LOWORD(wparam);// item, control, or accelerator identifier
+ HWND hwnd = (HWND) lparam;// control handle
 
- switch ( id ) {
+ switch (id) {
 
     case VIEWERBUTTON_CAMERA:
-      PRIVATE( this )->cameratoggleClicked( );
+      PRIVATE(this)->cameratoggleClicked();
       return 0;
 
     case VIEWERBUTTON_X:
-      PRIVATE( this )->xClicked( );
+      PRIVATE(this)->xClicked();
       return 0;
 
     case VIEWERBUTTON_Y:
-      PRIVATE( this )->yClicked( );
+      PRIVATE(this)->yClicked();
       return 0;
 
     case VIEWERBUTTON_Z:
-      PRIVATE( this )->zClicked( );
+      PRIVATE(this)->zClicked();
       return 0;
 
     default:
-      return inherited::onCommand( window, message, wparam, lparam );
+      return inherited::onCommand(window, message, wparam, lparam);
   }
 
   return 0;
@@ -366,10 +366,10 @@ SoWinPlaneViewer::onCommand( // virtual
 */
 
 void
-SoWinPlaneViewer::setSeekMode( // virtual
-  SbBool enable )
+SoWinPlaneViewer::setSeekMode(// virtual
+  SbBool enable)
 {
-  inherited::setSeekMode( enable );
+  inherited::setSeekMode(enable);
 } // setSeekMode()
 
 // ************************************************************************
@@ -379,12 +379,12 @@ SoWinPlaneViewer::setSeekMode( // virtual
 */
 
 void
-SoWinPlaneViewer::actualRedraw( // virtual
-  void )
+SoWinPlaneViewer::actualRedraw(// virtual
+  void)
 {
-  inherited::actualRedraw( );
-//  common->drawRotateGraphics( );
-} // actualRedraw( )
+  inherited::actualRedraw();
+//  common->drawRotateGraphics();
+} // actualRedraw()
 
 // ************************************************************************
 
@@ -393,11 +393,11 @@ SoWinPlaneViewer::actualRedraw( // virtual
 */
 
 void
-SoWinPlaneViewer::leftWheelMotion( // virtual
-  float value )
+SoWinPlaneViewer::leftWheelMotion(// virtual
+  float value)
 {
-  common->translateY( value - this->getLeftWheelValue( ) );
-  inherited::leftWheelMotion( value );
+  common->translateY(value - this->getLeftWheelValue());
+  inherited::leftWheelMotion(value);
 } // leftWheelMotion()
 
 /*!
@@ -405,11 +405,11 @@ SoWinPlaneViewer::leftWheelMotion( // virtual
 */
 
 void
-SoWinPlaneViewer::bottomWheelMotion( // virtual
-  float value )
+SoWinPlaneViewer::bottomWheelMotion(// virtual
+  float value)
 {
-  common->translateX( value - this->getBottomWheelValue( ) );
-  inherited::bottomWheelMotion( value );
+  common->translateX(value - this->getBottomWheelValue());
+  inherited::bottomWheelMotion(value);
 } // bottomWheelMotion()
 
 /*!
@@ -417,11 +417,11 @@ SoWinPlaneViewer::bottomWheelMotion( // virtual
 */
 
 void
-SoWinPlaneViewer::rightWheelMotion( // virtual
-  float value )
+SoWinPlaneViewer::rightWheelMotion(// virtual
+  float value)
 {
-  common->zoom( this->getRightWheelValue( ) - value );
-  inherited::rightWheelMotion( value );
+  common->zoom(this->getRightWheelValue() - value);
+  inherited::rightWheelMotion(value);
 } // rightWheelMotion()
 
 // ************************************************************************
@@ -431,10 +431,10 @@ SoWinPlaneViewer::rightWheelMotion( // virtual
 */
 
 void
-SoWinPlaneViewer::createPrefSheet( // virtual
-  void )
+SoWinPlaneViewer::createPrefSheet(// virtual
+  void)
 {
-  inherited::createPrefSheet( );
+  inherited::createPrefSheet();
 } // createPrefSheet()
 
 // ************************************************************************
@@ -444,38 +444,38 @@ SoWinPlaneViewer::createPrefSheet( // virtual
 */
 
 void
-SoWinPlaneViewer::buildViewerButtonsEx( // virtual
+SoWinPlaneViewer::buildViewerButtonsEx(// virtual
   HWND parent,
   int x,
   int y,
-  int size )
+  int size)
 {
  SoWinBitmapButton * button;
 
- button = new SoWinBitmapButton( parent, x, y, size, size, 24, "x", NULL );
- button->addBitmap( x_xpm );
- button->setBitmap( 0 );
- button->setId( VIEWERBUTTON_X );
- this->viewerButtonList->append( button );
+ button = new SoWinBitmapButton(parent, x, y, size, size, 24, "x", NULL);
+ button->addBitmap(x_xpm);
+ button->setBitmap(0);
+ button->setId(VIEWERBUTTON_X);
+ this->viewerButtonList->append(button);
   
- button = new SoWinBitmapButton( parent, x, y, size, size, 24, "y", NULL );
- button->addBitmap( y_xpm );
- button->setBitmap( 0 );
- button->setId( VIEWERBUTTON_Y );
- this->viewerButtonList->append( button );
+ button = new SoWinBitmapButton(parent, x, y, size, size, 24, "y", NULL);
+ button->addBitmap(y_xpm);
+ button->setBitmap(0);
+ button->setId(VIEWERBUTTON_Y);
+ this->viewerButtonList->append(button);
 
-  button = new SoWinBitmapButton( parent, x, y, size, size, 24, "z", NULL );
- button->addBitmap( z_xpm );
- button->setBitmap( 0 );
- button->setId( VIEWERBUTTON_Z );
- this->viewerButtonList->append( button );
+  button = new SoWinBitmapButton(parent, x, y, size, size, 24, "z", NULL);
+ button->addBitmap(z_xpm);
+ button->setBitmap(0);
+ button->setId(VIEWERBUTTON_Z);
+ this->viewerButtonList->append(button);
   
- button = new SoWinBitmapButton( parent, x, y, size, size, 24, "camera", NULL );
- button->addBitmap( perspective_xpm );
- button->addBitmap( ortho_xpm );
- button->setBitmap( 0 );
- button->setId( VIEWERBUTTON_CAMERA );
- this->viewerButtonList->append( button );
+ button = new SoWinBitmapButton(parent, x, y, size, size, 24, "camera", NULL);
+ button->addBitmap(perspective_xpm);
+ button->addBitmap(ortho_xpm);
+ button->setBitmap(0);
+ button->setId(VIEWERBUTTON_CAMERA);
+ this->viewerButtonList->append(button);
     
 }
 
@@ -486,11 +486,11 @@ SoWinPlaneViewer::buildViewerButtonsEx( // virtual
 */
 
 void
-SoWinPlaneViewer::openViewerHelpCard( // virtual
-  void )
+SoWinPlaneViewer::openViewerHelpCard(// virtual
+  void)
 {
-  this->openHelpCard( "SoWinPlaneViewer.help" );
-} // openViewerHelpCard( )
+  this->openHelpCard("SoWinPlaneViewer.help");
+} // openViewerHelpCard()
 
 // ************************************************************************
 
@@ -499,10 +499,10 @@ SoWinPlaneViewer::openViewerHelpCard( // virtual
 */
 
 void
-SoWinPlaneViewer::computeSeekFinalOrientation( // virtual
-  void )
+SoWinPlaneViewer::computeSeekFinalOrientation(// virtual
+  void)
 {
-} // computeSeekFinalOrientation( )
+} // computeSeekFinalOrientation()
 
 // ************************************************************************
 
@@ -512,7 +512,7 @@ SoWinPlaneViewer::computeSeekFinalOrientation( // virtual
 
 void
 SoWinPlaneViewerP::xClicked(
-  void )
+  void)
 {
   owner->common->viewPlaneX();
 } // xClicked()
@@ -523,7 +523,7 @@ SoWinPlaneViewerP::xClicked(
 
 void
 SoWinPlaneViewerP::yClicked(
-  void )
+  void)
 {
   owner->common->viewPlaneY();
 } // yClicked()
@@ -534,10 +534,10 @@ SoWinPlaneViewerP::yClicked(
 
 void
 SoWinPlaneViewerP::zClicked(
-  void )
+  void)
 {
   owner->common->viewPlaneZ();
-} // zClicked( )
+} // zClicked()
 
 /*!
   \internal
@@ -545,10 +545,10 @@ SoWinPlaneViewerP::zClicked(
 
 void
 SoWinPlaneViewerP::cameratoggleClicked(
-  void )
+  void)
 {
-  this->owner->toggleCameraType( );
-} // cameraToggleClicked( )
+  this->owner->toggleCameraType();
+} // cameraToggleClicked()
 
 // ************************************************************************
 
@@ -557,22 +557,22 @@ SoWinPlaneViewerP::cameratoggleClicked(
 */
 
 void
-SoWinPlaneViewerP::visibilityCB( // static
+SoWinPlaneViewerP::visibilityCB(// static
   void * data,
-  SbBool visible )
+  SbBool visible)
 {
-  SoWinPlaneViewer * thisp = ( SoWinPlaneViewer * ) data;
+  SoWinPlaneViewer * thisp = (SoWinPlaneViewer *) data;
 
 /*
   examiner viewer does this, we don't have to...
-  if ( thisp->isAnimating( ) ) {
-    if ( visible )
-      thisp->timerTrigger->schedule( );
+  if (thisp->isAnimating()) {
+    if (visible)
+      thisp->timerTrigger->schedule();
     else
-      thisp->timerTrigger->unschedule( );
+      thisp->timerTrigger->unschedule();
   }
 */
-} // visibilityCB( )
+} // visibilityCB()
 
 // ************************************************************************
 
@@ -581,16 +581,16 @@ SoWinPlaneViewerP::visibilityCB( // static
 */
 
 void
-SoWinPlaneViewerP::setModeFromState( // private
-  unsigned int state )
+SoWinPlaneViewerP::setModeFromState(// private
+  unsigned int state)
 {
 
   PlaneViewerMode mode = IDLE_MODE;
 
   const unsigned int maskedstate =
-    state & ( MK_LBUTTON | MK_MBUTTON | MK_CONTROL );
+    state & (MK_LBUTTON | MK_MBUTTON | MK_CONTROL);
 
-  switch ( maskedstate ) {
+  switch (maskedstate) {
   case 0:
     mode = IDLE_MODE;
     break;
@@ -600,7 +600,7 @@ SoWinPlaneViewerP::setModeFromState( // private
     break;
 
   case MK_MBUTTON://MidButton:
-  case ( MK_LBUTTON | MK_CONTROL ):
+  case (MK_LBUTTON | MK_CONTROL):
     mode = DOLLY_MODE;
     break;
 
@@ -608,19 +608,19 @@ SoWinPlaneViewerP::setModeFromState( // private
     mode = ROTZ_WAIT_MODE;
     break;
 
-  case ( MK_MBUTTON | MK_CONTROL ):
-  case ( MK_LBUTTON | MK_MBUTTON | MK_CONTROL ):
+  case (MK_MBUTTON | MK_CONTROL):
+  case (MK_LBUTTON | MK_MBUTTON | MK_CONTROL):
     mode = ROTZ_MODE;
     break;
 
   default:
-    SoDebugError::postWarning( "SoWinPlaneViewer::setModeFromState",
-      "state not handled: %d", maskedstate );
+    SoDebugError::postWarning("SoWinPlaneViewer::setModeFromState",
+      "state not handled: %d", maskedstate);
     break;
 
-  } // switch ( maskedstate )
+  } // switch (maskedstate)
 
-  this->setMode( mode );
+  this->setMode(mode);
 } // setModeFromState()
 
 /*!
@@ -628,26 +628,26 @@ SoWinPlaneViewerP::setModeFromState( // private
 
 void
 SoWinPlaneViewerP::setMode(
-  PlaneViewerMode mode )
+  PlaneViewerMode mode)
 {
   // FIXME: set cursor...
 
-  switch ( mode ) {
+  switch (mode) {
   case IDLE_MODE:
-    while ( this->owner->getInteractiveCount( ) )
-      this->owner->interactiveCountDec( );
+    while (this->owner->getInteractiveCount())
+      this->owner->interactiveCountDec();
     break;
 
   case TRANSLATE_MODE:
   case DOLLY_MODE:
   case ROTZ_MODE:
-    while ( this->owner->getInteractiveCount( ) )
-      this->owner->interactiveCountDec( );
+    while (this->owner->getInteractiveCount())
+      this->owner->interactiveCountDec();
     break;
 
   default:
     break;
-  } // switch ( mode )
+  } // switch (mode)
 
   this->mode = mode;
 } // setMode()
@@ -655,5 +655,5 @@ SoWinPlaneViewerP::setMode(
 // ************************************************************************
 
 #if SOWIN_DEBUG
-//static const char * getSoWinPlaneViewerRCSId( void ) { return rcsid; }
+//static const char * getSoWinPlaneViewerRCSId(void) { return rcsid; }
 #endif

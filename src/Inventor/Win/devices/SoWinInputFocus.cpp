@@ -38,7 +38,7 @@ SOWIN_OBJECT_SOURCE(SoWinInputFocus);
   Constructor.
 */
 
-SoWinInputFocus::SoWinInputFocus( UINT mask )
+SoWinInputFocus::SoWinInputFocus(UINT mask)
 {
   this->mask = mask;
 } // SoWinInputFocus()
@@ -47,7 +47,7 @@ SoWinInputFocus::SoWinInputFocus( UINT mask )
   Destructor.
 */
 
-SoWinInputFocus::~SoWinInputFocus( void )
+SoWinInputFocus::~SoWinInputFocus(void)
 {
 } // ~SoWinInputFocus()
 
@@ -58,10 +58,10 @@ SoWinInputFocus::~SoWinInputFocus( void )
 */
 
 void
-SoWinInputFocus::enable( HWND, // widget,
+SoWinInputFocus::enable(HWND, // widget,
                          SoWinEventHandler *, // handler,
                          void * , // closure
-                         HWND ) // window
+                         HWND) // window
 {
   SOWIN_STUB();
 } // enable()
@@ -71,9 +71,9 @@ SoWinInputFocus::enable( HWND, // widget,
 */
 
 void
-SoWinInputFocus::disable( HWND, // widget,
+SoWinInputFocus::disable(HWND, // widget,
                           SoWinEventHandler *, // handler,
-                          void * ) // closure )
+                          void *) // closure)
 {
   SOWIN_STUB();
 } // disable()
@@ -85,11 +85,11 @@ SoWinInputFocus::disable( HWND, // widget,
 */
 
 const SoEvent *
-SoWinInputFocus::translateEvent( MSG * ) // event )
+SoWinInputFocus::translateEvent(MSG *) // event)
 {
   /*
-  long msec =  GetTickCount( );
-  if ( soevent ) soevent->setTime( SbTime( ( msec / 1000 ), ( msec % 1000 ) * 1000 ) ) );
+  long msec =  GetTickCount();
+  if (soevent) soevent->setTime(SbTime((msec / 1000), (msec % 1000) * 1000)));
   */
   SOWIN_STUB();
   return NULL;

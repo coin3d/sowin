@@ -60,7 +60,7 @@ struct ItemRecord {
 
 // *************************************************************************
 
-SoWinPopupMenu::SoWinPopupMenu( void )
+SoWinPopupMenu::SoWinPopupMenu(void)
 {
   this->menus = new SbPList;
   this->items = new SbPList;
@@ -69,23 +69,23 @@ SoWinPopupMenu::SoWinPopupMenu( void )
   this->selectedItem = -1;
 } // SoWinPopupMenu()
 
-SoWinPopupMenu::~SoWinPopupMenu( void )
+SoWinPopupMenu::~SoWinPopupMenu(void)
 {
   const int numMenus = this->menus->getLength();
   HMENU popup = NULL;
   int i;
-  for ( i = 0; i < numMenus; i++ ) {
-    MenuRecord * rec = ( MenuRecord * ) ( * this->menus )[i];
-    if ( rec->menuid == 0 ) popup = rec->menu;
+  for (i = 0; i < numMenus; i++) {
+    MenuRecord * rec = (MenuRecord *) (* this->menus)[i];
+    if (rec->menuid == 0) popup = rec->menu;
     delete [] rec->name;
     delete [] rec->title;
-    if ( rec->parent == NULL ) delete rec->menu; // menu not attached
+    if (rec->parent == NULL) delete rec->menu; // menu not attached
     delete rec;
   }
 
-  const int numItems = this->items->getLength( );
-  for ( i = 0; i < numItems; i++ ) {
-    ItemRecord * rec = ( ItemRecord * ) ( * this->items )[i];
+  const int numItems = this->items->getLength();
+  for (i = 0; i < numItems; i++) {
+    ItemRecord * rec = (ItemRecord *) (* this->items)[i];
     delete [] rec->name;
     delete [] rec->title;
     delete rec;
@@ -98,128 +98,128 @@ SoWinPopupMenu::~SoWinPopupMenu( void )
 // *************************************************************************
 
 int
-SoWinPopupMenu::newMenu( const char * name, int menuid )
+SoWinPopupMenu::newMenu(const char * name, int menuid)
 {
   int id = menuid;
-  if ( id == -1 ) {
+  if (id == -1) {
     id = 1;
-    while ( this->getMenuRecord( id ) != NULL ) id++;
+    while (this->getMenuRecord(id) != NULL) id++;
   } else {
-    assert( this->getMenuRecord( id ) == NULL &&
-            "requested menuid already taken" );
+    assert(this->getMenuRecord(id) == NULL &&
+            "requested menuid already taken");
   }
   // id contains ok ID
-  MenuRecord * rec = createMenuRecord( name );
+  MenuRecord * rec = createMenuRecord(name);
   rec->menuid = id;
-  this->menus->append( ( void * ) rec );
+  this->menus->append((void *) rec);
   return id;
 } // newMenu()
 
 int
-SoWinPopupMenu::getMenu( const char * name )
+SoWinPopupMenu::getMenu(const char * name)
 {
   const int numMenus = this->menus->getLength();
   int i;
-  for ( i = 0; i < numMenus; i++ ) {
-    if ( strcmp( ( ( MenuRecord * ) ( * this->menus )[i] )->name, name ) == 0 ) {
-      return ( ( MenuRecord * ) ( * this->menus )[i] )->menuid;
+  for (i = 0; i < numMenus; i++) {
+    if (strcmp(((MenuRecord *) (* this->menus)[i])->name, name) == 0) {
+      return ((MenuRecord *) (* this->menus)[i])->menuid;
     }
   }
   return -1;
 } // getMenu()
 
 void
-SoWinPopupMenu::setMenuTitle( int menuid, const char * title )
+SoWinPopupMenu::setMenuTitle(int menuid, const char * title)
 {
-  MenuRecord * rec = this->getMenuRecord( menuid );
-  assert( rec != NULL && "no such menu" );
+  MenuRecord * rec = this->getMenuRecord(menuid);
+  assert(rec != NULL && "no such menu");
   delete [] rec->title;
-  rec->title = strcpy( new char [strlen(title)+1], title );
+  rec->title = strcpy(new char [strlen(title)+1], title);
 
-  if ( rec->parent )
-    Win32::ModifyMenu( rec->parent, rec->menuid, MF_BYPOSITION | MF_STRING, rec->menuid, rec->title );
+  if (rec->parent)
+    Win32::ModifyMenu(rec->parent, rec->menuid, MF_BYPOSITION | MF_STRING, rec->menuid, rec->title);
 
 } // setMenuTitle()
 
 const char *
-SoWinPopupMenu::getMenuTitle( int menuid )
+SoWinPopupMenu::getMenuTitle(int menuid)
 {
-  MenuRecord * rec = this->getMenuRecord( menuid );
-  assert( rec != NULL && "no such menu" );
+  MenuRecord * rec = this->getMenuRecord(menuid);
+  assert(rec != NULL && "no such menu");
   return rec->title;
 } // getMenuTitle()
 
 // *************************************************************************
 
 int
-SoWinPopupMenu::newMenuItem( const char * name, int itemid )
+SoWinPopupMenu::newMenuItem(const char * name, int itemid)
 {
   int id = itemid;
-  if ( id == -1 ) {
+  if (id == -1) {
     id = 1;
-    while ( this->getItemRecord( itemid ) != NULL ) id++;
+    while (this->getItemRecord(itemid) != NULL) id++;
   } else {
-    if ( this->getItemRecord( itemid ) != NULL ) {
+    if (this->getItemRecord(itemid) != NULL) {
 #if SOWIN_DEBUG
-      SoDebugError::postInfo( "SoWinPopupMenu::newMenuItem",
-                              "requested itemid already taken" );
+      SoDebugError::postInfo("SoWinPopupMenu::newMenuItem",
+                              "requested itemid already taken");
 #endif // SOWIN_DEBUG
       return -1;
     }
   }
-  ItemRecord * rec = createItemRecord( name );
+  ItemRecord * rec = createItemRecord(name);
   rec->itemid = id;
-  this->items->append( rec );
+  this->items->append(rec);
   return id;
 } // newMenuItem()
 
 int
-SoWinPopupMenu::getMenuItem( const char * name )
+SoWinPopupMenu::getMenuItem(const char * name)
 {
-  const int numItems = this->items->getLength( );
+  const int numItems = this->items->getLength();
   int i;
-  for ( i = 0; i < numItems; i++ )
-    if ( strcmp( ( ( ItemRecord * ) ( * this->items)[i] )->name, name ) == 0 )
-      return ( ( ItemRecord * ) ( * this->items)[i] )->itemid;
+  for (i = 0; i < numItems; i++)
+    if (strcmp(((ItemRecord *) (* this->items)[i])->name, name) == 0)
+      return ((ItemRecord *) (* this->items)[i])->itemid;
   return -1;
 } // getMenuItem()
 
 void
-SoWinPopupMenu::setMenuItemTitle( int itemid, const char * title )
+SoWinPopupMenu::setMenuItemTitle(int itemid, const char * title)
 {
-  ItemRecord * rec = this->getItemRecord( itemid );
-  assert( rec != NULL && "no such menu" );
+  ItemRecord * rec = this->getItemRecord(itemid);
+  assert(rec != NULL && "no such menu");
   delete [] rec->title;
-  rec->title = strcpy( new char [strlen(title)+1], title );
+  rec->title = strcpy(new char [strlen(title)+1], title);
 
-  if ( rec->parent )
-    Win32::ModifyMenu( rec->parent, rec->itemid, MF_BYCOMMAND | MF_STRING, rec->itemid, rec->title );
+  if (rec->parent)
+    Win32::ModifyMenu(rec->parent, rec->itemid, MF_BYCOMMAND | MF_STRING, rec->itemid, rec->title);
 } // setMenuItemTitle()
 
 const char *
-SoWinPopupMenu::getMenuItemTitle( int itemid )
+SoWinPopupMenu::getMenuItemTitle(int itemid)
 {
-  ItemRecord * rec = this->getItemRecord( itemid );
-  assert( rec != NULL && "no such menu" );
+  ItemRecord * rec = this->getItemRecord(itemid);
+  assert(rec != NULL && "no such menu");
   return rec->title;
 } // getMenuItemTitle()
 
 void
-SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
+SoWinPopupMenu::setMenuItemEnabled(int itemid, SbBool enabled)
 {
-  ItemRecord * rec = this->getItemRecord( itemid );
+  ItemRecord * rec = this->getItemRecord(itemid);
 
-  assert( rec && "could not find item record" );
-  assert( rec->parent && "a menuitem must have a parent to be enabled/disabled" );
-  assert( IsMenu( rec->parent ) );
+  assert(rec && "could not find item record");
+  assert(rec->parent && "a menuitem must have a parent to be enabled/disabled");
+  assert(IsMenu(rec->parent));
   
   MENUITEMINFO info;
   // (no need to ZeroMemory() structure)
 
-  info.cbSize = sizeof( MENUITEMINFO );
+  info.cbSize = sizeof(MENUITEMINFO);
   info.fMask = MIIM_STATE;
   
-  if ( enabled ) {
+  if (enabled) {
     rec->flags |= ITEM_ENABLED;
     info.fState = MFS_ENABLED;
   }
@@ -228,41 +228,41 @@ SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
     info.fState = MFS_DISABLED | MFS_GRAYED;
   }
   
-  Win32::SetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
+  Win32::SetMenuItemInfo(rec->parent, rec->itemid, FALSE, & info);
 } // setMenuItemEnabled()
 
 SbBool
-SoWinPopupMenu::getMenuItemEnabled( int itemid )
+SoWinPopupMenu::getMenuItemEnabled(int itemid)
 {
-  ItemRecord * rec = this->getItemRecord( itemid );
+  ItemRecord * rec = this->getItemRecord(itemid);
   
-  assert( rec && "could not find item record" );
-  assert( IsMenu( rec->parent ) );
+  assert(rec && "could not find item record");
+  assert(IsMenu(rec->parent));
 
   //MENUITEMINFO  menuiteminfo;
-  //memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
-  //Win32::GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
-  //return ( menuiteminfo.fState & MFS_ENABLED ) ? TRUE : FALSE;
+  //memset((void *) & menuiteminfo, 0, sizeof(menuiteminfo));
+  //Win32::GetMenuItemInfo(rec->parent, rec->itemid, TRUE, & menuiteminfo);
+  //return (menuiteminfo.fState & MFS_ENABLED) ? TRUE : FALSE;
  
-  return ( rec->flags & ITEM_ENABLED ? TRUE : FALSE );
+  return (rec->flags & ITEM_ENABLED ? TRUE : FALSE);
 } // getMenuItemEnabled()
 
 void
-SoWinPopupMenu::_setMenuItemMarked( int itemid, SbBool marked )
+SoWinPopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
 {
-  ItemRecord * rec = this->getItemRecord( itemid );
+  ItemRecord * rec = this->getItemRecord(itemid);
 
-  assert( rec != NULL && "no such menu" );
-  assert( IsMenu( rec->parent ) );
+  assert(rec != NULL && "no such menu");
+  assert(IsMenu(rec->parent));
 
   rec->flags |= ITEM_TOGGLE;
 
   MENUITEMINFO info;
   
-  info.cbSize = sizeof( MENUITEMINFO );
+  info.cbSize = sizeof(MENUITEMINFO);
   info.fMask = MIIM_STATE;
   
-  if ( marked ) {
+  if (marked) {
     rec->flags |= ITEM_MARKED;
     info.fState = MFS_CHECKED;
   }
@@ -271,151 +271,151 @@ SoWinPopupMenu::_setMenuItemMarked( int itemid, SbBool marked )
     info.fState = MFS_UNCHECKED;
   }
   
-  Win32::SetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
+  Win32::SetMenuItemInfo(rec->parent, rec->itemid, FALSE, & info);
 
 } // setMenuItemMarked()
 
 SbBool
-SoWinPopupMenu::getMenuItemMarked( int itemid )
+SoWinPopupMenu::getMenuItemMarked(int itemid)
 {
-  ItemRecord * rec = this->getItemRecord( itemid );
-  assert( rec != NULL && "no such menu" );
-  assert( rec->parent != NULL );
+  ItemRecord * rec = this->getItemRecord(itemid);
+  assert(rec != NULL && "no such menu");
+  assert(rec->parent != NULL);
   
   MENUITEMINFO info;
 
-  info.cbSize = sizeof( MENUITEMINFO );
+  info.cbSize = sizeof(MENUITEMINFO);
   info.fMask = MIIM_STATE;
   
-  Win32::GetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
+  Win32::GetMenuItemInfo(rec->parent, rec->itemid, FALSE, & info);
 
-  return ( info.fState & MFS_CHECKED ? TRUE : FALSE );
+  return (info.fState & MFS_CHECKED ? TRUE : FALSE);
 } // getMenuItemMarked()
 
 // *************************************************************************
 
 void
-SoWinPopupMenu::addMenu( int menuid, int submenuid, int pos )
+SoWinPopupMenu::addMenu(int menuid, int submenuid, int pos)
 {
-  MenuRecord * super = this->getMenuRecord( menuid );
-  MenuRecord * sub = this->getMenuRecord( submenuid );
-  assert( super != NULL && sub != NULL && "no such menu" );
+  MenuRecord * super = this->getMenuRecord(menuid);
+  MenuRecord * sub = this->getMenuRecord(submenuid);
+  assert(super != NULL && sub != NULL && "no such menu");
 
   MENUITEMINFO menuiteminfo;
-  memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
-  menuiteminfo.cbSize = sizeof( menuiteminfo );
+  memset((void *) & menuiteminfo, 0, sizeof(menuiteminfo));
+  menuiteminfo.cbSize = sizeof(menuiteminfo);
   menuiteminfo.fMask = MIIM_SUBMENU | MIIM_TYPE;
   menuiteminfo.fType = MFT_STRING;
   menuiteminfo.hSubMenu = sub->menu;
   menuiteminfo.dwTypeData = sub->title;
-  menuiteminfo.cch = strlen( sub->title );
+  menuiteminfo.cch = strlen(sub->title);
 
-  if ( pos == -1 )
-    Win32::InsertMenuItem( super->menu, sub->menuid, FALSE, & menuiteminfo );
+  if (pos == -1)
+    Win32::InsertMenuItem(super->menu, sub->menuid, FALSE, & menuiteminfo);
   else
-    Win32::InsertMenuItem( super->menu, pos, TRUE, & menuiteminfo );
+    Win32::InsertMenuItem(super->menu, pos, TRUE, & menuiteminfo);
   sub->parent = super->menu;
 } // addMenu()
 
 void
-SoWinPopupMenu::addMenuItem( int menuid, int itemid, int pos )
+SoWinPopupMenu::addMenuItem(int menuid, int itemid, int pos)
 {
-  MenuRecord * menu = this->getMenuRecord( menuid );
-  ItemRecord * item = this->getItemRecord( itemid );
-  assert( menu != NULL && item != NULL && "no such menu" );
+  MenuRecord * menu = this->getMenuRecord(menuid);
+  ItemRecord * item = this->getItemRecord(itemid);
+  assert(menu != NULL && item != NULL && "no such menu");
   
-  Win32::InsertMenu( menu->menu, pos, MF_BYPOSITION | MF_STRING, item->itemid, item->title );
+  Win32::InsertMenu(menu->menu, pos, MF_BYPOSITION | MF_STRING, item->itemid, item->title);
 
   item->parent = menu->menu;
-  if ( item->flags & ITEM_MARKED )
-    Win32::CheckMenuItem( item->parent, item->itemid, MF_BYCOMMAND | MF_CHECKED );
+  if (item->flags & ITEM_MARKED)
+    Win32::CheckMenuItem(item->parent, item->itemid, MF_BYCOMMAND | MF_CHECKED);
 } // addMenuItem()
 
 void
-SoWinPopupMenu::addSeparator( int menuid, int pos )
+SoWinPopupMenu::addSeparator(int menuid, int pos)
 {
-  MenuRecord * menu = this->getMenuRecord( menuid );
-  assert( menu != NULL && "no such menu" );
-  ItemRecord * rec = createItemRecord( "separator" );
+  MenuRecord * menu = this->getMenuRecord(menuid);
+  assert(menu != NULL && "no such menu");
+  ItemRecord * rec = createItemRecord("separator");
  
-  Win32::InsertMenu( menu->menu, pos, MF_BYPOSITION | MF_SEPARATOR, pos, NULL );
+  Win32::InsertMenu(menu->menu, pos, MF_BYPOSITION | MF_SEPARATOR, pos, NULL);
   rec->flags |= ITEM_SEPARATOR;
-  this->items->append( rec );
+  this->items->append(rec);
 } // addSeparator()
 
 void
-SoWinPopupMenu::removeMenu( int menuid )
+SoWinPopupMenu::removeMenu(int menuid)
 {
-  MenuRecord * rec = this->getMenuRecord( menuid );
-  assert( rec != NULL && "no such menu" );
+  MenuRecord * rec = this->getMenuRecord(menuid);
+  assert(rec != NULL && "no such menu");
 
   // FIXME: just assumes root-menu has id==0. Bad. 20010810 mortene.
-  if ( rec->menuid == 0 ) {
+  if (rec->menuid == 0) {
 #if SOWIN_DEBUG
-    SoDebugError::postInfo( "SoWinPopupMenu::removeMenu", "can't remove root" );
+    SoDebugError::postInfo("SoWinPopupMenu::removeMenu", "can't remove root");
 #endif // SOWIN_DEBUG
     return;
   }
-  if ( rec->parent == NULL ) {
+  if (rec->parent == NULL) {
 #if SOWIN_DEBUG
-    SoDebugError::postInfo( "SoWinPopupMenu::removeMenu", "menu not attached" );
+    SoDebugError::postInfo("SoWinPopupMenu::removeMenu", "menu not attached");
 #endif // SOWIN_DEBUG
     return;
   }
-  Win32::RemoveMenu( rec->menu, rec->menuid, MF_BYCOMMAND );
+  Win32::RemoveMenu(rec->menu, rec->menuid, MF_BYCOMMAND);
   rec->parent = NULL;
 } // removeMenu()
 
 void
-SoWinPopupMenu::removeMenuItem( int itemid )
+SoWinPopupMenu::removeMenuItem(int itemid)
 {
-  ItemRecord * rec = this->getItemRecord( itemid );
-  assert( rec != NULL && "no such menu" );
-  if ( rec->parent == NULL ) {
+  ItemRecord * rec = this->getItemRecord(itemid);
+  assert(rec != NULL && "no such menu");
+  if (rec->parent == NULL) {
 #if SOWIN_DEBUG
-    SoDebugError::postInfo( "SoWinPopupMenu::removeMenuItem", "item not attached" );
+    SoDebugError::postInfo("SoWinPopupMenu::removeMenuItem", "item not attached");
 #endif // SOWIN_DEBUG
     return;
   }
-  Win32::RemoveMenu( rec->parent, rec->itemid, MF_BYCOMMAND );
+  Win32::RemoveMenu(rec->parent, rec->itemid, MF_BYCOMMAND);
   rec->parent = NULL;
 } // removeMenuItem()
 
 // *************************************************************************
 
 void
-SoWinPopupMenu::popUp( HWND inside, int x, int y )
+SoWinPopupMenu::popUp(HWND inside, int x, int y)
 {
 
-  MenuRecord * menurec = this->getMenuRecord( 0 );
-  this->selectedItem = TrackPopupMenu( menurec->menu,
+  MenuRecord * menurec = this->getMenuRecord(0);
+  this->selectedItem = TrackPopupMenu(menurec->menu,
                                        TPM_LEFTALIGN |
                                        TPM_TOPALIGN |
                                        TPM_RIGHTBUTTON |
                                        TPM_RETURNCMD |
-                                       ( this->notify ? 0 : TPM_NONOTIFY ),
+                                       (this->notify ? 0 : TPM_NONOTIFY),
                                        x,
                                        y,
                                        0,
                                        inside,
-                                       NULL );
+                                       NULL);
   
-  if ( this->selectedItem == 0 )
+  if (this->selectedItem == 0)
     return;
   
-  ItemRecord * itemrec = this->getItemRecord( this->selectedItem );
-  assert( itemrec != NULL );
+  ItemRecord * itemrec = this->getItemRecord(this->selectedItem);
+  assert(itemrec != NULL);
   
 } // popUp()
 
 int
-SoWinPopupMenu::getSelectedItem( void )
+SoWinPopupMenu::getSelectedItem(void)
 {
- return ( this->selectedItem );
+ return (this->selectedItem);
 } // getSelectedItem()
 
 void
-SoWinPopupMenu::setNotify( SbBool enable )
+SoWinPopupMenu::setNotify(SbBool enable)
 {
  this->notify = enable;
 } // setNotify()
@@ -423,51 +423,51 @@ SoWinPopupMenu::setNotify( SbBool enable )
 // *************************************************************************
 
 MenuRecord *
-SoWinPopupMenu::getMenuRecord( int menuid )
+SoWinPopupMenu::getMenuRecord(int menuid)
 {
-  const int numMenus = this->menus->getLength( );
+  const int numMenus = this->menus->getLength();
   int i;
-  for ( i = 0; i < numMenus; i++ )
-    if ( ( ( MenuRecord *) ( * this->menus)[i] )->menuid == menuid )
-      return ( MenuRecord * ) ( * this->menus )[i];
-  return ( MenuRecord * ) NULL;
+  for (i = 0; i < numMenus; i++)
+    if (((MenuRecord *) (* this->menus)[i])->menuid == menuid)
+      return (MenuRecord *) (* this->menus)[i];
+  return (MenuRecord *) NULL;
 } // getMenuRecord()
 
 ItemRecord *
-SoWinPopupMenu::getItemRecord( int itemid )
+SoWinPopupMenu::getItemRecord(int itemid)
 {
-  const int numItems = this->items->getLength( );
+  const int numItems = this->items->getLength();
   int i;
  
-  for ( i = 0; i < numItems; i++ )
-    if ( ( ( ItemRecord * ) ( * this->items)[i] )->itemid == itemid )
-      return ( ItemRecord * ) ( * this->items)[i];
+  for (i = 0; i < numItems; i++)
+    if (((ItemRecord *) (* this->items)[i])->itemid == itemid)
+      return (ItemRecord *) (* this->items)[i];
 
-  return ( ItemRecord * ) NULL;
+  return (ItemRecord *) NULL;
 } // getItemRecord()
 
 // *************************************************************************
 
 MenuRecord *
-SoWinPopupMenu::createMenuRecord( const char * name )
+SoWinPopupMenu::createMenuRecord(const char * name)
 {
   MenuRecord * rec = new MenuRecord;
   rec->menuid = -1;
-  rec->name = strcpy( new char [strlen( name ) + 1], name );
-  rec->title = strcpy( new char [strlen( name ) + 1], name );
-  rec->menu = CreatePopupMenu( );
+  rec->name = strcpy(new char [strlen(name) + 1], name);
+  rec->title = strcpy(new char [strlen(name) + 1], name);
+  rec->menu = CreatePopupMenu();
   rec->parent = NULL;
   return rec;
 } // create()
 
 ItemRecord *
-SoWinPopupMenu::createItemRecord( const char * name )
+SoWinPopupMenu::createItemRecord(const char * name)
 {
   ItemRecord * rec = new ItemRecord;
   rec->itemid = -1;
   rec->flags = 0;
-  rec->name = strcpy( new char [strlen( name ) + 1], name );
-  rec->title = strcpy( new char [strlen( name ) + 1], name );
+  rec->name = strcpy(new char [strlen(name) + 1], name);
+  rec->title = strcpy(new char [strlen(name) + 1], name);
   rec->parent = NULL;
   return rec;
 } // create()
@@ -475,9 +475,9 @@ SoWinPopupMenu::createItemRecord( const char * name )
 // *************************************************************************
 
 void
-SoWinPopupMenu::itemActivation( int itemid )
+SoWinPopupMenu::itemActivation(int itemid)
 {
-  inherited::invokeMenuSelection( itemid );
+  inherited::invokeMenuSelection(itemid);
 } // menuSelection()
 
 // *************************************************************************

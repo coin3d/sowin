@@ -43,56 +43,56 @@ class SOWIN_DLL_API SoWin
   
 public:
   
-  static HWND init( const char * const appName,
-                    const char * const className = "SoWin" );
-  static HWND init( int argc, char ** argv,
+  static HWND init(const char * const appName,
+                    const char * const className = "SoWin");
+  static HWND init(int argc, char ** argv,
                     const char * const appName,
-                    const char * const className = "SoWin" );
-  static void init( HWND const topLevelWidget );
-  static void init( void );
+                    const char * const className = "SoWin");
+  static void init(HWND const topLevelWidget);
+  static void init(void);
 
-  static void mainLoop( void );
-  static void exitMainLoop( void );
-  static BOOL dispatchEvent( MSG * msg );
+  static void mainLoop(void);
+  static void exitMainLoop(void);
+  static BOOL dispatchEvent(MSG * msg);
 
-  static void show( HWND const widget );
-  static void hide( HWND const widget );
+  static void show(HWND const widget);
+  static void hide(HWND const widget);
 
-  static void setWidgetSize( HWND widget, const SbVec2s size );
-  static SbVec2s getWidgetSize( HWND widget );
-  static HWND getTopLevelWidget( void );
+  static void setWidgetSize(HWND widget, const SbVec2s size);
+  static SbVec2s getWidgetSize(HWND widget);
+  static HWND getTopLevelWidget(void);
 
-  static void createSimpleErrorDialog( HWND const widget,
+  static void createSimpleErrorDialog(HWND const widget,
                                        const char * const dialogTitle,
                                        const char * const errorStr1,
-                                       const char * const errorStr2 = NULL );
+                                       const char * const errorStr2 = NULL);
   
-  static SbBool nextEvent( int appContext, MSG * msg );
+  static SbBool nextEvent(int appContext, MSG * msg);
   
-  static HWND getShellWidget( HWND widget );
+  static HWND getShellWidget(HWND widget);
 
-  static void setInstance( HINSTANCE instance );
-  static HINSTANCE getInstance( void );
+  static void setInstance(HINSTANCE instance);
+  static HINSTANCE getInstance(void);
   
-  static void errorHandlerCB( const SoError * error, void * data );
+  static void errorHandlerCB(const SoError * error, void * data);
 
-  static void doIdleTasks( void );
+  static void doIdleTasks(void);
   
 protected:
     
-  static void registerWindowClass( const char * const className );
-  static void unRegisterWindowClass( const char * const className );
+  static void registerWindowClass(const char * const className);
+  static void unRegisterWindowClass(const char * const className);
 
-  static HWND createWindow( char * title,
+  static HWND createWindow(char * title,
                             char * className,
                             SIZE size,
-                            HWND parent = ( HWND ) NULL,
-                            HMENU menu = ( HMENU ) NULL );
+                            HWND parent = (HWND) NULL,
+                            HMENU menu = (HMENU) NULL);
 
-  static LRESULT CALLBACK eventHandler( HWND window,
+  static LRESULT CALLBACK eventHandler(HWND window,
                                         UINT message,
                                         WPARAM wparam,
-                                        LPARAM lparam );
+                                        LPARAM lparam);
 
 }; // class SoWin
 

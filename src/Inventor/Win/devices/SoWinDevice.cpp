@@ -51,12 +51,12 @@ SoWinDevice::initClasses(void)
 
 // *************************************************************************
 
-SoWinDevice::SoWinDevice( void )
-  : size( 0, 0 )
+SoWinDevice::SoWinDevice(void)
+  : size(0, 0)
 {
 }
 
-SoWinDevice::~SoWinDevice( void )
+SoWinDevice::~SoWinDevice(void)
 {
 
 }
@@ -68,7 +68,7 @@ SoWinDevice::setWindowSize(const SbVec2s newSize)
 }
 
 const SbVec2s 
-SoWinDevice::getWindowSize( void ) const
+SoWinDevice::getWindowSize(void) const
 {
   return this->size;
 }
@@ -76,9 +76,9 @@ SoWinDevice::getWindowSize( void ) const
 void
 SoWinDevice::setEventPosition(SoEvent *event, int x, int y) const
 {
-  assert( event != NULL );
-  SbVec2s position( x, this->size[1] - y - 1 );
-  event->setPosition( position );
+  assert(event != NULL);
+  SbVec2s position(x, this->size[1] - y - 1);
+  event->setPosition(position);
 }
 
 // *************************************************************************

@@ -42,127 +42,127 @@ enum GLModes {
 // *************************************************************************
 
 class SOWIN_DLL_API SoWinGLWidget : public SoWinComponent {
-  SOWIN_OBJECT_ABSTRACT_HEADER( SoWinGLWidget, SoWinComponent );
+  SOWIN_OBJECT_ABSTRACT_HEADER(SoWinGLWidget, SoWinComponent);
   friend class SoWinGLWidgetP;
 
 public:
 
-  HWND getNormalWindow( void );
-  HWND getOverlayWindow( void );
+  HWND getNormalWindow(void);
+  HWND getOverlayWindow(void);
 
-  HWND getNormalWidget( void );
-  HWND getOverlayWidget( void );
+  HWND getNormalWidget(void);
+  HWND getOverlayWidget(void);
 
-  HDC getNormalDC( void );
-  HDC getOverlayDC( void );
+  HDC getNormalDC(void);
+  HDC getOverlayDC(void);
 
-  HGLRC getNormalContext( void );
-  HGLRC getOverlayContext( void );
+  HGLRC getNormalContext(void);
+  HGLRC getOverlayContext(void);
 
-  void setStealFocus( SbBool doStealFocus );
+  void setStealFocus(SbBool doStealFocus);
 
-  virtual void setNormalVisual( PIXELFORMATDESCRIPTOR * vis );
-  PIXELFORMATDESCRIPTOR * getNormalVisual( void );
+  virtual void setNormalVisual(PIXELFORMATDESCRIPTOR * vis);
+  PIXELFORMATDESCRIPTOR * getNormalVisual(void);
 
-  virtual void setOverlayVisual( PIXELFORMATDESCRIPTOR * vis );
-  PIXELFORMATDESCRIPTOR * getOverlayVisual( void );
+  virtual void setOverlayVisual(PIXELFORMATDESCRIPTOR * vis);
+  PIXELFORMATDESCRIPTOR * getOverlayVisual(void);
 
-  virtual void setPixelFormat( int format );
-  int getPixelFormat( void );
+  virtual void setPixelFormat(int format);
+  int getPixelFormat(void);
 
-  void setDoubleBuffer( SbBool set );
-  SbBool isDoubleBuffer( void );
+  void setDoubleBuffer(SbBool set);
+  SbBool isDoubleBuffer(void);
 
-  void setBorder( SbBool set );
-  int getBorderSize( void );
-  void setBorderSize( int size );
-  SbBool isBorder( void ) const;
+  void setBorder(SbBool set);
+  int getBorderSize(void);
+  void setBorderSize(int size);
+  SbBool isBorder(void) const;
 
-  void setDrawToFrontBufferEnable( SbBool enable );
-  SbBool isDrawToFrontBufferEnable( void ) const;
+  void setDrawToFrontBufferEnable(SbBool enable);
+  SbBool isDrawToFrontBufferEnable(void) const;
 
-  void setQuadBufferStereo( const SbBool enable );
-  SbBool isQuadBufferStereo( void ) const;
+  void setQuadBufferStereo(const SbBool enable);
+  SbBool isQuadBufferStereo(void) const;
 
-  void setCursor( HCURSOR newCursor );
-  HCURSOR getCursor( void );
+  void setCursor(HCURSOR newCursor);
+  HCURSOR getCursor(void);
 
-  SbBool hasOverlayGLArea( void );
-  SbBool hasNormalGLArea( void );
+  SbBool hasOverlayGLArea(void);
+  SbBool hasNormalGLArea(void);
 
   // FIXME: implemented in SoQt. mariusbu 20010719.
-  // unsigned long getOverlayTransparentPixel( void );
+  // unsigned long getOverlayTransparentPixel(void);
 
 protected:
 
-  SoWinGLWidget( HWND parent = NULL,
+  SoWinGLWidget(HWND parent = NULL,
                  const char * name = NULL,
                  SbBool embed = TRUE,
                  int glModes = SO_GL_RGB,
-                 SbBool build = TRUE );
+                 SbBool build = TRUE);
 
-  ~SoWinGLWidget( void );
+  ~SoWinGLWidget(void);
 
 
-  static LRESULT CALLBACK glWidgetProc( HWND window,
+  static LRESULT CALLBACK glWidgetProc(HWND window,
                                         UINT message,
                                         WPARAM wparam,
-                                        LPARAM lparam );
+                                        LPARAM lparam);
 
 
-  static LRESULT CALLBACK mgrWidgetProc( HWND window,
+  static LRESULT CALLBACK mgrWidgetProc(HWND window,
                                          UINT message,
                                          WPARAM wparam,
-                                         LPARAM lparam );
+                                         LPARAM lparam);
 
-  virtual void processEvent( MSG * msg );
-  virtual void redraw( void ) = 0;
-  virtual void redrawOverlay( void );
+  virtual void processEvent(MSG * msg);
+  virtual void redraw(void) = 0;
+  virtual void redrawOverlay(void);
 
-  virtual void initGraphic( void );
-  virtual void initOverlayGraphic( void );
-  virtual void sizeChanged( const SbVec2s newSize );
-  virtual void widgetChanged( HWND newWidget );
-  virtual SbBool glScheduleRedraw( void );
+  virtual void initGraphic(void);
+  virtual void initOverlayGraphic(void);
+  virtual void sizeChanged(const SbVec2s newSize);
+  virtual void widgetChanged(HWND newWidget);
+  virtual SbBool glScheduleRedraw(void);
 
-  void setGLSize( SbVec2s newSize );
-  SbVec2s getGLSize( void ) const;
-  float getGLAspectRatio( void ) const;
+  void setGLSize(SbVec2s newSize);
+  SbVec2s getGLSize(void) const;
+  float getGLAspectRatio(void) const;
 
-  void setGlxSize( SbVec2s newSize ) { this->setGLSize( newSize ); }
-  const SbVec2s getGlxSize( void ) const { return this->getGLSize( ); }
-  float getGlxAspectRatio( void ) const { return this->getGLAspectRatio( ); }
+  void setGlxSize(SbVec2s newSize) { this->setGLSize(newSize); }
+  const SbVec2s getGlxSize(void) const { return this->getGLSize(); }
+  float getGlxAspectRatio(void) const { return this->getGLAspectRatio(); }
 
-  static LRESULT eventHandler( HWND hwnd,
+  static LRESULT eventHandler(HWND hwnd,
                                UINT message,
                                WPARAM wParam,
-                               LPARAM lParam );
+                               LPARAM lParam);
 
-  void setStereoBuffer( SbBool set );
-  SbBool isStereoBuffer( void );
-  SbBool isRGBMode( void );
+  void setStereoBuffer(SbBool set);
+  SbBool isStereoBuffer(void);
+  SbBool isRGBMode(void);
 
-  int getDisplayListShareGroup( HGLRC ctx );
+  int getDisplayListShareGroup(HGLRC ctx);
 
-  HWND buildWidget( HWND parent );
-  HWND getManagerWidget( void );
-  HWND getGLWidget( void );
+  HWND buildWidget(HWND parent);
+  HWND getManagerWidget(void);
+  HWND getGLWidget(void);
 
-  void setOverlayRender( const SbBool enable );
-  SbBool isOverlayRender( void ) const;
+  void setOverlayRender(const SbBool enable);
+  SbBool isOverlayRender(void) const;
 
-  SbBool makeNormalCurrent( void );
-  SbBool swapNormalBuffers( void );
-  SbBool swapOverlayBuffers( void );
+  SbBool makeNormalCurrent(void);
+  SbBool swapNormalBuffers(void);
+  SbBool swapOverlayBuffers(void);
 
-  void glLockNormal( void );
-  void glUnlockNormal( void );
+  void glLockNormal(void);
+  void glUnlockNormal(void);
 
-  void glLockOverlay( void );
-  void glUnlockOverlay( void );
+  void glLockOverlay(void);
+  void glUnlockOverlay(void);
 
-  void glSwapBuffers( void );
-  void glFlushBuffer( void );
+  void glSwapBuffers(void);
+  void glFlushBuffer(void);
 
   HWND parent;
   HWND toplevel;

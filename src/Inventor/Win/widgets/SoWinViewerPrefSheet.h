@@ -27,19 +27,19 @@ class SoWinExaminerViewer;
 class SOWIN_DLL_API SoWinViewerPrefSheet {
   
 public:
-  SoWinViewerPrefSheet( void );
-  ~SoWinViewerPrefSheet( void );
-  void create( HWND parent = NULL );
-  void size( void );
-  void destroy( void );
-  void show( SbBool show );
-  HWND getWidget( void );
-  void setTitle( const char * title );
+  SoWinViewerPrefSheet(void);
+  ~SoWinViewerPrefSheet(void);
+  void create(HWND parent = NULL);
+  void size(void);
+  void destroy(void);
+  void show(SbBool show);
+  HWND getWidget(void);
+  void setTitle(const char * title);
 
-  void createSeekWidgets( SoWinFullViewer * viewer );
-  void createZoomWidgets( SoWinFullViewer * viewer );
-  void createClippingWidgets( SoWinFullViewer * viewer );
-  void createSpinWidgets( SoWinExaminerViewer * viewer );
+  void createSeekWidgets(SoWinFullViewer * viewer);
+  void createZoomWidgets(SoWinFullViewer * viewer);
+  void createClippingWidgets(SoWinFullViewer * viewer);
+  void createSpinWidgets(SoWinExaminerViewer * viewer);
   
 protected:
   
@@ -68,52 +68,52 @@ protected:
     
   };
 
-  void constructor( void );
+  void constructor(void);
 
-  void createMainWidget( HWND parent );
+  void createMainWidget(HWND parent);
 
-  void initSeekWidgets( SoWinFullViewer * viewer );
-  void initZoomWidgets( SoWinFullViewer * viewer );
-  void initClippingWidgets( SoWinFullViewer * viewer );
-  void initSpinWidgets( SoWinExaminerViewer * viewer );
+  void initSeekWidgets(SoWinFullViewer * viewer);
+  void initZoomWidgets(SoWinFullViewer * viewer);
+  void initClippingWidgets(SoWinFullViewer * viewer);
+  void initSpinWidgets(SoWinExaminerViewer * viewer);
 
-  void destroyMainWidget( void );
-  void destroySeekWidgets( void );
-  void destroyZoomWidgets( void );  
-  void destroyClippingWidgets( void );
-  void destroySpinWidgets( void );
+  void destroyMainWidget(void);
+  void destroySeekWidgets(void);
+  void destroyZoomWidgets(void);  
+  void destroyClippingWidgets(void);
+  void destroySpinWidgets(void);
 
-  HWND createLabelWidget( HWND parent, const char * text = NULL, int x = 0, int y = 0 );
-  HWND createEditWidget( HWND parent, long id, int width = 64, int x = 0, int y = 0 );
-  HWND createRadioWidget( HWND parent, long id, const char * text = NULL, int x = 0, int y = 0 );
-  HWND createSliderWidget( HWND parent, long id, int width = 64, int x = 0, int y = 0 );
-  HWND createCheckWidget( HWND parent, long id, const char * text = NULL, int x = 0, int y = 0 );
+  HWND createLabelWidget(HWND parent, const char * text = NULL, int x = 0, int y = 0);
+  HWND createEditWidget(HWND parent, long id, int width = 64, int x = 0, int y = 0);
+  HWND createRadioWidget(HWND parent, long id, const char * text = NULL, int x = 0, int y = 0);
+  HWND createSliderWidget(HWND parent, long id, int width = 64, int x = 0, int y = 0);
+  HWND createCheckWidget(HWND parent, long id, const char * text = NULL, int x = 0, int y = 0);
   
-  void setSliderValue( HWND slider, int value );
-  int getSliderValue( HWND slider );
-  void setSliderRange( HWND slider, int min, int max );
-  SIZE getSliderRange( HWND slider );
-  void setChecked( HWND hwnd, BOOL check );
-  void setEnabled( HWND hwnd, BOOL enable );
+  void setSliderValue(HWND slider, int value);
+  int getSliderValue(HWND slider);
+  void setSliderRange(HWND slider, int min, int max);
+  SIZE getSliderRange(HWND slider);
+  void setChecked(HWND hwnd, BOOL check);
+  void setEnabled(HWND hwnd, BOOL enable);
   
-  SIZE getTextSize( HWND window, const char * text );
-  int getFontHeight( HWND window );
+  SIZE getTextSize(HWND window, const char * text);
+  int getFontHeight(HWND window);
 
-  void setEditValue( HWND edit, float value );
-  float getEditValue( HWND edit );
+  void setEditValue(HWND edit, float value);
+  float getEditValue(HWND edit);
   
   // Event handlers
 
-  static LRESULT CALLBACK processEvent( HWND window,
+  static LRESULT CALLBACK processEvent(HWND window,
                                         UINT message,
                                         WPARAM wparam,
-                                        LPARAM lparam );
+                                        LPARAM lparam);
 
-  LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onScroll( HWND window, UINT message, WPARAM wparam, LPARAM lparam );  
-  LRESULT onThumbWheel( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  LRESULT onCreate(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
+  LRESULT onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
+  LRESULT onCommand(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
+  LRESULT onScroll(HWND window, UINT message, WPARAM wparam, LPARAM lparam);  
+  LRESULT onThumbWheel(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   
 private:
  

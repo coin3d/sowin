@@ -42,80 +42,80 @@
 SOWIN_OBJECT_SOURCE(SoWinSpaceball);
 
 
-SoWinSpaceball::SoWinSpaceball( UINT mask )
+SoWinSpaceball::SoWinSpaceball(UINT mask)
 {
-  SOWIN_STUB( );
+  SOWIN_STUB();
 }
 
-SoWinSpaceball::~SoWinSpaceball( void )
+SoWinSpaceball::~SoWinSpaceball(void)
 {
-  SOWIN_STUB( );
+  SOWIN_STUB();
 }
     
 void
-SoWinSpaceball::enable( HWND, SoWinEventHandler * , void *, HWND )
+SoWinSpaceball::enable(HWND, SoWinEventHandler * , void *, HWND)
 {
-  SOWIN_STUB( );
+  SOWIN_STUB();
 }
 
 void
-SoWinSpaceball::disable( HWND, SoWinEventHandler * , void * )
+SoWinSpaceball::disable(HWND, SoWinEventHandler * , void *)
 {
-  SOWIN_STUB( );
+  SOWIN_STUB();
 }
 
 const SoEvent *
-SoWinSpaceball::translateEvent( MSG * msg )
+SoWinSpaceball::translateEvent(MSG * msg)
 {
   /*
-  long msec =  GetTickCount( );
-  if ( soevent ) soevent->setTime( SbTime( ( msec / 1000 ), ( msec % 1000 ) * 1000 ) ) );
+  long msec =  GetTickCount();
+  if (soevent) soevent->setTime(SbTime((msec / 1000), (msec % 1000) * 1000)));
   */
   // FIXME: function not implemented
-  SOWIN_STUB( );
+  SOWIN_STUB();
   
-  return ( SoEvent * ) NULL;
+  return (SoEvent *) NULL;
 }
   
 void
-SoWinSpaceball::setRotationScaleFactor( float factor )
+SoWinSpaceball::setRotationScaleFactor(float factor)
 {
   this->rotScale = factor;
 }
 
 float
-SoWinSpaceball::getRotationScaleFactor( void ) const
+SoWinSpaceball::getRotationScaleFactor(void) const
 {
   return this->rotScale;
 }
 
 void
-SoWinSpaceball::setTranslationScaleFactor( float factor )
+SoWinSpaceball::setTranslationScaleFactor(float factor)
 {
   this->transScale = factor;
 }
 
 float
-SoWinSpaceball::getTranslationScaleFactor( void ) const
+SoWinSpaceball::getTranslationScaleFactor(void) const
 {
   return this->transScale;
 }
 
 SbBool
-SoWinSpaceball::exists( void )
+SoWinSpaceball::exists(void)
 {
   return FALSE;
 }
  
 void
-SoWinSpaceball::setFocusToWindow( SbBool flag )
+SoWinSpaceball::setFocusToWindow(SbBool flag)
 {
-  SOWIN_STUB( );
+  SOWIN_STUB();
 }
 
 SbBool
-SoWinSpaceball::isFocusToWindow( void ) const
+SoWinSpaceball::isFocusToWindow(void) const
 {
-  SOWIN_STUB( );
+  SOWIN_STUB();
   return FALSE;
 }

@@ -38,19 +38,19 @@ public:
     ALL_EVENTS = BUTTON_PRESS | BUTTON_RELEASE | POINTER_MOTION | BUTTON_MOTION
   };
 
-  SoWinMouse( UINT events = ALL_EVENTS );
-  ~SoWinMouse( void );
+  SoWinMouse(UINT events = ALL_EVENTS);
+  ~SoWinMouse(void);
 
   // Enable/disable this device for the passed widget.
   // Invoked when events occur in widget. Data is the clientData which will be passed.
-  virtual void enable( HWND widget, SoWinEventHandler * callbackproc, void * data, HWND window = NULL );
-  virtual void disable( HWND widget, SoWinEventHandler * callbackproc, void * data );
+  virtual void enable(HWND widget, SoWinEventHandler * callbackproc, void * data, HWND window = NULL);
+  virtual void disable(HWND widget, SoWinEventHandler * callbackproc, void * data);
 
-  virtual const SoEvent * translateEvent( MSG * msg );
+  virtual const SoEvent * translateEvent(MSG * msg);
 
 private:
-  SoLocation2Event * makeLocationEvent( MSG * msg );
-  SoMouseButtonEvent * makeButtonEvent( MSG * msg, SoButtonEvent::State state );
+  SoLocation2Event * makeLocationEvent(MSG * msg);
+  SoMouseButtonEvent * makeButtonEvent(MSG * msg, SoButtonEvent::State state);
   int events;
   SoLocation2Event * locationEvent; // mouse motion
   SoMouseButtonEvent * buttonEvent; // mouse button

@@ -35,10 +35,10 @@ public:
   SoWinInputFocus(UINT mask = SO_WIN_ALL_FOCUS_EVENTS);
   virtual ~SoWinInputFocus(void);
 
-  virtual void enable( HWND widget, SoWinEventHandler * handler, void * closure, HWND window = NULL );
-  virtual void disable( HWND widget, SoWinEventHandler * handler, void * closure );
+  virtual void enable(HWND widget, SoWinEventHandler * handler, void * closure, HWND window = NULL);
+  virtual void disable(HWND widget, SoWinEventHandler * handler, void * closure);
 
-  virtual const SoEvent * translateEvent( MSG * event );
+  virtual const SoEvent * translateEvent(MSG * event);
 
 private:
   UINT mask;

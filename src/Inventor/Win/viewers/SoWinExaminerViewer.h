@@ -43,26 +43,26 @@ public:
     const char * name = NULL,
     SbBool embed = TRUE,
     SoWinFullViewer::BuildFlag flag = BUILD_ALL,
-    SoWinViewer::Type type = BROWSER );
-  ~SoWinExaminerViewer( void );
+    SoWinViewer::Type type = BROWSER);
+  ~SoWinExaminerViewer(void);
 
-  void setAnimationEnabled( const SbBool enable );
-  SbBool isAnimationEnabled( void ) const;
+  void setAnimationEnabled(const SbBool enable);
+  SbBool isAnimationEnabled(void) const;
 
-  void stopAnimating( void );
-  SbBool isAnimating( void ) const;
+  void stopAnimating(void);
+  SbBool isAnimating(void) const;
 
-  void setFeedbackVisibility( const SbBool enable );
-  SbBool isFeedbackVisible( void ) const;
+  void setFeedbackVisibility(const SbBool enable);
+  SbBool isFeedbackVisible(void) const;
 
-  void setFeedbackSize( const int size );
-  int getFeedbackSize( void ) const;
+  void setFeedbackSize(const int size);
+  int getFeedbackSize(void) const;
 
-  virtual void setViewing( SbBool enable );
-  virtual void setCamera( SoCamera * camera );
-  virtual void setCursorEnabled( SbBool enable );
-  virtual void resetToHomePosition( void );
-  virtual void viewAll( void );
+  virtual void setViewing(SbBool enable);
+  virtual void setCamera(SoCamera * camera);
+  virtual void setCursorEnabled(SbBool enable);
+  virtual void resetToHomePosition(void);
+  virtual void viewAll(void);
 
 protected:
   
@@ -72,26 +72,26 @@ protected:
     SbBool embed,
     SoWinFullViewer::BuildFlag flag,
     SoWinViewer::Type type,
-    SbBool build );
+    SbBool build);
 
-  virtual void leftWheelMotion( float val );
-  virtual void bottomWheelMotion( float val );
-  virtual void rightWheelMotion( float val );
+  virtual void leftWheelMotion(float val);
+  virtual void bottomWheelMotion(float val);
+  virtual void rightWheelMotion(float val);
 
-  virtual const char * getDefaultWidgetName( void ) const;
-  virtual const char * getDefaultTitle( void ) const;
-  virtual const char * getDefaultIconTitle( void ) const;
+  virtual const char * getDefaultWidgetName(void) const;
+  virtual const char * getDefaultTitle(void) const;
+  virtual const char * getDefaultIconTitle(void) const;
 
-  virtual void openViewerHelpCard( void );
-  virtual SbBool processSoEvent( const SoEvent * const event );
-  virtual LRESULT onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  virtual void setSeekMode( SbBool enable );
-  virtual void actualRedraw( void );
-  virtual void afterRealizeHook( void );
-  virtual void createPrefSheet( void );
-  virtual void buildViewerButtonsEx( HWND parent, int x, int y, int size );
+  virtual void openViewerHelpCard(void);
+  virtual SbBool processSoEvent(const SoEvent * const event);
+  virtual LRESULT onCommand(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
+  virtual void setSeekMode(SbBool enable);
+  virtual void actualRedraw(void);
+  virtual void afterRealizeHook(void);
+  virtual void createPrefSheet(void);
+  virtual void buildViewerButtonsEx(HWND parent, int x, int y, int size);
 
-  void setCursorRepresentation( int mode ); // Used by SoAnyExaminerViewer. mariusbu 20010724.
+  void setCursorRepresentation(int mode); // Used by SoAnyExaminerViewer. mariusbu 20010724.
   
 private:
 

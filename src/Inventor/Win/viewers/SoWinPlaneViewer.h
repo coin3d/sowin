@@ -32,7 +32,7 @@ class SoWinPlaneViewerP;
 
 class SOWIN_DLL_API SoWinPlaneViewer : public SoWinFullViewer {
   
-  SOWIN_OBJECT_HEADER( SoWinPlaneViewer, SoWinFullViewer );
+  SOWIN_OBJECT_HEADER(SoWinPlaneViewer, SoWinFullViewer);
   friend class SoAnyPlaneViewer;
   friend class SoWinPlaneViewerP;
 
@@ -43,12 +43,12 @@ public:
     const char * const name = NULL, 
     SbBool embed = TRUE, 
     SoWinFullViewer::BuildFlag flag = BUILD_ALL, 
-    SoWinViewer::Type type = BROWSER );
-  ~SoWinPlaneViewer( void );
+    SoWinViewer::Type type = BROWSER);
+  ~SoWinPlaneViewer(void);
 
-  virtual void setViewing( SbBool enable );
-  virtual void setCamera( SoCamera * camera );
-  virtual void setCursorEnabled( SbBool enable );
+  virtual void setViewing(SbBool enable);
+  virtual void setCamera(SoCamera * camera);
+  virtual void setCursorEnabled(SbBool enable);
 
 protected:
   
@@ -58,33 +58,33 @@ protected:
     SbBool embed, 
     SoWinFullViewer::BuildFlag flag, 
     SoWinViewer::Type type, 
-    SbBool build );
+    SbBool build);
 
-  HWND buildWidget( HWND parent );
+  HWND buildWidget(HWND parent);
 
-  virtual const char * getDefaultWidgetName( void ) const;
-  virtual const char * getDefaultTitle( void ) const;
-  virtual const char * getDefaultIconTitle( void ) const;
+  virtual const char * getDefaultWidgetName(void) const;
+  virtual const char * getDefaultTitle(void) const;
+  virtual const char * getDefaultIconTitle(void) const;
 
-  virtual SbBool processSoEvent( const SoEvent * const event );
+  virtual SbBool processSoEvent(const SoEvent * const event);
 
-  virtual LRESULT onCommand( HWND window,
+  virtual LRESULT onCommand(HWND window,
                              UINT message,
                              WPARAM wparam,
-                             LPARAM lparam );
+                             LPARAM lparam);
 
-  virtual void setSeekMode( SbBool enable );
-  virtual void actualRedraw( void );
+  virtual void setSeekMode(SbBool enable);
+  virtual void actualRedraw(void);
 
-  virtual void bottomWheelMotion( float value );
-  virtual void leftWheelMotion( float value );
-  virtual void rightWheelMotion( float value );
+  virtual void bottomWheelMotion(float value);
+  virtual void leftWheelMotion(float value);
+  virtual void rightWheelMotion(float value);
 
-  virtual void createPrefSheet( void );
+  virtual void createPrefSheet(void);
 
-  virtual void buildViewerButtonsEx( HWND parent, int x, int y, int size );  
-  virtual void openViewerHelpCard( void );
-  virtual void computeSeekFinalOrientation( void );
+  virtual void buildViewerButtonsEx(HWND parent, int x, int y, int size);  
+  virtual void openViewerHelpCard(void);
+  virtual void computeSeekFinalOrientation(void);
 
 private:
   

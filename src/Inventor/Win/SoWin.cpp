@@ -36,32 +36,32 @@ class SoWinP {
   
 public:
 
-  static BOOL CALLBACK sizeChildProc( HWND window, LPARAM lparam );
-  static void sensorQueueChanged( void * cbdata );
+  static BOOL CALLBACK sizeChildProc(HWND window, LPARAM lparam);
+  static void sensorQueueChanged(void * cbdata);
 
   static int timerSensorId;
   static SbBool timerSensorActive;
-  static void CALLBACK timerSensorCB( HWND window,
+  static void CALLBACK timerSensorCB(HWND window,
                                       UINT message,
                                       UINT idevent,
-                                      DWORD dwtime );
+                                      DWORD dwtime);
 
   static int delaySensorId;
   static SbBool delaySensorActive;
-  static void CALLBACK delaySensorCB( HWND window,
+  static void CALLBACK delaySensorCB(HWND window,
                                       UINT message,
                                       UINT idevent,
-                                      DWORD dwtime );
+                                      DWORD dwtime);
 
   static int idleSensorId;
   static SbBool idleSensorActive;
-  static void CALLBACK idleSensorCB( HWND window,
+  static void CALLBACK idleSensorCB(HWND window,
                                      UINT message,
                                      UINT idevent,
-                                     DWORD dwtime );
+                                     DWORD dwtime);
   
-  static LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  static LRESULT onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  static LRESULT onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
+  static LRESULT onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   
   static HINSTANCE Instance;
   static HWND mainWidget;
@@ -97,11 +97,11 @@ SbBool SoWinP::useParentEventHandler = TRUE;
 
 // documented in common/SoGuiObject.cpp.in
 void
-SoWinObject::init( void )
+SoWinObject::init(void)
 {
-  SoWinObject::initClass( );
-  SoWinDevice::initClasses( );
-  SoWinComponent::initClasses( );
+  SoWinObject::initClass();
+  SoWinDevice::initClasses();
+  SoWinComponent::initClasses();
 } // init()
 
 ///////////////////////////////////////////////////////////////////
@@ -115,12 +115,12 @@ SoWinObject::init( void )
   \a argv arguments and calls the SoWin::init() method below.
 */
 HWND
-SoWin::init( const char * const appName,
-             const char * const className )
+SoWin::init(const char * const appName,
+             const char * const className)
 {
   int argc = 1;
-  char * argv[] = { ( char * ) appName, NULL };
-  return SoWin::init( argc, argv, appName, className );
+  char * argv[] = { (char *) appName, NULL };
+  return SoWin::init(argc, argv, appName, className);
 } // init()
 
 
@@ -133,23 +133,23 @@ SoWin::init( const char * const appName,
 */
 
 HWND
-SoWin::init( int argc,
+SoWin::init(int argc,
              char ** argv,
              const char * const appName,
-             const char * const className )
+             const char * const className)
 {
-  if ( appName )
-    SoWinP::appName = strcpy( new char [ strlen( appName ) + 1 ], appName );
-  if ( className )
-    SoWinP::className = strcpy( new char [ strlen( className ) + 1 ], className );
+  if (appName)
+    SoWinP::appName = strcpy(new char [ strlen(appName) + 1 ], appName);
+  if (className)
+    SoWinP::className = strcpy(new char [ strlen(className) + 1 ], className);
 
-  SoWin::registerWindowClass( className );
+  SoWin::registerWindowClass(className);
  
   SIZE size = { 500, 500 };
-  HWND toplevel = SoWin::createWindow( ( char * ) appName, ( char * ) className, size, NULL );
+  HWND toplevel = SoWin::createWindow((char *) appName, (char *) className, size, NULL);
   SoWinP::useParentEventHandler = FALSE;
   
-  SoWin::init( toplevel );
+  SoWin::init(toplevel);
   
   return toplevel;
 } // init()
@@ -161,31 +161,31 @@ SoWin::init( int argc,
   \a topLevelWidget should be your application's main widget.
 */
 void
-SoWin::init( HWND const topLevelWidget )
+SoWin::init(HWND const topLevelWidget)
 {
-  SoDB::init( );
-  SoNodeKit::init( );
-  SoInteraction::init( );
-  SoWinObject::init( );
+  SoDB::init();
+  SoNodeKit::init();
+  SoInteraction::init();
+  SoWinObject::init();
 
-  SoDebugError::setHandlerCallback( SoWin::errorHandlerCB, NULL );
+  SoDebugError::setHandlerCallback(SoWin::errorHandlerCB, NULL);
 
-  SoDB::getSensorManager( )->setChangedCallback( SoWinP::sensorQueueChanged, NULL );
-  if ( IsWindow( topLevelWidget ) ) 
+  SoDB::getSensorManager()->setChangedCallback(SoWinP::sensorQueueChanged, NULL);
+  if (IsWindow(topLevelWidget)) 
     SoWinP::mainWidget = topLevelWidget;
 
-  if ( SoWinP::useParentEventHandler ) {
-    SoWinP::parentEventHandler = ( WNDPROC ) Win32::GetWindowLong( topLevelWidget, GWL_WNDPROC );
-    (void)Win32::SetWindowLong( topLevelWidget, GWL_WNDPROC, ( long ) SoWin::eventHandler );
+  if (SoWinP::useParentEventHandler) {
+    SoWinP::parentEventHandler = (WNDPROC) Win32::GetWindowLong(topLevelWidget, GWL_WNDPROC);
+    (void)Win32::SetWindowLong(topLevelWidget, GWL_WNDPROC, (long) SoWin::eventHandler);
   }
 } // init()
 
 /*!
  */
 void
-SoWin::init( void )
+SoWin::init(void)
 {
-  SoWin::init( "SoWin", "SoWin" );
+  SoWin::init("SoWin", "SoWin");
 } // init()
 
 /*!
@@ -194,21 +194,21 @@ SoWin::init( void )
   Windows whenever the user closes an application's main widget).
 */
 void
-SoWin::mainLoop( void )
+SoWin::mainLoop(void)
 {
   MSG msg;
-  while ( TRUE ) {
-    if ( GetQueueStatus( QS_ALLINPUT ) != 0 ) { // if messagequeue != empty
-      if ( GetMessage( & msg, NULL, 0, 0 ) ) { // if msg != WM_QUIT
-        TranslateMessage( & msg );
-        DispatchMessage( & msg );
+  while (TRUE) {
+    if (GetQueueStatus(QS_ALLINPUT) != 0) { // if messagequeue != empty
+      if (GetMessage(& msg, NULL, 0, 0)) { // if msg != WM_QUIT
+        TranslateMessage(& msg);
+        DispatchMessage(& msg);
       }
       else break; // msg == WM_QUIT
     }
-    else if ( SoWinP::idleSensorActive )
-      SoWin::doIdleTasks( );
+    else if (SoWinP::idleSensorActive)
+      SoWin::doIdleTasks();
     else // !idleSensorActive
-      WaitMessage( );
+      WaitMessage();
   }
 } // mainLoop()
 
@@ -218,18 +218,18 @@ SoWin::mainLoop( void )
   NOTE: exitMainLoop() is not part of the original SGI InventorXt API.
 */
 void
-SoWin::exitMainLoop( void )
+SoWin::exitMainLoop(void)
 {
-  PostQuitMessage( 0 );
+  PostQuitMessage(0);
 } // exitMainLoop()
 
 /*!
  */
 BOOL
-SoWin::dispatchEvent( MSG * msg )
+SoWin::dispatchEvent(MSG * msg)
 {
-  TranslateMessage( msg );
-  DispatchMessage( msg );
+  TranslateMessage(msg);
+  DispatchMessage(msg);
   return TRUE;
 } // dispatchEvent()
 
@@ -241,9 +241,9 @@ SoWin::dispatchEvent( MSG * msg )
   \sa hide()
 */
 void
-SoWin::show( HWND const widget )
+SoWin::show(HWND const widget)
 {
-  (void)ShowWindow( widget, SW_SHOW );
+  (void)ShowWindow(widget, SW_SHOW);
 } // show()
 
 /*!
@@ -254,9 +254,9 @@ SoWin::show( HWND const widget )
   \sa show()
 */
 void
-SoWin::hide( HWND const widget )
+SoWin::hide(HWND const widget)
 {
-  (void)ShowWindow( widget, SW_HIDE );
+  (void)ShowWindow(widget, SW_HIDE);
 } // hide()
 
 /*!
@@ -267,10 +267,10 @@ SoWin::hide( HWND const widget )
   \sa getWidgetSize()
 */
 void
-SoWin::setWidgetSize( HWND widget, const SbVec2s size )
+SoWin::setWidgetSize(HWND widget, const SbVec2s size)
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
-  Win32::SetWindowPos( widget, NULL, 0, 0, size[0], size[1], flags );
+  Win32::SetWindowPos(widget, NULL, 0, 0, size[0], size[1], flags);
 } // setWidgetSize()
 
 /*!
@@ -281,16 +281,16 @@ SoWin::setWidgetSize( HWND widget, const SbVec2s size )
   \sa setWidgetSize()
 */
 SbVec2s
-SoWin::getWidgetSize( HWND widget )
+SoWin::getWidgetSize(HWND widget)
 {
-  HDC hdc = GetDC( widget );
+  HDC hdc = GetDC(widget);
 
   SIZE size;
-  if ( ! GetWindowExtEx( hdc, & size ) ) {
+  if (! GetWindowExtEx(hdc, & size)) {
     size.cx = -1;
     size.cy = -1;
   }
-  return SbVec2s( ( short ) size.cx, ( short ) size.cy );
+  return SbVec2s((short) size.cx, (short) size.cy);
 } // getWidgetSize()
 
 /*!
@@ -301,7 +301,7 @@ SoWin::getWidgetSize( HWND widget )
   \sa getShellWidget()
 */
 HWND
-SoWin::getTopLevelWidget( void )
+SoWin::getTopLevelWidget(void)
 {
   return SoWinP::mainWidget;
 } // getTopLevelWidget()
@@ -324,24 +324,24 @@ SoWin::getTopLevelWidget( void )
   There will only be a single "Ok" button for the user to press.
 */
 void
-SoWin::createSimpleErrorDialog( HWND const widget, const char * const dialogTitle, const char * const errorStr1, const char * const errorStr2 )
+SoWin::createSimpleErrorDialog(HWND const widget, const char * const dialogTitle, const char * const errorStr1, const char * const errorStr2)
 {
   
-  SbString title( dialogTitle ? dialogTitle : "" );
-  SbString errstr( errorStr1 ? errorStr1 : "" );
+  SbString title(dialogTitle ? dialogTitle : "");
+  SbString errstr(errorStr1 ? errorStr1 : "");
 
-  if ( errorStr2 ) {
+  if (errorStr2) {
     errstr += '\n';
     errstr += errorStr2;
   }
 
-  MessageBox( widget, errstr.getString( ), title.getString( ), MB_OK | MB_ICONERROR | MB_TASKMODAL );
+  MessageBox(widget, errstr.getString(), title.getString(), MB_OK | MB_ICONERROR | MB_TASKMODAL);
 } // createSimpleErrorDialog()
 
 /*!
  */
 HWND
-SoWin::createWindow( char * title, char * className, SIZE size, HWND parent, HMENU menu )
+SoWin::createWindow(char * title, char * className, SIZE size, HWND parent, HMENU menu)
 {
   DWORD style, exstyle;
   LPVOID params = NULL;
@@ -349,7 +349,7 @@ SoWin::createWindow( char * title, char * className, SIZE size, HWND parent, HME
   style = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
   exstyle = NULL;
 
-  HWND widget = CreateWindowEx( exstyle,
+  HWND widget = CreateWindowEx(exstyle,
                                 className,
                                 title,
                                 style,
@@ -359,17 +359,17 @@ SoWin::createWindow( char * title, char * className, SIZE size, HWND parent, HME
                                 size.cy,
                                 parent,
                                 menu,
-                                SoWin::getInstance( ),
-                                params );
+                                SoWin::getInstance(),
+                                params);
   return widget;
 } // createWindow()
 
 /*!
  */
 SbBool
-SoWin::nextEvent( int appContext, MSG * msg )
+SoWin::nextEvent(int appContext, MSG * msg)
 {
-  return GetMessage( msg, NULL, 0, 0 );
+  return GetMessage(msg, NULL, 0, 0);
 } // nextEvent()
 
 /*!
@@ -379,17 +379,17 @@ SoWin::nextEvent( int appContext, MSG * msg )
   \sa getTopLevelWidget()
 */
 HWND
-SoWin::getShellWidget( HWND hwnd )
+SoWin::getShellWidget(HWND hwnd)
 {
   LONG style;
   HWND parent = hwnd;
   
   do {
     hwnd = parent;
-    style = Win32::GetWindowLong( hwnd, GWL_STYLE );
-    if ( style & WS_OVERLAPPEDWINDOW ) break;
-    parent = GetParent( hwnd );
-  } while( IsWindow( parent ) );
+    style = Win32::GetWindowLong(hwnd, GWL_STYLE);
+    if (style & WS_OVERLAPPEDWINDOW) break;
+    parent = GetParent(hwnd);
+  } while(IsWindow(parent));
   
   return hwnd;
 } // getShellWidget()
@@ -397,7 +397,7 @@ SoWin::getShellWidget( HWND hwnd )
 /*!
  */
 void
-SoWin::setInstance( HINSTANCE instance )
+SoWin::setInstance(HINSTANCE instance)
 {
   SoWinP::Instance = instance;
 } // setInstance()
@@ -405,7 +405,7 @@ SoWin::setInstance( HINSTANCE instance )
 /*!
  */
 HINSTANCE
-SoWin::getInstance( void )
+SoWin::getInstance(void)
 {
   return SoWinP::Instance;
 } // getInstance()
@@ -413,32 +413,32 @@ SoWin::getInstance( void )
 /*!
  */
 void
-SoWin::errorHandlerCB( const SoError * error, void * data )
+SoWin::errorHandlerCB(const SoError * error, void * data)
 {
   // Normally, errors, warnings and info goes to a dialog box..
 #if 1
-  SbString debugstring = error->getDebugString( );
+  SbString debugstring = error->getDebugString();
 
-  MessageBox( NULL,
-              ( LPCTSTR ) debugstring.getString( ),
+  MessageBox(NULL,
+              (LPCTSTR) debugstring.getString(),
               "SoError",
-              MB_OK | MB_ICONERROR );
+              MB_OK | MB_ICONERROR);
 #else
   // ..but during development it might be better to pipe it to the
   // console, so keep this #if/#else/#endif wrapper for convenience.
 
-  (void)printf("%s\n", error->getDebugString().getString() );
+  (void)printf("%s\n", error->getDebugString().getString());
 #endif
 } // errorHandlerCB()
 
 /*!
  */
 void
-SoWin::doIdleTasks( void )
+SoWin::doIdleTasks(void)
 {
-  SoDB::getSensorManager( )->processTimerQueue( );
-  SoDB::getSensorManager( )->processDelayQueue( TRUE ); // isidle = TRUE
-  SoWinP::sensorQueueChanged( NULL );
+  SoDB::getSensorManager()->processTimerQueue();
+  SoDB::getSensorManager()->processDelayQueue(TRUE); // isidle = TRUE
+  SoWinP::sensorQueueChanged(NULL);
 } // doIdleTasks()
 
 ///////////////////////////////////////////////////////////////////
@@ -449,67 +449,67 @@ SoWin::doIdleTasks( void )
 /*!
  */
 void
-SoWin::registerWindowClass( const char * const className )
+SoWin::registerWindowClass(const char * const className)
 {
   WNDCLASS windowclass;
 
-  LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
-  LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
-  HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
+  LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
+  LPCTSTR cursor = MAKEINTRESOURCE(IDC_ARROW);
+  HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
 
   windowclass.lpszClassName = className;
-  windowclass.hInstance = SoWin::getInstance( );
+  windowclass.hInstance = SoWin::getInstance();
   windowclass.lpfnWndProc = SoWin::eventHandler;
   windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = LoadIcon( SoWin::getInstance( ), icon );
-  windowclass.hCursor = LoadCursor( SoWin::getInstance( ), cursor );
+  windowclass.hIcon = LoadIcon(SoWin::getInstance(), icon);
+  windowclass.hCursor = LoadCursor(SoWin::getInstance(), cursor);
   windowclass.hbrBackground = brush;
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;
 
-  RegisterClass( & windowclass );
+  RegisterClass(& windowclass);
 } // registerWindowClass()
 
 /*!
  */
 void
-SoWin::unRegisterWindowClass( const char * const className )
+SoWin::unRegisterWindowClass(const char * const className)
 {
-  Win32::UnregisterClass( className, SoWin::getInstance( ) );
+  Win32::UnregisterClass(className, SoWin::getInstance());
 } // unRegisterWindowClass(
 
 /*!
  */
 LRESULT CALLBACK
-SoWin::eventHandler( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWin::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
   LRESULT retval = 0;
   BOOL handled = FALSE;
   
-  switch( message )
+  switch(message)
     {
 
     case WM_DESTROY:
-      if ( ! SoWinP::useParentEventHandler ) {
-        retval = SoWinP::onDestroy( window, message, wparam, lparam );
+      if (! SoWinP::useParentEventHandler) {
+        retval = SoWinP::onDestroy(window, message, wparam, lparam);
         handled = TRUE;
       }
       break;
             
     case WM_QUIT:
-      retval = SoWinP::onQuit( window, message, wparam, lparam );
+      retval = SoWinP::onQuit(window, message, wparam, lparam);
       handled = TRUE;
       break;
     }
 
-  if ( SoWinP::useParentEventHandler && SoWinP::parentEventHandler )
-    return SoWinP::parentEventHandler( window, message, wparam, lparam );
+  if (SoWinP::useParentEventHandler && SoWinP::parentEventHandler)
+    return SoWinP::parentEventHandler(window, message, wparam, lparam);
 
-  if ( handled )
+  if (handled)
     return retval;
     
-  return DefWindowProc( window, message, wparam, lparam );
+  return DefWindowProc(window, message, wparam, lparam);
 } // eventHandler()
 
 ///////////////////////////////////////////////////////////////////
@@ -520,36 +520,36 @@ SoWin::eventHandler( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 /*!
  */
 void CALLBACK
-SoWinP::timerSensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
+SoWinP::timerSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
 #if SOWIN_DEBUG && 0
-  SoDebugError::postInfo( "SoWin::timerSensorCB", "called" );
+  SoDebugError::postInfo("SoWin::timerSensorCB", "called");
 #endif // SOWIN_DEBUG
-  SoDB::getSensorManager( )->processTimerQueue( );
-  SoWinP::sensorQueueChanged( NULL );
+  SoDB::getSensorManager()->processTimerQueue();
+  SoWinP::sensorQueueChanged(NULL);
 } // timerSensorCB()
 
 /*!
  */
 void CALLBACK
-SoWinP::delaySensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
+SoWinP::delaySensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
 #if SOWIN_DEBUG && 0
-  SoDebugError::postInfo( "SoWin::delaySensorCB", "called" );
+  SoDebugError::postInfo("SoWin::delaySensorCB", "called");
 #endif // SOWIN_DEBUG
-  SoDB::getSensorManager( )->processDelayQueue( FALSE );
-  SoWinP::sensorQueueChanged( NULL );
+  SoDB::getSensorManager()->processDelayQueue(FALSE);
+  SoWinP::sensorQueueChanged(NULL);
 } // delaySensorCB()
 
 /*!
  */
 void CALLBACK
-SoWinP::idleSensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
+SoWinP::idleSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
 #if SOWIN_DEBUG && 0
-  SoDebugError::postInfo( "SoWin::idleSensorCB", "called" );
+  SoDebugError::postInfo("SoWin::idleSensorCB", "called");
 #endif // SOWIN_DEBUG
-  SoWin::doIdleTasks( );
+  SoWin::doIdleTasks();
 } // idleSensorCB()
 
 /*!
@@ -560,57 +560,57 @@ SoWinP::idleSensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
   when a sensor is ripe for plucking.
 */
 void
-SoWinP::sensorQueueChanged( void * cbdata )
+SoWinP::sensorQueueChanged(void * cbdata)
 {
-  SoSensorManager * sensormanager = SoDB::getSensorManager( );
+  SoSensorManager * sensormanager = SoDB::getSensorManager();
 
   SbTime timevalue;
-  if ( sensormanager->isTimerSensorPending( timevalue ) ) {
-    SbTime interval = timevalue - SbTime::getTimeOfDay( );
+  if (sensormanager->isTimerSensorPending(timevalue)) {
+    SbTime interval = timevalue - SbTime::getTimeOfDay();
 
-    if ( interval.getValue( ) < 0.0 ) interval.setValue( 0.0 );
-    if ( SoWinP::timerSensorActive ) KillTimer( NULL, SoWinP::timerSensorId );
+    if (interval.getValue() < 0.0) interval.setValue(0.0);
+    if (SoWinP::timerSensorActive) KillTimer(NULL, SoWinP::timerSensorId);
     
-    SoWinP::timerSensorId = SetTimer( SoWinP::mainWidget,
+    SoWinP::timerSensorId = SetTimer(SoWinP::mainWidget,
                                       1,
-                                      interval.getMsecValue( ),
-                                      SoWinP::timerSensorCB );
+                                      interval.getMsecValue(),
+                                      SoWinP::timerSensorCB);
 
     SoWinP::timerSensorActive = TRUE;
   }
-  else if ( SoWinP::timerSensorActive ) {
-    KillTimer( NULL, SoWinP::timerSensorId );
+  else if (SoWinP::timerSensorActive) {
+    KillTimer(NULL, SoWinP::timerSensorId);
     SoWinP::timerSensorActive = FALSE;
   }
 
-  if ( sensormanager->isDelaySensorPending( ) ) {
+  if (sensormanager->isDelaySensorPending()) {
         
-    if ( ! SoWinP::idleSensorActive ) {
-      SoWinP::idleSensorId = SetTimer( SoWinP::mainWidget,
+    if (! SoWinP::idleSensorActive) {
+      SoWinP::idleSensorId = SetTimer(SoWinP::mainWidget,
                                        2,
                                        0,
-                                       SoWinP::idleSensorCB );
+                                       SoWinP::idleSensorCB);
       SoWinP::idleSensorActive = TRUE;
     }
 
-    if ( ! SoWinP::delaySensorActive ) {
-      unsigned long timeout = SoDB::getDelaySensorTimeout( ).getMsecValue( );
-      SoWinP::delaySensorId = SetTimer( SoWinP::mainWidget,
+    if (! SoWinP::delaySensorActive) {
+      unsigned long timeout = SoDB::getDelaySensorTimeout().getMsecValue();
+      SoWinP::delaySensorId = SetTimer(SoWinP::mainWidget,
                                         3,
                                         timeout,
-                                        SoWinP::delaySensorCB );
+                                        SoWinP::delaySensorCB);
       SoWinP::delaySensorActive = TRUE;
     }
   }
   else {
                              
-    if ( SoWinP::idleSensorActive ) {
-      KillTimer( NULL, SoWinP::idleSensorId );
+    if (SoWinP::idleSensorActive) {
+      KillTimer(NULL, SoWinP::idleSensorId);
       SoWinP::idleSensorActive = FALSE;
     }
 
-    if ( SoWinP::delaySensorActive ) {
-      KillTimer( NULL, SoWinP::delaySensorId );
+    if (SoWinP::delaySensorActive) {
+      KillTimer(NULL, SoWinP::delaySensorId);
       SoWinP::delaySensorActive = FALSE;
     }
   }
@@ -619,22 +619,22 @@ SoWinP::sensorQueueChanged( void * cbdata )
 /*!
  */
 LRESULT
-SoWinP::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  PostQuitMessage( 0 );
+  PostQuitMessage(0);
   return 0;
 } // onDestroy()
 
 /*!
  */
 LRESULT
-SoWinP::onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinP::onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  if ( SoWinP::idleSensorActive ) KillTimer( NULL, SoWinP::idleSensorId );
-  if ( SoWinP::timerSensorActive ) KillTimer( NULL, SoWinP::timerSensorId );
-  if ( SoWinP::delaySensorActive ) KillTimer( NULL, SoWinP::delaySensorId );
+  if (SoWinP::idleSensorActive) KillTimer(NULL, SoWinP::idleSensorId);
+  if (SoWinP::timerSensorActive) KillTimer(NULL, SoWinP::timerSensorId);
+  if (SoWinP::delaySensorActive) KillTimer(NULL, SoWinP::delaySensorId);
 
-  SoWin::unRegisterWindowClass( SoWinP::className );
+  SoWin::unRegisterWindowClass(SoWinP::className);
 
   return 0;
 } // onQuit()

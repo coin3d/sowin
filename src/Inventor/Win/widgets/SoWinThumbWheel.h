@@ -27,9 +27,9 @@
 class SoAnyThumbWheel;
 class SoWinFullViewer;
 
-typedef void thumbWheelCB( SoWinFullViewer * viewer, void ** data );
+typedef void thumbWheelCB(SoWinFullViewer * viewer, void ** data);
 
-// Define our own window message ( WM_USER = 0x0400 )
+// Define our own window message (WM_USER = 0x0400)
 #define WM_THUMBWHEEL 0x0401
 
 // *************************************************************************
@@ -52,94 +52,94 @@ public:
     Disabled
   };
 
-  SoWinThumbWheel( HWND parent = 0, long id = -1, int x = 0, int y = 0, char * name = 0 );
-  SoWinThumbWheel( Orientation, HWND parent = 0, long id = -1, int x = 0, int y = 0, char * name = 0 );
-  ~SoWinThumbWheel( void );
+  SoWinThumbWheel(HWND parent = 0, long id = -1, int x = 0, int y = 0, char * name = 0);
+  SoWinThumbWheel(Orientation, HWND parent = 0, long id = -1, int x = 0, int y = 0, char * name = 0);
+  ~SoWinThumbWheel(void);
 
-  void setId( long id );
-  long id( void ) const;
+  void setId(long id);
+  long id(void) const;
   
-  void setOrientation( Orientation );
-  Orientation orientation( void ) const;
+  void setOrientation(Orientation);
+  Orientation orientation(void) const;
 
-  void setValue( float value );
-  float value( void ) const;
-  float tmpValue( void ) const;
+  void setValue(float value);
+  float value(void) const;
+  float tmpValue(void) const;
 
-  void setEnabled( bool enable );
-  bool isEnabled( void ) const;
+  void setEnabled(bool enable);
+  bool isEnabled(void) const;
 
-  void setLabelText( char * text );
-  void setLabelOffset( int x, int y );
-  SIZE getLabelSize( void );
+  void setLabelText(char * text);
+  void setLabelOffset(int x, int y);
+  SIZE getLabelSize(void);
 
-  void setRangeBoundaryHandling( boundaryHandling handling );
-  boundaryHandling getRangeBoundaryHandling( void ) const;
+  void setRangeBoundaryHandling(boundaryHandling handling);
+  boundaryHandling getRangeBoundaryHandling(void) const;
 
-  HWND getWidget( void );
-  SIZE sizeHint( void ) const;
-  int width( void );
-  int height( void );
-  void move( int x, int y );
-  void size( int width, int height );
-  void move( int x, int y, int width, int height );
-  void registerCallback( thumbWheelCB * func );
-  void registerViewer( SoWinFullViewer * viewer );
+  HWND getWidget(void);
+  SIZE sizeHint(void) const;
+  int width(void);
+  int height(void);
+  void move(int x, int y);
+  void size(int width, int height);
+  void move(int x, int y, int width, int height);
+  void registerCallback(thumbWheelCB * func);
+  void registerViewer(SoWinFullViewer * viewer);
 
-  void show( void );
-  void hide( void );
+  void show(void);
+  void hide(void);
 
 protected:
 
-  LRESULT CALLBACK onCreate( HWND window,
+  LRESULT CALLBACK onCreate(HWND window,
                              UINT message,
                              WPARAM wparam,
-                             LPARAM lparam );
+                             LPARAM lparam);
 
-  LRESULT CALLBACK onSize( HWND window,
+  LRESULT CALLBACK onSize(HWND window,
                            UINT message,
                            WPARAM wparam,
-                           LPARAM lparam );
+                           LPARAM lparam);
 
-  LRESULT CALLBACK onPaint( HWND window,
+  LRESULT CALLBACK onPaint(HWND window,
                             UINT message,
                             WPARAM wparam,
-                            LPARAM lparam );
+                            LPARAM lparam);
 
-  LRESULT CALLBACK onLButtonDown( HWND window,
+  LRESULT CALLBACK onLButtonDown(HWND window,
                                   UINT message,
                                   WPARAM wparam,
-                                  LPARAM lparam );
+                                  LPARAM lparam);
 
-  LRESULT CALLBACK onLButtonUp( HWND window,
+  LRESULT CALLBACK onLButtonUp(HWND window,
                                 UINT message,
                                 WPARAM wparam,
-                                LPARAM lparam );
+                                LPARAM lparam);
 
-  LRESULT CALLBACK onMouseMove( HWND window,
+  LRESULT CALLBACK onMouseMove(HWND window,
                                 UINT message,
                                 WPARAM wparam,
-                                LPARAM lparam );
+                                LPARAM lparam);
 
-  LRESULT CALLBACK onDestroy( HWND window,
+  LRESULT CALLBACK onDestroy(HWND window,
                               UINT message,
                               WPARAM wparam,
-                              LPARAM lparam );
+                              LPARAM lparam);
 
-  static LRESULT CALLBACK windowProc( HWND window,
+  static LRESULT CALLBACK windowProc(HWND window,
                                       UINT message,
                                       WPARAM wparam,
-                                      LPARAM lparam );
+                                      LPARAM lparam);
 
 private:
   
-  void constructor( Orientation );
-  HWND buildWidget( HWND parent, RECT rect, char * name );
-  void initWheel( int diameter, int width );
-  HWND createLabel( HWND parent, int x, int y, char * text );
-  HBITMAP createDIB( int width, int height, int bpp, void ** bits );
-  void blitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int height ) const;
-  SIZE getTextSize( HWND window, char * text );
+  void constructor(Orientation);
+  HWND buildWidget(HWND parent, RECT rect, char * name);
+  void initWheel(int diameter, int width);
+  HWND createLabel(HWND parent, int x, int y, char * text);
+  HBITMAP createDIB(int width, int height, int bpp, void ** bits);
+  void blitBitmap(HBITMAP bitmap, HDC dc, int x,int y, int width, int height) const;
+  SIZE getTextSize(HWND window, char * text);
 
   Orientation orient;
   State state;

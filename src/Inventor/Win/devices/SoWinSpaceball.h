@@ -38,23 +38,23 @@ public:
     ALL = ALL_EVENTS
   };
 
-  SoWinSpaceball( UINT mask = ALL_EVENTS );
-  ~SoWinSpaceball( void );
+  SoWinSpaceball(UINT mask = ALL_EVENTS);
+  ~SoWinSpaceball(void);
 
-  virtual void enable( HWND, SoWinEventHandler * , void *, HWND = NULL );
-  virtual void disable( HWND, SoWinEventHandler * , void * );
+  virtual void enable(HWND, SoWinEventHandler * , void *, HWND = NULL);
+  virtual void disable(HWND, SoWinEventHandler * , void *);
 
-  virtual const SoEvent * translateEvent( MSG * msg );
+  virtual const SoEvent * translateEvent(MSG * msg);
 
-  void setRotationScaleFactor( float factor );
-  float getRotationScaleFactor( void ) const;
-  void setTranslationScaleFactor( float factor );
-  float getTranslationScaleFactor( void ) const;
+  void setRotationScaleFactor(float factor);
+  float getRotationScaleFactor(void) const;
+  void setTranslationScaleFactor(float factor);
+  float getTranslationScaleFactor(void) const;
 
-  static SbBool exists( void );
+  static SbBool exists(void);
 
   void setFocusToWindow(SbBool flag);
-  SbBool isFocusToWindow( void ) const;
+  SbBool isFocusToWindow(void) const;
 
 private:
   UINT eventMask;
@@ -66,10 +66,10 @@ private:
   float rotScale;
   float transScale;
 
-  SoMotion3Event * translateMotionEvent( MSG * motionEvent );
-  SoSpaceballButtonEvent * translateButtonEvent( MSG * buttonEvent,
-                                                 SoButtonEvent::State whichState );
-  SoMotion3Event * translateMotionEventMagellan( MSG * motionEvent );
+  SoMotion3Event * translateMotionEvent(MSG * motionEvent);
+  SoSpaceballButtonEvent * translateButtonEvent(MSG * buttonEvent,
+                                                 SoButtonEvent::State whichState);
+  SoMotion3Event * translateMotionEventMagellan(MSG * motionEvent);
 
   //struct _MagellanControl_ *magellanHandle;
 };
