@@ -905,8 +905,7 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 {
   PRIVATE( this )->layoutWidgets( LOWORD( lparam ), HIWORD( lparam ) );
 
-  BOOL r = InvalidateRect( window, NULL, TRUE );
-  assert( r && "InvalidateRect() failed -- investigate" );
+  Win32::InvalidateRect( window, NULL, TRUE );
   this->validate( window );// FIXME validate buttons and thumbwheel too
 
   return 0;

@@ -634,10 +634,8 @@ SoWinGLWidget::buildWidget( HWND parent )
   RegisterClass( & windowclass );
 
   RECT rect;
-  if ( IsWindow( parent ) ) {
-    BOOL r = GetClientRect( parent, & rect );
-    assert( r && "GetClientRect() failed -- investigate" );
-  }
+  if ( IsWindow( parent ) )
+    Win32::GetClientRect( parent, & rect );
   else {
     rect.left = 0;
     rect.top = 0;
@@ -647,8 +645,9 @@ SoWinGLWidget::buildWidget( HWND parent )
 
   HWND managerwidget = CreateWindow( wndclassname,
                                      wndclassname,
-                                     WS_VISIBLE |
-                                     WS_CLIPCHILDREN | 
+		                                 WS_VISIBLE |
+		                                 WS_CLIPSIBLINGS | // FIXME: Removing this breaks the program for Watford.
+		                                 WS_CLIPCHILDREN |   // Keeping it breaks the SoWinRenderArea. mariusbu 20010803.
                                      WS_CHILD,
                                      rect.left,
                                      rect.top,
@@ -820,6 +819,7 @@ SoWinGLWidgetP::buildNormalGLWidget( void )
                                       wndclassname,
                                       WS_VISIBLE |
 		                                  WS_CLIPSIBLINGS |
+		                                  WS_CLIPCHILDREN |
                                       WS_CHILD,
                                       rect.left,
                                       rect.top,
