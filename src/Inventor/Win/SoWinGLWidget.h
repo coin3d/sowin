@@ -167,6 +167,7 @@ protected:
 private:
   void buildNormalGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
   void buildOverlayGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
+  BOOL createGLContext( HWND window );
 
   // Callback for SoWinGL "manager widget" window
   static LRESULT CALLBACK managerWindowProc( HWND window,

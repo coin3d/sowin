@@ -130,6 +130,8 @@ protected:
 
   HWND buildWidget( HWND parent );
 
+  void showDecorationWidgets( SbBool enable );
+  
   virtual void buildDecoration( HWND parent );
   virtual HWND buildLeftWheel( HWND parent );
   virtual HWND buildBottomWheel( HWND parent );

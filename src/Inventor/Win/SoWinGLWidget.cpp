@@ -168,7 +168,7 @@ SoWinGLWidget::getNormalVisual( void )
 void
 SoWinGLWidget::setOverlayVisual( PIXELFORMATDESCRIPTOR * vis )
 {
-  // Note: setOverlayVisual( ) has no effect on Win32 machines
+  // Note: setOverlayVisual( ) has no effect on Win32
 
   assert( vis != NULL );
   memcpy( ( & this->pfdOverlay ), vis, sizeof( PIXELFORMATDESCRIPTOR ) );
@@ -249,6 +249,8 @@ void
 SoWinGLWidget::setQuadBufferStereo( const SbBool enable )
 {
   // FIXME: do proper implementation. 20001123 mortene.
+  // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 /*!
@@ -258,6 +260,8 @@ SbBool
 SoWinGLWidget::isQuadBufferStereo( void ) const
 {
   // FIXME: do proper implementation. 20001123 mortene.
+  // FIXME: function not implemented
+  SOWIN_STUB();
   return FALSE;
 }
 
@@ -324,6 +328,7 @@ SoWinGLWidget::widgetChanged( HWND newWidget )
   // virtual - does nothing
   // called whenever the widget is changed (i.e. at initialization
   // or after switching from single->double buffer)
+  this->createGLContext( this->getNormalWidget( ) );
 }
 
 void
@@ -355,7 +360,6 @@ SoWinGLWidget::getGLAspectRatio( void ) const
 {
   return ( float ) this->glSize[0] / ( float ) this->glSize[1];
 }
-
 
 LRESULT
 SoWinGLWidget::eventHandler( HWND hwnd,
@@ -546,7 +550,7 @@ SoWinGLWidget::glUnlockOverlay( void )
 void
 SoWinGLWidget::glSwapBuffers( void )
 {
-  // Nothing to do...
+  //assert( this->isDoubleBuffer( ) );
   assert( this->hdcNormal != NULL );
   SwapBuffers( this->hdcNormal );
 }
@@ -741,13 +745,18 @@ SoWinGLWidget::glWindowProc( HWND window,
   return DefWindowProc( window, message, wparam, lparam );
 }
 
-LRESULT
-SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
-  //CREATESTRUCT * cs = ( CREATESTRUCT * ) lparam;
 
+BOOL
+SoWinGLWidget::createGLContext( HWND window )
+{
   int nPixelFormat;
   BOOL ok;
+
+  _cprintf( "createGLContext\n" );
+  
+  wglMakeCurrent( NULL, NULL );
+  wglDeleteContext( this->ctxNormal );
+  DeleteDC( this->hdcNormal );
 
   HDC hdc = GetDC( window );
 
@@ -757,8 +766,9 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
     1,                             // version number
     PFD_DRAW_TO_WINDOW |           // support window
     PFD_SUPPORT_OPENGL |           // support OpenGL
-    PFD_DOUBLEBUFFER |             // double buffer
-    PFD_TYPE_RGBA,                 // RGBA type
+    PFD_TYPE_RGBA |                 // RGBA type
+    PFD_SWAP_LAYER_BUFFERS |
+    PFD_DOUBLEBUFFER,              // double buffer
     32,                            // 32-bit colour depth
     0, 0, 0, 0, 0, 0,              // colour bits ignored
     0,                             // no alpha buffer
@@ -782,15 +792,12 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 		SoAny::si( )->getSharedGLContext( NULL, NULL );
 
   HGLRC hrc = wglCreateContext( hdc );
+  //wglCreateLayerContext( )
 
 	if ( share != NULL ) share->ctxNormal = hrc;
 
 	SoAny::si( )->registerGLContext( ( void * ) this, NULL, NULL );
 
-#if SOWIN_DEBUG && 0
-  SoDebugError::postInfo( "SoWinGLWidget::onCreate", "called" );
-#endif // SOWIN_DEBUG
-	
   ok = wglMakeCurrent( hdc, hrc );
   assert( ok );
 
@@ -802,15 +809,31 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 
   memcpy( ( void * ) ( & this->pfdNormal ), & pfd, sizeof( PIXELFORMATDESCRIPTOR ) );
   if( this->glModes & SO_GL_DOUBLE ) {
+    pfd.dwFlags |= PFD_DOUBLEBUFFER;
     memcpy( & this->pfdDouble, & pfd, sizeof( PIXELFORMATDESCRIPTOR ) );
     this->hdcDouble = this->hdcNormal;
     this->ctxDouble = this->ctxNormal;
-  } else {
+  }
+  else {
+    pfd.dwFlags &= ~PFD_DOUBLEBUFFER;
     memcpy( & this->pfdSingle, & pfd, sizeof( PIXELFORMATDESCRIPTOR ) );
     this->hdcSingle = this->hdcNormal;
     this->ctxSingle = this->ctxNormal;
   }
 
+  return TRUE;
+}
+
+LRESULT
+SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+  
+#if SOWIN_DEBUG && 0
+  SoDebugError::postInfo( "SoWinGLWidget::onCreate", "called" );
+#endif // SOWIN_DEBUG
+	
+  //CREATESTRUCT * cs = ( CREATESTRUCT * ) lparam;
+  this->createGLContext( window );
   return 0;
 }
 
@@ -895,4 +918,3 @@ SoWinGLWidget::glScheduleRedraw( void )
 {
   return FALSE;
 }
-

@@ -54,7 +54,7 @@ SbBool SoWinFullViewer::doButtonBar = FALSE;
 void
 SoWinFullViewer::setDecoration( SbBool enable )
 {
-#if SOWIN_DEBUG
+#if SOWIN_DEBUG & 1
   if ( ( enable && this->isDecoration( ) ) ||
        ( ! enable && ! this->isDecoration( ) ) ) {
     SoDebugError::postWarning( "SoWinFullViewer::setDecoration",
@@ -66,14 +66,69 @@ SoWinFullViewer::setDecoration( SbBool enable )
 
   this->decorations = enable;
 	// FIXME
-	//if ( this->viewerWidget )
-	//this->showDecorationWidgets( enable );
+	if ( IsWindow( this->viewerWidget ) ) {
+    
+    this->showDecorationWidgets( enable );
+
+    // now trigger resize to position widgets
+    RECT rect;
+    GetWindowRect(  this->viewerWidget, & rect );
+    int width = rect.right - rect.left;
+    int height = rect.bottom - rect.top;
+
+    assert( IsWindow( this->renderAreaWidget ) );
+	
+    if ( enable ) {
+      MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
+        width - ( 2 * DECORATION_SIZE ),
+        height - DECORATION_SIZE,
+        TRUE );
+    }
+    else {
+      MoveWindow( this->renderAreaWidget, 0, 0,
+        width,
+        height,
+        TRUE );
+    }
+
+    // redraw all
+    InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
+    
+  }
 }
 
 SbBool
 SoWinFullViewer::isDecoration( void )
 {
   return this->decorations;
+}
+
+void
+SoWinFullViewer::showDecorationWidgets( SbBool enable )
+{
+  int i;
+	int numViewerButtons = this->viewerButtonList->getLength( );
+	int	numAppButtons = this->appButtonList->getLength( );
+	
+	// Viewer buttons  
+	for( i = 0; i < numViewerButtons; i++ )
+		ShowWindow( VIEWERBUTTON( i )->getWidget( ), ( enable ? SW_SHOW : SW_HIDE ) );
+
+	// App buttons
+	for( i = 0; i < numAppButtons; i++ )
+		ShowWindow( APPBUTTON( i ), ( enable ? SW_SHOW : SW_HIDE ) );
+
+	// Thumbwheels
+  if ( enable ) {
+    this->leftWheel->show( );
+    this->bottomWheel->show( );
+    this->rightWheel->show( );
+  }
+  else {
+    this->leftWheel->hide( );
+    this->bottomWheel->hide( );
+    this->rightWheel->hide( );
+  }
 }
 
 void
@@ -686,7 +741,7 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
 	this->common->prepareMenu( this->prefmenu );
 
   assert( IsWindow( this->renderAreaWidget ) );
-  this->displayPopupMenu( point.x, point.y, this->renderAreaWidget );//this->viewerWidget );
+  this->displayPopupMenu( point.x, point.y, /*this->renderAreaWidget );*/this->viewerWidget );
 }
 
 void
@@ -1137,7 +1192,7 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 	// RenderArea
 	assert( IsWindow( this->renderAreaWidget ) );
 	
-	if ( this->isFullScreen( ) ) {
+	if ( this->isFullScreen( ) || ! this->isDecoration( ) ) {
 		MoveWindow( this->renderAreaWidget, 0, 0, LOWORD( lparam ), HIWORD( lparam ), FALSE );
 		return 0; 
 	}
@@ -1344,30 +1399,6 @@ void
 SoWinFullViewer::goFullScreen( SbBool enable )
 {
 	inherited::goFullScreen( enable );
-
-  int i;
-	int numViewerButtons = this->viewerButtonList->getLength( );
-	int	numAppButtons = this->appButtonList->getLength( );
-	
-	// Viewer buttons
-  
-	for( i = 0; i < numViewerButtons; i++ )
-		ShowWindow( VIEWERBUTTON( i )->getWidget( ), ( enable ? SW_HIDE : SW_SHOW ) );
-
-	// App buttons
-	for( i = 0; i < numAppButtons; i++ )
-		ShowWindow( APPBUTTON( i ), ( enable ? SW_HIDE : SW_SHOW ) );
-
-	// Thumbwheels
-  if ( enable ) {
-    this->leftWheel->hide( );
-    this->bottomWheel->hide( );
-    this->rightWheel->hide( );
-  }
-  else {
-    this->leftWheel->show( );
-    this->bottomWheel->show( );
-    this->rightWheel->show( );
-  }
+  this->setDecoration( ! enable );
 }
 
