@@ -135,13 +135,28 @@ SoWin::init(int & argc, char ** argv,
   if (classname)
     SoWinP::className = strcpy(new char [ strlen(classname) + 1 ], classname);
 
-  SoWin::registerWindowClass(classname);
+  {
+    WNDCLASS windowclass;
+    LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
+    HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
+    windowclass.lpszClassName = classname;
+    windowclass.hInstance = NULL;
+    windowclass.lpfnWndProc = SoWin::eventHandler;
+    windowclass.style = CS_OWNDC;
+    windowclass.lpszMenuName = NULL;
+    windowclass.hIcon = LoadIcon(NULL, icon);
+    windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
+    windowclass.hbrBackground = brush;
+    windowclass.cbClsExtra = 0;
+    windowclass.cbWndExtra = 4;
+    (void)Win32::RegisterClass(&windowclass);
+  }
  
   SIZE size = { 500, 500 };
   HWND toplevel = SoWin::createWindow((char *) appname, (char *) classname, size, NULL);
   SoWinP::useParentEventHandler = FALSE;
   
-  SoWin::init( toplevel );
+  SoWin::init(toplevel);
   
   return toplevel;
 }
@@ -521,45 +536,6 @@ SoWin::doIdleTasks(void)
   SoGuiP::sensorQueueChanged(NULL);
 }
 
-///////////////////////////////////////////////////////////////////
-//
-//  (protected)
-//
-
-/*!
-  FIXME: doc
- */
-void
-SoWin::registerWindowClass(const char * const className)
-{
-  WNDCLASS windowclass;
-
-  LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
-  HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
-
-  windowclass.lpszClassName = className;
-  windowclass.hInstance = NULL;
-  windowclass.lpfnWndProc = SoWin::eventHandler;
-  windowclass.style = CS_OWNDC;
-  windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = LoadIcon(NULL, icon);
-  windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
-  windowclass.hbrBackground = brush;
-  windowclass.cbClsExtra = 0;
-  windowclass.cbWndExtra = 4;
-
-  RegisterClass(& windowclass);
-}
-
-/*!
-  FIXME: doc
- */
-void
-SoWin::unRegisterWindowClass(const char * const className)
-{
-  Win32::UnregisterClass(className, NULL);
-}
-
 /*!
   FIXME: doc
  */
@@ -642,7 +618,7 @@ SoWinP::onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
   if (SoWinP::timerSensorActive) KillTimer(NULL, SoWinP::timerSensorId);
   if (SoWinP::delaySensorActive) KillTimer(NULL, SoWinP::delaySensorId);
 
-  SoWin::unRegisterWindowClass(SoWinP::className);
+  Win32::UnregisterClass(SoWinP::className, NULL);
 
   return 0;
 }
