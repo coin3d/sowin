@@ -34,7 +34,6 @@
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
 #include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
-#include <Inventor/Win/viewers/SoAnyExaminerViewer.h>
 
 #include <Inventor/Win/common/pixmaps/perspective.xpm>
 #include <Inventor/Win/common/pixmaps/ortho.xpm>
@@ -111,7 +110,6 @@ SoWinExaminerViewer::SoWinExaminerViewer(
   SoWinViewer::Type type)
   : inherited(parent, name, embed, flag, type, FALSE)
 {
-  this->common = new SoAnyExaminerViewer(this);
   PRIVATE(this) = new SoWinExaminerViewerP(this);
   PRIVATE(this)->constructor(TRUE);
 } // SoWinExaminerViewer()
@@ -131,7 +129,6 @@ SoWinExaminerViewer::SoWinExaminerViewer(
   SbBool build)
   : inherited(parent, name, embed, flag, type, FALSE)
 {
-  this->common = new SoAnyExaminerViewer(this);
   PRIVATE(this) = new SoWinExaminerViewerP(this);
   PRIVATE(this)->constructor(build);
 } // SoWinExaminerViewer()
@@ -146,9 +143,10 @@ SoWinExaminerViewer::SoWinExaminerViewer(
 */
 
 void
-SoWinExaminerViewerP::constructor(
- SbBool build)
+SoWinExaminerViewerP::constructor(SbBool build)
 {
+  this->owner->genericConstructor();
+
   this->owner->setClassName("SoWinExaminerViewer");
   this->owner->setPopupMenuString("Examiner Viewer");
   this->owner->setPrefSheetString("Examiner Viewer Preference Sheet");
@@ -177,11 +175,10 @@ SoWinExaminerViewerP::constructor(
   Destructor.
 */
 
-SoWinExaminerViewer::~SoWinExaminerViewer(
- void)
+SoWinExaminerViewer::~SoWinExaminerViewer()
 {
   delete this->pimpl;
-  delete this->common;
+  this->genericDestructor();
 } // ~SoWinExaminerViewer()
 
 // *************************************************************************
@@ -195,7 +192,7 @@ void
 SoWinExaminerViewer::setViewing(// virtual
   SbBool enable)
 {
-  this->common->setMode(enable ?
+  this->setMode(enable ?
                          SoAnyExaminerViewer::EXAMINE :
                          SoAnyExaminerViewer::INTERACT);
   inherited::setViewing(enable);
@@ -264,7 +261,7 @@ SoWinExaminerViewer::setCursorEnabled(// virtual, protected
   SbBool enable)
 {
   inherited::setCursorEnabled(enable);
-  this->setCursorRepresentation(this->common->currentmode);
+  this->setCursorRepresentation(this->currentmode);
 } // setcursorEnabled()
 
 /*!
@@ -300,11 +297,11 @@ void
 SoWinExaminerViewer::leftWheelMotion(
   float value)
 {
-  if (common->isAnimating())
-    common->stopAnimating();
+  if (this->isAnimating())
+    this->stopAnimating();
 
  inherited::leftWheelMotion(
-  common->rotXWheelMotion(value, this->getLeftWheelValue()));
+  this->rotXWheelMotion(value, this->getLeftWheelValue()));
 } // leftWheelMotion()
 
 /*!
@@ -316,11 +313,11 @@ void
 SoWinExaminerViewer::bottomWheelMotion(
   float value)
 {
-  if (common->isAnimating())
-    common->stopAnimating();
+  if (this->isAnimating())
+    this->stopAnimating();
 
   inherited::bottomWheelMotion(
-  common->rotYWheelMotion(value, this->getBottomWheelValue()));
+  this->rotYWheelMotion(value, this->getBottomWheelValue()));
 } // bottomWheelMotion()
 
 /*!
@@ -332,7 +329,7 @@ void
 SoWinExaminerViewer::rightWheelMotion(
   float value)
 {
- common->zoom(this->getRightWheelValue() - value);
+ this->zoom(this->getRightWheelValue() - value);
  inherited::rightWheelMotion(value);
 } // rightWheelMotion()
 
@@ -399,7 +396,7 @@ SbBool
 SoWinExaminerViewer::processSoEvent(
   const SoEvent * const event)
 {
-  if (common->processSoEvent(event))
+  if (this->processGenericSoEvent(event))
     return TRUE;
 
   return inherited::processSoEvent(event);
@@ -449,9 +446,9 @@ SoWinExaminerViewer::setSeekMode(SbBool on)
   }
 #endif // SOWIN_DEBUG
 
-  if (common->isAnimating()) common->stopAnimating();
+  if (this->isAnimating()) this->stopAnimating();
   inherited::setSeekMode(on);
-  this->common->setMode(on ?
+  this->setMode(on ?
                          SoAnyExaminerViewer::WAITING_FOR_SEEK :
                          SoAnyExaminerViewer::EXAMINE);
 } // setSeekMode()
@@ -466,11 +463,11 @@ void
 SoWinExaminerViewer::actualRedraw(
  void)
 {
-  common->actualRedraw();
+  this->actualGenericRedraw();
   inherited::actualRedraw();
-  if (common->isFeedbackVisible())
-    common->drawAxisCross();
-  if (common->isAnimating())
+  if (this->isFeedbackVisible())
+    this->drawAxisCross();
+  if (this->isAnimating())
     this->scheduleRedraw();
 } // actualRedraw()
 
@@ -537,53 +534,8 @@ void
 SoWinExaminerViewer::setAnimationEnabled(
   const SbBool enable)
 {
-  common->setAnimationEnabled(enable);
+  this->setGenericAnimationEnabled(enable);
 } // setAnimationEnabled()
-
-/*!
-*/
-SbBool
-SoWinExaminerViewer::isAnimationEnabled(
-  void) const
-{
-  return common->isAnimationEnabled();
-} // isAnimationEnabled()
-
-/*!
-*/
-void
-SoWinExaminerViewer::stopAnimating(
-  void)
-{
-  common->stopAnimating();
-} // stopAnimating()
-
-/*!
-*/
-SbBool
-SoWinExaminerViewer::isAnimating(
-  void) const
-{
-  return common->isAnimating();
-} // isAnimating()
-
-/*!
-*/
-void
-SoWinExaminerViewer::setFeedbackVisibility(
-  const SbBool enable)
-{
-  common->setFeedbackVisibility(enable);
-} // setFeedbackVisibility()
-
-/*!
-*/
-SbBool
-SoWinExaminerViewer::isFeedbackVisible(
-  void) const
-{
-  return common->isFeedbackVisible();
-} // isFeedbackVisible()
 
 /*!
 */
@@ -591,17 +543,8 @@ void
 SoWinExaminerViewer::setFeedbackSize(
    const int size)
 {
-  common->setFeedbackSize(size);
+  this->setGenericFeedbackSize(size);
 } // setFeedbackSize()
-
-/*!
-*/
-int
-SoWinExaminerViewer::getFeedbackSize(
-  void) const
-{
-  return common->getFeedbackSize();
-} // getFeedbackSize()
 
 // *************************************************************************
 
@@ -611,7 +554,7 @@ void
 SoWinExaminerViewer::afterRealizeHook(// virtual
   void)
 {
-  this->setCursorRepresentation(this->common->currentmode);
+  this->setCursorRepresentation(this->currentmode);
   inherited::afterRealizeHook();
 } // afterRealizeHook()
 
