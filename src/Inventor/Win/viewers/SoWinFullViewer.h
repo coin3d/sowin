@@ -108,7 +108,9 @@ public:
                    SoWinViewer::Type type, 
                    SbBool buildNow);
   ~SoWinFullViewer( void );
+
 protected:
+
   HWND viewerWidget; // form which manages all other widgets
   HWND renderAreaWidget;  // render area HWND
   HWND leftTrimForm;

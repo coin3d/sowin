@@ -281,6 +281,7 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   this->viewerWidget = NULL;
   this->renderAreaWidget = NULL;
 
+  // FIXME: set to TRUE for testing. mariusbu 20010608.
   this->menuenabled = buildNow & SoWinFullViewer::BUILD_POPUP;
   this->decorations = ( buildNow & SoWinFullViewer::BUILD_DECORATION ) ? TRUE : FALSE;
 
@@ -291,7 +292,7 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   this->appButtonList = new SbPList;
   this->appButtonForm = NULL;
 
-  this->setSize( SbVec2s( 500, 400 ) );
+  this->setSize( SbVec2s( 500, 400 ) ); // FIXME: make default values
 
   if ( buildNow ) {
     this->setClassName( "SoWinFullViewer" );
@@ -303,12 +304,14 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 SoWinFullViewer::~SoWinFullViewer( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::pushButtonCB( HWND, int id, void * )
 {
-  // FIXME: function not implemented    
+  // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
@@ -349,7 +352,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   windowclass.lpszClassName = wndclassname;
   windowclass.hInstance = SoWin::getInstance( );
   windowclass.lpfnWndProc = SoWinFullViewer::mgrWindowProc;
-  windowclass.style = CS_HREDRAW|CS_VREDRAW|CS_OWNDC;
+  windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( NULL, icon );
   windowclass.hCursor = LoadCursor( NULL, cursor );
@@ -364,7 +367,8 @@ SoWinFullViewer::buildWidget( HWND parent )
   if ( IsWindow( parent ) ) {
     GetClientRect( parent, & rect );
     style = /*WS_CLIPCHILDREN | WS_CLIPSIBLINGS |*/ WS_BORDER | WS_CHILD;
-  } else {
+  }
+  else {
     rect.right = SoWin_DefaultWidth;
     rect.bottom = SoWin_DefaultHeight;
     style = /*WS_CLIPCHILDREN | WS_CLIPSIBLINGS |*/ WS_OVERLAPPEDWINDOW;
@@ -386,7 +390,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   this->renderAreaWidget = inherited::buildWidget( this->viewerWidget );
   assert( IsWindow( this->renderAreaWidget ) );
 
-  ZeroMemory( &renderAreaOffset, sizeof( renderAreaOffset ) );
+  ZeroMemory( & renderAreaOffset, sizeof( renderAreaOffset ) );
 
   if ( this->decorations ) {
     renderAreaOffset.top = 0;
@@ -397,15 +401,24 @@ SoWinFullViewer::buildWidget( HWND parent )
     //this->showDecorationWidgets( TRUE );
   }
 
-  MoveWindow( SoWin::getTopLevelWidget( ), 0, 0, 500, 400, TRUE );
+  MoveWindow( SoWin::getTopLevelWidget( ), 0, 0, 500, 400, FALSE ); // FIXME: make default values
+  MoveWindow( this->renderAreaWidget,
+              renderAreaOffset.left,
+              renderAreaOffset.top,
+              500 + renderAreaOffset.right,
+              400 + renderAreaOffset.bottom,
+              FALSE );
 
   if ( this->menuenabled )
     this->buildPopupMenu( );
+  else
+    _cprintf( "menu NOT enabled\n" );
 
   ShowWindow( this->viewerWidget, SW_SHOW );
   ShowWindow( this->renderAreaWidget, SW_SHOW );
 
   SoWin::addMessageHook( this->viewerWidget, WM_SIZE );
+
   return this->viewerWidget;
 }
 
@@ -433,14 +446,12 @@ SoWinFullViewer::buildDecoration( HWND parent )
 HWND
 SoWinFullViewer::buildLeftTrim( HWND parent )
 {
-  // FIXME: function not implemented
-
   this->leftWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
                                          parent,
                                          5,
                                          250,
                                          this->leftWheelStr );
-  this->leftWheel->registerCallback( leftWheelCB );
+  this->leftWheel->registerCallback( this->leftWheelCB );
 
   return NULL;
 }
@@ -522,6 +533,7 @@ SoWinFullViewer::displayPopupMenu( int x, int y, HWND owner )
 {
   // FIXME: function not implemented
   //this->popupPreCallback( );
+  assert( this->prefmenu != NULL );
   this->prefmenu->popUp( owner, x, y ); // FIXME: test. mariusbu 20010531.
   //this->popupPostCallback( );
   return 0;
@@ -609,6 +621,7 @@ SoWinFullViewer::createStereoPrefSheetGuts( HWND parent )
 float
 SoWinFullViewer::getLeftWheelValue( void ) const
 {
+  // FIXME: function not implemented
   SOWIN_STUB();
   return 0;
 }
@@ -616,12 +629,14 @@ SoWinFullViewer::getLeftWheelValue( void ) const
 void
 SoWinFullViewer::setLeftWheelValue( const float value )
 {
+  // FIXME: function not implemented
   SOWIN_STUB();
 }
 
 float
 SoWinFullViewer::getRightWheelValue( void ) const
 {
+  // FIXME: function not implemented
   SOWIN_STUB();
   return 0;
 }
@@ -629,12 +644,14 @@ SoWinFullViewer::getRightWheelValue( void ) const
 void
 SoWinFullViewer::setRightWheelValue( const float value )
 {
+  // FIXME: function not implemented
   SOWIN_STUB();
 }
 
 float
 SoWinFullViewer::getBottomWheelValue( void ) const
 {
+  // FIXME: function not implemented
   SOWIN_STUB();
   return 0;
 }
@@ -642,6 +659,7 @@ SoWinFullViewer::getBottomWheelValue( void ) const
 void
 SoWinFullViewer::setBottomWheelValue( const float value )
 {
+  // FIXME: function not implemented
   SOWIN_STUB();
 }
 
@@ -809,7 +827,7 @@ SoWinFullViewer::bottomWheelCB( SoWinFullViewer * viewer, void ** data )
 }
 
 void
-SoWinFullViewer::leftWheelCB  ( SoWinFullViewer * viewer, void ** data )
+SoWinFullViewer::leftWheelCB( SoWinFullViewer * viewer, void ** data )
 {
   // FIXME: function not implemented
 }
@@ -835,17 +853,24 @@ SoWinFullViewer::mgrWindowProc( HWND window,
     if( GetFocus( ) != object->getNormalWidget( ) )
       SetFocus( object->getNormalWidget( ) );
 
+    POINT point = {  LOWORD( lparam ), HIWORD( lparam ) };
+
     switch ( message )
       {
-      case WM_LBUTTONDOWN:
+
+      case WM_RBUTTONDOWN:
+        ClientToScreen( window, & point );
+        object->displayPopupMenu( point.x, point.y, window );
         return 0;
 
       case WM_SIZE:
         return object->onSize( window, message, wparam, lparam );
+
         /*
-          case WM_PAINT:  // FIXME: blocks paint message for glWidget
+          case WM_PAINT:
           return object->onPaint( window, message, wparam, lparam );
         */
+
       case WM_DESTROY:
         return object->onDestroy( window, message, wparam, lparam );
       }
@@ -894,22 +919,22 @@ SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lpar
 LRESULT
 SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-
-  HWND managerWidget = this->getManagerWidget( );
-  MoveWindow( managerWidget,
+  //HWND managerWidget = this->getManagerWidget( );
+  assert( renderAreaWidget != NULL );
+  MoveWindow( renderAreaWidget,//managerWidget,//
               0 + renderAreaOffset.left,
               0 + renderAreaOffset.top,
               LOWORD( lparam ) + renderAreaOffset.right,
               HIWORD( lparam ) + renderAreaOffset.bottom,
               FALSE );
 
-  // left trim
-  this->buildLeftTrim( managerWidget );
-#if 0 // TMP DISABLED: leftWheel is not built, so it is NULL here. 20010328 mortene.  
+  // Left trim
+  if ( this->leftWheel )
   this->leftWheel->move( renderAreaOffset.left - this->leftWheel->width( ) - 2,
-                         HIWORD( lparam ) + renderAreaOffset.bottom - this->leftWheel->height( ) + 1 );
-#endif // TMP DISABLED
-  // FIXME: function not implemented
+                         HIWORD( lparam ) + renderAreaOffset.bottom
+                         - this->leftWheel->height( ) + 1 );
+
+  // FIXME: do the rest
   return 0;
 }
 
@@ -932,3 +957,4 @@ SoWinFullViewer::drawDecorations( SoWinFullViewer * viewer, HWND hwnd, HDC hdc )
 {
   // FIXME: function not implemented
 }
+

@@ -578,3 +578,7 @@ SoWinExaminerViewer::afterRealizeHook( // virtual
 #if SOWIN_DEBUG
 static const char * getSoWinExaminerViewerRCSID(void) { return rcsid; }
 #endif
+
+
+
+

@@ -72,7 +72,7 @@ SoWinThumbWheel::~SoWinThumbWheel( void )
 } // ~SoWinThumbWheel()
 
 SIZE
-SoWinThumbWheel::sizeHint(void) const
+SoWinThumbWheel::sizeHint( void ) const
 {
   const int length = 88;
   int thick = 24;
@@ -82,7 +82,8 @@ SoWinThumbWheel::sizeHint(void) const
     size.cx = length;
     size.cy = thick;
     return size;
-  } else {
+  }
+  else {
     size.cx = thick;
     size.cy = length;
     return size;
@@ -127,11 +128,11 @@ SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lpara
   HDC hdc = BeginPaint( window, & ps );
   int w, d;
   if ( this->orient == SoWinThumbWheel::Vertical ) {
-    w = this->width( ) - 2*SHADEBORDERWIDTH - 6;
-    d = this->height( ) - 2*SHADEBORDERWIDTH - 12;
+    w = this->width( ) - 2 * SHADEBORDERWIDTH - 6;
+    d = this->height( ) - 2 * SHADEBORDERWIDTH - 12;
   } else {
-    w = this->height( ) - 2*SHADEBORDERWIDTH - 6;
-    d = this->width( ) - 2*SHADEBORDERWIDTH - 12;
+    w = this->height( ) - 2 * SHADEBORDERWIDTH - 6;
+    d = this->width( ) - 2 * SHADEBORDERWIDTH - 12;
   }
 
   // Handle resizing to too small dimensions gracefully.
@@ -144,17 +145,18 @@ SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lpara
                                                SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED );
 
   RECT wheelrect = { SHADEBORDERWIDTH, SHADEBORDERWIDTH,
-                     this->width( ) - 2*SHADEBORDERWIDTH,
-                     this->height( ) - 2*SHADEBORDERWIDTH };
+                     this->width( ) - 2 * SHADEBORDERWIDTH,
+                     this->height( ) - 2 * SHADEBORDERWIDTH };
 
-  //    this->drawShadePanel( hdc, 0, 0, this->width( ), this->height( ), SHADEBORDERWIDTH, TRUE );
+  // this->drawShadePanel( hdc, 0, 0, this->width( ), this->height( ), SHADEBORDERWIDTH, TRUE );
 
   if ( this->orient == Vertical ) {
     wheelrect.top = wheelrect.top + 4;
     wheelrect.bottom = wheelrect.bottom - 4;
     wheelrect.left = wheelrect.left + 1;
     wheelrect.right = wheelrect.right - 1;
-  } else {
+  }
+  else {
     wheelrect.top = wheelrect.top + 1;
     wheelrect.bottom = wheelrect.bottom - 1;
     wheelrect.left = wheelrect.left + 4;
@@ -172,7 +174,7 @@ SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lpara
   wheelrect.bottom = wheelrect.bottom - 1;
   wheelrect.left = wheelrect.left + 1;
   wheelrect.right = wheelrect.right - 1;
-  // wheelrect is now wheel-only
+  // wheelrect is currently wheel-only
 
   if ( this->orient == Vertical )
     this->BlitBitmap( this->pixmaps[pixmap], hdc, wheelrect.left, wheelrect.top, w, d );
@@ -259,7 +261,8 @@ SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM wparam, LPARAM l
     this->mouseLastPos = xPos - SHADEBORDERWIDTH - 6;
  
   this->tempWheelValue = this->wheel->calculateValue( this->wheelValue,
-                                                      this->mouseDownPos, this->mouseLastPos - this->mouseDownPos );
+                                                      this->mouseDownPos,
+                                                      this->mouseLastPos - this->mouseDownPos );
 
   InvalidateRect( this->windowHandle, NULL, FALSE );
 

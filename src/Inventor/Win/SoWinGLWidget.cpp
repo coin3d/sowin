@@ -73,8 +73,7 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
 
   this->parent = parent;
 
-  if ( build )
-  {
+  if ( build ) {
     HWND glarea = this->buildWidget( parent );
     this->setBaseWidget( glarea );
   }
@@ -353,7 +352,7 @@ SoWinGLWidget::getGLSize( void ) const
 float
 SoWinGLWidget::getGLAspectRatio( void ) const
 {
-  return ( float ) this->glSize[ 0 ] / ( float ) this->glSize[ 1 ];
+  return ( float ) this->glSize[0] / ( float ) this->glSize[1];
 }
 
 
@@ -697,11 +696,12 @@ SoWinGLWidget::glWindowProc( HWND window,
     msg.time = GetTickCount( );
     msg.wParam = wparam;
     object->processEvent( & msg );
-
+    
+    /* Steal focus from other windows
     if( ! object->haveFocus ) {
       object->haveFocus = ( BOOL ) SetFocus( window );
     }
-
+    */
     switch ( message )
       {
       case WM_SIZE:
@@ -717,6 +717,9 @@ SoWinGLWidget::glWindowProc( HWND window,
       case WM_LBUTTONDOWN:
       case WM_MBUTTONDOWN:
       case WM_RBUTTONDOWN:
+        // Let parent get the message too
+        // PostMessage( object->parent, message, wparam, lparam );
+
         SetCapture( window );
         return 0;
 
@@ -759,15 +762,15 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
     32,                            // 32-bit colour depth
     0, 0, 0, 0, 0, 0,              // colour bits ignored
     0,                             // no alpha buffer
-    0,								             // shift bit ignored
-    0,								             // on accumulation buffer
-    0, 0, 0, 0,						         // accum bits ignored
-    32,								             // 32-bits z-buffer
-    0,								             // no stencil buffer
-    0,								             // no auxiliary buffer
-    PFD_MAIN_PLANE,					       // main layer
-    0,								             // reserved
-    0, 0, 0							           // layer masks ignored
+    0,				   // shift bit ignored
+    0,				   // on accumulation buffer
+    0, 0, 0, 0,			   // accum bits ignored
+    32,				   // 32-bits z-buffer
+    0,				   // no stencil buffer
+    0,				   // no auxiliary buffer
+    PFD_MAIN_PLANE,		   // main layer
+    0,				   // reserved
+    0, 0, 0			   // layer masks ignored
   };
 
   nPixelFormat = ChoosePixelFormat( hdc, & pfd );
@@ -775,7 +778,7 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
   ok = SetPixelFormat( hdc, nPixelFormat, & pfd );
   assert( ok );
 
-  HGLRC hrc = wglCreateContext( hdc ); // FIXME: returns NULL in Release mode
+  HGLRC hrc = wglCreateContext( hdc );
 
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo( "SoWinGLWidget::onCreate", "called" );
@@ -880,3 +883,4 @@ SoWinGLWidget::glScheduleRedraw( void )
 {
   return FALSE;
 }
+
