@@ -874,3 +874,24 @@ SoWinGLWidget::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lpara
 
   return 0;
 }
+
+/*
+  Stubbed the following to make SoWin compile with recent changes in common/
+  20001214 larsa.
+*/
+
+void
+SoWinGLWidget::setOverlayRender(
+  const SbBool enable )
+{
+  // FIXME
+}
+
+SbBool
+SoWinGLWidget::isOverlayRender(
+  void ) const
+{
+  // FIXME
+  return FALSE;
+}
+

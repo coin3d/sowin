@@ -128,6 +128,9 @@ protected:
   HWND getGlxMgrWidget( void );
   HWND getGLWidget( void );
 
+  void setOverlayRender( const SbBool enable );
+  SbBool isOverlayRender(void) const;
+
   SbBool makeNormalCurrent( void );
 
   SbBool swapNormalBuffers( void );
@@ -145,8 +148,6 @@ protected:
   void glLock( void );
   void glUnlock( void );
   void glSwapBuffers( void );
-  void glFlushBuffer( void );
-  float getGLAspectRatio( void );
 
   UINT colorMap;	// set when color index is used
   UINT overlayColorMap; // set when overlay is used
