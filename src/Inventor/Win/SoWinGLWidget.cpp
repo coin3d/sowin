@@ -41,37 +41,13 @@ static const int SO_BORDER_THICKNESS = 2;
 
 SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinGLWidget);
 
-// The private data and code for the SoWinGLWidget.
-
-SoWinGLWidgetP::SoWinGLWidgetP(SoWinGLWidget * o)
-  : SoGuiGLWidgetP(o)
-{
-  this->bordersize = 0;
-  this->lockcounter = 0;
-  this->overlaylockcounter = 0;
-}
-
-// Destructor.
-SoWinGLWidgetP::~SoWinGLWidgetP()
-{
-}
-
-ATOM SoWinGLWidgetP::managerWndClassAtom = 0;
-ATOM SoWinGLWidgetP::glWndClassAtom = 0;
-int SoWinGLWidgetP::widgetCounter = 0;
-
-///////////////////////////////////////////////////////////////////
-//
-//  Constructor / Destructor
-//  (protected)
-//
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-SoWinGLWidget::SoWinGLWidget(HWND parent,
-                             const char * name,
-                             SbBool embed,
-                             int glModes,
-                             SbBool build)
+SoWinGLWidget::SoWinGLWidget(HWND const parent,
+                             const char * const name,
+                             const SbBool embed,
+                             const int glmodes,
+                             const SbBool build)
   : SoWinComponent(parent, name, embed)
 {
   this->pimpl = new SoWinGLWidgetP(this);
@@ -390,78 +366,6 @@ SoWinGLWidget::glScheduleRedraw(void)
   return FALSE;
 }
 
-///////////////////////////////////////////////////////////////////
-//
-//  (protected)
-//
-
-LRESULT CALLBACK
-SoWinGLWidgetP::mgrWidgetProc(HWND window, UINT message,
-                              WPARAM wparam, LPARAM lparam)
-{
-  // does nothing
-  return DefWindowProc(window, message, wparam, lparam);
-}
-
-LRESULT CALLBACK
-SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
-                             WPARAM wparam, LPARAM lparam)
-{
-  if (message == WM_CREATE) {
-    CREATESTRUCT * createstruct = (CREATESTRUCT *) lparam;
-    SoWinGLWidget * object = (SoWinGLWidget *)(createstruct->lpCreateParams);
-    (void)Win32::SetWindowLong(window, GWL_USERDATA, (LONG)object);
-    return PRIVATE(object)->onCreate(window, message, wparam, lparam);
-  }
-
-  SoWinGLWidget * object = (SoWinGLWidget *)Win32::GetWindowLong(window, GWL_USERDATA);
-
-  if (object && window == object->getNormalWidget()) {
-
-    MSG msg;
-    POINT pt = { LOWORD(lparam), HIWORD(lparam) };
-    msg.hwnd = window;
-    msg.lParam = lparam;
-    msg.message = message;
-    msg.pt = pt;
-    msg.time = GetTickCount();
-    msg.wParam = wparam;
-
-    // Get keystrokes
-    if(((! PRIVATE(object)->haveFocus) && PRIVATE(object)->stealFocus) ||
-        (message == WM_LBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_RBUTTONDOWN)) {
-      PRIVATE(object)->haveFocus = (BOOL) SetFocus(window);
-    }
-
-    object->processEvent(&msg);
-
-    switch (message) {
-
-    case WM_PAINT:
-      object->waitForExpose = FALSE; // flip flag on first expose
-      return PRIVATE(object)->onPaint(window, message, wparam, lparam);
-
-    case WM_DESTROY:
-      return PRIVATE(object)->onDestroy(window, message, wparam, lparam);
-
-    case WM_LBUTTONDOWN:
-    case WM_MBUTTONDOWN:
-      (void)SetCapture(window);
-      return 0;
-
-    case WM_LBUTTONUP:
-    case WM_MBUTTONUP:
-      (void)ReleaseCapture();
-      return 0;
-
-    case WM_KILLFOCUS:
-      PRIVATE(object)->haveFocus = FALSE;
-      return 0;
-    }
-  }
-  return DefWindowProc(window, message, wparam, lparam);
-}
-
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::redraw(void)
@@ -556,14 +460,6 @@ SoWinGLWidget::getGLAspectRatio(void) const
 {
   return (float) PRIVATE(this)->glSize[0] /
     (float) PRIVATE(this)->glSize[1];
-}
-
-LRESULT // Used by SoWinRenderArea
-SoWinGLWidgetP::eventHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-  // FIXME: function not implemented
-  SOWIN_STUB();
-  return 0;
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
@@ -757,8 +653,102 @@ SoWinGLWidget::glFlushBuffer(void)
 
 ///////////////////////////////////////////////////////////////////
 //
-//  (private)
-//
+//  Pimpl class follows. The private data and code for the
+//  SoWinGLWidget.
+
+#ifndef DOXYGEN_SKIP_THIS
+
+ATOM SoWinGLWidgetP::managerWndClassAtom = 0;
+ATOM SoWinGLWidgetP::glWndClassAtom = 0;
+int SoWinGLWidgetP::widgetCounter = 0;
+
+SoWinGLWidgetP::SoWinGLWidgetP(SoWinGLWidget * o)
+  : SoGuiGLWidgetP(o)
+{
+  this->bordersize = 0;
+  this->lockcounter = 0;
+  this->overlaylockcounter = 0;
+}
+
+// Destructor.
+SoWinGLWidgetP::~SoWinGLWidgetP()
+{
+}
+
+LRESULT CALLBACK
+SoWinGLWidgetP::mgrWidgetProc(HWND window, UINT message,
+                              WPARAM wparam, LPARAM lparam)
+{
+  // does nothing
+  return DefWindowProc(window, message, wparam, lparam);
+}
+
+LRESULT CALLBACK
+SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
+                             WPARAM wparam, LPARAM lparam)
+{
+  if (message == WM_CREATE) {
+    CREATESTRUCT * createstruct = (CREATESTRUCT *) lparam;
+    SoWinGLWidget * object = (SoWinGLWidget *)(createstruct->lpCreateParams);
+    (void)Win32::SetWindowLong(window, GWL_USERDATA, (LONG)object);
+    return PRIVATE(object)->onCreate(window, message, wparam, lparam);
+  }
+
+  SoWinGLWidget * object = (SoWinGLWidget *)Win32::GetWindowLong(window, GWL_USERDATA);
+
+  if (object && window == object->getNormalWidget()) {
+
+    MSG msg;
+    POINT pt = { LOWORD(lparam), HIWORD(lparam) };
+    msg.hwnd = window;
+    msg.lParam = lparam;
+    msg.message = message;
+    msg.pt = pt;
+    msg.time = GetTickCount();
+    msg.wParam = wparam;
+
+    // Get keystrokes
+    if(((! PRIVATE(object)->haveFocus) && PRIVATE(object)->stealFocus) ||
+        (message == WM_LBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_RBUTTONDOWN)) {
+      PRIVATE(object)->haveFocus = (BOOL) SetFocus(window);
+    }
+
+    object->processEvent(&msg);
+
+    switch (message) {
+
+    case WM_PAINT:
+      object->waitForExpose = FALSE; // flip flag on first expose
+      return PRIVATE(object)->onPaint(window, message, wparam, lparam);
+
+    case WM_DESTROY:
+      return PRIVATE(object)->onDestroy(window, message, wparam, lparam);
+
+    case WM_LBUTTONDOWN:
+    case WM_MBUTTONDOWN:
+      (void)SetCapture(window);
+      return 0;
+
+    case WM_LBUTTONUP:
+    case WM_MBUTTONUP:
+      (void)ReleaseCapture();
+      return 0;
+
+    case WM_KILLFOCUS:
+      PRIVATE(object)->haveFocus = FALSE;
+      return 0;
+    }
+  }
+  return DefWindowProc(window, message, wparam, lparam);
+}
+
+LRESULT // Used by SoWinRenderArea
+SoWinGLWidgetP::eventHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+  // FIXME: function not implemented
+  SOWIN_STUB();
+  return 0;
+}
 
 void
 SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
@@ -1393,3 +1383,5 @@ SoWinGLWidgetP::isDirectRendering(void)
 {
   return TRUE;
 }
+
+#endif // ! DOXYGEN_SKIP_THIS
