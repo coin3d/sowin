@@ -503,7 +503,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
   HMENU menu = NULL;
   HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
-  LPSTR wndclassname = "SoWinFullViewer_widget";
+  LPSTR wndclassname = ( LPSTR ) this->getClassName( );
 
   windowclass.lpszClassName = wndclassname;
   windowclass.hInstance = SoWin::getInstance( );
