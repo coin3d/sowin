@@ -201,3 +201,19 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     20031012 mortene.
 
 =====================================================================
+
+014 Keyboard focus flaw
+
+    Note that the focus grabbing has one known flaw: when using
+    e.g. Alt+TAB to select an SoWinComponent window, the form widget
+    will get the focus, and not the GL widget. For built-in,
+    non-abstract classes this only has practical consequences for the
+    SoWinRenderArea, as SoWinFullViewer passes on focus to the GL
+    widget when it receives WM_SETFOCUS messages. 
+
+    We should make sure that focus is set to the OpenGL canvas if any
+    widget from the top-level container widget and down receives focus.
+
+    20031215 thammer, based on note written by mortene.
+
+=====================================================================
