@@ -252,19 +252,6 @@ SoWinExaminerViewer::buildViewerButtonsEx(// virtual
 // *************************************************************************
 
 /*!
-  Decide whether or not the mouse pointer cursor should be visible in the
-  rendering canvas.
-*/
-
-void
-SoWinExaminerViewer::setCursorEnabled(// virtual, protected
-  SbBool enable)
-{
-  inherited::setCursorEnabled(enable);
-  this->setCursorRepresentation(this->currentmode);
-} // setcursorEnabled()
-
-/*!
   FIXME: write doc
 */
 
