@@ -955,10 +955,10 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
                                              manager,
                                              NULL,
                                              SoWin::getInstance(),
-                                             this->owner);
+                                             PUBLIC(this));
 
   this->normalWidget = normalwidget;
-  this->owner->setGLSize(SbVec2s(rect.right - rect.left,
+  PUBLIC(this)->setGLSize(SbVec2s(rect.right - rect.left,
                                  rect.bottom - rect.top));
 }
 
@@ -1079,7 +1079,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
     // 20010920 mortene.
   }
 
-  SoAny::si()->registerGLContext((void *) this->owner, NULL, NULL);
+  SoAny::si()->registerGLContext((void *) PUBLIC(this), NULL, NULL);
 
   // FIXME: what's this good for -- first setting then unsetting?
   // 20010924 mortene.
@@ -1165,7 +1165,7 @@ label:
   }
 
   SetFocus(window);
-  this->owner->widgetChanged(window);
+  PUBLIC(this)->widgetChanged(window);
   return 0;
 }
 
@@ -1185,10 +1185,10 @@ SoWinGLWidgetP::onPaint(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 
   if (! this->glRealized) {
     this->glRealized = TRUE;
-    this->owner->initGraphic();
+    PUBLIC(this)->initGraphic();
   }
-  if (! this->owner->glScheduleRedraw()) {
-    this->owner->redraw();
+  if (! PUBLIC(this)->glScheduleRedraw()) {
+    PUBLIC(this)->redraw();
   }
 
   // Release context.
@@ -1205,7 +1205,7 @@ SoWinGLWidgetP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lpara
   // Release context.
   if (!SoWinGLWidgetP::wglMakeCurrent(NULL, NULL)) { return 0; }
 
-  SoAny::si()->unregisterGLContext((void *) this->owner);
+  SoAny::si()->unregisterGLContext((void *) PUBLIC(this));
 
   BOOL r = wglDeleteContext(this->ctxNormal);
   assert(r && "wglDeleteContext() failed -- investigate");

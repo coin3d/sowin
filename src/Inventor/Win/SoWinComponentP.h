@@ -86,6 +86,7 @@ public:
   struct FullscreenData fullscreendata;
 
   const SoWinCursor * cursor;
+  SbBool realized;
 
 private:
   static SbDict * cursordict;

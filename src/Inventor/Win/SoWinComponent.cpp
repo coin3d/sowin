@@ -77,11 +77,11 @@ SoWinComponentP::~SoWinComponentP()
 #if SOWIN_DEBUG && 0 // debug
     SoDebugError::postInfo("SoWinComponentP::~SoWinComponentP",
                            "remove %p from sowincomplist %p, length: %d->%d",
-                           PRIVATE(this), SoWinComponentP::sowincomplist,
+                           PUBLIC(this), SoWinComponentP::sowincomplist,
                            SoWinComponentP::sowincomplist->getLength(),
                            SoWinComponentP::sowincomplist->getLength() - 1);
 #endif // debug
-    SoWinComponentP::sowincomplist->removeItem(PRIVATE(this));
+    SoWinComponentP::sowincomplist->removeItem(PUBLIC(this));
     if (SoWinComponentP::sowincomplist->getLength() == 0) {
       delete SoWinComponentP::sowincomplist;
       SoWinComponentP::sowincomplist = NULL;
@@ -107,7 +107,7 @@ SoWinComponentP::commonEventHandler(UINT message, WPARAM wparam, LPARAM lparam)
 {
   switch (message) {
   case WM_SIZE:
-    PRIVATE(this)->sizeChanged(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
+    PUBLIC(this)->sizeChanged(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
     break;
 
   case WM_SETFOCUS:
@@ -115,14 +115,14 @@ SoWinComponentP::commonEventHandler(UINT message, WPARAM wparam, LPARAM lparam)
     break;
 
   case WM_CLOSE:
-    PRIVATE(this)->hide();
-    PRIVATE(this)->windowCloseAction();
+    PUBLIC(this)->hide();
+    PUBLIC(this)->windowCloseAction();
     break;
 
   case WM_SHOWWINDOW:
-    if (!PRIVATE(this)->realized) {
-      PRIVATE(this)->afterRealizeHook();
-      PRIVATE(this)->realized = TRUE;
+    if (!this->realized) {
+      PUBLIC(this)->afterRealizeHook();
+      this->realized = TRUE;
     }
     break;
 
@@ -130,7 +130,7 @@ SoWinComponentP::commonEventHandler(UINT message, WPARAM wparam, LPARAM lparam)
     // this->cursor can be NULL when the virtual
     // setComponentCursor() method is overridden in subclasses.
     if (this->cursor) {
-      SoWinComponent::setWidgetCursor(PRIVATE(this)->getWidget(),
+      SoWinComponent::setWidgetCursor(PUBLIC(this)->getWidget(),
                                       *(this->cursor));
     }
     break;
@@ -138,7 +138,7 @@ SoWinComponentP::commonEventHandler(UINT message, WPARAM wparam, LPARAM lparam)
 }
 
 // Message hook
-static LRESULT CALLBACK
+LRESULT CALLBACK
 SoWinComponentP::systemEventFilter(int code, WPARAM wparam, LPARAM lparam)
 {
   CWPSTRUCT * msg = (CWPSTRUCT *)lparam;
@@ -216,8 +216,8 @@ SoWinComponent::SoWinComponent(const HWND parent,
                                const char * const name,
                                const SbBool embed)
 {
-  this->pimpl = new SoWinComponentP(this);
-  this->realized = FALSE;
+  PRIVATE(this) = new SoWinComponentP(this);
+  PRIVATE(this)->realized = FALSE;
 
   PRIVATE(this)->focusProxy = NULL;
 
@@ -285,7 +285,7 @@ SoWinComponent::~SoWinComponent(void)
   }
 
   PRIVATE(this)->cleanupWin32References();
-  delete this->pimpl;
+  delete PRIVATE(this);
 }
 
 // We were having a specific problem which triggered the need for a
