@@ -392,7 +392,6 @@ SoWinThumbWheel::constructor(Orientation orientation)
   this->wheel = new SoAnyThumbWheel;
   this->wheel->setMovement(SoAnyThumbWheel::UNIFORM);
   this->wheel->setGraphicsByteOrder(SoAnyThumbWheel::ARGB);
-  this->wheel->setBoundaryHandling(SoAnyThumbWheel::MODULATE);
   this->pixmaps = NULL;
   this->numPixmaps = 0;
   this->currentPixmap = -1;
