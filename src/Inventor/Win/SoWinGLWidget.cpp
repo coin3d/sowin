@@ -190,7 +190,7 @@ SoWinGLWidget::getNormalWindow( void )
 HWND
 SoWinGLWidget::getOverlayWindow( void )
 {
-  // FIXME: overlay not supported. mariusbu 20010719.
+  // FIXME: overlay not supported yet. mariusbu 20010719.
   return PRIVATE( this )->overlayWidget;
 } // getOverlayWindow()
 
@@ -817,9 +817,9 @@ SoWinGLWidget::buildWidget( HWND parent )
 
   HWND managerwidget = CreateWindow( "Manager Widget",
                                      this->getTitle( ),
-		                                 WS_VISIBLE |
-		                                 WS_CLIPSIBLINGS |
-		                                 WS_CLIPCHILDREN |
+                                     WS_VISIBLE |
+                                     WS_CLIPSIBLINGS |
+                                     WS_CLIPCHILDREN |
                                      WS_CHILD,
                                      rect.left,
                                      rect.top,
@@ -830,12 +830,23 @@ SoWinGLWidget::buildWidget( HWND parent )
                                      SoWin::getInstance( ),
                                      this );
 
-  assert( IsWindow( managerwidget ) );
+  if (!IsWindow(managerwidget)) {
+    DWORD dummy;
+    SbString err = Win32::getWin32Err(dummy);
+    SbString s = "Could not create a manager widget, as ";
+    s += "CreateWindow() failed with error message: ";
+    s += err;
+    SoDebugError::postWarning("SoWinGLWidget::buildWidget", s.getString());
+    assert(FALSE && "creation of managerwidget failed");
+  }
 
   PRIVATE( this )->managerWidget = managerwidget;
 
-  if ( PRIVATE( this )->glModes & SO_GL_OVERLAY )
+  // FIXME: looks shaky to keep this here as long as overlay support
+  // has not been implemented.  20010920 mortene.
+  if ( PRIVATE( this )->glModes & SO_GL_OVERLAY ) {
     PRIVATE( this )->buildOverlayGLWidget( managerwidget );
+  }
 
   PRIVATE( this )->buildNormalGLWidget( managerwidget );
 
@@ -992,7 +1003,7 @@ SoWinGLWidgetP::buildNormalGLWidget( HWND manager )
  
   this->currentCursor = LoadCursor( SoWin::getInstance( ), IDC_ARROW );
 
-	assert( IsWindow( manager ) );
+  assert(IsWindow(manager) && "buildNormalGLWidget() argument is erroneous");
 	
   RECT rect;
   Win32::GetClientRect( manager, & rect );
@@ -1008,8 +1019,8 @@ SoWinGLWidgetP::buildNormalGLWidget( HWND manager )
                                       wndclassname,
                                       wndclassname,
                                       WS_VISIBLE |
-		                                  WS_CLIPSIBLINGS |
-		                                  WS_CLIPCHILDREN |
+                                      WS_CLIPSIBLINGS |
+                                      WS_CLIPCHILDREN |
                                       WS_CHILD,
                                       rect.left,
                                       rect.top,
@@ -1020,7 +1031,17 @@ SoWinGLWidgetP::buildNormalGLWidget( HWND manager )
                                       SoWin::getInstance( ),
                                       this->owner );
 
-  assert( IsWindow( normalwidget ) );
+  if (!IsWindow(normalwidget)) {
+    DWORD dummy;
+    SbString err = Win32::getWin32Err(dummy);
+    SbString s = "Could not create a gl normalwidget, as ";
+    s += "CreateWindowEx() failed with error message: ";
+    s += err;
+    SoDebugError::postWarning("SoWinGLWidget::buildNormalGLWidget",
+                              s.getString());
+    assert(FALSE && "creation of gl normalwidget failed");
+  }
+
   this->normalWidget = normalwidget;
   this->owner->setGLSize( SbVec2s( rect.right - rect.left,
     rect.bottom - rect.top ) );
