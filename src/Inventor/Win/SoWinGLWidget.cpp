@@ -635,7 +635,6 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
       case WM_LBUTTONDOWN:
       case WM_MBUTTONDOWN:
       case WM_RBUTTONDOWN:
-      case WM_MOUSEMOVE:
         (void)Win32::SetFocus(window);
         PRIVATE(object)->havefocus = TRUE;
         break;
@@ -1124,7 +1123,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
   //    }
   // ---8<--- [snip] ------8<--- [snip] ------8<--- [snip] ---
   // 20020719 mortene.
-  
+
   assert(IsWindow(window));
 
   SoWinGLWidget * share = NULL;
@@ -1239,6 +1238,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
                              "Failed to set pixel format for format == %d",
                              pf->format);
     }
+    if (!foundone) i++;
   } while (i < pflist.getLength() && !foundone);
   
   if (!foundone) { goto panic; }
