@@ -489,7 +489,7 @@ SoWinExaminerViewer::setCursorRepresentation(int mode)
   // code. 20011125 mortene.
 
   if (!this->isCursorEnabled()) {
-    this->setComponentCursor(SoWinCursor(SoWinCursor::BLANK));
+    this->setComponentCursor(SoWinCursor::getBlankCursor());
     return;
   }
 

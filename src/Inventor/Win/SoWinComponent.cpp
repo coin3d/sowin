@@ -1023,7 +1023,6 @@ SoWinComponent::setWidgetCursor(HWND w, const SoWinCursor & cursor)
   if (cursor.getShape() == SoWinCursor::CUSTOM_BITMAP) {
     const SoWinCursor::CustomCursor * cc = &cursor.getCustomCursor();
     SetCursor(SoWinComponentP::getNativeCursor(cc));
-    ShowCursor(TRUE);
   }
   else {
     switch (cursor.getShape()) {
@@ -1033,10 +1032,6 @@ SoWinComponent::setWidgetCursor(HWND w, const SoWinCursor & cursor)
 
     case SoWinCursor::BUSY:
       SetCursor(Win32::LoadCursor(NULL, IDC_WAIT));
-      break;
-
-    case SoWinCursor::BLANK:
-      ShowCursor(FALSE);
       break;
 
     case SoWinCursor::CROSSHAIR:
@@ -1051,7 +1046,5 @@ SoWinComponent::setWidgetCursor(HWND w, const SoWinCursor & cursor)
       assert(FALSE && "unsupported cursor shape type");
       break;
     }
-
-    if (cursor.getShape() != SoWinCursor::BLANK) { ShowCursor(TRUE); }
   }
 }
