@@ -39,6 +39,7 @@ public:
   static void SwapBuffers(HDC);
   static void UnregisterClass(LPCTSTR, HINSTANCE);
   static void DestroyWindow(HWND);
+  static void SetWindowText(HWND, LPCTSTR);
    
 private:
   static void showLastErr(void);

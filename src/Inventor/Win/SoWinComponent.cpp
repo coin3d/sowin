@@ -71,7 +71,10 @@ public:
         SoWinComponentP::sowincomplist = NULL;
 
         // Only unregister classname when all component windows have been destroyed.
-        Win32::UnregisterClass( this->classname.getString( ), SoWin::getInstance( ) );
+        // FIXME: CreateWindow get the deault "Win Component" name, even when created by
+        // viewers like SoWinExaminerViewer. Is this a bug? In that case fix this too!
+        // mariusbu 20010803.
+        Win32::UnregisterClass( this->owner->getDefaultWidgetName( ), SoWin::getInstance( ) );
       }
     }
 
@@ -94,7 +97,7 @@ public:
 
   HWND parent;
   HWND widget;
-  SbBool embedded;//, shelled;
+  SbBool embedded;
   SbString classname, widgetname, title;
   SoWinComponentCB * closeCB;
   void * closeCBdata;
@@ -403,9 +406,8 @@ SoWinComponent::setTitle( const char * const title )
   else PRIVATE( this )->title = "";
 
   if ( IsWindow( PRIVATE( this )->parent ) && title ) {
-    BOOL r = SetWindowText( PRIVATE( this )->parent ,
-                            ( LPCTSTR ) PRIVATE( this )->title.getString( ) );
-    assert( r && "SetWindowText() failed -- investigate" );
+    Win32:: SetWindowText( PRIVATE( this )->parent ,
+      ( LPCTSTR ) PRIVATE( this )->title.getString( ) );
   }
 }
 
@@ -497,7 +499,7 @@ SoWinComponent::buildFormWidget( HWND parent )
   if ( IsWindow( parent ) && PRIVATE( this )->embedded ) {
     BOOL r = GetClientRect( parent, & rect );
     assert( r && "GetClientRect() failed -- investigate" );
-    style = WS_CHILD | WS_VISIBLE;// | WS_BORDER;
+    style = WS_CHILD | WS_VISIBLE;
   }
   else {
     rect.left = CW_USEDEFAULT;
@@ -527,16 +529,12 @@ SoWinComponent::buildFormWidget( HWND parent )
 const char *
 SoWinComponent::getDefaultWidgetName( void ) const
 {
-  //static const char defaultWidgetTitle[] = "SoWinComponent";
-  //return defaultWidgetTitle;
   return "SoWinComponent";
 }
 
 const char *
 SoWinComponent::getDefaultTitle( void ) const
 {
-  //static const char defaultTitle[] = "Win Component";
-  //return defaultTitle;
   return "Win Component";
 }
 

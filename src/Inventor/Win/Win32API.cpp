@@ -136,9 +136,18 @@ Win32::UnregisterClass(LPCTSTR lpClassName,  // address of class name string
 }
 
 void
-Win32::DestroyWindow(HWND hWnd)      // handle to window
+Win32::DestroyWindow(HWND hWnd)      // handle to window or control
 {
   BOOL r = ::DestroyWindow(hWnd);
   if (!r) { Win32::showLastErr(); }
   assert( r && "DestroyWindow() failed -- investigate");
+}
+
+void
+Win32::SetWindowText(HWND hWnd,      // handle to window or control
+           LPCTSTR lpString)         // address of string
+{
+  BOOL r = ::SetWindowText( hWnd , lpString );
+  if (!r) { Win32::showLastErr(); }
+  assert( r && "SetWindowText() failed -- investigate" );
 }
