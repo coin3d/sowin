@@ -1354,3 +1354,12 @@ SoWinGLWidgetP::wglMakeCurrent(HDC hdc, HGLRC hglrc)
                             hdc, hglrc);
   return FALSE;
 }
+
+// Return a flag indicating whether or not OpenGL rendering is
+// happening directly from the CPU(s) to the GPU(s), ie on a local
+// display. With GLX on X11, it is possible to do remote rendering.
+SbBool
+SoQtGLWidgetP::isDirectRendering(void)
+{
+  return TRUE;
+}

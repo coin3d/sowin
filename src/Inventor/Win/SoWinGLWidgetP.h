@@ -89,6 +89,9 @@ public:
   static ATOM managerWndClassAtom;
   static ATOM glWndClassAtom;
   static int widgetCounter;
+
+protected:
+  virtual SbBool isDirectRendering(void);
 };
 
 // ************************************************************************
