@@ -53,17 +53,10 @@ SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinFullViewer);
 // The private data for the SoWinFullViewer.
 
 class SoWinFullViewerP {
-
 public:
-
-  // Constructor.
   SoWinFullViewerP(SoWinFullViewer * o) {
     this->owner = o;
-  }
-
-  // Destructor.
-  ~SoWinFullViewerP() {
-
+    this->cursor = NULL;
   }
 
   static void rightWheelCB(SoWinFullViewer * viewer, void ** data);
@@ -98,10 +91,10 @@ public:
   static SbBool doneButtonBar;
   static SbBool doButtonBar;
 
+  const SoWinCursor * cursor;
+
 private:
-
   SoWinFullViewer * owner;
-
 };
 
 SbBool SoWinFullViewerP::doButtonBar = TRUE;
@@ -367,13 +360,12 @@ SoWinFullViewer::getRenderAreaWidget(void)
 void
 SoWinFullViewer::setComponentCursor(const SoWinCursor & cursor)
 {
-  // FIXME: generic method, move to common code. 20011126 mortene.
-
   // Overridden to apply the new cursor only for the rendering canvas
   // widget. Otherwise, the default SoWinComponent setComponentCursor()
   // method will set the cursor for the top-most parent widget, which
   // makes it affect all sub-widgets, like the decorations stuff.
 
+  PRIVATE(this)->cursor = &cursor;
   SoWinComponent::setWidgetCursor(this->getRenderAreaWidget(), cursor);
 }
 
@@ -438,19 +430,20 @@ SoWinFullViewer::buildWidget(HWND parent)
   
   PRIVATE(this)->msgHook =
     Win32::SetWindowsHookEx(WH_CALLWNDPROC, SoWinFullViewerP::callWndProc,
-      NULL, GetCurrentThreadId());
+                            NULL, GetCurrentThreadId());
   
   this->viewerWidget = parent;
   this->renderAreaWidget = inherited::buildWidget(parent);
-  assert(IsWindow(this->renderAreaWidget ));
-  
-  if (PRIVATE(this)->menuenabled) {
-    this->buildPopupMenu();
-  }
+  assert(IsWindow(this->renderAreaWidget));
 
-  if (PRIVATE(this)->decorations) {
-    this->buildDecoration(parent);
-  }
+  // Change default cursor from pointer arrow, to *no* default
+  // cursor. This must be done for the SetCursor()-call in
+  // SoWinFullViewerP::callWndProc() to work even when the canvas has
+  // not grabbed the mouse.
+  SetClassLong(this->getGLWidget(), GCL_HCURSOR, NULL);
+  
+  if (PRIVATE(this)->menuenabled) { this->buildPopupMenu(); }
+  if (PRIVATE(this)->decorations) { this->buildDecoration(parent); }
 
   return this->renderAreaWidget;
 }
@@ -1192,37 +1185,47 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
 LRESULT CALLBACK
 SoWinFullViewerP::callWndProc(int code, WPARAM wparam, LPARAM lparam)
 {
-  CWPSTRUCT * msg = (CWPSTRUCT *) lparam;
-  if (HC_ACTION);// must process message
-  
+  CWPSTRUCT * msg = (CWPSTRUCT *)lparam;
   SoWinComponent * component = SoWinComponent::getComponent(msg->hwnd);
-  if (component && component->getTypeId().isDerivedFrom(SoWinFullViewer::getClassTypeId())) {
-  
-    SoWinFullViewer * object = (SoWinFullViewer *) component;
-      
-    if (code >= 0) {
+  SoType fullvt = SoWinFullViewer::getClassTypeId();
+  if (component && component->getTypeId().isDerivedFrom(fullvt)) {
+    SoWinFullViewer * object = (SoWinFullViewer *)component;
 
-      switch (msg->message)
-      {
-
-        case WM_COMMAND:
-          object->onCommand(msg->hwnd, msg->message, msg->wParam, msg->lParam);
-
-        case WM_MEASUREITEM:
-          object->onMeasureItem(msg->hwnd, msg->message, msg->wParam, msg->lParam);
-
-        case WM_DRAWITEM:
-          object->onDrawItem(msg->hwnd, msg->message, msg->wParam, msg->lParam);
-
-        case WM_LBUTTONDOWN:
-          SetFocus(object->getGLWidget());
-          
-      }
-
+    if (code < 0) {
+      // According to MSVC++ Win32 API doc on CallWndProc(), if code<0
+      // we should not do any processing -- just pass message along to
+      // next hook.
+      return CallNextHookEx(object->pimpl->msgHook, code, wparam, lparam);
     }
-    
+
+    switch (msg->message) {
+    case WM_SETCURSOR:
+      SoWinComponent::setWidgetCursor(object->getRenderAreaWidget(),
+                                      *(PRIVATE(object)->cursor));
+      return 0;
+
+    case WM_COMMAND:
+      object->onCommand(msg->hwnd, msg->message, msg->wParam, msg->lParam);
+      break;
+
+    case WM_MEASUREITEM:
+      object->onMeasureItem(msg->hwnd, msg->message, msg->wParam, msg->lParam);
+      break;
+
+    case WM_DRAWITEM:
+      object->onDrawItem(msg->hwnd, msg->message, msg->wParam, msg->lParam);
+      break;
+
+    case WM_LBUTTONDOWN:
+      SetFocus(object->getGLWidget());
+      break;
+
+      // FIXME: if code==HC_ACTION the Win32 API doc says we _must_
+      // process the message. Weird. Try to fin out what that really
+      // means. 20011126 mortene.
+    }
+
     return CallNextHookEx(object->pimpl->msgHook, code, wparam, lparam);
   }
-  
   return 0;
 }

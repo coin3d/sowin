@@ -179,11 +179,9 @@ protected:
   HWND renderAreaWidget;
 
 private:
-
   SoWinFullViewerP * pimpl;
   SoAnyFullViewer * common;
   SoWinPopupMenu * prefmenu;
-
 };
 
 #endif  // SOWIN_FULLVIEWER_H
