@@ -69,6 +69,10 @@ SoWinThumbWheel::~SoWinThumbWheel( void )
       DeleteObject( this->pixmaps[i] );
     delete [] this->pixmaps;
   }
+  if ( IsWindow( this->wheelWindow ) )
+    Win32::DestroyWindow( this->wheelWindow );
+  if ( IsWindow( this->labelWindow ) )
+    Win32::DestroyWindow( this->labelWindow );
   if ( SoWinThumbWheel::wheelWidgetCounter <= 0 )
     Win32::UnregisterClass( "ThumbWheel Widget", SoWin::getInstance( ) );
 } // ~SoWinThumbWheel()
