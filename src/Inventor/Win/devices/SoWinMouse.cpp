@@ -31,6 +31,16 @@
 #include <Inventor/Win/devices/SoGuiMouseP.h>
 #include <Inventor/Win/devices/SoWinDeviceP.h>
 
+// Small hack to get WM_MOUSEWHEEL define value. Should be harmless to
+// do in this manner, and we avoid having to set up the define
+// _WIN32_WINDOWS >= 0x0400 before including <windows.h> (there are
+// indications in comp.os.ms-windows.programmer discussions that the
+// _WIN32_WINDOWS define could have peculiar / unwanted sideeffects).
+
+#ifndef WM_MOUSEWHEEL
+#define WM_MOUSEWHEEL 0x020a
+#endif // WM_MOUSEWHEEL
+
 // *************************************************************************
 
 class SoWinMouseP : public SoGuiMouseP {
@@ -186,16 +196,15 @@ SoWinMouseP::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
     this->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
     break;
 
-#if 0   // FIXME: disabled until it's enabled again through autoconf test
   case WM_MOUSEWHEEL:
-    if (HIWORD(message->wParam) < 0) {  // delta z = WHEEL_DELTA = 120
+    if (HIWORD(msg->wParam) < 0) {  // HIWORD(wParam) == deltaZ
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
     }
     else {
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
     }
     break;
-#endif
+
   default:
     this->buttonevent->setButton(SoMouseButtonEvent::ANY);
     break;

@@ -1,4 +1,6 @@
 New in SoWin 1.1.1a (so far):
+* bugfixes:
+  - handles mouse device wheel button
 
 New in SoWin 1.1.0 (2003-04-30):
 * SoWinColorEditor
