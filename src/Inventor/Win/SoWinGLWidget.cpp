@@ -638,6 +638,7 @@ SoWinGLWidget::buildWidget( HWND parent )
   HWND managerwidget = CreateWindow( wndclassname,
                                      wndclassname,
                                      WS_VISIBLE |
+                                     WS_CLIPCHILDREN |
                                      WS_CHILD,
                                      rect.left,
                                      rect.top,
@@ -822,8 +823,6 @@ SoWinGLWidgetP::buildNormalGLWidget( void )
 
   this->owner->realized = FALSE;
   this->normalWidget = normalwidget;
-
-  (void)ShowWindow( normalwidget, SW_SHOW );
 }
 
 void
