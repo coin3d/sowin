@@ -1,7 +1,7 @@
 
 DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
-lib_LIBRARIES = ivf.lst
+noinst_LIBRARIES = ivf.lst
 
 ivf_lst_SOURCES = \
 	IvfBasic.h \
