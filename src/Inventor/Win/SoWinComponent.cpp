@@ -50,6 +50,9 @@
 #include <sowindefs.h> // SOWIN_STUB
 #include <Inventor/Win/Win32API.h>
 
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
+
 // *************************************************************************
 
 SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinComponent);
@@ -738,3 +741,6 @@ SoWinComponent::setWidgetCursor(HWND w, const SoWinCursor & cursor)
     }
   }
 }
+
+#undef PRIVATE
+#undef PUBLIC

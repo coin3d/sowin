@@ -34,6 +34,8 @@
 #include <Inventor/Win/SoWinBasic.h>
 #include <winuser.h> // VK_ defines
 
+#define PRIVATE(obj) ((obj)->pimpl)
+
 // *************************************************************************
 
 #define VK_OEM_SCROLL 0x91
@@ -478,3 +480,5 @@ SoWinKeyboard::translateEvent(MSG * msg)
 }
 
 // *************************************************************************
+
+#undef PRIVATE

@@ -39,6 +39,8 @@
 
 #include <Inventor/Win/devices/spwinput_win32.h>
 
+#define PRIVATE(obj) ((obj)->pimpl)
+
 // *************************************************************************
 
 #ifndef DOXYGEN_SKIP_THIS
@@ -150,3 +152,5 @@ SoWinSpaceball::isFocusToWindow(void) const
   SOWIN_STUB();
   return FALSE;
 }
+
+#undef PRIVATE

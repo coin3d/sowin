@@ -43,6 +43,11 @@
 #include <float.h> // FLT_MAX
 #include <stdlib.h> // qsort
 
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
+
+// *************************************************************************
+
 static const int SO_BORDER_THICKNESS = 2;
 
 SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinGLWidget);
@@ -1653,3 +1658,6 @@ SoWinGLWidgetP::isDirectRendering(void)
 }
 
 #endif // ! DOXYGEN_SKIP_THIS
+
+#undef PRIVATE
+#undef PUBLIC

@@ -25,6 +25,8 @@
 #include <Inventor/Win/devices/SoWinInputFocus.h>
 #include <Inventor/Win/devices/SoGuiInputFocusP.h>
 
+#define PRIVATE(obj) ((obj)->pimpl)
+
 // *************************************************************************
 
 class SoWinInputFocusP : public SoGuiInputFocusP {
@@ -77,3 +79,5 @@ SoWinInputFocus::translateEvent(MSG *) // event)
 }
 
 // *************************************************************************
+
+#undef PRIVATE

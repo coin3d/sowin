@@ -40,6 +40,9 @@
 #include <Inventor/sensors/SoTimerSensor.h>
 #include <sowindefs.h>
 
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
+
 // *************************************************************************
 
 // The private data for the SoWinExaminerViewer.
@@ -178,3 +181,6 @@ SoWinExaminerViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
 }
 
 // *************************************************************************
+
+#undef PRIVATE
+#undef PUBLIC

@@ -41,6 +41,9 @@
 #define WM_MOUSEWHEEL 0x020a
 #endif // WM_MOUSEWHEEL
 
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
+
 // *************************************************************************
 
 class SoWinMouseP : public SoGuiMouseP {
@@ -221,3 +224,6 @@ SoWinMouseP::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
 }
 
 // *************************************************************************
+
+#undef PRIVATE
+#undef PUBLIC

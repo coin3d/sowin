@@ -25,6 +25,8 @@
 #include <Inventor/Win/devices/SoWinDevice.h>
 #include <Inventor/Win/devices/SoWinDeviceP.h>
 
+#define PRIVATE(obj) ((obj)->pimpl)
+
 // *************************************************************************
 
 #ifndef DOXYGEN_SKIP_THIS
@@ -54,3 +56,5 @@ SoWinDevice::invokeHandlers(MSG * event)
 }
 
 // *************************************************************************
+
+#undef PRIVATE
