@@ -354,7 +354,8 @@ SoWinThumbWheel::size( int width, int height )
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
   Win32::SetWindowPos( this->wheelWindow, NULL, 0, 0, width, height, flags );
   Win32::InvalidateRect( this->wheelWindow, NULL, FALSE );
-  Win32::InvalidateRect( this->labelWindow, NULL, FALSE );
+  if ( IsWindow( this->labelWindow ) )
+    Win32::InvalidateRect( this->labelWindow, NULL, FALSE );
 }
 
 void
@@ -500,7 +501,8 @@ SoWinThumbWheel::setEnabled( bool enable )
   else
     this->state = SoWinThumbWheel::Disabled;
   Win32::InvalidateRect( this->wheelWindow, NULL, FALSE );
-  Win32::EnableWindow( this->labelWindow, enable );
+  if ( IsWindow( this->labelWindow ) )
+    Win32::EnableWindow( this->labelWindow, enable );
 } // setEnabled()
 
 bool

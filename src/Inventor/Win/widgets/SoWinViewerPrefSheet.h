@@ -119,8 +119,8 @@ private:
  
   int lineHeight;
   int x, y;
-  const char * className;
-  const char * title;
+  SbString className;
+  SbString title;
   
   HWND mainWidget;
   
@@ -139,7 +139,11 @@ private:
   SoWinFullViewer * seekViewer;
   SoWinFullViewer * zoomViewer;
   SoWinFullViewer * clippingViewer;
-  SoWinExaminerViewer * spinViewer;  
+  SoWinExaminerViewer * spinViewer;
+
+  static ATOM wndClassAtom;
+  static int wndCounter;
+  
 };
 
 #endif  // SOWIN_VIEWERPREFSHEET_H

@@ -35,6 +35,9 @@ static const char rcsid[] =
 #define AXES_SIZE_FROM_WHEEL( value ) ( value * 10 )
 #define AXES_SIZE_TO_WHEEL( value ) ( value / 10 )
 
+ATOM SoWinViewerPrefSheet::wndClassAtom = NULL;
+int SoWinViewerPrefSheet::wndCounter = 0;
+
 SoWinViewerPrefSheet::SoWinViewerPrefSheet( void )
 {
   this->constructor( );
@@ -96,6 +99,9 @@ void SoWinViewerPrefSheet::show( SbBool show )
 {
   // FIXME: update all widgets ( init )
   (void)ShowWindow( this->mainWidget, ( show ? SW_SHOW : SW_HIDE ) );
+  if ( show ) {
+    (void)SetActiveWindow( this->mainWidget );
+  }
 }
 
 HWND SoWinViewerPrefSheet::getWidget( void )
@@ -245,31 +251,39 @@ void SoWinViewerPrefSheet::constructor( void )
 
 void SoWinViewerPrefSheet::createMainWidget( HWND parent )
 {
-  WNDCLASS windowclass;
-  LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
- LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );  
+  
+  LPSTR wndclassname = ( LPSTR ) this->className.getString( );
   HMENU menu = NULL;
-  HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
-  LPSTR wndclassname = ( LPSTR ) this->className;
 
-  windowclass.lpszClassName = wndclassname;
-  windowclass.hInstance = SoWin::getInstance( );
-  windowclass.lpfnWndProc = SoWinViewerPrefSheet::processEvent;
-  windowclass.style = CS_OWNDC;
-  windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = LoadIcon( NULL, icon );
-  windowclass.hCursor = LoadCursor( SoWin::getInstance( ), cursor );
-  windowclass.hbrBackground = brush;
-  windowclass.cbClsExtra = 0;
-  windowclass.cbWndExtra = 4;
+  if ( ! SoWinViewerPrefSheet::wndClassAtom ) {
 
-  RegisterClass( & windowclass );
+    WNDCLASS windowclass;
+    LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
+    LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
+    HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
 
-  DWORD style = WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE;// | WS_OVERLAPPEDWINDOW;
+    windowclass.lpszClassName = wndclassname;
+    windowclass.hInstance = SoWin::getInstance( );
+    windowclass.lpfnWndProc = SoWinViewerPrefSheet::processEvent;
+    windowclass.style = CS_OWNDC;
+    windowclass.lpszMenuName = NULL;
+    windowclass.hIcon = LoadIcon( NULL, icon );
+    windowclass.hCursor = LoadCursor( SoWin::getInstance( ), cursor );
+    windowclass.hbrBackground = brush;
+    windowclass.cbClsExtra = 0;
+    windowclass.cbWndExtra = 4;
 
-  this->mainWidget = CreateWindowEx( NULL,//WS_EX_TOPMOST,
+    SoWinViewerPrefSheet::wndClassAtom = Win32::RegisterClass( & windowclass );
+    
+  }
+
+  SoWinViewerPrefSheet::wndCounter++;
+  
+  DWORD style = WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE;
+
+  this->mainWidget = CreateWindowEx( NULL,
                                      wndclassname,
-                                     ( this->title ? this->title : "" ),
+                                     this->title.getString( ),
                                      style,
                                      CW_USEDEFAULT,
                                      CW_USEDEFAULT,
@@ -281,6 +295,7 @@ void SoWinViewerPrefSheet::createMainWidget( HWND parent )
                                      this );
   
   assert( IsWindow( this->mainWidget ) );
+  (void)SetActiveWindow( this->mainWidget );
 }
 
 void SoWinViewerPrefSheet::initSeekWidgets( SoWinFullViewer * viewer )
@@ -372,7 +387,13 @@ void SoWinViewerPrefSheet::initSpinWidgets( SoWinExaminerViewer * viewer )
 void SoWinViewerPrefSheet::destroyMainWidget( void )
 {
   Win32::DestroyWindow( this->mainWidget );
-  Win32::UnregisterClass( this->className, SoWin::getInstance( ) );
+  SoWinViewerPrefSheet::wndCounter--;
+  
+  if ( SoWinViewerPrefSheet::wndCounter <= 0 && SoWinViewerPrefSheet::wndClassAtom ) {
+    Win32::UnregisterClass( this->className.getString( ), SoWin::getInstance( ) );
+    SoWinViewerPrefSheet::wndClassAtom = NULL;
+  }
+  
   this->mainWidget = NULL;
 }
 
@@ -486,7 +507,7 @@ HWND SoWinViewerPrefSheet::createRadioWidget( HWND parent, long id, const char *
 HWND SoWinViewerPrefSheet::createSliderWidget( HWND parent, long id, int width, int x, int y )
 {
   assert( IsWindow( parent ) );
-  HWND hwnd = CreateWindowEx( NULL, //WS_EX_CLIENTEDGE
+  HWND hwnd = CreateWindowEx( NULL,
                               "SCROLLBAR",
                               "",
                               WS_CHILD | WS_VISIBLE | SBS_HORZ,
@@ -605,7 +626,7 @@ SIZE SoWinViewerPrefSheet::getSliderRange( HWND slider )
 
 void SoWinViewerPrefSheet::setChecked( HWND hwnd, BOOL check )
 {  
-  SendMessage( hwnd, BM_SETCHECK, ( WPARAM ) ( check ? BST_CHECKED : BST_UNCHECKED ), 0 );
+  (void)SendMessage( hwnd, BM_SETCHECK, ( WPARAM ) ( check ? BST_CHECKED : BST_UNCHECKED ), 0 );
 }
 
 void SoWinViewerPrefSheet::setEnabled( HWND hwnd, BOOL enable )
@@ -841,14 +862,6 @@ LRESULT SoWinViewerPrefSheet::onCommand( HWND window, UINT message, WPARAM wpara
         
         this->spinViewer->setAnimationEnabled( ! anim );
         this->setChecked( this->spinWidgets[0], ! anim );
-
-        setEnabled( this->spinWidgets[1], ! anim );
-
-        if ( visible ) {
-          setEnabled( this->spinWidgets[2], ! anim );
-          setEnabled( this->spinWidgets[3], ! anim );
-          this->axesSizeWheel->setEnabled( ! anim );
-        }
         
       }
       break;
