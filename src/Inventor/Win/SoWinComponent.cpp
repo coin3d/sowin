@@ -50,7 +50,6 @@ class SoWinComponentP {
 public:
   // Constructor.
   SoWinComponentP( SoWinComponent * o )
-    : fullscreen(FALSE)
   {
 
     this->owner = o;
@@ -58,9 +57,6 @@ public:
     if ( ! SoWinComponentP::sowincomplist )
       SoWinComponentP::sowincomplist = new SbPList;
     SoWinComponentP::sowincomplist->append( ( void * ) this->owner );
-    
-    if ( ! SoWinComponentP::sowinfullscreenlist )
-      SoWinComponentP::sowinfullscreenlist = new SbPList;
   }
 
   // Destructor.
@@ -83,14 +79,6 @@ public:
         }
       }
     }
-
-    if ( SoWinComponentP::sowinfullscreenlist ) {
-      if ( SoWinComponentP::sowinfullscreenlist->getLength( ) == 0 ) {
-        delete SoWinComponentP::sowinfullscreenlist;
-        SoWinComponentP::sowinfullscreenlist = NULL;
-      }
-    }
-    
   }
 
   // event handler
@@ -129,7 +117,7 @@ public:
   HHOOK msgHook;
   HWND parent;
   HWND widget;
-  SbBool embedded, fullscreen;
+  SbBool embedded;
   SbString classname, widgetname, title;
   SoWinComponentCB * closeCB;
   void * closeCBdata;
@@ -143,16 +131,19 @@ public:
   // SoWinComponent::getComponent() function.
   static SbPList * sowincomplist;
 
-  struct fullscreenData {
-    HWND widget;
+  struct FullscreenData {
+    FullscreenData(void)
+      : on(FALSE)
+    { }
+
+    SbBool on;
     SbVec2s pos;
     SbVec2s size;
     LONG style;
     LONG exstyle;
   };
 
-  // List of all fullscreen widgets.
-  static SbPList * sowinfullscreenlist;
+  struct FullscreenData fullscreendata;
 
 private:
   
@@ -162,7 +153,6 @@ private:
 
 ATOM SoWinComponentP::wndClassAtom = NULL;
 SbPList * SoWinComponentP::sowincomplist = NULL;
-SbPList * SoWinComponentP::sowinfullscreenlist = NULL;
 
 #define PRIVATE( o ) ( o->pimpl )
 
@@ -264,67 +254,36 @@ SoWinComponent::hide( void )
 SbBool
 SoWinComponent::setFullScreen( const SbBool enable )
 {
-  if (enable == PRIVATE(this)->fullscreen) { return TRUE; }
+  SoWinComponentP::FullscreenData * data = &(PRIVATE(this)->fullscreendata);
+  if (enable == data->on) { return TRUE; }
+  data->on = enable;
 
-  HWND hwnd = this->getParentWidget( );
   // FIXME: hmm.. this looks suspicious. Shouldn't we just return
   // FALSE if the (base)widget is not a shellwidget? 20010817 mortene.
-  while( IsWindow( GetParent( hwnd ) ) ) { hwnd = GetParent( hwnd ); }
-
-  SoWinComponentP::fullscreenData * data = NULL;
+  HWND hwnd = this->getShellWidget( );
 
   if ( enable ) {
-
-    data = new SoWinComponentP::fullscreenData;
-    
+    // Save size, position and styles.
     RECT rect;
-
-    // Save size and position
     Win32::GetWindowRect( hwnd, & rect );
     data->pos.setValue( rect.left, rect.top );
     data->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
+    data->style = Win32::SetWindowLong( hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE );
+    data->exstyle = Win32::SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
 
-    // Go fullscreen
-		
-    LONG l = Win32::SetWindowLong( hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE );
-    data->style = l;
-		
-    l = Win32::SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
-    data->exstyle = l;
-
-    data->widget = hwnd;
-
+    // Go fullscreen.
     Win32::MoveWindow( hwnd,
                        0,
                        0,
                        GetSystemMetrics( SM_CXSCREEN ),
                        GetSystemMetrics( SM_CYSCREEN ),
                        TRUE );
-    
-    // Add to list of fullscreen windows
-    SoWinComponentP::sowinfullscreenlist->append( data );
-    PRIVATE(this)->fullscreen = TRUE;
+    // FIXME: isn't there a specific method in the Win32 API for
+    // maximizing a window? If yes, use that mechanism instead of this
+    // "homegrown" method with MoveWindow() resizing. 20010820 mortene.
   }
   else {
-
-    // Find in list of fullscreen windows
-    SoWinComponentP::fullscreenData * d = NULL;
-    int i;
-    for ( i = 0; i < SoWinComponentP::sowinfullscreenlist->getLength( ); i++ ) {
-      d = ( SoWinComponentP::fullscreenData * ) SoWinComponentP::sowinfullscreenlist->get( i );
-      if ( d->widget == hwnd ) {
-        data = d;
-        break;
-      }
-    }
-
-    // FIXME: isn't this really an assert condition? The code looks
-    // suspicious in general -- shouldn't "being fullscreen" be a
-    // property of the window checkable through an API call?  (Perhaps
-    // that's not supported with the Win32 API?) 20010817 mortene.
-    if ( ! data ) { return FALSE; }
-
-    // Go normal
+    // Go "normal".
     (void)Win32::SetWindowLong( hwnd, GWL_STYLE, data->style | WS_VISIBLE );
     (void)Win32::SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );    
 
@@ -334,31 +293,15 @@ SoWinComponent::setFullScreen( const SbBool enable )
                        ( data->size[0] > 0 ? data->size[0] : 420 ),
                        ( data->size[1] > 0 ? data->size[1] : 500 ),
                        TRUE );
-    
-    // Remove from list of fullscreen windows
-    SoWinComponentP::sowinfullscreenlist->remove( i );
-    delete data;
-    PRIVATE(this)->fullscreen = FALSE;
   }
 
-  return FALSE;
+  return TRUE;
 }
 
 SbBool
 SoWinComponent::isFullScreen( void ) const
 {
-  // Check fullscreen list for shell widget
-  HWND hwnd = this->getParentWidget( );
-  while( IsWindow( GetParent( hwnd ) ) )
-    hwnd = GetParent( hwnd );
-    
-  SoWinComponentP::fullscreenData * d = NULL;
-  for ( int i = 0; i < SoWinComponentP::sowinfullscreenlist->getLength( ); i++ ) {
-    d = ( SoWinComponentP::fullscreenData * ) SoWinComponentP::sowinfullscreenlist->get( i );
-    if ( d->widget == hwnd )
-      return TRUE;
-  }
-  return FALSE;
+  return PRIVATE(this)->fullscreendata.on;
 }
 
 SbBool
