@@ -92,7 +92,7 @@ SoWinPopupMenu::~SoWinPopupMenu( void )
 
 // *************************************************************************
 
-int SoWinPopupMenu::NewMenu( char * name, int menuid )
+int SoWinPopupMenu::newMenu( char * name, int menuid )
 {
     int id = menuid;
     if ( id == -1 ) {
@@ -114,7 +114,7 @@ int SoWinPopupMenu::NewMenu( char * name, int menuid )
     return id;
 } // newMenu()
 
-int SoWinPopupMenu::GetMenu( char * name )
+int SoWinPopupMenu::getMenu( char * name )
 {
     const int numMenus = this->menus->getLength();
     int i;
@@ -124,11 +124,11 @@ int SoWinPopupMenu::GetMenu( char * name )
     return -1;
 } // getMenu()
 
-void SoWinPopupMenu::SetMenuTitle( int menuid, char * title )
+void SoWinPopupMenu::setMenuTitle( int menuid, char * title )
 {
     MenuRecord * rec = this->getMenuRecord( menuid );
     if ( rec == NULL ) {
-        SoDebugError::postWarning( "SoWinPopupMenu::SetMenuTitle",
+        SoDebugError::postWarning( "SoWinPopupMenu::setMenuTitle",
             "no such menu (%d.title = \"%s\")", menuid, title );
         return;
     }
@@ -141,7 +141,7 @@ void SoWinPopupMenu::SetMenuTitle( int menuid, char * title )
 
 } // setMenuTitle()
 
-char * SoWinPopupMenu::GetMenuTitle( int menuid )
+char * SoWinPopupMenu::getMenuTitle( int menuid )
 {
     MenuRecord * rec = this->getMenuRecord( menuid );
     if ( rec == NULL )
@@ -151,7 +151,7 @@ char * SoWinPopupMenu::GetMenuTitle( int menuid )
 
 // *************************************************************************
 
-int SoWinPopupMenu::NewMenuItem( char * name, int itemid )
+int SoWinPopupMenu::newMenuItem( char * name, int itemid )
 {
     int id = itemid;
     if ( id == -1 ) {
@@ -172,7 +172,7 @@ int SoWinPopupMenu::NewMenuItem( char * name, int itemid )
     return id;
 } // newMenuItem()
 
-int SoWinPopupMenu::GetMenuItem( char * name )
+int SoWinPopupMenu::getMenuItem( char * name )
 {
     const int numItems = this->items->getLength( );
     int i;
@@ -182,7 +182,7 @@ int SoWinPopupMenu::GetMenuItem( char * name )
     return -1;
 } // getMenuItem()
 
-void SoWinPopupMenu::SetMenuItemTitle( int itemid, char * title )
+void SoWinPopupMenu::setMenuItemTitle( int itemid, char * title )
 {
     ItemRecord * rec = this->getItemRecord( itemid );
     if ( rec == NULL )
@@ -196,14 +196,14 @@ void SoWinPopupMenu::SetMenuItemTitle( int itemid, char * title )
 
 } // setMenuItemTitle()
 
-char * SoWinPopupMenu::GetMenuItemTitle( int itemid )
+char * SoWinPopupMenu::getMenuItemTitle( int itemid )
 {
     ItemRecord * rec = this->getItemRecord( itemid );
     if ( rec == NULL ) return NULL;
     return rec->title;
 } // getMenuItemTitle()
 
-void SoWinPopupMenu::SetMenuItemEnabled( int itemid, SbBool enabled )
+void SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
 {
     ItemRecord * rec = this->getItemRecord( itemid );
     if ( rec == NULL )
@@ -212,7 +212,7 @@ void SoWinPopupMenu::SetMenuItemEnabled( int itemid, SbBool enabled )
     EnableMenuItem( rec->parent, rec->itemid, TRUE );
 } // setMenuItemEnabled()
 
-SbBool SoWinPopupMenu::GetMenuItemEnabled( int itemid )
+SbBool SoWinPopupMenu::getMenuItemEnabled( int itemid )
 {
     ItemRecord * rec = this->getItemRecord( itemid );
     if ( rec == NULL )
@@ -241,10 +241,10 @@ void SoWinPopupMenu::_setMenuItemMarked( int itemid, SbBool marked )
     GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
     CheckMenuItem( rec->parent, rec->itemid, ( menuiteminfo.fState & MFS_CHECKED ) ? TRUE : FALSE );
     if ( marked )
-        this->SetRadioGroupMarkedItem( itemid );
+        this->setRadioGroupMarkedItem( itemid );
 } // setMenuItemMarked()
 
-SbBool SoWinPopupMenu::GetMenuItemMarked( int itemid )
+SbBool SoWinPopupMenu::getMenuItemMarked( int itemid )
 {
     ItemRecord * rec = this->getItemRecord( itemid );
     if ( rec == NULL )
@@ -260,7 +260,7 @@ SbBool SoWinPopupMenu::GetMenuItemMarked( int itemid )
 
 // *************************************************************************
 
-void SoWinPopupMenu::AddMenu( int menuid, int submenuid, int pos )
+void SoWinPopupMenu::addMenu( int menuid, int submenuid, int pos )
 {
     MenuRecord * super = this->getMenuRecord( menuid );
     MenuRecord * sub = this->getMenuRecord( submenuid );
@@ -290,7 +290,7 @@ void SoWinPopupMenu::AddMenu( int menuid, int submenuid, int pos )
     sub->parent = super->menu;
 } // addMenu()
 
-void SoWinPopupMenu::AddMenuItem( int menuid, int itemid, int pos )
+void SoWinPopupMenu::addMenuItem( int menuid, int itemid, int pos )
 {
     MenuRecord * menu = this->getMenuRecord( menuid );
     ItemRecord * item = this->getItemRecord( itemid );
@@ -315,7 +315,7 @@ void SoWinPopupMenu::AddMenuItem( int menuid, int itemid, int pos )
         //item->parent->setItemChecked( item->itemid, true );
 } // addMenuItem()
 
-void SoWinPopupMenu::AddSeparator( int menuid, int pos )
+void SoWinPopupMenu::addSeparator( int menuid, int pos )
 {
     MenuRecord * menu = this->getMenuRecord( menuid );
     if ( menu == NULL ) {
@@ -330,7 +330,7 @@ void SoWinPopupMenu::AddSeparator( int menuid, int pos )
     this->items->append( rec );
 } // addSeparator()
 
-void SoWinPopupMenu::RemoveMenu( int menuid )
+void SoWinPopupMenu::removeMenu( int menuid )
 {
     MenuRecord * rec = this->getMenuRecord( menuid );
     if ( rec == NULL ) {
@@ -356,7 +356,7 @@ void SoWinPopupMenu::RemoveMenu( int menuid )
     rec->parent = NULL;
 } // removeMenu()
 
-void SoWinPopupMenu::RemoveMenuItem( int itemid )
+void SoWinPopupMenu::removeMenuItem( int itemid )
 {
     ItemRecord * rec = this->getItemRecord( itemid );
     if ( rec == NULL ) {
@@ -378,7 +378,7 @@ void SoWinPopupMenu::RemoveMenuItem( int itemid )
 
 // *************************************************************************
 
-void SoWinPopupMenu::PopUp( HWND inside, int x, int y )
+void SoWinPopupMenu::popUp( HWND inside, int x, int y )
 {
     MenuRecord * rec = this->getMenuRecord( 0 );
     //rec->menu->popup( QPoint( x, y ) );
@@ -442,7 +442,7 @@ ItemRecord * SoWinPopupMenu::createItemRecord( char * name )
 
 void SoWinPopupMenu::itemActivation( int itemid )
 {
-    inherited::InvokeMenuSelection( itemid );
+    inherited::invokeMenuSelection( itemid );
 } // menuSelection()
 
 // *************************************************************************

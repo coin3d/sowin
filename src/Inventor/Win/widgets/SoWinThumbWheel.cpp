@@ -134,7 +134,7 @@ LRESULT CALLBACK SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wpa
 
     this->initWheel( d, w );
 
-    int pixmap = this->wheel->GetBitmapForValue( this->tempWheelValue,
+    int pixmap = this->wheel->getBitmapForValue( this->tempWheelValue,
         ( this->state == SoWinThumbWheel::Disabled ) ?
         SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED );
 
@@ -250,7 +250,7 @@ LRESULT CALLBACK SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM
     else
         this->mouseLastPos = xPos - SHADEBORDERWIDTH - 6;
  
-    this->tempWheelValue = this->wheel->CalculateValue( this->wheelValue,
+    this->tempWheelValue = this->wheel->calculateValue( this->wheelValue,
         this->mouseDownPos, this->mouseLastPos - this->mouseDownPos );
 
     InvalidateRect( this->windowHandle, NULL, FALSE );
@@ -334,9 +334,9 @@ void SoWinThumbWheel::constructor( Orientation orientation )
   this->state = SoWinThumbWheel::Idle;
   this->wheelValue = this->tempWheelValue = 0.0f;
   this->wheel = new SoAnyThumbWheel;
-  this->wheel->SetWheelMotionMethod( SoAnyThumbWheel::UNIFORM );
-  this->wheel->SetGraphicsByteOrder( SoAnyThumbWheel::ARGB );
-  this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::MODULATE );
+  this->wheel->setMovement( SoAnyThumbWheel::UNIFORM );
+  this->wheel->setGraphicsByteOrder( SoAnyThumbWheel::ARGB );
+  this->wheel->setBoundaryHandling( SoAnyThumbWheel::MODULATE );
   this->pixmaps = NULL;
   this->numPixmaps = 0;
   this->currentPixmap = -1;
@@ -401,10 +401,10 @@ HWND SoWinThumbWheel::buildWidget( HWND parent, RECT rect )
 void SoWinThumbWheel::initWheel( int diameter, int width )
 {
     int d, w;
-    this->wheel->GetWheelSize( d, w );
+    this->wheel->getSize( d, w );
     if ( d == diameter && w == width ) return;
 
-    this->wheel->SetWheelSize( diameter, width );
+    this->wheel->setSize( diameter, width );
 
     int pwidth = width;
     int pheight = diameter;
@@ -421,14 +421,14 @@ void SoWinThumbWheel::initWheel( int diameter, int width )
         delete [] this->pixmaps;
     }
 
-    this->numPixmaps = this->wheel->BitmapsRequired( );
+    this->numPixmaps = this->wheel->getNumBitmaps( );
     void * bits = NULL;
 
     this->pixmaps = new HBITMAP[numPixmaps];
 
     for ( int i = 0; i < this->numPixmaps; i++ ) {
         this->pixmaps[i] = this->createDIB( pwidth, pheight, 32, &bits );
-        this->wheel->DrawBitmap( i, bits, ( this->orient == Vertical ) ?
+        this->wheel->drawBitmap( i, bits, ( this->orient == Vertical ) ?
             SoAnyThumbWheel::VERTICAL : SoAnyThumbWheel::HORIZONTAL );
     }
 } // initWheel()
@@ -462,13 +462,13 @@ void SoWinThumbWheel::setRangeBoundaryHandling( boundaryHandling handling )
 {
     switch ( handling ) {
         case CLAMP:
-            this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::CLAMP );
+            this->wheel->setBoundaryHandling( SoAnyThumbWheel::CLAMP );
             break;
         case MODULATE:
-            this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::MODULATE );
+            this->wheel->setBoundaryHandling( SoAnyThumbWheel::MODULATE );
             break;
         case ACCUMULATE:
-            this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::ACCUMULATE );
+            this->wheel->setBoundaryHandling( SoAnyThumbWheel::ACCUMULATE );
             break;
         default:
             assert( 0 && "impossible" );
@@ -479,7 +479,7 @@ void SoWinThumbWheel::setRangeBoundaryHandling( boundaryHandling handling )
 
 SoWinThumbWheel::boundaryHandling SoWinThumbWheel::getRangeBoundaryHandling( void ) const
 {
-    switch ( this->wheel->GetWheelRangeBoundaryHandling( ) ) {
+    switch ( this->wheel->getBoundaryHandling( ) ) {
         case SoAnyThumbWheel::CLAMP:
             return CLAMP;
         case SoAnyThumbWheel::MODULATE:
