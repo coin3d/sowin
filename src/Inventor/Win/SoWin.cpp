@@ -63,6 +63,7 @@ public:
 
   static BOOL CALLBACK sizeChildProc(HWND window, LPARAM lparam);
   static void errorHandlerCB(const SoError * error, void * data);
+  static LRESULT CALLBACK eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   static SbBool pipeErrorMessagesToConsole(void);
 
   static int timerSensorId;
@@ -141,7 +142,7 @@ SoWin::init(int & argc, char ** argv,
     HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
     windowclass.lpszClassName = classname;
     windowclass.hInstance = NULL;
-    windowclass.lpfnWndProc = SoWin::eventHandler;
+    windowclass.lpfnWndProc = SoWinP::eventHandler;
     windowclass.style = CS_OWNDC;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = LoadIcon(NULL, icon);
@@ -302,7 +303,7 @@ SoWin::init(HWND toplevelwidget)
     //
     // 20020521 mortene.
     SoWinP::parentEventHandler = (WNDPROC) Win32::GetWindowLong(toplevelwidget, GWL_WNDPROC);
-    (void)Win32::SetWindowLong(toplevelwidget, GWL_WNDPROC, (long) SoWin::eventHandler);
+    (void)Win32::SetWindowLong(toplevelwidget, GWL_WNDPROC, (long) SoWinP::eventHandler);
   }
 }
 
@@ -525,30 +526,25 @@ SoWin::doIdleTasks(void)
   SoGuiP::sensorQueueChanged(NULL);
 }
 
-/*!
-  FIXME: doc
- */
 LRESULT CALLBACK
-SoWin::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
+SoWinP::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
   LRESULT retval = 0;
   BOOL handled = FALSE;
   
-  switch(message)
-    {
-
-    case WM_DESTROY:
-      if (! SoWinP::useParentEventHandler) {
-        retval = SoWinP::onDestroy(window, message, wparam, lparam);
-        handled = TRUE;
-      }
-      break;
-            
-    case WM_QUIT:
-      retval = SoWinP::onQuit(window, message, wparam, lparam);
+  switch (message) {
+  case WM_DESTROY:
+    if (! SoWinP::useParentEventHandler) {
+      retval = SoWinP::onDestroy(window, message, wparam, lparam);
       handled = TRUE;
-      break;
     }
+    break;
+            
+  case WM_QUIT:
+    retval = SoWinP::onQuit(window, message, wparam, lparam);
+    handled = TRUE;
+    break;
+  }
 
   if (SoWinP::useParentEventHandler && SoWinP::parentEventHandler)
     return SoWinP::parentEventHandler(window, message, wparam, lparam);
