@@ -16,7 +16,7 @@ ivf_lst_SOURCES = \
 	IvfMainFrm.cpp IvfMainFrm.h \
 	IvfPlaneViewer.cpp Viewers/IvfPlaneViewer.h \
 	IvfRenderArea.cpp Viewers/IvfRenderArea.h \
-	IvfResource.cpp IvfResource.h \
+	IvfResource.cpp IvfResource.h IvfRes.h \
 	IvfSceneViewer.cpp Viewers/IvfSceneViewer.h \
 	IvfSrvrItem.cpp IvfSrvrItem.h \
 	IvfStdViewer.cpp Viewers/IvfStdViewer.h \
@@ -31,6 +31,7 @@ ivfinc_HEADERS = \
 	IvfComponent.h \
 	IvfDocument.h \
 	IvfMainFrm.h \
+	IvfRes.h \
 	IvfResource.h \
 	IvfSrvrItem.h
 
