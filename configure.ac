@@ -331,8 +331,6 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
 # **************************************************************************
 # Misc set-up.
 
-SIM_EXPAND_DIR_VARS
-
 # Functions from the gdi32.lib and user32.lib libraries are used.
 LIBS="$LIBS -lgdi32 -luser32"
 SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lgdi32 -luser32"
