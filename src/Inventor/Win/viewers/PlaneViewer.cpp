@@ -107,37 +107,6 @@ SoWinPlaneViewerP::cameratoggleClicked(void)
 #define VIEWERBUTTON_Z 2
 #define VIEWERBUTTON_CAMERA 3
 
-// Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
-SoWinPlaneViewer::SoWinPlaneViewer(HWND parent,
-                                   const char * const name, 
-                                   SbBool embed,
-                                   SoWinFullViewer::BuildFlag flag, 
-                                   SoWinViewer::Type type)
-  : inherited(parent, name, embed, flag, type, FALSE)
-{
-  PRIVATE(this) = new SoWinPlaneViewerP(this);
-  PRIVATE(this)->constructor(TRUE);
-}
-
-// Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
-SoWinPlaneViewer::SoWinPlaneViewer(HWND parent,
-                                   const char * const name, 
-                                   SbBool embed, 
-                                   SoWinFullViewer::BuildFlag flag, 
-                                   SoWinViewer::Type type, 
-                                   SbBool build)
-  : inherited(parent, name, embed, flag, type, FALSE)
-{
-  PRIVATE(this) = new SoWinPlaneViewerP(this);
-  PRIVATE(this)->constructor(build);
-}
-
-// Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
-SoWinPlaneViewer::~SoWinPlaneViewer()
-{
-  delete PRIVATE(this);
-}
-
 // ************************************************************************
 
 // Documented in superclass.
