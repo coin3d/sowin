@@ -89,7 +89,6 @@ public:
   SbBool drawToFrontBuffer;
   SbBool haveFocus;
   SbBool stealFocus;
-  SbBool haveBorder; // FIXME: get rid of this -- check for bordersize==0 instead. 20011012 mortene.
   SbBool glRealized;
   HCURSOR currentCursor;
 
@@ -390,7 +389,6 @@ SoWinGLWidget::isDoubleBuffer(void) const
 void
 SoWinGLWidget::setBorder(SbBool f)
 {
-  PRIVATE(this)->haveBorder = f;
   PRIVATE(this)->bordersize = f ? SO_BORDER_THICKNESS : 0;
 } // setBorder()
 
@@ -402,7 +400,7 @@ SoWinGLWidget::setBorder(SbBool f)
 SbBool
 SoWinGLWidget::isBorder(void) const
 {
-  return PRIVATE(this)->haveBorder;
+  return PRIVATE(this)->bordersize == SO_BORDER_THICKNESS;
 } // isBorder()
 
 /*!
@@ -685,19 +683,13 @@ SoWinGLWidget::setGLSize(SbVec2s newSize)
                          newSize[0], newSize[1], flags);
   
   flags = SWP_NOMOVE | SWP_NOZORDER;
-  if (PRIVATE(this)->haveBorder) {
-    Win32::SetWindowPos(PRIVATE(this)->normalWidget,
-                         NULL,
-                         PRIVATE(this)->bordersize,
-                         PRIVATE(this)->bordersize,
-                         newSize[0] - 2 * PRIVATE(this)->bordersize,
-                         newSize[1] - 2 * PRIVATE(this)->bordersize,
-                         flags);
-  }
-  else {
-    Win32::SetWindowPos(PRIVATE(this)->normalWidget, NULL, 0, 0,
-                         newSize[0], newSize[1], flags);
-  }
+  Win32::SetWindowPos(PRIVATE(this)->normalWidget,
+                      NULL,
+                      PRIVATE(this)->bordersize,
+                      PRIVATE(this)->bordersize,
+                      newSize[0] - 2 * PRIVATE(this)->bordersize,
+                      newSize[1] - 2 * PRIVATE(this)->bordersize,
+                      flags);
 } // setGLSize()
 
 /*!
@@ -1003,28 +995,24 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
   RECT rect;
   Win32::GetClientRect(manager, & rect);
 
-  if (this->haveBorder) {
-    rect.left += this->bordersize;
-    rect.top += this->bordersize;
-    rect.right -= 2 * this->bordersize;
-    rect.bottom -= 2 * this->bordersize;
-  }
+  rect.left += this->bordersize;
+  rect.top += this->bordersize;
+  rect.right -= 2 * this->bordersize;
+  rect.bottom -= 2 * this->bordersize;
 
   HWND normalwidget = CreateWindowEx(NULL,
-                                      wndclassname,
-                                      wndclassname,
-                                      WS_VISIBLE |
-                                      WS_CLIPSIBLINGS |
-                                      WS_CLIPCHILDREN |
-                                      WS_CHILD,
-                                      rect.left,
-                                      rect.top,
-                                      rect.right,
-                                      rect.bottom,
-                                      manager,
-                                      menu,
-                                      SoWin::getInstance(),
-                                      this->owner);
+                                     wndclassname,
+                                     wndclassname,
+                                     WS_VISIBLE |
+                                     WS_CLIPSIBLINGS |
+                                     WS_CLIPCHILDREN |
+                                     WS_CHILD,
+                                     rect.left, rect.top,
+                                     rect.right, rect.bottom,
+                                     manager,
+                                     menu,
+                                     SoWin::getInstance(),
+                                     this->owner);
 
   if (!IsWindow(normalwidget)) {
     DWORD dummy;
