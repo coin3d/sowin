@@ -201,4 +201,13 @@ doxygen-docs:
 doxygen-doc:
 	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
 
+install-exec-local: $(srcdir)/cfg/m4/wrapmsvc.exe
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@if @BUILD_WITH_MSVC@; then \
+	  p=wrapmsvc.exe; \
+	  echo " $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
+	  $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p; \
+	fi
+
 # EOF ######################################################################

@@ -71,6 +71,7 @@ AS = @AS@
 AWK = @AWK@
 BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
+COIN_COMPILER = @COIN_COMPILER@
 COMPONENTHEADER = @COMPONENTHEADER@
 CONFIG = @CONFIG@
 CPP = @CPP@
@@ -553,7 +554,7 @@ info-am:
 
 install-data-am: install-cfgdataDATA install-m4dataDATA
 
-install-exec-am: install-binSCRIPTS
+install-exec-am: install-binSCRIPTS install-exec-local
 
 install-info:
 
@@ -579,16 +580,16 @@ uninstall-am: uninstall-binSCRIPTS uninstall-cfgdataDATA \
 	dvi dvi-am dvi-recursive info info-am info-recursive install \
 	install-am install-binSCRIPTS install-cfgdataDATA install-data \
 	install-data-am install-data-recursive install-exec \
-	install-exec-am install-exec-recursive install-info \
-	install-info-recursive install-m4dataDATA install-man \
-	install-recursive install-strip installcheck installcheck-am \
-	installcheck-recursive installdirs installdirs-am \
-	installdirs-recursive maintainer-clean maintainer-clean-generic \
-	maintainer-clean-recursive mostlyclean mostlyclean-generic \
-	mostlyclean-recursive tags tags-recursive uninstall \
-	uninstall-am uninstall-binSCRIPTS uninstall-cfgdataDATA \
-	uninstall-info-recursive uninstall-m4dataDATA \
-	uninstall-recursive
+	install-exec-am install-exec-local install-exec-recursive \
+	install-info install-info-recursive install-m4dataDATA \
+	install-man install-recursive install-strip installcheck \
+	installcheck-am installcheck-recursive installdirs \
+	installdirs-am installdirs-recursive maintainer-clean \
+	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
+	mostlyclean-generic mostlyclean-recursive tags tags-recursive \
+	uninstall uninstall-am uninstall-binSCRIPTS \
+	uninstall-cfgdataDATA uninstall-info-recursive \
+	uninstall-m4dataDATA uninstall-recursive
 
 
 sowin-@CONFIG@.cfg: Makefile sowin.cfg.in
@@ -711,6 +712,15 @@ doxygen-docs:
 
 doxygen-doc:
 	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
+
+install-exec-local: $(srcdir)/cfg/m4/wrapmsvc.exe
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@if @BUILD_WITH_MSVC@; then \
+	  p=wrapmsvc.exe; \
+	  echo " $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
+	  $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p; \
+	fi
 
 # EOF ######################################################################
 

@@ -507,6 +507,13 @@ else
   SIM_AC_ISO8601_DATE(sowin_configure_date)
   AC_SUBST(sowin_configure_date)
 fi
+
+  COIN_COMPILER="$CXX"
+  if $BUILD_WITH_MSVC; then
+    COIN_COMPILER="wrapmsvc"
+  fi
+  AC_SUBST(COIN_COMPILER)
+
 else
   SIM_AC_CONFIGURATION_SETTING([SoWin build type], [build disabled])
 fi
