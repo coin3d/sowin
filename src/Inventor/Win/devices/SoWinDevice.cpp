@@ -73,7 +73,7 @@ SoWinDevice::setWindowSize(const SbVec2s newSize)
   PRIVATE(this)->size = newSize;
 }
 
-const SbVec2s 
+SbVec2s
 SoWinDevice::getWindowSize(void) const
 {
   return PRIVATE(this)->size;
