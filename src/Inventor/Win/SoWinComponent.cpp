@@ -583,6 +583,7 @@ SoWinComponent::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lpa
 
       case WM_DESTROY:
         return object->onDestroy( window, message, wparam, lparam );
+        
       }
   }
   return DefWindowProc( window, message, wparam, lparam );

@@ -86,11 +86,9 @@ public:
   SbBool hasOverlayGLArea(void) const;
   SbBool hasNormalGLArea(void) const;
 
+  void processExternalEvent( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+
 protected:
-  // Subclasses can pass in a bitwise OR specifying the GL modes
-  // (e.g. SO_GLX_RGB | SO_GLX_DOUBLE | SO_GLX_ZBUFFER | SO_GLX_OVERLAY)
-  // If build is FALSE, this will not build its widget tree until
-  // buildWidget() is explicity called; else, buildWidget() is called here.
   SoWinGLWidget( HWND parent = NULL,
                  const char * name = NULL,
                  SbBool embed = TRUE,
@@ -99,9 +97,9 @@ protected:
 
   virtual ~SoWinGLWidget( void );
 
+  virtual void processEvent( MSG * msg );
   virtual void redraw( void ) = 0;
   virtual void redrawOverlay( void );
-  virtual void processEvent( MSG * msg );
 
   virtual void initGraphic( void );
   virtual void initOverlayGraphic( void );
@@ -166,23 +164,22 @@ protected:
   
   HWND parent;
   HWND toplevel;
-
+  
+  // Callback for SoWinGL "gl widget" window
+  static LRESULT CALLBACK glWindowProc( HWND window,
+                                        UINT message,
+                                        WPARAM wparam,
+                                        LPARAM lparam );
 private:
-  void buildNormalGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
-  void buildOverlayGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
-  BOOL createGLContext( HWND window );
-
   // Callback for SoWinGL "manager widget" window
   static LRESULT CALLBACK managerWindowProc( HWND window,
                                              UINT message,
                                              WPARAM wparam,
                                              LPARAM lparam );
 
-  // Callback for SoWinGL "gl widget" window
-  static LRESULT CALLBACK glWindowProc( HWND window,
-                                        UINT message,
-                                        WPARAM wparam,
-                                        LPARAM lparam );
+  void buildNormalGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
+  void buildOverlayGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
+  BOOL createGLContext( HWND window );
 
   LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );

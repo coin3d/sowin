@@ -213,7 +213,7 @@ protected:
   SoWinThumbWheel * extraWheel;
     
   SbBool popupEnabled;
-
+  
 private:
     
   static void rightWheelCB ( SoWinFullViewer * viewer, void ** data );
@@ -232,9 +232,14 @@ private:
 	
   static void visibilityChangeCB( void * p, SbBool visible );
 	*/
-  // Window proc for SoWinFullViewer "manager HWND" windows
-  static LRESULT CALLBACK mgrWindowProc( HWND window, UINT message,
-                                         WPARAM wparam, LPARAM lparam );
+  
+  // Callback for SoWinGLWidget (new)
+  static LRESULT CALLBACK glWidgetProc( HWND window, UINT message,
+    WPARAM wparam, LPARAM lparam );
+  
+  // Callback for SoWinFullViewer
+  static LRESULT CALLBACK fullViewerProc( HWND window, UINT message,
+    WPARAM wparam, LPARAM lparam );
 
   LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 	LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );

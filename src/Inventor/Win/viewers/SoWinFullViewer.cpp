@@ -490,7 +490,7 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 	this->createAppPushButtonData = NULL;	
 
   this->setSize( SbVec2s( 500, 420 ) ); // FIXME: make default values
-
+  
   if ( buildNow ) {
     this->setClassName( "SoWinFullViewer" );
     HWND window = this->buildWidget( parent );
@@ -523,7 +523,7 @@ SoWinFullViewer::buildWidget( HWND parent )
 
   windowclass.lpszClassName = wndclassname;
   windowclass.hInstance = SoWin::getInstance( );
-  windowclass.lpfnWndProc = SoWinFullViewer::mgrWindowProc;
+  windowclass.lpfnWndProc = SoWinFullViewer::fullViewerProc;
   windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( NULL, icon );
@@ -543,7 +543,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   else {
     rect.right = 500;
     rect.bottom = 420;
-    style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+    style = WS_OVERLAPPEDWINDOW;// | WS_VISIBLE;
   }
 
   this->viewerWidget = CreateWindow( wndclassname,
@@ -561,6 +561,16 @@ SoWinFullViewer::buildWidget( HWND parent )
 
   this->renderAreaWidget = inherited::buildWidget( this->viewerWidget );
   assert( IsWindow( this->renderAreaWidget ) );
+
+  if ( IsWindow( this->getGLWidget( ) ) ) {
+    // Hack glWidget
+    SetLastError( 0 );
+    assert(
+      ( SetWindowLong( this->getGLWidget( ), GWL_WNDPROC,
+        ( LONG ) SoWinFullViewer::glWidgetProc ) != 0 )
+      && ( GetLastError( ) == 0 ) );
+  }
+  else assert ( 0 ); // FIXME:
 
   if ( this->menuenabled )
     this->buildPopupMenu( );
@@ -743,6 +753,7 @@ void
 SoWinFullViewer::buildPopupMenu( void )
 {
   this->prefmenu = common->setupStandardPopupMenu( );
+  //( ( SoWinPopupMenu * ) ( this->prefmenu ) )->setNotify( TRUE );
 }
 
 void
@@ -769,7 +780,7 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
 	// Popup
 	assert( this->prefmenu != NULL );
 	this->common->prepareMenu( this->prefmenu );
-  this->displayPopupMenu( point.x, point.y, this->renderAreaWidget );/*this->viewerWidget*/
+  this->displayPopupMenu( point.x, point.y, this->viewerWidget );//this->getGLWidget( ) );
 }
 
 void
@@ -786,8 +797,8 @@ SoWinFullViewer::displayPopupMenu( int x, int y, HWND owner )
   assert( this->prefmenu != NULL );
   this->prefmenu->popUp( owner, x, y );
 	int selectedItem =  ( ( SoWinPopupMenu * ) this->prefmenu )->getSelectedItem( );
-	if ( selectedItem != 0 ) // No item selected ( user aborted )
-		this->common->menuSelection( selectedItem );
+  if ( selectedItem != 0 ) // 0 == no item selected ( user aborted )
+      this->common->menuSelection( selectedItem );
   //this->popupPostCallback( );
   return 0;
 }
@@ -1145,10 +1156,11 @@ SoWinFullViewer::rightWheelCB( SoWinFullViewer * viewer, void ** data )
 }
 
 LRESULT CALLBACK
-SoWinFullViewer::mgrWindowProc( HWND window,
-                                UINT message,
-                                WPARAM wparam,
-                                LPARAM lparam )
+SoWinFullViewer::fullViewerProc(
+  HWND window,
+  UINT message,
+  WPARAM wparam,
+  LPARAM lparam )
 {
   if ( message == WM_CREATE ) {
     CREATESTRUCT * createstruct;
@@ -1187,6 +1199,12 @@ SoWinFullViewer::mgrWindowProc( HWND window,
           SetCursor( LoadCursor( SoWin::getInstance( ), IDC_ARROW ) );
         return 0;
         
+      case WM_LBUTTONDOWN:
+      case WM_MBUTTONDOWN:
+      case WM_RBUTTONDOWN:
+        SetFocus( object->getGLWidget( ) );
+        return 0;
+
     }
     
   }
@@ -1336,7 +1354,14 @@ SoWinFullViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lpa
 	short nc = HIWORD( wparam );// notification code
 	short id = LOWORD( wparam );// item, control, or accelerator identifier
 	HWND hwnd = ( HWND ) lparam;// control handle
-	
+  /*
+  if ( nc == 0 ) { // menu item
+    if ( id )
+      this->common->menuSelection( id );
+    return 0;
+    }
+  // else
+  */
 	switch( id ) {
 		
 		case VIEWERBUTTON_PICK:
@@ -1446,5 +1471,30 @@ SoWinFullViewer::goFullScreen( SbBool enable )
         TRUE );
   }
   InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
+}
+
+LRESULT CALLBACK
+SoWinFullViewer::glWidgetProc(
+  HWND window,
+  UINT message,
+  WPARAM wparam,
+  LPARAM lparam )
+{
+
+  if ( message != WM_CREATE ) {
+    
+    SoWinGLWidget * object = ( SoWinGLWidget * ) GetWindowLong( window, 0 );
+
+    if ( object && ( message == WM_RBUTTONDOWN ) ) {
+
+      object->processExternalEvent( window, message, wparam, lparam );
+      _cprintf( "intercepted message\n" );
+      return 0;
+    
+    }
+
+  }
+  
+  return SoWinGLWidget::glWindowProc( window, message, wparam, lparam );
 }
 

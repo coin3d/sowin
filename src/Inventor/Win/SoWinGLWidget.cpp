@@ -71,12 +71,13 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
 
   this->windowResized = FALSE;
   this->haveFocus = FALSE;
+  this->stealFocus = FALSE;
 
   this->parent = parent;
 
   if ( build ) {
-    HWND glarea = this->buildWidget( parent );
-    this->setBaseWidget( glarea );
+    this->managerWidget = this->buildWidget( parent );
+    this->setBaseWidget( this->managerWidget );
   }
 }
 
@@ -279,6 +280,21 @@ SoWinGLWidget::getCursor( void )
   return this->currentCursor;
 }
 
+void
+SoWinGLWidget::processExternalEvent( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+  MSG msg;
+  POINT pt = { LOWORD( lparam ), HIWORD( lparam ) };
+  msg.hwnd = window;
+  msg.lParam = lparam;
+  msg.message = message;
+  msg.pt = pt;
+  msg.time = GetTickCount( );
+  msg.wParam = wparam;
+
+  this->processEvent( & msg );
+}
+
 ///////////////////////////////////////////////////////////////////
 //
 //  (protected)
@@ -432,7 +448,7 @@ SoWinGLWidget::buildWidget( HWND parent )
   this->windowPosition.x = 0;
   this->windowPosition.y = 0;
 
-  this->managerWidget = CreateWindow( wndclassname,
+  HWND managerwidget = CreateWindow( wndclassname,
                                       wndclassname,
                                       WS_CLIPCHILDREN |
                                       WS_CLIPSIBLINGS |
@@ -446,7 +462,9 @@ SoWinGLWidget::buildWidget( HWND parent )
                                       SoWin::getInstance( ),
                                       this );
 
-  assert( IsWindow( this->managerWidget ) );
+  assert( IsWindow( managerwidget ) );
+
+  this->managerWidget = managerwidget; // FIXME: make param in build*GLWidget
 
   if ( this->glModes & SO_GL_OVERLAY ) {
     this->buildOverlayGLWidget( & this->pfd ); // FIXME: overlay not supported
@@ -457,11 +475,11 @@ SoWinGLWidget::buildWidget( HWND parent )
 
   this->waitForExpose = TRUE;
   
-  if ( ( this->parent == SoWin::getTopLevelWidget( ) ) ||
-    ( GetParent( this->parent ) == SoWin::getTopLevelWidget( ) ) )
-    SoWin::addMessageHook( this->managerWidget, WM_SIZE );
+  if ( ( parent == SoWin::getTopLevelWidget( ) ) ||
+    ( GetParent( parent ) == SoWin::getTopLevelWidget( ) ) )
+    SoWin::addMessageHook( managerwidget, WM_SIZE );
   
-  return this->managerWidget;
+  return managerwidget;
 }
 
 HWND
@@ -709,12 +727,13 @@ SoWinGLWidget::glWindowProc( HWND window,
     msg.time = GetTickCount( );
     msg.wParam = wparam;
     
-    object->processEvent( & msg );
-    
-    // Steal focus from other windows - get keystrokes
-    if( ( ! object->haveFocus ) && object->stealFocus/* && ( GetCapture( ) == object->parent )*/ ) {
+    // Get keystrokes
+    if( ( ( ! object->haveFocus ) && object->stealFocus ) ||
+      ( message == WM_LBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_RBUTTONDOWN ) ) {
       object->haveFocus = ( BOOL ) SetFocus( window );
     }
+
+    object->processEvent( & msg );
     
     switch ( message )
       {
@@ -751,12 +770,11 @@ SoWinGLWidget::glWindowProc( HWND window,
       case WM_DROPFILES:
         object->onDropFiles( window, message, wparam, lparam );
         // DragQueryFile
-        */
+        return 0;*/
       }
   }
   return DefWindowProc( window, message, wparam, lparam );
 }
-
 
 BOOL
 SoWinGLWidget::createGLContext( HWND window )
@@ -846,6 +864,7 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 	
   //CREATESTRUCT * cs = ( CREATESTRUCT * ) lparam;
   this->createGLContext( window );
+  SetFocus( window );
   return 0;
 }
 
