@@ -84,8 +84,9 @@ public:
   // event handler
   static LRESULT CALLBACK eventHandler(
     HWND window, UINT message, WPARAM wparam, LPARAM lparam ) {
+    SoWinComponent * component = NULL;
     
-    SoWinComponent * component = SoWinComponent::getComponent( window );
+    component = SoWinComponent::getComponent( window );
     if ( message == WM_SIZE && component ) {
       component->sizeChanged( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
     }
@@ -93,6 +94,12 @@ public:
       component->hide( );
       return 0;
     }
+    if ( message == WM_SETFOCUS && component ) {
+      if ( IsWindow( component->pimpl->focusProxy ) ) {
+        SetFocus( component->pimpl->focusProxy );
+      }
+    }
+    
     return DefWindowProc( window, message, wparam, lparam );
   }
   
@@ -109,6 +116,11 @@ public:
         if ( msg->message == WM_SIZE ) {
           component->sizeChanged( SbVec2s( LOWORD( msg->lParam ), HIWORD( msg->lParam ) ) );
         }
+        if ( msg->message == WM_SETFOCUS ) {
+          if ( IsWindow( component->pimpl->focusProxy ) ) {
+            SetFocus( component->pimpl->focusProxy );
+          }
+        }
       }
       // FIXME: should msgHook be static ?
       return CallNextHookEx( component->pimpl->msgHook, code, wparam, lparam );
@@ -120,6 +132,7 @@ public:
   HHOOK msgHook;
   HWND parent;
   HWND widget;
+  HWND focusProxy;
   SbBool embedded;
   SbString classname, widgetname, title;
   SoWinComponentCB * closeCB;
@@ -187,6 +200,8 @@ SoWinComponent::SoWinComponent( const HWND parent,
 {
   this->pimpl = new SoWinComponentP( this );
   this->realized = FALSE;
+
+  PRIVATE( this )->focusProxy = NULL;
   
   PRIVATE( this )->closeCB = NULL;
   PRIVATE( this )->closeCBdata = NULL;
@@ -206,8 +221,10 @@ SoWinComponent::SoWinComponent( const HWND parent,
     PRIVATE( this )->msgHook = NULL;
   }
 
-  if ( name ) PRIVATE( this )->widgetname = name;
-  this->setTitle( name );
+  if ( name ) {
+    PRIVATE( this )->widgetname = name;
+    this->setTitle( name );
+  }
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -225,8 +242,7 @@ SoWinComponent::~SoWinComponent( void )
     PRIVATE( this )->visibilitychangeCBs->remove( i );
   }
   delete PRIVATE( this )->visibilitychangeCBs;
-
-  // FIXME: crashes on exit. mariusbu 20010806.
+  
   if ( IsWindow( PRIVATE( this )->parent ) ) {
     Win32::DestroyWindow( PRIVATE( this )->parent );
   }
@@ -306,8 +322,10 @@ SoWinComponent::setFullScreen( const SbBool enable )
     (void)Win32::SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
     
     Win32::MoveWindow( hwnd,
-                       ( data->pos[0] > -1 ? data->pos[0] : ( ( GetSystemMetrics( SM_CXSCREEN ) / 2 ) - 210 ) ),
-                       ( data->pos[1] > -1 ? data->pos[1] : ( ( GetSystemMetrics( SM_CYSCREEN ) / 2 ) - 250 ) ),
+                       ( data->pos[0] > -1 ? data->pos[0] :
+                         ( ( GetSystemMetrics( SM_CXSCREEN ) / 2 ) - 210 ) ),
+                       ( data->pos[1] > -1 ? data->pos[1] :
+                         ( ( GetSystemMetrics( SM_CYSCREEN ) / 2 ) - 250 ) ),
                        ( data->size[0] > 0 ? data->size[0] : 420 ),
                        ( data->size[1] > 0 ? data->size[1] : 500 ),
                        TRUE );
@@ -354,14 +372,12 @@ SbBool
 SoWinComponent::isTopLevelShell( void ) const
 {
   return ( PRIVATE( this )->embedded ? FALSE : TRUE );
-  //FIXME: compare with SoWin::getTopLevelWidget() ? mariusbu 20010806.
+  // FIXME: compare with SoWin::getTopLevelWidget() ? mariusbu 20010806.
 }
 
 HWND
 SoWinComponent::getShellWidget( void ) const
 {
-  // FIXME: is this correct for this method ? mariusbu 20010718.
-
   LONG style;
   HWND hwnd;
   HWND parent = PRIVATE( this )->parent;
@@ -385,7 +401,7 @@ SoWinComponent::getParentWidget( void ) const
 void
 SoWinComponent::setSize( const SbVec2s size )
 {
-  UINT flags = SWP_NOMOVE | SWP_NOZORDER;// redraw
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER; // do redraw
   Win32::SetWindowPos( this->getShellWidget( ), NULL, 0, 0,
                        size[0], size[1], flags );
 }
@@ -414,20 +430,23 @@ SoWinComponent::getClassName( void ) const
 void
 SoWinComponent::setTitle( const char * const title )
 {
-  if ( title ) PRIVATE( this )->title = title;
-  else PRIVATE( this )->title = "";
+  if ( title ) {
+    PRIVATE( this )->title = title;
+  }
+  else {
+    PRIVATE( this )->title = "";
+  }
 
   if ( IsWindow( PRIVATE( this )->parent ) && title ) {
-    Win32::SetWindowText( PRIVATE( this )->parent,
-      ( LPCTSTR ) PRIVATE( this )->title.getString( ) );
+    Win32::SetWindowText( PRIVATE( this )->parent, title );
   }
 }
 
 const char *
 SoWinComponent::getTitle( void ) const
 {
-  return PRIVATE( this )->title.getLength( ) ?
-    PRIVATE( this )->title.getString( ) : this->getDefaultTitle( );
+  return ( PRIVATE( this )->title.getLength( ) ?
+    PRIVATE( this )->title.getString( ) : this->getDefaultTitle( ) );
 }
 
 void
@@ -523,7 +542,7 @@ SoWinComponent::buildFormWidget( HWND parent )
                                parent,
                                NULL,
                                SoWin::getInstance( ),
-                               NULL );
+                               this );
 
   assert( IsWindow( parentWidget ) );
   return parentWidget;
@@ -538,13 +557,15 @@ SoWinComponent::sizeChanged( const SbVec2s newSize )
 const char *
 SoWinComponent::getDefaultWidgetName( void ) const
 {
-  return "SoWinComponent";
+  static const char defaultWidgetName[] = "SoWinComponent";
+  return defaultWidgetName;
 }
 
 const char *
 SoWinComponent::getDefaultTitle( void ) const
 {
-  return "Win Component";
+  static const char defaultTitle[] = "Win Component";
+  return defaultTitle;
 }
 
 void
