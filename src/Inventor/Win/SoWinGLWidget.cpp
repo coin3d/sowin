@@ -260,7 +260,7 @@ SoWinGLWidget::setDoubleBuffer( SbBool set )
     PRIVATE( this )->glModes |= SO_GL_DOUBLE;
   }
   else {
-    PRIVATE( this )->glModes ^= SO_GL_DOUBLE;
+    PRIVATE( this )->glModes &= ~SO_GL_DOUBLE;
   }
   DestroyWindow( this->getGLWidget( ) );
   PRIVATE( this )->buildNormalGLWidget( );
@@ -313,7 +313,7 @@ SoWinGLWidget::setQuadBufferStereo( const SbBool enable )
     PRIVATE( this )->glModes |= SO_GL_STEREO;
   }
   else {
-    PRIVATE( this )->glModes ^= SO_GL_STEREO;
+    PRIVATE( this )->glModes &= ~SO_GL_STEREO;
   }
   DestroyWindow( this->getGLWidget( ) );
   PRIVATE( this )->buildNormalGLWidget( );
