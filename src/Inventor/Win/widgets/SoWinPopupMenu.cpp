@@ -62,6 +62,8 @@ SoWinPopupMenu::SoWinPopupMenu( void )
 {
   this->menus = new SbPList;
   this->items = new SbPList;
+
+  this->selectedItem = -1;
 } // SoWinPopupMenu()
 
 SoWinPopupMenu::~SoWinPopupMenu( void )
@@ -399,15 +401,17 @@ void
 SoWinPopupMenu::popUp( HWND inside, int x, int y )
 {
   MenuRecord * rec = this->getMenuRecord( 0 );
-  //rec->menu->popup( QPoint( x, y ) );
-  TrackPopupMenu( rec->menu,
-                  TPM_CENTERALIGN|
-                  TPM_LEFTBUTTON,
-                  x,
-                  y,
-                  0,
-                  inside,
-                  NULL );
+  selectedItem = TrackPopupMenu( rec->menu,
+                                 TPM_LEFTALIGN |
+                                 TPM_TOPALIGN |
+                                 TPM_LEFTBUTTON |
+                                 //TPM_NONOTIFY |
+                                 TPM_RETURNCMD,
+                                 x,
+                                 y,
+                                 0,
+                                 inside,
+                                 NULL );
 } // popUp()
 
 // *************************************************************************

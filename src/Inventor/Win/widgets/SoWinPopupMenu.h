@@ -73,6 +73,7 @@ private:
   SbPList * menus;
   SbPList * items;
 
+  int selectedItem;
 };  // class SoWinPopupMenu
 
 // *************************************************************************
