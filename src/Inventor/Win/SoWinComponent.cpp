@@ -481,12 +481,12 @@ SoWinComponent::getClassName(void) const
 void
 SoWinComponent::setTitle(const char * const title)
 {
-  if (title) {
-    PRIVATE(this)->title = title;
-  }
-  else {
-    PRIVATE(this)->title = "";
-  }
+  PRIVATE(this)->title = title ? title : "";
+
+  // Check if the internal Win32 Window for the SoWinComponent has
+  // been built, as this method may be invoked before that has
+  // happened.
+  if (PRIVATE(this)->widget == NULL) { return; }
 
   // FIXME: this check to see if we're a top-level component doesn't
   // match the one in SoWinComponent::setFullscreen(). Which one is
@@ -571,13 +571,11 @@ SoWinComponent::sizeChanged(const SbVec2s & size)
 void
 SoWinComponent::afterRealizeHook(void) // virtual
 {
-  // Set shell widget title.
-  HWND shellWidget = this->getShellWidget();
-  if (PRIVATE(this)->title.getLength() == 0 &&
-    (shellWidget == SoWin::getTopLevelWidget() ||
-      shellWidget == this->getParentWidget())) {
-    this->setTitle(this->getDefaultTitle());
-  }
+  // Set shell widget title, in case it was attempted set earlier,
+  // before the Win32 window of the SoWinComponent was built.
+  const SbString t = PRIVATE(this)->title.getLength() == 0 ?
+    this->getDefaultTitle() : PRIVATE(this)->title;
+  this->setTitle(t.getString());
 }
 
 // Documented in common/SoGuiComponentCommon.cpp.in.
