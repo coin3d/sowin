@@ -40,7 +40,7 @@
 typedef void SoWinEventHandler(HWND, void *, MSG *, SbBool *);
 typedef void (*SoWinEventHandlerPtr)(HWND, void *, MSG *, SbBool *);
 
-class SoWinDevice : public SoWinObject {
+class SOWIN_DLL_API SoWinDevice : public SoWinObject {
   SOWIN_OBJECT_ABSTRACT_HEADER(SoWinDevice, SoWinObject);
 
 public:

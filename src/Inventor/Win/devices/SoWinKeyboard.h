@@ -25,7 +25,7 @@
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/devices/SoWinDevice.h>
 
-class SoWinKeyboard : public SoWinDevice {
+class SOWIN_DLL_API SoWinKeyboard : public SoWinDevice {
   SOWIN_OBJECT_HEADER(SoWinKeyboard, SoWinDevice);
 
 public:

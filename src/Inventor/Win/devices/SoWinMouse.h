@@ -26,7 +26,7 @@
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
 
-class SoWinMouse : public SoWinDevice {
+class SOWIN_DLL_API SoWinMouse : public SoWinDevice {
   SOWIN_OBJECT_HEADER(SoWinMouse, SoWinDevice);
 
 public:

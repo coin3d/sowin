@@ -26,7 +26,7 @@
 #include <Inventor/events/SoMotion3Event.h>
 #include <Inventor/events/SoSpaceballButtonEvent.h>
 
-class SoWinSpaceball : public SoWinDevice {
+class SOWIN_DLL_API SoWinSpaceball : public SoWinDevice {
   SOWIN_OBJECT_HEADER(SoWinSpaceball, SoWinDevice);
 
 public:

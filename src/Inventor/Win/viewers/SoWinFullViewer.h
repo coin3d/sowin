@@ -32,7 +32,7 @@ class SoAnyPopupMenu;
 typedef void PushAppButtonCB( HWND hwnd, int id, void * pushData, void * userData );
 typedef void RedrawAppButtonCB( LPDRAWITEMSTRUCT lpdis, void * userData );
 
-class SoWinFullViewer : public SoWinViewer {
+class SOWIN_DLL_API SoWinFullViewer : public SoWinViewer {
   SOWIN_OBJECT_ABSTRACT_HEADER(SoWinFullViewer, SoWinViewer);
 
   friend class SoAnyFullViewer;
