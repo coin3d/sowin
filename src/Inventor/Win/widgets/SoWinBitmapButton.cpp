@@ -51,7 +51,7 @@ SoWinBitmapButton::SoWinBitmapButton(HWND parent,
     this->addBitmap(width, height, depth, bits);
     this->setBitmap(0);
   }
- 
+
 } // SoWinBitmapButton()
 
 SoWinBitmapButton::SoWinBitmapButton(HWND button)
@@ -61,7 +61,7 @@ SoWinBitmapButton::SoWinBitmapButton(HWND button)
  char name[8];
  GetClassName(button, name, 8);
  assert(strcmp(name, "BUTTON") == 0);
- 
+
  this->constructor();
  this->buttonWindow = button;
  this->addBitmap((HBITMAP) (
@@ -98,7 +98,7 @@ SoWinBitmapButton::width(void)
 
 int
 SoWinBitmapButton::height(void)
-{ 
+{
   RECT rect;
   Win32::GetWindowRect(this->buttonWindow, & rect);
   return (rect.bottom - rect.top); //this->sizeHint().cy;
@@ -122,7 +122,7 @@ SoWinBitmapButton::move(int x, int y, int width, int height)
 void
 SoWinBitmapButton::size(int width, int height)
 {
-  assert(IsWindow(this->buttonWindow));  
+  assert(IsWindow(this->buttonWindow));
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
   Win32::SetWindowPos(this->buttonWindow, NULL, 0, 0, width, height, flags);
 }
@@ -174,7 +174,7 @@ SoWinBitmapButton::destructor(void)
 HWND
 SoWinBitmapButton::buildWidget(HWND parent, RECT rect)
 {
- 
+
   assert(IsWindow(parent));
 
   this->buttonWindow = CreateWindow("BUTTON",
@@ -187,9 +187,9 @@ SoWinBitmapButton::buildWidget(HWND parent, RECT rect)
                                      NULL,
                                      SoWin::getInstance(),
                                      NULL);
- 
+
   assert(IsWindow(this->buttonWindow));
- 
+
   return this->buttonWindow;
 }
 
@@ -204,7 +204,7 @@ SoWinBitmapButton::getId(void)
 {
   return Win32::GetWindowLong(this->buttonWindow, GWL_ID);
 }
- 
+
 void
 SoWinBitmapButton::setState(SbBool pushed)
 {
@@ -245,13 +245,13 @@ SoWinBitmapButton::addBitmap(int width, int height, int bpp, void * src)
  memcpy(dest, src, width * height * (bpp / 8));
 
  this->addBitmap(hbmp);
- 
+
 } // addBitmap()
 
 void
 SoWinBitmapButton::addBitmap(char ** xpm)
 {
- this->addBitmap(this->parseXpm(xpm, ((this->depth > 0) ? this->depth : 24))); 
+ this->addBitmap(this->parseXpm(xpm, ((this->depth > 0) ? this->depth : 24)));
 } // addBitmap()
 
 HBITMAP
@@ -275,9 +275,9 @@ SoWinBitmapButton::setBitmap(int index)
 /*
 HBITMAP
 SoWinBitmapButton::getCurrentBitmap(void) const
-{ 
+{
  assert(IsWindow(this->buttonWindow));
- 
+
  return (HBITMAP) (SendMessage(this->buttonWindow, BM_GETIMAGE, (WPARAM) IMAGE_BITMAP, 0));
 } // getCurrentBitmap()
 */
@@ -293,7 +293,7 @@ SoWinBitmapButton::createDIB(int width, int height, int bpp, void ** bits) // 16
 
   HANDLE heap = GetProcessHeap();
   BITMAPINFO * format = (BITMAPINFO *) HeapAlloc(heap, 0, heapspace);
- 
+
   BITMAPINFOHEADER * header = (BITMAPINFOHEADER *) format;
   header->biSize = sizeof(BITMAPINFOHEADER);
   header->biWidth = width;
@@ -317,133 +317,129 @@ SoWinBitmapButton::createDIB(int width, int height, int bpp, void ** bits) // 16
   return bitmap;
 }
 
+// Convert from xpm to DIB (demands hex colors).
 HBITMAP
-SoWinBitmapButton::parseXpm(char ** xpm, int dibDepth)// convert from xpm to DIB (demands hex colors)
+SoWinBitmapButton::parseXpm(char ** xpm, int dibdepth)
 {
-  int i, j, k, l, m, x, y;
-  int width;
-  int height;
-  int numColors;
-  int numChars;
-  char * strStart;
-  char * strEnd;
-  char * line;
-  char * charLookupTable;
-  int * colorLookupTable;
-  void * dest;
-  HBITMAP hbmp;
-
-  unsigned int colorValue;
-  unsigned char pixelSize;
-  
-  pixelSize = dibDepth / 8;
+  unsigned char pixelsize = dibdepth / 8;
 
   // get width
-  strStart = xpm[0];
-  strEnd = strchr(strStart, ' ');
-  assert(strEnd);
-  * strEnd = '\0';
-  width = atoi(strStart);
-  * strEnd = ' ';
+  char * strstart = xpm[0];
+  char * strend = strchr(strstart, ' ');
+  assert(strend);
+  *strend = '\0';
+  int width = atoi(strstart);
+  *strend = ' ';
 
   // get height
-  strStart = strEnd + 1;
-  strEnd = strchr(strStart, ' ');
-  assert(strEnd);
-  * strEnd = '\0';
-  height = atoi(strStart);
-  * strEnd = ' ';
+  strstart = strend + 1;
+  strend = strchr(strstart, ' ');
+  assert(strend);
+  *strend = '\0';
+  int height = atoi(strstart);
+  *strend = ' ';
 
   // get number of colors
-  strStart = strEnd + 1;
-  strEnd = strchr(strStart, ' ');
-  assert(strEnd);
-  * strEnd = '\0';
-  numColors = atoi(strStart);
-  * strEnd = ' ';
+  strstart = strend + 1;
+  strend = strchr(strstart, ' ');
+  assert(strend);
+  *strend = '\0';
+  int numcol = atoi(strstart);
+  *strend = ' ';
 
   // get number of chars per pixel
-  strStart = strEnd + 1;
-  strEnd = strchr(strStart, ' ');
-  if (! strEnd) strEnd = strchr(strStart, '\0');
-  assert(strEnd);
-  * strEnd = '\0';
-  numChars = atoi(strStart);
-  // * strEnd = ' '; FIXME
- 
+  strstart = strend + 1;
+  strend = strchr(strstart, ' ');
+  if (!strend) strend = strchr(strstart, '\0');
+  assert(strend);
+  *strend = '\0';
+  int numchars = atoi(strstart);
+  // * strend = ' '; FIXME
+
   // create color lookup table
-  charLookupTable = new char[numColors * numChars];
-  colorLookupTable = new int[numColors];
- 
+  char * charlookuptable = new char[numcol * numchars];
+  int * colorlookuptable = new int[numcol];
+
   // get colors
-  for (i = 0; i < numColors; i++) {
-  
-    for (j = 0; j < numChars; j ++)
-      charLookupTable[(i * numChars) + j] = * (xpm[i + 1] + j);
-  
-    strStart = strchr((xpm[i + 1] + numChars), 'c'); // FIXME: make sure it is 'c '
-    strEnd = strStart + 2;
-  
-    if (* strEnd == '#')
-      colorLookupTable[i] = axtoi(strEnd + 1);
+  int i;
+  for (i = 0; i < numcol; i++) {
+
+    int j;
+    for (j = 0; j < numchars; j ++) {
+      charlookuptable[(i * numchars) + j] = * (xpm[i + 1] + j);
+    }
+
+    // FIXME: make sure it is 'c '
+    strstart = strchr((xpm[i + 1] + numchars), 'c');
+
+    strend = strstart + 2;
+
+    if (*strend == '#')
+      colorlookuptable[i] = axtoi(strend + 1);
     else
-      colorLookupTable[i] = -1; // Parse string (color name)
-  
+      colorlookuptable[i] = -1; // Parse string (color name)
+
   }
 
   // create bitmap
-  hbmp = this->createDIB(width, height, dibDepth, & dest);
- 
+  void * dest;
+  HBITMAP hbmp = this->createDIB(width, height, dibdepth, &dest);
+
   // put pixels
   for (i = 0; i < height; i++) {
 
-    line = xpm[i + 1 + numColors];
+    char * line = xpm[i + 1 + numcol];
 
-    y = i * width * pixelSize;
-  
+    int y = i * width * pixelsize;
+
+    int j;
     for (j = 0; j < width; j++) {
 
-      x = j * pixelSize;
+      int x = j * pixelsize;
 
       // for every color
-      for (k = 0; k < numColors; k++) {
-    
-        for (l = 0; l < numChars; l++)
-          if (charLookupTable[(k * numChars) + l] != line[(j * numChars) + l])
+      int k;
+      for (k = 0; k < numcol; k++) {
+
+        int l;
+        for (l = 0; l < numchars; l++)
+          if (charlookuptable[(k * numchars) + l] != line[(j * numchars) + l])
             break;
 
         // if we found the char in the lookup table
-        if (l >= numChars) {
-     
-          if (colorLookupTable[k] == -1)
-            colorValue = GetSysColor(COLOR_3DFACE) & 0x00FFFFFF; // FIXME: color make param
+        if (l >= numchars) {
+
+          unsigned int colorvalue;
+          if (colorlookuptable[k] == -1)
+            colorvalue = GetSysColor(COLOR_3DFACE) & 0x00FFFFFF; // FIXME: color make param
           else
-            colorValue = colorLookupTable[k] | 0xFF000000;
-     
+            colorvalue = colorlookuptable[k] | 0xFF000000;
+
           // FIXME: may not work with depth < 24
           // for each color byte in the pixel
-          for (m = 0; m < pixelSize; m++) {
+          int m;
+          for (m = 0; m < pixelsize; m++) {
 
             // put color byte (and only one byte)
             ((char *) dest)[y + x + m] =
-              (char) ((colorValue & (0x000000FF << (m << 3))) >> (m << 3));
-      
+              (char) ((colorvalue & (0x000000FF << (m << 3))) >> (m << 3));
+
           }
 
           // next pixel
           break;
-     
+
         }
-    
+
       }
-   
+
     }
-  
+
   }
 
   // cleanup
-  delete charLookupTable;
-  delete colorLookupTable;
+  delete charlookuptable;
+  delete colorlookuptable;
 
   // return bitmap
   return hbmp;
@@ -456,7 +452,7 @@ SoWinBitmapButton::axtoi(char * str) // convert from ASCII hex to int
   int n = (strchr(c, '\0') - c);
 
   int x = 0;
- 
+
   // convert n nibbles
   for (int i = 0; i < n; i++) {
 
@@ -471,9 +467,9 @@ SoWinBitmapButton::axtoi(char * str) // convert from ASCII hex to int
     // lower case letters a - f
     if ((c[i] > 0x60) && (c[i] < 0x67))
       x += ((c[i] - 0x61 + 0x0A) << ((n - i - 1) * 4));
- 
+
   }
- 
+
   return x;
 
 }
