@@ -29,7 +29,7 @@ class SoWinFullViewer;
 
 typedef void thumbWheelCB( SoWinFullViewer * viewer, void ** data );
 
-//#define WM_USER 0x0400
+// Define our own window message ( WM_USER = 0x0400 )
 #define WM_THUMBWHEEL 0x0401
 
 // *************************************************************************
@@ -132,6 +132,7 @@ protected:
                                       LPARAM lparam );
 
 private:
+  
   void constructor( Orientation );
   HWND buildWidget( HWND parent, RECT rect, char * name );
   void initWheel( int diameter, int width );
@@ -157,6 +158,10 @@ private:
 
   thumbWheelCB * viewerCB;
   SoWinFullViewer * viewer; // owner object pointer
+
+  static ATOM wheelWndClassAtom;
+  static int wheelWidgetCounter;
+  
 }; // class SoWinThumbWheel
 
 // *************************************************************************

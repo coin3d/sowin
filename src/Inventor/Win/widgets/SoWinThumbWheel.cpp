@@ -32,6 +32,9 @@ static const char rcsid[] =
 
 // *************************************************************************
 
+ATOM SoWinThumbWheel::wheelWndClassAtom = NULL;
+int SoWinThumbWheel::wheelWidgetCounter = 0;
+
 SoWinThumbWheel::SoWinThumbWheel( HWND parent,
                                   long id,
                                   int x,
@@ -66,6 +69,8 @@ SoWinThumbWheel::~SoWinThumbWheel( void )
       DeleteObject( this->pixmaps[i] );
     delete [] this->pixmaps;
   }
+  if ( SoWinThumbWheel::wheelWidgetCounter <= 0 )
+    Win32::UnregisterClass( "ThumbWheel Widget", SoWin::getInstance( ) );
 } // ~SoWinThumbWheel()
 
 SIZE
@@ -181,7 +186,7 @@ SoWinThumbWheel::onLButtonDown( HWND window, UINT message, WPARAM wparam, LPARAM
   this->mouseLastPos = this->mouseDownPos;
  
   if ( ( this->viewerCB != NULL ) && ( this->viewer != NULL ) )
-    this->viewerCB( this->viewer, NULL ); // let CB know we want xxxWheelStart()
+    this->viewerCB( this->viewer, NULL ); // let CB know we want whateverWheelStart()
 
   return 0;
 }
@@ -232,7 +237,7 @@ SoWinThumbWheel::onLButtonUp( HWND window, UINT message, WPARAM wparam, LPARAM l
   this->state = SoWinThumbWheel::Idle;
 
  if ( ( this->viewerCB != NULL ) && ( this->viewer != NULL ) )  
-    this->viewerCB( this->viewer, ( void ** ) -1 ); // let CB know we want xxxWheelFinish()
+    this->viewerCB( this->viewer, ( void ** ) -1 ); // let CB know we want whateverWheelFinish()
 
   return 0;
 }
@@ -315,7 +320,7 @@ SoWinThumbWheel::move( int x, int y, int width, int height )
 void
 SoWinThumbWheel::move( int x, int y )
 {
-  UINT flags = SWP_NOSIZE | SWP_NOZORDER;// | SWP_NOREDRAW;
+  UINT flags = SWP_NOSIZE | SWP_NOZORDER;
 
   Win32::SetWindowPos( this->wheelWindow, NULL, x, y, 0, 0, flags );
 
@@ -342,7 +347,7 @@ SoWinThumbWheel::move( int x, int y )
 void
 SoWinThumbWheel::size( int width, int height )
 {
-  UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER;
   Win32::SetWindowPos( this->wheelWindow, NULL, 0, 0, width, height, flags );
   InvalidateRect( this->wheelWindow, NULL, FALSE );
   InvalidateRect( this->labelWindow, NULL, FALSE );
@@ -395,34 +400,38 @@ SoWinThumbWheel::constructor( Orientation orientation )
 HWND
 SoWinThumbWheel::buildWidget( HWND parent, RECT rect, char * name )
 {
-  WNDCLASS windowclass;
+
   HMENU menu = NULL;
-  HWND widget = NULL;
-  //HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
-  LPSTR wndclassname = "SoWinThumbWheel_wheelWidget";
+  LPSTR wndclassname = "ThumbWheel Widget";
 
-  windowclass.lpszClassName = wndclassname;
-  windowclass.hInstance = SoWin::getInstance( );
-  windowclass.lpfnWndProc = SoWinThumbWheel::windowProc;
-  windowclass.style = NULL;
-  windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = NULL;
-  windowclass.hCursor = NULL;
-  windowclass.hbrBackground = NULL;//brush
-  windowclass.cbClsExtra = 0;
-  windowclass.cbWndExtra = 4;
+  if ( ! SoWinThumbWheel::wheelWndClassAtom ) {
 
-  RegisterClass( & windowclass );
+    WNDCLASS windowclass;
 
-  this->wheelWindow = CreateWindow(
+    windowclass.lpszClassName = wndclassname;
+    windowclass.hInstance = SoWin::getInstance( );
+    windowclass.lpfnWndProc = SoWinThumbWheel::windowProc;
+    windowclass.style = NULL;
+    windowclass.lpszMenuName = NULL;
+    windowclass.hIcon = NULL;
+    windowclass.hCursor = NULL;
+    windowclass.hbrBackground = NULL;
+    windowclass.cbClsExtra = 0;
+    windowclass.cbWndExtra = 4;
+
+     SoWinThumbWheel::wheelWndClassAtom = Win32::RegisterClass( & windowclass );
+    
+  }
+
+  SoWinThumbWheel::wheelWidgetCounter++;
+
+  this->wheelWindow = CreateWindow( wndclassname,
                                     wndclassname,
-                                    "ThumbWheel",
-                  WS_VISIBLE |
+                                    WS_VISIBLE |
                                     WS_CLIPCHILDREN |
                                     WS_CLIPSIBLINGS |
                                     WS_CHILD |
-                  WS_BORDER,// |
-                                    //WS_DLGFRAME,
+                                    WS_BORDER,
                                     rect.left,
                                     rect.top,
                                     rect.right,
@@ -436,7 +445,7 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect, char * name )
 
   if ( name )
     this->labelWindow = createLabel( parent, rect.right, rect.bottom, name );
- this->setLabelOffset( 0, 0 );
+  this->setLabelOffset( 0, 0 );
  
   return this->wheelWindow;
 }
@@ -507,7 +516,6 @@ SoWinThumbWheel::setValue( float value )
 float
 SoWinThumbWheel::value( void ) const
 {
-  // FIXME: tempWheelValue ?
   return this->wheelValue;
 }
 
@@ -602,15 +610,15 @@ SoWinThumbWheel::createLabel( HWND parent, int x, int y, char * text )
 {
   assert( IsWindow( parent ) );
   SIZE textSize = this->getTextSize( parent, text ); // FIXME: assumes the same font as parent
- HWND hwnd = CreateWindow( "STATIC",
-                          ( text ? text : " " ),
-                          WS_VISIBLE | WS_CHILD | SS_CENTER,
-                          x, y,
-                          textSize.cx + 2, textSize.cy, // SIZE
-                          parent,
-                          NULL,
-                          SoWin::getInstance( ),
-                          NULL );
+  HWND hwnd = CreateWindow( "STATIC",
+                            ( text ? text : " " ),
+                            WS_VISIBLE | WS_CHILD | SS_CENTER,
+                            x, y,
+                            textSize.cx + 2, textSize.cy, // SIZE
+                            parent,
+                            NULL,
+                            SoWin::getInstance( ),
+                            NULL );
  assert( IsWindow( hwnd ) );
  return hwnd;
 }
