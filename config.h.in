@@ -1,0 +1,24 @@
+/* config.h.in.  Generated automatically from configure.in by autoheader.  */
+
+#undef SOWIN_MAJOR_VERSION
+#undef SOWIN_MINOR_VERSION
+#undef SOWIN_MICRO_VERSION
+#undef SOWIN_VERSION
+#undef HAVE_SOPOLYGONOFFSET
+
+/* Define this to true if the __FUNCTION__ variable contains the current
+   function name */
+#undef HAVE_VAR___FUNCTION__
+
+/* Define this to true if the __PRETTY_FUNCTION__ variable contains the
+   current function name */
+#undef HAVE_VAR___PRETTY_FUNCTION__
+
+/* Name of package */
+#undef PACKAGE
+
+/* Version number of package */
+#undef VERSION
+
+/* Define this if you want defaults to be linked into SoWin */
+#undef WITH_STATIC_DEFAULTS
