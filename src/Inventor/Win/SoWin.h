@@ -76,9 +76,9 @@ public:
   
   static void errorHandlerCB( const SoError * error, void * data );
 
-protected:
-  
   static void doIdleTasks( void );
+  
+protected:
     
   static void registerWindowClass( const char * const className );
   static void unRegisterWindowClass( const char * const className );
