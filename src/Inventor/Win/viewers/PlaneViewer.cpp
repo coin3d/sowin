@@ -145,19 +145,6 @@ SoWinPlaneViewer::~SoWinPlaneViewer()
 */
 
 void
-SoWinPlaneViewer::setViewing(// virtual
-  SbBool enable)
-{
-  inherited::setViewing(enable);
-} // setViewing()
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
-void
 SoWinPlaneViewer::setCamera(// virtual
   SoCamera * camera)
 {
