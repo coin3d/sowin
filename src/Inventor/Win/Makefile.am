@@ -197,14 +197,17 @@ uninstall: uninstall-am
 	    rm -f "$$file"; \
 	  fi \
 	done; \
-	baseincdir="$(DESTDIR)$(includedir)/Inventor/Win"; \
+	baseincdir="$(DESTDIR)$(includedir)/Inventor"; \
 	for dir in \
-	  "$$baseincdir/devices" \
-	  "$$baseincdir/viewers"; do
+	  "$$baseincdir/Win/devices" \
+	  "$$baseincdir/Win/viewers" \
+	  "$$baseincdir/Win" \
+	  "$$baseincdir"; do \
 	  if test -d "$$dir"; then \
 	    echo " rmdir" "$$dir"; \
 	    rmdir "$$dir"; \
 	  fi \
-	done;
+	done; \
+	:
 
 # EOF **********************************************************************
