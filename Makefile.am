@@ -11,6 +11,8 @@ SUBDIRS = src/Inventor/Win
 
 BUILT_SOURCES = \
 	sowindefs.h \
+	src/Inventor/Win/SoAny.h \
+	src/Inventor/Win/SoAny.cpp \
 	src/Inventor/Win/SoWinBasic.h \
 	src/Inventor/Win/SoWinCursors.h \
 	src/Inventor/Win/SoWinCursors.cpp \
@@ -64,6 +66,14 @@ src/Inventor/Win/SoWinBasic.h: $(srcdir)/src/Inventor/Win/common/SoGuiBasic.h.in
 	@./config.status \
 	  --file=-:$(srcdir)/src/Inventor/Win/common/SoGuiBasic.h.in | \
 	  ./config.status --header=$@:-
+
+src/Inventor/Win/SoAny.h: \
+  $(srcdir)/src/Inventor/Win/common/SoAny.h.in
+	@./config.status --file=$@:src/Inventor/Win/common/SoAny.h.in
+
+src/Inventor/Win/SoAny.cpp: \
+  $(srcdir)/src/Inventor/Win/common/SoAny.cpp.in
+	@./config.status --file=$@:src/Inventor/Win/common/SoAny.cpp.in
 
 src/Inventor/Win/SoWinCursors.h: \
   $(srcdir)/src/Inventor/Win/common/SoGuiCursors.h.in

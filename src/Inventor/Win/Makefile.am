@@ -9,6 +9,8 @@ INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 lib_LTLIBRARIES = libSoWin@SUFFIX@.la
 
 BUILT_SOURCES = \
+	SoAny.h \
+	SoAny.cpp \
 	SoWinBasic.h \
 	SoWinObject.cpp \
 	SoWinObject.h \
@@ -51,6 +53,12 @@ libSoWininc_HEADERS = \
 ############################################################################
 
 SoWinBasic.h: $(srcdir)/common/SoGuiBasic.h.in
+	@( cd $(top_builddir); $(MAKE) built-sources )
+
+SoAny.h: $(srcdir)/common/SoAny.h.in
+	@( cd $(top_builddir); $(MAKE) built-sources )
+
+SoAny.cpp: $(srcdir)/common/SoAny.cpp.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
 
 SoWinObject.h: $(srcdir)/common/SoGuiObject.h.in
