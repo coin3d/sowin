@@ -255,12 +255,23 @@ buildfiles: build-files/$(project)$(major).dsp
 
 build-files/$(project)$(major).dsp: $(Project)-$(VERSION)
 	@if test -d build-files; then :; else mkdir build-files; fi
+	builddir=`pwd`; \
 	cd build-files; \
 	../$(Project)-$(VERSION)/configure \
 	  $(CONFIGUREOPTIONS) \
 	  $(BUILDOPTIONS) \
 	  --enable-msvcdsp; \
-	$(MAKE) clean && $(MAKE)
+	$(MAKE) clean && $(MAKE); \
+	wbuilddir=`cygpath -w $$builddir | sed -e 's%\\\\%\\\\\\\\%g'`; \
+	escC3D=`echo $$COIN3DDIR | sed -e 's/\\\\/\\\\\\\\/g'`; \
+	version=`echo "@VERSION@" | sed -e 's%\.%\\\.%g'`; \
+	cp $(project)$(major).dsp $(project)$(major).dsp.orig; \
+	cat $(project)$(major).dsp.orig | \
+	  sed -e "s%$$wbuilddir%\$$\(COIN3DDIR\)%g" \
+	      -e "s%$$escC3D%\$$\(COIN3DDIR\)%gi" \
+	      -e "s%\.\.\\\\source\\\\SoWin-$$version%\.\.\\\\\.\.\\\\source\\\\SoWin-$(major)%g" \
+	  > $(project)$(major).dsp; \
+	rm $(project)$(major).dsp.orig
 
 .PHONY: docs shared-release shared-debug static-release static-debug buildfiles
 
