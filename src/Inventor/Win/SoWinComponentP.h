@@ -82,7 +82,7 @@ public:
   struct FullscreenData fullscreendata;
 
   SbBool hascursor;
-  const SoWinCursor currcursor;
+  SoWinCursor currcursor;
   SbBool realized;
 
 private:
