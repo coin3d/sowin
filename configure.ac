@@ -188,16 +188,6 @@ AC_SUBST([COMPONENTHEADER], [])
 
 # **************************************************************************
 
-# path_tag is used to identify paths in docs/coin.doxygen that needs to be
-# transformed using cygpath under cygwin.
-
-case $host in
-*-cygwin) path_tag="<PATH>" ;;
-*)        path_tag= ;;
-esac
-   
-AC_SUBST(path_tag)
-
 sim_ac_makensis_exe=false
 case $host in
 *-cygwin)
