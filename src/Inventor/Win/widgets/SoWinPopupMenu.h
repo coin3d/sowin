@@ -62,6 +62,8 @@ public:
 	virtual int getSelectedItem( void );
   virtual void itemActivation( int itemid );    // call this on WM_COMMAND
 
+  void setNotify( SbBool enable );
+  
 protected:
   virtual void _setMenuItemMarked( int itemid, SbBool marked );
   MenuRecord * getMenuRecord( int menuid );
@@ -72,6 +74,7 @@ protected:
 private:
   SbPList * menus;
   SbPList * items;
+  SbBool notify;
 
   int selectedItem;
 };  // class SoWinPopupMenu

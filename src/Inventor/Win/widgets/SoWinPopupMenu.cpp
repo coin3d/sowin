@@ -64,6 +64,7 @@ SoWinPopupMenu::SoWinPopupMenu( void )
   this->menus = new SbPList;
   this->items = new SbPList;
 
+  this->notify = FALSE;
   this->selectedItem = -1;
 } // SoWinPopupMenu()
 
@@ -407,8 +408,8 @@ SoWinPopupMenu::popUp( HWND inside, int x, int y )
                                        TPM_LEFTALIGN |
                                        TPM_TOPALIGN |
                                        TPM_RIGHTBUTTON |
-                                       TPM_NONOTIFY |
-                                       TPM_RETURNCMD,
+                                       TPM_RETURNCMD |
+                                       ( this->notify ? 0 : TPM_NONOTIFY ),
                                        x,
                                        y,
                                        0,
@@ -430,7 +431,6 @@ SoWinPopupMenu::popUp( HWND inside, int x, int y )
       != 0xFFFFFFFF );
     
   }
-	
 	//this->itemActivation( this->selectedItem );
 } // popUp()
 
@@ -439,6 +439,12 @@ SoWinPopupMenu::getSelectedItem( void )
 {
 	return ( this->selectedItem );
 } // getSelectedItem()
+
+void
+SoWinPopupMenu::setNotify( SbBool enable )
+{
+	this->notify = enable;
+} // setNotify()
 
 // *************************************************************************
 
