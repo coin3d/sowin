@@ -484,6 +484,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   WNDCLASS windowclass;
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
+	LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );  
   HMENU menu = NULL;
   HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
   LPSTR wndclassname = ( LPSTR ) this->getClassName( );
@@ -494,7 +495,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( NULL, icon );
-  windowclass.hCursor = NULL;
+  windowclass.hCursor = LoadCursor( SoWin::getInstance( ), cursor );
   windowclass.hbrBackground = ( IsWindow( this->parent ) ? NULL : brush );
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;
@@ -1163,17 +1164,11 @@ SoWinFullViewer::fullViewerProc(
 
 			case WM_DRAWITEM:
 				return object->onDrawItem( window, message, wparam, lparam );
-      
-			case WM_SETCURSOR:
-        if ( object->getCursor( ) == GetCursor( ) )
-          SetCursor( LoadCursor( SoWin::getInstance( ), IDC_ARROW ) );
-        return 0;
 
       case WM_LBUTTONDOWN:
         /*
       case WM_MBUTTONDOWN:
       case WM_RBUTTONDOWN:*/
-        _cprintf( "FOCUS\n" );
         SetFocus( object->getGLWidget( ) );
         return 0;
 
@@ -1198,7 +1193,13 @@ SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lpar
 LRESULT
 SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  return this->layoutWidgets( LOWORD( lparam ), HIWORD( lparam ) );
+  
+  this->layoutWidgets( LOWORD( lparam ), HIWORD( lparam ) );
+
+  if ( ! IsWindow( this->parent ) )
+    InvalidateRect( this->viewerWidget, NULL, TRUE );
+
+  return 0;
 }
 
 LRESULT
@@ -1208,14 +1209,7 @@ SoWinFullViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lpa
 	short nc = HIWORD( wparam );// notification code
 	short id = LOWORD( wparam );// item, control, or accelerator identifier
 	HWND hwnd = ( HWND ) lparam;// control handle
-  /*
-  if ( nc == 0 ) { // menu item
-    if ( id )
-      this->common->menuSelection( id );
-    return 0;
-    }
-  // else
-  */
+
 	switch( id ) {
 		
 		case VIEWERBUTTON_PICK:
@@ -1469,9 +1463,6 @@ SoWinFullViewer::layoutWidgets( int cx, int cy )
 		
 		this->rightWheel->move( x, y, width, height );
 	}
-  /*
-  if ( ! IsWindow( this->parent ) )
-    InvalidateRect( this->viewerWidget, NULL, TRUE );
-  */
+
   return 0;
 }
