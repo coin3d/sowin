@@ -12,27 +12,23 @@ Options:
   --ldflags
   --libs
   --datadir
-  --ac-subst <subst>
   --have-feature <feature>
   --build <program> <sourcefile> [<sourcefile>]...
   --version
-  --help | --usage"
+  --usage | --help"
 
 version="@SOWIN_VERSION@"
 
-# NOTE: If the first argument is changed in the following variables, it is
-# also necessary to update configure.in, since that argument is shifted off.
-
-cppflags="-I@includedir@ @SOWIN_EXTRA_CPPFLAGS@"
-ldflags="-L@libdir@ @SOWIN_EXTRA_LDFLAGS@"
-libs="-lSoWin @SOWIN_EXTRA_LIBS@"
+cppflags="@SOWIN_EXTRA_CPPFLAGS@"
+ldflags="@SOWIN_EXTRA_LDFLAGS@"
+libs="@SOWIN_EXTRA_LIBS@"
 
 datadir="@sowin_data_dir@"
 
 while test $# -gt 0
 do
   case $1 in
-    --help | --usage)  echo "$usage"    ;;
+    --usage | --help)  echo "$usage"    ;;
     --version)         echo "$version"  ;;
     --cppflags)        echo "$cppflags" ;;
     --ldflags)         echo "$ldflags"  ;;
@@ -41,13 +37,13 @@ do
     --ac-subst)
       shift
       case $1 in
-        GUI)             echo "@GUI@" ;;
-        Gui)             echo "@Gui@" ;;
-        gui)             echo "@gui@" ;;
-        WIDGET)          echo "@WIDGET@" ;;
-        WINWIDGET)       echo "@WINWIDGET@" ;;
-        EVENT)           echo "@EVENT@" ;;
-        COMPONENTHEADER) echo "@COMPONENTHEADER@" ;;
+        GUI)              echo "@GUI@" ;;
+        Gui)              echo "@Gui@" ;;
+        gui)              echo "@gui@" ;;
+        WIDGET)           echo "@WIDGET@" ;;
+        WINWIDGET)        echo "@WINWIDGET@" ;;
+        EVENT)            echo "@EVENT@" ;;
+        COMPONENTHEADER)  echo "@COMPONENTHEADER@" ;;
         *)
           echo >&2 "$me: Invalid AC_SUBST: \"$1\""
           exit 1
@@ -58,11 +54,6 @@ do
       shift
       case $1 in
         renderarea)      exit 0 ;;
-        examinerviewer)  exit 0 ;;
-        planeviewer)     exit 0 ;;
-        walkviewer)      exit 0 ;;
-        flyviewer)       exit 0 ;;
-        materiallist)    exit 0 ;;
         *)               exit 1 ;;
       esac
       ;;
@@ -86,4 +77,3 @@ do
 done
 
 exit 0
-
