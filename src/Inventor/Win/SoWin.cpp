@@ -141,6 +141,7 @@ SoWin::exitMainLoop( void )
 void
 SoWin::doIdleTasks( void )
 {
+  SoDB::getSensorManager( )->processTimerQueue( );
   SoDB::getSensorManager( )->processDelayQueue( TRUE ); // isidle = TRUE
   SoWin::sensorQueueChanged( NULL );
 }
