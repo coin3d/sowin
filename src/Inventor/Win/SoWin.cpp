@@ -29,8 +29,9 @@
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/devices/SoWinDevice.h>
 #include <Inventor/Win/SoWinComponent.h>
+#include <Inventor/Win/SoAny.h>
 
-// The private data for the SoWin.
+// The private data for the SoWin class.
 
 class SoWinP {
   
@@ -638,3 +639,77 @@ SoWinP::onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 
   return 0;
 } // onQuit()
+
+
+/*!
+  \typedef void SoWin::FatalErrorCB(const SbString errmsg, SoWin::FatalErrors errcode, void * userdata)
+
+  An application function callback for handling fatal errors should be
+  of this type.
+
+  The first argument is an error message in English describing the
+  details of the error. The second argument is an error code used so
+  the application can identify specific conditions. The third argument
+  is the userdata pointer passed in to SoWin::setFatalErrorHandler().
+*/
+
+/*!
+  \enum SoWin::FatalErrors
+  Numerical identifiers for classifying the different kinds of possible
+  fatal errors.
+*/
+
+/*!
+  \var SoWin::FatalErrors SoWin::NO_OPENGL_CANVAS
+
+  Could not construct \e any valid OpenGL canvas. Something is very
+  wrong on the client system.
+*/
+/*!
+  \var SoWin::FatalErrors SoWin::INTERNAL_ASSERT
+
+  An internal error condition that should never happen was
+  detected. The most likely cause of this is programmering errors
+  within the SoWin library itself.
+*/
+/*!
+  \var SoWin::FatalErrors SoWin::UNSPECIFIED_ERROR
+
+  Signifies that we were not able to specify in any greater detail the
+  error condition that came up.
+*/
+
+/*!
+  Set up a callback to invoke in the case of unexpected fatal error
+  conditions within the SoWin library.
+
+  Almost any error condition within the library is handled in a robust
+  way through return values indicating errors for the offending calls,
+  but there are a few cases that are impossible to handle without
+  seriously crippling the functionality.
+
+  (One example is if we fail to find \e any way of making a valid
+  OpenGL canvas. This is an indication that something is seriously
+  wrong on the end-user's system, and the SoWin library will not work
+  properly.)
+
+  In the case of a fatal error, it is expected that the given
+  application callback function communicates the problem to the
+  end-user and then either exits the application or at least refrains
+  from using any part of the SoWin library.
+
+  If no callback is explicitly set up by the application, the SoWin
+  library will display an error message to the end-user and then exit
+  the application.
+
+  When setting a callback, this method returns a pointer to the
+  previous callback function, or \c NULL if none.
+
+  (This is an extension versus the original SGI InventorXt library
+  API.)
+ */
+SoWin::FatalErrorCB *
+SoWin::setFatalErrorHandler(SoWin::FatalErrorCB * cb, void * userdata)
+{
+  return SoAny::si()->setFatalErrorHandler(cb, userdata);
+}
