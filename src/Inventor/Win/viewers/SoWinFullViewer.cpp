@@ -974,6 +974,18 @@ SoWinFullViewer::mgrWindowProc( HWND window,
 
       case WM_DESTROY:
         return object->onDestroy( window, message, wparam, lparam );
+
+			case WM_LBUTTONDOWN:
+			case WM_MBUTTONDOWN:
+			case WM_RBUTTONDOWN:
+				SetCapture( window );
+				return 0;
+
+			case WM_LBUTTONUP:
+			case WM_MBUTTONUP:
+			case WM_RBUTTONUP:
+				ReleaseCapture( );
+				return 0;
       }
   }
   return DefWindowProc( window, message, wparam, lparam );
