@@ -1,9 +1,11 @@
-COPYING
-=======
+SoWin is released publicly under the GNU Lesser General Public
+License, version 2.1.  See the file LICENSE.LGPL for all the details.
 
-The SoWin library is covered by the Q Public License, which you will find in
-the LICENSE.QPL file.
+A Professional Edition License can also be purchased for the SoWin
+library from Systems in Motion. The benefits of this includes
+first-tier support access to our developers, and the permission to use
+SoWin in any product for any purpose (except constructing a directly
+competing product with SoWin itself).
 
-The configure/build system used in SoWin is covered by the GNU General Public
-License, which you will find in the LICENSE.GPL file.
-
+See <URL:http://www.coin3d.org> for more information, or mail us at
+<mail:coin-support@coin3d.org>.
