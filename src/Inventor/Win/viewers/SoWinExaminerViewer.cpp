@@ -129,7 +129,7 @@ SoWinExaminerViewer::constructor(
 //    this->perspectivepixmap = new QPixmap((const char **)perspective_xpm);
 //    assert(this->orthopixmap->size() == this->perspectivepixmap->size());
 
-//    this->spindetecttimer = NULL;
+	//this->spindetecttimer = NULL;
   this->setClassName( "SoWinExaminerViewer" );
 
 // this->addVisibilityChangeCallback(SoWinExaminerViewer::visibilityCB, this);
@@ -143,7 +143,9 @@ SoWinExaminerViewer::constructor(
     HWND widget = this->buildWidget( this->getParentWidget( ) );
     this->setBaseWidget( widget );
   }
+	// FIXME
 	this->setCursorEnabled( TRUE );
+	this->setAnimationEnabled( TRUE );
 } // constructor()
 
 // *************************************************************************
@@ -165,8 +167,8 @@ SoWinExaminerViewer::~SoWinExaminerViewer(
 //    delete this->orthopixmap;
 //    delete this->perspectivepixmap;
 
-//    // Variables used in the spin animation code.
-//    delete this->spindetecttimer;
+	// Variables used in the spin animation code.
+	//delete this->spindetecttimer;
 
   delete this->common;
 } // ~SoWinExaminerViewer()

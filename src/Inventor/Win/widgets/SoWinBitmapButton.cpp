@@ -115,6 +115,18 @@ SoWinBitmapButton::move( int x, int y, int width, int height )
 }
 
 void
+SoWinBitmapButton::show( void )
+{
+	ShowWindow( this->buttonWindow, SW_SHOW );
+}
+
+void
+SoWinBitmapButton::hide( void )
+{
+	ShowWindow( this->buttonWindow, SW_HIDE );
+}
+
+void
 SoWinBitmapButton::registerCallback( bitmapButtonCB * func )
 {
   this->viewerCB = func;

@@ -115,6 +115,8 @@ public:
 	
   void copyView( SbTime time );
   void pasteView( SbTime time );
+
+	void goFullScreen( SbBool enable );
 	
 protected:
   SoWinFullViewer( HWND parent,
@@ -249,7 +251,7 @@ private:
 	
   //HWND prefSheetShellWidget;
   //const char * prefSheetStr;  // - const
-
+	
   SoAnyPopupMenu * prefmenu;
   SoAnyFullViewer * const common; 
 

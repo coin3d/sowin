@@ -76,8 +76,8 @@ SoWinThumbWheel::~SoWinThumbWheel( void )
 SIZE
 SoWinThumbWheel::sizeHint( void ) const
 {
-  const int length = 122;
-  int thick = 12;
+  const int length = 118;
+  int thick = 14;
   SIZE size;
 
   if ( this->orient == SoWinThumbWheel::Horizontal ) {
@@ -333,6 +333,20 @@ SoWinThumbWheel::move( int x, int y, int width, int height )
 			          textSize.cx + 2,
 			          textSize.cy + 2,
 			          TRUE );
+}
+
+void
+SoWinThumbWheel::show( void )
+{
+	ShowWindow( this->wheelWindow, SW_SHOW );
+	ShowWindow( this->labelWindow, SW_SHOW );
+}
+
+void
+SoWinThumbWheel::hide( void )
+{
+	ShowWindow( this->wheelWindow, SW_HIDE );
+	ShowWindow( this->labelWindow, SW_HIDE );
 }
 
 void

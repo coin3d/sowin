@@ -78,6 +78,9 @@ public:
   void registerCallback( thumbWheelCB * func );
 	void registerViewer( SoWinFullViewer * viewer );
 
+	void show( void );
+	void hide( void );
+
 protected:
 
   LRESULT CALLBACK onCreate( HWND window,

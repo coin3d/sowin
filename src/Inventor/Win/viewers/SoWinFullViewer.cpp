@@ -41,7 +41,9 @@
 #include <Inventor/Win/common/pixmaps/perspective.xpm>
 #include <Inventor/Win/common/pixmaps/ortho.xpm>
 
-#define VIEWERBUTTON( id ) ( ( SoWinBitmapButton * ) ( * viewerButtonList )[id] )
+#define VIEWERBUTTON( index ) ( ( SoWinBitmapButton * ) ( * viewerButtonList )[index] )
+#define APPBUTTON( index ) ( ( HWND ) ( * appButtonList )[index] )
+
 const int DECORATION_SIZE = 30;
 const int DECORATION_BUFFER = 5;
 
@@ -1122,14 +1124,16 @@ SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lpar
 LRESULT
 SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-	int i, x, y, width, height, bottom, right, top, numViewerButtons, numAppButtons;
+	int i, x, y, width, height, bottom, right, top;
+	int numViewerButtons = this->viewerButtonList->getLength( );
+	int	numAppButtons = this->appButtonList->getLength( );
 
 	// RenderArea
 	assert( IsWindow( this->renderAreaWidget ) );
 	
 	if ( this->isFullScreen( ) ) {
-			MoveWindow( this->renderAreaWidget, 0, 0, LOWORD( lparam ), HIWORD( lparam ), FALSE );
-			return 0; 
+		MoveWindow( this->renderAreaWidget, 0, 0, LOWORD( lparam ), HIWORD( lparam ), FALSE );
+		return 0; 
 	}
 	else {
 		MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
@@ -1137,18 +1141,13 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 	}
 	
   // Viewer buttons
-	numViewerButtons = this->viewerButtonList->getLength( );
-
 	for( i = 0; i < numViewerButtons; i++ )
-		( ( SoWinBitmapButton * )( * this->viewerButtonList )[i] )->move(
-			LOWORD( lparam ) - DECORATION_SIZE, DECORATION_SIZE * i );
+		VIEWERBUTTON( i )->move( LOWORD( lparam ) - DECORATION_SIZE, DECORATION_SIZE * i );
 
 	// App buttons
-	numAppButtons = this->appButtonList->getLength( );
-
 	for( i = 0; i < numAppButtons; i++ )
-		( ( SoWinBitmapButton * )( * this->appButtonList )[i] )->move(
-			0, DECORATION_SIZE * ( i + numViewerButtons ) );
+		MoveWindow( APPBUTTON( i ),	0, ( DECORATION_SIZE * ( i + numViewerButtons ) ),
+			DECORATION_SIZE, DECORATION_SIZE, TRUE );
 
 	// Wheels
 	
@@ -1333,3 +1332,35 @@ SoWinFullViewer::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lpa
   SOWIN_STUB();
   return 0;
 }
+
+void
+SoWinFullViewer::goFullScreen( SbBool enable )
+{
+	inherited::goFullScreen( enable );
+
+  int i;
+	int numViewerButtons = this->viewerButtonList->getLength( );
+	int	numAppButtons = this->appButtonList->getLength( );
+	
+	// Viewer buttons
+  
+	for( i = 0; i < numViewerButtons; i++ )
+		ShowWindow( VIEWERBUTTON( i )->getWidget( ), ( enable ? SW_HIDE : SW_SHOW ) );
+
+	// App buttons
+	for( i = 0; i < numAppButtons; i++ )
+		ShowWindow( APPBUTTON( i ), ( enable ? SW_HIDE : SW_SHOW ) );
+
+	// Thumbwheels
+  if ( enable ) {
+    this->leftWheel->hide( );
+    this->bottomWheel->hide( );
+    this->rightWheel->hide( );
+  }
+  else {
+    this->leftWheel->show( );
+    this->bottomWheel->show( );
+    this->rightWheel->show( );
+  }
+}
+
