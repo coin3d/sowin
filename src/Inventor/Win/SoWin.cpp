@@ -775,6 +775,22 @@ SoWin::abort(SoWinABIError error)
 
   (This is an extension versus the original SGI InventorXt library
   API.)
+
+
+  On a related note, be aware that the end-user will still be notified
+  about non-fatal errors and warning messages through a dialog box. If
+  you want to handle these yourself, or if you don't want your
+  end-user to see any of these non-critical messages, you will also
+  need to install an error handler callback function on the Coin
+  library itself:
+
+  \code
+    SoDebugError::setHandlerCallback(myErrorHandlerCB, myCBUserData);
+  \endcode
+
+  (Please also see the documentation of
+  SoDebugError::setHandlerCallback().)
+
  */
 SoWin::FatalErrorCB *
 SoWin::setFatalErrorHandler(SoWin::FatalErrorCB * cb, void * userdata)
