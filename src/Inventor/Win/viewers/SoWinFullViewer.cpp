@@ -210,14 +210,12 @@ SoWinFullViewer::setDecoration( SbBool enable )
 
   // reposition all widgets
   RECT rect;
-  BOOL r = GetClientRect( this->viewerWidget, & rect );
-  assert( r && "GetClientRect() failed -- investigate" );
+  Win32::GetClientRect( this->viewerWidget, & rect );
   PRIVATE( this )->layoutWidgets( rect.right, rect.bottom );
 
-  r = InvalidateRect( ( IsWindow( this->parent ) ?
-                        this->parent : this->viewerWidget ),
-                      NULL, TRUE );
-  assert( r && "InvalidateRect() failed -- investigate" );
+  Win32::InvalidateRect( ( IsWindow( this->parent ) ?
+                           this->parent : this->viewerWidget ),
+                         NULL, TRUE );
 }
 
 SbBool
@@ -428,10 +426,14 @@ SoWinFullViewer::buildWidget( HWND parent )
   this->renderAreaWidget = inherited::buildWidget( this->viewerWidget );
   assert( IsWindow( this->renderAreaWidget ) );
 	
-  if ( IsWindow( this->getGLWidget( ) ) )		
-    LONG l = Win32::SetWindowLong( this->getGLWidget( ), GWL_WNDPROC,
-                            ( LONG ) SoWinFullViewer::glWidgetProc );
-  else assert ( 0 && "No GLWidget" ); // FIXME: do something more informative. mariusbu 20010724.
+  if ( IsWindow( this->getGLWidget( ) ) ) {
+    (void)Win32::SetWindowLong( this->getGLWidget( ), GWL_WNDPROC,
+                                ( LONG ) SoWinFullViewer::glWidgetProc );
+  }
+  else {
+    // FIXME: do something more informative. mariusbu 20010724.
+    assert ( 0 && "No GLWidget" );
+  }
 
   if ( PRIVATE( this )->menuenabled )
     this->buildPopupMenu( );
@@ -535,8 +537,8 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
   // Set id's so they can be used as indices in the list later ( ie. viewerButtonList[id] )
 
   RECT rect;
-  BOOL r = GetClientRect( parent, & rect );
-  assert( r && "GetClientRect() failed -- investigate" );
+  Win32::GetClientRect( parent, & rect );
+
   int x = rect.right - DECORATION_SIZE;
   int y = 0;
 
@@ -630,14 +632,13 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
 
   // Get the right coords
   RECT clientRect;
-  BOOL r = GetClientRect( this->renderAreaWidget, & clientRect );
-  assert( r && "GetClientRect() failed -- investigate" );
+  Win32::GetClientRect( this->renderAreaWidget, & clientRect );
 
   POINT point;
   point.y = clientRect.bottom - y;
   point.x = x;
 
-  r = ClientToScreen( this->renderAreaWidget, & point );
+  BOOL r = ClientToScreen( this->renderAreaWidget, & point );
   assert( r && "ClientToScreen() failed -- investigate" );
 
   // Popup
@@ -831,7 +832,7 @@ SoWinFullViewer::glWidgetProc(
 
   if ( message != WM_CREATE ) {
 
-    SoWinGLWidget * object = ( SoWinGLWidget * ) GetWindowLong( window, 0 );
+    SoWinGLWidget * object = ( SoWinGLWidget * ) Win32::GetWindowLong( window, 0 );
 
     if ( object && ( message == WM_RBUTTONDOWN ) ) {
 
@@ -941,7 +942,7 @@ SoWinFullViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lpa
 
   default:
     for ( i = 0; i < this->appButtonList->getLength( ); i++ )
-      if ( GetWindowLong( ( HWND ) ( * this->appButtonList )[i], GWL_ID ) == id ) {
+      if ( Win32::GetWindowLong( ( HWND ) ( * this->appButtonList )[i], GWL_ID ) == id ) {
         if ( PRIVATE( this )->appPushButtonCB )
           PRIVATE( this )->appPushButtonCB( ( HWND ) ( * this->appButtonList )[i],
                                             id, PRIVATE( this )->appPushButtonData, NULL );
@@ -960,7 +961,7 @@ SoWinFullViewer::onMeasureItem( HWND window, UINT message, WPARAM wparam, LPARAM
   LPMEASUREITEMSTRUCT lpmis = ( LPMEASUREITEMSTRUCT ) lparam; // item-size information
 
   for ( int i = 0; i < this->appButtonList->getLength( ); i++ )
-    if ( GetWindowLong( ( HWND ) ( * this->appButtonList)[i], GWL_ID ) == id ) {
+    if ( Win32::GetWindowLong( ( HWND ) ( * this->appButtonList)[i], GWL_ID ) == id ) {
       if ( PRIVATE( this )->createAppPushButtonCB )
         PRIVATE( this )->createAppPushButtonCB( lpmis, PRIVATE( this )->createAppPushButtonData );
       break;
@@ -975,7 +976,7 @@ SoWinFullViewer::onDrawItem( HWND window, UINT message, WPARAM wparam, LPARAM lp
   LPDRAWITEMSTRUCT lpdis = ( LPDRAWITEMSTRUCT ) lparam; // item-drawing information
 
   for ( int i = 0; i < this->appButtonList->getLength( ); i++ )
-    if ( GetWindowLong( ( HWND ) ( * this->appButtonList )[i], GWL_ID ) == id ) {
+    if ( Win32::GetWindowLong( ( HWND ) ( * this->appButtonList )[i], GWL_ID ) == id ) {
       if ( PRIVATE( this )->redrawAppPushButtonCB )
         PRIVATE( this )->redrawAppPushButtonCB( lpdis, PRIVATE( this )->redrawAppPushButtonData );
       break;

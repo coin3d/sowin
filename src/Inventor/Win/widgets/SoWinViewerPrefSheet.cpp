@@ -63,12 +63,10 @@ void SoWinViewerPrefSheet::create( HWND parent )
 void SoWinViewerPrefSheet::size( void )
 { 
   RECT rect;
-  BOOL r = GetClientRect( this->mainWidget, & rect );
-  assert( r && "GetClientRect() failed -- investigate" );
+  Win32::GetClientRect( this->mainWidget, & rect );
   int height = rect.bottom;
   
-  r = GetWindowRect( this->mainWidget, & rect );
-  assert( r && "GetWindowRect() failed -- investigate" );
+  Win32::GetWindowRect( this->mainWidget, & rect );
 
   Win32::MoveWindow( this->mainWidget,
                      rect.left,
@@ -108,8 +106,7 @@ HWND SoWinViewerPrefSheet::getWidget( void )
 void SoWinViewerPrefSheet::setTitle( const char * title )
 {
   if ( this->mainWidget ) {
-    BOOL r = SetWindowText( this->mainWidget, title );
-    assert( r && "SetWindowText() failed -- investigate" );
+    Win32::SetWindowText( this->mainWidget, title );
   }
   this->title = title;
 }
@@ -374,8 +371,7 @@ void SoWinViewerPrefSheet::initSpinWidgets( SoWinExaminerViewer * viewer )
 
 void SoWinViewerPrefSheet::destroyMainWidget( void )
 {
-  BOOL r = DestroyWindow( this->mainWidget );
-  assert( r && "DestroyWindow() failed -- investigate" );
+  Win32::DestroyWindow( this->mainWidget );
   Win32::UnregisterClass( this->className, SoWin::getInstance( ) );
   this->mainWidget = NULL;
 }
@@ -384,8 +380,7 @@ void SoWinViewerPrefSheet::destroySeekWidgets( void )
 {
   for ( int i = 0; i < 10; i++ ) {
     if ( IsWindow( this->seekWidgets[i] ) ) {
-      BOOL r = DestroyWindow( this->seekWidgets[i] );
-      assert( r && "DestroyWindow() failed -- investigate" );
+      Win32::DestroyWindow( this->seekWidgets[i] );
     }
   }
   if ( this->seekDistWheel )
@@ -397,8 +392,7 @@ void SoWinViewerPrefSheet::destroyZoomWidgets( void )
 {
   for ( int i = 0; i < 7; i++ ) {
     if ( IsWindow( this->zoomWidgets[i] ) ) {
-      BOOL r = DestroyWindow( this->zoomWidgets[i] );
-      assert( r && "DestroyWindow() failed -- investigate" );
+      Win32::DestroyWindow( this->zoomWidgets[i] );
     }
   }
   this->zoomViewer = NULL;
@@ -408,8 +402,7 @@ void SoWinViewerPrefSheet::destroyClippingWidgets( void )
 {
   for ( int i = 0; i < 5; i++ ) {
     if ( IsWindow( this->clippingWidgets[i] ) ) {
-      BOOL r = DestroyWindow( this->clippingWidgets[i] );
-      assert( r && "DestroyWindow() failed -- investigate" );
+      Win32::DestroyWindow( this->clippingWidgets[i] );
     }
   }
   if ( this->nearPlaneWheel )
@@ -423,8 +416,7 @@ void SoWinViewerPrefSheet::destroySpinWidgets( void )
 {
   for ( int i = 0; i < 4; i++ ) {
     if ( IsWindow( this->spinWidgets[i] ) ) {
-      BOOL r = DestroyWindow( this->spinWidgets[i] );
-      assert( r && "DestroyWindow() failed -- investigate" );
+      Win32::DestroyWindow( this->spinWidgets[i] );
     }
   }
 
@@ -466,9 +458,7 @@ HWND SoWinViewerPrefSheet::createEditWidget( HWND parent, long id, int width, in
                             NULL );
   assert( IsWindow( hwnd ) );
 
-  SetLastError(0);
-  LONG l = SetWindowLong( hwnd, GWL_ID, id ); 
-  assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+  (void)Win32::SetWindowLong( hwnd, GWL_ID, id ); 
 
   return hwnd;
 }
@@ -489,10 +479,7 @@ HWND SoWinViewerPrefSheet::createRadioWidget( HWND parent, long id, const char *
                               NULL );
   assert( IsWindow( hwnd ) );
 
-  SetLastError(0);
-  LONG l = SetWindowLong( hwnd, GWL_ID, id );
-  assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
-
+  (void)Win32::SetWindowLong( hwnd, GWL_ID, id );
   return hwnd;
 }
 
@@ -511,10 +498,7 @@ HWND SoWinViewerPrefSheet::createSliderWidget( HWND parent, long id, int width, 
                               NULL );
   assert( IsWindow( hwnd ) );
 
-  SetLastError(0);
-  LONG l = SetWindowLong( hwnd, GWL_ID, id );
-  assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
-
+  (void)Win32::SetWindowLong( hwnd, GWL_ID, id );
   return hwnd;  
 }
 
@@ -534,10 +518,7 @@ HWND SoWinViewerPrefSheet::createCheckWidget( HWND parent, long id, const char *
                               NULL );
   assert( IsWindow( hwnd ) );
 
-  SetLastError(0);
-  LONG l = SetWindowLong( hwnd, GWL_ID, id );
-  assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
-
+  (void)Win32::SetWindowLong( hwnd, GWL_ID, id );
   return hwnd;  
 }
 
@@ -639,8 +620,7 @@ void SoWinViewerPrefSheet::setEditValue( HWND edit, float value )
   int l = sprintf( str, "%.3f", value );
   assert( ( l < BUFSIZE-1 ) && "buffer too small" );
 
-  BOOL r = SetWindowText( edit, str );
-  assert( r && "SetWindowText() failed -- investigate" );
+  Win32::SetWindowText( edit, str );
 }
 
 float SoWinViewerPrefSheet::getEditValue( HWND edit )
@@ -666,15 +646,13 @@ SoWinViewerPrefSheet::processEvent( HWND window, UINT message, WPARAM wparam, LP
     CREATESTRUCT * createstruct;
     createstruct = ( CREATESTRUCT * ) lparam;
 
-    SetLastError(0);
-    LONG l = SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
-    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+    (void)Win32::SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
     
     SoWinViewerPrefSheet * object = ( SoWinViewerPrefSheet * )( createstruct->lpCreateParams );
     return object->onCreate( window, message, wparam, lparam );
   }
 
-  SoWinViewerPrefSheet * object = ( SoWinViewerPrefSheet * ) GetWindowLong( window, 0 );
+  SoWinViewerPrefSheet * object = ( SoWinViewerPrefSheet * ) Win32::GetWindowLong( window, 0 );
 
   if ( object && IsWindow( object->mainWidget ) ) {
 

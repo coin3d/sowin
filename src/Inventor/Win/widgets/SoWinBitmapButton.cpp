@@ -92,8 +92,7 @@ int
 SoWinBitmapButton::width( void )
 {
   RECT rect;
-  BOOL r = GetWindowRect( this->buttonWindow, & rect );
-  assert( r && "GetWindowRect() failed -- investigate" );
+  Win32::GetWindowRect( this->buttonWindow, & rect );
   return ( rect.right - rect.left ); //this->sizeHint( ).cx;
 }
 
@@ -101,8 +100,7 @@ int
 SoWinBitmapButton::height( void )
 { 
   RECT rect;
-  BOOL r = GetWindowRect( this->buttonWindow, & rect );
-  assert( r && "GetWindowRect() failed -- investigate" );
+  Win32::GetWindowRect( this->buttonWindow, & rect );
   return ( rect.bottom - rect.top ); //this->sizeHint( ).cy;
 }
 
@@ -111,8 +109,7 @@ SoWinBitmapButton::move( int x, int y )
 {
   assert( IsWindow( this->buttonWindow ) );
   UINT flags = SWP_NOSIZE | SWP_NOZORDER;// | SWP_NOREDRAW;
-  BOOL r = SetWindowPos( this->buttonWindow, NULL, x, y, 0, 0, flags );
-  assert( r && "SetWindowPos() failed -- investigate" );
+  Win32::SetWindowPos( this->buttonWindow, NULL, x, y, 0, 0, flags );
 }
 
 void
@@ -127,9 +124,7 @@ SoWinBitmapButton::size( int width, int height )
 {
   assert( IsWindow( this->buttonWindow ) );  
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
-  BOOL r = SetWindowPos( this->buttonWindow, NULL, 0, 0, width, height,
-                         flags );
-  assert( r && "SetWindowPos() failed -- investigate" );
+  Win32::SetWindowPos( this->buttonWindow, NULL, 0, 0, width, height, flags );
 }
 
 void
@@ -201,23 +196,20 @@ SoWinBitmapButton::buildWidget( HWND parent, RECT rect )
 void
 SoWinBitmapButton::setId( long id )
 {
-  SetLastError(0);
-  LONG l = SetWindowLong( this->buttonWindow, GWL_ID, id );
-  assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+  (void)Win32::SetWindowLong( this->buttonWindow, GWL_ID, id );
 }
 
 long
 SoWinBitmapButton::getId( void )
 {
-  return GetWindowLong( this->buttonWindow, GWL_ID );
+  return Win32::GetWindowLong( this->buttonWindow, GWL_ID );
 }
  
 void
 SoWinBitmapButton::setState( SbBool pushed )
 {
  SendMessage( this->buttonWindow, BM_SETSTATE, ( WPARAM ) pushed, 0 );
- // BOOL r = InvalidateRect( this->buttonWindow, NULL, FALSE );
- // assert( r && "InvalidateRect() failed -- investigate" );
+ // Win32::InvalidateRect( this->buttonWindow, NULL, FALSE );
 } // setState()
 
 SbBool
@@ -235,7 +227,7 @@ SoWinBitmapButton::setEnabled( SbBool enable )
 SbBool
 SoWinBitmapButton::isEnabled( void ) const
 {
-  return ( ! ( GetWindowLong( buttonWindow, GWL_STYLE ) & WS_DISABLED ) );
+  return ( ! ( Win32::GetWindowLong( buttonWindow, GWL_STYLE ) & WS_DISABLED ) );
 } // isEnabled()
 
 void
@@ -279,8 +271,7 @@ SoWinBitmapButton::setBitmap( int index )
                ( WPARAM ) IMAGE_BITMAP,
                ( LPARAM ) this->getBitmap( index) );
 
-  BOOL r = InvalidateRect( this->buttonWindow, NULL, FALSE );
-  assert( r && "InvalidateRect() failed -- investigate" );
+  Win32::InvalidateRect( this->buttonWindow, NULL, FALSE );
 } // setBitmap()
 /*
 HBITMAP

@@ -231,7 +231,7 @@ SoWinComponent::goFullScreen( const SbBool enable )
     LONG l = Win32::SetWindowLong( hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE );
     data->style = l;
 		
-    l = SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
+    l = Win32::SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
     data->exstyle = l;
 
     data->widget = hwnd;
@@ -264,8 +264,8 @@ SoWinComponent::goFullScreen( const SbBool enable )
     if ( ! data ) return;
 
     // Go normal
-    LONG l = Win32::SetWindowLong( hwnd, GWL_STYLE, data->style );
-    l = Win32::SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
+    (void)Win32::SetWindowLong( hwnd, GWL_STYLE, data->style );
+    (void)Win32::SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
 
     Win32::MoveWindow( hwnd,
                        data->pos[0],
@@ -359,17 +359,15 @@ void
 SoWinComponent::setSize( const SbVec2s size )
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;// redraw
-  BOOL r = SetWindowPos( this->getShellWidget( ), NULL, 0, 0,
-                         size[0], size[1], flags );
-  assert( r && "SetWindowPos() failed -- investigate" );
+  Win32::SetWindowPos( this->getShellWidget( ), NULL, 0, 0,
+                       size[0], size[1], flags );
 }
 
 SbVec2s
 SoWinComponent::getSize( void )
 {
   RECT rect;
-  BOOL r = GetWindowRect( this->getShellWidget( ), & rect );
-  assert( r && "GetWindowRect() failed -- investigate" );
+  Win32::GetWindowRect( this->getShellWidget( ), & rect );
   return SbVec2s( rect.right - rect.left, rect.bottom - rect.top );
 }
 

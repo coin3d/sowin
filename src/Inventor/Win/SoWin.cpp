@@ -157,10 +157,8 @@ SoWin::init( HWND const topLevelWidget )
     SoWinP::mainWidget = topLevelWidget;
 
   if ( SoWinP::useParentEventHandler ) {
-    SoWinP::parentEventHandler = ( WNDPROC ) GetWindowLong( topLevelWidget, GWL_WNDPROC );
-    SetLastError(0);
-    LONG l = SetWindowLong( topLevelWidget, GWL_WNDPROC, ( long ) SoWin::eventHandler );
-    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+    SoWinP::parentEventHandler = ( WNDPROC ) Win32::GetWindowLong( topLevelWidget, GWL_WNDPROC );
+    (void)Win32::SetWindowLong( topLevelWidget, GWL_WNDPROC, ( long ) SoWin::eventHandler );
   }
 }
 
@@ -219,8 +217,7 @@ void
 SoWin::setWidgetSize( HWND widget, const SbVec2s size )
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
-  BOOL r = SetWindowPos( widget, NULL, 0, 0, size[0], size[1], flags);
-  assert( r && "SetWindowPos() failed -- investigate" );
+  Win32::SetWindowPos( widget, NULL, 0, 0, size[0], size[1], flags);
 } 
 
 SbVec2s
@@ -287,7 +284,7 @@ SoWin::getShellWidget( HWND hwnd )
   
   do {
     hwnd = parent;
-    style = GetWindowLong( hwnd, GWL_STYLE );
+    style = Win32::GetWindowLong( hwnd, GWL_STYLE );
     if ( style & WS_OVERLAPPEDWINDOW ) break;
     parent = GetParent( hwnd );
   } while( IsWindow( parent ) );
@@ -504,9 +501,8 @@ SoWinP::sizeChildProc( HWND window, LPARAM lparam )
 {
   if ( GetParent( window ) == SoWin::getTopLevelWidget( ) ) {
     UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
-    BOOL r = SetWindowPos( window, NULL, 0, 0,
-                           LOWORD( lparam ), HIWORD( lparam ), flags );
-    assert( r && "SetWindowPos() failed -- investigate" );
+    Win32::SetWindowPos( window, NULL, 0, 0,
+                         LOWORD( lparam ), HIWORD( lparam ), flags );
   }
   return TRUE;
 }

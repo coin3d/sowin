@@ -96,15 +96,13 @@ SoWinThumbWheel::getWidget( void )
 void
 SoWinThumbWheel::setId( long id )
 {
-  SetLastError(0);
-  LONG l = SetWindowLong( this->wheelWindow, GWL_ID, id );
-  assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+  (void)Win32::SetWindowLong( this->wheelWindow, GWL_ID, id );
 }
 
 long
 SoWinThumbWheel::id( void ) const
 {
-  return GetWindowLong( this->wheelWindow, GWL_ID );
+  return Win32::GetWindowLong( this->wheelWindow, GWL_ID );
 }
 
 void
@@ -207,15 +205,14 @@ SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM wparam, LPARAM l
                                  this->mouseDownPos,
                                  this->mouseLastPos - this->mouseDownPos );
 
-  BOOL r = InvalidateRect( this->wheelWindow, NULL, FALSE );
-  assert( r && "InvalidateRect() failed -- investigate" );
+  Win32::InvalidateRect( this->wheelWindow, NULL, FALSE );
  
   float * value = & this->tempWheelValue;
   if ( ( this->viewerCB != NULL ) && ( this->viewer != NULL ) ) {
     this->viewerCB( this->viewer, ( void ** ) & value );
   }
   else {
-    WPARAM wparam = GetWindowLong( window, GWL_ID );
+    WPARAM wparam = Win32::GetWindowLong( window, GWL_ID );
     LPARAM lparam = ( LPARAM ) value;
     SendMessage( GetParent( window ), WM_THUMBWHEEL, wparam, lparam );
   }
@@ -253,15 +250,13 @@ SoWinThumbWheel::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lp
     CREATESTRUCT * createstruct;
     createstruct = ( CREATESTRUCT * ) lparam;
 
-    SetLastError(0);
-    LONG l = SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
-    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+    (void)Win32::SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
 
     SoWinThumbWheel * object = ( SoWinThumbWheel * )( createstruct->lpCreateParams );
     return object->onCreate( window, message, wparam, lparam );
   }
 
-  SoWinThumbWheel * object = ( SoWinThumbWheel * ) GetWindowLong( window, 0 );
+  SoWinThumbWheel * object = ( SoWinThumbWheel * ) Win32::GetWindowLong( window, 0 );
 
   if ( object && object->getWidget( ) ) {
 
@@ -293,8 +288,7 @@ int
 SoWinThumbWheel::width( void )
 {
  RECT rect;
- BOOL r = GetWindowRect( this->wheelWindow, & rect );
- assert( r && "GetWindowRect() failed -- investigate" );
+ Win32::GetWindowRect( this->wheelWindow, & rect );
  return ( rect.right - rect.left );
  
   //return this->sizeHint( ).cx;
@@ -304,8 +298,7 @@ int
 SoWinThumbWheel::height( void )
 {
   RECT rect;
-  BOOL r = GetWindowRect( this->wheelWindow, & rect );
-  assert( r && "GetWindowRect() failed -- investigate" );
+  Win32::GetWindowRect( this->wheelWindow, & rect );
   return ( rect.bottom - rect.top );
  
   //return this->sizeHint( ).cy;
@@ -324,28 +317,24 @@ SoWinThumbWheel::move( int x, int y )
 {
   UINT flags = SWP_NOSIZE | SWP_NOZORDER;// | SWP_NOREDRAW;
 
-  BOOL r = SetWindowPos( this->wheelWindow, NULL, x, y, 0, 0, flags );
-  assert( r && "SetWindowPos() failed -- investigate" );
+  Win32::SetWindowPos( this->wheelWindow, NULL, x, y, 0, 0, flags );
 
   if ( IsWindow( this->labelWindow ) ) {
 
     RECT rect;
-    r = GetClientRect( this->labelWindow, & rect );
-    assert( r && "GetClientRect() failed -- investigate" );
+    Win32::GetClientRect( this->labelWindow, & rect );
     
     if ( this->orient == SoWinThumbWheel::Vertical ) {
-      r = SetWindowPos( this->labelWindow, NULL,
-                        x + this->labelOffset.x,
-                        y + this->labelOffset.y + this->height( ),
-                        0, 0, flags );
-      assert( r && "SetWindowPos() failed -- investigate" );
+      Win32::SetWindowPos( this->labelWindow, NULL,
+                           x + this->labelOffset.x,
+                           y + this->labelOffset.y + this->height( ),
+                           0, 0, flags );
     }
     else {
-      r = SetWindowPos( this->labelWindow, NULL,
-                        x + this->labelOffset.x - rect.right,
-                        y + this->labelOffset.y,
-                        0, 0, flags );
-      assert( r && "SetWindowPos() failed -- investigate" );
+      Win32::SetWindowPos( this->labelWindow, NULL,
+                           x + this->labelOffset.x - rect.right,
+                           y + this->labelOffset.y,
+                           0, 0, flags );
     }
   }
 }
@@ -354,8 +343,7 @@ void
 SoWinThumbWheel::size( int width, int height )
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
-  BOOL r = SetWindowPos( this->wheelWindow, NULL, 0, 0, width, height, flags );
-  assert( r && "SetWindowPos() failed -- investigate" );
+  Win32::SetWindowPos( this->wheelWindow, NULL, 0, 0, width, height, flags );
 }
 
 void
@@ -496,8 +484,7 @@ SoWinThumbWheel::setEnabled( bool enable )
     this->state = SoWinThumbWheel::Idle;
   else
     this->state = SoWinThumbWheel::Disabled;
-  BOOL r = InvalidateRect( this->wheelWindow, NULL, FALSE );
-  assert( r && "InvalidateRect() failed -- investigate" );
+  Win32::InvalidateRect( this->wheelWindow, NULL, FALSE );
   Win32::EnableWindow( this->labelWindow, enable );
 } // setEnabled()
 
@@ -512,8 +499,7 @@ SoWinThumbWheel::setValue( float value )
 {
   this->wheelValue = this->tempWheelValue = value;
   this->mouseDownPos = this->mouseLastPos;
-  BOOL r = InvalidateRect( this->wheelWindow, NULL, FALSE );
-  assert( r && "InvalidateRect() failed -- investigate" );
+  Win32::InvalidateRect( this->wheelWindow, NULL, FALSE );
 } // setValue()
 
 float
@@ -535,14 +521,12 @@ SoWinThumbWheel::setLabelText( char * text )
   assert( IsWindow( this->wheelWindow ) );
   
   if ( IsWindow( this->labelWindow ) ) {
-    BOOL r = SetWindowText( this->labelWindow, text );
-    assert( r && "SetWindowText() failed -- investigate" );
+    Win32::SetWindowText( this->labelWindow, text );
   }
   else {
     RECT rect;
     HWND parent = GetParent( this->wheelWindow );
-    BOOL r = GetWindowRect( this->wheelWindow, & rect );
-    assert( r && "GetWindowRect() failed -- investigate" );
+    Win32::GetWindowRect( this->wheelWindow, & rect );
     this->labelWindow = createLabel( parent, rect.right + this->labelOffset.x,
                                      rect.bottom + labelOffset.y, text );
   }
@@ -553,24 +537,22 @@ SoWinThumbWheel::setLabelText( char * text )
   Win32::GetTextExtentPoint( hdc, text, len, & textSize );
   
   UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
-  BOOL r = SetWindowPos( this->labelWindow, NULL, 0, 0,
-                         textSize.cx + 2, textSize.cy, flags );
-  assert( r && "SetWindowPos() failed -- investigate" );
+  Win32::SetWindowPos( this->labelWindow, NULL, 0, 0,
+                       textSize.cx + 2, textSize.cy, flags );
 }
 
 void
 SoWinThumbWheel::setLabelOffset( int x, int y )
 {
- this->labelOffset.x = x;
- this->labelOffset.y = y;
+  this->labelOffset.x = x;
+  this->labelOffset.y = y;
 }
 
 SIZE
 SoWinThumbWheel::getLabelSize( void )
 {
   RECT rect;
-  BOOL r = GetWindowRect( this->labelWindow, & rect );
-  assert( r && "GetWindowRect() failed -- investigate" );
+  Win32::GetWindowRect( this->labelWindow, & rect );
   SIZE size = { rect.right - rect.left, rect.bottom - rect.top };
   return ( size );
 }

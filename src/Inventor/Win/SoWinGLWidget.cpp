@@ -293,7 +293,7 @@ void
 SoWinGLWidget::setBorder( SbBool set )
 {
   PRIVATE( this )->haveBorder = TRUE;
-  // FIXME: SetWindowLong() or paint border? mariusbu 20010719.
+  // FIXME: Win32::SetWindowLong() or paint border? mariusbu 20010719.
 }
 
 int
@@ -407,11 +407,11 @@ SoWinGLWidget::mgrWidgetProc( HWND window,
   if ( message == WM_CREATE ) {
     CREATESTRUCT * createstruct;
     createstruct = ( CREATESTRUCT * ) lparam;
-    LONG l = Win32::SetWindowLong( window, GWL_USERDATA, ( LONG ) ( createstruct->lpCreateParams ) );
+    (void)Win32::SetWindowLong( window, GWL_USERDATA, ( LONG ) ( createstruct->lpCreateParams ) );
     return 0;
   }
 
-  SoWinGLWidget * object = ( SoWinGLWidget * ) ::GetWindowLong( window, GWL_USERDATA );
+  SoWinGLWidget * object = ( SoWinGLWidget * ) Win32::GetWindowLong( window, GWL_USERDATA );
 
   if ( object && window == object->getManagerWidget( ) ) {
     switch ( message )
@@ -436,13 +436,13 @@ SoWinGLWidget::glWidgetProc( HWND window,
     CREATESTRUCT * createstruct;
     createstruct = ( CREATESTRUCT * ) lparam;
 		
-    LONG l = Win32::SetWindowLong( window, GWL_USERDATA, ( LONG ) ( createstruct->lpCreateParams ) );
+    (void)Win32::SetWindowLong( window, GWL_USERDATA, ( LONG ) ( createstruct->lpCreateParams ) );
 		
     SoWinGLWidget * object = ( SoWinGLWidget * )( createstruct->lpCreateParams );
     return PRIVATE( object )->onCreate( window, message, wparam, lparam );
   }
 
-  SoWinGLWidget * object = ( SoWinGLWidget * ) ::GetWindowLong( window, GWL_USERDATA );
+  SoWinGLWidget * object = ( SoWinGLWidget * ) Win32::GetWindowLong( window, GWL_USERDATA );
 
   if ( object && window == object->getNormalWidget( ) ) {
 
