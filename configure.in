@@ -43,7 +43,7 @@ AC_DEFINE_UNQUOTED(SOWIN_VERSION, "$SOWIN_VERSION")
 
 # **************************************************************************
 
-AC_CANONICAL_HOST
+AC_CANONICAL_SYSTEM
 
 AM_INIT_AUTOMAKE(libSoWin, $SOWIN_VERSION)
 AM_CONFIG_HEADER(config.h)
