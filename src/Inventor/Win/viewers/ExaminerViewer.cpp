@@ -200,15 +200,14 @@ SoWinExaminerViewer::setViewing(// virtual
 
 // *************************************************************************
 
-/*!
-  This method overloaded from parent class to toggle the camera type
-  selection button pixmap and string of the zoom/dolly thumbwheel.
-*/
-
+// Documented in superclass.
 void
-SoWinExaminerViewer::setCamera(// virtual
-  SoCamera * newCamera)
+SoWinExaminerViewer::setCamera(SoCamera * newCamera)
 {
+  // This method overridden from parent class to toggle the camera
+  // type selection button pixmap and string of the zoom/dolly
+  // thumbwheel.
+
   inherited::setCamera(newCamera);
 
   if (! newCamera)

@@ -17,11 +17,6 @@
  *
  **************************************************************************/
 
-#if SOWIN_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOWIN_DEBUG
-
 #include <sowindefs.h>
 #include <Inventor/Win/viewers/SoWinWalkViewer.h>
 
@@ -94,14 +89,11 @@ SoWinWalkViewer::setViewing(// virtual
 
 // ************************************************************************
 
-/*!
-*/
-
+// Documented in superclass.
 void
-SoWinWalkViewer::setCamera(// virtual
-  SoCamera * camera)
+SoWinWalkViewer::setCamera(SoCamera * camera)
 {
-} // setCamera()
+}
 
 // ************************************************************************
 

@@ -799,13 +799,15 @@ SoWinGLWidget::getDisplayListShareGroup(HGLRC ctx)
   return 0; // FIXME: nothing done yet!
 }
 
-// Build managerWidget.  Used only to draw borders.
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 HWND
 SoWinGLWidget::buildWidget(HWND parent)
 {
   SoWinGLWidgetP::widgetCounter++;
 
   HMENU menu = NULL;
+
+  // Build managerWidget.  Used only to draw borders.
 
   if (! SoWinGLWidgetP::managerWndClassAtom) {
     WNDCLASS windowclass;

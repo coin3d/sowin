@@ -411,6 +411,7 @@ SoWinFullViewer::setViewing(SbBool enable)
   }
 }
 
+// Documented in superclass.
 void
 SoWinFullViewer::setCamera(SoCamera * newCamera)
 {
@@ -443,6 +444,7 @@ SoWinFullViewer::selectedPrefs(void)
 //
 //
 
+// Documented in superclass.
 HWND
 SoWinFullViewer::buildWidget(HWND parent)
 {

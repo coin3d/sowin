@@ -140,13 +140,9 @@ SoWinPlaneViewer::~SoWinPlaneViewer()
 
 // ************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-
+// Documented in superclass.
 void
-SoWinPlaneViewer::setCamera(// virtual
-  SoCamera * camera)
+SoWinPlaneViewer::setCamera(SoCamera * camera)
 {
   if (camera) {
     SoType type = camera->getTypeId();
@@ -160,23 +156,19 @@ SoWinPlaneViewer::setCamera(// virtual
   
   }
   inherited::setCamera(camera);
-} // setCamera()
+}
 
 // ************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-
+// Documented in superclass.
 HWND
-SoWinPlaneViewer::buildWidget(
-  HWND parent)
+SoWinPlaneViewer::buildWidget(HWND parent)
 {
   HWND widget = inherited::buildWidget(parent);
   ((SoWinThumbWheel *)this->leftWheel)->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
   ((SoWinThumbWheel *)this->bottomWheel)->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
   return widget;
-} // buildWidget()
+}
 
 // ************************************************************************
 
