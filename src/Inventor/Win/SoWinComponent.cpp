@@ -350,7 +350,7 @@ SoWinComponent::buildFormWidget( HWND parent )
   windowclass.lpszClassName = ( char * ) this->getDefaultWidgetName( ); // FIXME: virtual function
   windowclass.hInstance = SoWin::getInstance( );
   windowclass.lpfnWndProc = SoWinComponent::windowProc;
-  windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+  windowclass.style = /* CS_HREDRAW | CS_VREDRAW | */ CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( NULL, icon );
   windowclass.hCursor = LoadCursor( NULL, cursor );

@@ -217,8 +217,8 @@ SoWin::createWindow( char * title, char * className, RECT rect, HWND parent, HME
   }
 
   SoWin::mainWidget = CreateWindowEx( exstyle,
-	                              className,
-	                              title,
+		                                  className,
+	                                    title,
                                       style,
                                       rect.left,
                                       rect.top,
