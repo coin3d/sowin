@@ -664,16 +664,18 @@ SoWin::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
  
   if ( messageHookList ) {
     int length = messageHookList->getLength( );
-    MessageHook * const * hookList = messageHookList->getArrayPtr( );
-    for ( int i = 0; i < length; i++ )
-      if ( hookList[ i ]->message == message ) { // WM_SIZE
-        MoveWindow( hookList[ i ]->hWnd,
+		MessageHook * hook;
+    for ( int i = 0; i < length; i++ ) {
+			hook = ( MessageHook * )( * messageHookList )[i];
+      if ( hook->message == message ) { // WM_SIZE
+        MoveWindow( hook->hWnd,
                     0,
                     0,
                     LOWORD( lparam ),
                     HIWORD( lparam ),
                     FALSE );
       }
+		}
   }
 	
 	InvalidateRect( window, NULL, TRUE );

@@ -31,8 +31,7 @@
 struct MenuRecord;
 struct ItemRecord;
 
-class SoWinPopupMenu : public SoAnyPopupMenu
-{
+class SOWIN_DLL_API SoWinPopupMenu : public SoAnyPopupMenu {
   typedef SoAnyPopupMenu inherited;
 
 public:

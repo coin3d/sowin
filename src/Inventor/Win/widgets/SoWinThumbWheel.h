@@ -31,8 +31,7 @@ typedef void thumbWheelCB( SoWinFullViewer * viewer, void ** data );
 
 // *************************************************************************
 
-class SoWinThumbWheel
-{
+class SOWIN_DLL_API SoWinThumbWheel {
 
 public:
   enum Orientation {
@@ -59,6 +58,7 @@ public:
 
   void setValue( float value );
   float value( void ) const;
+	float tmpValue( void ) const;
 
   void setEnabled( bool enable );
   bool isEnabled( void ) const;
@@ -76,6 +76,7 @@ public:
   void move( int x, int y );
   void registerCallback( thumbWheelCB * func );
 	void registerViewer( SoWinFullViewer * viewer );
+
 protected:
 
   LRESULT CALLBACK onCreate( HWND window,

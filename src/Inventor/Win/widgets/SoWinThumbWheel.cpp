@@ -514,6 +514,12 @@ SoWinThumbWheel::value( void ) const
   return this->wheelValue;
 }
 
+float
+SoWinThumbWheel::tmpValue( void ) const
+{
+  return this->tempWheelValue;
+}
+
 void
 SoWinThumbWheel::setLabelText( char * text )
 {
@@ -628,7 +634,6 @@ SoWinThumbWheel::BlitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int
   SelectObject( memorydc, oldBitmap );
   DeleteDC( memorydc );
 }
-
 
 void
 SoWinThumbWheel::drawShadePanel( HDC hdc,
