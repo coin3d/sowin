@@ -1166,11 +1166,18 @@ label:
       goto label;
     }
     else {
-      SoWin::createSimpleErrorDialog(NULL, "Fatal application error",
-                                     "Could not find any supported OpenGL "
-                                     "mode on your system.",
-                                     "Application will exit.");
-      exit(1);
+      // FIXME: should provide more details about the error condition,
+      // if possible. Could for instance use the GL vendor and / or
+      // version and / or renderer string to smoke out the exact ATI
+      // driver known to cause problems in accelerated mode (when
+      // DirectX is in non-accelerated mode at the same time) -- as
+      // reported by Alan Walford of Eos. 20011014 mortene.
+      SbString s = "Could not find any supported OpenGL mode on your system.";
+      if (SoAny::si()->invokeFatalErrorHandler(s, SoWin::NO_OPENGL_CANVAS)) {
+        // FIXME: clean up as good as possible, in case the
+        // application is able to run without the functionality
+        // provided by SoWin. 20011014 mortene.
+      }
     }
   }
   SetFocus(window);
