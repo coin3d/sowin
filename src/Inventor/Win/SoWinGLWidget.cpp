@@ -154,7 +154,9 @@ SoWinGLWidget::~SoWinGLWidget( void )
   SoWinGLWidgetP::widgetCounter--;
   if ( SoWinGLWidgetP::widgetCounter <= 0 ) {
     Win32::UnregisterClass( "Manager Widget", SoWin::getInstance( ) );
+    SoWinGLWidgetP::managerWndClassAtom = NULL;
     Win32::UnregisterClass( "GL Widget", SoWin::getInstance( ) );
+    SoWinGLWidgetP::glWndClassAtom = NULL;
   }
   delete this->pimpl;
 }
