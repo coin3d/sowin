@@ -35,6 +35,8 @@
 #include <Inventor/Win/viewers/SoWinFullViewer.h>
 #include <Inventor/Win/viewers/SoWinFullViewerP.h>
 
+#include <float.h> // FLT_MAX
+
 // Button icons.
 #include <Inventor/Win/common/pixmaps/pick.xpm>
 #include <Inventor/Win/common/pixmaps/view.xpm>
@@ -97,6 +99,10 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
   this->leftWheel = NULL;
   this->bottomWheel = NULL;
   this->rightWheel = NULL;
+  // Let these be bogus until we actually set up the wheels.
+  this->leftWheelVal = FLT_MAX;
+  this->bottomWheelVal = FLT_MAX;
+  this->rightWheelVal = FLT_MAX;
 
   PRIVATE(this)->appPushButtonCB = NULL;
   PRIVATE(this)->appPushButtonData = NULL;
@@ -421,6 +427,7 @@ SoWinFullViewerP::buildLeftWheel(HWND parent)
                         0,
                         0,
                         "RotX");
+  PUBLIC(this)->leftWheelVal = PUBLIC(this)->leftWheel->value();
   PUBLIC(this)->leftWheel->setCallback(this->leftWheelCB, this);
   PUBLIC(this)->leftWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
   PUBLIC(this)->leftWheel->setLabelOffset(0,
@@ -442,6 +449,7 @@ SoWinFullViewerP::buildBottomWheel(HWND parent)
                         0,
                         0,
                         "RotY");
+  PUBLIC(this)->bottomWheelVal = PUBLIC(this)->bottomWheel->value();
   PUBLIC(this)->bottomWheel->setCallback(this->bottomWheelCB, this);
   PUBLIC(this)->bottomWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
   PUBLIC(this)->bottomWheel->setLabelOffset(-4, 0);
@@ -461,6 +469,7 @@ SoWinFullViewerP::buildRightWheel(HWND parent)
                         0,
                         0,
                         "Dolly");
+  PUBLIC(this)->rightWheelVal = PUBLIC(this)->rightWheel->value();
   PUBLIC(this)->rightWheel->setCallback(this->rightWheelCB, this);
   PUBLIC(this)->rightWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
   PUBLIC(this)->rightWheel->setLabelOffset(- (PUBLIC(this)->bottomWheel->getLabelSize().cx - PUBLIC(this)->rightWheel->sizeHint().cx),
