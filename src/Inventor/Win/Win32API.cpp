@@ -313,6 +313,16 @@ Win32::SetWindowsHookEx(int idHook,        // type of hook to install
 }
 
 void
+Win32::ShowWindow(HWND hWnd,     // handle to window
+                  int nCmdShow   // show state of window
+                  )
+{
+  BOOL r = ::ShowWindow(hWnd, nCmdShow);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "ShowWindow() failed -- investigate" );
+}
+
+void
 Win32::ModifyMenu(HMENU hMnu,       // handle to menu
                   UINT uPosition,   // menu item to modify
                   UINT uFlags,      // menu item flags

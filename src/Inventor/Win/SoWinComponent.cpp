@@ -257,7 +257,7 @@ SoWinComponent::setFullScreen( const SbBool enable )
   SoWinComponentP::FullscreenData * data = &(PRIVATE(this)->fullscreendata);
   if (enable == data->on) { return TRUE; }
   data->on = enable;
-
+  
   // FIXME: hmm.. this looks suspicious. Shouldn't we just return
   // FALSE if the (base)widget is not a shellwidget? 20010817 mortene.
   HWND hwnd = this->getShellWidget( );
@@ -266,33 +266,44 @@ SoWinComponent::setFullScreen( const SbBool enable )
     // Save size, position and styles.
     RECT rect;
     Win32::GetWindowRect( hwnd, & rect );
-    data->pos.setValue( rect.left, rect.top );
-    data->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
     data->style = Win32::SetWindowLong( hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE );
     data->exstyle = Win32::SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
-
+    
+    if ( data->style & WS_MAXIMIZE ) {
+      data->pos.setValue( 0, 0 );
+      data->size.setValue( GetSystemMetrics( SM_CXSCREEN ), GetSystemMetrics( SM_CXSCREEN ) );
+    }
+    else {
+      data->pos.setValue( rect.left, rect.top );
+      data->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
+    }
     // Go fullscreen.
+    
     Win32::MoveWindow( hwnd,
                        0,
                        0,
                        GetSystemMetrics( SM_CXSCREEN ),
                        GetSystemMetrics( SM_CYSCREEN ),
                        TRUE );
+    
     // FIXME: isn't there a specific method in the Win32 API for
     // maximizing a window? If yes, use that mechanism instead of this
     // "homegrown" method with MoveWindow() resizing. 20010820 mortene.
+    //Win32::ShowWindow( hwnd, SW_MAXIMIZE );
   }
   else {
     // Go "normal".
+    //Win32::ShowWindow( hwnd, SW_RESTORE );
     (void)Win32::SetWindowLong( hwnd, GWL_STYLE, data->style | WS_VISIBLE );
-    (void)Win32::SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );    
-
+    (void)Win32::SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
+    
     Win32::MoveWindow( hwnd,
-                       ( data->pos[0] > 0 ? data->pos[0] : ( ( GetSystemMetrics( SM_CXSCREEN ) / 2 ) - 210 ) ),
-                       ( data->pos[1] > 0 ? data->pos[1] : ( ( GetSystemMetrics( SM_CYSCREEN ) / 2 ) - 250 ) ),
+                       ( data->pos[0] > -1 ? data->pos[0] : ( ( GetSystemMetrics( SM_CXSCREEN ) / 2 ) - 210 ) ),
+                       ( data->pos[1] > -1 ? data->pos[1] : ( ( GetSystemMetrics( SM_CYSCREEN ) / 2 ) - 250 ) ),
                        ( data->size[0] > 0 ? data->size[0] : 420 ),
                        ( data->size[1] > 0 ? data->size[1] : 500 ),
                        TRUE );
+    
   }
 
   return TRUE;
