@@ -314,14 +314,14 @@ SoWinComponent::goFullScreen( const SbBool enable )
     if ( ! data ) return;
 
     // Go normal
-    (void)Win32::SetWindowLong( hwnd, GWL_STYLE, data->style );
-    (void)Win32::SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
+    (void)Win32::SetWindowLong( hwnd, GWL_STYLE, data->style | WS_VISIBLE );
+    (void)Win32::SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );    
 
     Win32::MoveWindow( hwnd,
-                       data->pos[0],
-                       data->pos[1],
-                       data->size[0],
-                       data->size[1],
+                       ( data->pos[0] > 0 ? data->pos[0] : 0 ),
+                       ( data->pos[1] > 0 ? data->pos[1] : 0 ),
+                       ( data->size[0] > 0 ? data->size[0] : 420 ),
+                       ( data->size[1] > 0 ? data->size[1] : 500 ),
                        TRUE );
     
     // Remove from list of fullscreen windows
