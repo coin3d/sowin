@@ -12,7 +12,8 @@ BUILT_SOURCES = \
 	SoAnyPopupMenu.h \
 	SoAnyPopupMenu.cpp \
 	SoAnyThumbWheel.h \
-	SoAnyThumbWheel.cpp
+	SoAnyThumbWheel.cpp \
+
 
 ############################################################################
 
@@ -42,4 +43,6 @@ libSoWinWidgets_la_SOURCES = \
 	SoWinThumbWheel.cpp \
 	SoWinThumbWheel.h \
 	SoWinPopupMenu.cpp \
-	SoWinPopupMenu.h
+	SoWinPopupMenu.h \
+	SoWinBitmapButton.cpp \
+	SoWinBitmapButton.h

@@ -24,6 +24,7 @@
 #include <sowindefs.h>
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
+#include <Inventor/Win/widgets/SoWinBitmapButton.h>
 #include <Inventor/Win/widgets/SoAnyPopupMenu.h>
 #include <Inventor/Win/widgets/SoWinPopupMenu.h>
 #include <Inventor/Win/viewers/SoAnyFullViewer.h>
@@ -37,6 +38,8 @@
 #include <Inventor/Win/common/pixmaps/set_home.xpm>
 #include <Inventor/Win/common/pixmaps/view_all.xpm>
 #include <Inventor/Win/common/pixmaps/seek.xpm>
+#include <Inventor/Win/common/pixmaps/perspective.xpm>
+#include <Inventor/Win/common/pixmaps/ortho.xpm>
 
 SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinFullViewer);
 
@@ -98,7 +101,6 @@ SoWinFullViewer::isClientPopupMenuInstalled( void )
 HWND
 SoWinFullViewer::getAppPushButtonParent( void ) const
 {
-  //return this->appButtonForm;
 	return this->viewerWidget;
 }
     
@@ -145,7 +147,7 @@ SoWinFullViewer::setViewing( SbBool set )
   if ( ( set && this->isViewing( ) ) || ( ! set && ! this->isViewing( ) ) ) {
 #if SOWIN_DEBUG && 1 // debug
     SoDebugError::postWarning( "SoWinFullViewer::setViewing, view mode already ",
-                               set ? "on" : "off");
+                               set ? "on" : "off" );
 #endif // debug
     return;
   }
@@ -166,8 +168,8 @@ SoWinFullViewer::setCamera( SoCamera * camera )
   inherited::setCamera(camera);
 
   if ( this->prefmenu ) { // prefwindow
-    this->setZoomSliderPosition(this->getCameraZoom( ));
-    this->setZoomFieldString(this->getCameraZoom( ));
+    this->setZoomSliderPosition( this->getCameraZoom( ) );
+    this->setZoomFieldString( this->getCameraZoom( ) );
 
     SbBool on = camera ? TRUE : FALSE;
     /*      this->zoomSlider->setEnabled( on );
@@ -275,11 +277,6 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   inherited(parent, name, embedded, type, buildNow ),
   common( new SoAnyFullViewer( this ) )   // FIXME: warning
 {
-
-  rightWheelStr = "Motion X";
-  bottomWheelStr = "Motion Y";
-  leftWheelStr = "Motion Z";
-
   //this->zoomrange = SbVec2f(1.0f, 140.0f);
 
   //this->prefwindow = NULL;
@@ -298,13 +295,6 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   this->rightWheel = NULL;
   this->extraWheel = NULL; // Is this needed? mariusbu 20010611.
 
-	this->leftWheelVal = 0.0f;
-	this->bottomWheelVal = 0.0f;
-	this->rightWheelVal = 0.0f;
-	this->extraWheelVal = 0.0f;
-
-  //this->menutitle = "Viewer Menu";
-
   this->viewerButtonList = new SbPList;
   this->appButtonList = new SbPList;
 
@@ -320,7 +310,6 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 SoWinFullViewer::~SoWinFullViewer( void )
 {
 	// FIXME: remember to dealocate resources
-	free( leftWheelStr );
 }
 
 void
@@ -347,15 +336,12 @@ SoWinFullViewer::redrawAppButtonCB( LPDRAWITEMSTRUCT lpdis )
 HWND
 SoWinFullViewer::getButtonWidget( void ) const
 {
-  //return this->appButtonForm;
 	return this->viewerWidget;
 }
 
 HWND
 SoWinFullViewer::buildWidget( HWND parent )
 {
-  // FIXME: use this->buildFormWidget
-
   assert( IsWindow( parent ) );
 
   WNDCLASS windowclass;
@@ -440,116 +426,138 @@ SoWinFullViewer::buildWidget( HWND parent )
 void
 SoWinFullViewer::buildDecoration( HWND parent )
 {
-  // FIXME: function not implemented
   this->buildLeftWheel( parent );
   this->buildBottomWheel( parent );
   this->buildRightWheel( parent );
-
+	this->buildZoomSlider( parent );
 	this->buildViewerButtons( parent );
+	this->buildAppButtons( parent );
 }
 
 HWND
 SoWinFullViewer::buildLeftWheel( HWND parent )
 {
-	this->setLeftWheelString( "RotX" );
-	 // Create coords not needed - the widget is moved into place (see onSize)
+  // Create coords are not needed - the widget is moved into place (see onSize)
   this->leftWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
                                          parent,
 		                                     0,
                                          0,
-                                         this->leftWheelStr );
+                                         "RotX" );
   this->leftWheel->registerCallback( this->leftWheelCB );
 	this->leftWheel->registerViewer( this );
 	this->leftWheel->setRangeBoundaryHandling( SoWinThumbWheel::MODULATE );
-	this->leftWheel->setLabelOffset( 0, 0 );
+	this->leftWheel->setLabelOffset( 0, 6 );
 	
-  return NULL;
+  return leftWheel->getWidget( );
 }
 
 HWND
 SoWinFullViewer::buildBottomWheel( HWND parent )
 {
-	this->setBottomWheelString( "RotY" );
-	 // Create coords not needed - the widget is moved into place (see onSize)
+	// Create coords are not needed - the widget is moved into place (see onSize)
   this->bottomWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal,
 		                                       parent,
 		                                       0,
                                            0,
-                                           this->bottomWheelStr );
+                                           "RotY" );
   this->bottomWheel->registerCallback( this->bottomWheelCB );
 	this->bottomWheel->registerViewer( this );
 	this->bottomWheel->setRangeBoundaryHandling( SoWinThumbWheel::MODULATE );
 	this->bottomWheel->setLabelOffset( 0, 3 );
 	
-  return NULL;
+  return this->bottomWheel->getWidget( );
 }
 
 HWND
 SoWinFullViewer::buildRightWheel( HWND parent )
 {
-	this->setRightWheelString( "Dolly" );
-	 // Create coords not needed - the widget is moved into place (see onSize)
+	// Create coords are not needed - the widget is moved into place (see onSize)
   this->rightWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
                                           parent,
 		                                      0,
                                           0,
-                                          this->rightWheelStr );
+                                          "Dolly" );
   this->rightWheel->registerCallback( this->rightWheelCB );
 	this->rightWheel->registerViewer( this );
 	this->rightWheel->setRangeBoundaryHandling( SoWinThumbWheel::ACCUMULATE );
-	this->rightWheel->setLabelOffset( -12, 0 );
+	this->rightWheel->setLabelOffset( -12, 6 );
 
-	return NULL;
+	return this->rightWheel->getWidget( );
 }
 
 HWND
 SoWinFullViewer::buildZoomSlider( HWND parent )
 {
   // FIXME: function not implemented
-  SOWIN_STUB();
-  return NULL;
+  // SOWIN_STUB();
+  // return NULL;
+
+	this->zoomSlider = CreateWindow( "SCROLLBAR", "Zoom", WS_CHILD | WS_VISIBLE, 300, 350,
+		100, 18, parent, NULL, SoWin::getInstance( ), NULL );
+
+	return this->zoomSlider;
 }
 
-HWND
+void
 SoWinFullViewer::buildAppButtons( HWND parent )
 {
   // FIXME: function not implemented
   SOWIN_STUB();
-  return NULL;
 }
 
-HWND
+void
 SoWinFullViewer::buildViewerButtons( HWND parent )
 {
-  // FIXME: function not implemented
-  // SOWIN_STUB();
-	RECT rect;
-	//assert( IsWindow( this->renderAreaWidget ) );
-	GetClientRect( parent/*this->renderAreaWidget*/, & rect);
+	// Create coords are not needed - the widget is moved into place (see onSize)
+	
+	SoWinBitmapButton * button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "pick", NULL );
+	button->setBitmap( pick_xpm );
+	button->setId( 0 );
+	viewerButtonList->append( button );
 
-	HWND button = CreateWindow( "BUTTON",
-		                          "A",
-		WS_VISIBLE | WS_CHILD/* | WS_POPUP*/ | BS_PUSHBUTTON,//BS_3STATE | BS_PUSHLIKE | BS_BITMAP,
-		                          0, 0, // FIXME
-		                          this->renderAreaOffset.left, this->renderAreaOffset.left, // Size
-		                          parent,
-		                          NULL,
-		                          SoWin::getInstance( ),
-		                          NULL );
+	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "view", NULL );
+	button->setBitmap( view_xpm );
+	button->setId( 1 );
+	viewerButtonList->append( button );
+	
+	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "help", NULL );
+	button->setBitmap( help_xpm );
+	button->setId( 2 );
+	viewerButtonList->append( button );
 
-	//this->viewerButtonList->append( button );
-	viewerButtons[0] = button;
-
-	return NULL;
+	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "home", NULL );
+	button->setBitmap( home_xpm );
+	button->setId( 3 );
+	viewerButtonList->append( button );
+	
+	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "set_home", NULL );
+	button->setBitmap( set_home_xpm );
+	button->setId( 4 );
+	viewerButtonList->append( button );
+	
+	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "view_all", NULL );
+	button->setBitmap( view_all_xpm );
+	button->setId( 5 );
+	viewerButtonList->append( button );
+	
+	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "seek", NULL );
+	button->setBitmap( seek_xpm );
+	button->setId( 6 );
+	viewerButtonList->append( button );
+	
+	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "perspective", NULL );
+	button->setBitmap( perspective_xpm ); // FIXME: ortho
+	button->setId( 7 );
+	viewerButtonList->append( button );
 }
-
+/*
 void
 SoWinFullViewer::createViewerButtons( HWND parent )
 {
   // FIXME: function not implemented
   SOWIN_STUB();
 }
-
+*/
 void
 SoWinFullViewer::openStereoDialog( void )
 {
@@ -584,6 +592,7 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
   point.x = x;
   ClientToScreen( this->renderAreaWidget, & point );
 
+	// Popup
 	assert( this->prefmenu != NULL );
 	this->common->prepareMenu( this->prefmenu );
   this->displayPopupMenu( point.x, point.y, this->viewerWidget );
@@ -627,7 +636,8 @@ SoWinFullViewer::buildDrawStyleSubmenu( HMENU popup )
 void
 SoWinFullViewer::setPrefSheetString( const char * name )
 {
-  this->prefSheetStr = name;
+  // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
@@ -701,118 +711,112 @@ SoWinFullViewer::createStereoPrefSheetGuts( HWND parent )
 float
 SoWinFullViewer::getLeftWheelValue( void ) const
 {
-  return this->leftWheelVal;
+	return this->leftWheel->value( );
 }
 
 void
 SoWinFullViewer::setLeftWheelValue( const float value )
 {
-  this->leftWheelVal = value;
 	this->leftWheel->setValue( value );
-}
-
-float
-SoWinFullViewer::getRightWheelValue( void ) const
-{
-  return this->rightWheelVal;
-}
-
-void
-SoWinFullViewer::setRightWheelValue( const float value )
-{
-  this->rightWheelVal = value;
-	this->rightWheel->setValue( value );
 }
 
 float
 SoWinFullViewer::getBottomWheelValue( void ) const
 {
-  return this->bottomWheelVal;
+	return this->bottomWheel->value( );
 }
 
 void
 SoWinFullViewer::setBottomWheelValue( const float value )
 {
-  this->bottomWheelVal = value;
 	this->bottomWheel->setValue( value );
 }
 
-void
-SoWinFullViewer::rightWheelStart( void )
+float
+SoWinFullViewer::getRightWheelValue( void ) const
 {
-	this->interactiveCountInc();
+	return this->rightWheel->value( );
 }
 
 void
-SoWinFullViewer::rightWheelMotion( float value )
+SoWinFullViewer::setRightWheelValue( const float value )
 {
-  this->rightWheelVal = value;
+	this->rightWheel->setValue( value );
 }
 
 void
 SoWinFullViewer::rightWheelFinish( void )
 {
-  this->interactiveCountDec();
+  this->interactiveCountDec( );
 }
 
 void
 SoWinFullViewer::bottomWheelStart( void )
 {
-	this->interactiveCountInc();
-}
-
-void
-SoWinFullViewer::bottomWheelMotion( float value )
-{
-  this->bottomWheelVal = value;
-}
-
-void
-SoWinFullViewer::bottomWheelFinish( void )
-{
-  this->interactiveCountDec();
+	this->interactiveCountInc( );
 }
 
 void
 SoWinFullViewer::leftWheelStart( void )
 {
-	this->interactiveCountInc();
+	this->interactiveCountInc( );
 }
 
 void
 SoWinFullViewer::leftWheelMotion( float value )
 {
-	this->leftWheelVal = value;
+	this->leftWheel->setValue( value );
 }
 
 void
 SoWinFullViewer::leftWheelFinish( void )
 {
-	this->interactiveCountDec();
+	this->interactiveCountDec( );
 }
 
 void
-SoWinFullViewer::setBottomWheelString( const char * name )
+SoWinFullViewer::bottomWheelMotion( float value )
 {
-	if ( this->bottomWheelStr ) free( this->bottomWheelStr );
-	this->bottomWheelStr = ( char * ) malloc( strlen( name ) + 1 );
-	memcpy( this->bottomWheelStr, name, strlen( name ) + 1 );
+	this->bottomWheel->setValue( value );
+}
+
+void
+SoWinFullViewer::bottomWheelFinish( void )
+{
+  this->interactiveCountDec( );
+}
+
+void
+SoWinFullViewer::rightWheelStart( void )
+{
+	this->interactiveCountInc( );
+}
+
+void
+SoWinFullViewer::rightWheelMotion( float value )
+{
+	this->rightWheel->setValue( value );
 }
 
 void
 SoWinFullViewer::setLeftWheelString( const char * name )
 {
-	if ( this->leftWheelStr ) free( this->leftWheelStr );
-	this->leftWheelStr = ( char * ) malloc( strlen( name ) + 1 );
-	memcpy( this->leftWheelStr, name, strlen( name ) + 1 );
+	if( this->leftWheel )
+		this->leftWheel->setLabelText( ( char * ) name );
+}
+
+void
+SoWinFullViewer::setBottomWheelString( const char * name )
+{
+	if( this->bottomWheel )
+		this->bottomWheel->setLabelText( ( char * ) name );
 }
 
 void
 SoWinFullViewer::setRightWheelString( const char * name )
 {
-	if ( this->rightWheelStr ) free( this->rightWheelStr );
-	this->rightWheelStr = ( char * ) malloc( strlen( name ) + 1 );
-	memcpy( this->rightWheelStr, name, strlen( name ) + 1 );
+	if( this->rightWheel )
+		this->rightWheel->setLabelText( ( char * ) name );
 }
 
 void
@@ -951,7 +955,7 @@ SoWinFullViewer::bottomWheelCB( SoWinFullViewer * viewer, void ** data )
 }
 
 void
-SoWinFullViewer::rightWheelCB( SoWinFullViewer * viewer, void * * data )
+SoWinFullViewer::rightWheelCB( SoWinFullViewer * viewer, void ** data )
 {
 	// FIXME: not pretty
 	
@@ -964,7 +968,7 @@ SoWinFullViewer::rightWheelCB( SoWinFullViewer * viewer, void * * data )
 		viewer->rightWheelFinish( );
 		return;
 	}
-	//_cprintf( "%f\n", ** ( float ** ) data );
+	
 	viewer->rightWheelMotion( ** ( float ** ) data );
 }
 
@@ -1018,13 +1022,12 @@ SoWinFullViewer::mgrWindowProc( HWND window,
 				return 0;
 				
 			case WM_COMMAND:
-				MessageBox( window, "Button pressed", "Button", MB_OK );
-				return 0;
+			  return object->onCommand( window, message, wparam, lparam );
       }
   }
   return DefWindowProc( window, message, wparam, lparam );
 }
-
+/*
 LRESULT CALLBACK
 SoWinFullViewer::btnWindowProc( HWND window,
                                 UINT message,
@@ -1054,7 +1057,7 @@ SoWinFullViewer::txtWindowProc( HWND window,
   // FIXME: function not implemented
   return DefWindowProc( window, message, wparam, lparam );
 }
-
+*/
 LRESULT
 SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
@@ -1068,8 +1071,8 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 {
 	assert( this->renderAreaWidget != NULL );
 	
-	// If we are in fullscreen, we only see the renderarea
-	if ( this->isFullScreen() ) {
+	// In fullscreen, we only see the renderarea
+	if ( this->isFullScreen( ) ) {
 			MoveWindow( this->renderAreaWidget,
 				          0, 0,
                   LOWORD( lparam ),
@@ -1079,8 +1082,8 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 	}
 	
 	MoveWindow( this->renderAreaWidget,
-              0 + this->renderAreaOffset.left,
-              0 + this->renderAreaOffset.top,
+              this->renderAreaOffset.left,
+              this->renderAreaOffset.top,
               LOWORD( lparam ) + this->renderAreaOffset.right,
               HIWORD( lparam ) + this->renderAreaOffset.bottom,
               FALSE );
@@ -1094,7 +1097,7 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
                            - this->leftWheel->height( ) + 1 );
   // Bottom wheel
   if ( this->bottomWheel )
-		this->bottomWheel->move( ( LOWORD( lparam ) - this->bottomWheel->width( ) ) / 2,
+		this->bottomWheel->move( this->renderAreaOffset.left + 42,
 			                       HIWORD( lparam ) + this->renderAreaOffset.bottom + 4 );
 	
   // Right wheel
@@ -1104,17 +1107,43 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 			                      - this->rightWheel->height( ) + 1 );
 	
   // Viewer buttons
-	for ( int i = 0; i < 8; i++ )
-		if ( IsWindow( this->viewerButtons[i] ) )
-			MoveWindow( this->viewerButtons[i],
-				          LOWORD( lparam ) - this->renderAreaOffset.left + 2, this->renderAreaOffset.left * i + 2,
-			            this->renderAreaOffset.left - 2, this->renderAreaOffset.left - 2,
-			            TRUE );
+	int length = viewerButtonList->getLength( );
+	for( int i = 0; i < length; i++ )
+		( ( SoWinBitmapButton * )( * viewerButtonList )[i] )->move(
+			LOWORD( lparam ) - this->renderAreaOffset.left,
+			this->renderAreaOffset.left * i, // 30 * i
+			this->renderAreaOffset.left,
+			this->renderAreaOffset.left );
+
+	// Slider
+	MoveWindow( this->zoomSlider,
+		LOWORD( lparam ) - ( 170 + this->renderAreaOffset.left ),
+		HIWORD( lparam ) + this->renderAreaOffset.bottom + 6,
+		150, 18, FALSE );
 	
   return 0;
 }
 
 LRESULT
+SoWinFullViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+  // FIXME: function not implemented
+  // SOWIN_STUB();
+  // return 0;
+	
+	// FIXME: test
+	char str[80];
+	short nc = HIWORD( wparam );// notification code
+	short id = LOWORD( wparam );// item, control, or accelerator identifier
+	HWND hwnd = ( HWND ) lparam;// handle of control 
+	
+	sprintf( str, " Button hwnd: %d id: %d nc: %d ", hwnd, id, nc );
+	MessageBox( window, str, "Test", MB_OK );
+
+	return 0;
+}
+
+LRESULT // FIXME: is not called
 SoWinFullViewer::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
 	// FIXME: function not implemented
@@ -1130,15 +1159,9 @@ SoWinFullViewer::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lpa
   return 0;
 }
 
-void
+void // FIXME: is not used
 SoWinFullViewer::drawDecorations( SoWinFullViewer * viewer, HWND hwnd, HDC hdc )
 {
   // FIXME: function not implemented
   SOWIN_STUB();
 }
-
-
-
-
-
-

@@ -101,32 +101,6 @@ protected:
   HWND viewerWidget; // form which manages all other widgets
   HWND renderAreaWidget;  // render area HWND
 
-  static SbBool doButtonBar;
-    
-  //HWND zoomForm;
-  //HWND zoomField;
-  //HWND zoomSlider;
-
-  SoFieldSensor * zoomSensor;
-    
-  SoWinThumbWheel * rightWheel;
-  SoWinThumbWheel * bottomWheel;
-  SoWinThumbWheel * leftWheel;
-  SoWinThumbWheel * extraWheel;
-
-	// FIXME: remove ( let SoWinThumbWheel save the string and value )
-  char * rightWheelStr;
-  char * bottomWheelStr;
-  char * leftWheelStr;
-  char * extraWheelStr;
-
-  float rightWheelVal;
-  float bottomWheelVal;
-  float leftWheelVal;
-  float extraWheelVal;
-
-  SbPList * viewerButtonWidgets;
-
   //HWND vwrButtonForm;
   int numFullVwrButtons;
   virtual void pushButtonCB( HWND, int id, void * );
@@ -134,13 +108,6 @@ protected:
   virtual void redrawAppButtonCB( LPDRAWITEMSTRUCT lpdis );
  
   HWND getButtonWidget( void ) const;
-    
-  SbBool popupEnabled;
-  //HWND popupWidget; // FIXME: not needed? mariusbu 20010611.
-  //HWND * popupToggleWidgets;
-  //HWND * drawStyleWidgets;
-  //HWND bufferStyleWidgets[3];
-  char * popupTitle;
 
   HWND buildWidget( HWND parent );
 
@@ -150,10 +117,9 @@ protected:
   virtual HWND buildRightWheel( HWND parent );
   virtual HWND buildZoomSlider( HWND parent );
 
-  HWND buildAppButtons( HWND parent );
-  HWND buildViewerButtons( HWND parent );
-
-  virtual void createViewerButtons( HWND parent );
+  void buildAppButtons( HWND parent );
+  void buildViewerButtons( HWND parent );
+	//void createViewerButtons( HWND parent );
     
   virtual void openStereoDialog( void );
 
@@ -215,66 +181,44 @@ protected:
   HWND getViewerWidget( void );
 
   virtual SbBool processSoEvent( const SoEvent * const event );
+	
+  static SbBool doButtonBar;
+    
+  HWND zoomSlider;
+  SoFieldSensor * zoomSensor;
+    
+  SoWinThumbWheel * rightWheel;
+  SoWinThumbWheel * bottomWheel;
+  SoWinThumbWheel * leftWheel;
+  SoWinThumbWheel * extraWheel;
+    
+  SbBool popupEnabled;
 
 private:
   void doAppButtonLayout( int start );
-
-  //SbString menutitle; // really needed? mariusbu 20010611.
-
-  SoAnyPopupMenu * prefmenu;
-  SoAnyFullViewer * const common; 
-
-  SbBool menuenabled;
-  SbBool decorations;
-  SbBool firstBuild;
-
-	SbPList * appButtonList;
-	SbPList * viewerButtonList;
-
-	HWND viewerButtons[8];
-
-  //SoWinStereoDialog * stereoDialogBox ; // FIXME: not implemented yet
-    
-  SbVec2f zoomSldRange;
+	    
+  static void rightWheelCB ( SoWinFullViewer * viewer, void ** data );
+  static void bottomWheelCB( SoWinFullViewer * viewer, void ** data );
+  static void leftWheelCB  ( SoWinFullViewer * viewer, void ** data );
 
   void setCameraZoom( float zoom );
   float getCameraZoom( void );
+
   void setZoomSliderPosition( float zoom );
   void setZoomFieldString( float zoom );
 
   static void zoomSliderCB( HWND, SoWinFullViewer *, void ** );
   static void zoomFieldCB( HWND, SoWinFullViewer *, void ** );
   static void zoomSensorCB( void *, SoSensor *);
-    
-  //SoWinBitmapButton * buttonList[10];
-
-  HWND prefSheetShellWidget;
-  const char * prefSheetStr;  // - const
-
-  int seekDistWheelVal;
-  HWND seekDistField;
-    
-  HWND clipWheelForm;
-  int clipNearWheelVal, clipFarWheelVal;
-  HWND clipNearField, clipFarField;
-    
-  HWND stereoWheelForm;
-  HWND stereoField;
-  HWND stereoLabel;
-  int stereoWheelVal;
 
   static void drawDecorations( SoWinFullViewer * viewer, HWND hwnd, HDC hdc );
 
   static void visibilityChangeCB( void * pt, SbBool visible );
-    
-  static void rightWheelCB ( SoWinFullViewer * viewer, void ** data );
-  static void bottomWheelCB( SoWinFullViewer * viewer, void ** data );
-  static void leftWheelCB  ( SoWinFullViewer * viewer, void ** data );
 
   // Window proc for SoWinFullViewer "manager HWND" windows
   static LRESULT CALLBACK mgrWindowProc( HWND window, UINT message,
                                          WPARAM wparam, LPARAM lparam );
-
+	/*
   // Window proc for SoWinFullViewer "button container" windows
   static LRESULT CALLBACK btnWindowProc( HWND window, UINT message,
                                          WPARAM wparam, LPARAM lparam );
@@ -286,10 +230,11 @@ private:
   // Window proc for SoWinFullViewer text entry window (zoomfield)
   static LRESULT CALLBACK txtWindowProc( HWND window, UINT message,
                                          WPARAM wparam, LPARAM lparam );
-
+	*/
   LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+	LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  LRESULT onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 
   PushAppButtonCB * customPushBtnCB ; // FIXME: really needed? mariusbu 20010611.
@@ -299,7 +244,36 @@ private:
   //WNDPROC origBtnWndProc;
   //WNDPROC origAppBtnWndProc;
   //WNDPROC origTxtWndProc;
+	
+  //SoWinStereoDialog * stereoDialogBox ; // FIXME: not implemented yet
+	
+  //HWND prefSheetShellWidget;
+  //const char * prefSheetStr;  // - const
 
+  //int seekDistWheelVal;
+  //HWND seekDistField;
+    
+  //HWND clipWheelForm;
+  //int clipNearWheelVal, clipFarWheelVal;
+  //HWND clipNearField, clipFarField;
+    
+  //HWND stereoWheelForm;
+  //HWND stereoField;
+  //HWND stereoLabel;
+  //int stereoWheelVal;
+
+  SoAnyPopupMenu * prefmenu;
+  SoAnyFullViewer * const common; 
+
+  SbBool menuenabled;
+  SbBool decorations;
+  SbBool firstBuild;
+	
+	SbPList * appButtonList;
+	SbPList * viewerButtonList;
+
+	SbVec2f zoomSldRange;
+	
   RECT renderAreaOffset; // RenderArea position
 };
 

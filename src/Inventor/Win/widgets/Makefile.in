@@ -116,7 +116,9 @@ BUILT_SOURCES = \
 	SoAnyPopupMenu.h \
 	SoAnyPopupMenu.cpp \
 	SoAnyThumbWheel.h \
-	SoAnyThumbWheel.cpp
+	SoAnyThumbWheel.cpp \
+	SoWinBitmapButton.cpp \
+	SoWinBitmapButton.h
 
 
 
@@ -126,7 +128,9 @@ libSoWinWidgets_la_SOURCES = \
 	SoWinThumbWheel.cpp \
 	SoWinThumbWheel.h \
 	SoWinPopupMenu.cpp \
-	SoWinPopupMenu.h
+	SoWinPopupMenu.h \
+	SoWinBitmapButton.cpp \
+	SoWinBitmapButton.h
 
 EXEEXT =
 OBJEXT = o
@@ -139,7 +143,7 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libSoWinWidgets_la_LDFLAGS =
 libSoWinWidgets_la_LIBADD =
 am_libSoWinWidgets_la_OBJECTS = SoAnyPopupMenu.lo SoAnyThumbWheel.lo \
-	SoWinThumbWheel.lo SoWinPopupMenu.lo
+	SoWinThumbWheel.lo SoWinPopupMenu.lo SoWinBitmapButton.lo
 libSoWinWidgets_la_OBJECTS = $(am_libSoWinWidgets_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -150,7 +154,8 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/SoAnyPopupMenu.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoAnyThumbWheel.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinPopupMenu.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoWinThumbWheel.Plo
+@AMDEP_TRUE@	$(DEPDIR)/SoWinThumbWheel.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinBitmapButton.Plo
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -209,6 +214,7 @@ distclean-libtool:
 @AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoAnyThumbWheel.Plo@_am_quote@
 @AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoWinPopupMenu.Plo@_am_quote@
 @AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoWinThumbWheel.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoWinBitmapButton.Plo@_am_quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
