@@ -141,6 +141,7 @@ SoWinPlaneViewer::buildWidget(HWND parent)
 
 // ************************************************************************
 
+// Documented in superclass.
 void
 SoWinPlaneViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
 {
@@ -172,3 +173,5 @@ SoWinPlaneViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
   buttonlist->append(b);
   PRIVATE(this)->camerabutton = b;
 }
+
+// ************************************************************************

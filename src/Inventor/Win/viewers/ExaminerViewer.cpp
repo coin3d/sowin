@@ -98,14 +98,7 @@ SOWIN_OBJECT_SOURCE(SoWinExaminerViewer);
 
 // *************************************************************************
 
-// FIXME: share doc with SoQt. 20030424 mortene.
-
-/*!
-  Constructor.  See parent class for explanation of arguments.
-  Calling this constructor will make sure the examiner viewer widget
-  will be built immediately.
-*/
-
+// Documented in common/viewers/SoGuiExaminerViewer.cpp.in.
 SoWinExaminerViewer::SoWinExaminerViewer(HWND parent,
                                          const char * name,
                                          SbBool embed,
@@ -119,10 +112,7 @@ SoWinExaminerViewer::SoWinExaminerViewer(HWND parent,
 
 // *************************************************************************
 
-/*!
-  Constructor. See parent class for explanation of arguments.
-*/
-
+// Documented in common/viewers/SoGuiExaminerViewer.cpp.in.
 SoWinExaminerViewer::SoWinExaminerViewer(HWND parent,
                                          const char * name,
                                          SbBool embed,
@@ -136,10 +126,6 @@ SoWinExaminerViewer::SoWinExaminerViewer(HWND parent,
 }
 
 // *************************************************************************
-
-/*!
-  Destructor.
-*/
 
 SoWinExaminerViewer::~SoWinExaminerViewer()
 {
@@ -175,6 +161,7 @@ SoWinExaminerViewer::setCamera(SoCamera * newCamera)
 
 // *************************************************************************
 
+// Documented in superclass.
 void
 SoWinExaminerViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
 {
@@ -188,3 +175,5 @@ SoWinExaminerViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
   b->registerClickedProc(SoWinExaminerViewerP::cameraButtonProc, this);
   buttonlist->append(b);
 }
+
+// *************************************************************************
