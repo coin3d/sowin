@@ -1212,6 +1212,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
   so_pixel_format * pf;
   SbBool foundone = FALSE;
   int i = 0;
+  SbBool mainwinerror = FALSE;
 
   // Make it possible to override the selected pixel format by setting
   // an environment variable. Useful for debugging and for assisting
@@ -1288,6 +1289,41 @@ SoWinGLWidgetP::createGLContext(HWND window)
     wc.lpszClassName  = "sowin_glwidget_temp";
     
     SoWinGLWidgetP::glWidgetTmpAtom = Win32::RegisterClass(&wc);
+  }
+
+  // Get the width and height from the supplied window handle and use
+  // this when creating dummy windows in the loop below.
+
+  // FIXME: After SoWin v1.2 has been released, use width and height
+  // instead as 10, 10 when creating the dummy windows. 
+  // 2004-01-08 thammer.
+
+  RECT rect;
+  Win32::GetWindowRect(window, &rect);
+  int width, height;
+  width = rect.right - rect.left;
+  height = rect.bottom - rect.top;
+
+  if ( (width < 0) || (height < 0) ) {
+    SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", 
+      "Width or height (%d, %d) for the supplied windows handle [0x%lX] "
+      "was < 0. This could lead to problems with selecting "
+      "the optimal pixel format for the GL context.", width, height, 
+      window);
+  }
+  
+  int desktopwidth, desktopheight;
+  Win32::GetWindowRect(GetDesktopWindow(), &rect);
+  desktopwidth = rect.right - rect.left;
+  desktopheight = rect.bottom - rect.top;
+  
+  if ( (width > desktopwidth) || (height > desktopheight) ) {
+    SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", 
+      "Width or height (%d, %d) for the supplied windows handle [0x%lX] "
+      "was larger than the width or height of the desktop (%d, %d). "
+      "This could lead to problems with selecting "
+      "the optimal pixel format for the GL context.", width, height, 
+      window, desktopwidth, desktopheight);
   }
 
   i = 0;
@@ -1367,7 +1403,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
   } while (i < pflist.getLength() && !foundone);
   
   if (!foundone) { goto panic; }
-  
+
   // We found a format. Now set this up for this->hdcNormal (the main window)
   if (SetPixelFormat(this->hdcNormal, pf->format, &pf->pfd)) {
     this->ctxNormal = wglCreateContext(this->hdcNormal);
@@ -1380,22 +1416,51 @@ SoWinGLWidgetP::createGLContext(HWND window)
         this->ctxNormal = NULL;
           
         SoDebugError::post("SoWinGLWidgetP::createGLContext",
-                           "Failed to make context current for format == %d (for main window)",
+                           "Failed to make context current for format == %d (for main window).",
                            pf->format);
-        goto panic;
+        mainwinerror = TRUE;
       }
     }
     else {
       SoDebugError::post("SoWinGLWidgetP::createGLContext",
-                         "Failed to create context for format == %d (for main window)",
+                         "Failed to create context for format == %d (for main window).",
                          pf->format);
-      goto panic;
+      mainwinerror = TRUE;
     }
   }
   else {
     SoDebugError::post("SoWinGLWidgetP::createGLContext",
-                       "Failed to set pixel format for format == %d (for main window)",
+                       "Failed to set pixel format for format == %d (for main window).",
                        pf->format);
+    mainwinerror = TRUE;
+  }
+
+  if (mainwinerror) {
+    RECT rect;
+    Win32::GetWindowRect(window, &rect);
+    int width, height;
+    width = rect.right - rect.left;
+    height = rect.bottom - rect.top;
+    SoDebugError::post("SoWinGLWidgetP::createGLContext",
+      " The previous error occured when using the windows handle [0x%lX] that "
+      "was supplied "
+      "to the createGLContext function (by way of the SoWinGLWidget::buildWidget "
+      "function). "
+      "This handle was created by the application "
+      "programmer and not by SoWin. The createGLContext function tried to perform "
+      "the same function call for "
+      "a temporary (dummy) window handle, without any problems. The cause of the "
+      "problem is most likely that there is something about the supplied windows "
+      "handle that the function that failed didn't like. One such thing could be "
+      "the window size. The window size for the supplied window handle is (%ld, %ld). "
+      "To resolve this problem, please investigate the parts of your code that "
+      "creates and "
+      "in any way manipulates the windows handle before it is sent to createGLContext. "
+      "Systems In Motion would like to hear about this problem, so we would "
+      "appreciate if you would send a brief email to coin-support@sim.no "
+      "including the window size listed above, your OS version, the type of "
+      "graphics card and driver version, and any other info that you think is "
+      "important.", window, width, height);
     goto panic;
   }
 
