@@ -5,25 +5,25 @@
 //
 // <mortene@sim.no>
 
-#include <Inventor/Win/viewers/SoWinExaminerViewer.h>
+#include <assert.h>
 #include <Inventor/Win/SoWin.h>
-#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/Win/viewers/SoWinExaminerViewer.h>
 #include <Inventor/nodes/SoCone.h>
+#include <Inventor/nodes/SoSeparator.h>
 
 LRESULT CALLBACK
 mainwinproc(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
- 
- if ( message == WM_DESTROY ) {
-  PostQuitMessage( 0 );
-  return 0;
- }
+  if ( message == WM_DESTROY ) {
+    PostQuitMessage( 0 );
+    return 0;
+  }
   
- if ( message == WM_SIZE ) {
-   printf("size\n");
- }
+  if ( message == WM_SIZE ) {
+    printf("size\n");
+  }
 
- return DefWindowProc(window, message, wparam, lparam);
+  return DefWindowProc(window, message, wparam, lparam);
 }
 
 int WINAPI
@@ -45,17 +45,19 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
   RegisterClass(&windowclass);
 
   HWND rootwin =
-    CreateWindow("MainWindow",
-                 "MainWindow",
-                 WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+    CreateWindow("MainWindow", // class name
+                 "Embedding SoWin component", // window name
+                 WS_OVERLAPPEDWINDOW | WS_VISIBLE, // window style
                  CW_USEDEFAULT, // xpos
-                 CW_USEDEFAULT, // ypos
+                 0, // ypos (ignored because of WS_VISIBLE + CWD_USEDEFAULT)
                  600, // width
                  600, // height
                  NULL, // parent
-                 NULL,
-                 hInstance,
+                 NULL, // menu or child-window
+                 hInstance, // application instance
                  NULL);
+
+  assert(IsWindow(rootwin) && "window creation failed");
 
   SoWin::init(rootwin);
 
