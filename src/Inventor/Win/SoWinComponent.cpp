@@ -137,13 +137,11 @@ SoWinComponent::goFullScreen( SbBool enable )
     this->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
     
     this->fullScreen = TRUE;
-    this->style = GetWindowLong( hwnd, GWL_STYLE );
-    this->exstyle = GetWindowLong( hwnd, GWL_EXSTYLE );
 
-    ShowWindow( hwnd, SW_HIDE );
+    //ShowWindow( hwnd, SW_HIDE );
 
-    SetWindowLong( hwnd, GWL_STYLE, WS_POPUP );
-    SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
+    this->style = SetWindowLong( hwnd, GWL_STYLE, WS_POPUP );
+    this->exstyle = SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
 
     MoveWindow( hwnd,
                 0,
@@ -157,13 +155,14 @@ SoWinComponent::goFullScreen( SbBool enable )
   else {
     this->fullScreen = FALSE;
 
-    ShowWindow( hwnd, SW_HIDE );
+    //ShowWindow( hwnd, SW_HIDE );
 
     SetWindowLong( hwnd, GWL_STYLE, this->style );
     SetWindowLong( hwnd, GWL_EXSTYLE, this->exstyle );
 
-    MoveWindow( hwnd, pos[0], pos[1], size[0], size[1], TRUE );
     ShowWindow( hwnd, SW_SHOW );
+    
+    MoveWindow( hwnd, pos[0], pos[1], size[0], size[1], TRUE );
   }
 }
 
