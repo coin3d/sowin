@@ -49,7 +49,9 @@ class SoWinComponentP {
   
 public:
   // Constructor.
-  SoWinComponentP( SoWinComponent * o ) {
+  SoWinComponentP( SoWinComponent * o )
+    : fullscreen(FALSE)
+  {
 
     this->owner = o;
 
@@ -59,7 +61,6 @@ public:
     
     if ( ! SoWinComponentP::sowinfullscreenlist )
       SoWinComponentP::sowinfullscreenlist = new SbPList;
-    
   }
 
   // Destructor.
@@ -128,7 +129,7 @@ public:
   HHOOK msgHook;
   HWND parent;
   HWND widget;
-  SbBool embedded;
+  SbBool embedded, fullscreen;
   SbString classname, widgetname, title;
   SoWinComponentCB * closeCB;
   void * closeCBdata;
@@ -263,7 +264,7 @@ SoWinComponent::hide( void )
 SbBool
 SoWinComponent::setFullScreen( const SbBool enable )
 {
-  if (onoff == THIS->fullscreen) { return TRUE; }
+  if (enable == PRIVATE(this)->fullscreen) { return TRUE; }
 
   HWND hwnd = this->getParentWidget( );
   // FIXME: hmm.. this looks suspicious. Shouldn't we just return
@@ -302,6 +303,7 @@ SoWinComponent::setFullScreen( const SbBool enable )
     
     // Add to list of fullscreen windows
     SoWinComponentP::sowinfullscreenlist->append( data );
+    PRIVATE(this)->fullscreen = TRUE;
   }
   else {
 
@@ -336,6 +338,7 @@ SoWinComponent::setFullScreen( const SbBool enable )
     // Remove from list of fullscreen windows
     SoWinComponentP::sowinfullscreenlist->remove( i );
     delete data;
+    PRIVATE(this)->fullscreen = FALSE;
   }
 
   return FALSE;
