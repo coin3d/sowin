@@ -391,19 +391,6 @@ SoWinExaminerViewer::openViewerHelpCard(
 // *************************************************************************
 
 /*!
-*/
-SbBool
-SoWinExaminerViewer::processSoEvent(
-  const SoEvent * const event)
-{
-  if (this->processGenericSoEvent(event))
-    return TRUE;
-
-  return inherited::processSoEvent(event);
-} // processSoEvent()
-
-
-/*!
   This method overloaded from parent class to handle button messages
   from viewer specific buttons (camera toggle).
 */
@@ -576,12 +563,6 @@ SoWinExaminerViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
 {
   // FIXME: not activated in SoWinFullViewer yet. 20020111 mortene.
 //    inherited::createViewerButtons(parent, buttonlist);
-}
-
-void
-SoWinExaminerViewer::processEvent(MSG * event)
-{
-  inherited::processEvent(event);
 }
 
 HWND

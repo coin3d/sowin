@@ -297,20 +297,6 @@ SoWinPlaneViewer::getDefaultIconTitle(// virtual
 // ************************************************************************
 
 /*!
-  FIXME: write doc
-*/
-
-SbBool
-SoWinPlaneViewer::processSoEvent(// virtual, protected
-  const SoEvent * const event)
-{
-  if (this->processGenericSoEvent(event))
-    return TRUE;
-
-  return inherited::processSoEvent(event);
-} // processSoEvent()
-
-/*!
   This method overloaded from parent class to handle button messages
   from viewer specific buttons (x, y, z and camera toggle).
 */
