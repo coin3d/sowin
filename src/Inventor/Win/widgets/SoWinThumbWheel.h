@@ -65,6 +65,7 @@ public:
 
 	void setLabelText( char * text );
 	void setLabelOffset( int x, int y );
+  SIZE getLabelSize( void );
 
   void setRangeBoundaryHandling( boundaryHandling handling );
   boundaryHandling getRangeBoundaryHandling( void ) const;

@@ -535,7 +535,7 @@ SoWinFullViewer::buildBottomWheel( HWND parent )
   this->bottomWheel->registerCallback( this->bottomWheelCB );
 	this->bottomWheel->registerViewer( this );
 	this->bottomWheel->setRangeBoundaryHandling( SoWinThumbWheel::MODULATE );
-	this->bottomWheel->setLabelOffset( -5, -4 );
+	this->bottomWheel->setLabelOffset( -5, -2 );
 	
   return this->bottomWheel->getWidget( );
 }
@@ -684,7 +684,9 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
 	// Popup
 	assert( this->prefmenu != NULL );
 	this->common->prepareMenu( this->prefmenu );
-  this->displayPopupMenu( point.x, point.y, this->viewerWidget );
+
+  assert( IsWindow( this->renderAreaWidget ) );
+  this->displayPopupMenu( point.x, point.y, this->renderAreaWidget );//this->viewerWidget );
 }
 
 void
@@ -1156,7 +1158,8 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 	// Wheels
 	
 	bottom = ( HIWORD( lparam ) - ( DECORATION_SIZE + DECORATION_BUFFER ) );
-	right = ( LOWORD( lparam ) - ( DECORATION_SIZE + DECORATION_BUFFER ) );
+	right = ( LOWORD( lparam ) - ( rightWheel->getLabelSize( ).cx + 8 ) );
+  //( DECORATION_SIZE + DECORATION_BUFFER ) );
 	
 	// Left wheel
   if ( this->leftWheel ) {
@@ -1188,7 +1191,7 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
   // Bottom wheel
 	if ( this->bottomWheel ) {
 
-		x = DECORATION_SIZE + 42;
+		x = DECORATION_SIZE + leftWheel->getLabelSize( ).cx + 10;
 		y = ( HIWORD( lparam ) - DECORATION_SIZE ) +
 			( ( DECORATION_SIZE / 2 ) - ( this->bottomWheel->sizeHint( ).cy / 2 ) + 1 );
 		

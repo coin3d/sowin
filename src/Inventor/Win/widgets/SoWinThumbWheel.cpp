@@ -524,6 +524,18 @@ SoWinThumbWheel::setLabelOffset( int x, int y )
 	this->labelOffset.y = y;
 }
 
+SIZE
+SoWinThumbWheel::getLabelSize( void )
+{
+ 	RECT rect;
+  
+	GetWindowRect( this->labelWindow, & rect );
+
+  SIZE size = { rect.right - rect.left, rect.bottom - rect.top };
+
+  return ( size );
+}
+
 // *************************************************************************
 
 void
