@@ -433,7 +433,27 @@ DISTCLEANFILES = \
 
 EXTRA_DIST = \
 	LICENSE.LGPL \
+	bootstrap \
+	cfg/m4/check_dl.m4 \
+	cfg/m4/check_inventor.m4 \
+	cfg/m4/coin.m4 \
+	cfg/m4/compile_debug.m4 \
+	cfg/m4/compile_exceptions.m4 \
+	cfg/m4/compile_functionname.m4 \
+	cfg/m4/compile_profiling.m4 \
+	cfg/m4/compile_rtti.m4 \
+	cfg/m4/compile_symbols.m4 \
+	cfg/m4/compile_warnings.m4 \
+	cfg/m4/compiler_capabilities.m4 \
+	cfg/m4/configuration_summary.m4 \
+	cfg/m4/dates.m4 \
+	cfg/m4/doxygen_detection.m4 \
+	cfg/m4/errors.m4 \
+	cfg/m4/misc_compiler.m4 \
+	cfg/m4/sogui-misc-common.m4 \
+	cfg/m4/sogui.m4 \
 	cfg/m4/sowin.m4 \
+	cfg/m4/uniqify.m4 \
 	packaging/windows/Makefile.in \
 	packaging/windows/bfheader.nsi.in \
 	packaging/windows/footer.nsi.in \
