@@ -56,6 +56,8 @@ so@gui@-config: Makefile config.status $(srcdir)/src/Inventor/@Gui@/common/sogui
 
 EXTRA_DIST = \
 	LICENSE.LGPL \
+	bootstrap \
+	sowin.m4 \
 	src/Inventor/Win/common/sogui-config.in \
 	src/Inventor/Win/common/sogui.cfg.in \
 	src/Inventor/Win/common/soguidefs.h.in \
