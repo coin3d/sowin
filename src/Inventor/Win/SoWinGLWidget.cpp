@@ -157,12 +157,12 @@ SoWinGLWidget::SoWinGLWidget(HWND parent,
 	
   PRIVATE(this)->managerWidget = this->buildWidget(parent);
   this->setBaseWidget(PRIVATE(this)->managerWidget);
-} // SoWinGLWidget()
+}
 
 /*!
   Protected destructor.
 */
-SoWinGLWidget::~SoWinGLWidget(void)
+SoWinGLWidget::~SoWinGLWidget()
 {
   if (IsWindow(PRIVATE(this)->managerWidget))
     Win32::DestroyWindow(PRIVATE(this)->managerWidget);
@@ -178,7 +178,7 @@ SoWinGLWidget::~SoWinGLWidget(void)
     SoWinGLWidgetP::glWndClassAtom = NULL;
   }
   delete this->pimpl;
-} // ~SoWinGLWidget()
+}
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -191,7 +191,7 @@ HWND
 SoWinGLWidget::getNormalWindow(void) const
 {
   return PRIVATE(this)->normalWidget;
-} // getNormalWindow()
+}
 
 /*!
  */
@@ -200,7 +200,7 @@ SoWinGLWidget::getOverlayWindow(void) const
 {
   // FIXME: overlay not supported yet. mariusbu 20010719.
   return PRIVATE(this)->overlayWidget;
-} // getOverlayWindow()
+}
 
 /*!
  */
@@ -208,7 +208,7 @@ HWND
 SoWinGLWidget::getNormalWidget(void) const
 {
   return PRIVATE(this)->normalWidget;
-} // getNormalWidget()
+}
 
 /*!
  */
@@ -216,7 +216,7 @@ HWND
 SoWinGLWidget::getOverlayWidget(void) const
 {
   return PRIVATE(this)->overlayWidget;
-} // getOverlayWidget()
+}
 
 /*!
   Returns the normal device context.
@@ -226,7 +226,7 @@ SoWinGLWidget::getNormalDC(void) const
 {
   assert(PRIVATE(this)->hdcNormal != NULL);
   return PRIVATE(this)->hdcNormal;
-} // getNormalDC()
+}
 
 /*!
   Returns the overlay device context.
@@ -236,7 +236,7 @@ SoWinGLWidget::getOverlayDC(void) const
 {
   assert(PRIVATE(this)->hdcOverlay != NULL);
   return PRIVATE(this)->hdcOverlay;
-} // getOverlayDC()
+}
 
 /*!
   Returns the normal GL context.
@@ -246,7 +246,7 @@ SoWinGLWidget::getNormalContext(void) const
 {
   assert(PRIVATE(this)->ctxNormal != NULL);
   return PRIVATE(this)->ctxNormal;
-} // getNormalContext()
+}
 
 /*!
   Returns the overlay GL context.
@@ -255,7 +255,7 @@ HGLRC
 SoWinGLWidget::getOverlayContext(void) const
 {
   return PRIVATE(this)->ctxOverlay;
-} // getOverlayContext()
+}
 
 /*!
  */
@@ -263,7 +263,7 @@ void
 SoWinGLWidget::setStealFocus(SbBool doStealFocus)
 {
   PRIVATE(this)->stealFocus = doStealFocus;
-} // setStealFocus()
+}
 
 /*!
  */
@@ -290,7 +290,7 @@ PIXELFORMATDESCRIPTOR * // FIXME: shouldn't this return value be const? 20011208
 SoWinGLWidget::getNormalVisual(void)
 {
   return (& PRIVATE(this)->pfdNormal);
-} // getNormalVisual()
+}
 
 /*!
  */
@@ -320,7 +320,7 @@ PIXELFORMATDESCRIPTOR * // FIXME: shouldn't this return value be const? 20011208
 SoWinGLWidget::getOverlayVisual(void)
 {
   return (& PRIVATE(this)->pfdOverlay);
-} // getOverlayVisual()
+}
 
 /*!
  */
@@ -390,7 +390,7 @@ SoWinGLWidget::setDoubleBuffer(SbBool set)
   }
   Win32::DestroyWindow(this->getNormalWidget());
   PRIVATE(this)->buildNormalGLWidget(PRIVATE(this)->managerWidget);
-} // setDoubleBuffer()
+}
 
 /*!
   Returns the status of the buffer mode.
@@ -401,7 +401,7 @@ SbBool
 SoWinGLWidget::isDoubleBuffer(void) const
 {
   return (PRIVATE(this)->glModes & SO_GL_DOUBLE ? TRUE : FALSE);
-} // isDoubleBuffer()
+}
 
 /*!
   Specify that there should be a border around the OpenGL canvas (or not).
@@ -412,7 +412,7 @@ void
 SoWinGLWidget::setBorder(SbBool f)
 {
   PRIVATE(this)->bordersize = f ? SO_BORDER_THICKNESS : 0;
-} // setBorder()
+}
 
 /*!
   Returns whether or not there's a border around the OpenGL canvas.
@@ -423,7 +423,7 @@ SbBool
 SoWinGLWidget::isBorder(void) const
 {
   return PRIVATE(this)->bordersize == SO_BORDER_THICKNESS;
-} // isBorder()
+}
 
 /*!
   If this is set to \c TRUE, rendering will happen in the front buffer
@@ -433,7 +433,7 @@ void
 SoWinGLWidget::setDrawToFrontBufferEnable(SbBool enable)
 {
   PRIVATE(this)->drawToFrontBuffer = enable;
-} // setDrawToFrontBufferEnable()
+}
 
 /*!
   \sa setDrawToFrontBufferEnable()
@@ -442,7 +442,7 @@ SbBool
 SoWinGLWidget::isDrawToFrontBufferEnable(void) const
 {
   return PRIVATE(this)->drawToFrontBuffer;
-} // isDrawToFrontBufferEnable()
+}
 
 /*!
   Enables or disables quad buffer stereo.
@@ -458,7 +458,7 @@ SoWinGLWidget::setQuadBufferStereo(const SbBool enable)
   }
   Win32::DestroyWindow(this->getNormalWidget());
   PRIVATE(this)->buildNormalGLWidget(PRIVATE(this)->managerWidget);
-} // setQuadBufferStereo()
+}
 
 
 /*!  
@@ -508,7 +508,7 @@ SbBool
 SoWinGLWidget::isQuadBufferStereo(void) const
 {
   return (PRIVATE(this)->glModes & SO_GL_STEREO ? TRUE : FALSE);
-} // isQuadBufferStereo()
+}
 
 /*!
   Should return \c TRUE if an overlay GL drawing area exists.
@@ -529,18 +529,18 @@ SoWinGLWidget::hasNormalGLArea(void) const
 }
 
 /*!
-  Will be called whenever scene graph needs to be redrawn().
-  If this method return FALSE, redraw() will be called immediately.
+  Will be called whenever scene graph needs to be redrawn.  If this
+  method return \c FALSE, redraw() will be called immediately.
 
-  Default method simply returns FALSE. Overload this method to
-  schedule a redraw and return TRUE if you're trying to do The Right
-  Thing.
+  Default method simply returns \c FALSE. Override this method to
+  schedule a redraw and return \c TRUE if you're trying to do The
+  Right Thing.
 */
 SbBool
 SoWinGLWidget::glScheduleRedraw(void)
 {
   return FALSE;
-} // glScheduleRedraw()
+}
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -624,19 +624,19 @@ SoWinGLWidget::redraw(void)
 
 /*!
   Renders the overlay scene graph. Default method is empty. Subclasses
-  should overload this method.
+  should override this method.
 */
 void
 SoWinGLWidget::redrawOverlay(void)
 {
   // virtual - does nothing
-} // redrawOverlay()
+}
 
 /*!
   Any events from the native window system that goes to the OpenGL
   canvas gets piped through this method.
 
-  It is overloaded in the subclasses to catch user interaction with
+  It is overridden in the subclasses to catch user interaction with
   the render canvas in the viewers, aswell as forwarding relevant
   events to the scenegraph.
 */
@@ -663,11 +663,11 @@ SoWinGLWidget::initGraphic(void)
   this->glLockNormal();
   glEnable(GL_DEPTH_TEST);
   this->glUnlockNormal();
-} // initGraphic()
+}
 
 /*!
-  Will be called after the overlay widget has been created, and subclasses
-  should overload this to initialize overlay stuff.
+  Will be called after the overlay widget has been created, and
+  subclasses should override this to initialize overlay stuff.
 
   Default method does nothing.
 */
@@ -675,20 +675,20 @@ void
 SoWinGLWidget::initOverlayGraphic(void)
 {
   // virtual - does nothing
-} // initOverlayGraphic()
+}
 
 // doc in super
 void
 SoWinGLWidget::sizeChanged(const SbVec2s & newSize)
 {
   // virtual - does nothing
-} // sizeChanged()
+}
 
 /*!
   This is the method which gets called whenever we change which OpenGL
   widget is used.
 
-  Should be overloaded in subclasses which directly or indirectly
+  Should be overridden in subclasses which directly or indirectly
   store the return value from the SoWinGLWidget::getGLWidget() method.
 
   \sa sizeChanged()
@@ -699,7 +699,7 @@ SoWinGLWidget::widgetChanged(HWND newWidget)
   // virtual
   // called whenever the widget is changed (i.e. at initialization
   // or after switching from single->double buffer)
-} // widgetChanged()
+}
 
 /*!
   Sets the size of the GL canvas.
@@ -722,7 +722,7 @@ SoWinGLWidget::setGLSize(SbVec2s newSize)
                       newSize[0] - 2 * PRIVATE(this)->bordersize,
                       newSize[1] - 2 * PRIVATE(this)->bordersize,
                       flags);
-} // setGLSize()
+}
 
 /*!
   Return the dimensions of the OpenGL canvas.
@@ -731,7 +731,7 @@ SbVec2s
 SoWinGLWidget::getGLSize(void) const
 {
   return PRIVATE(this)->glSize;
-} // getGLSize()
+}
 
 /*!
   Return the aspect ratio of the OpenGL canvas.
@@ -741,7 +741,7 @@ SoWinGLWidget::getGLAspectRatio(void) const
 {
   return (float) PRIVATE(this)->glSize[0] /
     (float) PRIVATE(this)->glSize[1];
-} // getGLAspectRatio()
+}
 
 /*!
   \fn void SoWinGLWidget::setGlxSize(const SbVec2s size)
@@ -769,7 +769,7 @@ SoWinGLWidget::eventHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPara
   // FIXME: function not implemented
   SOWIN_STUB();
   return 0;
-} // eventHandler()
+}
 
 /*!
   FIXME: doc
@@ -791,7 +791,7 @@ SbBool
 SoWinGLWidget::isRGBMode(void)
 {
   return (PRIVATE(this)->glModes & SO_GL_RGB);
-} // isRGBMode()
+}
 
 int
 SoWinGLWidget::getDisplayListShareGroup(HGLRC ctx)
@@ -882,31 +882,6 @@ SoWinGLWidget::getGLWidget(void) const
   return this->getNormalWindow();
 }
 
-SbBool
-SoWinGLWidget::makeNormalCurrent(void)
-{
-  // FIXME: wglRealizeLayerPalette() ? mariusbu 20010801
-  return SoWinGLWidgetP::wglMakeCurrent(PRIVATE(this)->hdcNormal,
-                                         PRIVATE(this)->ctxNormal);
-}
-
-SbBool
-SoWinGLWidget::swapNormalBuffers(void)
-{
-  // FIXME: not in use..? 20010803 mortene.
-
-  if (! (PRIVATE(this)->glModes & SO_GL_DOUBLE))
-    return FALSE;
-
-  return (SwapBuffers((HDC) PRIVATE(this)->hdcNormal));
-}
-
-SbBool
-SoWinGLWidget::swapOverlayBuffers(void)
-{
-  return wglSwapLayerBuffers(PRIVATE(this)->hdcOverlay, WGL_SWAP_OVERLAY1);
-}
-
 /*!
   This method calls make-current on the correct context and ups the lock
   level.
@@ -920,7 +895,7 @@ SoWinGLWidget::glLockNormal(void)
   assert(PRIVATE(this)->hdcNormal != NULL);
   (void)SoWinGLWidgetP::wglMakeCurrent(PRIVATE(this)->hdcNormal,
                                         PRIVATE(this)->ctxNormal);
-} // glLockNormal()
+}
 
 /*!
   This method drops the lock level.
@@ -932,7 +907,7 @@ SoWinGLWidget::glUnlockNormal(void)
   // 20010924 mortene.
 
   (void)SoWinGLWidgetP::wglMakeCurrent(NULL, NULL);
-} // glUnlockNormal()
+}
 
 /*!
   This method calls make-current on the correct context and ups the lock
@@ -946,7 +921,7 @@ SoWinGLWidget::glLockOverlay(void)
 
   (void)SoWinGLWidgetP::wglMakeCurrent(PRIVATE(this)->hdcOverlay,
                                         PRIVATE(this)->ctxOverlay);
-} // glLockOverlay()
+}
 
 /*!
   This method drops the lock level.
@@ -958,7 +933,7 @@ SoWinGLWidget::glUnlockOverlay(void)
   // 20010924 mortene.
 
   (void)SoWinGLWidgetP::wglMakeCurrent(NULL, NULL);
-} // glUnlockOverlay()
+}
 
 /*!
  */
@@ -967,7 +942,7 @@ SoWinGLWidget::glSwapBuffers(void)
 {
   assert(PRIVATE(this)->hdcNormal != NULL);
   Win32::SwapBuffers(PRIVATE(this)->hdcNormal);
-} // glSwapBuffers()
+}
 
 /*!
   Flush the current GL buffer. Simply calls glFlush().
@@ -977,7 +952,7 @@ SoWinGLWidget::glFlushBuffer(void)
 {
   // FIXME: make OpenGL context(s) current first? 20010924 mortene.
   glFlush();
-} // glFlushBuffer()
+}
 
 ///////////////////////////////////////////////////////////////////
 //
