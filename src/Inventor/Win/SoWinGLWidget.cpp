@@ -854,16 +854,30 @@ SoWinGLWidgetP::createGLContext( HWND window )
   pixelFormat = ChoosePixelFormat( this->hdcNormal, & this->pfdNormal );
   ok = SetPixelFormat( this->hdcNormal, pixelFormat, & this->pfdNormal );
 
-  assert( ok );
+  if ( ! ok ) {
+    #if SOWIN_DEBUG && 1
+    SoDebugError::postWarning( "SoWinGLWidget::createGLContext",
+      "Pixelformat was not supported." );
+    #endif // SOWIN_DEBUG
+    return FALSE;
+  }
 
   SoWinGLWidget * share = ( SoWinGLWidget * )
 		SoAny::si( )->getSharedGLContext( NULL, NULL );
   
   this->ctxNormal = wglCreateContext( this->hdcNormal );
+  if ( ! this->ctxNormal ) {
+    #if SOWIN_DEBUG && 1
+    SoDebugError::postWarning( "SoWinGLWidget::createGLContext",
+      "The rendering context could not be created." );
+    #endif // SOWIN_DEBUG
+    return FALSE;
+  }
   
   // create overlay
   if ( this->glModes & SO_GL_OVERLAY ) {
     this->ctxOverlay = wglCreateLayerContext( this->hdcOverlay, 1 );
+    
     // FIXME: set overlay plane. mariusbu 20010801.
   }
 
@@ -873,7 +887,14 @@ SoWinGLWidgetP::createGLContext( HWND window )
 	SoAny::si( )->registerGLContext( ( void * ) this->owner, NULL, NULL );
 
   ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
-  assert( ok );
+
+  if ( ! ok ) {
+    #if SOWIN_DEBUG && 1
+    SoDebugError::postWarning( "SoWinGLWidget::createGLContext",
+      "The rendering context could not be made current." );
+    #endif // SOWIN_DEBUG
+    return FALSE;
+  }
 
   wglMakeCurrent( NULL, NULL );
 
@@ -887,7 +908,27 @@ SoWinGLWidgetP::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lpara
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo( "SoWinGLWidget::onCreate", "called" );
 #endif // SOWIN_DEBUG
-  this->createGLContext( window );
+
+  // FIXME: add more tests. mariusbu 20010802.
+label:  
+  if ( ! this->createGLContext( window ) ) {
+    if ( this->glModes & SO_GL_STEREO ) {
+      this->glModes &= ~SO_GL_STEREO;
+      goto label;
+    }
+    if ( this->glModes & SO_GL_OVERLAY ) {
+      this->glModes &= ~SO_GL_OVERLAY;
+      goto label;
+    }
+    if ( this->glModes & SO_GL_DOUBLE ) {
+      this->glModes &= ~SO_GL_DOUBLE;
+      goto label;
+    }
+    if ( ! ( this->glModes & SO_GL_DOUBLE ) ) {
+      this->glModes |= SO_GL_DOUBLE;
+      goto label;
+    }
+  }
   SetFocus( window );
   return 0;
 }
