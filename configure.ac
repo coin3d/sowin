@@ -87,9 +87,22 @@ AH_TOP([
 AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_CXX
+AC_PROG_CXXCPP
 
 AC_OBJEXT
 AC_EXEEXT
+
+case ${enable_static-no} in
+yes | true) SOWIN_STATIC=true
+            enable_shared=no ;;
+*)          SOWIN_STATIC=false ;;
+esac
+
+case ${enable_shared-default} in
+default)    ;;
+yes | true) SOWIN_STATIC=false ;;
+*)          SOWIN_STATIC=true ;;
+esac
 
 # moved below AC_PROG_CC so -g is preserved in $C[XX]FLAGS - 20020521 mortene
 if $BUILD_WITH_MSVC; then
@@ -271,7 +284,7 @@ if $sim_ac_build_library; then
     [case $enableval in
       yes | true)
         sim_ac_build_ivf=true
-        SIM_AC_CONFIGURATION_SETTING([Ivf build], [enabled])
+        SIM_AC_CONFIGURATION_SETTING([Ivf build], [enabled (incomplete, experimental)])
       ;;
     esac])
 fi
@@ -281,8 +294,10 @@ fi
 AM_CONDITIONAL(BUILD_LIBRARY, $sim_ac_build_library)
 AM_CONDITIONAL(BUILD_IVF, $sim_ac_build_ivf)
 
-if $sim_ac_build_ivf; then :; else
-  SIM_AC_CONFIGURATION_SETTING([Ivf build], [disabled])
+if $sim_ac_build_ivf; then
+  AC_DEFINE([HAVE_IVF], 1, [Define if the Ivf API is to be included in the SoWin library])
+else
+  SIM_AC_CONFIGURATION_SETTING([Ivf build], [disabled (default)])
 fi
 
 # **************************************************************************
@@ -309,12 +324,14 @@ AC_CHECK_HEADERS([OpenGL/gl.h OpenGL/glu.h])
 
 if $sim_ac_build_library; then
   SIM_AC_HAVE_COIN_IFELSE([
-    CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
-    LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
-    LIBS="$sim_ac_coin_libs $LIBS"
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
     SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+    CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
+    if $SOWIN_STATIC && $BUILD_WITH_MSVC; then :; else
+      LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+      LIBS="$sim_ac_coin_libs $LIBS"
+    fi
   ], AC_MSG_ERROR(couldn't compile and link against Coin))
 fi
 
@@ -329,6 +346,14 @@ fi
 # FIXME: should of course smoke out the offender and fix that instead
 # of just hiding the bug. 20011012 mortene.
 AC_LANG(C++)
+
+sim_ac_configure_save_ldflags=$LDFLAGS
+sim_ac_configure_save_libs=$LIBS
+
+if $SOWIN_STATIC && $BUILD_WITH_MSVC; then
+  LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+  LIBS="$sim_ac_coin_libs $LIBS"
+fi
 
 SIM_AC_HAVE_INVENTOR_NODE(SoPolygonOffset)
 
@@ -361,6 +386,9 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
   int num = (int) SoGLRenderAction::SORTED_LAYERS_BLEND;],
   [HAVE_SORTED_LAYERS_BLEND])
 
+LDFLAGS=$sim_ac_configure_save_ldflags
+LIBS=$sim_ac_configure_save_libs
+
 # **************************************************************************
 # Misc set-up.
 
@@ -370,10 +398,10 @@ SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lgdi32 -luser32"
 
 # **************************************************************************
 
-AC_SUBST([soqt_build_dir])
-AC_SUBST([soqt_src_dir])
-AC_SUBST([soqt_w32_build_dir])
-AC_SUBST([soqt_w32_src_dir])
+AC_SUBST([sowin_build_dir])
+AC_SUBST([sowin_src_dir])
+AC_SUBST([sowin_w32_build_dir])
+AC_SUBST([sowin_w32_src_dir])
 
 # **************************************************************************
 # Remove redundant options from certain option lists.
@@ -385,22 +413,6 @@ SIM_AC_UNIQIFY_LIST(SOGUI_EXTRA_LIBS, $SOGUI_EXTRA_LIBS)
 SIM_AC_UNIQIFY_LIST(CPPFLAGS, $CPPFLAGS)
 SIM_AC_UNIQIFY_LIST(LDFLAGS, $LDFLAGS)
 SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
-
-SOWIN_STATIC=false
-
-if test x${enable_shared+set} = xset; then
-  case $enable_shared in
-  yes | true)  SOWIN_STATIC=false ;;
-  *)           SOWIN_STATIC=true ;;
-  esac
-fi
-
-if test x${enable_static+set} = xset; then
-  case $enable_static in
-  yes | true)  SOWIN_STATIC=true ;;
-  *)           SOWIN_STATIC=false ;;
-  esac
-fi
 
 AC_SUBST([LIBFLAGS], [])
 
