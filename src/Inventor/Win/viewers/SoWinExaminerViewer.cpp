@@ -178,6 +178,7 @@ SoWinExaminerViewerP::constructor(
     HWND widget = this->owner->buildWidget( this->owner->getParentWidget( ) );
     this->owner->setBaseWidget( widget );
   }
+  this->owner->setSize( SbVec2s( 500, 420 ) );
 	// FIXME
 	this->owner->setCursorEnabled( TRUE );
 	this->owner->setAnimationEnabled( TRUE );

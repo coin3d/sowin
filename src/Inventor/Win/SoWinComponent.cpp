@@ -142,6 +142,7 @@ SoWinComponent::SoWinComponent( const HWND parent,
   else {
     PRIVATE( this )->parent = parent;
     PRIVATE( this )->embedded = TRUE;
+    PRIVATE( this )->widget = NULL;
   }
 }
 
@@ -271,7 +272,11 @@ HWND
 SoWinComponent::getShellWidget( void ) const
 {
   // FIXME: is this correct for this method ? mariusbu 20010718.
-  return this->getBaseWidget( );
+  HWND hwnd = this->getBaseWidget( );
+  while( IsWindow( GetParent( hwnd ) ) )
+    hwnd = GetParent( hwnd );
+
+  return hwnd;
 }
 
 HWND
@@ -284,17 +289,9 @@ void
 SoWinComponent::setSize( const SbVec2s size )
 {
   PRIVATE( this )->size = size;
-
-  // FIXME: does this fix the bug reported by eossystems? mariusbu 20010723.
-  //HWND hwnd = ( IsWindow( PRIVATE( this )->parent ) ?
-  //  PRIVATE( this )->parent : PRIVATE( this )->widget );
-  HWND hwnd = PRIVATE( this )->widget;
+  
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
-  SetWindowPos( hwnd, NULL, 0, 0, size[0], size[1], flags );
-
-  // FIXME: hack? mariusbu 20010725.
-  if ( IsWindow( PRIVATE( this )->parent ) )
-    InvalidateRect( PRIVATE( this )->parent, NULL, TRUE );
+  SetWindowPos( this->getShellWidget( ), NULL, 0, 0, size[0], size[1], flags );
 }
 
 SbVec2s
