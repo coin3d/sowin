@@ -419,7 +419,7 @@ SoWinThumbWheel::buildWidget(HWND parent, RECT rect, char * name)
     windowclass.style = CS_HREDRAW | CS_VREDRAW;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
-    windowclass.hCursor = NULL;
+    windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = NULL;
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = 4;
