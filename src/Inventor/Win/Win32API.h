@@ -37,6 +37,7 @@ public:
   static void MoveWindow(HWND, int, int, int, int, BOOL);
   static HGDIOBJ SelectObject(HDC, HGDIOBJ);
   static void SwapBuffers(HDC);
+  static ATOM RegisterClass(CONST WNDCLASS *);
   static void UnregisterClass(LPCTSTR, HINSTANCE);
   static void DestroyWindow(HWND);
   static void SetWindowText(HWND, LPCTSTR);

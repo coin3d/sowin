@@ -70,10 +70,6 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-SOWIN_OBJECT_SOURCE(SoWinExaminerViewer);
-
-// *************************************************************************
-
 // The private data for the SoWinExaminerViewer.
 
 class SoWinExaminerViewerP {
@@ -105,7 +101,11 @@ private:
 
 #define PRIVATE( o ) ( o->pimpl )
 
-// *************************************************************************  
+// *************************************************************************
+
+SOWIN_OBJECT_SOURCE( SoWinExaminerViewer );
+
+// *************************************************************************
 
 #define VIEWERBUTTON_CAMERA ( VIEWERBUTTON_SEEK + 1 )
 
@@ -174,10 +174,11 @@ SoWinExaminerViewerP::constructor(
   this->owner->setLeftWheelString( "Rotx" );
   this->owner->setBottomWheelString( "Roty" );
 
-  if ( build ) {
-    HWND widget = this->owner->buildWidget( this->owner->getParentWidget( ) );
-    this->owner->setBaseWidget( widget );
-  }
+  if ( ! build ) return;
+
+  HWND widget = this->owner->buildWidget( this->owner->getParentWidget( ) );
+  this->owner->setBaseWidget( widget );
+    
   this->owner->setSize( SbVec2s( 500, 420 ) );
   this->owner->setCursorEnabled( TRUE );
   this->owner->setAnimationEnabled( TRUE );

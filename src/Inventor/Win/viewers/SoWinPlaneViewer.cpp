@@ -63,7 +63,7 @@ public:
   ~SoWinPlaneViewerP( ) {
   }
 
-  void constructor( SbBool buildNow );
+  void constructor( SbBool build );
 
   enum PlaneViewerMode {
     IDLE_MODE,

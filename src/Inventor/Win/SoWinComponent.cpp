@@ -76,8 +76,8 @@ public:
         // viewers like SoWinExaminerViewer. Is this a bug? In that case fix this too!
         // mariusbu 20010803.
         
-        if ( this->created ) { // if wndclass was registered by this class
-          Win32::UnregisterClass( this->owner->getWidgetName( ), SoWin::getInstance( ) );
+        if ( SoWinComponentP::wndClassAtom ) { // if wndclass is registered
+          Win32::UnregisterClass( "Component Widget", SoWin::getInstance( ) );
         }
       }
     }
@@ -127,12 +127,16 @@ public:
   HHOOK msgHook;
   HWND parent;
   HWND widget;
-  SbBool embedded, created;
+  SbBool embedded;
   SbString classname, widgetname, title;
   SoWinComponentCB * closeCB;
   void * closeCBdata;
   SbPList * visibilitychangeCBs;
 
+  // This is the atom returned when the component
+  // window class is registered
+  static ATOM wndClassAtom;
+  
   // List of all SoWinComponent instances. Needed for the
   // SoWinComponent::getComponent() function.
   static SbPList * sowincomplist;
@@ -154,6 +158,7 @@ private:
   
 };
 
+ATOM SoWinComponentP::wndClassAtom = NULL;
 SbPList * SoWinComponentP::sowincomplist = NULL;
 SbPList * SoWinComponentP::sowinfullscreenlist = NULL;
 
@@ -188,7 +193,6 @@ SoWinComponent::SoWinComponent( const HWND parent,
   this->pimpl = new SoWinComponentP( this );
   this->realized = FALSE;
   
-  PRIVATE( this )->created = FALSE;
   PRIVATE( this )->closeCB = NULL;
   PRIVATE( this )->closeCBdata = NULL;
   PRIVATE( this )->visibilitychangeCBs = new SbPList;
@@ -501,28 +505,32 @@ SoWinComponent::unregisterWidget( HWND widget )
 */
 HWND
 SoWinComponent::buildFormWidget( HWND parent )
-{ 
-  WNDCLASS windowclass;
+{
 
-  LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
-  LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
-  HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
+  if ( ! SoWinComponentP::wndClassAtom ) {
+
+    WNDCLASS windowclass;
+    
+    LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
+    LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
+    HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
+
+    windowclass.lpszClassName = "Component Widget";
+    windowclass.hInstance = SoWin::getInstance( );
+    windowclass.lpfnWndProc = SoWinComponentP::eventHandler;
+    windowclass.style = CS_OWNDC;
+    windowclass.lpszMenuName = NULL;
+    windowclass.hIcon = LoadIcon( SoWin::getInstance( ), icon );
+    windowclass.hCursor = LoadCursor( SoWin::getInstance( ), cursor );
+    windowclass.hbrBackground = brush;
+    windowclass.cbClsExtra = 0;
+    windowclass.cbWndExtra = 4;
+
+    SoWinComponentP::wndClassAtom = Win32::RegisterClass( & windowclass );
+
+  }
+
   HWND parentWidget;
-
-  windowclass.lpszClassName = ( char * ) this->getWidgetName( );
-  windowclass.hInstance = SoWin::getInstance( );
-  windowclass.lpfnWndProc = SoWinComponentP::eventHandler;
-  windowclass.style = CS_OWNDC;
-  windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = LoadIcon( SoWin::getInstance( ), icon );
-  windowclass.hCursor = LoadCursor( SoWin::getInstance( ), cursor );
-  windowclass.hbrBackground = brush;
-  windowclass.cbClsExtra = 0;
-  windowclass.cbWndExtra = 4;
-
-  RegisterClass( & windowclass );
-  PRIVATE( this )->created = TRUE;
-
   RECT rect;
   LONG style;
   
@@ -533,8 +541,8 @@ SoWinComponent::buildFormWidget( HWND parent )
   style = WS_OVERLAPPEDWINDOW | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
 
   // When this method is called, the component is *not* embedded. mariusbu 20010727.
-  parentWidget = CreateWindow( ( char * ) this->getWidgetName( ),
-                               ( char * ) this->getTitle( ),
+  parentWidget = CreateWindow( "Component Widget",
+                               this->getTitle( ),
                                style,
                                rect.left,
                                rect.top,

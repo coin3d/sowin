@@ -82,6 +82,8 @@ public:
   int glModes;
   int borderSize;
 
+  static ATOM managerWndClassAtom;
+  static ATOM glWndClassAtom;
   static int widgetCounter;
 
 private:
@@ -90,6 +92,8 @@ private:
   
 };
 
+ATOM SoWinGLWidgetP::managerWndClassAtom = NULL;
+ATOM SoWinGLWidgetP::glWndClassAtom = NULL;
 int SoWinGLWidgetP::widgetCounter = 0;
 
 #define PRIVATE( o ) ( o->pimpl )
@@ -149,7 +153,7 @@ SoWinGLWidget::~SoWinGLWidget( void )
     Win32::DestroyWindow( PRIVATE( this )->overlayWidget );
   SoWinGLWidgetP::widgetCounter--;
   if ( SoWinGLWidgetP::widgetCounter <= 0 ) {
-    Win32::UnregisterClass( this->getClassName( ), SoWin::getInstance( ) );
+    Win32::UnregisterClass( "Manager Widget", SoWin::getInstance( ) );
     Win32::UnregisterClass( "GL Widget", SoWin::getInstance( ) );
   }
   delete this->pimpl;
@@ -579,28 +583,33 @@ SoWinGLWidget::buildWidget( HWND parent )
 
   SoWinGLWidgetP::widgetCounter++;
 
-  WNDCLASS windowclass;
   HMENU menu = NULL;
 
-  windowclass.lpszClassName = this->getClassName( );
-  windowclass.hInstance = SoWin::getInstance( );
-  windowclass.lpfnWndProc = SoWinGLWidget::mgrWidgetProc;
-  windowclass.style = NULL; // CS_PARENTDC;
-  windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = NULL;
-  windowclass.hCursor = NULL;
-  windowclass.hbrBackground = NULL;
-  windowclass.cbClsExtra = 0;
-  windowclass.cbWndExtra = 4;
+  if ( ! SoWinGLWidgetP::managerWndClassAtom ) {
 
-  RegisterClass( & windowclass );
+    WNDCLASS windowclass;
+    
+    windowclass.lpszClassName = "Manager Widget";
+    windowclass.hInstance = SoWin::getInstance( );
+    windowclass.lpfnWndProc = SoWinGLWidget::mgrWidgetProc;
+    windowclass.style = NULL;
+    windowclass.lpszMenuName = NULL;
+    windowclass.hIcon = NULL;
+    windowclass.hCursor = NULL;
+    windowclass.hbrBackground = NULL;
+    windowclass.cbClsExtra = 0;
+    windowclass.cbWndExtra = 4;
+
+    SoWinGLWidgetP::managerWndClassAtom = Win32::RegisterClass( & windowclass );
+    
+  }
 
   RECT rect;
 	assert ( IsWindow( parent ) );
   Win32::GetClientRect( parent, & rect );
 
-  HWND managerwidget = CreateWindow( this->getClassName( ),
-                                     this->getClassName( ),
+  HWND managerwidget = CreateWindow( "Manager Widget",
+                                     this->getTitle( ),
 		                                 WS_VISIBLE |
 		                                 WS_CLIPSIBLINGS |
 		                                 WS_CLIPCHILDREN |
@@ -716,23 +725,27 @@ SoWinGLWidget::glFlushBuffer( void )
 
 void
 SoWinGLWidgetP::buildNormalGLWidget( HWND manager )
-{ 
-  HMENU menu = NULL;
+{
   LPSTR wndclassname = "GL Widget";
+  HMENU menu = NULL;
+  
+  if ( ! SoWinGLWidgetP::glWndClassAtom ) {
 
-  WNDCLASS windowclass;
-  windowclass.lpszClassName = wndclassname;
-  windowclass.hInstance = SoWin::getInstance( );
-  windowclass.lpfnWndProc = SoWinGLWidget::glWidgetProc;
-  windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-  windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = NULL;
-  windowclass.hCursor =  NULL;
-  windowclass.hbrBackground = NULL;
-  windowclass.cbClsExtra = 0;
-  windowclass.cbWndExtra = 4;
+    WNDCLASS windowclass;
+    windowclass.lpszClassName = wndclassname;
+    windowclass.hInstance = SoWin::getInstance( );
+    windowclass.lpfnWndProc = SoWinGLWidget::glWidgetProc;
+    windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    windowclass.lpszMenuName = NULL;
+    windowclass.hIcon = NULL;
+    windowclass.hCursor =  NULL;
+    windowclass.hbrBackground = NULL;
+    windowclass.cbClsExtra = 0;
+    windowclass.cbWndExtra = 4;
 
-  RegisterClass( & windowclass );
+    SoWinGLWidgetP::glWndClassAtom = Win32::RegisterClass( & windowclass );
+
+  }
  
   this->currentCursor = LoadCursor( SoWin::getInstance( ), IDC_ARROW );
 
@@ -802,7 +815,7 @@ SoWinGLWidgetP::createGLContext( HWND window )
 		assert( r && "wglDeleteContext failed -- investigate" );
 	}
   
-  this->hdcNormal = GetDC( window );//GetDC( window );
+  this->hdcNormal = GetDC( window );
 	assert( this->hdcNormal && "GetDC failed -- investigate" );
   this->hdcOverlay = this->hdcNormal;
   

@@ -128,6 +128,17 @@ Win32::SwapBuffers(HDC hdc  // device context whose buffers get swapped
   assert( r && "SwapBuffers() failed -- investigate");
 }
 
+ATOM
+Win32::RegisterClass(CONST WNDCLASS *lpWndClass   // address of structure with class
+                                                  // data
+                     )
+{
+  ATOM a = ::RegisterClass(lpWndClass);
+  if (!a) { Win32::showLastErr(); }
+  assert( a && "RegisterClass() failed -- investigate");
+  return a;
+}
+
 void
 Win32::UnregisterClass(LPCTSTR lpClassName,  // address of class name string
                        HINSTANCE hInstance   // handle of application instance
@@ -148,7 +159,8 @@ Win32::DestroyWindow(HWND hWnd)      // handle to window or control
 
 void
 Win32::SetWindowText(HWND hWnd,       // handle to window or control
-                     LPCTSTR lpString)// address of string
+                     LPCTSTR lpString // address of string
+                     )
 {
   BOOL r = ::SetWindowText( hWnd, lpString );
   if (!r) { Win32::showLastErr(); }
@@ -156,9 +168,10 @@ Win32::SetWindowText(HWND hWnd,       // handle to window or control
 }
 
 void
-Win32::InvalidateRect(HWND hWnd,     // handle of window with changed update region
-           CONST RECT *lpRect,       // address of rectangle coordinates
-           BOOL bErase)              // erase-background flag
+Win32::InvalidateRect(HWND hWnd,          // handle of window with changed update region
+                      CONST RECT *lpRect, // address of rectangle coordinates
+                      BOOL bErase         // erase-background flag
+                      )
 {
   BOOL r = ::InvalidateRect(hWnd, lpRect, bErase);
   if (!r) { Win32::showLastErr(); }
@@ -167,7 +180,8 @@ Win32::InvalidateRect(HWND hWnd,     // handle of window with changed update reg
 
 void
 Win32::GetWindowRect(HWND hWnd,      // handle to window
-                     LPRECT lpRect)  // address of structure for window coordinates
+                     LPRECT lpRect   // address of structure for window coordinates
+                     )
 {
   BOOL r = ::GetWindowRect(hWnd, lpRect);
   if (!r) { Win32::showLastErr(); }  
@@ -176,7 +190,8 @@ Win32::GetWindowRect(HWND hWnd,      // handle to window
 
 void
 Win32::GetClientRect(HWND hWnd,      // handle to window
-                     LPRECT lpRect)  // address of structure for window coordinates
+                     LPRECT lpRect   // address of structure for window coordinates
+                     )
 {
   BOOL r = ::GetClientRect(hWnd, lpRect);
   if (!r) { Win32::showLastErr(); }  
@@ -186,7 +201,8 @@ Win32::GetClientRect(HWND hWnd,      // handle to window
 LONG
 Win32::SetWindowLong(HWND hWnd,       // handle of window
                      int nIndex,      // offset of value to set
-                     LONG dwNewLong)  // new value
+                     LONG dwNewLong   // new value
+                     )
 {
   SetLastError(0);
   LONG l = ::SetWindowLong(hWnd, nIndex, dwNewLong);
@@ -198,7 +214,8 @@ Win32::SetWindowLong(HWND hWnd,       // handle of window
 
 LONG
 Win32::GetWindowLong(HWND hWnd,       // handle of window
-                     int nIndex)      // offset of value to set
+                     int nIndex       // offset of value to set
+                     )
 {
   SetLastError(0);
   LONG l = ::GetWindowLong(hWnd, nIndex);
@@ -209,13 +226,14 @@ Win32::GetWindowLong(HWND hWnd,       // handle of window
 }
 
 void
-Win32::SetWindowPos(HWND hWnd,    // handle to window
+Win32::SetWindowPos(HWND hWnd,             // handle to window
                     HWND hWndInsertAfter,  // placement-order handle
                     int X,                 // horizontal position
                     int Y,                 // vertical position
                     int cx,                // width
                     int cy,                // height
-                    UINT uFlags)           // window-positioning flags
+                    UINT uFlags            // window-positioning flags
+                    )
 
 {
   BOOL r = ::SetWindowPos(hWnd, hWndInsertAfter, X, Y, cx, cy, uFlags);
@@ -227,7 +245,8 @@ HHOOK
 Win32::SetWindowsHookEx(int idHook,        // type of hook to install
                         HOOKPROC lpfn,     // address of hook procedure
                         HINSTANCE hMod,    // handle to application instance
-                        DWORD dwThreadId)   // identity of thread to install hook for
+                        DWORD dwThreadId   // identity of thread to install hook for
+                        )
 {
   HHOOK h = ::SetWindowsHookEx(idHook, lpfn, hMod, dwThreadId );
   if (!h) { Win32::showLastErr(); }

@@ -477,7 +477,7 @@ SoWinFullViewer::buildDecoration( HWND parent )
   Win32::GetClientRect( parent, & rect );
   
   // layout widgets
-  //this->sizeChanged( SbVec2s( rect.right, rect.bottom ) );
+  // this->sizeChanged( SbVec2s( rect.right, rect.bottom ) );
 }
 
 HWND
@@ -1213,7 +1213,7 @@ SoWinFullViewerP::callWndProc(int code, WPARAM wparam, LPARAM lparam )
       }
 
     }
-    // FIXME: should msgHook be static ?
+    
     return CallNextHookEx( object->pimpl->msgHook, code, wparam, lparam );
   }
   

@@ -148,7 +148,7 @@ protected:
   HWND getGLWidget( void );
 
   void setOverlayRender( const SbBool enable );
-  SbBool isOverlayRender(void) const;
+  SbBool isOverlayRender( void ) const;
 
   SbBool makeNormalCurrent( void );
   SbBool swapNormalBuffers( void );
