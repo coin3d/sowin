@@ -283,7 +283,7 @@ SoWinGLWidget::setDoubleBuffer( SbBool set )
   else {
     PRIVATE( this )->glModes &= ~SO_GL_DOUBLE;
   }
-  Win32::DestroyWindow( this->getGLWidget( ) );
+  Win32::DestroyWindow( this->getNormalWidget( ) );
   PRIVATE( this )->buildNormalGLWidget( PRIVATE( this )->managerWidget );
 }
 
@@ -336,7 +336,7 @@ SoWinGLWidget::setQuadBufferStereo( const SbBool enable )
   else {
     PRIVATE( this )->glModes &= ~SO_GL_STEREO;
   }
-  Win32::DestroyWindow( this->getGLWidget( ) );
+  Win32::DestroyWindow( this->getNormalWidget( ) );
   PRIVATE( this )->buildNormalGLWidget( PRIVATE( this )->managerWidget );
 }
 
@@ -524,8 +524,19 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )
                          newSize[0], newSize[1], flags );
   
   flags = SWP_NOMOVE | SWP_NOZORDER;
-  Win32::SetWindowPos( PRIVATE( this )->normalWidget, NULL, 0, 0,
+  if ( PRIVATE( this )->haveBorder ) {
+    Win32::SetWindowPos( PRIVATE( this )->normalWidget,
+                         NULL,
+                         PRIVATE( this )->borderSize,
+                         PRIVATE( this )->borderSize,
+                         newSize[0] - 2 * PRIVATE( this )->borderSize,
+                         newSize[1] - 2 * PRIVATE( this )->borderSize,
+                         flags );
+  }
+  else {
+    Win32::SetWindowPos( PRIVATE( this )->normalWidget, NULL, 0, 0,
                          newSize[0], newSize[1], flags );
+  }
 }
 
 SbVec2s
@@ -596,7 +607,7 @@ SoWinGLWidget::buildWidget( HWND parent )
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
     windowclass.hCursor = NULL;
-    windowclass.hbrBackground = NULL;
+    windowclass.hbrBackground =  ( HBRUSH ) GetSysColorBrush( COLOR_3DSHADOW );//NULL;
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = 4;
 
@@ -757,8 +768,8 @@ SoWinGLWidgetP::buildNormalGLWidget( HWND manager )
   if ( this->haveBorder ) {
     rect.left += this->borderSize;
     rect.top += this->borderSize;
-    rect.right -= this->borderSize;
-    rect.bottom -= this->borderSize;
+    rect.right -= 2 * this->borderSize;
+    rect.bottom -= 2 * this->borderSize;
   }
 
   HWND normalwidget = CreateWindowEx( NULL,
