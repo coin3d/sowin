@@ -38,137 +38,57 @@
 #include <sowindefs.h>
 #include <Inventor/Win/devices/SoWinKeyboard.h>
 #include <Inventor/Win/SoWinBasic.h>
+#include <winuser.h> // VK_ defines
 
 // *************************************************************************
 
 SOWIN_OBJECT_SOURCE(SoWinKeyboard);
 
 // *************************************************************************
-// ( virtual ) key codes
 
-#define SOWIN_KEY_OEM_3        0x29    // |
-#define SOWIN_KEY_1            0x02
-#define SOWIN_KEY_2            0x03
-#define SOWIN_KEY_3            0x04
-#define SOWIN_KEY_4            0x05
-#define SOWIN_KEY_5            0x06
-#define SOWIN_KEY_6            0x07
-#define SOWIN_KEY_7            0x08
-#define SOWIN_KEY_8            0x09
-#define SOWIN_KEY_9            0x0a
-#define SOWIN_KEY_0            0x0b
-#define SOWIN_KEY_OEM_ADD      0x0c    // +
-#define SOWIN_KEY_OEM_SUBTRACT 0x0d    /* \ */ 
-#define SOWIN_KEY_Q            0x10
-#define SOWIN_KEY_W            0x11
-#define SOWIN_KEY_E            0x12
-#define SOWIN_KEY_R            0x13
-#define SOWIN_KEY_T            0x14
-#define SOWIN_KEY_Y            0x15
-#define SOWIN_KEY_U            0x16
-#define SOWIN_KEY_I            0x17
-#define SOWIN_KEY_O            0x18
-#define SOWIN_KEY_P            0x19
-#define SOWIN_KEY_OEM_4        0x1a    // å
-#define SOWIN_KEY_OEM_6        0x1b    // ¨
-#define SOWIN_KEY_OEM_5        0x2b    // '
-#define SOWIN_KEY_A            0x1e
-#define SOWIN_KEY_S            0x1f
-#define SOWIN_KEY_D            0x20
-#define SOWIN_KEY_F            0x21
-#define SOWIN_KEY_G            0x22
-#define SOWIN_KEY_H            0x23
-#define SOWIN_KEY_J            0x24
-#define SOWIN_KEY_K            0x25
-#define SOWIN_KEY_L            0x26
-#define SOWIN_KEY_OEM_1        0x27     // ø
-#define SOWIN_KEY_OEM_7        0x28     // æ
-#define SOWIN_KEY_Z            0x2c
-#define SOWIN_KEY_X            0x2d
-#define SOWIN_KEY_C            0x2e
-#define SOWIN_KEY_V            0x2f
-#define SOWIN_KEY_B            0x30
-#define SOWIN_KEY_N            0x31
-#define SOWIN_KEY_M            0x32
-#define SOWIN_KEY_OEM_COMMA    0x33    // ,
-#define SOWIN_KEY_OEM_PERIOD   0x34    // .
-#define SOWIN_KEY_OEM_2        0x35    // -
-#define SOWIN_KEY_OEM_102      0x56    // <
-#define SOWIN_KEY_DECIMAL      0x53  // NUM_DECIMAL
+#define VK_OEM_SCROLL 0x91
+#define VK_OEM_1 0xBA
+#define VK_OEM_PLUS 0xBB
+#define VK_OEM_COMMA 0xBC
+#define VK_OEM_MINUS 0xBD
+#define VK_OEM_PERIOD 0xBE
+#define VK_OEM_2 0xBF
+#define VK_OEM_3 0xC0
+#define VK_OEM_4 0xDB
+#define VK_OEM_5 0xDC
+#define VK_OEM_6 0xDD
+#define VK_OEM_7 0xDE
+#define VK_OEM_8 0xDF
+#define VK_ICO_F17 0xE0
+#define VK_ICO_F18 0xE1
+#define VK_OEM102 0xE2
+#define VK_ICO_HELP 0xE3
+#define VK_ICO_00 0xE4
+#define VK_ICO_CLEAR 0xE6
+#define VK_OEM_RESET 0xE9
+#define VK_OEM_JUMP 0xEA
+#define VK_OEM_PA1 0xEB
+#define VK_OEM_PA2 0xEC
+#define VK_OEM_PA3 0xED
+#define VK_OEM_WSCTRL 0xEE
+#define VK_OEM_CUSEL 0xEF
+#define VK_OEM_ATTN 0xF0
+#define VK_OEM_FINNISH 0xF1
+#define VK_OEM_COPY 0xF2
+#define VK_OEM_AUTO 0xF3
+#define VK_OEM_ENLW 0xF4
+#define VK_OEM_BACKTAB 0xF5
+#define VK_ATTN 0xF6
+#define VK_CRSEL 0xF7
+#define VK_EXSEL 0xF8
+#define VK_EREOF 0xF9
+#define VK_PLAY 0xFA
+#define VK_ZOOM 0xFB
+#define VK_NONAME 0xFC
+#define VK_PA1 0xFD
+#define VK_OEM_CLEAR 0xFE
 
-#define SOWIN_KEY_ESC          0x01
-#define SOWIN_KEY_BACKSPACE    0x0e
-#define SOWIN_KEY_TAB          0x0f
-#define SOWIN_KEY_ENTER        0x1c
-#define SOWIN_KEY_CTRL         0x1d
-#define SOWIN_KEY_SHIFT        0x2a
-
-#define SOWIN_KEY_NUM_DIVIDE   0x35
-#define SOWIN_KEY_RSHIFT       0x36
-#define SOWIN_KEY_NUM_MULTIPLY 0x37
-#define SOWIN_KEY_ALT          0x38
-#define SOWIN_KEY_SPACE        0x39
-#define SOWIN_KEY_CAPS_LOCK    0x3a
-#define SOWIN_KEY_F1           0x3b
-#define SOWIN_KEY_F2           0x3c
-#define SOWIN_KEY_F3           0x3d
-#define SOWIN_KEY_F4           0x3e
-#define SOWIN_KEY_F5           0x3f
-#define SOWIN_KEY_F6           0x40
-#define SOWIN_KEY_F7           0x41
-#define SOWIN_KEY_F8           0x42
-#define SOWIN_KEY_F9           0x43
-#define SOWIN_KEY_F10          0x44
-#define SOWIN_KEY_PAUSE        0X00//0x45
-#define SOWIN_KEY_SCROLL_LOCK  0x46
-#define SOWIN_KEY_NUM_7        0x47
-#define SOWIN_KEY_NUM_8        0x48
-#define SOWIN_KEY_NUM_9        0x49
-#define SOWIN_KEY_NUM_SUBTRACT 0x4a
-#define SOWIN_KEY_NUM_4        0x4b
-#define SOWIN_KEY_NUM_5        0x4c
-#define SOWIN_KEY_NUM_6        0x4d
-#define SOWIN_KEY_NUM_ADD      0x4e
-#define SOWIN_KEY_NUM_1        0x4f
-#define SOWIN_KEY_NUM_2        0x50
-#define SOWIN_KEY_NUM_3        0x51
-#define SOWIN_KEY_NUM_0        0x52
-#define SOWIN_KEY_NUM_DELETE   0x53
-#define SOWIN_KEY_SYS_REQ      0x54
-#define SOWIN_KEY_F11          0x57
-#define SOWIN_KEY_F12          0x58
-#define SOWIN_KEY_F13          0x7c
-#define SOWIN_KEY_F14          0x7d
-#define SOWIN_KEY_F15          0x7e
-#define SOWIN_KEY_F16          0x7f
-#define SOWIN_KEY_F17          0x80
-#define SOWIN_KEY_F18          0x81
-#define SOWIN_KEY_F19          0x82
-#define SOWIN_KEY_F20          0x83
-#define SOWIN_KEY_F21          0x84
-#define SOWIN_KEY_F22          0x85
-#define SOWIN_KEY_F23          0x86
-#define SOWIN_KEY_F24          0x87
-
-#define SOWIN_KEY_HOME          0x47
-#define SOWIN_KEY_END           0x4f
-#define SOWIN_KEY_PGUP          0x49
-#define SOWIN_KEY_PGDN          0x51
-#define SOWIN_KEY_INSERT        0x52
-#define SOWIN_KEY_DELETE        0x53
-
-// FIXME: doesn't work -- maps to same keycodes as the numpad
-// codes. 20010815 mortene.
-#define SOWIN_KEY_LEFT          0x4b
-#define SOWIN_KEY_RIGHT         0x4d
-#define SOWIN_KEY_UP            0x48
-#define SOWIN_KEY_DOWN          0x50
-
-#define SOWIN_KEY_RETURN        0x1c
-#define SOWIN_KEY_PRINT         0x54
-#define SOWIN_KEY_NUM_LOCK      0x45
-
-#define SOWIN_KEY_UNKNOWN       0xff
+#define VK_UNKNOWN 0xFF
 
 // *************************************************************************
 
@@ -178,166 +98,155 @@ struct key1map {
 };
 
 static struct key1map WinToSoMapping[] = {
-  {SOWIN_KEY_ESC, SoKeyboardEvent::ESCAPE},
-  {SOWIN_KEY_TAB, SoKeyboardEvent::TAB},
-//    {Key_Backtab, SoKeyboardEvent::}, // FIXME
-  {SOWIN_KEY_BACKSPACE, SoKeyboardEvent::BACKSPACE},
-  {SOWIN_KEY_RETURN, SoKeyboardEvent::RETURN},
-  {SOWIN_KEY_ENTER, SoKeyboardEvent::ENTER},
-  {SOWIN_KEY_INSERT, SoKeyboardEvent::INSERT},
-  {SOWIN_KEY_DELETE, SoKeyboardEvent::KEY_DELETE},
-  {SOWIN_KEY_PAUSE, SoKeyboardEvent::PAUSE},
-  {SOWIN_KEY_PRINT, SoKeyboardEvent::PRINT},
-//    {Key_SysReq, SoKeyboardEvent::}, // FIXME
-  {SOWIN_KEY_HOME, SoKeyboardEvent::HOME},
-  {SOWIN_KEY_END, SoKeyboardEvent::END},
-  {SOWIN_KEY_LEFT, SoKeyboardEvent::LEFT_ARROW},
-  {SOWIN_KEY_UP, SoKeyboardEvent::UP_ARROW},
-  {SOWIN_KEY_RIGHT, SoKeyboardEvent::RIGHT_ARROW},
-  {SOWIN_KEY_DOWN, SoKeyboardEvent::DOWN_ARROW},
-//  {Key_Prior, SoKeyboardEvent::PRIOR},
-  {SOWIN_KEY_PGUP, SoKeyboardEvent::PAGE_UP},
-//  {Key_Next, SoKeyboardEvent::NEXT},
-  {SOWIN_KEY_DOWN, SoKeyboardEvent::PAGE_DOWN},
+  {VK_ESCAPE, SoKeyboardEvent::ESCAPE},
+  {VK_TAB, SoKeyboardEvent::TAB},
+  {VK_BACK, SoKeyboardEvent::BACKSPACE},
+  {VK_RETURN, SoKeyboardEvent::RETURN},
+//{VK_RETURN, SoKeyboardEvent::ENTER},
+  {VK_INSERT, SoKeyboardEvent::INSERT},
+  {VK_DELETE, SoKeyboardEvent::KEY_DELETE},
+  {VK_PAUSE, SoKeyboardEvent::PAUSE},
+  {VK_SNAPSHOT, SoKeyboardEvent::PRINT},
+  {VK_HOME, SoKeyboardEvent::HOME},
+  {VK_END, SoKeyboardEvent::END},
+  {VK_LEFT, SoKeyboardEvent::LEFT_ARROW},
+  {VK_UP, SoKeyboardEvent::UP_ARROW},
+  {VK_RIGHT, SoKeyboardEvent::RIGHT_ARROW},
+  {VK_DOWN, SoKeyboardEvent::DOWN_ARROW},
+//{VK_PRIOR, SoKeyboardEvent::PRIOR},
+  {VK_PRIOR, SoKeyboardEvent::PAGE_UP},
+//{VK_NEXT, SoKeyboardEvent::NEXT},
+  {VK_NEXT, SoKeyboardEvent::PAGE_DOWN},
+  {VK_SHIFT, SoKeyboardEvent::LEFT_SHIFT},
+  {VK_CONTROL, SoKeyboardEvent::LEFT_CONTROL}, // ANY CTRL
+  {VK_MENU, SoKeyboardEvent::LEFT_ALT}, // ANY ALT
+  {VK_CAPITAL, SoKeyboardEvent::CAPS_LOCK},
+  {VK_NUMLOCK, SoKeyboardEvent::NUM_LOCK},
+  {VK_OEM_SCROLL, SoKeyboardEvent::SCROLL_LOCK},
+  {VK_F1, SoKeyboardEvent::F1},
+  {VK_F2, SoKeyboardEvent::F2},
+  {VK_F3, SoKeyboardEvent::F3},
+  {VK_F4, SoKeyboardEvent::F4},
+  {VK_F5, SoKeyboardEvent::F5},
+  {VK_F6, SoKeyboardEvent::F6},
+  {VK_F7, SoKeyboardEvent::F7},
+  {VK_F8, SoKeyboardEvent::F8},
+  {VK_F9, SoKeyboardEvent::F9},
+  {VK_F10, SoKeyboardEvent::F10},
+  {VK_F11, SoKeyboardEvent::F11},
+  {VK_F12, SoKeyboardEvent::F12},
+  {VK_SPACE, SoKeyboardEvent::SPACE},
+  {VK_OEM_COMMA, SoKeyboardEvent::COMMA},
+  {VK_OEM_MINUS, SoKeyboardEvent::MINUS},
+  {VK_OEM_PLUS, SoKeyboardEvent::EQUAL},
+  {VK_OEM_PERIOD, SoKeyboardEvent::PERIOD},
+  {VK_OEM_1, SoKeyboardEvent::SEMICOLON},
+  {VK_OEM_2, SoKeyboardEvent::SLASH},
+  {VK_OEM_3, SoKeyboardEvent::APOSTROPHE},
+  {VK_OEM_4, SoKeyboardEvent::BRACKETLEFT},
+  {VK_OEM_5, SoKeyboardEvent::BACKSLASH},
+  {VK_OEM_6, SoKeyboardEvent::BRACKETRIGHT},
+  {'0', SoKeyboardEvent::NUMBER_0},
+  {'1', SoKeyboardEvent::NUMBER_1},
+  {'2', SoKeyboardEvent::NUMBER_2},
+  {'3', SoKeyboardEvent::NUMBER_3},
+  {'4', SoKeyboardEvent::NUMBER_4},
+  {'5', SoKeyboardEvent::NUMBER_5},
+  {'6', SoKeyboardEvent::NUMBER_6},
+  {'7', SoKeyboardEvent::NUMBER_7},
+  {'8', SoKeyboardEvent::NUMBER_8},
+  {'9', SoKeyboardEvent::NUMBER_9},
+  {VK_SUBTRACT, SoKeyboardEvent::PAD_SUBTRACT},
+  {VK_ADD, SoKeyboardEvent::PAD_ADD},
+  {VK_DIVIDE, SoKeyboardEvent::PAD_DIVIDE},
+  {VK_MULTIPLY, SoKeyboardEvent::PAD_MULTIPLY},
+  {VK_NUMPAD0, SoKeyboardEvent::PAD_0},
+  {VK_NUMPAD1, SoKeyboardEvent::PAD_1},
+  {VK_NUMPAD2, SoKeyboardEvent::PAD_2},
+  {VK_NUMPAD3, SoKeyboardEvent::PAD_3},
+  {VK_NUMPAD4, SoKeyboardEvent::PAD_4},
+  {VK_NUMPAD5, SoKeyboardEvent::PAD_5},
+  {VK_NUMPAD6, SoKeyboardEvent::PAD_6},
+  {VK_NUMPAD7, SoKeyboardEvent::PAD_7},
+  {VK_NUMPAD8, SoKeyboardEvent::PAD_8},
+  {VK_NUMPAD9, SoKeyboardEvent::PAD_9},
+  {'A', SoKeyboardEvent::A},
+  {'B', SoKeyboardEvent::B},
+  {'C', SoKeyboardEvent::C},
+  {'D', SoKeyboardEvent::D},
+  {'E', SoKeyboardEvent::E},
+  {'F', SoKeyboardEvent::F},
+  {'G', SoKeyboardEvent::G},
+  {'H', SoKeyboardEvent::H},
+  {'I', SoKeyboardEvent::I},
+  {'J', SoKeyboardEvent::J},
+  {'K', SoKeyboardEvent::K},
+  {'L', SoKeyboardEvent::L},
+  {'M', SoKeyboardEvent::M},
+  {'N', SoKeyboardEvent::N},
+  {'O', SoKeyboardEvent::O},
+  {'P', SoKeyboardEvent::P},
+  {'Q', SoKeyboardEvent::Q},
+  {'R', SoKeyboardEvent::R},
+  {'S', SoKeyboardEvent::S},
+  {'T', SoKeyboardEvent::T},
+  {'U', SoKeyboardEvent::U},
+  {'V', SoKeyboardEvent::V},
+  {'W', SoKeyboardEvent::W},
+  {'X', SoKeyboardEvent::X},
+  {'Y', SoKeyboardEvent::Y},
+  {'Z', SoKeyboardEvent::Z},
+//{Key_Backtab, SoKeyboardEvent::}, // FIXME  
+//{Key_F13, SoKeyboardEvent::}, // FIXME
+//{Key_F14, SoKeyboardEvent::}, // FIXME
+//{Key_F15, SoKeyboardEvent::}, // FIXME
+//{Key_F16, SoKeyboardEvent::}, // FIXME
+//{Key_F17, SoKeyboardEvent::}, // FIXME
+//{Key_F18, SoKeyboardEvent::}, // FIXME
+//{Key_F19, SoKeyboardEvent::}, // FIXME
+//{Key_F20, SoKeyboardEvent::}, // FIXME
+//{Key_F21, SoKeyboardEvent::}, // FIXME
+//{Key_F22, SoKeyboardEvent::}, // FIXME
+//{Key_F23, SoKeyboardEvent::}, // FIXME
+//{Key_F24, SoKeyboardEvent::}, // FIXME
+//{Key_F25, SoKeyboardEvent::}, // FIXME
+//{Key_F26, SoKeyboardEvent::}, // FIXME
+//{Key_F27, SoKeyboardEvent::}, // FIXME
+//{Key_F28, SoKeyboardEvent::}, // FIXME
+//{Key_F29, SoKeyboardEvent::}, // FIXME
+//{Key_F30, SoKeyboardEvent::}, // FIXME
+//{Key_F31, SoKeyboardEvent::}, // FIXME
+//{Key_F32, SoKeyboardEvent::}, // FIXME
+//{Key_F33, SoKeyboardEvent::}, // FIXME
+//{Key_F34, SoKeyboardEvent::}, // FIXME
+//{Key_F35, SoKeyboardEvent::}, // FIXME
+//{Key_Super, SoKeyboardEvent::}, // FIXME
+//{Key_Super, SoKeyboardEvent::}, // FIXME
+//{Key_Menu, SoKeyboardEvent::}, // FIXME
+//{Key_Exclam, SoKeyboardEvent::}, // FIXME
+//{Key_QuoteDbl, SoKeyboardEvent::}, // FIXME
+//{Key_NumberSign, SoKeyboardEvent::}, // FIXME
+//{Key_Dollar, SoKeyboardEvent::}, // FIXME
+//{Key_Percent, SoKeyboardEvent::}, // FIXME
+//{Key_Ampersand, SoKeyboardEvent::}, // FIXME
+//{Key_ParenLeft, SoKeyboardEvent::}, // FIXME
+//{Key_ParenRight, SoKeyboardEvent::}, // FIXME
+//{Key_Asterisk, SoKeyboardEvent::}, // FIXME
+//{Key_Plus, SoKeyboardEvent::}, // FIXME
+//{Key_Colon, SoKeyboardEvent::}, // FIXME
+//{Key_Less, SoKeyboardEvent::}, // FIXME
+//{Key_Greater, SoKeyboardEvent::}, // FIXME
+//{Key_Question, SoKeyboardEvent::}, // FIXME
+//{Key_At, SoKeyboardEvent::}, // FIXME  
+//{Key_AsciiCircum, SoKeyboardEvent::}, // FIXME
+//{Key_Underscore, SoKeyboardEvent::}, // FIXME
+//{Key_QuoteLeft, SoKeyboardEvent::}, // FIXME
+//{Key_BraceLeft, SoKeyboardEvent::}, // FIXME
+//{Key_Bar, SoKeyboardEvent::}, // FIXME
+//{Key_BraceRight, SoKeyboardEvent::}, // FIXME
+//Key_AsciiTilde, SoKeyboardEvent::GRAVE}, // FIXME: is this correct?
 
-  {SOWIN_KEY_SHIFT, SoKeyboardEvent::LEFT_SHIFT},
-  {SOWIN_KEY_CTRL, SoKeyboardEvent::LEFT_CONTROL},
-//{Key_Meta, SoKeyboardEvent::LEFT_ALT},
-  {SOWIN_KEY_ALT, SoKeyboardEvent::LEFT_ALT}, // FIXME: makes trouble
-  {SOWIN_KEY_CAPS_LOCK, SoKeyboardEvent::CAPS_LOCK},
-  {SOWIN_KEY_NUM_LOCK, SoKeyboardEvent::NUM_LOCK},
-  {SOWIN_KEY_SCROLL_LOCK, SoKeyboardEvent::SCROLL_LOCK},
-
-  {SOWIN_KEY_F1, SoKeyboardEvent::F1},
-  {SOWIN_KEY_F2, SoKeyboardEvent::F2},
-  {SOWIN_KEY_F3, SoKeyboardEvent::F3},
-  {SOWIN_KEY_F4, SoKeyboardEvent::F4},
-  {SOWIN_KEY_F5, SoKeyboardEvent::F5},
-  {SOWIN_KEY_F6, SoKeyboardEvent::F6},
-  {SOWIN_KEY_F7, SoKeyboardEvent::F7},
-  {SOWIN_KEY_F8, SoKeyboardEvent::F8},
-  {SOWIN_KEY_F9, SoKeyboardEvent::F9},
-  {SOWIN_KEY_F10, SoKeyboardEvent::F10},
-  {SOWIN_KEY_F11, SoKeyboardEvent::F11},
-  {SOWIN_KEY_F12, SoKeyboardEvent::F12},
-//    {Key_F13, SoKeyboardEvent::}, // FIXME
-//    {Key_F14, SoKeyboardEvent::}, // FIXME
-//    {Key_F15, SoKeyboardEvent::}, // FIXME
-//    {Key_F16, SoKeyboardEvent::}, // FIXME
-//    {Key_F17, SoKeyboardEvent::}, // FIXME
-//    {Key_F18, SoKeyboardEvent::}, // FIXME
-//    {Key_F19, SoKeyboardEvent::}, // FIXME
-//    {Key_F20, SoKeyboardEvent::}, // FIXME
-//    {Key_F21, SoKeyboardEvent::}, // FIXME
-//    {Key_F22, SoKeyboardEvent::}, // FIXME
-//    {Key_F23, SoKeyboardEvent::}, // FIXME
-//    {Key_F24, SoKeyboardEvent::}, // FIXME
-//    {Key_F25, SoKeyboardEvent::}, // FIXME
-//    {Key_F26, SoKeyboardEvent::}, // FIXME
-//    {Key_F27, SoKeyboardEvent::}, // FIXME
-//    {Key_F28, SoKeyboardEvent::}, // FIXME
-//    {Key_F29, SoKeyboardEvent::}, // FIXME
-//    {Key_F30, SoKeyboardEvent::}, // FIXME
-//    {Key_F31, SoKeyboardEvent::}, // FIXME
-//    {Key_F32, SoKeyboardEvent::}, // FIXME
-//    {Key_F33, SoKeyboardEvent::}, // FIXME
-//    {Key_F34, SoKeyboardEvent::}, // FIXME
-//    {Key_F35, SoKeyboardEvent::}, // FIXME
-
-//    {Key_Super, SoKeyboardEvent::}, // FIXME
-//    {Key_Super, SoKeyboardEvent::}, // FIXME
-//    {Key_Menu, SoKeyboardEvent::}, // FIXME
-
-
-  {SOWIN_KEY_SPACE, SoKeyboardEvent::SPACE},
-//    {Key_Exclam, SoKeyboardEvent::}, // FIXME
-//    {Key_QuoteDbl, SoKeyboardEvent::}, // FIXME
-//    {Key_NumberSign, SoKeyboardEvent::}, // FIXME
-//    {Key_Dollar, SoKeyboardEvent::}, // FIXME
-//    {Key_Percent, SoKeyboardEvent::}, // FIXME
-//    {Key_Ampersand, SoKeyboardEvent::}, // FIXME
-  {SOWIN_KEY_OEM_5, SoKeyboardEvent::APOSTROPHE},
-//    {Key_ParenLeft, SoKeyboardEvent::}, // FIXME
-//    {Key_ParenRight, SoKeyboardEvent::}, // FIXME
-//    {Key_Asterisk, SoKeyboardEvent::}, // FIXME
-//    {Key_Plus, SoKeyboardEvent::}, // FIXME
-  {SOWIN_KEY_OEM_COMMA, SoKeyboardEvent::COMMA},
-  {SOWIN_KEY_OEM_SUBTRACT, SoKeyboardEvent::MINUS},
-  {SOWIN_KEY_OEM_ADD, SoKeyboardEvent::EQUAL},
-  {SOWIN_KEY_OEM_PERIOD, SoKeyboardEvent::PERIOD},
-  {SOWIN_KEY_OEM_2, SoKeyboardEvent::SLASH},
-  {SOWIN_KEY_0, SoKeyboardEvent::NUMBER_0},
-  {SOWIN_KEY_1, SoKeyboardEvent::NUMBER_1},
-  {SOWIN_KEY_2, SoKeyboardEvent::NUMBER_2},
-  {SOWIN_KEY_3, SoKeyboardEvent::NUMBER_3},
-  {SOWIN_KEY_4, SoKeyboardEvent::NUMBER_4},
-  {SOWIN_KEY_5, SoKeyboardEvent::NUMBER_5},
-  {SOWIN_KEY_6, SoKeyboardEvent::NUMBER_6},
-  {SOWIN_KEY_7, SoKeyboardEvent::NUMBER_7},
-  {SOWIN_KEY_8, SoKeyboardEvent::NUMBER_8},
-  {SOWIN_KEY_9, SoKeyboardEvent::NUMBER_9},
-//    {Key_Colon, SoKeyboardEvent::}, // FIXME
-  {SOWIN_KEY_OEM_7, SoKeyboardEvent::SEMICOLON},
-//    {Key_Less, SoKeyboardEvent::}, // FIXME
-  {SOWIN_KEY_OEM_1, SoKeyboardEvent::EQUAL},
-//    {Key_Greater, SoKeyboardEvent::}, // FIXME
-//    {Key_Question, SoKeyboardEvent::}, // FIXME
-//    {Key_At, SoKeyboardEvent::}, // FIXME
-  
-  {SOWIN_KEY_NUM_DELETE, SoKeyboardEvent::PAD_DELETE},
-  {SOWIN_KEY_NUM_SUBTRACT, SoKeyboardEvent::PAD_SUBTRACT},
-  {SOWIN_KEY_NUM_ADD, SoKeyboardEvent::PAD_ADD},
-  {SOWIN_KEY_NUM_DIVIDE, SoKeyboardEvent::PAD_DIVIDE},
-  {SOWIN_KEY_NUM_MULTIPLY, SoKeyboardEvent::PAD_MULTIPLY},
-  {SOWIN_KEY_NUM_0, SoKeyboardEvent::PAD_0},
-  {SOWIN_KEY_NUM_1, SoKeyboardEvent::PAD_1},
-  {SOWIN_KEY_NUM_2, SoKeyboardEvent::PAD_2},
-  {SOWIN_KEY_NUM_3, SoKeyboardEvent::PAD_3},
-  {SOWIN_KEY_NUM_4, SoKeyboardEvent::PAD_4},
-  {SOWIN_KEY_NUM_5, SoKeyboardEvent::PAD_5},
-  {SOWIN_KEY_NUM_6, SoKeyboardEvent::PAD_6},
-  {SOWIN_KEY_NUM_7, SoKeyboardEvent::PAD_7},
-  {SOWIN_KEY_NUM_8, SoKeyboardEvent::PAD_8},
-  {SOWIN_KEY_NUM_9, SoKeyboardEvent::PAD_9},
-  
-  {SOWIN_KEY_A, SoKeyboardEvent::A},
-  {SOWIN_KEY_B, SoKeyboardEvent::B},
-  {SOWIN_KEY_C, SoKeyboardEvent::C},
-  {SOWIN_KEY_D, SoKeyboardEvent::D},
-  {SOWIN_KEY_E, SoKeyboardEvent::E},
-  {SOWIN_KEY_F, SoKeyboardEvent::F},
-  {SOWIN_KEY_G, SoKeyboardEvent::G},
-  {SOWIN_KEY_H, SoKeyboardEvent::H},
-  {SOWIN_KEY_I, SoKeyboardEvent::I},
-  {SOWIN_KEY_J, SoKeyboardEvent::J},
-  {SOWIN_KEY_K, SoKeyboardEvent::K},
-  {SOWIN_KEY_L, SoKeyboardEvent::L},
-  {SOWIN_KEY_M, SoKeyboardEvent::M},
-  {SOWIN_KEY_N, SoKeyboardEvent::N},
-  {SOWIN_KEY_O, SoKeyboardEvent::O},
-  {SOWIN_KEY_P, SoKeyboardEvent::P},
-  {SOWIN_KEY_Q, SoKeyboardEvent::Q},
-  {SOWIN_KEY_R, SoKeyboardEvent::R},
-  {SOWIN_KEY_S, SoKeyboardEvent::S},
-  {SOWIN_KEY_T, SoKeyboardEvent::T},
-  {SOWIN_KEY_U, SoKeyboardEvent::U},
-  {SOWIN_KEY_V, SoKeyboardEvent::V},
-  {SOWIN_KEY_W, SoKeyboardEvent::W},
-  {SOWIN_KEY_X, SoKeyboardEvent::X},
-  {SOWIN_KEY_Y, SoKeyboardEvent::Y},
-  {SOWIN_KEY_Z, SoKeyboardEvent::Z},
-//  {Key_BracketLeft, SoKeyboardEvent::BRACKETLEFT},
-  {SOWIN_KEY_OEM_102, SoKeyboardEvent::BACKSLASH},
-//  {Key_BracketRight, SoKeyboardEvent::BRACKETRIGHT},
-//    {Key_AsciiCircum, SoKeyboardEvent::}, // FIXME
-//    {Key_Underscore, SoKeyboardEvent::}, // FIXME
-//    {Key_QuoteLeft, SoKeyboardEvent::}, // FIXME
-//    {Key_BraceLeft, SoKeyboardEvent::}, // FIXME
-//    {Key_Bar, SoKeyboardEvent::}, // FIXME
-//    {Key_BraceRight, SoKeyboardEvent::}, // FIXME
-//  {Key_AsciiTilde, SoKeyboardEvent::GRAVE}, // FIXME: is this correct?
-
-  // Latin-1
+// Latin-1
 //    {Key_nobreakspace, SoKeyboardEvent::}, // FIXME
 //    {Key_exclamdown, SoKeyboardEvent::}, // FIXME
 //    {Key_cent, SoKeyboardEvent::}, // FIXME
@@ -435,7 +344,7 @@ static struct key1map WinToSoMapping[] = {
 //    {Key_thorn, SoKeyboardEvent::}, // FIXME
 //    {Key_ydiaeresis, SoKeyboardEvent::}, // FIXME
 
-  {SOWIN_KEY_UNKNOWN, SoKeyboardEvent::ANY} // Ends table
+  {VK_UNKNOWN, SoKeyboardEvent::ANY} // Ends table
 };
 
 // *************************************************************************
@@ -457,7 +366,7 @@ SoWinKeyboard::makeTranslationTable( void )
   SoWinKeyboard::translatetable = new SbDict;
 
   int i=0;
-  while ( WinToSoMapping[i].from != SOWIN_KEY_UNKNOWN ) {
+  while ( WinToSoMapping[i].from != VK_UNKNOWN ) {
     SoWinKeyboard::translatetable->enter( WinToSoMapping[i].from,
                                           ( void * )WinToSoMapping[i].to );
     i++;
@@ -563,7 +472,7 @@ SoWinKeyboard::makeKeyboardEvent( MSG * msg,
 
   //unsigned char repeat = ( unsigned char )( msg.lParam & 0x0f );
   void * sokey;
-  if ( SoWinKeyboard::translatetable->find( MapVirtualKey(msg->wParam,0), sokey ) ) {
+  if ( SoWinKeyboard::translatetable->find( msg->wParam, sokey ) ) {
     SoWinKeyboard::keyboardEvent->setKey( ( SoKeyboardEvent::Key )( int )sokey );
   }
   else {
