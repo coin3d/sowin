@@ -136,9 +136,6 @@ void SoWinFullViewer::setViewing( SbBool set )
 
     inherited::setViewing( set );
 
-    if ( this->prefmenu )
-        this->prefmenu->SetMenuItemMarked( EXAMINING_ITEM, set );
-
 // FIXME:
 /*
     VIEWERBUTTON( EXAMINE_BUTTON )->setOn( set );
@@ -168,27 +165,6 @@ void SoWinFullViewer::hide( void )
     ShowWindow( this->viewerWidget, SW_HIDE );
 }
 
-void SoWinFullViewer::setHeadlight( SbBool set )
-{
-    inherited::setHeadlight( set );
-    if ( this->prefmenu )
-        this->prefmenu->SetMenuItemMarked( HEADLIGHT_ITEM, set );
-}
-
-void SoWinFullViewer::setDrawStyle( SoWinViewer::DrawType type, SoWinViewer::DrawStyle style )                               
-{
-    inherited::setDrawStyle(type, style);
-
-    if (this->prefmenu)
-        common->setDrawStyleMenuActivation(type, style);
-
-}
-
-void SoWinFullViewer::setBufferingType( SoWinViewer::BufferType type )
-{
-    // FIXME: function not implemented
-//    this->buffertype = type;
-}
 /*
 SoWinStereoDialog * SoWinFullViewer::getStereoDialog( void )
 {
@@ -468,15 +444,6 @@ void SoWinFullViewer::buildPopupMenu( void )
 {
     // FIXME: function not implemented
     this->prefmenu = common->setupStandardPopupMenu( );
-
-    // Set initial checkmarks on drawstyle menus.
-    this->setDrawStyle(SoWinViewer::STILL, this->getDrawStyle( SoWinViewer::STILL ) );
-    this->setDrawStyle(SoWinViewer::INTERACTIVE, this->getDrawStyle( SoWinViewer::INTERACTIVE ) );
-    this->setBufferingType( this->getBufferingType( ) );
-
-    this->prefmenu->SetMenuItemMarked( EXAMINING_ITEM, this->isViewing( ) );
-    this->prefmenu->SetMenuItemMarked( DECORATION_ITEM, this->decorations );
-    this->prefmenu->SetMenuItemMarked( HEADLIGHT_ITEM, this->isHeadlight( ) );
 }
 
 void SoWinFullViewer::setPopupMenuString( const char * name )

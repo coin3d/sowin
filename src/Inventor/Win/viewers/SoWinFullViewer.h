@@ -72,10 +72,6 @@ public:
     virtual void setViewing( SbBool set );
     virtual void setCamera( SoCamera * camera );
     virtual void hide( void );
-    virtual void setHeadlight( SbBool set );
-    virtual void setDrawStyle( SoWinViewer::DrawType type,
-                               SoWinViewer::DrawStyle style );
-    virtual void setBufferingType(SoWinViewer::BufferType type);
 
 //    SoWinStereoDialog * getStereoDialog( void );
 //    void setStereoDialog( SoWinStereoDialog * newDialog );
@@ -312,4 +308,4 @@ private:
     static void drawDecorations( SoWinFullViewer * viewer, HWND hwnd, HDC hdc );
 };
 
-#endif  // SO_WIN_FULL_VIEWER 
+#endif  // SOWIN_FULLVIEWER_H
