@@ -292,9 +292,3 @@ SoWinPlaneViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
   // FIXME: not activated in SoWinFullViewer yet. 20020111 mortene.
 //    inherited::createViewerButtons(parent, buttonlist);
 }
-
-void
-SoWinPlaneViewer::processEvent(MSG * event)
-{
-  inherited::processEvent(event);
-}
