@@ -36,7 +36,6 @@
 
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
-#include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewerP.h>
 
@@ -116,7 +115,6 @@ SoWinExaminerViewerP::constructor(SbBool build)
 
   PUBLIC(this)->setClassName("SoWinExaminerViewer");
   PUBLIC(this)->setPopupMenuString("Examiner Viewer");
-  PUBLIC(this)->setPrefSheetString("Examiner Viewer Preference Sheet");
 
   if (! build) return;
 
@@ -225,25 +223,10 @@ SoWinExaminerViewer::onCommand(HWND window,
 // *************************************************************************
 
 /*!
-  \internal
-
-  Create aditional preference dialog items.
-*/
-void
-SoWinExaminerViewer::createPrefSheet(void)
-{
-  // FIXME: not implemented according to correct API yet. 20020603 mortene.
-  inherited::createPrefSheet(); // create standard parts
-  this->prefsheet->createSpinWidgets(this);
-  this->prefsheet->size();
-}
-
-/*!
 */
 void
 SoWinExaminerViewer::setAnimationEnabled(const SbBool enable)
 {
-  // FIXME: update pref-sheet widget with the value. 20020603 mortene.
   PRIVATE(this)->setGenericAnimationEnabled(enable);
 }
 
@@ -252,7 +235,6 @@ SoWinExaminerViewer::setAnimationEnabled(const SbBool enable)
 void
 SoWinExaminerViewer::setFeedbackSize(const int size)
 {
-  // FIXME: update pref-sheet widget with the value. 20020603 mortene.
   PRIVATE(this)->setGenericFeedbackSize(size);
 }
 
@@ -277,12 +259,3 @@ SoWinExaminerViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
   // FIXME: not activated in SoWinFullViewer yet. 20020111 mortene.
 //    inherited::createViewerButtons(parent, buttonlist);
 }
-
-HWND
-SoWinExaminerViewer::makeSubPreferences(HWND parent)
-{
-  // FIXME: not activated in SoWinFullViewer yet. 20020111 mortene.
-//    return inherited::makeSubPreferences(parent);
-  return NULL;
-}
-

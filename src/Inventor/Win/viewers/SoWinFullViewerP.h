@@ -64,7 +64,6 @@ public:
   void sethomebuttonClicked(void);
   void viewallbuttonClicked(void);
 
-  virtual void selectedPrefs(void);
   void seekbuttonClicked(void);
 
   void showDecorationWidgets(SbBool onOff);

@@ -234,17 +234,6 @@ SoWinWalkViewer::buildLeftTrim(// virtual
 */
 
 void
-SoWinWalkViewer::createPrefSheet(// virtual
-  void)
-{
-} // createPrefSheet()
-
-// ************************************************************************
-
-/*!
-*/
-
-void
 SoWinWalkViewer::openViewerHelpCard(// virtual
   void)
 {

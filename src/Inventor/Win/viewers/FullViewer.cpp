@@ -24,7 +24,6 @@
 #include <sowindefs.h>
 #include <Inventor/Win/Win32API.h>
 #include <Inventor/Win/SoWin.h>
-#include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
 #include <Inventor/Win/widgets/WinNativePopupMenu.h>
@@ -90,8 +89,6 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
   PRIVATE(this)->decorations = (flag & SoWinFullViewer::BUILD_DECORATION) ? TRUE : FALSE;
 
   this->prefmenu = NULL;
-  this->prefsheet = new SoWinViewerPrefSheet();
-  this->prefsheet->setTitle("Viewer Preference Sheet");
 
   this->leftWheel = NULL;
   this->bottomWheel = NULL;
@@ -104,8 +101,6 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
   PRIVATE(this)->createAppPushButtonCB = NULL;
   PRIVATE(this)->createAppPushButtonData = NULL;
 
-  this->zoomrange = SbVec2f(1.0f, 140.0f);
-	
   if (build) {
     this->setClassName("SoWinFullViewer");
     this->setBaseWidget(this->buildWidget(this->getParentWidget()));
@@ -361,18 +356,6 @@ SoWinFullViewer::setCamera(SoCamera * newCamera)
   inherited::setCamera(newCamera);
 }
 
-void
-SoWinFullViewer::hide(void)
-{
-  (void)ShowWindow(this->viewerWidget, SW_HIDE);
-}
-
-void
-SoWinFullViewerP::selectedPrefs(void)
-{
-  PUBLIC(this)->createPrefSheet();
-}
-
 ///////////////////////////////////////////////////////////////////
 //
 //  (protected)
@@ -603,31 +586,6 @@ SoWinFullViewer::openPopupMenu(const SbVec2s position)
 
   this->prefmenu->popUp(this->renderAreaWidget,
                         position[0], clientrect.bottom - position[1]);
-}
-
-void
-SoWinFullViewer::setPrefSheetString(const char * name)
-{
-  this->prefsheet->setTitle(name);
-}
-
-// Documented in common/viewers/SoGuiFullViewer.cpp.in.
-void
-SoWinFullViewer::createPrefSheet(void)
-{
-  // FIXME: this is really not the way to do it, the prefsheet should
-  // actually be constructed from the subclass(es) by piecing it
-  // together from other virtual createPref*() methods. SoXt does the
-  // right thing, look there for reference.  20020529 mortene.
-
-  this->prefsheet->create();
-
-  this->prefsheet->createSeekWidgets(this);
-  this->prefsheet->createZoomWidgets(this);
-  this->prefsheet->createClippingWidgets(this);
-
-  this->prefsheet->size(); // size to content
-
 }
 
 void
