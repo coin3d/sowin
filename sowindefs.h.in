@@ -44,6 +44,8 @@
 #endif
 #endif
 
+#if SO@GUI@_DEBUG
+
 // SO@GUI@_STUB(): this is the method which prints out stub
 // information. Used where there is functionality missing.
 
@@ -83,6 +85,13 @@ inline int _not_null( const void * arg ) { return (arg != NULL) ? 1 : 0; }
       (void)_cprintf("\n"); \
     } \
   } while (0)
+
+#else /* !SO@GUI@_DEBUG */
+
+#define SO@GUI@_STUB() do { } while (0)
+#define SO@GUI@_STUB_ONCE() do { } while (0)
+
+#endif /* !SO@GUI@_DEBUG */
 
 /*
   GETTEXT support
