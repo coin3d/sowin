@@ -56,6 +56,8 @@
 #include <Inventor/Win/devices/SoWinDevice.h>
 #include <Inventor/Win/SoWinComponent.h>
 #include <Inventor/Win/SoAny.h>
+#include <Inventor/Win/nodes/SoGuiNodes.h>
+#include <Inventor/Win/engines/SoGuiEngines.h>
 
 // The private data for the SoWin class.
 
@@ -186,7 +188,11 @@ SoWin::init(HWND toplevelwidget)
   SoDB::init();
   SoNodeKit::init();
   SoInteraction::init();
+
   SoWinObject::init();
+
+  SoGuiNodes::initClasses();
+  SoGuiEngines::initClasses();
 
   SoDebugError::setHandlerCallback(SoWinP::errorHandlerCB, NULL);
 
