@@ -130,8 +130,8 @@ SoWinPlaneViewer::setCamera(SoCamera * camera)
       type.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
     this->setRightWheelString(orthogonal ? "Zoom" : "Dolly");
     
-    if (this->isDoButtonBar()) // may not be there if !doButtonBar
-      ((SoWinBitmapButton *)PRIVATE(this)->camerabutton)->setBitmap(orthogonal ? 1 : 0);
+    SoWinBitmapButton * b = (SoWinBitmapButton *)PRIVATE(this)->camerabutton;
+    if (b) { b->setBitmap(orthogonal ? 1 : 0); }
   }
   inherited::setCamera(camera);
 }
@@ -189,53 +189,34 @@ SoWinPlaneViewer::onCommand(HWND window,
 
 // ************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-
 void
-SoWinPlaneViewer::buildViewerButtonsEx(HWND parent,
-                                       int x,
-                                       int y,
-                                       int size)
+SoWinPlaneViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
 {
-  SoWinBitmapButton * button;
+  inherited::createViewerButtons(parent, buttonlist);
 
-  button = new SoWinBitmapButton(parent, x, y, size, size, 24, "x", NULL);
+  SoWinBitmapButton * button = new SoWinBitmapButton(parent, 24, "x", NULL);
   button->addBitmap(x_xpm);
   button->setBitmap(0);
   button->setId(VIEWERBUTTON_X);
-  this->viewerButtonList->append(button);
+  buttonlist->append(button);
   
-  button = new SoWinBitmapButton(parent, x, y, size, size, 24, "y", NULL);
+  button = new SoWinBitmapButton(parent, 24, "y", NULL);
   button->addBitmap(y_xpm);
   button->setBitmap(0);
   button->setId(VIEWERBUTTON_Y);
-  this->viewerButtonList->append(button);
+  buttonlist->append(button);
 
-  button = new SoWinBitmapButton(parent, x, y, size, size, 24, "z", NULL);
+  button = new SoWinBitmapButton(parent, 24, "z", NULL);
   button->addBitmap(z_xpm);
   button->setBitmap(0);
   button->setId(VIEWERBUTTON_Z);
-  this->viewerButtonList->append(button);
+  buttonlist->append(button);
   
-  button = new SoWinBitmapButton(parent, x, y, size, size, 24, "camera", NULL);
+  button = new SoWinBitmapButton(parent, 24, "camera", NULL);
   button->addBitmap(perspective_xpm);
   button->addBitmap(ortho_xpm);
   button->setBitmap(0);
   button->setId(VIEWERBUTTON_CAMERA);
-  this->viewerButtonList->append(button);
+  buttonlist->append(button);
   PRIVATE(this)->camerabutton = button;
-}
-
-// ************************************************************************
-
-// FIXME: these are present in the other So* toolkits, but was missing
-// in SoWin. Why? 20020111 mortene.
-
-void
-SoWinPlaneViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
-{
-  // FIXME: not activated in SoWinFullViewer yet. 20020111 mortene.
-//    inherited::createViewerButtons(parent, buttonlist);
 }

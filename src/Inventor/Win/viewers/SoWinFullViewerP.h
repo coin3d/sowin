@@ -84,23 +84,19 @@ public:
   static HHOOK hookhandle;
   static int nrinstances;
   
-  // App button callbacks
-  AppPushButtonCB * appPushButtonCB;
-  void * appPushButtonData;
-  RedrawAppPushButtonCB * redrawAppPushButtonCB;
-  void * redrawAppPushButtonData;
-  CreateAppPushButtonCB * createAppPushButtonCB;
-  void * createAppPushButtonData;
-
   static SbDict * parentHWNDmappings;
 
   SbBool menuenabled;
   SbBool decorations;
 
-  static SbBool doneButtonBar;
-  static SbBool doButtonBar;
-
   SoWinCursor cursor;
+
+  HWND viewerwidget;
+  HWND renderareawidget;
+
+  SbPList lefttrimbuttons, righttrimbuttons;
+
+  SoWinThumbWheel * leftthumbwheel, * bottomthumbwheel, * rightthumbwheel;
 };
 
 // ************************************************************************

@@ -83,28 +83,25 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
                               NULL, GetCurrentThreadId());
   }
 
-  this->viewerWidget = NULL;
-  this->renderAreaWidget = NULL;
+  PRIVATE(this)->viewerwidget = NULL;
+  PRIVATE(this)->renderareawidget = NULL;
 
   PRIVATE(this)->menuenabled = (flag & SoWinFullViewer::BUILD_POPUP) ? TRUE : FALSE;
   PRIVATE(this)->decorations = (flag & SoWinFullViewer::BUILD_DECORATION) ? TRUE : FALSE;
 
   this->prefmenu = NULL;
 
+  PRIVATE(this)->leftthumbwheel = NULL;
+  PRIVATE(this)->bottomthumbwheel = NULL;
+  PRIVATE(this)->rightthumbwheel = NULL;
   this->leftWheel = NULL;
   this->bottomWheel = NULL;
   this->rightWheel = NULL;
+
   // Let these be bogus until we actually set up the wheels.
   this->leftWheelVal = FLT_MAX;
   this->bottomWheelVal = FLT_MAX;
   this->rightWheelVal = FLT_MAX;
-
-  PRIVATE(this)->appPushButtonCB = NULL;
-  PRIVATE(this)->appPushButtonData = NULL;
-  PRIVATE(this)->redrawAppPushButtonCB = NULL;
-  PRIVATE(this)->redrawAppPushButtonData = NULL;
-  PRIVATE(this)->createAppPushButtonCB = NULL;
-  PRIVATE(this)->createAppPushButtonData = NULL;
 
   if (build) {
     this->setClassName("SoWinFullViewer");
@@ -192,88 +189,47 @@ SoWinFullViewer::isPopupMenuEnabled(void) const
   return PRIVATE(this)->menuenabled;
 }
 
-void
-SoWinFullViewer::setDoButtonBar(SbBool enable)
-{
-#if SOWIN_DEBUG
-  if (SoWinFullViewerP::doneButtonBar) { // buttons already built
-    SoDebugError::postWarning("SoWinFullViewer::setDoButtonBar():",
-                               "unhandled case");
-    return;
-  }
-#endif // SOWIN_DEBUG
-
-  SoWinFullViewerP::doButtonBar = enable;
-}
-
-SbBool
-SoWinFullViewer::isDoButtonBar(void)
-{
-  return SoWinFullViewerP::doButtonBar;
-}
-
 HWND
 SoWinFullViewer::getAppPushButtonParent(void) const
 {
-  return this->viewerWidget;
+  return PRIVATE(this)->viewerwidget;
 }
 
 void
 SoWinFullViewer::addAppPushButton(HWND newButton)
 {
-  this->appButtonList->append(newButton);
+  PRIVATE(this)->lefttrimbuttons.append(newButton);
 }
 
 void
 SoWinFullViewer::insertAppPushButton(HWND newButton, int index)
 {
-  this->appButtonList->insert(newButton, index);
+  PRIVATE(this)->lefttrimbuttons.insert(newButton, index);
 }
 
 void
 SoWinFullViewer::removeAppPushButton(HWND oldButton)
 {
-  int index = this->appButtonList->find(oldButton);
-  this->appButtonList->remove(index);
+  int index = PRIVATE(this)->lefttrimbuttons.find(oldButton);
+  PRIVATE(this)->lefttrimbuttons.remove(index);
 }
 
 int
 SoWinFullViewer::findAppPushButton(HWND oldButton) const
 {
-  return this->appButtonList->find(oldButton);
+  return PRIVATE(this)->lefttrimbuttons.find(oldButton);
 }
 
 int
 SoWinFullViewer::lengthAppPushButton(void) const
 {
-  return this->appButtonList->getLength();
-}
-
-void
-SoWinFullViewer::addAppPushButtonCallback(AppPushButtonCB * callback, void * data)
-{
-  PRIVATE(this)->appPushButtonCB = callback;
-  PRIVATE(this)->appPushButtonData = data ;
-}
-
-void
-SoWinFullViewer::addRedrawAppPushButtonCallback(RedrawAppPushButtonCB * callback, void * data)
-{
-  PRIVATE(this)->redrawAppPushButtonCB = callback;
-  PRIVATE(this)->redrawAppPushButtonData = data;
-}
-
-void
-SoWinFullViewer::addCreateAppPushButtonCallback(CreateAppPushButtonCB * callback, void * data)
-{
-  PRIVATE(this)->createAppPushButtonCB = callback;
-  PRIVATE(this)->createAppPushButtonData = data;
+  return PRIVATE(this)->lefttrimbuttons.getLength();
 }
 
 HWND
 SoWinFullViewer::getRenderAreaWidget(void) const
 {
-  return this->renderAreaWidget;
+  return PRIVATE(this)->renderareawidget;
 }
 
 // Doc in superclass.
@@ -303,7 +259,7 @@ SoWinFullViewer::setViewing(SbBool enable)
 
   inherited::setViewing(enable);
 
-  if (SoWinFullViewerP::doButtonBar) {
+  if (PRIVATE(this)->viewerButton(SoWinFullViewerP::VIEWERBUTTON_VIEW) != NULL) {
     PRIVATE(this)->viewerButton(SoWinFullViewerP::VIEWERBUTTON_VIEW)->setState(enable);
     PRIVATE(this)->viewerButton(SoWinFullViewerP::VIEWERBUTTON_PICK)->setState(enable ? FALSE : TRUE);
     PRIVATE(this)->viewerButton(SoWinFullViewerP::VIEWERBUTTON_SEEK)->setEnabled(enable);
@@ -326,9 +282,9 @@ SoWinFullViewer::buildWidget(HWND parent)
   
   SoWinFullViewerP::parentHWNDmappings->enter((unsigned long)parent, this);
 
-  this->viewerWidget = parent;
-  this->renderAreaWidget = inherited::buildWidget(parent);
-  assert(IsWindow(this->renderAreaWidget));
+  PRIVATE(this)->viewerwidget = parent;
+  PRIVATE(this)->renderareawidget = inherited::buildWidget(parent);
+  assert(IsWindow(PRIVATE(this)->renderareawidget));
 
   // Change default cursor from pointer arrow, to *no* default
   // cursor. This must be done for the SetCursor()-call in
@@ -339,7 +295,7 @@ SoWinFullViewer::buildWidget(HWND parent)
   if (PRIVATE(this)->menuenabled) { this->buildPopupMenu(); }
   if (PRIVATE(this)->decorations) { this->buildDecoration(parent); }
 
-  return this->renderAreaWidget;
+  return PRIVATE(this)->renderareawidget;
 }
 
 // doc in super
@@ -362,93 +318,31 @@ SoWinFullViewer::sizeChanged(const SbVec2s & size)
 void
 SoWinFullViewer::buildDecoration(HWND parent)
 {
-  PRIVATE(this)->buildLeftWheel(parent);
-  PRIVATE(this)->buildBottomWheel(parent);
-  PRIVATE(this)->buildRightWheel(parent);
+  this->leftWheel = PRIVATE(this)->buildLeftWheel(parent);
+  this->bottomWheel = PRIVATE(this)->buildBottomWheel(parent);
+  this->rightWheel = PRIVATE(this)->buildRightWheel(parent);
 
-  if (SoWinFullViewerP::doButtonBar) {
-
-    this->buildViewerButtons(parent);
-    
-    SoWinFullViewerP::doneButtonBar = TRUE;
-  }
+  (void)this->buildViewerButtons(parent);
 }
 
 HWND
 SoWinFullViewer::buildViewerButtons(HWND parent)
 {
-  // Set id's so they can be used as indices in the list later
-  // (ie. viewerButtonList[id])
+  this->createViewerButtons(parent, & PRIVATE(this)->righttrimbuttons);
+
+  // Now position the buttons.
 
   RECT rect;
-  Win32::GetClientRect(parent, & rect);
+  Win32::GetClientRect(parent, &rect);
+  const int x = rect.right - DECORATION_SIZE;
 
-  int x = rect.right - DECORATION_SIZE;
-  int y = 0;
+  for (int i=0; i < PRIVATE(this)->righttrimbuttons.getLength(); i++) {
+    SoWinBitmapButton * b = (SoWinBitmapButton *)
+      PRIVATE(this)->righttrimbuttons[i];
+    b->move(x, i * DECORATION_SIZE, DECORATION_SIZE, DECORATION_SIZE);
+  }
 
-  SoWinBitmapButton * button;
-
-  button = new SoWinBitmapButton(parent, x, y, DECORATION_SIZE,
-                                  DECORATION_SIZE, 24, "pick", NULL);
-  button->addBitmap(pick_xpm);
-  button->setBitmap(0); // use first (and only) bitmap
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_PICK);
-  this->viewerButtonList->append(button);
-  button->setState(this->isViewing() ? FALSE : TRUE);
-  y += DECORATION_SIZE;
-
-  button = new SoWinBitmapButton(parent, x, y, DECORATION_SIZE,
-                                  DECORATION_SIZE, 24, "view", NULL);
-  button->addBitmap(view_xpm);
-  button->setBitmap(0); // use first (and only) bitmap
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_VIEW);
-  this->viewerButtonList->append(button);
-  button->setState(this->isViewing());
-  y += DECORATION_SIZE;
-
-  button = new SoWinBitmapButton(parent, x, y, DECORATION_SIZE,
-                                  DECORATION_SIZE, 24, "home", NULL);
-  button->addBitmap(home_xpm);
-  button->setBitmap(0); // use first (and only) bitmap
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_HOME);
-  this->viewerButtonList->append(button);
-  y += DECORATION_SIZE;
-
-  button = new SoWinBitmapButton(parent, x, y, DECORATION_SIZE,
-                                  DECORATION_SIZE, 24, "set_home", NULL);
-  button->addBitmap(set_home_xpm);
-  button->setBitmap(0);
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_SET_HOME);
-  this->viewerButtonList->append(button);
-  y += DECORATION_SIZE;
-
-  button = new SoWinBitmapButton(parent, x, y, DECORATION_SIZE,
-                                  DECORATION_SIZE, 24, "view_all", NULL);
-  button->addBitmap(view_all_xpm);
-  button->setBitmap(0); // use first (and only) bitmap
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_VIEW_ALL);
-  this->viewerButtonList->append(button);
-  y += DECORATION_SIZE;
-
-  button = new SoWinBitmapButton(parent, x, y, DECORATION_SIZE,
-                                  DECORATION_SIZE, 24, "seek", NULL);
-  button->addBitmap(seek_xpm);
-  button->setBitmap(0); // use first (and only) bitmap
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_SEEK);
-  this->viewerButtonList->append(button);
-  y += DECORATION_SIZE;
-
-  this->buildViewerButtonsEx(parent, x, y, DECORATION_SIZE);
-
-  // FIXME: there should be a valid return value here, as for the
-  // other toolkits. 20020111 mortene.
-  return NULL;
-}
-
-void
-SoWinFullViewer::buildViewerButtonsEx(HWND parent, int x, int y, int size)
-{
-  // virtual - do nothing
+  return parent;
 }
 
 void
@@ -464,42 +358,41 @@ SoWinFullViewer::openPopupMenu(const SbVec2s position)
   PRIVATE(this)->prepareMenu(this->prefmenu);
 
   RECT clientrect;
-  Win32::GetClientRect(this->renderAreaWidget, &clientrect);
+  Win32::GetClientRect(PRIVATE(this)->renderareawidget, &clientrect);
 
-  this->prefmenu->popUp(this->renderAreaWidget,
+  this->prefmenu->popUp(PRIVATE(this)->renderareawidget,
                         position[0], clientrect.bottom - position[1]);
 }
 
 void
 SoWinFullViewer::setLeftWheelString(const char * const name)
 {
-  if(this->leftWheel)
-    this->leftWheel->setLabelText(name);
+  if (PRIVATE(this)->leftthumbwheel)
+    PRIVATE(this)->leftthumbwheel->setLabelText(name);
 }
 
 void
 SoWinFullViewer::setBottomWheelString(const char * const name)
 {
-  if(this->bottomWheel)
-    this->bottomWheel->setLabelText(name);
+  if (PRIVATE(this)->bottomthumbwheel)
+    PRIVATE(this)->bottomthumbwheel->setLabelText(name);
 }
 
 void
 SoWinFullViewer::setRightWheelString(const char * const name)
 {
-  if(this->rightWheel)
-    this->rightWheel->setLabelText(name);
+  if (PRIVATE(this)->rightthumbwheel)
+    PRIVATE(this)->rightthumbwheel->setLabelText(name);
 }
 
 LRESULT
 SoWinFullViewer::onCommand(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  int i;
-  short nc = HIWORD(wparam);// notification code
-  short id = LOWORD(wparam);// item, control, or accelerator identifier
-  HWND hwnd = (HWND) lparam;// control handle
+  const short nc = HIWORD(wparam); // notification code
+  const short id = LOWORD(wparam); // item, control, or accelerator identifier
+  const HWND hwnd = (HWND) lparam; // control handle
 
-  switch(id) {
+  switch (id) {
 
   case SoWinFullViewerP::VIEWERBUTTON_PICK:
     PRIVATE(this)->interactbuttonClicked();
@@ -524,51 +417,8 @@ SoWinFullViewer::onCommand(HWND window, UINT message, WPARAM wparam, LPARAM lpar
   case SoWinFullViewerP::VIEWERBUTTON_SEEK:
     PRIVATE(this)->seekbuttonClicked();
     break;
-
-  default:
-    for (i = 0; i < this->appButtonList->getLength(); i++) {
-      if (Win32::GetWindowLong(PRIVATE(this)->appButton(i), GWL_ID) == id) {
-        if (PRIVATE(this)->appPushButtonCB) {
-          PRIVATE(this)->appPushButtonCB(PRIVATE(this)->appButton(i),
-                                         id, PRIVATE(this)->appPushButtonData,
-                                         NULL);
-        }
-        break;
-      }
-    }
-    break;
   }
 
-  return 0;
-}
-
-LRESULT
-SoWinFullViewer::onMeasureItem(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
-{
-  LONG id = (LONG) wparam; // control identifier
-  LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT) lparam; // item-size information
-
-  for (int i = 0; i < this->appButtonList->getLength(); i++)
-    if (Win32::GetWindowLong(PRIVATE(this)->appButton(i), GWL_ID) == id) {
-      if (PRIVATE(this)->createAppPushButtonCB)
-        PRIVATE(this)->createAppPushButtonCB(lpmis, PRIVATE(this)->createAppPushButtonData);
-      break;
-    }
-  return 0;
-}
-
-LRESULT
-SoWinFullViewer::onDrawItem(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
-{
-  LONG id = (LONG) wparam; // control identifier
-  LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT) lparam; // item-drawing information
-
-  for (int i = 0; i < this->appButtonList->getLength(); i++)
-    if (Win32::GetWindowLong(PRIVATE(this)->appButton(i), GWL_ID) == id) {
-      if (PRIVATE(this)->redrawAppPushButtonCB)
-        PRIVATE(this)->redrawAppPushButtonCB(lpdis, PRIVATE(this)->redrawAppPushButtonData);
-      break;
-    }
   return 0;
 }
 
@@ -576,8 +426,6 @@ SoWinFullViewer::onDrawItem(HWND window, UINT message, WPARAM wparam, LPARAM lpa
 
 #ifndef DOXYGEN_SKIP_THIS
 
-SbBool SoWinFullViewerP::doButtonBar = TRUE;
-SbBool SoWinFullViewerP::doneButtonBar = FALSE;
 HHOOK SoWinFullViewerP::hookhandle = NULL;
 int SoWinFullViewerP::nrinstances = 0;
 SbDict * SoWinFullViewerP::parentHWNDmappings = NULL;
@@ -587,21 +435,21 @@ SoWinFullViewerP::buildLeftWheel(HWND parent)
 {
   // Create coords are not needed - the widget is moved into place
   // by layoutWidgets
-  PUBLIC(this)->leftWheel =
+  this->leftthumbwheel =
     new SoWinThumbWheel(SoWinThumbWheel::Vertical,
                         parent,
                         0,
                         0,
                         0,
                         "RotX");
-  PUBLIC(this)->leftWheelVal = PUBLIC(this)->leftWheel->value();
-  PUBLIC(this)->leftWheel->setCallback(this->leftWheelCB, this);
-  PUBLIC(this)->leftWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
-  PUBLIC(this)->leftWheel->setLabelOffset(0,
-                                          ((DECORATION_SIZE - PUBLIC(this)->leftWheel->sizeHint().cx) / 2)
+  PUBLIC(this)->leftWheelVal = this->leftthumbwheel->value();
+  this->leftthumbwheel->setCallback(this->leftWheelCB, this);
+  this->leftthumbwheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
+  this->leftthumbwheel->setLabelOffset(0,
+                                          ((DECORATION_SIZE - this->leftthumbwheel->sizeHint().cx) / 2)
                                           + DECORATION_BUFFER + 1);
 
-  return PUBLIC(this)->leftWheel->getWidget();
+  return this->leftthumbwheel->getWidget();
 }
 
 HWND
@@ -609,19 +457,19 @@ SoWinFullViewerP::buildBottomWheel(HWND parent)
 {
   // Create coords are not needed - the widget is moved into place
   // by layoutWidgets
-  PUBLIC(this)->bottomWheel =
+  this->bottomthumbwheel =
     new SoWinThumbWheel(SoWinThumbWheel::Horizontal,
                         parent,
                         1,
                         0,
                         0,
                         "RotY");
-  PUBLIC(this)->bottomWheelVal = PUBLIC(this)->bottomWheel->value();
-  PUBLIC(this)->bottomWheel->setCallback(this->bottomWheelCB, this);
-  PUBLIC(this)->bottomWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
-  PUBLIC(this)->bottomWheel->setLabelOffset(-4, 0);
+  PUBLIC(this)->bottomWheelVal = this->bottomthumbwheel->value();
+  this->bottomthumbwheel->setCallback(this->bottomWheelCB, this);
+  this->bottomthumbwheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
+  this->bottomthumbwheel->setLabelOffset(-4, 0);
 
-  return PUBLIC(this)->bottomWheel->getWidget();
+  return this->bottomthumbwheel->getWidget();
 }
 
 HWND
@@ -629,21 +477,21 @@ SoWinFullViewerP::buildRightWheel(HWND parent)
 {
   // Create coords are not needed - the widget is moved into place
   // by layoutWidgets
-  PUBLIC(this)->rightWheel =
+  this->rightthumbwheel =
     new SoWinThumbWheel(SoWinThumbWheel::Vertical,
                         parent,
                         2,
                         0,
                         0,
                         "Dolly");
-  PUBLIC(this)->rightWheelVal = PUBLIC(this)->rightWheel->value();
-  PUBLIC(this)->rightWheel->setCallback(this->rightWheelCB, this);
-  PUBLIC(this)->rightWheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
-  PUBLIC(this)->rightWheel->setLabelOffset(- (PUBLIC(this)->bottomWheel->getLabelSize().cx - PUBLIC(this)->rightWheel->sizeHint().cx),
-                                           ((DECORATION_SIZE - PUBLIC(this)->leftWheel->sizeHint().cx) / 2)
+  PUBLIC(this)->rightWheelVal = this->rightthumbwheel->value();
+  this->rightthumbwheel->setCallback(this->rightWheelCB, this);
+  this->rightthumbwheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
+  this->rightthumbwheel->setLabelOffset(- (this->bottomthumbwheel->getLabelSize().cx - this->rightthumbwheel->sizeHint().cx),
+                                           ((DECORATION_SIZE - this->leftthumbwheel->sizeHint().cx) / 2)
                                            + DECORATION_BUFFER + 1);
 
-  return PUBLIC(this)->rightWheel->getWidget();
+  return this->rightthumbwheel->getWidget();
 }
 
 void
@@ -721,9 +569,9 @@ SoWinFullViewerP::viewallbuttonClicked(void)
 int
 SoWinFullViewerP::layoutWidgets(int cx, int cy)
 {
-  int i, x, y, width, height, bottom, right, top;
-  int numViewerButtons = PUBLIC(this)->viewerButtonList->getLength();
-  int numAppButtons = PUBLIC(this)->appButtonList->getLength();
+  int x, y, width, height, bottom, right, top;
+  const int numViewerButtons = this->righttrimbuttons.getLength();
+  const int numAppButtons = this->lefttrimbuttons.getLength();
   HWND renderArea = PUBLIC(this)->getBaseWidget();
   UINT flags = SWP_NOSIZE | SWP_NOZORDER | SWP_NOREDRAW;
   
@@ -738,38 +586,35 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
     return 0;
   }
   
-  if (SoWinFullViewerP::doButtonBar) {
+  // Viewer buttons
+  int i;
+  for(i = 0; i < numViewerButtons; i++)
+    this->viewerButton(i)->move(cx - DECORATION_SIZE, DECORATION_SIZE * i);
 
-    // Viewer buttons
-    for(i = 0; i < numViewerButtons; i++)
-      this->viewerButton(i)->move(cx - DECORATION_SIZE, DECORATION_SIZE * i);
-
-    // App buttons
-    for(i = 0; i < numAppButtons; i++) {
-      Win32::MoveWindow(this->appButton(i),
-                        0, DECORATION_SIZE * i,
-                        DECORATION_SIZE, DECORATION_SIZE, TRUE);
-    }
+  // App buttons
+  for(i = 0; i < numAppButtons; i++) {
+    Win32::MoveWindow(this->appButton(i),
+                      0, DECORATION_SIZE * i,
+                      DECORATION_SIZE, DECORATION_SIZE, TRUE);
   }
 
   // Wheels
 
   bottom = (cy - (DECORATION_SIZE + DECORATION_BUFFER));
-  right = (cx - (
-                  (PUBLIC(this)->rightWheel ? PUBLIC(this)->rightWheel->getLabelSize().cx : 0) + 8));
+  right = (cx - ((this->rightthumbwheel ? this->rightthumbwheel->getLabelSize().cx : 0) + 8));
 
   // Left wheel
-  if (PUBLIC(this)->leftWheel) {
+  if (this->leftthumbwheel) {
 
-    x = (DECORATION_SIZE / 2) - (PUBLIC(this)->leftWheel->sizeHint().cx / 2) - 1;
-    width = PUBLIC(this)->leftWheel->sizeHint().cx;
+    x = (DECORATION_SIZE / 2) - (this->leftthumbwheel->sizeHint().cx / 2) - 1;
+    width = this->leftthumbwheel->sizeHint().cx;
 
     top = numAppButtons * DECORATION_SIZE + DECORATION_BUFFER;
 
     // if area is large enough for full height
-    if ((bottom - top) > PUBLIC(this)->leftWheel->sizeHint().cy) {
+    if ((bottom - top) > this->leftthumbwheel->sizeHint().cy) {
 
-      height = PUBLIC(this)->leftWheel->sizeHint().cy;
+      height = this->leftthumbwheel->sizeHint().cy;
 
       y = bottom - height;
 
@@ -782,38 +627,38 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
 
     }
 
-    PUBLIC(this)->leftWheel->move(x, y, width, height);
+    this->leftthumbwheel->move(x, y, width, height);
   }
 
   // Bottom wheel
-  if (PUBLIC(this)->bottomWheel) {
+  if (this->bottomthumbwheel) {
 
-    x += PUBLIC(this)->leftWheel->getLabelSize().cx +
-      PUBLIC(this)->bottomWheel->getLabelSize().cx + 8;
+    x += this->leftthumbwheel->getLabelSize().cx +
+      this->bottomthumbwheel->getLabelSize().cx + 8;
     y = (cy - DECORATION_SIZE) +
-      ((DECORATION_SIZE / 2) - (PUBLIC(this)->bottomWheel->sizeHint().cy / 2) + 1);
+      ((DECORATION_SIZE / 2) - (this->bottomthumbwheel->sizeHint().cy / 2) + 1);
 
-    height = PUBLIC(this)->bottomWheel->sizeHint().cy;
+    height = this->bottomthumbwheel->sizeHint().cy;
 
-    if (right < (x + PUBLIC(this)->bottomWheel->sizeHint().cx)) {
+    if (right < (x + this->bottomthumbwheel->sizeHint().cx)) {
 
       width = right - x;
 
     }
     else {
 
-      width =  PUBLIC(this)->bottomWheel->sizeHint().cx;
+      width =  this->bottomthumbwheel->sizeHint().cx;
 
     }
 
-    PUBLIC(this)->bottomWheel->move(x, y, width, height);
+    this->bottomthumbwheel->move(x, y, width, height);
 
   }
 
   // Right wheel
-  if (PUBLIC(this)->rightWheel) {
+  if (this->rightthumbwheel) {
 
-    width = PUBLIC(this)->rightWheel->sizeHint().cx;
+    width = this->rightthumbwheel->sizeHint().cx;
 
     x = (cx - DECORATION_SIZE) +
       ((DECORATION_SIZE / 2) - (width / 2) + 1);
@@ -821,9 +666,9 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
     top = numViewerButtons * DECORATION_SIZE + DECORATION_BUFFER;
 
     // if area is large enough for original height
-    if ((bottom - top) > PUBLIC(this)->rightWheel->sizeHint().cy) {
+    if ((bottom - top) > this->rightthumbwheel->sizeHint().cy) {
 
-      height = PUBLIC(this)->rightWheel->sizeHint().cy;
+      height = this->rightthumbwheel->sizeHint().cy;
 
       y = bottom - height;
 
@@ -836,7 +681,7 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
 
     }
 
-    PUBLIC(this)->rightWheel->move(x, y, width, height);
+    this->rightthumbwheel->move(x, y, width, height);
   }
 
   return 0;
@@ -845,11 +690,11 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
 void
 SoWinFullViewerP::showDecorationWidgets(SbBool enable)
 {
-  int i;
-  int numViewerButtons = PUBLIC(this)->viewerButtonList->getLength();
-  int numAppButtons = PUBLIC(this)->appButtonList->getLength();
+  const int numViewerButtons = this->righttrimbuttons.getLength();
+  const int numAppButtons = this->lefttrimbuttons.getLength();
 
   // Viewer buttons
+  int i;
   for(i = 0; i < numViewerButtons; i++) {
     (void)ShowWindow(this->viewerButton(i)->getWidget(),
                      (enable ? SW_SHOW : SW_HIDE));
@@ -862,14 +707,14 @@ SoWinFullViewerP::showDecorationWidgets(SbBool enable)
 
   // Thumbwheels
   if (enable) {
-    PUBLIC(this)->leftWheel->show();
-    PUBLIC(this)->bottomWheel->show();
-    PUBLIC(this)->rightWheel->show();
+    this->leftthumbwheel->show();
+    this->bottomthumbwheel->show();
+    this->rightthumbwheel->show();
   }
   else {
-    PUBLIC(this)->leftWheel->hide();
-    PUBLIC(this)->bottomWheel->hide();
-    PUBLIC(this)->rightWheel->hide();
+    this->leftthumbwheel->hide();
+    this->bottomthumbwheel->hide();
+    this->rightthumbwheel->hide();
   }
 }
 
@@ -904,18 +749,9 @@ SoWinFullViewerP::systemEventHook(int code, WPARAM wparam, LPARAM lparam)
         (void)Win32::SetFocus(object->getGLWidget());
         break;
 
-        // Next 3 are for the UI decoration buttons.
-
+        // For the UI decoration buttons.
       case WM_COMMAND:
         object->onCommand(msg->hwnd, msg->message, msg->wParam, msg->lParam);
-        break;
-
-      case WM_MEASUREITEM:
-        object->onMeasureItem(msg->hwnd, msg->message, msg->wParam, msg->lParam);
-        break;
-
-      case WM_DRAWITEM:
-        object->onDrawItem(msg->hwnd, msg->message, msg->wParam, msg->lParam);
         break;
       }
     }
@@ -926,13 +762,50 @@ SoWinFullViewerP::systemEventHook(int code, WPARAM wparam, LPARAM lparam)
 
 // *************************************************************************
 
-// FIXME: these are present in the other So* toolkits, but was missing
-// in SoWin. Why? 20020111 mortene.
-
 void
 SoWinFullViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
 {
+  SoWinBitmapButton * button = new SoWinBitmapButton(parent, 24, "pick", NULL);
+  button->addBitmap(pick_xpm);
+  button->setBitmap(0); // use first (and only) bitmap
+  button->setId(SoWinFullViewerP::VIEWERBUTTON_PICK);
+  buttonlist->append(button);
+  button->setState(this->isViewing() ? FALSE : TRUE);
+
+  button = new SoWinBitmapButton(parent, 24, "view", NULL);
+  button->addBitmap(view_xpm);
+  button->setBitmap(0); // use first (and only) bitmap
+  button->setId(SoWinFullViewerP::VIEWERBUTTON_VIEW);
+  buttonlist->append(button);
+  button->setState(this->isViewing());
+
+  button = new SoWinBitmapButton(parent, 24, "home", NULL);
+  button->addBitmap(home_xpm);
+  button->setBitmap(0); // use first (and only) bitmap
+  button->setId(SoWinFullViewerP::VIEWERBUTTON_HOME);
+  buttonlist->append(button);
+
+  button = new SoWinBitmapButton(parent, 24, "set_home", NULL);
+  button->addBitmap(set_home_xpm);
+  button->setBitmap(0);
+  button->setId(SoWinFullViewerP::VIEWERBUTTON_SET_HOME);
+  buttonlist->append(button);
+
+  button = new SoWinBitmapButton(parent, 24, "view_all", NULL);
+  button->addBitmap(view_all_xpm);
+  button->setBitmap(0); // use first (and only) bitmap
+  button->setId(SoWinFullViewerP::VIEWERBUTTON_VIEW_ALL);
+  buttonlist->append(button);
+
+  button = new SoWinBitmapButton(parent, 24, "seek", NULL);
+  button->addBitmap(seek_xpm);
+  button->setBitmap(0); // use first (and only) bitmap
+  button->setId(SoWinFullViewerP::VIEWERBUTTON_SEEK);
+  buttonlist->append(button);
 }
+
+// FIXME: the build*Trim() functions are present in the other So*
+// toolkits, but was missing in SoWin. Why? 20020111 mortene.
 
 HWND
 SoWinFullViewer::buildLeftTrim(HWND parent)
@@ -957,37 +830,38 @@ SoWinFullViewer::buildRightTrim(HWND parent)
 SoWinFullViewerP::SoWinFullViewerP(SoWinFullViewer * publ)
   : SoGuiFullViewerP(publ)
 {
-  PUBLIC(this)->viewerButtonList = new SbPList;
-  PUBLIC(this)->appButtonList = new SbPList;
 }
 
 SoWinFullViewerP::~SoWinFullViewerP()
 {
-  const int len = PUBLIC(this)->viewerButtonList->getLength();
+  const int len = this->righttrimbuttons.getLength();
   for (int i = 0; i < len; i++) {
-    delete (SoWinBitmapButton *)PUBLIC(this)->viewerButtonList->get(i);
+    delete (SoWinBitmapButton *)this->righttrimbuttons[i];
   }
-
-  delete PUBLIC(this)->viewerButtonList;
-  delete PUBLIC(this)->appButtonList;
 }
 
 SoWinBitmapButton *
 SoWinFullViewerP::viewerButton(int idx)
 {
-  return (SoWinBitmapButton *) ((*(PUBLIC(this)->viewerButtonList))[idx]);
+  if (this->righttrimbuttons.getLength() <= idx) { return NULL; }
+
+  return (SoWinBitmapButton *)this->righttrimbuttons[idx];
 }
 
 HWND
 SoWinFullViewerP::appButton(int idx)
 {
-  return (HWND) ((*(PUBLIC(this)->appButtonList))[idx]);
+  if (this->lefttrimbuttons.getLength() <= idx) { return NULL; }
+
+  return (HWND)this->lefttrimbuttons[idx];
 }
 
 void
 SoWinFullViewerP::setThumbWheelValue(void * wheel, float val)
 {
-  ((SoWinThumbWheel *)wheel)->setValue(val);
+  SoWinThumbWheel * twheel = SoWinThumbWheel::getWheelFromHWND((HWND)wheel);
+  assert(twheel != NULL);
+  twheel->setValue(val);
 }
 
 #endif // !DOXYGEN_SKIP_THIS

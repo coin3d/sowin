@@ -168,34 +168,10 @@ SoWinExaminerViewer::setCamera(SoCamera * newCamera)
 
   this->setRightWheelString(isorthotype ? "Zoom" : "Dolly");
 
-  if (this->isDoButtonBar()) { // may not be there if !doButtonBar
-    SoWinBitmapButton * wbtn = PRIVATE(this)->camerabutton;
-    // If viewer was made without decorations, button will not have
-    // been made yet.
-    if (wbtn) { wbtn->setBitmap(isorthotype ? 1 : 0); }
-  }
-
-}
-
-// FIXME: avoid having this special method for SoWin, instead of just
-// buildViewerButtons(). 20020524 mortene.
-/*!
-  This method overloaded from parent class to build viewer buttons
-  specific for this viewer.
-*/
-
-void
-SoWinExaminerViewer::buildViewerButtonsEx(HWND parent,
-                                          int x,
-                                          int y,
-                                          int size)
-{
-  PRIVATE(this)->camerabutton = new SoWinBitmapButton(parent, x, y, size, size, 24, "perspective", NULL);
-  PRIVATE(this)->camerabutton->addBitmap(perspective_xpm);
-  PRIVATE(this)->camerabutton->addBitmap(ortho_xpm);
-  PRIVATE(this)->camerabutton->setBitmap(0);
-  PRIVATE(this)->camerabutton->setId(VIEWERBUTTON_CAMERA);
-  this->viewerButtonList->append(PRIVATE(this)->camerabutton);
+  SoWinBitmapButton * wbtn = PRIVATE(this)->camerabutton;
+  // If viewer was made without decorations, button will not have been
+  // made yet.
+  if (wbtn) { wbtn->setBitmap(isorthotype ? 1 : 0); }
 }
 
 // *************************************************************************
@@ -225,12 +201,16 @@ SoWinExaminerViewer::onCommand(HWND window,
 
 // *************************************************************************
 
-// FIXME: these are present in the other So* toolkits, but was missing
-// in SoWin. Why? 20020111 mortene.
-
 void
 SoWinExaminerViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
 {
-  // FIXME: not activated in SoWinFullViewer yet. 20020111 mortene.
-//    inherited::createViewerButtons(parent, buttonlist);
+  inherited::createViewerButtons(parent, buttonlist);
+
+  SoWinBitmapButton * b = PRIVATE(this)->camerabutton =
+    new SoWinBitmapButton(parent, 24, "perspective", NULL);
+  b->addBitmap(perspective_xpm);
+  b->addBitmap(ortho_xpm);
+  b->setBitmap(0);
+  b->setId(VIEWERBUTTON_CAMERA);
+  buttonlist->append(b);
 }
