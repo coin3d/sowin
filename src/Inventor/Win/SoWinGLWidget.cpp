@@ -226,7 +226,7 @@ SoWinGLWidget::setOverlayVisual(PIXELFORMATDESCRIPTOR * vis)
   // FIXME: overlay not supported. mariusbu 20010719.
   assert(vis != NULL);
   assert(PRIVATE(this)->hdcNormal != NULL);
-  
+
   // FIXME: just overwriting the current format is not a good idea, in
   // case the new format doesn't work on our current display. 20011208 mortene.
   (void)memcpy((& PRIVATE(this)->pfdOverlay), vis,
@@ -364,7 +364,7 @@ SoWinGLWidget::setQuadBufferStereo(const SbBool enable)
 
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-void 
+void
 SoWinGLWidget::setAccumulationBuffer(const SbBool enable)
 {
   // FIXME: not implemented yet. 20020503 mortene.
@@ -372,14 +372,14 @@ SoWinGLWidget::setAccumulationBuffer(const SbBool enable)
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-SbBool 
+SbBool
 SoWinGLWidget::getAccumulationBuffer(void) const
 {
   return FALSE;
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-void 
+void
 SoWinGLWidget::setStencilBuffer(const SbBool enable)
 {
   // FIXME: not implemented yet. 20020503 mortene.
@@ -387,7 +387,7 @@ SoWinGLWidget::setStencilBuffer(const SbBool enable)
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-SbBool 
+SbBool
 SoWinGLWidget::getStencilBuffer(void) const
 {
   return FALSE;
@@ -720,10 +720,10 @@ void
 SoWinGLWidget::glUnlockNormal(void)
 {
   if (PRIVATE(this)->lockcounter == 0) {
-#ifdef SOWIN_DEBUG  
+#ifdef SOWIN_DEBUG
     SoDebugError::post("SoWinGLWidget::glUnlockNormal",
                        "GL-context lock counter too low (internal error)");
-#endif // SOWIN_DEBUG  
+#endif // SOWIN_DEBUG
     return;
   }
 
@@ -783,6 +783,7 @@ SoWinGLWidget::glFlushBuffer(void)
 void
 SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
 {
+  assert(IsWindow(manager) && "buildNormalGLWidget() argument is erroneous");
   const LPSTR wndclassname = "GL Widget";
 
   if (!SoWinGLWidgetP::glWndClassAtom) {
@@ -801,8 +802,6 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
     SoWinGLWidgetP::glWndClassAtom = Win32::RegisterClass(&windowclass);
   }
 
-  assert(IsWindow(manager) && "buildNormalGLWidget() argument is erroneous");
-	
   RECT rect;
   Win32::GetClientRect(manager, & rect);
 
@@ -827,7 +826,7 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
 
   this->normalWidget = normalwidget;
   PUBLIC(this)->setGLSize(SbVec2s(rect.right - rect.left,
-                                 rect.bottom - rect.top));
+                                  rect.bottom - rect.top));
 }
 
 void
@@ -836,6 +835,91 @@ SoWinGLWidgetP::buildOverlayGLWidget(HWND manager)
   // FIXME: function not implemented
   // FIXME: overlay not supported. mariusbu 20010719.
   SOWIN_STUB();
+}
+
+// Return value of SOWIN_DEBUG_GL_SETUP environment variable.
+SbBool
+SoWinGLWidgetP::debugGLContextCreation(void)
+{
+  static const char * debuggl = SoAny::si()->getenv("SOWIN_DEBUG_GL_SETUP");
+  int val = debuggl ? atoi(debuggl) : 0;
+  return val > 0;
+}
+
+// List all available pixel formats in an SoDebugError window for the
+// given device context.
+void
+SoWinGLWidgetP::listAvailablePixelFormats(HDC hdc)
+{
+  PIXELFORMATDESCRIPTOR desc;
+  int format = 1, maxformat = 1;
+
+  while (format >= maxformat) {
+    maxformat = DescribePixelFormat(hdc, format,
+                                    sizeof(PIXELFORMATDESCRIPTOR), &desc);
+    if (maxformat == 0) {
+      DWORD dummy;
+      SbString err = Win32::getWin32Err(dummy);
+      SbString s = "DescribePixelFormat() failed with error message: ";
+      s += err;
+      SoDebugError::post("SoWinGLWidgetP::listAvailablePixelFormats",
+                         s.getString());
+      return;
+    }
+
+    struct dwFlagsPair { int flag; const char * name; };
+    struct dwFlagsPair dwFlags[] = {
+      { PFD_DRAW_TO_WINDOW, "DRAW_TO_WINDOW" },
+      { PFD_DRAW_TO_BITMAP, "DRAW_TO_BITMAP" },
+      { PFD_SUPPORT_GDI, "SUPPORT_GDI" },
+      { PFD_SUPPORT_OPENGL, "SUPPORT_OPENGL" },
+      { PFD_GENERIC_ACCELERATED, "GENERIC_ACCELERATED" },
+      { PFD_GENERIC_FORMAT, "GENERIC_FORMAT" },
+      { PFD_NEED_PALETTE, "NEED_PALETTE" },
+      { PFD_NEED_SYSTEM_PALETTE, "NEED_SYSTEM_PALETTE" },
+      { PFD_DOUBLEBUFFER, "DOUBLEBUFFER" },
+      { PFD_STEREO, "STEREO" },
+      { PFD_SWAP_LAYER_BUFFERS, "SWAP_LAYER_BUFFERS" },
+      { PFD_SWAP_COPY, "SWAP_COPY" },
+      { PFD_SWAP_EXCHANGE, "SWAP_EXCHANGE" }
+    };
+
+    SbString dwFlagsStr("");
+    for (int i=0; i < (sizeof(dwFlags) / sizeof(dwFlags[0])); i++) {
+      if (dwFlags[i].flag & desc.dwFlags) {
+        if (dwFlagsStr.getLength() > 0) { dwFlagsStr += '|'; }
+        dwFlagsStr += dwFlags[i].name;
+      }
+    }
+
+    SbString iPixelType("unknown");
+    if (desc.iPixelType == PFD_TYPE_RGBA) { iPixelType = "RGBA"; }
+    if (desc.iPixelType == PFD_TYPE_COLORINDEX) { iPixelType = "COLORINDEX"; }
+
+    SoDebugError::postInfo("SoWinGLWidgetP::listAvailablePixelFormats",
+                           "\npixelformat %d:\n"
+                           "  dwFlags==%s\n"
+                           "  iPixelType==%s\n"
+                           "  cColorBits==%d\n"
+                           "  [cRedBits, cGreenBits, cBlueBits, cAlphaBits]==[%d, %d, %d, %d]\n"
+                           "  [cRedShift, cGreenShift, cBlueShift, cAlphaShift]==[%d, %d, %d, %d]\n"
+                           "  [cAccumBits, cAccumRedBits, cAccumGreenBits, cAccumBlueBits, cAccumAlphaBits]==[%d, %d, %d, %d, %d]\n"
+                           "  cDepthBits==%d, cStencilBits==%d, cAuxBuffers==%d\n"
+                           "  overlayplanes==%d, underlayplanes==%d\n"
+                           "  transparent color or index == 0x%x\n"
+                           , format
+                           , dwFlagsStr.getString()
+                           , iPixelType.getString()
+                           , desc.cColorBits
+                           , desc.cRedBits, desc.cGreenBits, desc.cBlueBits, desc.cAlphaBits
+                           , desc.cRedShift, desc.cGreenShift, desc.cBlueShift, desc.cAlphaShift
+                           , desc.cAccumBits, desc.cAccumRedBits, desc.cAccumGreenBits, desc.cAccumBlueBits, desc.cAccumAlphaBits
+                           , desc.cDepthBits, desc.cStencilBits, desc.cAuxBuffers
+                           , desc.bReserved & 0x7, (desc.bReserved & (0xff - 0x7)) >> 3
+                           , desc.dwVisibleMask
+                           );
+    format++;
+  }
 }
 
 BOOL
@@ -854,6 +938,10 @@ SoWinGLWidgetP::createGLContext(HWND window)
   assert(this->hdcNormal && "GetDC failed -- investigate");
   this->hdcOverlay = this->hdcNormal;
 
+  if (SoWinGLWidgetP::debugGLContextCreation()) {
+    SoWinGLWidgetP::listAvailablePixelFormats(this->hdcNormal);
+  }
+
   (void)memset(&this->pfdNormal, 0, sizeof(PIXELFORMATDESCRIPTOR));
   this->pfdNormal.nSize = sizeof(PIXELFORMATDESCRIPTOR);
   this->pfdNormal.nVersion = 1;
@@ -866,18 +954,19 @@ SoWinGLWidgetP::createGLContext(HWND window)
   this->pfdNormal.cDepthBits = 32;
 
   int pixelformat = SoWinGLWidgetP::ChoosePixelFormat(this->hdcNormal,
-                                                      & this->pfdNormal);
+                                                      &this->pfdNormal);
   if (pixelformat == 0) { return FALSE; }
 
-  PIXELFORMATDESCRIPTOR tmpdescriptor;
-
-  // FIXME: This is a woraround for problems we experienced with
-  // GeForce2MX and GeForce2Go cards. If we requested a 32 bit depth
-  // buffer, ChoosePixelFormat returned an 8 bit (or something) depth
-  // buffer, since 32 bits is not supported on those cards. By testing
-  // the returned pixel format, and trying 24 and 16 bits depth, a
-  // better depth buffer precision was achieved.  pederb, 2001-12-11
+  // This is a woraround for problems we experienced with GeForce2MX
+  // and GeForce2Go cards. If we requested a 32 bit depth buffer,
+  // ChoosePixelFormat returned an 8 bit (or something) depth buffer,
+  // since 32 bits is not supported on those cards. By testing the
+  // returned pixel format, and trying 24 and 16 bits depth, a better
+  // depth buffer precision was achieved.
+  //
+  // pederb.
 	
+  PIXELFORMATDESCRIPTOR tmpdescriptor;
   if (DescribePixelFormat(this->hdcNormal,
                           pixelformat,
                           sizeof(PIXELFORMATDESCRIPTOR),
@@ -900,8 +989,8 @@ SoWinGLWidgetP::createGLContext(HWND window)
       }
     }
   }
-  
-  if (!SetPixelFormat(this->hdcNormal, pixelformat, & this->pfdNormal)) {
+
+  if (!SetPixelFormat(this->hdcNormal, pixelformat, &this->pfdNormal)) {
     DWORD dummy;
     SbString err = Win32::getWin32Err(dummy);
     SbString s = "SetPixelFormat(";
@@ -914,7 +1003,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
 
   // FIXME: if the pixelformat set up is _not_ an RGB (truecolor)
   // format, we should probably set up a DC palette here. 20011208 mortene.
-  
+
   this->ctxNormal = wglCreateContext(this->hdcNormal);
   if (! this->ctxNormal) {
     DWORD dummy;

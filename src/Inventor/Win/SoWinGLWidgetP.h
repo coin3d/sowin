@@ -37,6 +37,8 @@ public:
   SoWinGLWidgetP(SoWinGLWidget * publ);
   ~SoWinGLWidgetP();
 
+  static SbBool debugGLContextCreation(void);
+  static void listAvailablePixelFormats(HDC hdc);
 
   void buildNormalGLWidget(HWND manager);
   void buildOverlayGLWidget(HWND manager);
