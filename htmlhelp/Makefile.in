@@ -139,7 +139,6 @@ SOGUI_EXTRA_CXXFLAGS = @SOGUI_EXTRA_CXXFLAGS@
 SOGUI_EXTRA_LDFLAGS = @SOGUI_EXTRA_LDFLAGS@
 SOGUI_EXTRA_LIBS = @SOGUI_EXTRA_LIBS@
 SOGUI_MAJOR_VERSION = @SOGUI_MAJOR_VERSION@
-SOGUI_MINOR_VERSION = @SOGUI_MINOR_VERSION@
 SOGUI_MSVC_LIBC = @SOGUI_MSVC_LIBC@
 SOWIN_DSP_DEFS = @SOWIN_DSP_DEFS@
 SOWIN_DSP_INCS = @SOWIN_DSP_INCS@
@@ -1125,10 +1124,10 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 # **************************************************************************
 # build trickery
 
-@BUILD_HTMLHELP_TRUE@SoWin-@SOWIN_MAJOR_VERSION@_@SOWIN_MINOR_VERSION@.chm: $(SoGuiBuiltFiles)
+@BUILD_HTMLHELP_TRUE@SoWin-@SOWIN_MAJOR_VERSION@.chm: $(SoGuiBuiltFiles)
 @BUILD_HTMLHELP_TRUE@	@( cd $(top_builddir); "@sim_ac_doxygen_exe@" sogui.doxygen )
 
-@BUILD_HTMLHELP_TRUE@all-local: SoWin-@SOWIN_MAJOR_VERSION@_@SOWIN_MINOR_VERSION@.chm
+@BUILD_HTMLHELP_TRUE@all-local: SoWin-@SOWIN_MAJOR_VERSION@.chm
 
 # **************************************************************************
 # install trickery
@@ -1139,20 +1138,20 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 @BUILD_HTMLHELP_TRUE@uninstall-local: uninstall-htmlhelp
 
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_TRUE@  # Not implemented
-@BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@install-htmlhelp: SoWin-@SOWIN_MAJOR_VERSION@_@SOWIN_MINOR_VERSION@.chm
+@BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@install-htmlhelp: SoWin-@SOWIN_MAJOR_VERSION@.chm
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	@$(NORMAL_INSTALL)
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	@if test -d $(DESTDIR)/$(htmlhelpdir); then :; else \
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	  echo " $(mkinstalldirs) $(DESTDIR)$(htmlhelpdir)"; \
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	  $(mkinstalldirs) $(DESTDIR)$(htmlhelpdir); \
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	fi
-@BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	for file in SoWin-@SOWIN_MAJOR_VERSION@_@SOWIN_MINOR_VERSION@.chm; do \
+@BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	for file in SoWin-@SOWIN_MAJOR_VERSION@.chm; do \
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	  echo " $(INSTALL_DATA) $$file $(DESTDIR)$(htmlhelpdir)/$$file"; \
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	  $(INSTALL_DATA) $$file "$(DESTDIR)$(htmlhelpdir)/$$file"; \
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	done
 
-@BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@uninstall-htmlhelp: SoWin-@SOWIN_MAJOR_VERSION@_@SOWIN_MINOR_VERSION@.chm
+@BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@uninstall-htmlhelp: SoWin-@SOWIN_MAJOR_VERSION@.chm
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	@$(NORMAL_UNINSTALL)
-@BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	for file in SoWin-@SOWIN_MAJOR_VERSION@_@SOWIN_MINOR_VERSION@.chm; do \
+@BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	for file in SoWin-@SOWIN_MAJOR_VERSION@.chm; do \
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	  echo " rm -f $(DESTDIR)$(htmlhelpdir)/$$file"; \
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	  rm -f "$(DESTDIR)$(htmlhelpdir)/$$file"; \
 @BUILD_HTMLHELP_TRUE@@MAC_FRAMEWORK_FALSE@	done
@@ -1163,9 +1162,9 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 # IRIX make barfs if clean-local is moved inside the conditional clause.
 # Automake bug?  20011025 larsa
 clean-local:
-	@if test -f SoWin-@SOWIN_MAJOR_VERSION@_@SOWIN_MINOR_VERSION@.chm; then \
-	  echo " rm SoWin-@SOWIN_MAJOR_VERSION@_@SOWIN_MINOR_VERSION@.chm"; \
-	  rm SOWIN-@SOWIN_MAJOR_VERSION@_@SOWIN_MINOR_VERSION@.chm; \
+	@if test -f SoWin-@SOWIN_MAJOR_VERSION@.chm; then \
+	  echo " rm SoWin-@SOWIN_MAJOR_VERSION@.chm"; \
+	  rm SOWIN-@SOWIN_MAJOR_VERSION@.chm; \
 	fi
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
