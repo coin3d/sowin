@@ -69,6 +69,8 @@ public:
   static void InsertMenuItem(HMENU, UINT, BOOL, LPMENUITEMINFO);
   static void InsertMenu(HMENU, UINT, UINT, UINT, LPCTSTR);
   static void RemoveMenu(HMENU, UINT, UINT);
+  static HMENU CreatePopupMenu(VOID);
+  static void DestroyMenu(HMENU);
   static DWORD CheckMenuItem(HMENU, UINT, UINT);
   static HCURSOR CreateCursor(HINSTANCE, int, int, int, int,
                               CONST VOID *, CONST VOID *);

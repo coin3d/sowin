@@ -513,3 +513,20 @@ Win32::ClientToScreen(HWND hWnd,       // window handle for source coordinates
   if (r == 0) { Win32::showLastErr(); }  
   assert(r && "ClientToScreen() failed -- investigate");
 }
+
+HMENU
+Win32::CreatePopupMenu(VOID)
+{
+  HMENU m = ::CreatePopupMenu();
+  if (m == NULL) { Win32::showLastErr(); }  
+  assert(m && "CreatePopupMenu() failed -- investigate");
+  return m;
+}
+
+void
+Win32::DestroyMenu(HMENU hMenu)
+{
+  BOOL r = ::DestroyMenu(hMenu);
+  if (!r) { Win32::showLastErr(); }  
+  assert(r && "DestroyMenu() failed -- investigate");
+}
