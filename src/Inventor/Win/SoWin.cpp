@@ -100,8 +100,6 @@ private:
   
 };
 
-  // Variables.
-
 // *************************************************************************
 
 HINSTANCE SoWinP::Instance = NULL;
@@ -642,6 +640,31 @@ SoWinP::idleSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoWin::doIdleTasks();
 }
 
+/*!
+ */
+LRESULT
+SoWinP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
+{
+  PostQuitMessage(0);
+  return 0;
+}
+
+/*!
+ */
+LRESULT
+SoWinP::onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
+{
+  if (SoWinP::idleSensorActive) KillTimer(NULL, SoWinP::idleSensorId);
+  if (SoWinP::timerSensorActive) KillTimer(NULL, SoWinP::timerSensorId);
+  if (SoWinP::delaySensorActive) KillTimer(NULL, SoWinP::delaySensorId);
+
+  SoWin::unRegisterWindowClass(SoWinP::className);
+
+  return 0;
+}
+
+#ifndef DOXYGEN_SKIP_THIS
+
 // This function gets called whenever something has happened to any of
 // the sensor queues. It starts or reschedules a timer which will
 // trigger when a sensor is ripe for plucking.
@@ -702,25 +725,4 @@ SoGuiP::sensorQueueChanged(void * cbdata)
   }
 }
 
-/*!
- */
-LRESULT
-SoWinP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
-{
-  PostQuitMessage(0);
-  return 0;
-}
-
-/*!
- */
-LRESULT
-SoWinP::onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
-{
-  if (SoWinP::idleSensorActive) KillTimer(NULL, SoWinP::idleSensorId);
-  if (SoWinP::timerSensorActive) KillTimer(NULL, SoWinP::timerSensorId);
-  if (SoWinP::delaySensorActive) KillTimer(NULL, SoWinP::delaySensorId);
-
-  SoWin::unRegisterWindowClass(SoWinP::className);
-
-  return 0;
-}
+#endif // !DOXYGEN_SKIP_THIS
