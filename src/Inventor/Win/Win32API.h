@@ -38,6 +38,7 @@ public:
   static HGDIOBJ SelectObject(HDC, HGDIOBJ);
   static void SwapBuffers(HDC);
   static void UnregisterClass(LPCTSTR, HINSTANCE);
+  static void DestroyWindow(HWND);
    
 private:
   static void showLastErr(void);

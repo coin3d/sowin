@@ -134,3 +134,11 @@ Win32::UnregisterClass(LPCTSTR lpClassName,  // address of class name string
   if (!r) { Win32::showLastErr(); }
   assert( r && "UnregisterClass() failed -- investigate");
 }
+
+void
+Win32::DestroyWindow(HWND hWnd)      // handle to window
+{
+  BOOL r = ::DestroyWindow(hWnd);
+  if (!r) { Win32::showLastErr(); }
+  assert( r && "DestroyWindow() failed -- investigate");
+}
