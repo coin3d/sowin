@@ -383,8 +383,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
-  src/Inventor/@Gui@/common/SoGuiColorEditor.h \
-  src/Inventor/@Gui@/common/SoGuiMaterialEditor.h \
+  src/Inventor/@Gui@/common/SoGuiColorEditor.h.in \
+  src/Inventor/@Gui@/common/SoGuiMaterialEditor.h.in \
   src/Inventor/@Gui@/common/SbGuiList.h \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
@@ -532,7 +532,8 @@ DISTCLEANFILES = \
 
 EXTRA_DIST = \
 	LICENSE.GPL \
-	bootstrap \
+	docs/ChangeLog.v1.0.0 \
+	docs/announcement-1_1_0.txt \
 	packaging/windows/Makefile.in \
 	packaging/windows/bfheader.nsi.in \
 	packaging/windows/footer.nsi.in \
@@ -754,7 +755,7 @@ GZIP_ENV = --best
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/cfg $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/editors $(distdir)/src/Inventor/@Gui@/common/engines $(distdir)/src/Inventor/@Gui@/common/nodes $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Win/common
+	$(mkinstalldirs) $(distdir)/cfg $(distdir)/docs $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/editors $(distdir)/src/Inventor/@Gui@/common/engines $(distdir)/src/Inventor/@Gui@/common/nodes $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Win/common
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -896,7 +897,7 @@ mostlyclean: mostlyclean-recursive
 mostlyclean-am: mostlyclean-generic mostlyclean-libtool
 
 uninstall-am: uninstall-binSCRIPTS uninstall-cfgdataDATA \
-	uninstall-dist_m4dataDATA uninstall-info-am
+	uninstall-dist_m4dataDATA uninstall-info-am uninstall-local
 
 uninstall-info: uninstall-info-recursive
 
@@ -917,7 +918,8 @@ uninstall-info: uninstall-info-recursive
 	mostlyclean-libtool mostlyclean-recursive tags tags-recursive \
 	uninstall uninstall-am uninstall-binSCRIPTS \
 	uninstall-cfgdataDATA uninstall-dist_m4dataDATA \
-	uninstall-info-am uninstall-info-recursive uninstall-recursive
+	uninstall-info-am uninstall-info-recursive uninstall-local \
+	uninstall-recursive
 
 
 ############################################################################
@@ -1322,6 +1324,9 @@ install-exec-local: built-sources $(srcdir)/cfg/wrapmsvc.exe
 	fi
 
 install-data-local: built-sources
+
+uninstall-local:
+	@rm -f $(DESTDIR)$(bindir)/wrapmsvc.exe
 
 # **************************************************************************
 # misc rules for automatic Microsoft Windows packaging.

@@ -383,8 +383,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
-  src/Inventor/@Gui@/common/SoGuiColorEditor.h \
-  src/Inventor/@Gui@/common/SoGuiMaterialEditor.h \
+  src/Inventor/@Gui@/common/SoGuiColorEditor.h.in \
+  src/Inventor/@Gui@/common/SoGuiMaterialEditor.h.in \
   src/Inventor/@Gui@/common/SbGuiList.h \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
@@ -528,7 +528,7 @@ nodist_nodes_lst_SOURCES = \
 # Headers are kept private.
 SoWinNodesincdir = $(includedir)/Inventor/@Gui@/nodes
 
-SoWinNodesinc_HEADERS = \
+nodist_SoWinNodesinc_HEADERS = \
 	SoGuiColorEditor.h \
 	SoGuiMaterialEditor.h
 
@@ -601,9 +601,9 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(nodes_lst_SOURCES) $(libSoWinNodes_la_SOURCES)
-HEADERS = $(SoWinNodesinc_HEADERS)
+HEADERS = $(nodist_SoWinNodesinc_HEADERS)
 
-DIST_COMMON = $(SoWinNodesinc_HEADERS) Makefile.am Makefile.in
+DIST_COMMON = Makefile.am Makefile.in
 SOURCES = $(nodes_lst_SOURCES) $(nodist_nodes_lst_SOURCES) $(libSoWinNodes_la_SOURCES) $(nodist_libSoWinNodes_la_SOURCES)
 
 all: $(BUILT_SOURCES)
@@ -1032,19 +1032,19 @@ MaterialEditor.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o MaterialEditor.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
-install-SoWinNodesincHEADERS: $(SoWinNodesinc_HEADERS)
+install-nodist_SoWinNodesincHEADERS: $(nodist_SoWinNodesinc_HEADERS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(SoWinNodesincdir)
-	@list='$(SoWinNodesinc_HEADERS)'; for p in $$list; do \
+	@list='$(nodist_SoWinNodesinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoWinNodesincdir)/$$f"; \
 	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoWinNodesincdir)/$$f; \
 	done
 
-uninstall-SoWinNodesincHEADERS:
+uninstall-nodist_SoWinNodesincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(SoWinNodesinc_HEADERS)'; for p in $$list; do \
+	@list='$(nodist_SoWinNodesinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f $(DESTDIR)$(SoWinNodesincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(SoWinNodesincdir)/$$f; \
@@ -1154,7 +1154,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-SoWinNodesincHEADERS
+install-data-am: install-nodist_SoWinNodesincHEADERS
 
 install-exec-am:
 
@@ -1173,19 +1173,20 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-SoWinNodesincHEADERS uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-nodist_SoWinNodesincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
 	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
-	info-am install install-SoWinNodesincHEADERS install-am \
-	install-data install-data-am install-exec install-exec-am \
-	install-info install-info-am install-man install-strip \
+	info-am install install-am install-data install-data-am \
+	install-exec install-exec-am install-info install-info-am \
+	install-man install-nodist_SoWinNodesincHEADERS install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool tags uninstall \
-	uninstall-SoWinNodesincHEADERS uninstall-am uninstall-info-am
+	uninstall-am uninstall-info-am \
+	uninstall-nodist_SoWinNodesincHEADERS
 
 
 ############################################################################
