@@ -224,3 +224,60 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     Will probably also need to expose doIdleTasks() (SoWinP) to be
     able to reimplement SoWin::mainLoop() in the application.
 
+=====================================================================
+
+016 SoWinBitmapButton missing from external API
+
+    This class is needed to be able to add buttons to (the right of) 
+    a viewer. See docs for SoWinFullViewer::createViewerButtons().
+
+    20040219 thammer
+
+=====================================================================
+
+017 Investigate the use of SoWin::init("") and embedding
+
+    I have experienced crashes when using SoWin::init("") with
+    embedded viewers. The point is that the application doesn't have
+    one permanent window that can handle events.
+
+    The use of SoWin::init(...) in ActiveX controls should also be 
+    investigated further.
+
+    20040219 thammer
+
+=====================================================================
+
+018 Flawed SoWinComponent::setWidgetCursor(...)
+
+    It looks to me like our SoWinComponent::setWidgetCursor(HWND w,
+    const SoWinCursor & cursor) implementation is flawed. The
+    implemntation ignores the "w" parameter and just calls ::SetCursor
+    on the supplied cursor (first converting it to a native cursor
+    handle). This is not what the documentation says it should do.
+    The docs says it should set the cursor for a widget (i.e "Window"
+    in Win32-speak), the implementation sets the cursor for the
+    application. I would guess that the point of this function is to
+    be able to set which cursor should appear over different widgets,
+    like a special cursor over a render area and another cursor over a
+    button.
+
+    In SoWinFullViewerP::systemEventHook() there is what looks to me
+    like a work-around for the defunct
+    SoWinComponent::setWidgetCursor() - intercepting WM_SETCURSOR
+    messages to change the cursor when it is entering a fullviewer.
+    There's some related code in SoWinFullViewer::buildWidget() too.
+
+    One result of this workaround is that it is difficult for the
+    programmer to manually set which type of cursor he wants, at least
+    if he derives his class from SoWinFullViewer (or any of it's
+    descendants). If he doesn't, he can just use ::SetCursor and
+    ::SetClassLong(hwnd, GCL_HCURSOR, hcursor) himself and just ignore
+    the cursor handling in SoWinComponent.
+
+    Why are we not just calling ::SetClassLong(w, GCL_HCURSOR, <native
+    cursor>) in SoWinComponent::setWidgetCursor(). That would remove
+    the need to do anything special in
+    SoWinFullViewerP::systemEventHook(), at leats.
+
+    20040219 thammer
