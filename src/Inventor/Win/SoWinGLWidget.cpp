@@ -836,6 +836,17 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   // *** calculate weight for given pixelformat ******************
 
   double weight = 0.0;
+  double alpha_cont = 0.0;
+  double stencil_cont = 0.0;
+  double accum_cont = 0.0;
+  double depth_cont = 0.0;
+  double color_cont = 0.0;
+  double rgba_cont = 0.0;
+  double zbuffer_cont = 0.0;
+  double dblbuffer_cont = 0.0;
+  double stereo_cont = 0.0;
+  double overlay_cont = 0.0;
+  double hw_accel_cont = 0.0;
 
   // want_rgb && PFD_TYPE_RGBA         =>  +1
   // want_rgb && PFD_TYPE_COLORINDEX   =>  -1
@@ -843,7 +854,7 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   // !want_rgb && PFD_TYPE_COLORINDEX  =>  +1
 
   int sign = (want_rgb ? 1 : -1) * ((pfd->iPixelType == PFD_TYPE_RGBA) ? 1 : -1);
-  weight += RGBA_VS_COLORINDEX * sign;
+  rgba_cont = RGBA_VS_COLORINDEX * sign;
 
   const SbBool has_zbuffer = (pfd->cDepthBits > 0);
   // want_zbuffer && has_zbuffer    =>  +1
@@ -851,41 +862,47 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   // !want_zbuffer && has_zbuffer   =>  -1
   // !want_zbuffer && !has_zbuffer  =>  +1
   sign = (want_zbuffer ? 1 : -1) * (has_zbuffer ? 1 : -1);
-  weight += ZBUFFER_PRESENT * sign;
+  zbuffer_cont = ZBUFFER_PRESENT * sign;
 
   const SbBool has_dblbuffer = ((pfd->dwFlags & PFD_DOUBLEBUFFER) != 0);
-  if (want_dblbuffer && has_dblbuffer) { weight += DOUBLEBUFFER_PRESENT; }
+  if (want_dblbuffer && has_dblbuffer) { dblbuffer_cont = DOUBLEBUFFER_PRESENT; }
   // otherwise ignore -- no need to punish doublebuffer mode if we
   // requested singlebuffer mode, as singlebuffer can flawlessly be
   // "faked" in doublebuffer
 
   const SbBool has_stereo = ((pfd->dwFlags & PFD_STEREO) != 0);
-  if (want_stereo && has_stereo) { weight += STEREO_PRESENT; }
-  // otherwise ignore -- no need to punish stereo mode if we requested mono
-
+  if (want_stereo) { 
+    if (has_stereo) stereo_cont = STEREO_PRESENT; 
+  }
+  else if (has_stereo) {
+    // punish stereo mode if we requested mono. Stereo mode uses lots
+    // of gfx memory
+    stereo_cont = -STEREO_PRESENT; 
+  }
+  
   // We reward extra weight points to formats with accumulation bits,
   // stencil bits or alpha bits if they are actually requested. We *punish*
   // formats with them if they are *not* requested.
   if (want_accum) {
     // FIXME: What is the proper punishment for a missing accumulation buffer? 20031215 handegar
-    if (pfd->cAccumBits == 0) weight -= MAX_IMPORTANCE / 3;
-    else weight += PER_ACCUMULATION_BIT * pfd->cStencilBits;      
+    if (pfd->cAccumBits == 0) accum_cont = -MAX_IMPORTANCE / 3;
+    else accum_cont = PER_ACCUMULATION_BIT * pfd->cAccumBits;      
   }
-  else weight -= PER_ACCUMULATION_BIT * pfd->cStencilBits;      
+  else accum_cont = -PER_ACCUMULATION_BIT * pfd->cAccumBits;      
 
   if (want_stencil) {
     // FIXME: What is the proper punishment for a missing stencil? 20031215 handegar
-    if (pfd->cStencilBits == 0) weight -= MAX_IMPORTANCE / 3;
-    else weight += PER_STENCIL_BIT * pfd->cStencilBits;      
+    if (pfd->cStencilBits == 0) stencil_cont = -MAX_IMPORTANCE / 3;
+    else stencil_cont = PER_STENCIL_BIT * pfd->cStencilBits;      
   }
-  else weight -= PER_STENCIL_BIT * pfd->cStencilBits;      
+  else stencil_cont = -PER_STENCIL_BIT * pfd->cStencilBits;      
 
   if (want_alphachannel) {
     // FIXME: What is the proper punishment for a missing alpha channel? 20031215 handegar
-    if (pfd->cAlphaBits == 0) weight -= MAX_IMPORTANCE / 4;
-    else weight += PER_ALPHA_BIT * pfd->cAlphaBits;      
+    if (pfd->cAlphaBits == 0) alpha_cont = -MAX_IMPORTANCE / 4;
+    else alpha_cont = PER_ALPHA_BIT * pfd->cAlphaBits;      
   }
-  else weight -= PER_ALPHA_BIT * pfd->cAlphaBits;      
+  else alpha_cont = -PER_ALPHA_BIT * pfd->cAlphaBits;      
 
   // The rationale behind punishing unwanted accum and stencil buffers
   // is that extra accumulation and stencil planes can potentially
@@ -898,13 +915,20 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
 
   if (want_overlay) {
     const int nr_planes = pfd->bReserved & 0x07;
-    weight += ((nr_planes > 0) ? 1 : 0) * OVERLAYS_AVAILABLE;
-    weight += PER_OVERLAY_PLANE * nr_planes;
-    weight += OVERLAYS_AVAILABLE / 10 *
+    overlay_cont = ((nr_planes > 0) ? 1 : 0) * OVERLAYS_AVAILABLE;
+    overlay_cont += PER_OVERLAY_PLANE * nr_planes;
+    overlay_cont += OVERLAYS_AVAILABLE / 10 *
       ((pfd->dwFlags & PFD_SWAP_LAYER_BUFFERS) ? 1 : 0);
   }
-
-  const SbBool hw_accel = ((pfd->dwFlags & PFD_GENERIC_FORMAT) == 0);
+  
+  // first check for OpenGL installable client driver
+  SbBool hw_accel = (pfd->dwFlags & (PFD_GENERIC_FORMAT | PFD_GENERIC_ACCELERATED)) == 0;
+  if (!hw_accel) {
+    // then test for mini client driver
+    hw_accel = (pfd->dwFlags & (PFD_GENERIC_FORMAT | PFD_GENERIC_ACCELERATED)) == 
+      (PFD_GENERIC_FORMAT | PFD_GENERIC_ACCELERATED);
+  }
+    
   // Note: there are two types of possible "non-generic"
   // configurations. From a 1996 Usenet posting by a Microsoft
   // engineer:
@@ -943,10 +967,42 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   // do so.
   //
   // mortene.
-  weight += (hw_accel ? 1 : 0) * HARDWARE_ACCELERATED;
+  hw_accel_cont = (hw_accel ? 1 : 0) * HARDWARE_ACCELERATED;
+  
+  depth_cont = pfd->cDepthBits * PER_DEPTH_BIT;
+  color_cont = pfd->cColorBits * PER_COLOR_BIT;
 
-  weight += pfd->cDepthBits * PER_DEPTH_BIT;
-  weight += pfd->cColorBits * PER_COLOR_BIT;
+  weight = 
+    alpha_cont +
+    stencil_cont +
+    accum_cont +
+    depth_cont +
+    color_cont +
+    rgba_cont +
+    zbuffer_cont +
+    dblbuffer_cont +
+    stereo_cont +
+    overlay_cont +
+    hw_accel_cont;
+
+  if (SoWinGLWidgetP::debugGLContextCreation()) {
+    SoDebugError::postInfo("SoWinGLWidgetP::weighPixelFormat",
+			   "weight: %g, alpha: %g, stencil: %g, accum: %g, depth: %g, color: %g "
+			   "rgb: %g, zbuffer: %g, dblbuffer: %g, stereo: %g, overlay: %g, hardware: %g",
+			   weight,
+			   alpha_cont,
+			   stencil_cont,
+			   accum_cont,
+			   depth_cont,
+			   color_cont,
+			   rgba_cont,
+			   zbuffer_cont,
+			   dblbuffer_cont,
+			   stereo_cont,
+			   overlay_cont,
+			   hw_accel_cont);
+  }
+			 
 
   // The following are "don't care" properties for now (which is
   // likely to change when we implement missing pieces of
@@ -1146,6 +1202,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
 
   SbBool didtry = FALSE;
 
+  static int didregister = 0;
   const char * pixelformatoverride = NULL;
   int format = 1, maxformat = -1;  
   SbGuiList <so_pixel_format*> pflist;
@@ -1215,27 +1272,29 @@ SoWinGLWidgetP::createGLContext(HWND window)
                            pflist[0]->format, pflist[0]->weight);
   }
 
-  WNDCLASS wc;
-      
-  wc.style          = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-  wc.lpfnWndProc    = DefWindowProc;
-  wc.cbClsExtra     = 0;
-  wc.cbWndExtra     = 0;
-  wc.hInstance      = GetModuleHandle(NULL);
-  wc.hIcon          = NULL;
-  wc.hCursor        = NULL;
-  wc.hbrBackground  = NULL;
-  wc.lpszMenuName   = NULL;
-  wc.lpszClassName  = "sowin_glwidget_temp";
-      
-  if (!RegisterClass(&wc)) {
-    DWORD dummy;
-    SbString err = Win32::getWin32Err(dummy);
-    SbString s = "Could not register class, ";
-    s += "as RegisterClass failed with error message: ";
-    s += err;
-    SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
-    goto panic;
+  if (!didregister) {
+    WNDCLASS wc;
+    didregister = 1;
+    wc.style          = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    wc.lpfnWndProc    = DefWindowProc;
+    wc.cbClsExtra     = 0;
+    wc.cbWndExtra     = 0;
+    wc.hInstance      = GetModuleHandle(NULL);
+    wc.hIcon          = NULL;
+    wc.hCursor        = NULL;
+    wc.hbrBackground  = NULL;
+    wc.lpszMenuName   = NULL;
+    wc.lpszClassName  = "sowin_glwidget_temp";
+    
+    if (!RegisterClass(&wc)) {
+      DWORD dummy;
+      SbString err = Win32::getWin32Err(dummy);
+      SbString s = "Could not register class, ";
+      s += "as RegisterClass failed with error message: ";
+      s += err;
+      SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
+      goto panic;
+    }
   }
 
   
