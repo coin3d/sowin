@@ -36,13 +36,137 @@
 #include <Inventor/errors/SoDebugError.h>
 
 #include <sowindefs.h>
-#include <Inventor/Win/devices/SoWinKeyCodes.h>
 #include <Inventor/Win/devices/SoWinKeyboard.h>
 #include <Inventor/Win/SoWinBasic.h>
 
 // *************************************************************************
 
 SOWIN_OBJECT_SOURCE(SoWinKeyboard);
+
+// *************************************************************************
+// ( virtual ) key codes
+
+#define SOWIN_KEY_OEM_3        0x29    // |
+#define SOWIN_KEY_1            0x02
+#define SOWIN_KEY_2            0x03
+#define SOWIN_KEY_3            0x04
+#define SOWIN_KEY_4            0x05
+#define SOWIN_KEY_5            0x06
+#define SOWIN_KEY_6            0x07
+#define SOWIN_KEY_7            0x08
+#define SOWIN_KEY_8            0x09
+#define SOWIN_KEY_9            0x0a
+#define SOWIN_KEY_0            0x0b
+#define SOWIN_KEY_OEM_ADD      0x0c    // +
+#define SOWIN_KEY_OEM_SUBTRACT 0x0d    /* \ */ 
+#define SOWIN_KEY_Q            0x10
+#define SOWIN_KEY_W            0x11
+#define SOWIN_KEY_E            0x12
+#define SOWIN_KEY_R            0x13
+#define SOWIN_KEY_T            0x14
+#define SOWIN_KEY_Y            0x15
+#define SOWIN_KEY_U            0x16
+#define SOWIN_KEY_I            0x17
+#define SOWIN_KEY_O            0x18
+#define SOWIN_KEY_P            0x19
+#define SOWIN_KEY_OEM_4        0x1a    // å
+#define SOWIN_KEY_OEM_6        0x1b    // ¨
+#define SOWIN_KEY_OEM_5        0x2b    // '
+#define SOWIN_KEY_A            0x1e
+#define SOWIN_KEY_S            0x1f
+#define SOWIN_KEY_D            0x20
+#define SOWIN_KEY_F            0x21
+#define SOWIN_KEY_G            0x22
+#define SOWIN_KEY_H            0x23
+#define SOWIN_KEY_J            0x24
+#define SOWIN_KEY_K            0x25
+#define SOWIN_KEY_L            0x26
+#define SOWIN_KEY_OEM_1        0x27     // ø
+#define SOWIN_KEY_OEM_7        0x28     // æ
+#define SOWIN_KEY_Z            0x2c
+#define SOWIN_KEY_X            0x2d
+#define SOWIN_KEY_C            0x2e
+#define SOWIN_KEY_V            0x2f
+#define SOWIN_KEY_B            0x30
+#define SOWIN_KEY_N            0x31
+#define SOWIN_KEY_M            0x32
+#define SOWIN_KEY_OEM_COMMA    0x33    // ,
+#define SOWIN_KEY_OEM_PERIOD   0x34    // .
+#define SOWIN_KEY_OEM_2        0x35    // -
+#define SOWIN_KEY_OEM_102      0x56    // <
+#define SOWIN_KEY_DECIMAL      0x53  // NUM_DECIMAL
+
+#define SOWIN_KEY_ESC          0x01
+#define SOWIN_KEY_BACKSPACE    0x0e
+#define SOWIN_KEY_TAB          0x0f
+#define SOWIN_KEY_ENTER        0x1c
+#define SOWIN_KEY_CTRL         0x1d
+#define SOWIN_KEY_SHIFT        0x2a
+
+#define SOWIN_KEY_NUM_DIVIDE   0x35
+#define SOWIN_KEY_RSHIFT       0x36
+#define SOWIN_KEY_NUM_MULTIPLY 0x37
+#define SOWIN_KEY_ALT          0x38
+#define SOWIN_KEY_SPACE        0x39
+#define SOWIN_KEY_CAPS_LOCK    0x3a
+#define SOWIN_KEY_F1           0x3b
+#define SOWIN_KEY_F2           0x3c
+#define SOWIN_KEY_F3           0x3d
+#define SOWIN_KEY_F4           0x3e
+#define SOWIN_KEY_F5           0x3f
+#define SOWIN_KEY_F6           0x40
+#define SOWIN_KEY_F7           0x41
+#define SOWIN_KEY_F8           0x42
+#define SOWIN_KEY_F9           0x43
+#define SOWIN_KEY_F10          0x44
+#define SOWIN_KEY_PAUSE        0X00//0x45
+#define SOWIN_KEY_SCROLL_LOCK  0x46
+#define SOWIN_KEY_NUM_7        0x47
+#define SOWIN_KEY_NUM_8        0x48
+#define SOWIN_KEY_NUM_9        0x49
+#define SOWIN_KEY_NUM_SUBTRACT 0x4a
+#define SOWIN_KEY_NUM_4        0x4b
+#define SOWIN_KEY_NUM_5        0x4c
+#define SOWIN_KEY_NUM_6        0x4d
+#define SOWIN_KEY_NUM_ADD      0x4e
+#define SOWIN_KEY_NUM_1        0x4f
+#define SOWIN_KEY_NUM_2        0x50
+#define SOWIN_KEY_NUM_3        0x51
+#define SOWIN_KEY_NUM_0        0x52
+#define SOWIN_KEY_NUM_DELETE   0x53
+#define SOWIN_KEY_SYS_REQ      0x54
+#define SOWIN_KEY_F11          0x57
+#define SOWIN_KEY_F12          0x58
+#define SOWIN_KEY_F13          0x7c
+#define SOWIN_KEY_F14          0x7d
+#define SOWIN_KEY_F15          0x7e
+#define SOWIN_KEY_F16          0x7f
+#define SOWIN_KEY_F17          0x80
+#define SOWIN_KEY_F18          0x81
+#define SOWIN_KEY_F19          0x82
+#define SOWIN_KEY_F20          0x83
+#define SOWIN_KEY_F21          0x84
+#define SOWIN_KEY_F22          0x85
+#define SOWIN_KEY_F23          0x86
+#define SOWIN_KEY_F24          0x87
+
+#define SOWIN_KEY_HOME          0x47
+#define SOWIN_KEY_END           0x4f
+#define SOWIN_KEY_PGUP          0x49
+#define SOWIN_KEY_PGDN          0x51
+#define SOWIN_KEY_INSERT        0x52
+#define SOWIN_KEY_DELETE        0x53
+
+#define SOWIN_KEY_LEFT          0x4b
+#define SOWIN_KEY_RIGHT         0x4d
+#define SOWIN_KEY_UP            0x48
+#define SOWIN_KEY_DOWN          0x50
+
+#define SOWIN_KEY_RETURN        0x1c
+#define SOWIN_KEY_PRINT         0x54
+#define SOWIN_KEY_NUM_LOCK      0x45
+
+#define SOWIN_KEY_UNKNOWN       0xff
 
 // *************************************************************************
 
