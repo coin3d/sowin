@@ -229,20 +229,6 @@ SoWinPlaneViewer::onCommand(// virtual
 */
 
 void
-SoWinPlaneViewer::actualRedraw(// virtual
-  void)
-{
-  inherited::actualRedraw();
-//  this->drawRotateGraphics();
-} // actualRedraw()
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
-void
 SoWinPlaneViewer::createPrefSheet(void)
 {
   inherited::createPrefSheet();
