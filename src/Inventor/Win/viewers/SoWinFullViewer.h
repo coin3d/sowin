@@ -44,6 +44,17 @@ public:
     BUILD_POPUP         = 0x02, 
     BUILD_ALL           = 0xff, 
   };
+
+	enum ButtonId {
+		VIEWERBUTTON_PICK,
+		VIEWERBUTTON_VIEW,
+		VIEWERBUTTON_HELP,
+		VIEWERBUTTON_HOME,
+		VIEWERBUTTON_SET_HOME,
+		VIEWERBUTTON_VIEW_ALL,
+		VIEWERBUTTON_SEEK,
+		VIEWERBUTTON_PERSPECTIVE,
+	};
     
   void setDecoration(SbBool set);
   SbBool isDecoration( void );
@@ -82,9 +93,9 @@ public:
                                    void * data = NULL);
         
   void selectedPrefs( void );
-  void resetToHomePosition( void );
-  void saveHomePosition( void );
-  void viewAll( void );
+  //void resetToHomePosition( void );
+  //void saveHomePosition( void );
+  //void viewAll( void );
   void seekbuttonClicked( void );
   void copyView( SbTime time );
   void pasteView( SbTime time );

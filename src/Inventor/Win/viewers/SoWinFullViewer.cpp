@@ -221,7 +221,7 @@ SoWinFullViewer::selectedPrefs( void )
   // FIXME: function not implemented
   SOWIN_STUB();
 }
-
+/*
 void
 SoWinFullViewer::resetToHomePosition( void )
 {
@@ -242,7 +242,7 @@ SoWinFullViewer::viewAll( void )
   // FIXME: function not implemented
   SOWIN_STUB();
 }
-
+*/
 void
 SoWinFullViewer::seekbuttonClicked( void )
 {
@@ -516,51 +516,55 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	SoWinBitmapButton * button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "pick", NULL );
 	button->addBitmap( pick_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
-	button->setId( 0 );
+	button->setId( VIEWERBUTTON_PICK );
 	viewerButtonList->append( button );
 
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "view", NULL );
 	button->addBitmap( view_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
-	button->setId( 1 );
+	button->setId( VIEWERBUTTON_VIEW );
 	viewerButtonList->append( button );
 	
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "help", NULL );
 	button->addBitmap( help_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
-	button->setId( 2 );
+	button->setId( VIEWERBUTTON_HELP );
 	viewerButtonList->append( button );
 
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "home", NULL );
 	button->addBitmap( home_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
-	button->setId( 3 );
+	button->setId( VIEWERBUTTON_HOME );
 	viewerButtonList->append( button );
 	
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "set_home", NULL );
 	button->addBitmap( set_home_xpm );
 	button->setBitmap( 0 );
-	button->setId( 4 );
+	button->setId( VIEWERBUTTON_SET_HOME );
 	viewerButtonList->append( button );
 	
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "view_all", NULL );
 	button->addBitmap( view_all_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
-	button->setId( 5 );
+	button->setId( VIEWERBUTTON_VIEW_ALL );
 	viewerButtonList->append( button );
 	
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "seek", NULL );
 	button->addBitmap( seek_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
-	button->setId( 6 );
+	button->setId( VIEWERBUTTON_SEEK );
 	viewerButtonList->append( button );
 	
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "perspective", NULL );
 	button->addBitmap( perspective_xpm ); // FIXME: ortho
 	button->addBitmap( ortho_xpm );
 	button->setBitmap( 0 ); // use first ( of two ) bitmap
-	button->setId( 7 );
+	button->setId( VIEWERBUTTON_PERSPECTIVE );
 	viewerButtonList->append( button );
+
+	// Set button states
+	VIEWERBUTTON( VIEWERBUTTON_VIEW )->setState( ( this->isViewing( ) ? FALSE : TRUE ) );
+	VIEWERBUTTON( VIEWERBUTTON_PICK )->setState( ( this->isViewing( ) ? TRUE : FALSE ) );
 }
 /*
 void
@@ -1139,18 +1143,51 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 LRESULT
 SoWinFullViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  // FIXME: function not implemented
-  // SOWIN_STUB();
-  // return 0;
-	
-	// FIXME: test
-	char str[80];
 	short nc = HIWORD( wparam );// notification code
 	short id = LOWORD( wparam );// item, control, or accelerator identifier
 	HWND hwnd = ( HWND ) lparam;// handle of control
 	
-	sprintf( str, " Button hwnd: %d id: %d nc: %d ", hwnd, id, nc );
-	MessageBox( window, str, "Test", MB_OK );
+	switch( id ) {
+		
+		case VIEWERBUTTON_PICK:
+			VIEWERBUTTON( VIEWERBUTTON_PICK )->setState( TRUE );
+			VIEWERBUTTON( VIEWERBUTTON_VIEW )->setState( FALSE );
+			if ( this->isViewing( ) )
+			  this->setViewing( FALSE );
+			break;
+			
+		case VIEWERBUTTON_VIEW:
+			VIEWERBUTTON( VIEWERBUTTON_VIEW )->setState( TRUE );
+			VIEWERBUTTON( VIEWERBUTTON_PICK )->setState( FALSE );
+			if ( ! this->isViewing( ) )
+			  this->setViewing( TRUE );
+			break;
+			
+		case VIEWERBUTTON_HELP:
+			this->openViewerHelpCard( );
+			break;
+			
+		case VIEWERBUTTON_HOME:
+			this->resetToHomePosition( );
+			break;
+			
+		case VIEWERBUTTON_SET_HOME:
+			this->saveHomePosition( );
+			break;
+			
+		case VIEWERBUTTON_VIEW_ALL:
+			this->viewAll( );
+			break;
+			
+		case VIEWERBUTTON_SEEK:
+			this->setSeekMode( this->isSeekMode( ) ? FALSE : TRUE );
+			break;
+			
+		case VIEWERBUTTON_PERSPECTIVE:
+			//this->setViewing( this->is
+			break;
+			
+	}
 
 	return 0;
 }

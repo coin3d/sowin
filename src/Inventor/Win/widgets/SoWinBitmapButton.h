@@ -89,5 +89,5 @@ private:
 
 // *************************************************************************
 
-#endif // ! SOWIN_PUSHBUTTON_H
+#endif // ! SOWIN_BITMAPBUTTON_H
 

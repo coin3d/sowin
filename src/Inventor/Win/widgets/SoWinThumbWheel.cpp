@@ -584,9 +584,6 @@ SoWinThumbWheel::createLabel( HWND parent, int x, int y, char * text )
 		                        SoWin::getInstance( ),
 		                        NULL );
 	assert( IsWindow( hwnd ) );
-	HDC hdc = GetDC( hwnd );
-	SetBkMode( hdc, TRANSPARENT );
-	//SetBkColor( hdc,  COLOR_BACKGROUND );
 	return hwnd;
 }
 
