@@ -807,18 +807,7 @@ SoWinFullViewer::afterRealizeHook( void )
   // FIXME: function not implemented
   SOWIN_STUB();
 }
-/*
-void
-SoWinFullViewer::validate( HWND hwnd ) // virtual
-{
-  RECT rect;
-  GetClientRect( this->renderAreaWidget, & rect );
-  rect.left += 30;
-  rect.right += 30;
-  ValidateRect( hwnd, & rect );
-  // FIXME: validate decoration widgets
-}
-*/
+
 SbBool
 SoWinFullViewer::processSoEvent( const SoEvent * const event )
 {

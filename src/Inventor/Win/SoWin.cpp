@@ -266,7 +266,6 @@ SoWin::createWindow( char * title, char * className, SIZE size, HWND parent, HME
                                 menu,
                                 SoWin::getInstance( ),
                                 params );
-
   return widget;
 }
 
@@ -279,10 +278,16 @@ SoWin::nextEvent( int appContext, MSG * msg )
 HWND
 SoWin::getShellWidget( HWND hwnd )
 {
-
-  while ( IsWindow( GetParent( hwnd ) ) )
-    hwnd = GetParent( hwnd );
-
+  LONG style;
+  HWND parent = hwnd;
+  
+  do {
+    hwnd = parent;
+    style = GetWindowLong( hwnd, GWL_STYLE );
+    if ( style & WS_OVERLAPPEDWINDOW ) break;
+    parent = GetParent( hwnd );
+  } while( IsWindow( parent ) );
+  
   return hwnd;
 }
 

@@ -187,6 +187,7 @@ void
 SoWinComponent::show( void )
 {
   ShowWindow( this->getShellWidget( ), SW_SHOW );
+  InvalidateRect( this->getShellWidget( ), NULL, FALSE );
 }
 
 void

@@ -533,9 +533,9 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )
 
   PRIVATE( this )->glSize = newSize;
 
-  UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER;
   SetWindowPos( PRIVATE( this )->normalWidget, NULL, 0, 0, newSize[0], newSize[1], flags );
-  
+
   this->validate( this->getShellWidget( ) ); // FIXME: does this do any good ? mariusbu 20010801
  
   this->sizeChanged( newSize );
@@ -625,8 +625,7 @@ SoWinGLWidget::buildWidget( HWND parent )
 
   HWND managerwidget = CreateWindow( wndclassname,
                                      wndclassname,
-                                     WS_CLIPCHILDREN |
-                                     WS_CLIPSIBLINGS |
+                                     WS_VISIBLE |
                                      WS_CHILD,
                                      rect.left,
                                      rect.top,
@@ -758,7 +757,7 @@ SoWinGLWidget::validate( HWND hwnd )
 
 void
 SoWinGLWidgetP::buildNormalGLWidget( void )
-{
+{ 
   HMENU menu = NULL;
   LPSTR wndclassname = "SoWinGLWidget_glwidget";
 
@@ -791,8 +790,7 @@ SoWinGLWidgetP::buildNormalGLWidget( void )
   HWND normalwidget = CreateWindowEx( NULL,
                                       wndclassname,
                                       wndclassname,
-                                      WS_CLIPCHILDREN |
-                                      WS_CLIPSIBLINGS |
+                                      WS_VISIBLE |
                                       WS_CHILD,
                                       rect.left,
                                       rect.top,
