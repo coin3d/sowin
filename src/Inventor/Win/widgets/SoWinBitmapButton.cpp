@@ -17,9 +17,6 @@
  *
  **************************************************************************/
 
-static const char rcsid[] =
-"$Id$";
-
 #include <Inventor/lists/SbPList.h>
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
 #include <Inventor/Win/SoWin.h>
@@ -32,13 +29,13 @@ static const char rcsid[] =
 // *************************************************************************
 
 SoWinBitmapButton::SoWinBitmapButton(HWND parent,
-                                      int x,
-                                      int y,
-                                      int width,
-                                      int height,
-                                      int depth,
-                                      const char * name,
-                                      void * bits)
+                                     int x,
+                                     int y,
+                                     int width,
+                                     int height,
+                                     int depth,
+                                     const char * name,
+                                     void * bits)
 {
   RECT rect = { x, y, width, height };
 
@@ -52,7 +49,7 @@ SoWinBitmapButton::SoWinBitmapButton(HWND parent,
     this->setBitmap(0);
   }
 
-} // SoWinBitmapButton()
+}
 
 SoWinBitmapButton::SoWinBitmapButton(HWND button)
 {
@@ -67,20 +64,20 @@ SoWinBitmapButton::SoWinBitmapButton(HWND button)
  this->addBitmap((HBITMAP) (
   SendMessage(this->buttonWindow, BM_GETIMAGE, (WPARAM) IMAGE_BITMAP, 0)
  ));
-} // SoWinBitmapButton()
+}
 
 SoWinBitmapButton::~SoWinBitmapButton(void)
 {
  // FIXME: cleanup resources
  this->destructor();
-} // ~SoWinBitmapButton()
+}
 
 SIZE
 SoWinBitmapButton::sizeHint(void) const
 {
   SIZE size = { 30, 30 };
   return size;
-} // sizeHint()
+}
 
 HWND
 SoWinBitmapButton::getWidget(void)
@@ -159,17 +156,17 @@ SoWinBitmapButton::constructor(void)
   this->viewer = NULL;
   this->bitmapList = new SbPList;
   this->depth = 0;
-} // constructor()
+}
 
 void
 SoWinBitmapButton::destructor(void)
 {
-  for (int i = this->bitmapList->getLength(); i >= 0; i--) {
+  const int len = this->bitmapList->getLength();
+  for (int i = 0; i < len; i++) {
     Win32::DeleteObject(this->bitmapList->get(i));
-    this->bitmapList->remove(i);
   }
   delete this->bitmapList;
-} // destructor()
+}
 
 HWND
 SoWinBitmapButton::buildWidget(HWND parent, RECT rect)
@@ -207,31 +204,31 @@ void
 SoWinBitmapButton::setState(SbBool pushed)
 {
  (void)SendMessage(this->buttonWindow, BM_SETSTATE, (WPARAM) pushed, 0);
-} // setState()
+}
 
 SbBool
 SoWinBitmapButton::getState(void) const
 {
  return (SendMessage(this->buttonWindow, BM_GETSTATE, 0, 0) & BST_PUSHED);
-} // setState()
+}
 
 void
 SoWinBitmapButton::setEnabled(SbBool enable)
 {
   Win32::EnableWindow(this->buttonWindow, enable);
-} // setEnabled()
+}
 
 SbBool
 SoWinBitmapButton::isEnabled(void) const
 {
   return (! (Win32::GetWindowLong(buttonWindow, GWL_STYLE) & WS_DISABLED));
-} // isEnabled()
+}
 
 void
 SoWinBitmapButton::addBitmap(HBITMAP hbmp)
 {
  this->bitmapList->append(hbmp);
-} // addBitmap()
+}
 
 void
 SoWinBitmapButton::addBitmap(int width, int height, int bpp, void * src)
@@ -244,19 +241,19 @@ SoWinBitmapButton::addBitmap(int width, int height, int bpp, void * src)
 
  this->addBitmap(hbmp);
 
-} // addBitmap()
+}
 
 void
 SoWinBitmapButton::addBitmap(const char ** xpm)
 {
  this->addBitmap(this->parseXpm(xpm, ((this->depth > 0) ? this->depth : 24)));
-} // addBitmap()
+}
 
 HBITMAP
 SoWinBitmapButton::getBitmap(int index)
 {
  return (HBITMAP) (* this->bitmapList)[index];
-} // getBitmap()
+}
 
 void
 SoWinBitmapButton::setBitmap(int index)
@@ -269,7 +266,7 @@ SoWinBitmapButton::setBitmap(int index)
                      (LPARAM) this->getBitmap(index));
 
   Win32::InvalidateRect(this->buttonWindow, NULL, FALSE);
-} // setBitmap()
+}
 /*
 HBITMAP
 SoWinBitmapButton::getCurrentBitmap(void) const
@@ -277,7 +274,7 @@ SoWinBitmapButton::getCurrentBitmap(void) const
  assert(IsWindow(this->buttonWindow));
 
  return (HBITMAP) (SendMessage(this->buttonWindow, BM_GETIMAGE, (WPARAM) IMAGE_BITMAP, 0));
-} // getCurrentBitmap()
+}
 */
 HBITMAP
 SoWinBitmapButton::createDIB(int width, int height, int bpp, void ** bits) // 16||24||32 bpp
