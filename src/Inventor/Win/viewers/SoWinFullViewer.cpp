@@ -65,36 +65,35 @@ SoWinFullViewer::setDecoration( SbBool enable )
 #endif // SOWIN_DEBUG
 
   this->decorations = enable;
-	// FIXME
-	if ( IsWindow( this->viewerWidget ) ) {
+  this->showDecorationWidgets( enable );
+  
+	// reposition all widgets
+  RECT rect;
+  int width, height;
+  
+  GetWindowRect( this->viewerWidget, & rect );
+  width = rect.right - rect.left;
+  height = rect.bottom - rect.top;
+
+  // FIXME: Hack - force resize
+  // ( all positioning of widgets is done in onSize )
+
+  MoveWindow( this->viewerWidget,
+    1,
+    1,
+    width - 1,
+    height - 1,
+    FALSE );
     
-    this->showDecorationWidgets( enable );
+  MoveWindow( this->viewerWidget,
+    0,
+    0,
+    width,
+    height,
+    FALSE );
 
-    // now trigger resize to position widgets
-    RECT rect;
-    GetWindowRect(  this->viewerWidget, & rect );
-    int width = rect.right - rect.left;
-    int height = rect.bottom - rect.top;
-
-    assert( IsWindow( this->renderAreaWidget ) );
-	
-    if ( enable ) {
-      MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
-        width - ( 2 * DECORATION_SIZE ),
-        height - DECORATION_SIZE,
-        TRUE );
-    }
-    else {
-      MoveWindow( this->renderAreaWidget, 0, 0,
-        width,
-        height,
-        TRUE );
-    }
-
-    // redraw all
-    InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
-    
-  }
+  // redraw all widgets ( and erase background )
+  InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
 }
 
 SbBool
@@ -1188,7 +1187,7 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 	int i, x, y, width, height, bottom, right, top;
 	int numViewerButtons = this->viewerButtonList->getLength( );
 	int	numAppButtons = this->appButtonList->getLength( );
-
+  
 	// RenderArea
 	assert( IsWindow( this->renderAreaWidget ) );
 	
