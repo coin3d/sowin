@@ -188,20 +188,6 @@ SoWinGLWidget::isDrawToFrontBufferEnable(void) const
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
-SoWinGLWidget::setStealFocus(SbBool enable)
-{
-  PRIVATE(this)->stealFocus = enable;
-}
-
-// Documented in common/SoGuiGLWidgetCommon.cpp.in.
-SbBool
-SoWinGLWidget::isStealFocus(void) const
-{
-  return PRIVATE(this)->stealFocus;
-}
-
-// Documented in common/SoGuiGLWidgetCommon.cpp.in.
-void
 SoWinGLWidget::setQuadBufferStereo(const SbBool flag)
 {
   int old = PRIVATE(this)->glModes;
