@@ -33,6 +33,7 @@
 #include <Inventor/Win/SoWinBasic.h>
 
 class SoAnyThumbWheel;
+class SbDict;
 
 // *************************************************************************
 
@@ -92,6 +93,8 @@ public:
   void show(void);
   void hide(void);
 
+  static SoWinThumbWheel * getWheelFromHWND(HWND h);
+
 protected:
 
   LRESULT CALLBACK onCreate(HWND window,
@@ -135,8 +138,9 @@ protected:
                                      LPARAM lparam);
 
 private:
-  
-  void constructor(Orientation);
+  void constructor(Orientation, HWND parent, long id, int x, int y,
+                   const char * name);
+
   HWND buildWidget(HWND parent, RECT rect, const char * name);
   void initWheel(int diameter, int width);
   HWND createLabel(HWND parent, int x, int y, const char * text);
@@ -164,6 +168,7 @@ private:
 
   static ATOM wheelWndClassAtom;
   static int wheelWidgetCounter;
+  static SbDict * hwnddict;
 };
 
 // *************************************************************************

@@ -21,20 +21,23 @@
  *
 \**************************************************************************/
 
-#include <Inventor/Win/widgets/SoWinThumbWheel.h>
-#include <Inventor/Win/widgets/SoAnyThumbWheel.h>
-#include <Inventor/Win/SoWin.h>
-#include <sowindefs.h>
-#include <Inventor/Win/Win32API.h>
-
 #include <math.h>
 #include <assert.h>
 #include <stdio.h>
+
+#include <Inventor/SbDict.h>
+
+#include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/Win32API.h>
+#include <Inventor/Win/widgets/SoAnyThumbWheel.h>
+#include <Inventor/Win/widgets/SoWinThumbWheel.h>
+#include <sowindefs.h>
 
 // *************************************************************************
 
 ATOM SoWinThumbWheel::wheelWndClassAtom = NULL;
 int SoWinThumbWheel::wheelWidgetCounter = 0;
+SbDict * SoWinThumbWheel::hwnddict = NULL;
 
 SoWinThumbWheel::SoWinThumbWheel(HWND parent,
                                  long id,
@@ -42,10 +45,7 @@ SoWinThumbWheel::SoWinThumbWheel(HWND parent,
                                  int y,
                                  const char * name)
 {
-  this->constructor(SoWinThumbWheel::Vertical);
-  RECT rect = { x, y, x + this->sizeHint().cx, y + this->sizeHint().cy };
-  this->buildWidget(parent, rect, name);
-  this->setId(id);
+  this->constructor(SoWinThumbWheel::Vertical, parent, id, x, y, name);
 }
 
 SoWinThumbWheel::SoWinThumbWheel(Orientation orientation,
@@ -55,16 +55,47 @@ SoWinThumbWheel::SoWinThumbWheel(Orientation orientation,
                                  int y,
                                  const char * name)
 {
-  this->constructor(orientation);
-  RECT rect = { x, y, sizeHint().cx, sizeHint().cy };
-  this->buildWidget(parent, rect, name);
-  this->setId(id);
+  this->constructor(orientation, parent, id, x, y, name);
 }
 
+void
+SoWinThumbWheel::constructor(Orientation orientation,
+                             HWND parent, long id, int x, int y,
+                             const char * name)
+{
+  this->orient = orientation;
+  this->state = SoWinThumbWheel::Idle;
+  this->wheelValue = this->tempWheelValue = 0.0f;
+  this->wheel = new SoAnyThumbWheel;
+  this->wheel->setMovement(SoAnyThumbWheel::UNIFORM);
+  this->wheel->setGraphicsByteOrder(SoAnyThumbWheel::ARGB);
+  this->pixmaps = NULL;
+  this->numPixmaps = 0;
+  this->currentPixmap = -1;
+  this->viewerCB = NULL;
+  this->labelWindow = NULL;
+
+  RECT rect = { x, y, this->sizeHint().cx, this->sizeHint().cy };
+  this->buildWidget(parent, rect, name);
+  this->setId(id);
+
+  if (SoWinThumbWheel::hwnddict == NULL) {
+    SoWinThumbWheel::hwnddict = new SbDict;
+  }
+
+  const unsigned long key = (unsigned long)this->getWidget();
+  SbBool isnewentry = SoWinThumbWheel::hwnddict->enter(key, this);
+  assert(isnewentry);
+}
 
 SoWinThumbWheel::~SoWinThumbWheel(void)
 {
   delete this->wheel;
+
+  const unsigned long key = (unsigned long)this->getWidget();
+  SbBool found = SoWinThumbWheel::hwnddict->remove(key);
+  assert(found);
+
   if (this->pixmaps) {
     for (int i = 0; i < this->numPixmaps; i++)
       Win32::DeleteObject(this->pixmaps[i]);
@@ -74,8 +105,23 @@ SoWinThumbWheel::~SoWinThumbWheel(void)
     Win32::DestroyWindow(this->wheelWindow);
   if (IsWindow(this->labelWindow))
     Win32::DestroyWindow(this->labelWindow);
-  if (SoWinThumbWheel::wheelWidgetCounter <= 0)
+
+  assert(SoWinThumbWheel::wheelWidgetCounter >= 0);
+  if (SoWinThumbWheel::wheelWidgetCounter == 0) {
     Win32::UnregisterClass("ThumbWheel Widget", NULL);
+    delete SoWinThumbWheel::hwnddict;
+    SoWinThumbWheel::hwnddict = NULL;
+  }
+}
+
+SoWinThumbWheel *
+SoWinThumbWheel::getWheelFromHWND(HWND h)
+{
+  if (SoWinThumbWheel::hwnddict == NULL) { return NULL; }
+
+  void * w;
+  SbBool found = SoWinThumbWheel::hwnddict->find((unsigned long)h, w);
+  return found ? ((SoWinThumbWheel *)w) : NULL;
 }
 
 SIZE
@@ -383,22 +429,6 @@ SoWinThumbWheel::setCallback(ThumbWheelCB * func, void * userdata)
 {
   this->viewerCB = func;
   this->userdataCB = userdata;
-}
-
-void
-SoWinThumbWheel::constructor(Orientation orientation)
-{
-  this->orient = orientation;
-  this->state = SoWinThumbWheel::Idle;
-  this->wheelValue = this->tempWheelValue = 0.0f;
-  this->wheel = new SoAnyThumbWheel;
-  this->wheel->setMovement(SoAnyThumbWheel::UNIFORM);
-  this->wheel->setGraphicsByteOrder(SoAnyThumbWheel::ARGB);
-  this->pixmaps = NULL;
-  this->numPixmaps = 0;
-  this->currentPixmap = -1;
-  this->viewerCB = NULL;
-  this->labelWindow = NULL;
 }
 
 HWND
