@@ -587,6 +587,30 @@ SoWinComponent::getTitle(void) const
     PRIVATE(this)->title.getString() : this->getDefaultTitle());
 } // getTitle()
 
+/*! FIXME: doc */
+void
+SoWinComponent::setIconTitle(const char * const title)
+{
+  // FIXME: seems to easy.. is this really correct? 20011012 mortene.
+  this->setTitle(title);
+}
+
+/*! FIXME: doc */
+const char *
+SoWinComponent::getIconTitle(void) const
+{
+  // FIXME: seems to easy.. is this really correct? 20011012 mortene.
+  return this->getTitle();
+}
+
+/*! FIXME: doc */
+const char *
+SoWinComponent::getDefaultIconTitle(void) const
+{
+  // FIXME: seems to easy.. is this really correct? 20011012 mortene.
+  return this->getDefaultTitle();
+}
+
 /*!
   Set up a callback function to use when the component gets closed. A
   component must be a toplevel shell for this to have any effect.

@@ -18,6 +18,7 @@ BUILT_SOURCES = \
 	src/Inventor/Win/SoWinCursors.cpp \
 	src/Inventor/Win/SoWinObject.h \
 	src/Inventor/Win/SoWinObject.cpp \
+	src/Inventor/Win/SoWinComponent.h \
 	src/Inventor/Win/SoWinGLWidget.h \
 	src/Inventor/Win/SoWinRenderArea.h \
 	src/Inventor/Win/SoWinRenderArea.cpp \
@@ -68,6 +69,7 @@ EXTRA_DIST = \
 	src/Inventor/Win/common/SoGuiCursors.cpp.in \
 	src/Inventor/Win/common/SoGuiObject.h.in \
 	src/Inventor/Win/common/SoGuiObject.cpp.in \
+	src/Inventor/Win/common/SoGuiGLComponent.h.in \
 	src/Inventor/Win/common/SoGuiGLWidget.h.in \
 	src/Inventor/Win/common/SoGuiRenderArea.h.in \
 	src/Inventor/Win/common/SoGuiRenderArea.cpp.in \
@@ -143,6 +145,10 @@ src/Inventor/Win/SoWinObject.h: \
 src/Inventor/Win/SoWinObject.cpp: \
   $(srcdir)/src/Inventor/Win/common/SoGuiObject.cpp.in
 	@./config.status --file=$@:src/Inventor/Win/common/SoGuiObject.cpp.in
+
+src/Inventor/Win/SoWinComponent.h: \
+  $(srcdir)/src/Inventor/Win/common/SoGuiComponent.h.in
+	@./config.status --file=$@:src/Inventor/Win/common/SoGuiComponent.h.in
 
 src/Inventor/Win/SoWinGLWidget.h: \
   $(srcdir)/src/Inventor/Win/common/SoGuiGLWidget.h.in
