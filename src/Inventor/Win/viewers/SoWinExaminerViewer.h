@@ -78,15 +78,13 @@ protected:
   virtual const char * getDefaultIconTitle( void ) const;
 
   virtual void openViewerHelpCard( void );
-
   virtual SbBool processSoEvent( const SoEvent * const event );
+  virtual LRESULT onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   virtual void setSeekMode( SbBool enable );
   virtual void actualRedraw( void );
-
   virtual void afterRealizeHook( void );
-
   virtual void createPrefSheet( void );
-	// Button clicked
+  virtual void buildViewerButtonsEx( HWND parent, int x, int y, int size );  
 	virtual void cameratoggleClicked( void );
 
 private:

@@ -140,6 +140,7 @@ protected:
 
   void buildAppButtons( HWND parent );
   void buildViewerButtons( HWND parent );
+  virtual void buildViewerButtonsEx( HWND parent, int x, int y, int size );
     
   virtual void openStereoDialog( void );
 
@@ -197,7 +198,13 @@ protected:
 
   HWND getViewerWidget( void );
 
-  virtual SbBool processSoEvent( const SoEvent * const event );
+  virtual SbBool processSoEvent( const SoEvent * const event );  
+  virtual LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+	virtual LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  virtual LRESULT onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  virtual LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+	virtual LRESULT onDrawItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+	virtual LRESULT onMeasureItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 
   HWND viewerWidget;
   HWND renderAreaWidget;
@@ -215,6 +222,9 @@ protected:
 
   SbVec2f zoomrange;
   SoWinViewerPrefSheet * prefsheet; // preference window
+  
+	SbPList * viewerButtonList;
+	SbPList * appButtonList;
   
 private:
     
@@ -243,13 +253,6 @@ private:
   static LRESULT CALLBACK fullViewerProc( HWND window, UINT message,
     WPARAM wparam, LPARAM lparam );
 
-  LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-	LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-	LRESULT onDrawItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-	LRESULT onMeasureItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-
   int layoutWidgets( int cx, int cy );
 
 	// App button callbacks
@@ -268,9 +271,6 @@ private:
   SbBool menuenabled;
   SbBool decorations;
   SbBool firstBuild;
-	
-	SbPList * viewerButtonList;
-	SbPList * appButtonList;
 };
 
 #endif  // SOWIN_FULLVIEWER_H

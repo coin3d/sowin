@@ -39,10 +39,8 @@
 #include <Inventor/Win/common/pixmaps/set_home.xpm>
 #include <Inventor/Win/common/pixmaps/view_all.xpm>
 #include <Inventor/Win/common/pixmaps/seek.xpm>
-#include <Inventor/Win/common/pixmaps/perspective.xpm>
-#include <Inventor/Win/common/pixmaps/ortho.xpm>
 
-#define VIEWERBUTTON( index ) ( ( SoWinBitmapButton * ) ( * viewerButtonList )[index] )
+#define VIEWERBUTTON( index ) ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [index] )
 #define APPBUTTON( index ) ( ( HWND ) ( * appButtonList )[index] )
 
 const int DECORATION_SIZE = 30;
@@ -265,25 +263,10 @@ SoWinFullViewer::setCamera( SoCamera * newCamera )
       camtype.isDerivedFrom( SoOrthographicCamera::getClassTypeId( ) );
 
 		this->setRightWheelString(orthotype ? "Zoom" : "Dolly");
-
-    if ( SoWinFullViewer::doButtonBar ) // may not be there if !doButtonBar
-      VIEWERBUTTON( VIEWERBUTTON_PERSPECTIVE )->setBitmap( orthotype ? 1 : 0 );
   }
 	
   inherited::setCamera( newCamera );
-	/*
-  if ( this->prefmenu ) {
-    this->setZoomSliderPosition( this->getCameraZoom( ) );
-    this->setZoomFieldString( this->getCameraZoom( ) );
 
-    SbBool on = camera ? TRUE : FALSE;
-    
-		this->zoomSlider->setEnabled( on );
-    this->zoomField->setEnabled( on );
-    this->zoomrangefrom->setEnabled( on );
-    this->zoomrangeto->setEnabled( on );
-  }
-	*/
 }
 
 void
@@ -702,14 +685,14 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_SEEK );
 	viewerButtonList->append( button );
-	
-	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
-		DECORATION_SIZE, 24, "perspective", NULL );
-	button->addBitmap( perspective_xpm ); // FIXME: ortho
-	button->addBitmap( ortho_xpm );
-	button->setBitmap( 0 ); // use first ( of two ) bitmap
-	button->setId( VIEWERBUTTON_PERSPECTIVE );
-	viewerButtonList->append( button );
+
+  this->buildViewerButtonsEx( parent, x, y, DECORATION_SIZE );
+}
+
+void
+SoWinFullViewer::buildViewerButtonsEx( HWND parent, int x, int y, int size )
+{
+  // virtual - do nothing 
 }
 /*
 void
@@ -1252,10 +1235,6 @@ SoWinFullViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lpa
 		case VIEWERBUTTON_SEEK:
 			this->seekbuttonClicked( );
 			break;
-			
-		case VIEWERBUTTON_PERSPECTIVE:
-			this->cameratoggleClicked( );
-			break;
 
 		default:
 			for ( i = 0; i < this->appButtonList->getLength( ); i++ )
@@ -1265,7 +1244,6 @@ SoWinFullViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lpa
 							id, this->appPushButtonData, NULL );
 					break;
 				}
-			//this->unknownCommand( hwnd, nc, id );
 			break;
 			
 	}

@@ -36,11 +36,13 @@ static const char rcsid[] =
 #include <Inventor/Win/SoWin.h>
 
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
+#include <Inventor/Win/widgets/SoWinBitmapButton.h>
 #include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
 #include <Inventor/Win/viewers/SoAnyExaminerViewer.h>
 
-
+#include <Inventor/Win/common/pixmaps/perspective.xpm>
+#include <Inventor/Win/common/pixmaps/ortho.xpm>
 #include <Inventor/Win/SoWinCursors.h>
 
 /*!
@@ -148,6 +150,7 @@ SoWinExaminerViewer::constructor(
 	// FIXME
 	this->setCursorEnabled( TRUE );
 	this->setAnimationEnabled( TRUE );
+
 } // constructor()
 
 // *************************************************************************
@@ -204,7 +207,28 @@ SoWinExaminerViewer::setCamera( // virtual
   SoCamera * newCamera )
 {
   inherited::setCamera( newCamera );
+
+  SbBool orthotype =
+    newCamera->getTypeId( ).isDerivedFrom( SoOrthographicCamera::getClassTypeId( ) );
+  
+  if ( SoWinFullViewer::doButtonBar ) // may not be there if !doButtonBar
+    ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_PERSPECTIVE] )->setBitmap(
+    orthotype ? 1 : 0 );
+  
 } // setCamera()
+
+void
+SoWinExaminerViewer::buildViewerButtonsEx( HWND parent, int x, int y, int size )
+{
+	SoWinBitmapButton * button;
+  
+	button = new SoWinBitmapButton( parent, x, y, size, size, 24, "perspective", NULL );
+	button->addBitmap( perspective_xpm ); // FIXME: ortho
+	button->addBitmap( ortho_xpm );
+	button->setBitmap( 0 ); // use first ( of two ) bitmap
+	button->setId( VIEWERBUTTON_PERSPECTIVE );
+	viewerButtonList->append( button );
+}
 
 // *************************************************************************
 
@@ -358,6 +382,22 @@ SoWinExaminerViewer::processSoEvent(
 
   return inherited::processSoEvent( event );
 } // processSoEvent()
+
+LRESULT
+SoWinExaminerViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+	int i;
+	short nc = HIWORD( wparam );// notification code
+	short id = LOWORD( wparam );// item, control, or accelerator identifier
+	HWND hwnd = ( HWND ) lparam;// control handle
+
+	if ( id == VIEWERBUTTON_PERSPECTIVE )
+			this->cameratoggleClicked( );
+  else
+    return inherited::onCommand( window, message, wparam, lparam );
+
+  return 0;
+}
 
 // *************************************************************************
 
