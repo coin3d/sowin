@@ -27,7 +27,7 @@
 #include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
-#include <Inventor/Win/widgets/SoWinPopupMenu.h>
+#include <Inventor/Win/widgets/WinNativePopupMenu.h>
 #include <Inventor/Win/viewers/SoAnyFullViewer.h>
 #include <Inventor/Win/viewers/SoWinFullViewer.h>
 
@@ -665,7 +665,7 @@ SoWinFullViewer::displayPopupMenu(int x, int y, HWND owner)
   //this->popupPreCallback();
   assert(this->prefmenu != NULL);
   this->prefmenu->popUp(owner, x, y);
-  int selectedItem =  ((SoWinPopupMenu *) this->prefmenu)->getSelectedItem();
+  int selectedItem =  ((WinNativePopupMenu *) this->prefmenu)->getSelectedItem();
   if (selectedItem != 0) { // 0 == no item selected (user aborted)
     this->common->menuSelection(selectedItem);
   }
