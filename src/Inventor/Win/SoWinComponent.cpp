@@ -165,7 +165,7 @@ SoWinComponent::goFullScreen( SbBool enable )
     SetWindowLong( hwnd, GWL_STYLE, this->style );
     SetWindowLong( hwnd, GWL_EXSTYLE, this->exstyle );
 
-    MoveWindow( hwnd, x, y, width, height, FALSE ); // FIXME: save old size?
+    MoveWindow( hwnd, x, y, width, height, TRUE ); // FIXME: save old size?
     ShowWindow( hwnd, SW_SHOW );
   }
 }

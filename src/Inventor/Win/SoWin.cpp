@@ -81,10 +81,11 @@ SoWin::init( int argc,
 
   SoWin::registerWindowClass( className );
 	
-  RECT rect = { CW_USEDEFAULT, CW_USEDEFAULT, SoWin_DefaultWidth, SoWin_DefaultHeight };
-
-  HWND toplevel = SoWin::createWindow( ( char * ) appName, ( char * ) className, rect, NULL );
+  SIZE size = { SoWin_DefaultWidth, SoWin_DefaultHeight };
+  HWND toplevel = SoWin::createWindow( ( char * ) appName, ( char * ) className, size, NULL );
+  
   SoWin::init( toplevel );
+  
   return toplevel;
 }
 
@@ -199,28 +200,28 @@ SoWin::createSimpleErrorDialog( HWND const widget, const char * const dialogTitl
 }
 
 HWND
-SoWin::createWindow( char * title, char * className, RECT rect, HWND parent, HMENU menu )
+SoWin::createWindow( char * title, char * className, SIZE size, HWND parent, HMENU menu )
 {
   DWORD style, exstyle;
   LPVOID params = NULL;
 
-  style = WS_OVERLAPPEDWINDOW;
+  style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
   exstyle = NULL;
 
-  SoWin::mainWidget = CreateWindowEx( exstyle,
-		                                  className,
-	                                    title,
-                                      style,
-                                      rect.left,
-                                      rect.top,
-                                      rect.right - rect.left,
-                                      rect.bottom - rect.top,
-                                      parent,
-                                      menu,
-                                      SoWin::Instance,
-                                      params );
+  HWND widget = CreateWindowEx( exstyle,
+		                            className,
+	                              title,
+                                style,
+                                CW_USEDEFAULT,
+                                CW_USEDEFAULT,
+                                size.cx,
+                                size.cy,
+                                parent,
+                                menu,
+                                SoWin::Instance,
+                                params );
 
-  return SoWin::mainWidget;
+  return widget;
 }
 
 void
@@ -610,7 +611,6 @@ SoWin::sensorQueueChanged( void * cbdata )
 LRESULT
 SoWin::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  
   EnumChildWindows( window, SoWin::sizeChildProc, lparam );  
 	InvalidateRect( window, NULL, TRUE );
 	
@@ -620,9 +620,11 @@ SoWin::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 BOOL CALLBACK
 SoWin::sizeChildProc( HWND window, LPARAM lparam )
 {
-  if ( GetParent( window ) == SoWin::getTopLevelWidget( ) )
+  if ( GetParent( window ) == SoWin::getTopLevelWidget( ) ) {
     MoveWindow( window, 0, 0, LOWORD( lparam ), HIWORD( lparam ), FALSE );
-  return TRUE;
+    return TRUE;
+  }
+  return FALSE;
 }
 
 LRESULT

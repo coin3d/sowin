@@ -126,7 +126,7 @@ protected:
   static void unRegisterWindowClass( const char * const className );
   static HWND createWindow( char * title,
                             char * className,
-                            RECT rect,
+                            SIZE size,
                             HWND parent = (HWND) NULL,
                             HMENU menu = (HMENU) NULL );
 

@@ -362,7 +362,7 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )  // Coin spesific
               0,
               width,
               height,
-		FALSE );//TRUE );
+		          FALSE );
 }
 
 SbVec2s
@@ -613,11 +613,11 @@ SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // FIXME: pfd
   windowclass.lpszClassName = wndclassname;
   windowclass.hInstance = SoWin::getInstance( );
   windowclass.lpfnWndProc = this->glWindowProc;
-  windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+  windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC | CS_SAVEBITS;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = NULL;
   windowclass.hCursor =  NULL;
-  windowclass.hbrBackground = NULL;//( HBRUSH ) GetStockObject( BLACK_BRUSH );
+  windowclass.hbrBackground = /*NULL;*/( HBRUSH ) GetStockObject( BLACK_BRUSH );
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;
 
@@ -870,11 +870,6 @@ SoWinGLWidget::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo( "SoWinGLWidget::onSize", "called" );
 #endif // SOWIN_DEBUG
-
-  /*
-    if(  window != this->getNormalWidget( ) )
-    return 0;
-  */
 	
   BOOL ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
   assert( ok );
@@ -883,9 +878,6 @@ SoWinGLWidget::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 
   ok = wglMakeCurrent( NULL, NULL );
   assert( ok );
-
-  if ( wparam & SIZE_RESTORED )
-    InvalidateRect( this->getNormalWidget( ), NULL, FALSE );
 
   return 0;
 }

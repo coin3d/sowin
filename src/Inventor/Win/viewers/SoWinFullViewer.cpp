@@ -74,7 +74,9 @@ SoWinFullViewer::setDecoration( SbBool enable )
   GetClientRect( this->viewerWidget, & rect );
   this->layoutWidgets( rect.right, rect.bottom );
 
-  InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
+  InvalidateRect( ( IsWindow( this->parent ) ?
+    this->parent : this->viewerWidget ),
+    NULL, TRUE );
 }
 
 SbBool
@@ -511,7 +513,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   else {
     rect.right = 500;
     rect.bottom = 420;
-    style = WS_OVERLAPPEDWINDOW;// | WS_VISIBLE;
+    style = WS_OVERLAPPEDWINDOW;
   }
 
   this->viewerWidget = CreateWindow( wndclassname,
@@ -548,6 +550,8 @@ SoWinFullViewer::buildWidget( HWND parent )
   
   ShowWindow( this->renderAreaWidget, SW_SHOW );
 
+  InvalidateRect( ( IsWindow( parent ) ? parent : this->viewerWidget ), NULL, TRUE );
+  
   return this->viewerWidget;
 }
 
@@ -569,7 +573,6 @@ SoWinFullViewer::buildDecoration( HWND parent )
   RECT rect;
   GetClientRect( parent, & rect );
   this->layoutWidgets( rect.right, rect.bottom );
-
 }
 
 HWND
@@ -643,10 +646,15 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 {
 	// Create coords are not needed - the widget is moved into place (see onSize)
 	// Set id's so they can be used as indices in the list later ( ie. viewerButtonList[id] )
-	
+
+  RECT rect;
+  GetClientRect( parent, & rect );
+  int x = 0;
+  int y = 0;
+  
 	SoWinBitmapButton * button;
 
-	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE,
+	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "pick", NULL );
 	button->addBitmap( pick_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
@@ -654,7 +662,7 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	viewerButtonList->append( button );
 	button->setState( this->isViewing( ) ? FALSE : TRUE );
 
-	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE,
+	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "view", NULL );
 	button->addBitmap( view_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
@@ -662,42 +670,42 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	viewerButtonList->append( button );
 	button->setState( this->isViewing( ) );
 	
-	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE,
+	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "help", NULL );
 	button->addBitmap( help_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_HELP );
 	viewerButtonList->append( button );
 
-	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE,
+	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "home", NULL );
 	button->addBitmap( home_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_HOME );
 	viewerButtonList->append( button );
 	
-	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE,
+	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "set_home", NULL );
 	button->addBitmap( set_home_xpm );
 	button->setBitmap( 0 );
 	button->setId( VIEWERBUTTON_SET_HOME );
 	viewerButtonList->append( button );
 	
-	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE,
+	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "view_all", NULL );
 	button->addBitmap( view_all_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_VIEW_ALL );
 	viewerButtonList->append( button );
 	
-	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE,
+	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "seek", NULL );
 	button->addBitmap( seek_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_SEEK );
 	viewerButtonList->append( button );
 	
-	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE,
+	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "perspective", NULL );
 	button->addBitmap( perspective_xpm ); // FIXME: ortho
 	button->addBitmap( ortho_xpm );
@@ -768,8 +776,9 @@ SoWinFullViewer::displayPopupMenu( int x, int y, HWND owner )
   assert( this->prefmenu != NULL );
   this->prefmenu->popUp( owner, x, y );
 	int selectedItem =  ( ( SoWinPopupMenu * ) this->prefmenu )->getSelectedItem( );
-  if ( selectedItem != 0 ) // 0 == no item selected ( user aborted )
-      this->common->menuSelection( selectedItem );
+  if ( selectedItem != 0 ) { // 0 == no item selected ( user aborted )
+    this->common->menuSelection( selectedItem );
+  }
   //this->popupPostCallback( );
   return 0;
 }
@@ -1182,22 +1191,22 @@ LRESULT
 SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
 	if ( ! this->isViewing( ) ) this->setViewing( TRUE );
-  
-  MoveWindow(
-    ( IsWindow( this->parent ) ? this->parent : this->viewerWidget ),
-    0, 0, 500, 420, FALSE ); // FIXME: make default values
-  
+
+  RECT rect;
+  HWND hwnd = ( IsWindow( this->parent ) ? this->parent : this->viewerWidget );
+  GetWindowRect( hwnd, & rect );
+  MoveWindow( hwnd, rect.left, rect.top, 500, 420, TRUE );
+
   return 0;
 }
 
 LRESULT
 SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  
   this->layoutWidgets( LOWORD( lparam ), HIWORD( lparam ) );
 
-  if ( ! IsWindow( this->parent ) )
-    InvalidateRect( this->viewerWidget, NULL, TRUE );
+  if ( ! IsWindow( GetParent( window ) ) )
+    InvalidateRect( window, NULL, TRUE );
 
   return 0;
 }
@@ -1309,16 +1318,15 @@ SoWinFullViewer::goFullScreen( SbBool enable )
   if ( this->isDecoration( ) ) {
 
     RECT rect;
-    GetWindowRect(  this->viewerWidget, & rect );
-    int width = rect.right - rect.left;
-    int height = rect.bottom - rect.top;
+    GetClientRect( this->viewerWidget, & rect );
     
     MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
-        width - ( 2 * DECORATION_SIZE ),
-        height - DECORATION_SIZE,
-        TRUE );
+        rect.right - ( 2 * DECORATION_SIZE ),
+         rect.bottom - DECORATION_SIZE,
+        FALSE );
   }
-  InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
+  InvalidateRect( ( IsWindow( this->parent ) ? this->parent : this->viewerWidget ),
+    NULL, TRUE );
 }
 
 LRESULT CALLBACK
