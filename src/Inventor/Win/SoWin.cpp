@@ -504,12 +504,12 @@ SoWin::registerWindowClass( const char * const className )
 
   icon = MAKEINTRESOURCE( IDI_APPLICATION );
   cursor = MAKEINTRESOURCE( IDC_ARROW );
-  brush = ( HBRUSH ) GetStockObject( COLOR_BACKGROUND );
+  brush = ( HBRUSH ) GetSysColorBrush( COLOR_3DFACE );
 
   windowclass.lpszClassName = className;
   windowclass.hInstance = SoWin::Instance;
   windowclass.lpfnWndProc = SoWin::windowProc;
-  windowclass.style = /*CS_HREDRAW | CS_VREDRAW |*/ CS_OWNDC;
+  windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( NULL, icon );
   windowclass.hCursor = LoadCursor( NULL, cursor );

@@ -343,14 +343,14 @@ SoWinComponent::buildFormWidget( HWND parent )
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
   LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
-  HBRUSH brush = ( HBRUSH ) GetStockObject( COLOR_BACKGROUND );
+  HBRUSH brush = ( HBRUSH ) GetStockObject( COLOR_3DFACE );
   HMENU menu = NULL;
   HWND widget;
 
   windowclass.lpszClassName = ( char * ) this->getDefaultWidgetName( ); // FIXME: virtual function
   windowclass.hInstance = SoWin::getInstance( );
   windowclass.lpfnWndProc = SoWinComponent::windowProc;
-  windowclass.style = /* CS_HREDRAW | CS_VREDRAW | */ CS_OWNDC;
+  windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( NULL, icon );
   windowclass.hCursor = LoadCursor( NULL, cursor );
@@ -369,13 +369,13 @@ SoWinComponent::buildFormWidget( HWND parent )
     rect.bottom = SoWin_DefaultHeight;
   }
 
-  this->style = /*WS_CLIPCHILDREN | WS_CLIPSIBLINGS |*/ WS_OVERLAPPEDWINDOW;
+  this->style = WS_OVERLAPPEDWINDOW;
   this->exstyle = NULL;
 
   widget = CreateWindow( ( char * ) this->getDefaultWidgetName( ),
                          ( char * ) this->getTitle( ),
-	                 this->style,
-	                 0, // GetClientRect gives rect.top == rect.left == 0
+	                       this->style,
+		                     0, // GetClientRect gives rect.top == rect.left == 0
                          0,
                          rect.right,
                          rect.bottom,

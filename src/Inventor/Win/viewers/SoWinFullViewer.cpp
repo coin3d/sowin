@@ -41,7 +41,9 @@
 #include <Inventor/Win/common/pixmaps/perspective.xpm>
 #include <Inventor/Win/common/pixmaps/ortho.xpm>
 
-SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinFullViewer);
+#define VIEWERBUTTON( id ) ( ( SoWinBitmapButton * ) ( * viewerButtonList )[id] )
+
+SOWIN_OBJECT_ABSTRACT_SOURCE( SoWinFullViewer );
 
 SbBool SoWinFullViewer::doButtonBar = FALSE;
 
@@ -165,7 +167,7 @@ SoWinFullViewer::setViewing( SbBool set )
 void
 SoWinFullViewer::setCamera( SoCamera * camera )
 {
-  inherited::setCamera(camera);
+  inherited::setCamera( camera );
 
   if ( this->prefmenu ) { // prefwindow
     this->setZoomSliderPosition( this->getCameraZoom( ) );
@@ -348,18 +350,17 @@ SoWinFullViewer::buildWidget( HWND parent )
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
   LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
-  HBRUSH brush = ( HBRUSH ) GetStockObject( NULL_BRUSH );// COLOR_BACKGROUND );
   HMENU menu = NULL;
   LPSTR wndclassname = "SoWinFullViewer_widget";
 
   windowclass.lpszClassName = wndclassname;
   windowclass.hInstance = SoWin::getInstance( );
   windowclass.lpfnWndProc = SoWinFullViewer::mgrWindowProc;
-  windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+  windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( NULL, icon );
   windowclass.hCursor = LoadCursor( NULL, cursor );
-  windowclass.hbrBackground = brush;
+  windowclass.hbrBackground = NULL;
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;
 
@@ -430,6 +431,7 @@ SoWinFullViewer::buildDecoration( HWND parent )
   this->buildBottomWheel( parent );
   this->buildRightWheel( parent );
 	this->buildZoomSlider( parent );
+	//if ( SoWinFullViewer::doButtonBar )
 	this->buildViewerButtons( parent );
 	this->buildAppButtons( parent );
 }
@@ -1145,7 +1147,7 @@ SoWinFullViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lpa
 	char str[80];
 	short nc = HIWORD( wparam );// notification code
 	short id = LOWORD( wparam );// item, control, or accelerator identifier
-	HWND hwnd = ( HWND ) lparam;// handle of control 
+	HWND hwnd = ( HWND ) lparam;// handle of control
 	
 	sprintf( str, " Button hwnd: %d id: %d nc: %d ", hwnd, id, nc );
 	MessageBox( window, str, "Test", MB_OK );

@@ -70,7 +70,7 @@ SoWinBitmapButton::~SoWinBitmapButton( void )
 SIZE
 SoWinBitmapButton::sizeHint( void ) const
 {
-  SIZE size = { 24, 24 };
+  SIZE size = { 30, 30 };
 	return size;
 } // sizeHint()
 
@@ -233,7 +233,7 @@ HBITMAP
 SoWinBitmapButton::getBitmap( int index )
 {
 	return ( HBITMAP ) ( * this->bitmapList )[index];
-} // getBitmap
+} // getBitmap()
 
 void
 SoWinBitmapButton::setBitmap( int index )
