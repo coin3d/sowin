@@ -4,13 +4,15 @@
 
 SUBDIRS = . src/Inventor/Win
 
-bin_SCRIPTS = soxt-config
+bin_SCRIPTS = sowin-config
 
 BUILT_SOURCES = \
 	sowindefs.h \
 	src/Inventor/Win/SoWinBasic.h \
 	src/Inventor/Win/SoWinRenderArea.h \
-	src/Inventor/Win/SoWinRenderArea.cpp
+	src/Inventor/Win/SoWinRenderArea.cpp \
+	src/Inventor/Win/viewers/SoWinViewer.h \
+	src/Inventor/Win/viewers/SoWinViewer.cpp
 
 noinst_DATA = $(BUILT_SOURCES)
 
@@ -38,4 +40,40 @@ src/Inventor/Win/SoWinRenderArea.cpp: \
 	CONFIG_FILES=$@:src/Inventor/Win/common/SoGuiRenderArea.cpp.in \
 	./config.status
 
+src/Inventor/Win/viewers/SoWinViewer.h: \
+  $(top_srcdir)/src/Inventor/Win/common/SoGuiViewer.h.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Win/common/SoGuiViewer.h.in \
+	./config.status
+
+src/Inventor/Win/viewers/SoWinViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Win/common/SoGuiViewer.cpp.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Win/common/SoGuiViewer.cpp.in \
+	./config.status
+
+#	src/Inventor/Win/common/viewers/SoAnyFullViewer.h \
+#	src/Inventor/Win/common/viewers/SoAnyFullViewer.cpp \
+#	src/Inventor/Win/common/viewers/SoAnyExaminerViewer.h \
+#	src/Inventor/Win/common/viewers/SoAnyExaminerViewer.cpp \
+#	src/Inventor/Win/common/viewers/SoAnyPlaneViewer.h \
+#	src/Inventor/Win/common/viewers/SoAnyPlaneViewer.cpp \
+
 ############################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

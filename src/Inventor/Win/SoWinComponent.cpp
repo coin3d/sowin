@@ -158,13 +158,10 @@ SoWinComponent::setSize( const SbVec2s size )
 {
     this->size = size;
 
-    RECT rect;
     short width, height;
-    
-    GetWindowRect( widget, &rect );
     size.getValue( width, height );
 
-    MoveWindow( widget, rect.left, rect.top, width, height, TRUE );
+    MoveWindow( widget, 0, 0, width, height, TRUE );
 }
 
 SbVec2s
@@ -281,7 +278,7 @@ SoWinComponent::buildFormWidget( HWND parent )
 
     LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
     LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
-    HBRUSH brush = ( HBRUSH ) GetStockObject( COLOR_BACKGROUND );//BLACK_BRUSH);//GRAY_BRUSH);
+    HBRUSH brush = ( HBRUSH ) GetStockObject( COLOR_BACKGROUND );
     HMENU menu = NULL;
     HWND widget;
 
@@ -317,8 +314,6 @@ SoWinComponent::buildFormWidget( HWND parent )
 						   menu,
 						   SoWin::getInstance( ),
 						   this );
-
-    //SoWin::addMessageCB( SoWinComponent::windowProc );
 
     return widget;
 }
@@ -388,6 +383,7 @@ SoWinComponent::getResize( void )
 HPALETTE
 SoWinComponent::_setupColorPalette( HDC )
 {
+    // FIXME: function not implemented
     return NULL;
 }
 

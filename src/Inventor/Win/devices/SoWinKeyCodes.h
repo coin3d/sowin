@@ -1,6 +1,8 @@
 #ifndef SOWIN_KEYCODES_H
 #define SOWIN_KEYCODES_H
 
+#include <sowindefs.h>
+/*
 #define SOWIN_OEM_3        0x29    // |
 #define SOWIN_1            0x02
 #define SOWIN_2            0x03
@@ -13,7 +15,7 @@
 #define SOWIN_9            0x0a
 #define SOWIN_0            0x0b
 #define SOWIN_OEM_ADD      0x0c    // +
-#define SOWIN_OEM_SUBTRACT 0x0d    /* \ */ 
+#define SOWIN_OEM_SUBTRACT 0x0d    // \ 
 #define SOWIN_Q            0x10
 #define SOWIN_W            0x11
 #define SOWIN_E            0x12
@@ -122,8 +124,7 @@
 #define SOWIN_NUM_LOCK      0x45
 
 #define SOWIN_UNKNOWN       0xff
-
-
+*/
 struct key1map {
   int from;                // Win val
   SoKeyboardEvent::Key to; // So val
@@ -252,7 +253,7 @@ static struct key1map WinToSoMapping[] = {
   {SOWIN_P, SoKeyboardEvent::P},
   {SOWIN_Q, SoKeyboardEvent::Q},
   {SOWIN_R, SoKeyboardEvent::R},
-//  {SOWIN_S, SoKeyboardEvent::S},
+  {SOWIN_S, SoKeyboardEvent::S},
   {SOWIN_T, SoKeyboardEvent::T},
   {SOWIN_U, SoKeyboardEvent::U},
   {SOWIN_V, SoKeyboardEvent::V},

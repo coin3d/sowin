@@ -82,7 +82,7 @@ SoWinMouse::translateEvent( MSG * msg )
         case WM_LBUTTONDOWN:
         case WM_MBUTTONDOWN:
         case WM_RBUTTONDOWN:
-            if ( ! (this->events & SoWinMouse::BUTTON_PRESS) ) break;
+            if ( ! ( this->events & SoWinMouse::BUTTON_PRESS ) ) break;
             state = SoButtonEvent::DOWN;
             soevent = this->makeButtonEvent( msg, state );
             break;
@@ -90,13 +90,13 @@ SoWinMouse::translateEvent( MSG * msg )
         case WM_LBUTTONUP:
         case WM_MBUTTONUP:
         case WM_RBUTTONUP:
-            if ( ! (this->events & SoWinMouse::BUTTON_RELEASE) ) break;
+            if ( ! ( this->events & SoWinMouse::BUTTON_RELEASE ) ) break;
             state = SoButtonEvent::UP;
             soevent = this->makeButtonEvent( msg, state );
             break;
 
         case WM_MOUSEMOVE:
-            if ( ! (this->events & SoWinMouse::POINTER_MOTION) ) break;
+            if ( ! ( this->events & SoWinMouse::POINTER_MOTION ) ) break;
             soevent = this->makeLocationEvent( msg );
             break;
 

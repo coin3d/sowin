@@ -93,8 +93,6 @@ public:
     static UINT wmTimerMsg;
     static UINT wmWorkMsg;
 
-
-
     static void setInstance( HINSTANCE instance );
     static HINSTANCE getInstance( void );
 
@@ -102,6 +100,34 @@ public:
     static void errorHandlerCB( const SoError * error, void * data );
     static void addMessageHook( HWND hwnd, UINT message );
     static void removeMessageHook( HWND hwnd, UINT message );
+
+//
+    static void addExtensionEventHandler( HWND window,
+				                          int extensionEventType,
+				                          LRESULT CALLBACK callbackproc,
+				                          void * data );
+    static void removeExtensionEventHandler( HWND window,
+				                             int extensionEventType,
+				                             LRESULT CALLBACK callbackproc, 
+				                             void * data );
+    static ATOM registerClass( WNDCLASS * wndClass, char * className );
+    static SbBool getClassInfo( HINSTANCE dll,
+                                const char * name,
+                                char * className,
+                                WNDCLASS * classInfo );
+    static void unregisterProcessClasses( void );
+
+	static HINSTANCE getResDllHandle( void );
+    static void setPrevInstance( HINSTANCE instance );
+    static void setCmdLine( LPSTR cmdLine );
+    static void setCmdShow( int cmdShow );
+    static SoWinEventHandler * getEventHandler( void );
+	static void forwardQueryPalette( HWND window ) ;
+	static void forwardPaletteChanged( HWND window ) ;
+	static SbBool handleCtl3DMessage( void );
+	static void setHandleCtl3DMessage( SbBool n );
+    static void Ctl3dColorChange( void );
+//
 
 protected:
     static void registerWindowClass( const char * const className );
@@ -115,7 +141,15 @@ protected:
                                       UINT message,
                                       WPARAM wparam,
                                       LPARAM lparam );
-
+/*
+    static FARPROC m_procCtl3dColorChange;
+    static HINSTANCE m_hCtl3d;
+    static void	getExtensionEventHandler(
+				MSG * msg, 
+				HWND &w, 
+				LRESULT CALLBACK &proc, 
+				void * &clientData);
+*/
 private:
     static void sensorQueueChanged( void * cbdata );
 

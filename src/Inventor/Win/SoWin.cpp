@@ -111,8 +111,9 @@ void SoWin::doIdleTasks( void )
 
 BOOL SoWin::dispatchEvent( MSG * msg )
 {
-    // FIXME: not implemented
-    return FALSE;
+    TranslateMessage( msg );
+    DispatchMessage( msg );
+    return TRUE;
 }
 
 void SoWin::show( HWND const widget )
@@ -172,7 +173,7 @@ SbBool SoWin::PreTranslateMessage( MSG * msg )
 SbBool SoWin::nextEvent(int appContext, MSG * msg)
 {
     // FIXME: not implemented
-    return PeekMessage( msg, NULL, 0, 0, PM_NOREMOVE );
+    return GetMessage( msg, NULL, 0, 0 );
 }
 
 int SoWin::getAppContext( void )
@@ -238,8 +239,6 @@ char * SoWin::decodeString( char * wstring )
     return NULL;
 }
 
-// Coin spesific functions - not in oiv
-
 void SoWin::setInstance( HINSTANCE instance )
 {
     SoWin::Instance = instance;
@@ -281,6 +280,96 @@ void SoWin::removeMessageHook( HWND hwnd, UINT message )
     hook->message = message;
 
     SoWin::messageHookList->removeItem( hook );*/
+}
+
+void SoWin::addExtensionEventHandler( HWND window,
+				                      int extensionEventType,
+				                      LRESULT CALLBACK callbackproc,
+				                      void * data )
+{
+    // FIXME: not implemented
+}
+
+void SoWin::removeExtensionEventHandler( HWND window,
+				                         int extensionEventType,
+				                         LRESULT CALLBACK callbackproc, 
+				                          void * data )
+{
+    // FIXME: not implemented
+}
+
+ATOM SoWin::registerClass( WNDCLASS * wndClass, char * className )
+{
+    // FIXME: not implemented
+	return RegisterClass( wndClass );
+}
+
+SbBool SoWin::getClassInfo( HINSTANCE dll,
+                            const char * name,
+                            char * className,
+                            WNDCLASS * classInfo )
+{
+    // FIXME: not implemented
+    return FALSE;
+}
+
+void SoWin::unregisterProcessClasses( void )
+{
+    // FIXME: not implemented
+}
+
+
+HINSTANCE SoWin::getResDllHandle( void )
+{
+    // FIXME: not implemented
+    return NULL;
+}
+
+void SoWin::setPrevInstance( HINSTANCE instance )
+{
+    // FIXME: not implemented
+}
+
+void SoWin::setCmdLine( LPSTR cmdLine )
+{
+    // FIXME: not implemented
+}
+
+void SoWin::setCmdShow( int cmdShow )
+{
+    // FIXME: not implemented
+}
+
+SoWinEventHandler * SoWin::getEventHandler( void )
+{
+    // FIXME: not implemented
+    return NULL;
+}
+
+void SoWin::forwardQueryPalette( HWND window )
+{
+    // FIXME: not implemented
+}
+
+void SoWin::forwardPaletteChanged( HWND window )
+{
+
+}    // FIXME: not implemented
+
+SbBool SoWin::handleCtl3DMessage( void )
+{
+    // FIXME: not implemented
+    return FALSE;
+}
+
+void SoWin::setHandleCtl3DMessage( SbBool n )
+{
+    // FIXME: not implemented
+}
+
+void SoWin::Ctl3dColorChange( void )
+{
+    // FIXME: not implemented
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -455,8 +544,6 @@ LRESULT SoWin::OnAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
         messageHook * const * hookList = messageHookList->getArrayPtr( );
         for ( int i = 0; i < length; i++ )
             if ( hookList[i]->message == message ) {
-                //SendMessage( hookList[i]->hWnd, message, wparam, lparam );
-                //PostMessage( hookList[i]->hWnd, message, wparam, lparam );
 
                 switch( message) {
 
@@ -477,7 +564,6 @@ LRESULT SoWin::OnAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 LRESULT SoWin::OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     UpdateWindow( window );
-    //InvalidateRect( window, NULL, FALSE );
     return 0;
 }
 
@@ -489,7 +575,7 @@ LRESULT SoWin::OnDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lpara
  
 LRESULT SoWin::OnQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-    delete SoWin::messageHookList;  // remove hook
+    delete SoWin::messageHookList;  // FIXME: remove hooks first
 
     if ( SoWin::idleSensorActive ) KillTimer( NULL, SoWin::idleSensorId );
     if ( SoWin::timerSensorActive ) KillTimer( NULL, SoWin::timerSensorId );
