@@ -849,7 +849,7 @@ chmod u+w .
 $rm conftest* out/*
 rmdir out
 cd ..
-rmdir conftest
+# rmdir conftest
 $rm -r conftest 2>/dev/null
 
 if test x"$compiler_c_o" = x"yes"; then
