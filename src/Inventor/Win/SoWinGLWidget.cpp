@@ -1197,16 +1197,76 @@ SoWinGLWidgetP::createGLContext(HWND window)
                            "bestformat==%d, maxweight==%f",
                            pflist[0]->format, pflist[0]->weight);
   }
+
+  WNDCLASS wc;
+      
+  wc.style          = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+  wc.lpfnWndProc    = DefWindowProc;
+  wc.cbClsExtra     = 0;
+  wc.cbWndExtra     = 0;
+  wc.hInstance      = GetModuleHandle(NULL);
+  wc.hIcon          = NULL;
+  wc.hCursor        = NULL;
+  wc.hbrBackground  = NULL;
+  wc.lpszMenuName   = NULL;
+  wc.lpszClassName  = "sowin_glwidget_temp";
+      
+  if (!RegisterClass(&wc)) {
+    DWORD dummy;
+    SbString err = Win32::getWin32Err(dummy);
+    SbString s = "Could not register class, ";
+    s += "as RegisterClass failed with error message: ";
+    s += err;
+    SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
+    goto panic;
+  }
+
   
   i = 0;
   do {
     pf = pflist[i];
+ 
+    HWND tempwindow;
+    HINSTANCE hInstance = GetModuleHandle(NULL);
 
-    if (SetPixelFormat(this->hdcNormal, pf->format, &pf->pfd)) {
-      this->ctxNormal = wglCreateContext(this->hdcNormal);
+    if (!(tempwindow = CreateWindow(
+                                    "sowin_glwidget_temp",   /* class name */
+                                    "sowin_glwidget_temp",   /* window title */
+                                    0,               /* selected window style */
+                                    0, 0,            /* window position */
+                                    10,              /* dummy */
+                                    10,              /* dummy */
+                                    NULL,            /* no parent window */
+                                    NULL,            /* no menu */
+                                    hInstance,       /* Instance */
+                                    NULL))) {        /* don't pass anything to WM_CREATE */
+      DWORD dummy;
+      SbString err = Win32::getWin32Err(dummy);
+      SbString s = "Could not create temporary window, ";
+      s += "as CreateWindow failed with error message: ";
+      s += err;
+      SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
+      i=pflist.getLength();
+      break;
+    }
+    
+    HDC tempdc = GetDC(tempwindow);
+    if (tempdc == NULL) {
+      DWORD dummy;
+      SbString err = Win32::getWin32Err(dummy);
+      SbString s = "Could not get device context for temporary window, ";
+      s += "as GetDC failed with error message: ";
+      s += err;
+      SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
+      i=pflist.getLength();
+      break;
+    }
+    
+    if (SetPixelFormat(tempdc, pf->format, &pf->pfd)) {
+      this->ctxNormal = wglCreateContext(tempdc);
       if (this->ctxNormal != NULL) {
-        // test if can make it current
-        if (!SoWinGLWidgetP::wglMakeCurrent(this->hdcNormal, this->ctxNormal) ||
+        // test if we can make it current
+        if (!SoWinGLWidgetP::wglMakeCurrent(tempdc, this->ctxNormal) ||
             !SoWinGLWidgetP::wglMakeCurrent(NULL, NULL)) {
           BOOL r = wglDeleteContext(this->ctxNormal);
           assert(r && "wglDeleteContext() failed -- investigate");
@@ -1217,7 +1277,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
                                  pf->format);
         }
         else {
-          foundone = TRUE; // yay!
+          foundone = TRUE;
         }
       }
       else if (SoWinGLWidgetP::debugGLContextCreation()) {
@@ -1231,11 +1291,46 @@ SoWinGLWidgetP::createGLContext(HWND window)
                              "Failed to set pixel format for format == %d",
                              pf->format);
     }
+
+    Win32::ReleaseDC(tempwindow, tempdc);
+    Win32::DestroyWindow(tempwindow);
+
     if (!foundone) i++;
   } while (i < pflist.getLength() && !foundone);
   
   if (!foundone) { goto panic; }
   
+  // We found a format. Now set this up for this->hdcNormal (the main window)
+  if (SetPixelFormat(this->hdcNormal, pf->format, &pf->pfd)) {
+    this->ctxNormal = wglCreateContext(this->hdcNormal);
+    if (this->ctxNormal != NULL) {
+      // test if we can make it current
+      if (!SoWinGLWidgetP::wglMakeCurrent(this->hdcNormal, this->ctxNormal) ||
+          !SoWinGLWidgetP::wglMakeCurrent(NULL, NULL)) {
+        BOOL r = wglDeleteContext(this->ctxNormal);
+        assert(r && "wglDeleteContext() failed -- investigate");
+        this->ctxNormal = NULL;
+          
+        SoDebugError::post("SoWinGLWidgetP::createGLContext",
+                           "Failed to make context current for format == %d (for main window)",
+                           pf->format);
+        goto panic;
+      }
+    }
+    else {
+      SoDebugError::post("SoWinGLWidgetP::createGLContext",
+                         "Failed to create context for format == %d (for main window)",
+                         pf->format);
+      goto panic;
+    }
+  }
+  else {
+    SoDebugError::post("SoWinGLWidgetP::createGLContext",
+                       "Failed to set pixel format for format == %d (for main window)",
+                       pf->format);
+    goto panic;
+  }
+
   assert(i < pflist.getLength());
   pf = pflist[i];
   
