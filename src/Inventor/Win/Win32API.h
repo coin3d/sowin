@@ -36,6 +36,10 @@ public:
 
   static void SwapBuffers(HDC);
 
+  static void GetTextExtentPoint(HDC, LPCTSTR, int, LPSIZE);
+
+  static void BitBlt(HDC, int, int, int, int, HDC, int, int, DWORD);
+  
 private:
   static void showLastErr(void);
 };

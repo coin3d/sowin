@@ -73,7 +73,36 @@ Win32::EnableWindow(HWND hWnd,     // handle to window
   if (fail) { Win32::showLastErr(); }
   assert( !fail && "EnableWindow() failed -- investigate" );
 }
- 
+
+void
+Win32::GetTextExtentPoint(HDC hdc,           // handle to device context
+			  LPCTSTR lpString,  // pointer to text string
+			  int cbString,      // number of characters in string
+			  LPSIZE lpSize      // pointer to structure for string size
+			  )
+{
+  BOOL r = ::GetTextExtentPoint( hdc, lpString, cbString, lpSize );
+  if (!r) { Win32::showLastErr(); }
+  assert( r && "GetTextExtentPoint() failed -- investigate");
+}
+  
+void
+Win32::BitBlt(HDC hdcDest, // handle to destination device context
+	      int nXDest,  // x-coordinate of destination rectangle's upper-left corner
+	      int nYDest,  // y-coordinate of destination rectangle's upper-left corner
+	      int nWidth,  // width of destination rectangle
+	      int nHeight, // height of destination rectangle
+	      HDC hdcSrc,  // handle to source device context
+	      int nXSrc,   // x-coordinate of source rectangle's upper-left corner
+	      int nYSrc,   // y-coordinate of source rectangle's upper-left corner
+	      DWORD dwRop  // raster operation code
+	      )
+{
+  BOOL r = ::BitBlt( hdcDest, nXDest, nYDest, nWidth, nHeight,
+		     hdcSrc, nXSrc, nYSrc, dwRop );
+  if (!r) { Win32::showLastErr(); }
+  assert( r && "BitBlt() failed -- investigate");
+}
 
 void
 Win32::SwapBuffers(HDC hdc  // device context whose buffers get swapped

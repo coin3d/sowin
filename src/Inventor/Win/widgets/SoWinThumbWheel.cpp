@@ -550,7 +550,7 @@ SoWinThumbWheel::setLabelText( char * text )
   int len = strlen( text );
   HDC hdc = GetDC( this->labelWindow );
   SIZE textSize;
-  GetTextExtentPoint( hdc, text, len, & textSize );
+  Win32::GetTextExtentPoint( hdc, text, len, & textSize );
   
   UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
   BOOL r = SetWindowPos( this->labelWindow, NULL, 0, 0,
@@ -674,7 +674,7 @@ SoWinThumbWheel::blitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int
   HDC memorydc = CreateCompatibleDC( dc );
   assert( memorydc!=NULL && "CreateCompatibleDC() failed -- investigate" );
   HBITMAP oldBitmap = ( HBITMAP ) SelectObject( memorydc, bitmap );
-  BitBlt( dc, x, y, width, height, memorydc, 0, 0, SRCCOPY );
+  Win32::BitBlt( dc, x, y, width, height, memorydc, 0, 0, SRCCOPY );
   SelectObject( memorydc, oldBitmap );
   DeleteDC( memorydc );
 }
@@ -684,11 +684,10 @@ SoWinThumbWheel::getTextSize( HWND window, char * text )
 {
   assert( IsWindow( window ) );
   
- int len = strlen( text );
- HDC hdc = GetDC( window );
+  int len = strlen( text );
+  HDC hdc = GetDC( window );
 
- SIZE size;
- GetTextExtentPoint( hdc, text, len, & size );
-
+  SIZE size;
+  Win32::GetTextExtentPoint( hdc, text, len, & size );
   return size;
 }

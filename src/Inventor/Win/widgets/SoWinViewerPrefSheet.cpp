@@ -550,8 +550,7 @@ SIZE SoWinViewerPrefSheet::getTextSize( HWND window, const char * text )
   HDC hdc = GetDC( window );
 
   SIZE size;
-  GetTextExtentPoint( hdc, text, len, & size );
-
+  Win32::GetTextExtentPoint( hdc, text, len, & size );
   return size;
 }
 
