@@ -776,6 +776,18 @@ SoWinGLWidget::isStereoBuffer(void)
 }
 
 /*!
+  FIXME: doc
+*/
+unsigned long
+SoWinGLWidget::getOverlayTransparentPixel(void)
+{
+  SOWIN_STUB();
+  // FIXME: investigate if this function is really used for the other
+  // toolkits. 20011012 mortene.
+  return 0;
+}
+
+/*!
   Returns TRUE if the normal GL context is in RGBA mode.
   Return FALSE if color index mode is used.
 */
