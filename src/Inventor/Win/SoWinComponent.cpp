@@ -227,7 +227,6 @@ public:
   };
 
   struct FullscreenData fullscreendata;
-  SoWinCursor cursor;
 
 private:
   
