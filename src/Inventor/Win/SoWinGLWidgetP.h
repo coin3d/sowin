@@ -53,6 +53,9 @@ public:
   static BOOL wglMakeCurrent(HDC hdc, HGLRC hglrc);
   static int ChoosePixelFormat(HDC hdc, CONST PIXELFORMATDESCRIPTOR * ppfd);
 
+  static LRESULT CALLBACK glWidgetProc(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
+  static LRESULT CALLBACK mgrWidgetProc(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
+
   HWND managerWidget;
   HWND normalWidget;
   HWND overlayWidget;

@@ -72,15 +72,14 @@ int SoWinGLWidgetP::widgetCounter = 0;
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SoWinGLWidget::SoWinGLWidget(HWND parent,
-                              const char * name,
-                              SbBool embed,
-                              int glModes,
-                              SbBool build)
+                             const char * name,
+                             SbBool embed,
+                             int glModes,
+                             SbBool build)
   : SoWinComponent(parent, name, embed)
 {
   this->pimpl = new SoWinGLWidgetP(this);
   this->waitForExpose = TRUE;
-  this->parent = parent;
 
   PRIVATE(this)->managerWidget = NULL;
   PRIVATE(this)->normalWidget = NULL;
@@ -427,16 +426,16 @@ SoWinGLWidget::glScheduleRedraw(void)
 //
 
 LRESULT CALLBACK
-SoWinGLWidget::mgrWidgetProc(HWND window, UINT message,
-                             WPARAM wparam, LPARAM lparam)
+SoWinGLWidgetP::mgrWidgetProc(HWND window, UINT message,
+                              WPARAM wparam, LPARAM lparam)
 {
   // does nothing
   return DefWindowProc(window, message, wparam, lparam);
 }
 
 LRESULT CALLBACK
-SoWinGLWidget::glWidgetProc(HWND window, UINT message,
-                            WPARAM wparam, LPARAM lparam)
+SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
+                             WPARAM wparam, LPARAM lparam)
 {
   if (message == WM_CREATE) {
     CREATESTRUCT * createstruct = (CREATESTRUCT *) lparam;
@@ -513,7 +512,7 @@ SoWinGLWidget::processEvent(MSG * msg)
 {
   // Nothing is done here for the SoWinGLWidget, as the events we need
   // to handle for this superclass are caught by the method
-  // SoWinGLWidget::glWidgetProc() and forwarded directly to
+  // SoWinGLWidgetP::glWidgetProc() and forwarded directly to
   // SoWinGLWidget::onPaint() etc.  The events we don't care about
   // (like mouse- and keyboard-interaction) are forwarded from
   // glWidgetProc() through this virtual method down to the
@@ -614,12 +613,6 @@ SoWinGLWidget::isRGBMode(void)
   return (PRIVATE(this)->glModes & SO_GL_RGB);
 }
 
-int
-SoWinGLWidget::getDisplayListShareGroup(HGLRC ctx)
-{
-  return 0; // FIXME: nothing done yet!
-}
-
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 HWND
 SoWinGLWidget::buildWidget(HWND parent)
@@ -634,7 +627,7 @@ SoWinGLWidget::buildWidget(HWND parent)
     WNDCLASS windowclass;
     windowclass.lpszClassName = "Manager Widget";
     windowclass.hInstance = SoWin::getInstance();
-    windowclass.lpfnWndProc = SoWinGLWidget::mgrWidgetProc;
+    windowclass.lpfnWndProc = SoWinGLWidgetP::mgrWidgetProc;
     windowclass.style = NULL;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
@@ -680,19 +673,6 @@ SoWinGLWidget::buildWidget(HWND parent)
 
   return managerwidget;
 }
-
-HWND
-SoWinGLWidget::getManagerWidget(void)
-{
-  return PRIVATE(this)->managerWidget;
-}
-/*
-HWND
-SoWinGLWidget::getGlxMgrWidget(void)
-{
-  return this->getManagerWidget();
-}
-*/
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 HWND
@@ -790,7 +770,7 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
     WNDCLASS windowclass;
     windowclass.lpszClassName = wndclassname;
     windowclass.hInstance = SoWin::getInstance();
-    windowclass.lpfnWndProc = SoWinGLWidget::glWidgetProc;
+    windowclass.lpfnWndProc = SoWinGLWidgetP::glWidgetProc;
     windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
@@ -1002,7 +982,72 @@ SoWinGLWidgetP::createGLContext(HWND window)
   }
 
   // FIXME: if the pixelformat set up is _not_ an RGB (truecolor)
-  // format, we should probably set up a DC palette here. 20011208 mortene.
+  // format, we should set up a DC palette here.
+  //
+  // Something like this:
+  //
+  // ---8<--- [snip] ------8<--- [snip] ------8<--- [snip] ---
+  //    if (pfd.dwFlags & PFD_NEED_PALETTE ||
+  //        pfd.iPixelType == PFD_TYPE_COLORINDEX) {
+  //
+  //      n = 1 << pfd.cColorBits;
+  //      if (n > 256) n = 256;
+  //
+  //      lpPal = (LOGPALETTE*)malloc(sizeof(LOGPALETTE) +
+  //                                  sizeof(PALETTEENTRY) * n);
+  //      memset(lpPal, 0, sizeof(LOGPALETTE) + sizeof(PALETTEENTRY) * n);
+  //      lpPal->palVersion = 0x300;
+  //      lpPal->palNumEntries = n;
+  //
+  //      GetSystemPaletteEntries(hDC, 0, n, &lpPal->palPalEntry[0]);
+  //
+  //      /* if the pixel type is RGBA, then we want to make an RGB ramp,
+  //      otherwise (color index) set individual colors. */
+  //      if (pfd.iPixelType == PFD_TYPE_RGBA) {
+  //        int redMask = (1 << pfd.cRedBits) - 1;
+  //        int greenMask = (1 << pfd.cGreenBits) - 1;
+  //        int blueMask = (1 << pfd.cBlueBits) - 1;
+  //        int i;
+  //
+  //        /* fill in the entries with an RGB color ramp. */
+  //        for (i = 0; i < n; ++i) {
+  //          lpPal->palPalEntry[i].peRed =
+  //            (((i >> pfd.cRedShift)   & redMask)   * 255) / redMask;
+  //          lpPal->palPalEntry[i].peGreen =
+  //            (((i >> pfd.cGreenShift) & greenMask) * 255) / greenMask;
+  //          lpPal->palPalEntry[i].peBlue =
+  //            (((i >> pfd.cBlueShift)  & blueMask)  * 255) / blueMask;
+  //          lpPal->palPalEntry[i].peFlags = 0;
+  //        }
+  //      } else {
+  //        lpPal->palPalEntry[0].peRed = 0;
+  //        lpPal->palPalEntry[0].peGreen = 0;
+  //        lpPal->palPalEntry[0].peBlue = 0;
+  //        lpPal->palPalEntry[0].peFlags = PC_NOCOLLAPSE;
+  //        lpPal->palPalEntry[1].peRed = 255;
+  //        lpPal->palPalEntry[1].peGreen = 0;
+  //        lpPal->palPalEntry[1].peBlue = 0;
+  //        lpPal->palPalEntry[1].peFlags = PC_NOCOLLAPSE;
+  //        lpPal->palPalEntry[2].peRed = 0;
+  //        lpPal->palPalEntry[2].peGreen = 255;
+  //        lpPal->palPalEntry[2].peBlue = 0;
+  //        lpPal->palPalEntry[2].peFlags = PC_NOCOLLAPSE;
+  //        lpPal->palPalEntry[3].peRed = 0;
+  //        lpPal->palPalEntry[3].peGreen = 0;
+  //        lpPal->palPalEntry[3].peBlue = 255;
+  //        lpPal->palPalEntry[3].peFlags = PC_NOCOLLAPSE;
+  //      }
+  //
+  //      hPalette = CreatePalette(lpPal);
+  //      if (hPalette) {
+  //        SelectPalette(hDC, hPalette, FALSE);
+  //        RealizePalette(hDC);
+  //      }
+  //
+  //      free(lpPal);
+  //    }
+  // ---8<--- [snip] ------8<--- [snip] ------8<--- [snip] ---
+  // 20020719 mortene.
 
   this->ctxNormal = wglCreateContext(this->hdcNormal);
   if (! this->ctxNormal) {
