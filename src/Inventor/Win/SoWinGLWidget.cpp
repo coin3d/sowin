@@ -443,8 +443,7 @@ SoWinGLWidget::glWidgetProc( HWND window,
                              LPARAM lparam )
 {
   if ( message == WM_CREATE ) {
-    CREATESTRUCT * createstruct;
-    createstruct = ( CREATESTRUCT * ) lparam;
+    CREATESTRUCT * createstruct = ( CREATESTRUCT * ) lparam;
 		
     (void)Win32::SetWindowLong( window, GWL_USERDATA, ( LONG ) ( createstruct->lpCreateParams ) );
 		
@@ -467,45 +466,44 @@ SoWinGLWidget::glWidgetProc( HWND window,
     
     // Get keystrokes
     if( ( ( ! PRIVATE( object )->haveFocus ) && PRIVATE( object )->stealFocus ) ||
-      ( message == WM_LBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_RBUTTONDOWN ) ) {
+        ( message == WM_LBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_RBUTTONDOWN ) ) {
       PRIVATE( object )->haveFocus = ( BOOL ) SetFocus( window );
     }
 
     object->processEvent( & msg );
     
-    switch ( message )
-      {
-				//case WM_SIZE:
-        //return PRIVATE( object )->onSize( window, message, wparam, lparam );
+    switch ( message ) {
+//      case WM_SIZE:
+//        return PRIVATE( object )->onSize( window, message, wparam, lparam );
 
-      case WM_PAINT:
-        object->waitForExpose = FALSE; // flip flag on first expose
-        return PRIVATE( object )->onPaint( window, message, wparam, lparam );
+    case WM_PAINT:
+      object->waitForExpose = FALSE; // flip flag on first expose
+      return PRIVATE( object )->onPaint( window, message, wparam, lparam );
 
-      case WM_DESTROY:
-        return PRIVATE( object )->onDestroy( window, message, wparam, lparam );
+    case WM_DESTROY:
+      return PRIVATE( object )->onDestroy( window, message, wparam, lparam );
 
-      case WM_LBUTTONDOWN:
-      case WM_MBUTTONDOWN:
-      case WM_RBUTTONDOWN:
-        SetCapture( window );
-        return 0;
+    case WM_LBUTTONDOWN:
+    case WM_MBUTTONDOWN:
+    case WM_RBUTTONDOWN:
+      SetCapture( window );
+      return 0;
 
-      case WM_LBUTTONUP:
-      case WM_MBUTTONUP:
-      case WM_RBUTTONUP:
-        ReleaseCapture( );
-        return 0;
+    case WM_LBUTTONUP:
+    case WM_MBUTTONUP:
+    case WM_RBUTTONUP:
+      ReleaseCapture( );
+      return 0;
 
-      case WM_KILLFOCUS:
-        PRIVATE( object )->haveFocus = FALSE;
-        return 0;
+    case WM_KILLFOCUS:
+      PRIVATE( object )->haveFocus = FALSE;
+      return 0;
 
-   case WM_SETCURSOR:
-		    SetCursor( object->getCursor( ) );
-        return 0;
+    case WM_SETCURSOR:
+      SetCursor( object->getCursor( ) );
+      return 0;
  
-      }
+    }
   }
   return DefWindowProc( window, message, wparam, lparam );
 }
