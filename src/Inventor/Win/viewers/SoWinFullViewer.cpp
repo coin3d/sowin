@@ -354,7 +354,6 @@ SoWinFullViewer::buildWidget( HWND parent )
   WNDCLASS windowclass;
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
-  LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
   HMENU menu = NULL;
   LPSTR wndclassname = "SoWinFullViewer_widget";
 
@@ -364,7 +363,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( NULL, icon );
-  windowclass.hCursor = LoadCursor( NULL, cursor );
+  windowclass.hCursor = NULL;
   windowclass.hbrBackground = NULL;
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;

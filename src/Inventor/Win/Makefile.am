@@ -14,6 +14,8 @@ BUILT_SOURCES = \
 	SoWinBasic.h \
 	SoWinObject.cpp \
 	SoWinObject.h \
+	SoWinCursors.cpp \
+	SoWinCursors.h \
 	SoWinRenderArea.h \
 	SoWinRenderArea.cpp
 
@@ -47,6 +49,7 @@ libSoWininc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/SoWin.h \
 	$(top_builddir)/src/Inventor/Win/SoWinObject.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinComponent.h \
+	$(top_builddir)/src/Inventor/Win/SoWinCursors.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinGLWidget.h \
 	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
 
@@ -65,6 +68,12 @@ SoWinObject.h: $(srcdir)/common/SoGuiObject.h.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
 
 SoWinObject.cpp: $(srcdir)/common/SoGuiObject.cpp.in
+	@( cd $(top_builddir); $(MAKE) built-sources )
+
+SoWinCursors.h: $(srcdir)/common/SoGuiCursors.h.in
+	@( cd $(top_builddir); $(MAKE) built-sources )
+
+SoWinCursors.cpp: $(srcdir)/common/SoGuiCursors.cpp.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
 
 SoWinRenderArea.h: $(srcdir)/common/SoGuiRenderArea.h.in

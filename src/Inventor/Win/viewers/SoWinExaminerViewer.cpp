@@ -32,10 +32,14 @@ static const char rcsid[] =
 #endif // SOWIN_DEBUG
 
 #include <sowindefs.h>
-#include <Inventor/Win/widgets/SoWinThumbWheel.h>
 
+#include <Inventor/Win/SoWin.h>
+
+#include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
 #include <Inventor/Win/viewers/SoAnyExaminerViewer.h>
+
+#include <Inventor/Win/SoWinCursors.h>
 
 /*!
   \class SoWinExaminerViewer SoWinExaminerViewer.h Inventor/Win/viewers/SoWinExaminerViewer.h
@@ -114,31 +118,32 @@ SoWinExaminerViewer::SoWinExaminerViewer(
 
 void
 SoWinExaminerViewer::constructor(
-  SbBool build )
+	SbBool build )
 {
-//    this->defaultcursor = NULL;
-//    this->rotatecursor = NULL;
-//    this->pancursor = NULL;
-//    this->zoomcursor = NULL;
+    this->defaultcursor = NULL;
+    this->rotatecursor = NULL;
+    this->pancursor = NULL;
+    this->zoomcursor = NULL;
 
 //    this->orthopixmap = new QPixmap((const char **)ortho_xpm);
 //    this->perspectivepixmap = new QPixmap((const char **)perspective_xpm);
 //    assert(this->orthopixmap->size() == this->perspectivepixmap->size());
 
 //    this->spindetecttimer = NULL;
-  this->setClassName("SoWinExaminerViewer");
+  this->setClassName( "SoWinExaminerViewer" );
 
-//    this->addVisibilityChangeCallback(SoWinExaminerViewer::visibilityCB, this);
+// this->addVisibilityChangeCallback(SoWinExaminerViewer::visibilityCB, this);
 
-  this->setPopupMenuString("Examiner Viewer");
-  this->setPrefSheetString("Examiner Viewer Preference Sheet");
-  this->setLeftWheelString("Rotx");
-  this->setBottomWheelString("Roty");
+  this->setPopupMenuString( "Examiner Viewer" );
+  this->setPrefSheetString( "Examiner Viewer Preference Sheet" );
+  //this->setLeftWheelString( "Rotx" );
+  //this->setBottomWheelString( "Roty" );
 
   if ( build ) {
-    HWND widget = this->buildWidget( this->getParentWidget() );
+    HWND widget = this->buildWidget( this->getParentWidget( ) );
     this->setBaseWidget( widget );
   }
+	this->setCursorEnabled( TRUE );
 } // constructor()
 
 // *************************************************************************
@@ -148,13 +153,13 @@ SoWinExaminerViewer::constructor(
 */
 
 SoWinExaminerViewer::~SoWinExaminerViewer(
-  void )
+	void )
 {
-//    // Cursors.
-//    delete this->zoomcursor;
-//    delete this->pancursor;
-//    delete this->rotatecursor;
-//    delete this->defaultcursor;
+	// Cursors.
+	DeleteObject( this->zoomcursor );
+	DeleteObject( this->pancursor );
+	DeleteObject( this->rotatecursor );
+	DeleteObject( this->defaultcursor );
 
 //    // Button pixmaps.
 //    delete this->orthopixmap;
@@ -194,16 +199,16 @@ void
 SoWinExaminerViewer::setCamera( // virtual
   SoCamera * newCamera )
 {
-  if (newCamera) {
-    SoType camtype = newCamera->getTypeId();
+  if ( newCamera ) {
+    SoType camtype = newCamera->getTypeId( );
     SbBool orthotype =
-      camtype.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
+      camtype.isDerivedFrom( SoOrthographicCamera::getClassTypeId( ) );
 
-    this->setRightWheelString(orthotype ? "Zoom" : "Dolly");
-//      if (this->cameratogglebutton) {
-//        this->cameratogglebutton->setPixmap(orthotype ?
-//                                            * (this->orthopixmap) :
-//                                            * (this->perspectivepixmap));
+		this->setRightWheelString(orthotype ? "Zoom" : "Dolly");
+//      if ( this->cameratogglebutton ) {
+//        this->cameratogglebutton->setPixmap( orthotype ?
+//                                            * ( this->orthopixmap ) :
+//                                            * ( this->perspectivepixmap ) );
 //      }
   }
 
@@ -233,7 +238,7 @@ void
 SoWinExaminerViewer::resetToHomePosition(
   void )
 {
-  inherited::resetToHomePosition();
+  inherited::resetToHomePosition( );
 } // resetToHomePosition()
 
 /*!
@@ -244,7 +249,7 @@ void
 SoWinExaminerViewer::viewAll( // virtual
   void )
 {
-  inherited::viewAll();
+  inherited::viewAll( );
 } // viewAll()
 
 // *************************************************************************
@@ -258,11 +263,11 @@ void
 SoWinExaminerViewer::leftWheelMotion(
   float value )
 {
-  if ( common->isAnimating() )
-    common->stopAnimating();
+  if ( common->isAnimating( ) )
+    common->stopAnimating( );
 
 	inherited::leftWheelMotion(
-		common->rotXWheelMotion( value, this->getLeftWheelValue() ) );
+		common->rotXWheelMotion( value, this->getLeftWheelValue( ) ) );
 } // leftWheelMotion()
 
 /*!
@@ -274,11 +279,11 @@ void
 SoWinExaminerViewer::bottomWheelMotion(
   float value )
 {
-  if ( common->isAnimating() )
-    common->stopAnimating();
+  if ( common->isAnimating( ) )
+    common->stopAnimating( );
 
   inherited::bottomWheelMotion(
-		common->rotYWheelMotion( value, this->getBottomWheelValue() ) );
+		common->rotYWheelMotion( value, this->getBottomWheelValue( ) ) );
 } // bottomWheelMotion()
 
 /*!
@@ -290,7 +295,7 @@ void
 SoWinExaminerViewer::rightWheelMotion(
   float value )
 {
-	common->zoom( this->getRightWheelValue() - value );
+	common->zoom( this->getRightWheelValue( ) - value );
 	inherited::rightWheelMotion( value );
 } // rightWheelMotion()
 
@@ -315,7 +320,8 @@ SoWinExaminerViewer::getDefaultWidgetName( // virtual
 */
 
 const char *
-SoWinExaminerViewer::getDefaultTitle(void) const
+SoWinExaminerViewer::getDefaultTitle(
+	void ) const
 {
   static const char defaultTitle[] = "Examiner Viewer";
   return defaultTitle;
@@ -328,7 +334,8 @@ SoWinExaminerViewer::getDefaultTitle(void) const
 */
 
 const char *
-SoWinExaminerViewer::getDefaultIconTitle(void) const
+SoWinExaminerViewer::getDefaultIconTitle(
+	void ) const
 {
   static const char defaultIconTitle[] = "Examiner Viewer";
   return defaultIconTitle;
@@ -341,7 +348,8 @@ SoWinExaminerViewer::getDefaultIconTitle(void) const
 */
 
 void
-SoWinExaminerViewer::openViewerHelpCard(void)
+SoWinExaminerViewer::openViewerHelpCard(
+	void )
 {
   this->openHelpCard("SoWinExaminerViewer.help");
 } // openViewerHelpCard()
@@ -355,10 +363,10 @@ SbBool
 SoWinExaminerViewer::processSoEvent(
   const SoEvent * const event )
 {
-  if ( common->processSoEvent(event) )
+  if ( common->processSoEvent( event ) )
     return TRUE;
 
-  return inherited::processSoEvent(event);
+  return inherited::processSoEvent( event );
 } // processSoEvent()
 
 // *************************************************************************
@@ -369,21 +377,21 @@ SoWinExaminerViewer::processSoEvent(
 */
 
 void
-SoWinExaminerViewer::setSeekMode(SbBool on)
+SoWinExaminerViewer::setSeekMode( SbBool on )
 {
 #if SOWIN_DEBUG
-  if (on == this->isSeekMode()) {
-    SoDebugError::postWarning("SoWinExaminerViewer::setSeekMode",
-                              "seek mode already %sset", on ? "" : "un");
+  if ( on == this->isSeekMode( ) ) {
+    SoDebugError::postWarning( "SoWinExaminerViewer::setSeekMode",
+                               "seek mode already %sset", on ? "" : "un" );
     return;
   }
 #endif // SOWIN_DEBUG
 
-  if (common->isAnimating()) common->stopAnimating();
-  inherited::setSeekMode(on);
-  this->common->setMode(on ?
-                        SoAnyExaminerViewer::WAITING_FOR_SEEK :
-                        SoAnyExaminerViewer::EXAMINE);
+  if ( common->isAnimating( ) ) common->stopAnimating( );
+  inherited::setSeekMode( on );
+  this->common->setMode( on ?
+                         SoAnyExaminerViewer::WAITING_FOR_SEEK :
+                         SoAnyExaminerViewer::EXAMINE );
 } // setSeekMode()
 
 // *************************************************************************
@@ -392,16 +400,16 @@ SoWinExaminerViewer::setSeekMode(SbBool on)
   Overload this method to be able to draw the axis cross if selected
   in the preferences sheet.
 */
-
 void
-SoWinExaminerViewer::actualRedraw(void)
+SoWinExaminerViewer::actualRedraw(
+	void )
 {
-  common->actualRedraw();
-  inherited::actualRedraw();
-  if ( common->isFeedbackVisible() )
-    common->drawAxisCross();
-  if ( common->isAnimating() )
-    this->scheduleRedraw();
+  common->actualRedraw( );
+  inherited::actualRedraw( );
+  if ( common->isFeedbackVisible( ) )
+    common->drawAxisCross( );
+  if ( common->isAnimating( ) )
+    this->scheduleRedraw( );
 } // actualRedraw()
 
 // *************************************************************************
@@ -413,92 +421,113 @@ SoWinExaminerViewer::actualRedraw(void)
 */
 
 void
-SoWinExaminerViewer::setCursorRepresentation( int mode )
+SoWinExaminerViewer::setCursorRepresentation(
+	int mode )
 {
-//    HWND w = this->getRenderAreaWidget();
-//    assert(w);
+	/*
+	HWND hwnd = this->getRenderAreaWidget( );
+	assert( IsWindow( hwnd ) );
+	*/
+  if ( ! this->defaultcursor ) {
+		this->defaultcursor = LoadCursor( NULL, IDC_ARROW );
 
-//    if (!this->defaultcursor) {
-//      this->defaultcursor = new QCursor(w->cursor());
+		unsigned int i, j;
+		
+		{
+			unsigned char * bitmaps[] = {
+				so_win_rotate_bitmap, so_win_rotate_mask_bitmap,
+        so_win_zoom_bitmap, so_win_zoom_mask_bitmap,
+        so_win_pan_bitmap, so_win_pan_mask_bitmap
+			};
+			/*
+      unsigned int bitmapsizes[] = {
+				( so_win_rotate_width + 7 ) / 8 * so_win_rotate_height,
+				( so_win_zoom_width + 7 ) / 8 * so_win_zoom_height,
+				( so_win_pan_width + 7 ) / 8 * so_win_pan_height,
+			};
+			
+			for ( i = 0; i < ( sizeof( bitmapsizes ) / sizeof( unsigned int ) ); i++ ) {
+				for ( j = 0; j < bitmapsizes[i]; j++ )
+					bitmaps[i * 2][j] &= bitmaps[i * 2 + 1][j];
+			}
+			*/
+			unsigned int bitmapheights[] = {
+				so_win_rotate_height,
+				so_win_zoom_height,
+				so_win_pan_height
+			};
+			
+			unsigned char byte; // FIXME: only works for Nx16 pointers
+			unsigned char hi, lo;
+			for ( i = 0; i < ( sizeof( bitmapheights ) / sizeof( unsigned int ) ); i++ ) {
+				for( j = 0; j < bitmapheights[i] * 2; j += 2 ) {
 
-//      // For Win on MSWin, it is necessary to mask the bitmaps "manually"
-//      // before setting up the QBitmaps for the cursors. It doesn't seem
-//      // to matter any way under X11. Sounds like a Win bug to me, which
-//      // seems strange -- as this issue has been present for at least a
-//      // couple of years. 20000630 mortene.
-//      {
-//        unsigned char * bitmaps[] = {
-//          so_win_rotate_bitmap, so_win_rotate_mask_bitmap,
-//          so_win_zoom_bitmap, so_win_zoom_mask_bitmap,
-//          so_win_pan_bitmap, so_win_pan_mask_bitmap
-//        };
-//        unsigned int bitmapsizes[] = {
-//          (so_win_rotate_width + 7) / 8 * so_win_rotate_height,
-//          (so_win_zoom_width + 7) / 8 * so_win_zoom_height,
-//          (so_win_pan_width + 7) / 8 * so_win_pan_height,
-//        };
+					byte = bitmaps[i * 2][j];
+					bitmaps[i * 2][j] = bitmaps[i * 2][j + 1];
+					bitmaps[i * 2][j + 1] = byte;
 
-//        for ( unsigned int i = 0;
-//              i < (sizeof(bitmapsizes) / sizeof(unsigned int)); i++) {
-//          for ( unsigned int j = 0; j < bitmapsizes[i]; j++)
-//            bitmaps[i*2][j] &= bitmaps[i*2+1][j];
-//        }
-//      }
+					byte = bitmaps[i * 2 + 1][j];
+					bitmaps[i * 2 + 1][j] = bitmaps[i * 2 + 1][j + 1];
+					bitmaps[i * 2 + 1][j + 1] = byte;
+					
+				}
+				/*
+				for( j = 0; j < bitmapheights[i]; j += 2 ) {
+					hi = bitmaps[i * 2][j];
+					lo = bitmaps[i * 2][j + 1];
 
-//      QBitmap zoomBtm(so_win_zoom_width, so_win_zoom_height,
-//                      (uchar*)so_win_zoom_bitmap, FALSE);
-//      QBitmap zoomMask(so_win_zoom_width, so_win_zoom_height,
-//                       (uchar*)so_win_zoom_mask_bitmap, FALSE);
-//      QBitmap panBtm(so_win_pan_width, so_win_pan_height,
-//                     (uchar*)so_win_pan_bitmap, FALSE);
-//      QBitmap panMask(so_win_pan_width, so_win_pan_height,
-//                      (uchar*)so_win_pan_mask_bitmap, FALSE);
+					bitmaps[i * 2][bitmapheights[i] - j] = lo;
+					bitmaps[i * 2][bitmapheights[i] - ( j + 1 )] = hi;
+				}
+				*/
+			}
+		}
+		
+		this->zoomcursor = CreateCursor( SoWin::getInstance( ), so_win_zoom_x_hot,
+			so_win_zoom_y_hot, so_win_zoom_width, so_win_zoom_height, so_win_zoom_bitmap,
+			so_win_zoom_mask_bitmap );
+		
+		this->pancursor = CreateCursor( SoWin::getInstance( ), so_win_pan_x_hot,
+			so_win_pan_y_hot, so_win_pan_width, so_win_pan_height, so_win_pan_bitmap,
+			so_win_pan_mask_bitmap );
+		
+		this->rotatecursor = CreateCursor( SoWin::getInstance( ), so_win_rotate_x_hot,
+			so_win_rotate_y_hot, so_win_rotate_width, so_win_rotate_height, so_win_rotate_bitmap,
+			so_win_rotate_mask_bitmap );
+	}
+	
+	if ( ! this->isCursorEnabled( ) ) {
+		ShowCursor( FALSE );
+		return;
+	}
+	else ShowCursor( TRUE );
 
-//      QBitmap rotateBtm(so_win_rotate_width, so_win_rotate_height,
-//                        (uchar*)so_win_rotate_bitmap, FALSE);
-//      QBitmap rotateMask(so_win_rotate_width, so_win_rotate_height,
-//                         (uchar*)so_win_rotate_mask_bitmap, FALSE);
+	switch ( mode ) {
+			case SoAnyExaminerViewer::INTERACT:
+				this->setCursor( LoadCursor( NULL, IDC_ARROW ) );// this->arrowcursor
+				break;
 
-//      this->zoomcursor = new QCursor(zoomBtm, zoomMask,
-//                                     so_win_zoom_x_hot, so_win_zoom_y_hot);
-//      this->pancursor = new QCursor(panBtm, panMask,
-//                                    so_win_pan_x_hot, so_win_pan_y_hot);
-//      this->rotatecursor = new QCursor(rotateBtm, rotateMask,
-//                                       so_win_rotate_x_hot, so_win_rotate_y_hot);
-//    }
+			case SoAnyExaminerViewer::EXAMINE:
+			case SoAnyExaminerViewer::DRAGGING:
+				this->setCursor( this->rotatecursor );
+				break;
 
+			case SoAnyExaminerViewer::ZOOMING:
+				this->setCursor( this->zoomcursor );
+				break;
 
+			case SoAnyExaminerViewer::WAITING_FOR_SEEK:
+				this->setCursor( LoadCursor( NULL, IDC_CROSS ) );// this->crosscursor
+				break;
 
-//    if (!this->isCursorEnabled()) {
-//      w->setCursor(blankCursor);
-//      return;
-//    }
+			case SoAnyExaminerViewer::WAITING_FOR_PAN:
+			case SoAnyExaminerViewer::PANNING:
+				this->setCursor( this->pancursor );
+				break;
 
-//    switch (mode) {
-//    case SoAnyExaminerViewer::INTERACT:
-//      w->setCursor(arrowCursor);
-//      break;
-
-//    case SoAnyExaminerViewer::EXAMINE:
-//    case SoAnyExaminerViewer::DRAGGING:
-//      w->setCursor(* this->rotatecursor);
-//      break;
-
-//    case SoAnyExaminerViewer::ZOOMING:
-//      w->setCursor(* this->zoomcursor);
-//      break;
-
-//    case SoAnyExaminerViewer::WAITING_FOR_SEEK:
-//      w->setCursor(crossCursor);
-//      break;
-
-//    case SoAnyExaminerViewer::WAITING_FOR_PAN:
-//    case SoAnyExaminerViewer::PANNING:
-//      w->setCursor(* this->pancursor);
-//      break;
-
-//    default: assert(0); break;
-//    }
+			default: assert(0); break;
+    }
+	
 } // setCursorRepresentation()
 
 // *************************************************************************
@@ -515,21 +544,21 @@ SbBool
 SoWinExaminerViewer::isAnimationEnabled(
   void ) const
 {
-  return common->isAnimationEnabled();
+  return common->isAnimationEnabled( );
 } // isAnimationEnabled()
 
 void
 SoWinExaminerViewer::stopAnimating(
   void )
 {
-  common->stopAnimating();
+  common->stopAnimating( );
 } // stopAnimating()
 
 SbBool
 SoWinExaminerViewer::isAnimating(
   void ) const
 {
-  return common->isAnimating();
+  return common->isAnimating( );
 } // isAnimating()
 
 void
@@ -543,7 +572,7 @@ SbBool
 SoWinExaminerViewer::isFeedbackVisible(
   void ) const
 {
-  return common->isFeedbackVisible();
+  return common->isFeedbackVisible( );
 } // isFeedbackVisible()
 
 void
@@ -557,7 +586,7 @@ int
 SoWinExaminerViewer::getFeedbackSize(
   void ) const
 {
-  return common->getFeedbackSize();
+  return common->getFeedbackSize( );
 } // getFeedbackSize()
 
 // *************************************************************************
@@ -570,15 +599,11 @@ SoWinExaminerViewer::afterRealizeHook( // virtual
   void )
 {
   this->setCursorRepresentation( this->common->currentmode );
-  inherited::afterRealizeHook();
+  inherited::afterRealizeHook( );
 } // afterRealizeHook()
 
 // *************************************************************************
 
 #if SOWIN_DEBUG
-static const char * getSoWinExaminerViewerRCSID(void) { return rcsid; }
+static const char * getSoWinExaminerViewerRCSID( void ) { return rcsid; }
 #endif
-
-
-
-

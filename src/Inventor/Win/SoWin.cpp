@@ -499,20 +499,18 @@ void
 SoWin::registerWindowClass( const char * const className )
 {
   WNDCLASS windowclass;
-  LPCTSTR icon,cursor;
-  HBRUSH brush;
 
-  icon = MAKEINTRESOURCE( IDI_APPLICATION );
-  cursor = MAKEINTRESOURCE( IDC_ARROW );
-  brush = ( HBRUSH ) GetSysColorBrush( COLOR_3DFACE );
+  LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
+	LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
+  HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
 
   windowclass.lpszClassName = className;
   windowclass.hInstance = SoWin::Instance;
   windowclass.lpfnWndProc = SoWin::windowProc;
   windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = LoadIcon( NULL, icon );
-  windowclass.hCursor = LoadCursor( NULL, cursor );
+  windowclass.hIcon = LoadIcon( SoWin::getInstance( ), icon );
+  windowclass.hCursor = LoadCursor( SoWin::getInstance( ), cursor );
   windowclass.hbrBackground = brush;
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;

@@ -40,25 +40,25 @@ public:
     SbBool embed = TRUE,
     SoWinFullViewer::BuildFlag flag = BUILD_ALL,
     SoWinViewer::Type type = BROWSER );
-  ~SoWinExaminerViewer(void);
+  ~SoWinExaminerViewer( void );
 
   void setAnimationEnabled( const SbBool enable );
-  SbBool isAnimationEnabled(void) const;
+  SbBool isAnimationEnabled( void ) const;
 
-  void stopAnimating(void);
-  SbBool isAnimating(void) const;
+  void stopAnimating( void );
+  SbBool isAnimating( void ) const;
 
   void setFeedbackVisibility( const SbBool enable );
-  SbBool isFeedbackVisible(void) const;
+  SbBool isFeedbackVisible( void ) const;
 
   void setFeedbackSize( const int size );
-  int getFeedbackSize(void) const;
+  int getFeedbackSize( void ) const;
 
   virtual void setViewing( SbBool enable );
   virtual void setCamera( SoCamera * camera );
   virtual void setCursorEnabled( SbBool enable );
-  virtual void resetToHomePosition(void);
-  virtual void viewAll(void);
+  virtual void resetToHomePosition( void );
+  virtual void viewAll( void );
 
 protected:
   SoWinExaminerViewer(
@@ -73,21 +73,26 @@ protected:
   virtual void bottomWheelMotion( float val );
   virtual void rightWheelMotion( float val );
 
-  virtual const char * getDefaultWidgetName(void) const;
-  virtual const char * getDefaultTitle(void) const;
-  virtual const char * getDefaultIconTitle(void) const;
+  virtual const char * getDefaultWidgetName( void ) const;
+  virtual const char * getDefaultTitle( void ) const;
+  virtual const char * getDefaultIconTitle( void ) const;
 
-  virtual void openViewerHelpCard(void);
+  virtual void openViewerHelpCard( void );
 
   virtual SbBool processSoEvent( const SoEvent * const event );
   virtual void setSeekMode( SbBool enable );
-  virtual void actualRedraw(void);
+  virtual void actualRedraw( void );
 
-  virtual void afterRealizeHook(void);
+  virtual void afterRealizeHook( void );
 
 private:
   void constructor( SbBool build );
   void setCursorRepresentation( int mode );
+
+	HCURSOR defaultcursor;
+	HCURSOR rotatecursor;
+	HCURSOR pancursor;
+	HCURSOR zoomcursor;
 
   SoAnyExaminerViewer * const common;
 }; // class SoWinExaminerViewer

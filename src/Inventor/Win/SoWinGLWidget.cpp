@@ -24,6 +24,7 @@
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/SoWinGLWidget.h>
+#include <Inventor/Win/SoAny.h>
 #include <sowindefs.h>
 
 #if SOWIN_DEBUG
@@ -581,7 +582,6 @@ SoWinGLWidget::setWindowPosition( POINT position )
 void
 SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // FIXME: pfd is ignored
 {
-  LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
   HMENU menu = NULL;
   LPSTR wndclassname = "SoWinGLWidget_glwidget";
 
@@ -592,13 +592,15 @@ SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // FIXME: pfd
   windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = NULL;
-  windowclass.hCursor = this->currentCursor = LoadCursor( NULL, cursor );
+  windowclass.hCursor =  NULL;
   windowclass.hbrBackground = ( HBRUSH ) GetStockObject( BLACK_BRUSH );//NULL;
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;
 
   RegisterClass( & windowclass );
-
+	
+	this->currentCursor = LoadCursor( SoWin::getInstance( ), IDC_ARROW );
+	
   RECT rect;
   if ( IsWindow( parent ) ) {
     GetClientRect( parent, & rect );
@@ -731,6 +733,12 @@ SoWinGLWidget::glWindowProc( HWND window,
         object->haveFocus = FALSE;
         return 0;
 
+			case WM_MOUSEMOVE:
+				// FIXME: only set when pointer enters window
+				if ( object->getCursor( ) != GetCursor( ) )
+					SetCursor( object->getCursor( ) );
+				return 0;
+				
         //case WM_KEYDOWN:
         //return 0;
       }
@@ -775,7 +783,14 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
   ok = SetPixelFormat( hdc, nPixelFormat, & pfd );
   assert( ok );
 
+  SoWinGLWidget * share = ( SoWinGLWidget * )
+		SoAny::si( )->getSharedGLContext( NULL, NULL );
+
   HGLRC hrc = wglCreateContext( hdc );
+
+	if ( share != NULL ) share->ctxNormal = hrc;
+
+	SoAny::si( )->registerGLContext( ( void * ) this, NULL, NULL );
 
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo( "SoWinGLWidget::onCreate", "called" );
@@ -857,6 +872,8 @@ SoWinGLWidget::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam 
 LRESULT
 SoWinGLWidget::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
+	SoAny::si( )->unregisterGLContext( ( void * ) this );
+	
   wglDeleteContext( this->ctxNormal );
   ReleaseDC( window, this->hdcNormal );
 

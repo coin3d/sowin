@@ -131,6 +131,8 @@ BUILT_SOURCES = \
 	SoWinBasic.h \
 	SoWinObject.cpp \
 	SoWinObject.h \
+	SoWinCursors.cpp \
+	SoWinCursors.h \
 	SoWinRenderArea.h \
 	SoWinRenderArea.cpp
 
@@ -168,6 +170,7 @@ libSoWininc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/SoWin.h \
 	$(top_builddir)/src/Inventor/Win/SoWinObject.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinComponent.h \
+	$(top_builddir)/src/Inventor/Win/SoWinCursors.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinGLWidget.h \
 	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
 
@@ -179,7 +182,6 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(lib_LTLIBRARIES)
 
-
 DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
@@ -187,7 +189,8 @@ LIBS = @LIBS@
 libSoWin@SUFFIX@_la_DEPENDENCIES = devices/libSoWinDevices.la \
 viewers/libSoWinViewers.la widgets/libSoWinWidgets.la
 am_libSoWin@SUFFIX@_la_OBJECTS = SoAny.lo SoWinObject.lo \
-SoWinRenderArea.lo SoWin.lo SoWinComponent.lo SoWinGLWidget.lo
+SoWinRenderArea.lo SoWin.lo SoWinComponent.lo SoWinGLWidget.lo \
+SoWinCursors.lo
 libSoWin@SUFFIX@_la_OBJECTS = $(am_libSoWin@SUFFIX@_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -207,7 +210,8 @@ HEADERS = $(libSoWininc_HEADERS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@DEP_FILES = $(DEPDIR)/SoAny.Plo $(DEPDIR)/SoWin.Plo \
 @AMDEP@ $(DEPDIR)/SoWinComponent.Plo $(DEPDIR)/SoWinGLWidget.Plo \
-@AMDEP@ $(DEPDIR)/SoWinObject.Plo $(DEPDIR)/SoWinRenderArea.Plo
+@AMDEP@ $(DEPDIR)/SoWinObject.Plo $(DEPDIR)/SoWinRenderArea.Plo \
+@AMDEP@ $(DEPDIR)/SoWinCursors.Plo
 DIST_COMMON = $(libSoWininc_HEADERS) Makefile.am Makefile.in
 
 DIST_SUBDIRS = $(SUBDIRS)
@@ -381,6 +385,7 @@ distclean-tags:
 @AMDEP@@_am_include@ $(DEPDIR)/SoAny.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoWin.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinComponent.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoWinCursors.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinGLWidget.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinObject.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinRenderArea.Plo
@@ -552,6 +557,12 @@ SoWinObject.h: $(srcdir)/common/SoGuiObject.h.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
 
 SoWinObject.cpp: $(srcdir)/common/SoGuiObject.cpp.in
+	@( cd $(top_builddir); $(MAKE) built-sources )
+
+SoWinCursors.h: $(srcdir)/common/SoGuiCursors.h.in
+	@( cd $(top_builddir); $(MAKE) built-sources )
+
+SoWinCursors.cpp: $(srcdir)/common/SoGuiCursors.cpp.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
 
 SoWinRenderArea.h: $(srcdir)/common/SoGuiRenderArea.h.in

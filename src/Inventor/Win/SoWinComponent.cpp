@@ -342,8 +342,8 @@ SoWinComponent::buildFormWidget( HWND parent )
   WNDCLASS windowclass;
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
-  LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
-  HBRUSH brush = ( HBRUSH ) GetStockObject( COLOR_3DFACE );
+	LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
+  HBRUSH brush = ( HBRUSH ) GetStockObject( COLOR_BTNFACE );
   HMENU menu = NULL;
   HWND widget;
 
@@ -352,8 +352,8 @@ SoWinComponent::buildFormWidget( HWND parent )
   windowclass.lpfnWndProc = SoWinComponent::windowProc;
   windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = LoadIcon( NULL, icon );
-  windowclass.hCursor = LoadCursor( NULL, cursor );
+  windowclass.hIcon = LoadIcon( SoWin::getInstance( ), icon );
+  windowclass.hCursor = LoadCursor( SoWin::getInstance( ), cursor );
   windowclass.hbrBackground = brush;
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;
@@ -561,6 +561,7 @@ SoWinComponent::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lpa
   if ( object ) {
     switch ( message )
       {
+				
       case WM_SIZE:
         return object->onSize( window, message, wparam, lparam );
 
