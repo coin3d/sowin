@@ -39,12 +39,32 @@ SoWinViewerPrefSheet::~SoWinViewerPrefSheet( void )
 
 void SoWinViewerPrefSheet::create( HWND parent )
 {
-  int y = 10; // Start at 10 pixels
   this->createMainWidget( parent );
+
+  int y = 10;
+  this->lineHeight = this->getFontHeight( this->mainWidget ) + 10;
+    
   y = this->createSeekWidgets( this->mainWidget, 0, y );
   y = this->createZoomWidgets( this->mainWidget, 0, y );
   y = this->createClippingWidgets( this->mainWidget, 0, y );
   y = this->createSpinnWidgets( this->mainWidget, 0, y );
+
+  y += 10;
+  
+  RECT rect;
+  int height;
+
+  GetClientRect( this->mainWidget, & rect );
+  height = rect.bottom;
+  
+  GetWindowRect( this->mainWidget, & rect );
+
+  MoveWindow( this->mainWidget,
+              rect.left,
+              rect.top,
+              ( rect.right - rect.left ), // FIXME no adjustment to width yet
+              ( rect.bottom - rect.top ) + ( y - height ),
+              TRUE );
 }
 
 void SoWinViewerPrefSheet::destroy( void )
@@ -73,7 +93,7 @@ void SoWinViewerPrefSheet::setTitle( const char * title )
 
 void SoWinViewerPrefSheet::constructor( void )
 {
-  this->lineHeight = 30; // FIXME: check font size
+  this->lineHeight = 0;
   this->className = "SoWinViewerPrefSheet";
   this->mainWidget = NULL;
 }
@@ -290,12 +310,13 @@ LRESULT SoWinViewerPrefSheet::onDestroy( HWND window, UINT message, WPARAM wpara
 HWND SoWinViewerPrefSheet::createLabelWidget( HWND parent, const char * text, int x, int y )
 {
   assert( IsWindow( parent ) );
+  SIZE textSize = this->getTextSize( parent, text ); // FIXME: assumes the same font as parent
 	HWND hwnd = CreateWindowEx( NULL,
                               "STATIC",
 		                          ( text ? text : "" ),
 		                          WS_VISIBLE | WS_CHILD | SS_LEFT,
 		                          x, y,
-		                          strlen( text ) * 8, 16, // SIZE
+		                          textSize.cx, textSize.cy,
 		                          parent,
 		                          NULL,
 		                          SoWin::getInstance( ),
@@ -312,7 +333,7 @@ HWND SoWinViewerPrefSheet::createEditWidget( HWND parent, int width, int x, int 
 		                          "",
                               WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL,// | ES_NUMBER,
 		                          x, y,
-		                          width, 20, // SIZE
+		                          width, this->getFontHeight( parent ) + 4,
 		                          parent,
 		                          NULL,
 		                          SoWin::getInstance( ),
@@ -324,12 +345,13 @@ HWND SoWinViewerPrefSheet::createEditWidget( HWND parent, int width, int x, int 
 HWND SoWinViewerPrefSheet::createRadioWidget( HWND parent, const char * text, int x, int y )
 {
   assert( IsWindow( parent ) );
+  SIZE textSize = this->getTextSize( parent, text ); // FIXME: assumes the same font as parent  
 	HWND hwnd = CreateWindowEx( NULL,
                               "BUTTON",
 		                          ( text ? text : "" ),
-                              WS_VISIBLE | WS_CHILD | BS_RADIOBUTTON,
+                              WS_VISIBLE | WS_CHILD | BS_RADIOBUTTON | BS_LEFT,
 		                          x, y,
-		                          14 + strlen( text ) * 8, 16, // SIZE
+		                          30 + textSize.cx, textSize.cy,
 		                          parent,
 		                          NULL,
 		                          SoWin::getInstance( ),
@@ -346,7 +368,7 @@ HWND SoWinViewerPrefSheet::createSliderWidget( HWND parent, int width, int x, in
                               "",
                               WS_CHILD | WS_VISIBLE | SBS_HORZ,
 		                          x, y,
-                              width, 18,
+                              width, this->getFontHeight( parent ) + 2,
                               parent,
                               NULL,
                               SoWin::getInstance( ),
@@ -358,16 +380,37 @@ HWND SoWinViewerPrefSheet::createSliderWidget( HWND parent, int width, int x, in
 HWND SoWinViewerPrefSheet::createCheckWidget( HWND parent, const char * text, int x, int y )
 {
   assert( IsWindow( parent ) );
+  SIZE textSize = this->getTextSize( parent, text ); // FIXME: assumes the same font as parent  
 	HWND hwnd = CreateWindowEx( NULL,
                               "BUTTON",
 		                          ( text ? text : "" ),
-                              WS_VISIBLE | WS_CHILD | BS_CHECKBOX,
+                              WS_VISIBLE | WS_CHILD | BS_CHECKBOX | BS_LEFT,
 		                          x, y,
-		                          14 + strlen( text ) * 8, 16, // SIZE
+		                          30 + textSize.cx, textSize.cy,
 		                          parent,
 		                          NULL,
 		                          SoWin::getInstance( ),
 		                          NULL );
 	assert( IsWindow( hwnd ) );
 	return hwnd;  
+}
+
+SIZE SoWinViewerPrefSheet::getTextSize( HWND window, const char * text )
+{
+  assert( IsWindow( window ) );
+  
+	int len = strlen( text );
+	HDC hdc = GetDC( window );
+
+	SIZE size;
+	GetTextExtentPoint( hdc, text, len, & size );
+
+  _cprintf( " %s: %d x %d \n", text, size.cx, size.cy );
+
+  return size;
+}
+
+int SoWinViewerPrefSheet::getFontHeight( HWND window )
+{
+  return this->getTextSize( window, "Ig" ).cy;
 }

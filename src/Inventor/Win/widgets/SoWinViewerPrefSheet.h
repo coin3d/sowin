@@ -67,6 +67,9 @@ private:
   HWND createSliderWidget( HWND parent, int width = 64, int x = 0, int y = 0 );
   HWND createCheckWidget( HWND parent, const char * text = NULL, int x = 0, int y = 0 );
 
+  SIZE getTextSize( HWND window, const char * text );
+  int getFontHeight( HWND window );
+
   int lineHeight;
   const char * className;
   

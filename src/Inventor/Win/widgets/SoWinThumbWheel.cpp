@@ -147,7 +147,7 @@ SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lpara
                                                ( this->state == SoWinThumbWheel::Disabled ) ?
                                                SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED );
 	
-	this->BlitBitmap( this->pixmaps[pixmap], hdc, 0, 0, this->width( ) - 2, this->height( ) - 2 );
+	this->blitBitmap( this->pixmaps[pixmap], hdc, 0, 0, this->width( ) - 2, this->height( ) - 2 );
 	
   this->currentPixmap = pixmap;
 
@@ -597,11 +597,13 @@ SoWinThumbWheel::getRangeBoundaryHandling( void ) const
 HWND
 SoWinThumbWheel::createLabel( HWND parent, int x, int y, char * text )
 {
+  assert( IsWindow( parent ) );
+  SIZE textSize = this->getTextSize( parent, text ); // FIXME: assumes the same font as parent
 	HWND hwnd = CreateWindow( "STATIC",
 		                        ( text ? text : " " ),
 		                        WS_VISIBLE | WS_CHILD | SS_CENTER,
 		                        x, y,
-		                        strlen( text ) * 8, 14, // SIZE
+		                        textSize.cx, textSize.cy, // SIZE
 		                        parent,
 		                        NULL,
 		                        SoWin::getInstance( ),
@@ -647,10 +649,24 @@ SoWinThumbWheel::createDIB( int width, int height, int bpp, void ** bits ) // 16
 }
 
 void
-SoWinThumbWheel::BlitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int height ) const {
+SoWinThumbWheel::blitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int height ) const {
   HDC memorydc = CreateCompatibleDC( dc );
   HBITMAP oldBitmap = ( HBITMAP ) SelectObject( memorydc, bitmap );
   BitBlt( dc, x, y, width, height, memorydc, 0, 0, SRCCOPY );
   SelectObject( memorydc, oldBitmap );
   DeleteDC( memorydc );
+}
+
+SIZE
+SoWinThumbWheel::getTextSize( HWND window, char * text )
+{
+  assert( IsWindow( window ) );
+  
+	int len = strlen( text );
+	HDC hdc = GetDC( window );
+
+	SIZE size;
+	GetTextExtentPoint( hdc, text, len, & size );
+
+  return size;
 }

@@ -130,7 +130,8 @@ private:
   void initWheel( int diameter, int width );
 	HWND createLabel( HWND parent, int x, int y, char * text );
   HBITMAP createDIB( int width, int height, int bpp, void ** bits );
-  void BlitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int height ) const;
+  void blitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int height ) const;
+  SIZE getTextSize( HWND window, char * text );
 
   Orientation orient;
   State state;
