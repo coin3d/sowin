@@ -1,12 +1,12 @@
 ############################################################################
-## SoWin/src/Inventor/Win/Makefile.am
-## $Id$
-
-lib_LTLIBRARIES = libSoWin.la
 
 SUBDIRS = devices widgets viewers
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src -I$(top_builddir)/data
+############################################################################
+
+INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+
+lib_LTLIBRARIES = libSoWin.la
 
 BUILT_SOURCES = \
 	SoWinBasic.h \
@@ -19,6 +19,8 @@ noinst_DATA = $(BUILT_SOURCES)
 
 libSoWin_la_SOURCES = \
 	$(BUILT_SOURCES) \
+	SoWinObject.h \
+	SoWinObject.cpp \
 	SoWin.h \
 	SoWin.cpp \
 	SoWinComponent.h \
@@ -27,13 +29,25 @@ libSoWin_la_SOURCES = \
 	SoWinGLWidget.cpp
 
 libSoWin_la_LIBADD = \
-        devices/libSoWinDevices.la
+	devices/libSoWinDevices.la \
+	viewers/libSoWinViewers.la \
+	widgets/libSoWinWidgets.la
+
+libSoWin_la_LDFLAGS = \
+        -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 ############################################################################
 
-SoWin.cpp: SoWinBasic.h
-SoWinComponent.cpp: SoWinBasic.h
-SoWinGLWidget.cpp: SoWinBasic.h
+libSoWinincdir = $(includedir)/Inventor/Win
+
+libSoWininc_HEADERS = \
+	$(top_srcdir)/src/Inventor/Win/SoWin.h \
+	$(top_srcdir)/src/Inventor/Win/SoWinComponent.h \
+	$(top_srcdir)/src/Inventor/Win/SoWinGLWidget.h \
+	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
+	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
+
+############################################################################
 
 SoWinBasic.h: $(srcdir)/common/SoGuiBasic.h.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
@@ -46,30 +60,37 @@ SoWinRenderArea.cpp: $(srcdir)/common/SoGuiRenderArea.cpp.in
 
 ############################################################################
 
-libSoWinincdir = $(includedir)/Inventor/Win
 
-libSoWininc_HEADERS = \
-	SoWin.h \
-	SoWinComponent.h \
-	SoWinGLWidget.h \
-	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
-	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
+#### Additional "native" Make rules #########################################
 
-install-libSoWinincHEADERS: $(libSoWininc_HEADERS)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoWinincdir)
-	@list='$(libSoWininc_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoWinincdir)/$$f"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoWinincdir)/$$f; \
-	done
 
-uninstall-libSoWinincHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(libSoWininc_HEADERS)'; for p in $$list; do \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libSoWinincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libSoWinincdir)/$$f; \
-	done
+## Rule for linking up a .DLL on MSWindows with MSVC++.
+##
+## Short explanation of what the shell-code does: tests if the C
+## compiler is our MSVC++ wrapper script, and if so: properly link the
+## DLL. If not, just make an empty sowin{version}.dll file so the
+## install-exec-hook knows when to _not_ install the .dll.
 
+sowin@SOWIN_MAJOR_VERSION@.dll: $(libSoWin_la_OBJECTS) $(libSoWin_la_DEPENDENCIES)
+	@rm -f sowin@SOWIN_MAJOR_VERSION@.dll && \
+	if @BUILD_WITH_MSVC@; then \
+	  echo "Linking DLL..."; \
+	  $(CC) /dll /out:sowin@SOWIN_MAJOR_VERSION@.dll $(LDFLAGS) \
+	        `echo $(libSoWin_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
+	        $(libSoWin_la_LIBADD) $(LIBS); \
+	else \
+	  touch sowin@SOWIN_MAJOR_VERSION@.dll; \
+	fi
+
+## This hook will be run at the end of a ``make install''.
+##
+## The single action taken is to install the sowin.dll and sowin.lib
+## files (if they have been built properly).
+
+install-exec-hook: sowin@SOWIN_MAJOR_VERSION@.dll
+	@if test -s sowin@SOWIN_MAJOR_VERSION@.dll; then \
+	  echo "Installing sowin@SOWIN_MAJOR_VERSION@.dll"; \
+	  for i in sowin@SOWIN_MAJOR_VERSION@.dll sowin@SOWIN_MAJOR_VERSION@.lib; do \
+	    $(INSTALL_DATA) $$i $(DESTDIR)$(libdir)/$$i; \
+	  done \
+	fi

@@ -85,14 +85,6 @@ inline int _not_null( const void * arg ) { return (arg != NULL) ? 1 : 0; }
   } while (0)
 
 // *************************************************************************
-// misc other stuff
-
-#include <wtypes.h>    // don't like to include this here, but I have to. :(
-
-typedef CALLBACK SoWinEventHandler( HWND, UINT, WPARAM, LPARAM );
-typedef SoWinEventHandler * SoWinEventHandlerPtr;
-
-// *************************************************************************
 // ( virtual ) key codes
 
 #define SOWIN_KEY_OEM_3        0x29    // |
@@ -220,8 +212,3 @@ typedef SoWinEventHandler * SoWinEventHandlerPtr;
 // *************************************************************************
 
 #endif // ! SO@GUI@_INTERNALDEFS_H
-
-
-
-
-

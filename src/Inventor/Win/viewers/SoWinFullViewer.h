@@ -33,7 +33,8 @@ typedef void PushAppButtonCB( HWND hwnd, int id, void * pushData, void * userDat
 typedef void RedrawAppButtonCB( LPDRAWITEMSTRUCT lpdis, void * userData );
 
 class SoWinFullViewer : public SoWinViewer {
-    typedef SoWinViewer inherited;
+    SOWIN_OBJECT_ABSTRACT_HEADER(SoWinFullViewer, SoWinViewer);
+
     friend class SoAnyFullViewer;
 public:
 

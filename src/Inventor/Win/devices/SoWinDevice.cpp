@@ -28,8 +28,26 @@
 
 #include <sowindefs.h>
 #include <Inventor/Win/devices/SoWinDevice.h>
+#include <Inventor/Win/devices/SoWinInputFocus.h>
+#include <Inventor/Win/devices/SoWinKeyboard.h>
+#include <Inventor/Win/devices/SoWinMouse.h>
+#include <Inventor/Win/devices/SoWinSpaceball.h>
 
 long SoWinDevice::modifierKeys = 0;
+
+// *************************************************************************
+
+SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinDevice);
+
+void
+SoWinDevice::initClasses(void)
+{
+  SoWinDevice::initClass();
+  SoWinInputFocus::initClass();
+  SoWinKeyboard::initClass();
+  SoWinMouse::initClass();
+  SoWinSpaceball::initClass();
+} // initClasses()
 
 // *************************************************************************
 

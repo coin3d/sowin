@@ -20,12 +20,10 @@
 #ifndef  SOWIN_DEVICE_H
 #define  SOWIN_DEVICE_H
 
-#include <sowindefs.h>
-
-#include <Inventor/Win/SoWinBasic.h>
-
 #include <Inventor/SbLinear.h>
 #include <Inventor/events/SoEvent.h>
+#include <Inventor/Win/SoWinObject.h>
+#include <wtypes.h>
 
 #define ButtonPressMask   0x01
 #define ButtonReleaseMask 0x02
@@ -38,9 +36,13 @@
 #define MK_ALT 0x02
 #endif
 
-//#define SoWinEventHandlerPtr LRESULT CALLBACK
 
-class SoWinDevice {
+typedef void SoWinEventHandler(HWND, void *, MSG *, SbBool *);
+typedef void (*SoWinEventHandlerPtr)(HWND, void *, MSG *, SbBool *);
+
+class SoWinDevice : public SoWinObject {
+    SOWIN_OBJECT_ABSTRACT_HEADER(SoWinDevice, SoWinObject);
+
 public:
     SoWinDevice( void );
     ~SoWinDevice( void );
@@ -52,6 +54,8 @@ public:
 
     void setWindowSize( const SbVec2s newSize );
     const SbVec2s getWindowSize( void ) const;
+
+    static void initClasses(void);
 
 protected:
     // set the window coordinate from the passed x,y value. This will flip

@@ -1,12 +1,13 @@
 #include <conio.h>
 
+#include <Inventor/SbTime.h>
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInteraction.h>
-#include <Inventor/nodekits/SoNodeKit.h>
-#include <Inventor/SbTime.h>
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
 #include <Inventor/errors/SoDebugError.h>
+#include <Inventor/nodekits/SoNodeKit.h>
 
+#include <sowindefs.h> // SOWIN_STUB
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/SoWinComponent.h>
 
@@ -65,6 +66,8 @@ void SoWin::init( HWND const topLevelWidget )
     SoInteraction::init( );
 
     SoDebugError::setHandlerCallback( SoWin::errorHandlerCB, NULL );    // initialize error handeling
+
+    SoWinObject::init();
 
     SoDB::getSensorManager( )->setChangedCallback( SoWin::sensorQueueChanged, NULL );
     if(topLevelWidget)

@@ -106,11 +106,13 @@ sowin_configure_date = @sowin_configure_date@
 ############################################################################
 
 
-lib_LTLIBRARIES = libSoWin.la
-
 SUBDIRS = devices widgets viewers
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src -I$(top_builddir)/data
+############################################################################
+
+INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+
+lib_LTLIBRARIES = libSoWin.la
 
 BUILT_SOURCES = \
 	SoWinBasic.h \
@@ -124,6 +126,8 @@ noinst_DATA = $(BUILT_SOURCES)
 
 libSoWin_la_SOURCES = \
 	$(BUILT_SOURCES) \
+	SoWinObject.h \
+	SoWinObject.cpp \
 	SoWin.h \
 	SoWin.cpp \
 	SoWinComponent.h \
@@ -133,7 +137,13 @@ libSoWin_la_SOURCES = \
 
 
 libSoWin_la_LIBADD = \
-        devices/libSoWinDevices.la
+	devices/libSoWinDevices.la \
+	viewers/libSoWinViewers.la \
+	widgets/libSoWinWidgets.la
+
+
+libSoWin_la_LDFLAGS = \
+        -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 
 ############################################################################
@@ -141,9 +151,9 @@ libSoWin_la_LIBADD = \
 libSoWinincdir = $(includedir)/Inventor/Win
 
 libSoWininc_HEADERS = \
-	SoWin.h \
-	SoWinComponent.h \
-	SoWinGLWidget.h \
+	$(top_srcdir)/src/Inventor/Win/SoWin.h \
+	$(top_srcdir)/src/Inventor/Win/SoWinComponent.h \
+	$(top_srcdir)/src/Inventor/Win/SoWinGLWidget.h \
 	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
 	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
 
@@ -158,10 +168,10 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I../../..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-libSoWin_la_LDFLAGS = 
-libSoWin_la_DEPENDENCIES =  devices/libSoWinDevices.la
-am_libSoWin_la_OBJECTS =  SoWinRenderArea.lo SoWin.lo SoWinComponent.lo \
-SoWinGLWidget.lo
+libSoWin_la_DEPENDENCIES =  devices/libSoWinDevices.la \
+viewers/libSoWinViewers.la widgets/libSoWinWidgets.la
+am_libSoWin_la_OBJECTS =  SoWinRenderArea.lo SoWinObject.lo SoWin.lo \
+SoWinComponent.lo SoWinGLWidget.lo
 libSoWin_la_OBJECTS =  $(am_libSoWin_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -180,7 +190,8 @@ HEADERS =  $(libSoWininc_HEADERS)
 
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 DEP_FILES =  @AMDEP@ $(DEPDIR)/SoWin.Plo $(DEPDIR)/SoWinComponent.Plo \
-$(DEPDIR)/SoWinGLWidget.Plo $(DEPDIR)/SoWinRenderArea.Plo
+$(DEPDIR)/SoWinGLWidget.Plo $(DEPDIR)/SoWinObject.Plo \
+$(DEPDIR)/SoWinRenderArea.Plo
 DIST_COMMON =  $(libSoWininc_HEADERS) Makefile.am Makefile.in
 
 
@@ -249,6 +260,26 @@ maintainer-clean-libtool:
 
 libSoWin.la: $(libSoWin_la_OBJECTS) $(libSoWin_la_DEPENDENCIES)
 	$(CXXLINK) -rpath $(libdir) $(libSoWin_la_LDFLAGS) $(libSoWin_la_OBJECTS) $(libSoWin_la_LIBADD) $(LIBS)
+
+install-libSoWinincHEADERS: $(libSoWininc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(libSoWinincdir)
+	@list='$(libSoWininc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  if cmp -s $$d$$p $(DESTDIR)$(libSoWinincdir)/$$f; then :; else \
+	    echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoWinincdir)/$$f"; \
+	    $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoWinincdir)/$$f; \
+	  fi; \
+	done
+
+uninstall-libSoWinincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(libSoWininc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(libSoWinincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(libSoWinincdir)/$$f; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -345,6 +376,7 @@ maintainer-clean-tags:
 @AMDEP@include $(DEPDIR)/SoWin.Plo
 @AMDEP@include $(DEPDIR)/SoWinComponent.Plo
 @AMDEP@include $(DEPDIR)/SoWinGLWidget.Plo
+@AMDEP@include $(DEPDIR)/SoWinObject.Plo
 @AMDEP@include $(DEPDIR)/SoWinRenderArea.Plo
 
 mostlyclean-depend:
@@ -374,7 +406,8 @@ maintainer-clean-depend:
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_builddir)/src/Inventor/Win
+	$(mkinstalldirs) $(distdir)/$(top_builddir)/src/Inventor/Win \
+	   $(distdir)/$(top_srcdir)/src/Inventor/Win
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -404,6 +437,8 @@ check: check-recursive
 installcheck-am:
 installcheck: installcheck-recursive
 install-exec-am: install-libLTLIBRARIES
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
 install-exec: install-exec-recursive
 
 install-data-am: install-libSoWinincHEADERS
@@ -485,10 +520,6 @@ maintainer-clean
 
 ############################################################################
 
-SoWin.cpp: SoWinBasic.h
-SoWinComponent.cpp: SoWinBasic.h
-SoWinGLWidget.cpp: SoWinBasic.h
-
 SoWinBasic.h: $(srcdir)/common/SoGuiBasic.h.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
 
@@ -498,23 +529,28 @@ SoWinRenderArea.h: $(srcdir)/common/SoGuiRenderArea.h.in
 SoWinRenderArea.cpp: $(srcdir)/common/SoGuiRenderArea.cpp.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
 
-install-libSoWinincHEADERS: $(libSoWininc_HEADERS)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoWinincdir)
-	@list='$(libSoWininc_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoWinincdir)/$$f"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoWinincdir)/$$f; \
-	done
+############################################################################
 
-uninstall-libSoWinincHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(libSoWininc_HEADERS)'; for p in $$list; do \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libSoWinincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libSoWinincdir)/$$f; \
-	done
+#### Additional "native" Make rules #########################################
+
+sowin@SOWIN_MAJOR_VERSION@.dll: $(libSoWin_la_OBJECTS) $(libSoWin_la_DEPENDENCIES)
+	@rm -f sowin@SOWIN_MAJOR_VERSION@.dll && \
+	if @BUILD_WITH_MSVC@; then \
+	  echo "Linking DLL..."; \
+	  $(CC) /dll /out:sowin@SOWIN_MAJOR_VERSION@.dll $(LDFLAGS) \
+	        `echo $(libSoWin_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
+	        $(libSoWin_la_LIBADD) $(LIBS); \
+	else \
+	  touch sowin@SOWIN_MAJOR_VERSION@.dll; \
+	fi
+
+install-exec-hook: sowin@SOWIN_MAJOR_VERSION@.dll
+	@if test -s sowin@SOWIN_MAJOR_VERSION@.dll; then \
+	  echo "Installing sowin@SOWIN_MAJOR_VERSION@.dll"; \
+	  for i in sowin@SOWIN_MAJOR_VERSION@.dll sowin@SOWIN_MAJOR_VERSION@.lib; do \
+	    $(INSTALL_DATA) $$i $(DESTDIR)$(libdir)/$$i; \
+	  done \
+	fi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -27,6 +27,8 @@
 #include <Inventor/events/SoMouseButtonEvent.h>
 
 class SoWinMouse : public SoWinDevice {
+    SOWIN_OBJECT_HEADER(SoWinMouse, SoWinDevice);
+
     enum MouseEvents {
         BUTTON_PRESS = ButtonPressMask,         // 0x01
         BUTTON_RELEASE = ButtonReleaseMask,     // 0x02
@@ -34,6 +36,7 @@ class SoWinMouse : public SoWinDevice {
         BUTTON_MOTION = ButtonMotionMask,       // 0x08 = motion + buttons
         ALL_EVENTS = BUTTON_PRESS | BUTTON_RELEASE | POINTER_MOTION | BUTTON_MOTION
     };
+
 public:
 
     SoWinMouse( UINT events = ALL_EVENTS );

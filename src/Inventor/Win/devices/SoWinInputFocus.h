@@ -29,14 +29,14 @@
 #define SO_WIN_ALL_FOCUS_EVENTS (sowinEnterWindowMask | sowinLeaveWindowMask)
 
 class SOWIN_DLL_API SoWinInputFocus : public SoWinDevice {
-    typedef SoWinDevice inherited;
+    SOWIN_OBJECT_HEADER(SoWinInputFocus, SoWinDevice);
 
 public:
     SoWinInputFocus(UINT mask = SO_WIN_ALL_FOCUS_EVENTS);
     virtual ~SoWinInputFocus(void);
 
-    virtual void enable( HWND window, SoWinEventHandler * handler, void * closure );
-    virtual void disable( HWND window, SoWinEventHandler * handler, void * closure );
+    virtual void enable( HWND widget, SoWinEventHandler * handler, void * closure, HWND window = NULL );
+    virtual void disable( HWND widget, SoWinEventHandler * handler, void * closure );
 
     virtual const SoEvent * translateEvent( MSG * event );
 

@@ -27,6 +27,8 @@
 #include <Inventor/events/SoSpaceballButtonEvent.h>
 
 class SoWinSpaceball : public SoWinDevice {
+    SOWIN_OBJECT_HEADER(SoWinSpaceball, SoWinDevice);
+
 public:
     enum Mask {
         MOTION_EVENT  = 0x01,  MOTION = MOTION_EVENT,
@@ -39,7 +41,7 @@ public:
     SoWinSpaceball( UINT mask = ALL_EVENTS );
     ~SoWinSpaceball( void );
     
-    virtual void enable( HWND, SoWinEventHandler * , void *, HWND );
+    virtual void enable( HWND, SoWinEventHandler * , void *, HWND = NULL );
     virtual void disable( HWND, SoWinEventHandler * , void * );
 
     virtual const SoEvent * translateEvent( MSG * msg );

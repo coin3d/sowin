@@ -19,6 +19,8 @@
 
 #include <assert.h>
 #include <string.h>
+#include <windows.h>
+#include <GL/gl.h>
 
 #include <Inventor/misc/SoBasic.h>
 #include <Inventor/SoLists.h>
@@ -26,6 +28,25 @@
 
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/SoWinComponent.h>
+#include <Inventor/Win/SoWinGLWidget.h>
+#include <Inventor/Win/SoWinRenderArea.h>
+#include <Inventor/Win/viewers/SoWinViewer.h>
+#include <Inventor/Win/viewers/SoWinFullViewer.h>
+#include <sowindefs.h> // SOWIN_STUB
+
+// *************************************************************************
+
+SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinComponent);
+
+void
+SoWinComponent::initClasses(void)
+{
+  SoWinComponent::initClass();
+  SoWinGLWidget::initClass();
+  SoWinRenderArea::initClass();
+  SoWinViewer::initClass();
+  SoWinFullViewer::initClass();
+} // initClasses()
 
 // *************************************************************************
 

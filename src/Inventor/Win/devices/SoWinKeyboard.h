@@ -26,6 +26,7 @@
 #include <Inventor/Win/devices/SoWinDevice.h>
 
 class SoWinKeyboard : public SoWinDevice {
+    SOWIN_OBJECT_HEADER(SoWinKeyboard, SoWinDevice);
 
     enum KeyboardEvents {
         KEY_PRESS = KeyPressMask,               // 0x01,

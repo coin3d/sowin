@@ -12,6 +12,8 @@
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/devices/SoWinSpaceball.h>
 
+SOWIN_OBJECT_SOURCE(SoWinSpaceball);
+
 
 SoWinSpaceball::SoWinSpaceball( UINT mask )
 {

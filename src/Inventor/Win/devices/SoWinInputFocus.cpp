@@ -30,6 +30,10 @@
 
 // *************************************************************************
 
+SOWIN_OBJECT_SOURCE(SoWinInputFocus);
+
+// *************************************************************************
+
 /*!
   Constructor.
 */
@@ -57,7 +61,8 @@ void
 SoWinInputFocus::enable(
     HWND, // widget,
     SoWinEventHandler *, // handler,
-    void * ) // closure )
+    void * , // closure
+    HWND ) // window
 {
     SOWIN_STUB();
 } // enable()

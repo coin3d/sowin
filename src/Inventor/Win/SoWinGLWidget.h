@@ -39,20 +39,7 @@ enum GLModes {        // remove the GLX ones?
 // *************************************************************************
 
 class SOWIN_DLL_API SoWinGLWidget : public SoWinComponent {
-    typedef SoWinComponent inherited;
-protected:    
-    // Subclasses can pass in a bitwise OR specifying the GL modes
-    // (e.g. SO_GLX_RGB | SO_GLX_DOUBLE | SO_GLX_ZBUFFER | SO_GLX_OVERLAY)
-    // If build is FALSE, this will not build its widget tree until
-    // buildWidget() is explicity called; else, buildWidget() is called here.
-    SoWinGLWidget(
-	    HWND parent = NULL,
-	    const char * name = NULL, 
-	    SbBool embed = TRUE, 
-	    int glModes = SO_GLX_RGB|SO_GL_DOUBLE, //SO_GLX_RGB
-	    SbBool build = TRUE);
-
-    virtual ~SoWinGLWidget( void );
+    SOWIN_OBJECT_ABSTRACT_HEADER(SoWinGLWidget, SoWinComponent);
 
 public:
     HWND getNormalWindow( void );
@@ -95,6 +82,19 @@ public:
     HCURSOR getCursor( void );
 
 protected:
+    // Subclasses can pass in a bitwise OR specifying the GL modes
+    // (e.g. SO_GLX_RGB | SO_GLX_DOUBLE | SO_GLX_ZBUFFER | SO_GLX_OVERLAY)
+    // If build is FALSE, this will not build its widget tree until
+    // buildWidget() is explicity called; else, buildWidget() is called here.
+    SoWinGLWidget(
+	    HWND parent = NULL,
+	    const char * name = NULL, 
+	    SbBool embed = TRUE, 
+	    int glModes = SO_GLX_RGB|SO_GL_DOUBLE, //SO_GLX_RGB
+	    SbBool build = TRUE);
+
+    virtual ~SoWinGLWidget( void );
+
     virtual void redraw( void ) = 0;
     virtual void redrawOverlay( void );
     virtual void processEvent( MSG * msg );

@@ -22,7 +22,6 @@
 
 #include <math.h>
 #include <windows.h>
-#include <Gl/gl.h>
 
 #include <Inventor/SbBasic.h>
 #include <Inventor/SbLinear.h>
@@ -31,6 +30,7 @@
 #include <Inventor/errors/SoError.h>
 
 #include <Inventor/Win/SoWinBasic.h>
+#include <Inventor/Win/devices/SoWinDevice.h>
 
 struct MessageHook
 {
@@ -104,13 +104,13 @@ public:
 
 //
     static void addExtensionEventHandler( HWND window,
-				                          int extensionEventType,
-				                          SoWinEventHandler * callbackproc,
-				                          void * data );
+                                          int extensionEventType,
+                                          SoWinEventHandler * callbackproc,
+                                          void * data );
     static void removeExtensionEventHandler( HWND window,
-				                             int extensionEventType,
-				                             SoWinEventHandler * callbackproc, 
-				                             void * data );
+                                             int extensionEventType,
+                                             SoWinEventHandler * callbackproc, 
+                                             void * data );
     static ATOM registerClass( WNDCLASS * wndClass, char * className );
     static SbBool getClassInfo( HINSTANCE dll,
                                 const char * name,

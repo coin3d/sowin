@@ -24,7 +24,7 @@
 #include <Inventor/SbString.h>
 #include <Inventor/SoLists.h>
 
-#include <Inventor/Win/SoWinBasic.h>
+#include <Inventor/Win/SoWinObject.h>
 
 class SoWinComponent;
 
@@ -37,15 +37,10 @@ typedef void SoWinComponentVisibilityCB( void * user, SbBool visible );
 const char pfd_cDepthBits = 32;
 const char pfd_cColorBits = 32;
 
-class SOWIN_DLL_API SoWinComponent
+class SOWIN_DLL_API SoWinComponent : SoWinObject
 {
+    SOWIN_OBJECT_ABSTRACT_HEADER(SoWinComponent, SoWinObject);
 
-protected:
-
-    SoWinComponent(
-        const HWND parent = NULL,
-        const char * const name = NULL,
-        const SbBool embed = TRUE );
 public:
 
     virtual ~SoWinComponent(void);
@@ -84,7 +79,14 @@ public:
     SbString helpFileName;
     UINT helpContextID;
 
+    static void initClasses(void);
+
 protected:
+
+    SoWinComponent(
+        const HWND parent = NULL,
+        const char * const name = NULL,
+        const SbBool embed = TRUE );
 
     void setBaseWidget( HWND widget );
     void setClassName( const char * const name );

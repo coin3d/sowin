@@ -17,16 +17,21 @@
  *
  **************************************************************************/
 
-#include <Inventor/SbVec2s.h>
+#include <windows.h>
+#include <GL/gl.h>
 
+#include <Inventor/SbVec2s.h>
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/SoWinGLWidget.h>
+#include <sowindefs.h>
 
 #if SOWIN_DEBUG
 #include <Inventor/errors/SoDebugError.h>
 #include <conio.h>
 #endif // SOWIN_DEBUG
+
+SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinGLWidget);
 
 ///////////////////////////////////////////////////////////////////
 //

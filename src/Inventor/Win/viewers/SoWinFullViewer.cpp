@@ -37,6 +37,8 @@
 #include <Inventor/Win/common/pixmaps/view_all.xpm>
 #include <Inventor/Win/common/pixmaps/seek.xpm>
 
+SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinFullViewer);
+
 SbBool SoWinFullViewer::doButtonBar = FALSE;
 
 void SoWinFullViewer::setDecoration( SbBool set )
