@@ -353,7 +353,7 @@ SbBool
 SoWinComponent::setFullScreen(const SbBool enable)
 {
   SoWinComponentP::FullscreenData * data = &(PRIVATE(this)->fullscreendata);
-  if (!!enable == !!data->on) { return TRUE; }
+  if (enable == data->on) { return TRUE; }
   data->on = enable;
 
   // FIXME: this check to see if we're a top-level component doesn't
@@ -364,44 +364,31 @@ SoWinComponent::setFullScreen(const SbBool enable)
     return FALSE;
   }
 
+  // FIXME: The FullscreenData struct is now obsolete, since we dont need to
+  // store the old size, position and style. We now only need to store if we are
+  // in fullscreen or not. 20030806 frodo.
   if (enable) {
-    // Save size, position and styles.
-    data->style = Win32::SetWindowLong(hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
-    data->exstyle = Win32::SetWindowLong(hwnd, GWL_EXSTYLE, WS_EX_TOPMOST);
+    // Go to fullscreen. We must change the style to get rid of the title bar and the border
+    Win32::SetWindowLong(hwnd, GWL_STYLE, WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
+    ShowWindow(hwnd,SW_MAXIMIZE);
 
-    // Store old position and size.
-    RECT rect;
-    Win32::GetWindowRect(hwnd, &rect);
-    data->pos.setValue((short)rect.left, (short)rect.top);
-    data->size.setValue((short)(rect.right - rect.left),
-                        (short)(rect.bottom - rect.top));
-
-    SbVec2s maxsize(GetSystemMetrics(SM_CXSCREEN),
-                    GetSystemMetrics(SM_CYSCREEN));
-
-    // Go fullscreen.
-    Win32::MoveWindow(hwnd, 0, 0, maxsize[0], maxsize[1], TRUE);
-
-    // FIXME: isn't there a specific method in the Win32 API for
-    // maximizing a window? If yes, use that mechanism instead of this
-    // "homegrown" method with MoveWindow() resizing. 20010820 mortene.
-    //
-    // UPDATE 20030422 mortene: perhaps we can use
-    // ShowWindow(hwnd,SW_MAXIMIZE) + ShowWindow(hwnd,SW_RESTORE)?
   }
   else {
-    // Restore old window settings.
-    (void)Win32::SetWindowLong(hwnd, GWL_STYLE, data->style | WS_VISIBLE);
-    (void)Win32::SetWindowLong(hwnd, GWL_EXSTYLE, data->exstyle);
+    // Restore old window position and size.
+    ShowWindow(hwnd,SW_RESTORE);
+    // Restore old window style
+    Win32::SetWindowLong(hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW |
+                                          WS_VISIBLE |
+                                          WS_CLIPSIBLINGS |
+                                          WS_CLIPCHILDREN);
 
-    Win32::MoveWindow(hwnd,
-                      (data->pos[0] > -1 ? data->pos[0] :
-                       ((GetSystemMetrics(SM_CXSCREEN) / 2) - 210)),
-                      (data->pos[1] > -1 ? data->pos[1] :
-                       ((GetSystemMetrics(SM_CYSCREEN) / 2) - 250)),
-                      (data->size[0] > 0 ? data->size[0] : 420),
-                      (data->size[1] > 0 ? data->size[1] : 500),
-                      TRUE);
+    // Certain window data such as style is cached, so we must call
+    // SetWindowPos() in order for the changes to take effect, 20030806 frodo.
+    RECT rect;
+    Win32::GetWindowRect(hwnd, &rect);
+    SetWindowPos(hwnd,HWND_TOPMOST, rect.left, rect.top,
+                                    rect.right - rect.left, rect.bottom - rect.top,
+                                    SWP_FRAMECHANGED);
 
   }
 
@@ -506,6 +493,8 @@ SoWinComponent::setTitle(const char * const title)
       shellWidget == this->getParentWidget()) {
     Win32::SetWindowText(shellWidget, PRIVATE(this)->title.getString());
   }
+
+
 }
 
 // Documented in common/SoGuiComponentCommon.cpp.in.
