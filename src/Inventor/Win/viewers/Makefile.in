@@ -409,9 +409,12 @@ DISTCLEANFILES = \
 ############################################################################
 # libtool setup
 libSoWinViewers_la_SOURCES = \
-	PlaneViewer.cpp \
 	FullViewer.cpp \
-	ExaminerViewer.cpp
+	SoWinFullViewerP.h \
+	ExaminerViewer.cpp \
+	SoWinExaminerViewerP.h \
+	PlaneViewer.cpp \
+	SoWinPlaneViewerP.h
 
 
 nodist_libSoWinViewers_la_SOURCES = \
@@ -423,9 +426,12 @@ nodist_libSoWinViewers_la_SOURCES = \
 ############################################################################
 # custom setup
 viewers_lst_SOURCES = \
-	PlaneViewer.cpp \
 	FullViewer.cpp \
-	ExaminerViewer.cpp
+	SoWinFullViewerP.h \
+	ExaminerViewer.cpp \
+	SoWinExaminerViewerP.h \
+	PlaneViewer.cpp \
+	SoWinPlaneViewerP.h
 
 
 nodist_viewers_lst_SOURCES = \
@@ -454,8 +460,8 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 viewers_lst_AR = $(AR) cru
 viewers_lst_LIBADD =
-am_viewers_lst_OBJECTS = PlaneViewer.$(OBJEXT) FullViewer.$(OBJEXT) \
-	ExaminerViewer.$(OBJEXT)
+am_viewers_lst_OBJECTS = FullViewer.$(OBJEXT) ExaminerViewer.$(OBJEXT) \
+	PlaneViewer.$(OBJEXT)
 nodist_viewers_lst_OBJECTS = So@Gui@Viewer.$(OBJEXT) \
 	So@Gui@ConstrainedViewer.$(OBJEXT) So@Gui@FlyViewer.$(OBJEXT) \
 	So@Gui@FullViewer.$(OBJEXT) So@Gui@ExaminerViewer.$(OBJEXT) \
@@ -466,8 +472,8 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoWinViewers_la_LDFLAGS =
 libSoWinViewers_la_LIBADD =
-am_libSoWinViewers_la_OBJECTS = PlaneViewer.lo FullViewer.lo \
-	ExaminerViewer.lo
+am_libSoWinViewers_la_OBJECTS = FullViewer.lo ExaminerViewer.lo \
+	PlaneViewer.lo
 nodist_libSoWinViewers_la_OBJECTS = So@Gui@Viewer.lo \
 	So@Gui@ConstrainedViewer.lo So@Gui@FlyViewer.lo \
 	So@Gui@FullViewer.lo So@Gui@ExaminerViewer.lo \

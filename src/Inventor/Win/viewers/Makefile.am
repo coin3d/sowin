@@ -35,9 +35,12 @@ DISTCLEANFILES = \
 # libtool setup
 
 libSoWinViewers_la_SOURCES = \
-	PlaneViewer.cpp \
 	FullViewer.cpp \
-	ExaminerViewer.cpp
+	SoWinFullViewerP.h \
+	ExaminerViewer.cpp \
+	SoWinExaminerViewerP.h \
+	PlaneViewer.cpp \
+	SoWinPlaneViewerP.h
 
 nodist_libSoWinViewers_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)
@@ -47,9 +50,12 @@ nodist_libSoWinViewers_la_SOURCES = \
 # custom setup
 
 viewers_lst_SOURCES = \
-	PlaneViewer.cpp \
 	FullViewer.cpp \
-	ExaminerViewer.cpp
+	SoWinFullViewerP.h \
+	ExaminerViewer.cpp \
+	SoWinExaminerViewerP.h \
+	PlaneViewer.cpp \
+	SoWinPlaneViewerP.h
 
 nodist_viewers_lst_SOURCES = \
 	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)
