@@ -34,6 +34,7 @@
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
 #include <Inventor/Win/viewers/SoWinPlaneViewer.h>
 #include <Inventor/Win/SoWinCursor.h>
+#include <Inventor/Win/SoAny.h>
 #include <sowindefs.h> // SOWIN_STUB
 #include <Inventor/Win/Win32API.h>
 
@@ -51,8 +52,10 @@ public:
   // Constructor.
   SoWinComponentP(SoWinComponent * o)
   {
-
     this->owner = o;
+
+    this->msgHook = NULL;
+    this->parent = NULL;
 
     if (! SoWinComponentP::sowincomplist)
       SoWinComponentP::sowincomplist = new SbPList;
@@ -84,43 +87,14 @@ public:
     }
   }
 
+  static void fatalerrorHandler(void * userdata);
+  void cleanupWin32References(void);
+
   // event handler
   static LRESULT CALLBACK
   eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
   {
     SoWinComponent * component = SoWinComponent::getComponent(window);
-
-    // FIXME?: there's a potential problem here for the application
-    // programmer, which was reported by Alan Walford of Eos. It is a
-    // complex issue where a bug can be triggered like this:
-    // 
-    // 0) the construction of a SoWinGLWidget-derived instance (like
-    // for instance a renderarea) fails due to lack of or faulty
-    // OpenGL-support -- or due to any other fatal error condition
-    //
-    // 1) SoWinGLWidget::buildGLWidget() (for instance) then calls
-    // SoAny::invokeFatalErrorHandler()
-    //
-    // 2) the app-programmer's registered fatal error handler throws a
-    // C++ exception which is caught "higher up", so the construction
-    // of the SoWinGLWidget-derived instance is never completed, and
-    // neither has it been destructed -- it is therefore in an invalid
-    // state, which goes undetected from within SoWin
-    //
-    // 3) in the process of cleaning up, the application client code
-    // causes a message to be sent to the SoWinGLWidget-instance's
-    // window, which triggers the function this FIXME comment is
-    // placed inside
-    //
-    // 4) below, operations on the instance is done -- which of course
-    // causes a crash, since it was never properly initialized
-    //
-    // This is a hard bug to detect and solve for the application
-    // programmers, so anything we could do to either detect and work
-    // around the problem -- or at least trigger a helpful assert() --
-    // would be a good thing.
-    //
-    // 20011018 mortene (thanks to Alan for explaining the problem).
 
     if (component) {
 
@@ -294,6 +268,9 @@ SoWinComponent::SoWinComponent(const HWND parent,
   PRIVATE(this)->widget = NULL;
   PRIVATE(this)->embedded = embed;
 
+  SoAny::si()->addInternalFatalErrorHandler(SoWinComponentP::fatalerrorHandler,
+                                            PRIVATE(this));
+
   if (IsWindow(parent) && embed) {
     PRIVATE(this)->parent = parent;
     PRIVATE(this)->msgHook =
@@ -302,7 +279,6 @@ SoWinComponent::SoWinComponent(const HWND parent,
   }
   else {
     PRIVATE(this)->parent = this->buildFormWidget(parent);
-    PRIVATE(this)->msgHook = NULL;
   }
 
   if (name) {
@@ -321,21 +297,66 @@ SoWinComponent::SoWinComponent(const HWND parent,
 */
 SoWinComponent::~SoWinComponent(void)
 {
-  if (PRIVATE(this)->msgHook)
-    UnhookWindowsHookEx(PRIVATE(this)->msgHook);
-  
-  for (int i = PRIVATE(this)->visibilitychangeCBs->getLength();
-        i > 0; i--) {
+  for (int i = PRIVATE(this)->visibilitychangeCBs->getLength(); i > 0; i--) {
     PRIVATE(this)->visibilitychangeCBs->remove(i);
   }
   delete PRIVATE(this)->visibilitychangeCBs;
   
-  if (IsWindow(PRIVATE(this)->parent)) {
-    Win32::DestroyWindow(PRIVATE(this)->parent);
-  }
+  PRIVATE(this)->cleanupWin32References();
   
   delete this->pimpl;
-} //~SoWinComponent()
+}
+
+// We were having a specific problem which triggered the need for a
+// "fatal error cleanup" routine. It was reported by Alan Walford of
+// Eos. It is a complex issue where a bug could be triggered like
+// this:
+// 
+// 0) the construction of a SoWinGLWidget-derived instance (like for
+// instance a renderarea) fails due to lack of or faulty
+// OpenGL-support -- or due to any other fatal error condition
+//
+// 1) SoWinGLWidget::buildGLWidget() (for instance) then calls
+// SoAny::invokeFatalErrorHandler()
+//
+// 2) the app-programmer's registered fatal error handler throws a C++
+// exception which is caught "higher up", so the construction of the
+// SoWinGLWidget-derived instance is never completed, and neither has
+// it been destructed -- it is therefore in an invalid state, which
+// goes undetected from within SoWin
+//
+// 3) in the process of cleaning up, the application client code
+// causes a message to be sent to the SoWinGLWidget-instance's window,
+// which triggers the SoWinComponent::eventHandler() function
+//
+// 4) in that method, operations on the SoWinComponent instance is
+// done -- which of course causes a crash, since it was never properly
+// initialized
+//
+// This is a hard bug to detect and solve for the application
+// programmers, so what we do is to clean up anything that could cause
+// crash bugs because of Win32 having references into any of our data.
+//
+// mortene (thanks to Alan for explaining the problem).
+void
+SoWinComponentP::fatalerrorHandler(void * userdata)
+{
+  SoWinComponentP * that = (SoWinComponentP *)userdata;
+
+  // To avoid the propagation of Win32 Window messages into the
+  // possibly non-valid SoWinComponent.
+  SoWinComponentP::sowincomplist->truncate(0);
+
+  that->cleanupWin32References();
+}
+
+void
+SoWinComponentP::cleanupWin32References(void)
+{
+  if (this->msgHook){ UnhookWindowsHookEx(this->msgHook); }
+  this->msgHook = NULL;
+  if (IsWindow(this->parent)) { Win32::DestroyWindow(this->parent); }
+}
 
 /*!
   This will show the widget, deiconifiying and raising it if
@@ -739,15 +760,15 @@ SoWinComponent::setClassName(const char * const name)
 HWND
 SoWinComponent::buildFormWidget(HWND parent)
 {
+  // When this method is called, the component is *not*
+  // embedded.
 
   if (! SoWinComponentP::wndClassAtom) {
-
-    WNDCLASS windowclass;
-    
     LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
     LPCTSTR cursor = MAKEINTRESOURCE(IDC_ARROW);
     HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
 
+    WNDCLASS windowclass;
     windowclass.lpszClassName = "Component Widget";
     windowclass.hInstance = SoWin::getInstance();
     windowclass.lpfnWndProc = SoWinComponentP::eventHandler;
@@ -760,29 +781,24 @@ SoWinComponent::buildFormWidget(HWND parent)
     windowclass.cbWndExtra = 4;
 
     SoWinComponentP::wndClassAtom = Win32::RegisterClass(& windowclass);
-
   }
 
-  HWND parentWidget = NULL;
+  HWND parentwidget = CreateWindow("Component Widget",
+                                   this->getTitle(),
+                                   WS_OVERLAPPEDWINDOW |
+                                   WS_VISIBLE |
+                                   WS_CLIPSIBLINGS |
+                                   WS_CLIPCHILDREN,
+                                   CW_USEDEFAULT,
+                                   CW_USEDEFAULT,
+                                   500, 500,
+                                   parent,
+                                   NULL,
+                                   SoWin::getInstance(),
+                                   this);
 
-  // When this method is called, the component is *not* embedded. mariusbu 20010727.
-  parentWidget = CreateWindow("Component Widget",
-                               this->getTitle(),
-                               WS_OVERLAPPEDWINDOW |
-                               WS_VISIBLE |
-                               WS_CLIPSIBLINGS |
-                               WS_CLIPCHILDREN,
-                               CW_USEDEFAULT,
-                               CW_USEDEFAULT,
-                               500,
-                               500,
-                               parent,
-                               NULL,
-                               SoWin::getInstance(),
-                               this);
-
-  assert(IsWindow(parentWidget));
-  return parentWidget;
+  assert(IsWindow(parentwidget));
+  return parentwidget;
 } // buildFormWidget()
 
 /*!
