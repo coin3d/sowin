@@ -2,6 +2,7 @@
 # SoWin/configure.in
 
 AC_INIT(src/Inventor/Win/SoWin.h)
+AC_CANONICAL_SYSTEM
 
 # **************************************************************************
 # If the Microsoft Visual C++ cl.exe compiler is available, set us up for
@@ -204,7 +205,6 @@ AC_LANG_CPLUSPLUS
 
 # **************************************************************************
 
-AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(libSoWin, $SOWIN_VERSION)
 
 AM_CONFIG_HEADER(config.h)
