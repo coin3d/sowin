@@ -340,21 +340,6 @@ SoWinFullViewer::setViewing(SbBool enable)
   }
 }
 
-// Documented in superclass.
-void
-SoWinFullViewer::setCamera(SoCamera * newCamera)
-{
-  if (newCamera) {
-    SoType camtype = newCamera->getTypeId();
-    SbBool orthotype =
-      camtype.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
-
-    this->setRightWheelString(orthotype ? "Zoom" : "Dolly");
-  }
-
-  inherited::setCamera(newCamera);
-}
-
 ///////////////////////////////////////////////////////////////////
 //
 //  (protected)
