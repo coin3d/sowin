@@ -78,7 +78,19 @@ EXTRA_DIST = \
 	src/Inventor/Win/common/SoAnyPopupMenu.h.in \
 	src/Inventor/Win/common/SoAnyPopupMenu.cpp.in \
 	src/Inventor/Win/common/spwinput.h.in \
-	src/Inventor/Win/common/spwinput_x11.cpp.in
+	src/Inventor/Win/common/spwinput_x11.cpp.in \
+	src/Inventor/Win/common/pixmaps/help.xpm \
+	src/Inventor/Win/common/pixmaps/home.xpm \
+	src/Inventor/Win/common/pixmaps/ortho.xpm \
+	src/Inventor/Win/common/pixmaps/perspective.xpm \
+	src/Inventor/Win/common/pixmaps/pick.xpm \
+	src/Inventor/Win/common/pixmaps/seek.xpm \
+	src/Inventor/Win/common/pixmaps/set_home.xpm \
+	src/Inventor/Win/common/pixmaps/view.xpm \
+	src/Inventor/Win/common/pixmaps/view_all.xpm \
+	src/Inventor/Win/common/pixmaps/x.xpm \
+	src/Inventor/Win/common/pixmaps/y.xpm \
+	src/Inventor/Win/common/pixmaps/z.xpm
 
 DISTCLEANFILES = \
 	libtool

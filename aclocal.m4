@@ -1390,17 +1390,12 @@ AC_ARG_ENABLE(
 if test x"$enable_warnings" = x"yes"; then
   if test x"$GXX" = x"yes" || test x"$GCC" = x"yes"; then
     sim_ac_common_gcc_warnings="-W -Wall -Wno-unused"
-    # -fno-multichar can be different for gcc and egcs c++, for instance,
-    # so we need to do separate checks.
-    if test x"$CC" = x"$CXX"; then
-      CPPFLAGS="$CPPFLAGS $sim_ac_common_gcc_warnings"
-      SIM_AC_CXX_COMPILER_OPTION([-Wno-multichar], [CPPFLAGS="$CPPFLAGS -Wno-multichar"])
-    else
-      CFLAGS="$CFLAGS $sim_ac_common_gcc_warnings"
-      SIM_AC_CC_COMPILER_OPTION([-Wno-multichar], [CFLAGS="$CFLAGS -Wno-multichar"])
-      CXXFLAGS="$CXXFLAGS $sim_ac_common_gcc_warnings"
-      SIM_AC_CXX_COMPILER_OPTION([-Wno-multichar], [CXXFLAGS="$CXXFLAGS -Wno-multichar"])
-    fi
+    CFLAGS="$CFLAGS $sim_ac_common_gcc_warnings"
+    CXXFLAGS="$CXXFLAGS $sim_ac_common_gcc_warnings"
+    SIM_AC_CC_COMPILER_OPTION([-Wno-multichar],
+                              [CFLAGS="$CFLAGS -Wno-multichar"])
+    SIM_AC_CXX_COMPILER_OPTION([-Wno-multichar],
+                               [CXXFLAGS="$CXXFLAGS -Wno-multichar"])
   else
     case $host in
     *-*-irix*) 
@@ -1408,7 +1403,8 @@ if test x"$enable_warnings" = x"yes"; then
         _warn_flags=
         _woffs=""
         ### Turn on all warnings ######################################
-        SIM_AC_CC_COMPILER_OPTION(-fullwarn, CPPFLAGS="$CPPFLAGS -fullwarn")
+        SIM_AC_CC_COMPILER_OPTION([-fullwarn], [CFLAGS="$CFLAGS -fullwarn"])
+        SIM_AC_CXX_COMPILER_OPTION([-fullwarn], [CXXFLAGS="$CXXFLAGS -fullwarn"])
 
         ### Turn off specific (bogus) warnings ########################
 
@@ -1434,8 +1430,10 @@ if test x"$enable_warnings" = x"yes"; then
         ##       the SoQt, SoGtk or SoXt libraries on IRIX with SGI MIPSPro CC.
 
         sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,1110,1506"
-        SIM_AC_CC_COMPILER_OPTION($sim_ac_bogus_warnings,
-                                  CPPFLAGS="$CPPFLAGS $sim_ac_bogus_warnings")
+        SIM_AC_CC_COMPILER_OPTION([$sim_ac_bogus_warnings],
+                                  [CFLAGS="$CFLAGS $sim_ac_bogus_warnings"])
+        SIM_AC_CXX_COMPILER_OPTION([$sim_ac_bogus_warnings],
+                                   [CXXFLAGS="$CXXFLAGS $sim_ac_bogus_warnings"])
       fi
     ;;
     esac
