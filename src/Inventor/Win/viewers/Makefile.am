@@ -36,7 +36,6 @@ DISTCLEANFILES = \
 
 libSoWinViewers_la_SOURCES = \
 	PlaneViewer.cpp \
-	WalkViewer.cpp \
 	FullViewer.cpp \
 	ExaminerViewer.cpp
 
@@ -49,7 +48,6 @@ nodist_libSoWinViewers_la_SOURCES = \
 
 viewers_lst_SOURCES = \
 	PlaneViewer.cpp \
-	WalkViewer.cpp \
 	FullViewer.cpp \
 	ExaminerViewer.cpp
 
@@ -74,8 +72,7 @@ nodist_SoWinViewersinc_HEADERS = \
 	SoWinFullViewer.h \
 	SoWinExaminerViewer.h \
 	SoWinFlyViewer.h \
-	SoWinPlaneViewer.h \
-	SoWinWalkViewer.h
+	SoWinPlaneViewer.h
 
 install-SoWinViewersincHEADERS: $(SoWinViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)
