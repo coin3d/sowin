@@ -213,14 +213,6 @@ SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
   assert( rec->parent && "a menuitem must have a parent to be enabled/disabled" );
   assert( IsMenu( rec->parent ) );
   
-#if 1 // old code
-  if ( enabled )
-    rec->flags |= ITEM_ENABLED;
-  else
-    rec->flags &= ~ITEM_ENABLED;
-
- Win32::EnableMenuItem( rec->parent, rec->itemid, MF_BYCOMMAND | ( enabled ? MF_ENABLED : MF_GRAYED ) );
-#else // new code, but FIXME: it's crashing. 20010810 mortene.
   MENUITEMINFO info;
   
   info.cbSize = sizeof( MENUITEMINFO );
@@ -236,7 +228,6 @@ SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
   }
   
   Win32::SetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
-#endif
 } // setMenuItemEnabled()
 
 SbBool
