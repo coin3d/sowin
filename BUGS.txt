@@ -224,6 +224,52 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     Will probably also need to expose doIdleTasks() (SoWinP) to be
     able to reimplement SoWin::mainLoop() in the application.
 
+    Frederic Rouas has sent the following simple patch:
+
+    ---------
+
+    Hello,
+
+    I propose you the following patch (tested on Windows XP) that adds
+    2 new methods in SoWin class :
+
+    void
+    SoWin::nextEvent(MSG *event)
+    {
+      while (GetQueueStatus(QS_ALLINPUT) == 0) {
+        if (SoWinP::idleSensorActive) {
+          SoWinP::doIdleTasks();
+        }
+        else {
+          WaitMessage();
+        }
+      }
+      GetMessage(event, NULL, 0, 0);
+    }
+
+    void
+    SoWin::dispatchEvent(MSG *event)
+    {
+     TranslateMessage(event);
+     DispatchMessage(event);
+    }
+
+    Note : For a thighter compatibility with TGS SoWin, you may prefer
+    add a dummy appContext argument to the nextEvent method : 
+    static nextEvent(UINT appContext, MSG *event);
+
+    Hopping this light patch will soon be available in CVS repository ...
+
+    Frédéric Rouas
+    Directeur Technique OKTAL SE
+    Tél   : 05 62 11 50 10
+    Fax  : 05 62 11 50 29
+    Mail : frederic.rouas@oktal.fr
+
+    ----------
+
+    Updated 20040715 thammer
+
 =====================================================================
 
 016 SoWinBitmapButton missing from external API
@@ -296,7 +342,7 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     One thing that _would_ be usefull would be to set which cursor
     should be used inside a renderarea. The windows procedure of the
     renderarea should then pick up WM_SETCURSOR events and set the
-    cursor there. I'm not sure how to currectly set the cursor when
+    cursor there. I'm not sure how to correctly set the cursor when
     leaving the renderarea - it might be handled automatically because
     all surrounding windows will have a default cursor.
 
