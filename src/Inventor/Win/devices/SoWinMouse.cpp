@@ -188,12 +188,12 @@ SoWinMouse::makeButtonEvent( MSG * msg, SoButtonEvent::State state )
     break;
   } // switch ( message.message)
 
-  if (this->locationEvent) {
+  /*  if (this->locationEvent) {
     this->buttonEvent->setPosition(this->locationEvent->getPosition());
   }
-  else {
+  else {*/
     this->setEventPosition( this->buttonEvent, msg->pt.x, msg->pt.y );
-  }
+    //}
   this->buttonEvent->setShiftDown( ( SoWinDevice::modifierKeys & MK_SHIFT ) ? TRUE : FALSE );
   this->buttonEvent->setCtrlDown( ( SoWinDevice::modifierKeys & MK_CONTROL ) ? TRUE : FALSE );
   this->buttonEvent->setAltDown( ( SoWinDevice::modifierKeys & MK_ALT ) ? TRUE : FALSE );
