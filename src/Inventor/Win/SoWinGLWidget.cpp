@@ -27,7 +27,7 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
-#include <Inventor/@Gui@/common/gl.h>
+#include <Inventor/Win/common/gl.h>
 
 #include <Inventor/SbVec2s.h>
 #include <Inventor/Win/SoWin.h>
