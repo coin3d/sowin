@@ -205,6 +205,13 @@ protected:
   HWND createClippingPrefSheetGuts( HWND parent );
   HWND createStereoPrefSheetGuts( HWND parent );
     
+  float getLeftWheelValue(void) const;
+  void setLeftWheelValue( const float value );
+  float getBottomWheelValue(void) const;
+  void setBottomWheelValue( const float value );
+  float getRightWheelValue(void) const;
+  void setRightWheelValue( const float value );
+
   virtual void rightWheelMotion( float );
   virtual void bottomWheelMotion( float );
   virtual void leftWheelMotion( float );

@@ -600,6 +600,45 @@ SoWinFullViewer::createStereoPrefSheetGuts( HWND parent )
   return NULL;
 }
 
+float
+SoWinFullViewer::getLeftWheelValue( void ) const
+{
+  SOWIN_STUB();
+  return 0;
+}
+
+void
+SoWinFullViewer::setLeftWheelValue( const float value )
+{
+  SOWIN_STUB();
+}
+
+float
+SoWinFullViewer::getRightWheelValue( void ) const
+{
+  SOWIN_STUB();
+  return 0;
+}
+
+void
+SoWinFullViewer::setRightWheelValue( const float value )
+{
+  SOWIN_STUB();
+}
+
+float
+SoWinFullViewer::getBottomWheelValue( void ) const
+{
+  SOWIN_STUB();
+  return 0;
+}
+
+void
+SoWinFullViewer::setBottomWheelValue( const float value )
+{
+  SOWIN_STUB();
+}
+
 void
 SoWinFullViewer::rightWheelMotion( float )
 {
