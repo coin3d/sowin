@@ -6,7 +6,7 @@ SUBDIRS = devices widgets viewers
 
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
-lib_LTLIBRARIES = libSoWin.la
+lib_LTLIBRARIES = libSoWin@SUFFIX@.la
 
 BUILT_SOURCES = \
 	SoWinBasic.h \
@@ -19,7 +19,7 @@ noinst_DATA = $(BUILT_SOURCES)
 
 ############################################################################
 
-libSoWin_la_SOURCES = \
+libSoWin@SUFFIX@_la_SOURCES = \
 	$(BUILT_SOURCES) \
 	SoWin.h \
 	SoWin.cpp \
@@ -28,12 +28,12 @@ libSoWin_la_SOURCES = \
 	SoWinGLWidget.h \
 	SoWinGLWidget.cpp
 
-libSoWin_la_LIBADD = \
+libSoWin@SUFFIX@_la_LIBADD = \
 	devices/libSoWinDevices.la \
 	viewers/libSoWinViewers.la \
 	widgets/libSoWinWidgets.la
 
-libSoWin_la_LDFLAGS = \
+libSoWin@SUFFIX@_la_LDFLAGS = \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 ############################################################################
@@ -67,50 +67,67 @@ SoWinRenderArea.cpp: $(srcdir)/common/SoGuiRenderArea.cpp.in
 
 ############################################################################
 
-
-#### Additional "native" Make rules #########################################
-
-
-## Rule for linking up a .DLL on MSWindows with MSVC++.
-##
-## Short explanation of what the shell-code does: tests if the C
-## compiler is our MSVC++ wrapper script, and if so: properly link the
-## DLL. If not, just make an empty sowin{version}.dll file so the
-## install-exec-hook knows when to _not_ install the .dll.
-
-sowin@SOWIN_MAJOR_VERSION@.dll: $(libSoWin_la_OBJECTS) $(libSoWin_la_DEPENDENCIES)
-	@rm -f sowin@SOWIN_MAJOR_VERSION@.dll && \
+sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
+  $(libSoWin@SUFFIX@_la_OBJECTS) $(libSoWin@SUFFIX@_la_DEPENDENCIES)
+	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
+	rm -f "$$basename.lib" "$$basename.dll"; \
 	if @BUILD_WITH_MSVC@; then \
-	  echo "Linking DLL..."; \
-	  $(CC) @DLLFLAGS@ /out:sowin@SOWIN_MAJOR_VERSION@.dll $(LDFLAGS) \
-	        `echo $(libSoWin_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
-	        $(libSoWin_la_LIBADD) $(LIBS); \
+	  echo "Linking $@..."; \
+	  echo $(CC) $(LDFLAGS) $(LIBFLAGS) \
+	        `echo $(libSoWin@SUFFIX@_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
+	        $(libSoWin@SUFFIX@_la_LIBADD) $(LIBS); \
+	  $(CC) $(LDFLAGS) $(LIBFLAGS) \
+	        `echo $(libSoWin@SUFFIX@_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
+	        $(libSoWin@SUFFIX@_la_LIBADD) $(LIBS); \
 	else \
-	  touch sowin@SOWIN_MAJOR_VERSION@.dll; \
+	  touch "$$basename.lib" "$$basename.dll"; \
 	fi
 
-## This hook will be run at the end of a ``make install''.
-##
-## The single action taken is to install the sowin.dll and sowin.lib
-## files (if they have been built properly).
+all-local: sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
 
-install-exec-hook: sowin@SOWIN_MAJOR_VERSION@.dll
-	@if test -s sowin@SOWIN_MAJOR_VERSION@.dll; then \
-	  echo "Installing sowin@SOWIN_MAJOR_VERSION@.dll"; \
-	  for e in dll lib pdb; do \
-	    file="sowin@SOWIN_MAJOR_VERSION@.$$e"; \
-	    if test -f $$file; then \
-	      $(INSTALL_DATA) $$file $(DESTDIR)$(libdir)/$$file; \
-	    fi \
-	  done \
-	fi
+# **************************************************************************
+
+install-exec-hook: sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
+	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
+	for ext in dll pdb; do \
+	  file="$$basename.$$ext"; \
+	  if test -s "$$file"; then \
+	    $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
+	    echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+	    $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+	  fi \
+	done;
+
+install-data-hook: sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
+	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
+	for ext in lib; do \
+	  file="$$basename.$$ext"; \
+	  if test -s "$$file"; then \
+	    $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
+	    echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	    $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	  fi \
+	done;
 
 uninstall: uninstall-am
-	@for e in dll lib pdb; do \
-	  file="$(DESTDIR)$(libdir)/sowin@SOWIN_MAJOR_VERSION@.$$e"; \
+	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
+	for file in \
+	  "$(DESTDIR)$(libdir)/$$basename.lib" \
+	  "$(DESTDIR)$(bindir)/$$basename.dll" \
+	  "$(DESTDIR)$(bindir)/$$basename.pdb"; do \
 	  if test -f "$$file"; then \
-	    echo rm -f "$$file"; \
+	    echo " rm -f" "$$file"; \
 	    rm -f "$$file"; \
 	  fi \
-	done
+	done; \
+	baseincdir="$(DESTDIR)$(includedir)/Inventor/Win"; \
+	for dir in \
+	  "$$baseincdir/devices" \
+	  "$$baseincdir/viewers"; do
+	  if test -d "$$dir"; then \
+	    echo " rmdir" "$$dir"; \
+	    rmdir "$$dir"; \
+	  fi \
+	done;
 
+# EOF **********************************************************************

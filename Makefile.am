@@ -10,7 +10,6 @@ SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 SUBDIRS = src/Inventor/Win
 
 BUILT_SOURCES = \
-	sowin-config \
 	sowindefs.h \
 	src/Inventor/Win/SoWinBasic.h \
 	src/Inventor/Win/SoWinCursors.h \
@@ -36,16 +35,23 @@ BUILT_SOURCES = \
 
 bin_SCRIPTS = sowin-config
 
-sowin-config: sowin-config.in
-
-EXTRA_DIST = cfg/m4/sowin.m4
-
 m4datadir = $(datadir)/aclocal
 m4data_DATA = cfg/m4/sowin.m4
 
+cfgdatadir = $(datadir)/Coin/conf
+cfgdata_DATA = sowin-@CONFIG@.cfg
+
+sowin-@CONFIG@.cfg: Makefile sowin.cfg.in
+	@$(SHELL) config.status --file=$@:sowin.cfg.in
+
+EXTRA_DIST = cfg/m4/sowin.m4
+
+Makefile: $(BUILT_SOURCES)
+
 # Target which is present to make it simple to only generate the
 # sourcefiles from the common sources.
-Makefile: $(BUILT_SOURCES)
+
+built-sources: $(BUILT_SOURCES)
 
 ############################################################################
 
