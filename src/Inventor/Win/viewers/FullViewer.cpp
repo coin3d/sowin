@@ -816,6 +816,12 @@ SoWinFullViewerP::~SoWinFullViewerP()
   for (int i = 0; i < len; i++) {
     delete (SoWinBitmapButton *)this->righttrimbuttons[i];
   }
+  if (this->leftthumbwheel) 
+    delete this->leftthumbwheel;
+  if (this->rightthumbwheel) 
+    delete this->rightthumbwheel;
+  if (this->bottomthumbwheel) 
+    delete this->bottomthumbwheel;
 }
 
 SoWinBitmapButton *
