@@ -70,7 +70,7 @@ public:
   void setDoubleBuffer( SbBool set );
   SbBool isDoubleBuffer( void );
 
-  void setBorder( SbBool set );   // show/hide 3 pixel border ( default = off )
+  void setBorder( SbBool set );   // show/hide 3 pixel border ( default = disabled )
   int getBorderSize( void );
   SbBool isBorder( void ) const;
 
@@ -91,12 +91,11 @@ protected:
   // (e.g. SO_GLX_RGB | SO_GLX_DOUBLE | SO_GLX_ZBUFFER | SO_GLX_OVERLAY)
   // If build is FALSE, this will not build its widget tree until
   // buildWidget() is explicity called; else, buildWidget() is called here.
-  SoWinGLWidget(
-                HWND parent = NULL,
-                const char * name = NULL,
-                SbBool embed = TRUE,
-                int glModes = SO_GLX_RGB|SO_GL_DOUBLE, //SO_GLX_RGB
-                SbBool build = TRUE);
+  SoWinGLWidget( HWND parent = NULL,
+                 const char * name = NULL,
+                 SbBool embed = TRUE,
+                 int glModes = SO_GLX_RGB | SO_GL_DOUBLE, //SO_GLX_RGB
+                 SbBool build = TRUE);
 
   virtual ~SoWinGLWidget( void );
 
@@ -108,15 +107,15 @@ protected:
   virtual void initOverlayGraphic( void );
   virtual void sizeChanged( const SbVec2s newSize );
   virtual void widgetChanged( HWND newWidget );
-  virtual SbBool glScheduleRedraw(void);
+  virtual SbBool glScheduleRedraw( void );
 
   void setGLSize( SbVec2s newSize );
   SbVec2s getGLSize( void ) const;
-  float getGLAspectRatio(void) const;
+  float getGLAspectRatio( void ) const;
 
   void setGlxSize( SbVec2s newSize ) { this->setGLSize( newSize ); }
-  const SbVec2s getGlxSize( void ) const { return this->getGLSize(); }
-  float getGlxAspectRatio(void) const { return this->getGLAspectRatio(); }
+  const SbVec2s getGlxSize( void ) const { return this->getGLSize( ); }
+  float getGlxAspectRatio( void ) const { return this->getGLAspectRatio( ); }
 
   //static void eventHandler( HWND, SoWinGLWidget *, MSG *, BOOL * );
   static LRESULT eventHandler( HWND hwnd,
@@ -157,7 +156,7 @@ protected:
   void glSwapBuffers( void );
   void glFlushBuffer( void );
 
-  UINT colorMap;	// set when color index is used
+  UINT colorMap; // set when color index is used
   UINT overlayColorMap; // set when overlay is used
 
   SbBool waitForExpose;
@@ -221,16 +220,15 @@ private:
   HWND parent;
   HWND toplevel;
 
-  // Process WM_SETFOCUS/WM_KILLFOCUS (see glxWindowProc).
+  // Process WM_SETFOCUS/WM_KILLFOCUS ( see glxWindowProc ).
   BOOL haveFocus;
-  BOOL stealFocus;        // "focus follows pointer".
-  UINT mouseCaptured;    // Guarantees you will also get the corresponding button up event.
+  BOOL stealFocus; // "focus follows pointer".
+  UINT mouseCaptured; // Guarantees you will also get the corresponding button up event.
 
-  // Process WM_SETCURSOR (see glxWindowProc).
+  // Process WM_SETCURSOR ( see glxWindowProc ).
   HCURSOR currentCursor;
 
-  // We also need (globally for the class) the default cursor to use.
-  // static __SoWinStaticImport HCURSOR defaultCursor;
+  //  Default cursor ( globally for the class ).
   static HCURSOR defaultCursor;
 
   DWORD dwThreadId;

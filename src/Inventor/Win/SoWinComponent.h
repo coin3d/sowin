@@ -40,38 +40,39 @@ const char pfd_cColorBits = 32;
 
 class SOWIN_DLL_API SoWinComponent : SoWinObject
 {
-  SOWIN_OBJECT_ABSTRACT_HEADER(SoWinComponent, SoWinObject);
+  SOWIN_OBJECT_ABSTRACT_HEADER( SoWinComponent, SoWinObject );
 
 public:
 
-  virtual ~SoWinComponent(void);
+  virtual ~SoWinComponent( void );
 
-  virtual void show(void);
-  virtual void hide(void);
-  SbBool isVisible(void);
+  virtual void show( void );
+  virtual void hide( void );
+  void goFullScreen( SbBool enable );
+  SbBool isVisible( void );
 
-  HWND getWidget(void) const;
-  HWND baseWidget(void) const;
-  HWND getBaseWidget(void) const;
+  HWND getWidget( void ) const;
+  HWND baseWidget( void ) const;
+  HWND getBaseWidget( void ) const;
 
-  SbBool isTopLevelShell(void) const;
-  HWND getShellWidget(void) const;
+  SbBool isTopLevelShell( void ) const;
+  HWND getShellWidget( void ) const;
 
-  HWND getParentWidget(void) const;
+  HWND getParentWidget( void ) const;
 
-  inline int * getDisplay(void);
+  inline int * getDisplay( void );
 
   void setSize( const SbVec2s size );
-  SbVec2s getSize(void);
+  SbVec2s getSize( void );
 
-  const char * getWidgetName(void) const;
-  const char * getClassName(void) const;
+  const char * getWidgetName( void ) const;
+  const char * getClassName( void ) const;
 
   void setTitle( const char * const title );
-  const char * getTitle(void) const;
+  const char * getTitle( void ) const;
 
   void setIconTitle( const char * const title );
-  const char * getIconTitle(void) const;
+  const char * getIconTitle( void ) const;
 
   void setWindowCloseCallback( SoWinComponentCB * func, void * data = NULL );
 
@@ -80,14 +81,13 @@ public:
   SbString helpFileName;
   UINT helpContextID;
 
-  static void initClasses(void);
+  static void initClasses( void );
 
 protected:
 
-  SoWinComponent(
-                 const HWND parent = NULL,
-                 const char * const name = NULL,
-                 const SbBool embed = TRUE );
+  SoWinComponent( const HWND parent = NULL,
+                  const char * const name = NULL,
+                  const SbBool embed = TRUE );
 
   void setBaseWidget( HWND widget );
   void setClassName( const char * const name );
@@ -95,7 +95,7 @@ protected:
   void registerWidget( HWND widget );
   void unregisterWidget( HWND widget );
 
-  HWND buildFormWidget(HWND parent);
+  HWND buildFormWidget( HWND parent );
 
   virtual const char * getDefaultWidgetName( void ) const;
   virtual const char * getDefaultTitle( void ) const;
@@ -109,14 +109,14 @@ protected:
 
   void openHelpCard( const char * name );
 
-  void setResize(SbBool set);
-  SbBool getResize();
+  void setResize( SbBool set );
+  SbBool getResize( void );
 
   static HPALETTE _setupColorPalette( HDC );
 
-  void unSubclassDialog(HWND hWnd);
-  void subclassDialog(HWND hWnd);
-  void drawDialogIcon(HWND hWnd);
+  void unSubclassDialog( HWND hWnd );
+  void subclassDialog( HWND hWnd );
+  void drawDialogIcon( HWND hWnd );
 
   static LRESULT CALLBACK dlgWndProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam );
   static HWND getMDIAncestor( HWND hwnd );
@@ -141,6 +141,8 @@ private:
   HWND parent;
   HWND widget;
   HWND constructorParent;
+  LONG style;
+  LONG exstyle;
 
   SbString widgetName;
   SbString widgetClass;

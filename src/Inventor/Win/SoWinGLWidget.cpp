@@ -74,12 +74,11 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
   this->parent = parent;
 
   if ( build )
-    {
-      HWND glarea = this->buildWidget( parent );
-      this->setBaseWidget( glarea );
-    }
+  {
+    HWND glarea = this->buildWidget( parent );
+    this->setBaseWidget( glarea );
+  }
 }
-
 
 SoWinGLWidget::~SoWinGLWidget( void )
 {
@@ -96,7 +95,8 @@ SoWinGLWidget::getNormalWindow( void )
 {
   if ( this->isDoubleBuffer( ) ) {
     return this->doubleBufferWidget;
-  } else {
+  }
+  else {
     return this->singleBufferWidget;
   }
 }
@@ -199,7 +199,8 @@ SoWinGLWidget::setDoubleBuffer( SbBool set )
 {
   if ( set ) {
     this->glModes |= SO_GL_DOUBLE;
-  } else {
+  }
+  else {
     this->glModes ^= SO_GL_DOUBLE;
   }
 }
@@ -245,7 +246,7 @@ SoWinGLWidget::isDrawToFrontBufferEnable( void ) const
   Enables or disables quad buffer stereo.
 */
 void
-SoWinGLWidget::setQuadBufferStereo(const SbBool enable)
+SoWinGLWidget::setQuadBufferStereo( const SbBool enable )
 {
   // FIXME: do proper implementation. 20001123 mortene.
 }
@@ -254,7 +255,7 @@ SoWinGLWidget::setQuadBufferStereo(const SbBool enable)
   Returns \c TRUE if quad buffer stereo is enabled for this widget.
 */
 SbBool
-SoWinGLWidget::isQuadBufferStereo(void) const
+SoWinGLWidget::isQuadBufferStereo( void ) const
 {
   // FIXME: do proper implementation. 20001123 mortene.
   return FALSE;
@@ -300,9 +301,9 @@ SoWinGLWidget::processEvent( MSG * msg )
 void
 SoWinGLWidget::initGraphic( void )
 {
-  glLockNormal();
+  glLockNormal( );
   glEnable( GL_DEPTH_TEST );
-  glUnlockNormal();
+  glUnlockNormal( );
 }
 
 void
@@ -330,9 +331,11 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )  // Coin spesific
 {
   short width, height;
   newSize.getValue( width, height );
-  if (newSize == glSize) return;
+  if ( newSize == glSize ) return;
+
   this->glSize = newSize;
   this->sizeChanged( newSize );
+  
   MoveWindow( this->getNormalWidget( ),
               0,
               0,
@@ -348,10 +351,9 @@ SoWinGLWidget::getGLSize( void ) const
 }
 
 float
-SoWinGLWidget::getGLAspectRatio(
-  void ) const
+SoWinGLWidget::getGLAspectRatio( void ) const
 {
-  return (float) this->glSize[0] / (float) this->glSize[1];
+  return ( float ) this->glSize[ 0 ] / ( float ) this->glSize[ 1 ];
 }
 
 
@@ -369,13 +371,13 @@ SoWinGLWidget::eventHandler( HWND hwnd,
 void
 SoWinGLWidget::setStereoBuffer( SbBool set )
 {
-  this->setQuadBufferStereo(set);
+  this->setQuadBufferStereo( set );
 }
 
 SbBool
 SoWinGLWidget::isStereoBuffer( void )
 {
-  return this->isQuadBufferStereo();
+  return this->isQuadBufferStereo( );
 }
 
 SbBool
@@ -394,7 +396,8 @@ HWND
 SoWinGLWidget::buildWidget( HWND parent )
 {
   // Build managerWidget
-  // Used only for borders
+  // Used only to draw borders
+
   WNDCLASS windowclass;
   HMENU menu = NULL;
   HWND widget = NULL;
@@ -414,9 +417,11 @@ SoWinGLWidget::buildWidget( HWND parent )
   RegisterClass( & windowclass );
 
   RECT rect;
-  if( IsWindow( parent ) ) {
+  if ( IsWindow( parent ) ) {
     GetClientRect( parent, & rect );
-  } else {
+    _cprintf("RECT: %d, %d \n", rect.right, rect.bottom);
+  }
+  else {
     rect.right = SoWin_DefaultWidth;
     rect.bottom = SoWin_DefaultHeight;
   }
@@ -424,29 +429,27 @@ SoWinGLWidget::buildWidget( HWND parent )
   this->windowPosition.x = 0;
   this->windowPosition.y = 0;
 
-  this->managerWidget = CreateWindow(
-                                     wndclassname,
-                                     wndclassname,
-                                     WS_CLIPCHILDREN|
-                                     WS_CLIPSIBLINGS|
-                                     WS_CHILD|
-                                     WS_BORDER,
-                                     //WS_THICKFRAME,
-                                     //WS_DLGFRAME,
-                                     this->windowPosition.x,
-                                     this->windowPosition.y,
-                                     rect.right,
-                                     rect.bottom,
-                                     parent,
-                                     menu,
-                                     SoWin::getInstance( ),
-                                     this );
+  this->managerWidget = CreateWindow( wndclassname,
+                                      wndclassname,
+                                      WS_CLIPCHILDREN |
+                                      WS_CLIPSIBLINGS |
+                                      WS_CHILD |
+                                      WS_BORDER,
+                                      this->windowPosition.x,
+                                      this->windowPosition.y,
+                                      rect.right,
+                                      rect.bottom,
+                                      parent,
+                                      menu,
+                                      SoWin::getInstance( ),
+                                      this );
 
   assert( IsWindow( this->managerWidget ) );
 
-  if( this->glModes & SO_GL_OVERLAY ) {
+  if ( this->glModes & SO_GL_OVERLAY ) {
     this->buildOverlayGLWidget( & this->pfd ); // FIXME: overlay not supported
-  } else {
+  }
+  else {
     this->buildNormalGLWidget( & this->pfd );
   }
 
@@ -485,7 +488,8 @@ SoWinGLWidget::swapNormalBuffers( void )
 {
   if ( this->overlayWidget ) {
     return ( wglSwapLayerBuffers( ( HDC ) this->hdcNormal, WGL_SWAP_MAIN_PLANE ) );
-  } else {
+  }
+  else {
     return ( SwapBuffers( ( HDC ) this->hdcNormal ) );
   }
 }
@@ -531,17 +535,19 @@ SoWinGLWidget::glUnlockNormal( void )
 void
 SoWinGLWidget::glLockOverlay( void )
 {
+  // FIXME: not implemented
 }
 
 void
 SoWinGLWidget::glUnlockOverlay( void )
 {
+  // FIXME: not implemented
 }
 
 void
 SoWinGLWidget::glSwapBuffers( void )
 {
-  // nothing to do...
+  // Nothing to do...
   assert( this->hdcNormal != NULL );
   SwapBuffers( this->hdcNormal );
 }
@@ -575,9 +581,9 @@ SoWinGLWidget::setWindowPosition( POINT position )
 //
 
 void
-SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // pfd is ignored
+SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // FIXME: pfd is ignored
 {
-  LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );//MAKEINTRESOURCE(IDC_CROSS);
+  LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
   HMENU menu = NULL;
   LPSTR wndclassname = "SoWinGLWidget_glwidget";
 
@@ -585,7 +591,7 @@ SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // pfd is ign
   windowclass.lpszClassName = wndclassname;
   windowclass.hInstance = SoWin::getInstance( );
   windowclass.lpfnWndProc = this->glWindowProc;
-  windowclass.style = CS_HREDRAW|CS_VREDRAW|CS_OWNDC;
+  windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = NULL;
   windowclass.hCursor = this->currentCursor = LoadCursor( NULL, cursor );
@@ -596,17 +602,18 @@ SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // pfd is ign
   RegisterClass( & windowclass );
 
   RECT rect;
-  if( IsWindow( parent ) ) {
+  if ( IsWindow( parent ) ) {
     GetClientRect( parent, & rect );
-  } else {
+  }
+  else {
     rect.right = SoWin_DefaultWidth;
     rect.bottom = SoWin_DefaultHeight;
   }
 
   HWND normalwidget = CreateWindow( wndclassname,
                                     wndclassname,
-                                    WS_CLIPCHILDREN|
-                                    WS_CLIPSIBLINGS|
+                                    WS_CLIPCHILDREN |
+                                    WS_CLIPSIBLINGS |
                                     WS_CHILD,
                                     0,
                                     0,
@@ -621,9 +628,10 @@ SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // pfd is ign
 
   this->firstRealize = TRUE;
 
-  if( this->glModes & SO_GL_DOUBLE ) {// ( vis->dwFlags & PFD_DOUBLEBUFFER )
+  if ( this->glModes & SO_GL_DOUBLE ) {// ( vis->dwFlags & PFD_DOUBLEBUFFER )
     this->doubleBufferWidget = normalwidget;
-  } else {
+  }
+  else {
     this->singleBufferWidget = normalwidget;
   }
   ShowWindow( normalwidget, SW_SHOW );
@@ -743,24 +751,24 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 
   static PIXELFORMATDESCRIPTOR pfd =  // FIXME: no palette or singlebuffer support
   {
-    sizeof(PIXELFORMATDESCRIPTOR),	// size of this pfd
-    1,								// version number
-    PFD_DRAW_TO_WINDOW				// support window
-    |PFD_SUPPORT_OPENGL				// support OpenGL
-    |PFD_DOUBLEBUFFER				// double buffer
-    |PFD_TYPE_RGBA,					// RGBA type
-    32,								// 32-bit colour depth
-    0, 0, 0, 0, 0, 0,				// colour bits ignored
-    0,								// no alpha buffer
-    0,								// shift bit ignored
-    0,								// on accumulation buffer
-    0, 0, 0, 0,						// accum bits ignored
-    32,								// 32-bits z-buffer
-    0,								// no stencil buffer
-    0,								// no auxiliary buffer
-    PFD_MAIN_PLANE,					// main layer
-    0,								// reserved
-    0, 0, 0							// layer masks ignored
+    sizeof(PIXELFORMATDESCRIPTOR), // size of this pfd
+    1,                             // version number
+    PFD_DRAW_TO_WINDOW |           // support window
+    PFD_SUPPORT_OPENGL |           // support OpenGL
+    PFD_DOUBLEBUFFER |             // double buffer
+    PFD_TYPE_RGBA,                 // RGBA type
+    32,                            // 32-bit colour depth
+    0, 0, 0, 0, 0, 0,              // colour bits ignored
+    0,                             // no alpha buffer
+    0,								             // shift bit ignored
+    0,								             // on accumulation buffer
+    0, 0, 0, 0,						         // accum bits ignored
+    32,								             // 32-bits z-buffer
+    0,								             // no stencil buffer
+    0,								             // no auxiliary buffer
+    PFD_MAIN_PLANE,					       // main layer
+    0,								             // reserved
+    0, 0, 0							           // layer masks ignored
   };
 
   nPixelFormat = ChoosePixelFormat( hdc, & pfd );
@@ -768,13 +776,12 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
   ok = SetPixelFormat( hdc, nPixelFormat, & pfd );
   assert( ok );
 
-  HGLRC hrc = wglCreateContext( hdc );    // FIXME: returns NULL in Release mode
+  HGLRC hrc = wglCreateContext( hdc ); // FIXME: returns NULL in Release mode
+
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo( "SoWinGLWidget::onCreate", "called" );
-
-  if( ! desc ) WinDisplayLastError( );
-
 #endif // SOWIN_DEBUG
+	
   ok = wglMakeCurrent( hdc, hrc );
   assert( ok );
 
@@ -800,14 +807,16 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 
 LRESULT
 SoWinGLWidget::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
+{	
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo( "SoWinGLWidget::onSize", "called" );
 #endif // SOWIN_DEBUG
+
   /*
     if(  window != this->getNormalWidget( ) )
     return 0;
   */
+	
   BOOL ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
   assert( ok );
 
@@ -830,14 +839,13 @@ SoWinGLWidget::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam 
   this->hdcNormal = BeginPaint( window, & ps );
 
   wglMakeCurrent( this->hdcNormal, this->ctxNormal );
-  // GLRenderScene( NULL );
 
   if ( this->firstRealize ) {
     this->firstRealize = FALSE;
-    this->initGraphic();
+    this->initGraphic( );
   }
-  if (!this->glScheduleRedraw()) {
-    this->redraw();
+  if ( ! this->glScheduleRedraw( ) ) {
+    this->redraw( );
   }
 
   wglMakeCurrent( this->hdcNormal, NULL );
@@ -857,19 +865,19 @@ SoWinGLWidget::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lpara
 }
 
 SbBool
-SoWinGLWidget::hasOverlayGLArea(void) const
+SoWinGLWidget::hasOverlayGLArea( void ) const
 {
-  return (((SoWinGLWidget*)this)->getOverlayWidget() != NULL);
+  return ( ( ( SoWinGLWidget * ) this )->getOverlayWidget( ) != NULL );
 }
 
 SbBool
-SoWinGLWidget::hasNormalGLArea(void) const
+SoWinGLWidget::hasNormalGLArea( void ) const
 {
-  return (((SoWinGLWidget*)this)->getNormalWidget() != NULL);
+  return ( ( ( SoWinGLWidget * ) this )->getNormalWidget( ) != NULL );
 }
 
 SbBool
-SoWinGLWidget::glScheduleRedraw(void)
+SoWinGLWidget::glScheduleRedraw( void )
 {
   return FALSE;
 }

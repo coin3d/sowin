@@ -37,6 +37,7 @@ HINSTANCE SoWin::Instance = NULL;
 HWND SoWin::mainWidget = NULL;
 char * SoWin::appName = NULL;
 char * SoWin::className = NULL;
+SbBool SoWin::fullScreen = FALSE;
 int SoWin::timerSensorId = 0;
 SbBool SoWin::timerSensorActive = FALSE;
 int SoWin::delaySensorId = 0;
@@ -48,11 +49,11 @@ SbList< MessageHook * > * SoWin::messageHookList = NULL;    //hook
 // *************************************************************************
 
 void
-SoWinObject::init(void)
+SoWinObject::init( void )
 {
-  SoWinObject::initClass();
-  SoWinDevice::initClasses();
-  SoWinComponent::initClasses();
+  SoWinObject::initClass( );
+  SoWinDevice::initClasses( );
+  SoWinComponent::initClasses( );
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -76,14 +77,20 @@ SoWin::init( int argc,
              const char * const className )
 {
   if ( appName )
-    SoWin::appName = strcpy( new char [strlen( appName ) + 1], appName );
+    SoWin::appName = strcpy( new char [ strlen( appName ) + 1 ], appName );
   if ( className )
-    SoWin::className = strcpy( new char [strlen( className ) + 1], className );
+    SoWin::className = strcpy( new char [ strlen( className ) + 1 ], className );
 
   SoWin::registerWindowClass( className );
-
+	
   RECT rect = { 0, 0, SoWin_DefaultWidth, SoWin_DefaultHeight };  // default window size
-  HWND toplevel =  SoWin::createWindow( ( char * ) appName, ( char * ) className, rect, NULL );
+
+  if ( SoWin::fullScreen ) {
+    rect.right = GetSystemMetrics( SM_CXSCREEN );
+    rect.bottom = GetSystemMetrics( SM_CYSCREEN );
+  }
+
+  HWND toplevel = SoWin::createWindow( ( char * ) appName, ( char * ) className, rect, NULL );
   SoWin::init( toplevel );
   return toplevel;
 }
@@ -94,12 +101,12 @@ SoWin::init( HWND const topLevelWidget )
   SoDB::init( );
   SoNodeKit::init( );
   SoInteraction::init( );
-  SoWinObject::init();
+  SoWinObject::init( );
 
   SoDebugError::setHandlerCallback( SoWin::errorHandlerCB, NULL );    // initialize error handeling
 
   SoDB::getSensorManager( )->setChangedCallback( SoWin::sensorQueueChanged, NULL );
-  if(topLevelWidget)
+  if ( topLevelWidget ) 
     SoWin::mainWidget = topLevelWidget;
 
   SoWin::messageHookList = new SbList< MessageHook * >;   // add hook
@@ -116,17 +123,17 @@ SoWin::mainLoop( void )
 {
   MSG msg;
   while ( TRUE ) {
-		if ( GetQueueStatus( QS_ALLINPUT ) != 0) { // if we have a message
-			if ( GetMessage( & msg, NULL, 0, 0 ) ) { // if msg != WM_QUIT
-				TranslateMessage( & msg );
-				DispatchMessage( & msg );
-			} else break; // msg == WM_QUIT
-		} else { // no messages waiting
-			if ( SoWin::idleSensorActive )
-				SoWin::doIdleTasks( );
-			else // !idleSensorActive
-				WaitMessage( );
-		}
+    if ( GetQueueStatus( QS_ALLINPUT ) != 0 ) { // if messagequeue != empty
+      if ( GetMessage( & msg, NULL, 0, 0 ) ) { // if msg != WM_QUIT
+        TranslateMessage( & msg );
+	DispatchMessage( & msg );
+      }
+      else break; // msg == WM_QUIT
+    }
+    else if ( SoWin::idleSensorActive )
+      SoWin::doIdleTasks( );
+    else // !idleSensorActive
+      WaitMessage( );
   }
 }
 
@@ -169,14 +176,14 @@ SoWin::setWidgetSize( HWND widget, const SbVec2s size )
   SIZE old_size;
   HDC hdc = GetDC( mainWidget );
 
-  SetWindowExtEx( hdc, size[0], size[1], & old_size );
+  SetWindowExtEx( hdc, size[ 0 ], size[ 1 ], & old_size );
 } 
 
 SbVec2s
 SoWin::getWidgetSize( HWND widget )
 {
   SIZE size;
-  HDC hdc = GetDC(mainWidget);
+  HDC hdc = GetDC( mainWidget );
 
   if ( ! GetWindowExtEx( hdc, & size ) )
     {
@@ -193,9 +200,41 @@ SoWin::getTopLevelWidget( void )
 }
 
 void
-SoWin::createSimpleErrorDialog( HWND const widget, const char * const dialogTitle, const char * const errorStr1, const char * const errorStr2)
+SoWin::createSimpleErrorDialog( HWND const widget, const char * const dialogTitle, const char * const errorStr1, const char * const errorStr2 )
 {
+  // FIXME: what to do with errorStr2?
   MessageBox( widget, errorStr1, dialogTitle, MB_OK | MB_ICONERROR );  
+}
+
+HWND
+SoWin::createWindow( char * title, char * className, RECT rect, HWND parent, HMENU menu )
+{
+  DWORD style, exstyle;
+  LPVOID params = NULL;
+
+  if( SoWin::fullScreen ) {
+    style = WS_POPUP;
+    exstyle = WS_EX_TOPMOST;
+  }
+  else {
+    style = WS_OVERLAPPEDWINDOW;
+    exstyle = NULL;
+  }
+
+  SoWin::mainWidget = CreateWindowEx( exstyle,
+	                              className,
+	                              title,
+                                      style,
+                                      rect.left,
+                                      rect.top,
+                                      rect.right - rect.left,
+                                      rect.bottom - rect.top,
+                                      parent,
+                                      menu,
+                                      SoWin::Instance,
+                                      params );
+
+  return SoWin::mainWidget;
 }
 
 void
@@ -480,7 +519,7 @@ SoWin::registerWindowClass( const char * const className )
   windowclass.lpszClassName = className;
   windowclass.hInstance = SoWin::Instance;
   windowclass.lpfnWndProc = SoWin::windowProc;
-  windowclass.style = /*CS_HREDRAW|CS_VREDRAW|*/CS_OWNDC;
+  windowclass.style = /*CS_HREDRAW | CS_VREDRAW |*/ CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( NULL, icon );
   windowclass.hCursor = LoadCursor( NULL, cursor );
@@ -495,27 +534,6 @@ void
 SoWin::unRegisterWindowClass( const char * const className )
 {
   UnregisterClass( className, SoWin::getInstance( ) );
-}
-
-HWND
-SoWin::createWindow( char * title, char * className, RECT rect, HWND parent, HMENU menu )
-{
-  DWORD style = WS_OVERLAPPEDWINDOW;
-  LPVOID params = NULL;
-
-  SoWin::mainWidget = CreateWindow( className,
-                                    title,
-                                    style,
-                                    rect.left,
-                                    rect.top,
-                                    rect.right - rect.left,
-                                    rect.bottom - rect.top,
-                                    parent,
-                                    menu,
-                                    SoWin::Instance,
-                                    params );
-
-  return SoWin::mainWidget;
 }
 
 LRESULT CALLBACK
@@ -589,7 +607,8 @@ SoWin::sensorQueueChanged( void * cbdata )
                                      SoWin::timerSensorCB );
 
     SoWin::timerSensorActive = TRUE;
-  } else if ( SoWin::timerSensorActive ) {
+  }
+  else if ( SoWin::timerSensorActive ) {
     KillTimer( NULL, SoWin::timerSensorId );
     SoWin::timerSensorActive = FALSE;
   }
@@ -612,7 +631,8 @@ SoWin::sensorQueueChanged( void * cbdata )
                                        SoWin::delaySensorCB );
       SoWin::delaySensorActive = TRUE;
     }
-  } else {
+  }
+  else {
                              
     if ( SoWin::idleSensorActive ) {
       KillTimer( NULL, SoWin::idleSensorId );
@@ -629,29 +649,40 @@ SoWin::sensorQueueChanged( void * cbdata )
 LRESULT
 SoWin::onAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
+  /*
   BOOL messageHandeled = FALSE;
-
+  
   if ( messageHookList ) {
     int length = messageHookList->getLength( );
     MessageHook * const * hookList = messageHookList->getArrayPtr( );
     for ( int i = 0; i < length; i++ )
-      if ( hookList[i]->message == message ) {
-	MoveWindow( hookList[i]->hWnd,
-                    0,
-                    0,
-                    LOWORD( lparam ),
-                    HIWORD( lparam ),
-                    TRUE );
+      if ( hookList[ i ]->message == message ) {
+        UpdateWindow( hookList[ i ]->hWnd );
         messageHandeled = TRUE;
       }
   }
+  */
   return 0;
 }
 
 LRESULT
 SoWin::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  UpdateWindow( window );
+  // On resizing the mainWidget, resize all child windows too
+
+  if ( messageHookList ) {
+    int length = messageHookList->getLength( );
+    MessageHook * const * hookList = messageHookList->getArrayPtr( );
+    for ( int i = 0; i < length; i++ )
+      if ( hookList[ i ]->message == message ) { // WM_SIZE
+        MoveWindow( hookList[ i ]->hWnd,
+                    0,
+                    0,
+                    LOWORD( lparam ),
+                    HIWORD( lparam ),
+                    TRUE );
+      }
+  }
   return 0;
 }
 
@@ -676,108 +707,12 @@ SoWin::onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
   return 0;
 }
 
-#if 0 // FIXME: see comment at the end of SoWin.h. 20001123 mortene.
-///////////////////////////////////////////////////////////////////
-//
-//  (globals)
-//
 
-#if SOWIN_DEBUG
 
-void
-WinDisplayLastError( void )
-{
-  LPSTR lpMsgBuf;
-  FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-                 FORMAT_MESSAGE_FROM_SYSTEM | 
-                 FORMAT_MESSAGE_IGNORE_INSERTS,
-                 NULL,
-                 GetLastError( ),
-                 MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ), // Default language
-                 ( LPTSTR ) & lpMsgBuf,
-                 0,
-                 NULL );
-  MessageBox( NULL,
-              ( LPCTSTR ) lpMsgBuf,
-              "Error",
-              MB_OK |
-              MB_ICONINFORMATION );
-  LocalFree( lpMsgBuf );
-}
 
-#endif // SOWIN_DEBUG
 
-#ifndef SOWIN_INTERNAL
 
-int WINAPI
-WinMain( HINSTANCE instance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
-{
-  char ** argv;
-  int argc = 0;
-  int i = 0;
-  int retval, strsize;
-  char * chrptr; // string pointer to first instance of character
-  char * argstr; // string pointer to argument
-  char * argptr;
-  char * cmdline;
 
-  SoWin::setInstance( instance );
 
-  // count args
-  if( cmdline = GetCommandLine( ) )  // get entire command line (including program name)
-    argc++;
-  while( chrptr = strchr( cmdline, ' ' ) )   // search for ' '
-    {
-      argc++;
-      cmdline = chrptr + 1;
-    }
-  argv = ( char ** ) malloc( sizeof( char * ) * argc );
 
-  // get arguments
-  i = strlen( GetCommandLine( ) );
-  cmdline = ( char * ) malloc( i + 1 );
-  strcpy( cmdline, GetCommandLine( ) );
-  cmdline[ i ] = ' ';
-  cmdline[ i + 1] = '\0';
 
-  argptr = cmdline;
-  i = 0;
-  while(chrptr = strchr( argptr, ' ' ) )   // search for ' '
-    {
-      strsize = chrptr - argptr;         // get string size
-      argstr = ( char *) malloc( strsize + 1 ); 
-      memcpy( argstr, argptr, strsize );
-      argstr[strsize] = '\0'; // add '\0' to string
-      argv[i++] = argstr; // add string to argv
-      argptr = chrptr + 1;   // next argument ( + skip the ' ' )
-    }
-  free( cmdline );
-
-#if SOWIN_DEBUG
-  AllocConsole( );
-  _cprintf( "Console open...\n" );
-  for (i = 0; i < argc; i++ )
-    _cprintf( "Argv[%d] = %s\n", i, argv[i] ); 
-#endif  // SOWIN_DEBUG
-
-  //retval = ivMain( argc, argv );
-  ivMain( argc, argv );
-  retval = 0;
-
-#if SOWIN_DEBUG
-  _cprintf( "Closing console...\n" );
-  FreeConsole( );
-#endif // SOWIN_DEBUG
-
-  // free allocated memory
-  for( i = 0; i < argc; i++)
-    free( argv[i] );
-  free( argv );
-
-  return retval;
-}
-
-#endif // !SOWIN_INTERNAL
-
-// Globals
-#endif // tmp (?) disabled

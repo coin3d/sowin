@@ -74,8 +74,8 @@ public:
                                        const char * const dialogTitle,
                                        const char * const errorStr1,
                                        const char * const errorStr2 = NULL );
-
-  // TGS sh*t - not implemented
+	
+  // Not implemented (not critical)
   static void terminate( long terminateSyncTime = 100 );
   static SbBool PreTranslateMessage( MSG * msg );
   static SbBool nextEvent( int appContext, MSG * msg );
@@ -197,27 +197,11 @@ private:
   static HWND mainWidget;
   static char * appName;
   static char * className;
-
+  static SbBool fullScreen;
   static SbList< MessageHook * > * messageHookList;
 
 }; // class SoWin
 
-#if 0 // FIXME: WTF is this good for? 20001123 mortene.
-// *************************************************************************
-// Globals
-
-#if SOWIN_DEBUG
-void WinDisplayLastError( void );
-#endif // SOWIN_DEBUG
-
-#ifndef SOWIN_INTERNAL
-//int ivMain(int argc, char ** argv);
-void ivMain(int argc, char ** argv);
-int WINAPI WinMain(HINSTANCE instance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
-#endif // !SOWIN_INTERNAL
-
-// !Globals
-// *************************************************************************
-#endif // tmp (?) disabled
-
 #endif // !SOWIN_H
+
+
