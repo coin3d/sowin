@@ -132,7 +132,16 @@ if $sim_ac_build_library; then
 # **************************************************************************
 # Header files we might want.
 
-AC_CHECK_HEADERS([windows.h tlhelp32.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMisc.h X11/Xproto.h X11/extensions/XInput.h netinet/in.h])
+# We expect these to include their own dependencies.
+AC_CHECK_HEADERS([windows.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMisc.h X11/Xproto.h X11/extensions/XInput.h netinet/in.h])
+
+# At least with MSVC++, these headers needs windows.h to have been
+# included first.
+AC_CHECK_HEADERS([tlhelp32.h], [], [], [
+#if HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+])
 
 # *******************************************************************
 # Instead of getenv() on most Win32 platforms (not Windows CE).
@@ -275,7 +284,16 @@ AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, false)
 # **************************************************************************
 # Search for and set up stuff we depend on.
 
-AC_CHECK_HEADERS([GL/gl.h OpenGL/gl.h GL/glu.h OpenGL/glu.h])
+# At least with MSVC++, these headers needs windows.h to be
+# included first.
+AC_CHECK_HEADERS([GL/gl.h GL/glu.h], [], [], [
+#if HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+])
+
+# Expected to be correct for Mac OS X.
+AC_CHECK_HEADERS([OpenGL/gl.h OpenGL/glu.h])
 
 # check for Coin library and its dependencies
 
