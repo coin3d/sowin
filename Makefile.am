@@ -34,7 +34,6 @@ CLEANFILES = \
 
 DISTCLEANFILES = \
 	libtool \
-	build/sowin.doxygen \
 	$(SoGui_BuiltFiles) \
 	$(SoGui_BuiltMetaFiles)
 
@@ -53,7 +52,6 @@ cfgdata_DATA = so@gui@-@CONFIG@.cfg
 endif
 
 EXTRA_DIST = \
-	build/sowin.doxygen.in \
 	cfg/m4/sowin.m4 \
 	$(SoGuiCommonDistFiles)
 

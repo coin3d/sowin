@@ -199,12 +199,14 @@ AC_ARG_WITH(
 AC_SUBST(SUFFIX)
 
 # **************************************************************************
-# FIXME: insert code for controlling these variables properly (see for
+
+SIM_AC_SOGUI_SETUP_DOXYGEN(SoWin)
+
+# **************************************************************************
+# FIXME: insert code for controlling this variable properly (see for
 # instance SoQt configure.in). 20011115 mortene.
 
 AM_CONDITIONAL(BUILD_LIBRARY, true)
-AM_CONDITIONAL(BUILD_HTMLPAGES, false)
-AM_CONDITIONAL(BUILD_MANPAGES, false)
 
 # **************************************************************************
 # Will naturally always be false for SoWin.
@@ -277,56 +279,6 @@ SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lgdi32 -luser32"
 # **************************************************************************
 
 fi
-
-AC_ARG_WITH(
-  [html],
-  [AC_HELP_STRING([--with-html], [build SoWin HTML documentation])],
-  [case $withval in
-    yes | true) want_html=true ;;
-    no | false) want_html=false ;;
-    *) AC_MSG_ERROR([bad value "$withval" for --with-html]) ;;
-  esac],
-  [want_html=false])
-
-AC_ARG_WITH(
-  [man],
-  [AC_HELP_STRING([--with-man], [build SoWin man pages])],
-  [case $withval in
-    yes | true) want_man=true ;;
-    no | false) want_man=false ;;
-    *) AC_MSG_ERROR([bad value "$withval" for --with-man]) ;;
-  esac],
-  [want_man=false])
-
-SOWIN_DOC_HTML=NO
-if $want_html; then
-  SOWIN_DOC_HTML=YES
-  HTML_DOC_DIR=`eval echo "$datadir/SoWin/html"`
-  AC_SUBST(HTML_DOC_DIR)
-fi
-
-SOWIN_DOC_MAN=NO
-if $want_man; then
-  SOWIN_DOC_MAN=YES
-fi
-
-if $want_html || $want_man; then
-  SIM_AC_DOXYGEN_TOOL
-fi
-
-AC_SUBST(SOWIN_DOC_HTML)
-AC_SUBST(SOWIN_DOC_MAN)
-
-sowin_dox_build_dir=`pwd`
-sowin_dox_src_dir=`cd $srcdir; pwd`
-AC_SUBST(sowin_dox_src_dir)
-AC_SUBST(sowin_dox_build_dir)
-
-case $host in
-  *-cygwin) path_tag="<PATH>" ;;
-  *)        path_tag= ;;
-esac
-AC_SUBST(path_tag)
 
 # **************************************************************************
 # Remove redundant options from certain option lists.
@@ -461,7 +413,6 @@ AC_OUTPUT([
 	man/man1/Makefile
 	man/man3/Makefile
 	html/Makefile
-	build/sowin.doxygen
 ])
 
 if $sim_ac_build_library; then
