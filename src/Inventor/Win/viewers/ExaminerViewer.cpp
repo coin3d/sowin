@@ -381,31 +381,6 @@ SoWinExaminerViewer::onCommand(// virtual
 // *************************************************************************
 
 /*!
-  Overload this method to make sure any animations are stopped before
-  we go into seek mode.
-*/
-
-void
-SoWinExaminerViewer::setSeekMode(SbBool on)
-{
-#if SOWIN_DEBUG
-  if (on == this->isSeekMode()) {
-    SoDebugError::postWarning("SoWinExaminerViewer::setSeekMode",
-                               "seek mode already %sset", on ? "" : "un");
-    return;
-  }
-#endif // SOWIN_DEBUG
-
-  if (this->isAnimating()) this->stopAnimating();
-  inherited::setSeekMode(on);
-  this->setMode(on ?
-                         SoWinExaminerViewer::WAITING_FOR_SEEK :
-                         SoWinExaminerViewer::EXAMINE);
-} // setSeekMode()
-
-// *************************************************************************
-
-/*!
   Overload this method to be able to draw the axis cross if selected
   in the preferences sheet.
 */
