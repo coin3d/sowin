@@ -62,9 +62,7 @@ widgets_lst_SOURCES = \
 
 widgets.lst: Makefile $(widgets_lst_OBJECTS)
 	@echo "Linking widgets.lst..."; \
-	echo $(CC) /LST:widgets.lst \
-	  $(widgets_lst_OBJECTS); \
-	$(CC) /LST:widgets.lst \
-	  $(widgets_lst_OBJECTS);
+	rm -f $@; \
+	for i in $(widgets_lst_OBJECTS); do echo $$i >>$@; done
 
 # EOF ######################################################################

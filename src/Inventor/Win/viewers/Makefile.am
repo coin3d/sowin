@@ -89,10 +89,8 @@ viewers_lst_SOURCES = \
 
 viewers.lst: Makefile $(viewers_lst_OBJECTS)
 	@echo "Linking viewers.lst..."; \
-	echo $(CC) /LST:viewers.lst \
-	  $(viewers_lst_OBJECTS); \
-	$(CC) /LST:viewers.lst \
-	  $(viewers_lst_OBJECTS);
+	rm -f $@; \
+	for i in $(viewers_lst_OBJECTS); do echo $$i >>$@; done
 
 ############################################################################
 # headers

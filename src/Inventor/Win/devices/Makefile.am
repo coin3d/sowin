@@ -35,10 +35,8 @@ devices_lst_SOURCES = \
 
 devices.lst: Makefile $(devices_lst_OBJECTS)
 	@echo "Linking devices.lst..."; \
-	echo $(CC) /LST:devices.lst \
-	  $(devices_lst_OBJECTS); \
-	$(CC) /LST:devices.lst \
-	  $(devices_lst_OBJECTS);
+	rm -f $@; \
+	for i in $(devices_lst_OBJECTS); do echo $$i >>$@; done
 
 ############################################################################
 
