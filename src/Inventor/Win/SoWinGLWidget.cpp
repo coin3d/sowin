@@ -511,10 +511,8 @@ SoWinGLWidget::mgrWidgetProc(HWND window,
 }
 
 LRESULT CALLBACK
-SoWinGLWidget::glWidgetProc(HWND window,
-                             UINT message,
-                             WPARAM wparam,
-                             LPARAM lparam)
+SoWinGLWidget::glWidgetProc(HWND window, UINT message,
+                            WPARAM wparam, LPARAM lparam)
 {
   if (message == WM_CREATE) {
     CREATESTRUCT * createstruct = (CREATESTRUCT *) lparam;
@@ -544,7 +542,7 @@ SoWinGLWidget::glWidgetProc(HWND window,
       PRIVATE(object)->haveFocus = (BOOL) SetFocus(window);
     }
 
-    object->processEvent(& msg);
+    object->processEvent(&msg);
     
     switch (message) {
 
@@ -568,14 +566,6 @@ SoWinGLWidget::glWidgetProc(HWND window,
     case WM_KILLFOCUS:
       PRIVATE(object)->haveFocus = FALSE;
       return 0;
-
-    case WM_SETCURSOR:
-      // XXX  FIXME XXX
-//        SoDebugError::postInfo("SoWinGLWidget::glWidgetProc",
-//                               "WM_SETCURSOR");
-//        (void)SetCursor(object->getCursor());
-      return 0;
- 
     }
   }
   return DefWindowProc(window, message, wparam, lparam);
@@ -784,12 +774,12 @@ SoWinGLWidget::buildWidget(HWND parent)
     windowclass.style = NULL;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
-    windowclass.hCursor = NULL;
-    windowclass.hbrBackground =  (HBRUSH) GetSysColorBrush(COLOR_3DSHADOW);//NULL;
+    windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
+    windowclass.hbrBackground =(HBRUSH) GetSysColorBrush(COLOR_3DSHADOW);//NULL;
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = 4;
 
-    SoWinGLWidgetP::managerWndClassAtom = Win32::RegisterClass(& windowclass);
+    SoWinGLWidgetP::managerWndClassAtom = Win32::RegisterClass(&windowclass);
     
   }
 
@@ -966,11 +956,9 @@ SoWinGLWidget::glFlushBuffer(void)
 void
 SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
 {
-  LPSTR wndclassname = "GL Widget";
-  HMENU menu = NULL;
-  
-  if (! SoWinGLWidgetP::glWndClassAtom) {
+  const LPSTR wndclassname = "GL Widget";
 
+  if (!SoWinGLWidgetP::glWndClassAtom) {
     WNDCLASS windowclass;
     windowclass.lpszClassName = wndclassname;
     windowclass.hInstance = SoWin::getInstance();
@@ -978,13 +966,12 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
     windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
-    windowclass.hCursor =  NULL;
+    windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = NULL;
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = 4;
 
-    SoWinGLWidgetP::glWndClassAtom = Win32::RegisterClass(& windowclass);
-
+    SoWinGLWidgetP::glWndClassAtom = Win32::RegisterClass(&windowclass);
   }
  
   assert(IsWindow(manager) && "buildNormalGLWidget() argument is erroneous");
@@ -1007,7 +994,7 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
                                      rect.left, rect.top,
                                      rect.right, rect.bottom,
                                      manager,
-                                     menu,
+                                     NULL,
                                      SoWin::getInstance(),
                                      this->owner);
 
