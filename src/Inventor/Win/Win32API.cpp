@@ -322,6 +322,15 @@ Win32::SetWindowsHookEx(int idHook,        // type of hook to install
 }
 
 void
+Win32::UnhookWindowsHookEx(HHOOK hhk // handle to hook procedure to remove
+                           )
+{
+  BOOL r = ::UnhookWindowsHookEx(hhk);
+  if (!r) { Win32::showLastErr(); }
+  assert(r && "UnhookWindowsHookEx() failed -- investigate");
+}
+
+void
 Win32::ModifyMenu(HMENU hMnu,       // handle to menu
                   UINT uPosition,   // menu item to modify
                   UINT uFlags,      // menu item flags

@@ -55,6 +55,7 @@ public:
   static LONG GetWindowLong(HWND, int);
   static void SetWindowPos(HWND, HWND, int, int, int, int, UINT);
   static HHOOK SetWindowsHookEx(int, HOOKPROC, HINSTANCE, DWORD);
+  static void UnhookWindowsHookEx(HHOOK);
   static void ModifyMenu(HMENU,UINT,UINT,UINT,LPCTSTR);
   static void EnableMenuItem(HMENU, UINT, UINT);
   static void GetMenuItemInfo(HMENU, UINT, BOOL, LPMENUITEMINFO);
