@@ -17,8 +17,6 @@
  *
  **************************************************************************/
 
-#include <conio.h>
-
 #include <Inventor/SbTime.h>
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInteraction.h>
@@ -62,7 +60,6 @@ public:
                                      UINT idevent,
                                      DWORD dwtime );
   
-  //static LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   static LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   static LRESULT onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   
@@ -98,6 +95,7 @@ SbBool SoWinP::useParentEventHandler = TRUE;
 
 // *************************************************************************
 
+// documented in common/SoGuiObject.cpp.in
 void
 SoWinObject::init( void )
 {
@@ -111,6 +109,11 @@ SoWinObject::init( void )
 //  (public)
 //
 
+/*!
+  This method is provided for easier porting/compatibility with the
+  Open Inventor SoXt component classes. It just adds dummy \a argc and
+  \a argv arguments and calls the SoWin::init() method below.
+*/
 HWND
 SoWin::init( const char * const appName,
              const char * const className )
@@ -119,6 +122,15 @@ SoWin::init( const char * const appName,
   char * argv[] = { ( char * ) appName, NULL };
   return SoWin::init( argc, argv, appName, className );
 }
+
+
+/*!
+  Initializes the SoWin component toolkit library, as well as the Open Inventor
+  library.
+
+  Calls \a SoDB::init(), \a SoNodeKit::init() and \a SoInteraction::init(), and
+  returns a  main widget for you
+*/
 
 HWND
 SoWin::init( int argc,
@@ -142,6 +154,12 @@ SoWin::init( int argc,
   return toplevel;
 }
 
+
+/*!
+  Calls \a SoDB::init(), \a SoNodeKit::init() and \a SoInteraction::init().
+  Assumes you are creating your main widget.
+  \a topLevelWidget should be your application's main widget.
+*/
 void
 SoWin::init( HWND const topLevelWidget )
 {
@@ -162,12 +180,19 @@ SoWin::init( HWND const topLevelWidget )
   }
 }
 
+/*!
+ */
 void
 SoWin::init( void )
 {
   SoWin::init( "SoWin", "SoWin" );
 }
 
+/*!
+  This is the event dispatch loop. It doesn't return until
+  \a PostQuitMessage() is called (which is also done automatically by
+  Windows whenever the user closes an application's main widget).
+*/
 void
 SoWin::mainLoop( void )
 {
@@ -187,12 +212,19 @@ SoWin::mainLoop( void )
   }
 }
 
+/*!
+  This funtcion will make the main event loop finish looping.
+
+  NOTE: exitMainLoop is not part of the original InventorXt API.
+*/
 void
 SoWin::exitMainLoop( void )
 {
   PostQuitMessage( 0 );
 }
 
+/*!
+ */
 BOOL
 SoWin::dispatchEvent( MSG * msg )
 {
@@ -201,18 +233,39 @@ SoWin::dispatchEvent( MSG * msg )
   return TRUE;
 }
 
+/*!
+  This method is provided for easier porting/compatibility with the
+  Open Inventor SoXt component classes. It will call ShowWindow() with the
+  argument SW_SHOW on the provided \a widget window handle.
+
+  \sa hide()
+*/
 void
 SoWin::show( HWND const widget )
 {
   (void)ShowWindow( widget, SW_SHOW );
 }
 
+/*!
+  This method is provided for easier porting/compatibility with the
+  Open Inventor SoXt component classes. It will call ShowWindow() with the
+  argument SW_HIDE on the provided \a widget window handle.
+
+  \sa show()
+*/
 void
 SoWin::hide( HWND const widget )
 {
   (void)ShowWindow( widget, SW_HIDE );
 }
 
+/*!
+  This method is provided for easier porting of applications based on the
+  Open Inventor SoXt component classes. It will call SetWindowPos() on the
+  provided \a widget window handle.
+
+  \sa getWidgetSize()
+*/
 void
 SoWin::setWidgetSize( HWND widget, const SbVec2s size )
 {
@@ -220,6 +273,13 @@ SoWin::setWidgetSize( HWND widget, const SbVec2s size )
   Win32::SetWindowPos( widget, NULL, 0, 0, size[0], size[1], flags );
 } 
 
+/*!
+  This method is provided for easier porting/compatibility with the
+  Open Inventor SoXt component classes. It will call GetWindowExtEx() on the
+  provided \a widget window handle's device context (returning an SbVec2s).
+
+  \sa setWidgetSize()
+*/
 SbVec2s
 SoWin::getWidgetSize( HWND widget )
 {
@@ -233,19 +293,50 @@ SoWin::getWidgetSize( HWND widget )
   return SbVec2s( ( short ) size.cx, ( short ) size.cy );
 }
 
+/*!
+  Returns a pointer to the HWND which is the main widget for the
+  application. When this widget gets closed, SoWin::mainLoop() will
+  return (unless the close event is caught by the user).
+
+  \sa getShellWidget()
+*/
 HWND
 SoWin::getTopLevelWidget( void )
 {
   return SoWinP::mainWidget;
 }
 
+/*!
+  This will pop up an error dialog. It's just a simple wrap-around for
+  the MessageBox() call, provided for easier porting from
+  applications using the Open Inventor SoXt component classes.
+
+  If \a widget is \a NULL, the dialog will be modal for the whole
+  application (all windows will be blocked for input). If not,
+  only the window for the given \a widget will be blocked.
+
+  \a dialogTitle is the title of the dialog box. \a errorStr1 and
+  \a errorStr2 contains the text which will be shown in the dialog box.
+
+  There will only be a single "Ok" button for the user to press.
+ */
 void
 SoWin::createSimpleErrorDialog( HWND const widget, const char * const dialogTitle, const char * const errorStr1, const char * const errorStr2 )
 {
-  // FIXME: what to do with errorStr2?
-  MessageBox( widget, errorStr1, dialogTitle, MB_OK | MB_ICONERROR );
+  
+  SbString title( dialogTitle ? dialogTitle : "" );
+  SbString errstr( errorStr1 ? errorStr1 : "" );
+
+  if ( errorStr2 ) {
+    errstr += '\n';
+    errstr += errorStr2;
+  }
+
+  MessageBox( widget, errstr.getString( ), title.getString( ), MB_OK | MB_ICONERROR | MB_TASKMODAL );
 }
 
+/*!
+ */
 HWND
 SoWin::createWindow( char * title, char * className, SIZE size, HWND parent, HMENU menu )
 {
@@ -270,12 +361,20 @@ SoWin::createWindow( char * title, char * className, SIZE size, HWND parent, HME
   return widget;
 }
 
+/*!
+ */
 SbBool
 SoWin::nextEvent( int appContext, MSG * msg )
 {
   return GetMessage( msg, NULL, 0, 0 );
 }
 
+/*!
+  Returns a pointer to the HWND which is the top level widget for the
+  given HWND \a hwnd.
+
+  \sa getTopLevelWidget()
+*/
 HWND
 SoWin::getShellWidget( HWND hwnd )
 {
@@ -292,18 +391,24 @@ SoWin::getShellWidget( HWND hwnd )
   return hwnd;
 }
 
+/*!
+ */
 void
 SoWin::setInstance( HINSTANCE instance )
 {
   SoWinP::Instance = instance;
 }
 
+/*!
+ */
 HINSTANCE
 SoWin::getInstance( void )
 {
   return SoWinP::Instance;
 }
 
+/*!
+ */
 void
 SoWin::errorHandlerCB( const SoError * error, void * data )
 {
@@ -319,6 +424,8 @@ SoWin::errorHandlerCB( const SoError * error, void * data )
 #endif
 }
 
+/*!
+ */
 void
 SoWin::doIdleTasks( void )
 {
@@ -332,6 +439,8 @@ SoWin::doIdleTasks( void )
 //  (protected)
 //
 
+/*!
+ */
 void
 SoWin::registerWindowClass( const char * const className )
 {
@@ -355,12 +464,16 @@ SoWin::registerWindowClass( const char * const className )
   RegisterClass( & windowclass );
 }
 
+/*!
+ */
 void
 SoWin::unRegisterWindowClass( const char * const className )
 {
   Win32::UnregisterClass( className, SoWin::getInstance( ) );
 }
 
+/*!
+ */
 LRESULT CALLBACK
 SoWin::eventHandler( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
@@ -397,6 +510,8 @@ SoWin::eventHandler( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 //  (private)
 //
 
+/*!
+ */
 void CALLBACK
 SoWinP::timerSensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
@@ -407,6 +522,8 @@ SoWinP::timerSensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoWinP::sensorQueueChanged( NULL );
 }
 
+/*!
+ */
 void CALLBACK
 SoWinP::delaySensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
@@ -417,6 +534,8 @@ SoWinP::delaySensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoWinP::sensorQueueChanged( NULL );
 }
 
+/*!
+ */
 void CALLBACK
 SoWinP::idleSensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
@@ -426,6 +545,13 @@ SoWinP::idleSensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoWin::doIdleTasks( );
 }
 
+/*!
+  \internal
+
+  This function gets called whenever something has happened to any of
+  the sensor queues. It starts or reschedules a timer which will trigger
+  when a sensor is ripe for plucking.
+*/
 void
 SoWinP::sensorQueueChanged( void * cbdata )
 {
@@ -483,13 +609,17 @@ SoWinP::sensorQueueChanged( void * cbdata )
   }
 }
 
+/*!
+ */
 LRESULT
 SoWinP::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   PostQuitMessage( 0 );
   return 0;
 }
- 
+
+/*!
+ */
 LRESULT
 SoWinP::onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
