@@ -401,6 +401,11 @@ SoWinKeyboard::disable(HWND widget, SoWinEventHandler * callbackproc, void * dat
 const SoEvent *
 SoWinKeyboard::translateEvent(MSG * msg)
 {
+
+  // FIXME: this method should also set the event position - the last
+  // known cursor (location2) position.  20040709 larsa
+
+
   if ((msg->message != WM_KEYDOWN) && (msg->message != WM_KEYUP) &&
       (msg->message != WM_SYSKEYDOWN) && (msg->message != WM_SYSKEYUP)) {
     return NULL;
