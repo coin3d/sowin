@@ -1,4 +1,4 @@
-New in SoWin 1.2.0 (2003-12-12):
+New in SoWin 1.2.0 (2004-01-13):
 * Alpha channel support for viewers
 * Improved pixelformat selection when setting up OpenGL device contexts
 * Support the VRMLViewpoint node
