@@ -339,7 +339,10 @@ $1
 #
 # SIM_AC_ERROR( ERROR [, ERROR ...] )
 #   Fetches the error messages from the error message file and displays
-#   them on stderr.
+#   them on stderr. The configure process will subsequently exit.
+#
+# SIM_AC_WARN( ERROR [, ERROR ...] )
+#   As SIM_AC_ERROR, but will not exit after displaying the message(s).
 #
 # SIM_AC_WITH_ERROR( WITHARG )
 #   Invokes AC_MSG_ERROR in a consistent way for problems with the --with-*
@@ -383,6 +386,12 @@ _SIM_AC_ERROR($@)
 echo >&2 ""
 AC_MSG_ERROR([aborting])
 ]) # SIM_AC_ERROR
+
+AC_DEFUN([SIM_AC_WARN], [
+echo >&2 ""
+_SIM_AC_ERROR($@)
+echo >&2 ""
+]) # SIM_AC_WARN
 
 AC_DEFUN([SIM_AC_WITH_ERROR], [
 AC_MSG_ERROR([invalid value "${withval}" for "$1" configure argument])
@@ -7677,27 +7686,55 @@ CPPFLAGS="$CPPFLAGS $1"
 AC_TRY_COMPILE([], [], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
 AC_MSG_RESULT([$sim_ac_accept_result])
 CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in $2 or $3.
+# This need to go last, in case CPPFLAGS is modified in arg 2 or arg 3.
 if test $sim_ac_accept_result = yes; then
-  ifelse($2, , :, $2)
+  ifelse([$2], , :, [$2])
 else
-  ifelse($3, , :, $3)
+  ifelse([$3], , :, [$3])
 fi
 ])
 
+AC_DEFUN([SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET], [
+sim_ac_save_cppflags=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $1"
+AC_TRY_COMPILE([], [$2], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
+CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in arg 3 or arg 4.
+if test $sim_ac_accept_result = yes; then
+  ifelse([$3], , :, [$3])
+else
+  ifelse([$4], , :, [$4])
+fi
+])
+
+
 AC_DEFUN([SIM_AC_CC_COMPILER_OPTION], [
 AC_LANG_SAVE
-AC_LANG_C
+AC_LANG(C)
 AC_MSG_CHECKING([whether $CC accepts $1])
-SIM_AC_COMPILER_OPTION($1, $2, $3)
+SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CC_COMPILER_BEHAVIOR_OPTION_QUIET], [
+AC_LANG_SAVE
+AC_LANG(C)
+SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
 AC_LANG_RESTORE
 ])
 
 AC_DEFUN([SIM_AC_CXX_COMPILER_OPTION], [
 AC_LANG_SAVE
-AC_LANG_CPLUSPLUS
+AC_LANG(C++)
 AC_MSG_CHECKING([whether $CXX accepts $1])
-SIM_AC_COMPILER_OPTION($1, $2, $3)
+SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET], [
+AC_LANG_SAVE
+AC_LANG(C++)
+SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
 AC_LANG_RESTORE
 ])
 
@@ -7750,12 +7787,12 @@ fi
 # Description:
 #   Take care of making a sensible selection of warning messages
 #   to turn on or off.
-# 
+#
 #   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
 #   in the configure.in script.
-# 
+#
 # Author: Morten Eriksen, <mortene@sim.no>.
-# 
+#
 # TODO:
 #   * [mortene:19991114] find out how to get GCC's
 #     -Werror-implicit-function-declaration option to work as expected
@@ -7784,16 +7821,16 @@ if test x"$enable_warnings" = x"yes"; then
       SIM_AC_CC_COMPILER_OPTION([$sim_ac_try_warning_option],
                                 [CFLAGS="$CFLAGS $sim_ac_try_warning_option"])
     fi
-  
+
     if test x"$GXX" = x"yes"; then
       SIM_AC_CXX_COMPILER_OPTION([$sim_ac_try_warning_option],
                                  [CXXFLAGS="$CXXFLAGS $sim_ac_try_warning_option"])
     fi
 
   done
-    
+
   case $host in
-  *-*-irix*) 
+  *-*-irix*)
     ### Turn on all warnings ######################################
     # we try to catch settings like CC="CC -n32" too, even though the
     # -n32 option belongs to C[XX]FLAGS
@@ -7850,6 +7887,152 @@ if test x"$enable_warnings" = x"yes"; then
   esac
 fi
 ])
+
+# **************************************************************************
+#
+# SIM_AC_DETECT_COMMON_COMPILER_FLAGS
+#
+# Sets sim_ac_compiler_CFLAGS and sim_ac_compiler_CXXFLAGS
+#
+
+AC_DEFUN([SIM_AC_DETECT_COMMON_COMPILER_FLAGS], [
+
+AC_REQUIRE([SIM_AC_CHECK_PROJECT_BETA_STATUS_IFELSE])
+AC_REQUIRE([SIM_AC_CHECK_SIMIAN_IFELSE])
+
+SIM_AC_COMPILE_DEBUG([
+  if test x"$GCC" = x"yes"; then
+    # no auto string.h-functions
+    SIM_AC_CC_COMPILER_OPTION([-fno-builtin], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -fno-builtin"])
+    SIM_AC_CXX_COMPILER_OPTION([-fno-builtin], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -fno-builtin"])
+
+    # disallow non-standard scoping of for()-variables
+    SIM_AC_CXX_COMPILER_OPTION([-fno-for-scoping], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -fno-for-scope"])
+
+    SIM_AC_CC_COMPILER_OPTION([-finline-functions], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -finline-functions"])
+    SIM_AC_CXX_COMPILER_OPTION([-finline-functions], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -finline-functions"])
+
+    if $sim_ac_simian; then
+      if $sim_ac_source_release; then :; else
+      # break build on warnings, except for in official source code releases
+        if test x"$enable_werror" = x"no"; then :; else
+          SIM_AC_CC_COMPILER_OPTION([-Werror], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -Werror"])
+          SIM_AC_CXX_COMPILER_OPTION([-Werror], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -Werror"])
+        fi
+      fi
+    fi
+
+    # warn on missing return-value
+    SIM_AC_CC_COMPILER_OPTION([-Wreturn-type], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -Wreturn-type"])
+    SIM_AC_CXX_COMPILER_OPTION([-Wreturn-type], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -Wreturn-type"])
+
+    SIM_AC_CC_COMPILER_OPTION([-Wchar-subscripts], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -Wchar-subscripts"])
+    SIM_AC_CXX_COMPILER_OPTION([-Wchar-subscripts], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -Wchar-subscripts"])
+
+    SIM_AC_CC_COMPILER_OPTION([-Wparentheses], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -Wparentheses"])
+    SIM_AC_CXX_COMPILER_OPTION([-Wparentheses], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -Wparentheses"])
+
+  else
+    case $CXX in
+    *wrapmsvc* )
+      if $sim_ac_simian; then
+        if $sim_ac_source_release; then :; else
+          # break build on warnings, except for in official source code releases
+          SIM_AC_CC_COMPILER_OPTION([/WX], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /WX"])
+          SIM_AC_CXX_COMPILER_OPTION([/WX], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /WX"])
+        fi
+      fi
+
+      # warning level 3
+      SIM_AC_CC_COMPILER_OPTION([/W3], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /W3"])
+      SIM_AC_CXX_COMPILER_OPTION([/W3], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /W3"])
+      ;;
+    esac
+  fi
+])
+
+ifelse($1, [], :, $1)
+
+])
+
+AC_DEFUN([SIM_AC_COMPILER_NOBOOL], [
+sim_ac_nobool_CXXFLAGS=
+sim_ac_have_nobool=false
+AC_MSG_CHECKING([whether $CXX accepts /noBool])
+SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
+  [/noBool],
+  [int temp],
+  [SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
+    [/noBool],
+    [bool res = true],
+    [],
+    [sim_ac_have_nobool=true])])
+ 
+if $sim_ac_have_nobool; then
+  sim_ac_nobool_CXXFLAGS="/noBool"
+  AC_MSG_RESULT([yes])
+  ifelse([$1], , :, [$1])
+else
+  AC_MSG_RESULT([no])
+  ifelse([$2], , :, [$2])
+fi
+])
+
+
+#
+# SIM_AC_CHECK_PROJECT_BETA_STATUS_IFELSE( IF-BETA, IF-BONA-FIDE )
+#
+# Sets sim_ac_source_release to true or false
+#
+
+AC_DEFUN([SIM_AC_CHECK_PROJECT_BETA_STATUS_IFELSE], [
+AC_MSG_CHECKING([for project release status])
+case $VERSION in
+*[[a-z]]* )
+  AC_MSG_RESULT([beta / inbetween releases])
+  sim_ac_source_release=false
+  ifelse($1, [], :, $1)
+  ;;
+* )
+  AC_MSG_RESULT([release version])
+  sim_ac_source_release=true
+  ifelse($2, [], :, $2)
+  ;;
+esac
+])
+
+
+#
+# SIM_AC_CHECK_SIMIAN_IFELSE( IF-SIMIAN, IF-NOT-SIMIAN )
+#
+# Sets $sim_ac_simian to true or false
+#
+
+AC_DEFUN([SIM_AC_CHECK_SIMIAN_IFELSE], [
+AC_MSG_CHECKING([if user is simian])
+case `hostname -d 2>/dev/null || domainname 2>/dev/null || hostname` in
+*.sim.no | sim.no )
+  sim_ac_simian=true
+  ;;
+* )
+  if grep -ls "domain.*sim\\.no" /etc/resolv.conf >/dev/null; then
+    sim_ac_simian=true
+    :
+  else
+    sim_ac_simian=false
+    :
+  fi
+  ;;
+esac
+
+if $sim_ac_simian; then
+  AC_MSG_RESULT([probably])
+  ifelse($1, [], :, $1)
+else
+  AC_MSG_RESULT([probably not])
+  ifelse($2, [], :, $2)
+fi])
+
 
 # conf-macros/sogui.m4
 #
@@ -7937,17 +8120,54 @@ AC_ARG_ENABLE(man,
   esac],
   [want_man=no])
 
+AC_ARG_VAR([htmlhelpdir],
+           [destination for HTML-help docs (default ${datadir}/$1/htmlhelp)])
+
+AC_ARG_ENABLE([html-help],
+  AC_HELP_STRING([--enable-html-help], [build and install $1 HTML-help documentation]),
+  [case $enableval in
+    yes | true) want_html_help=yes ;;
+    *)          want_html_help=no ;;
+  esac],
+  [want_html_help=no])
+
+case $htmlhelpdir in
+"")
+  htmlhelpdir="$datadir/$1/htmlhelp"
+  ;;
+/*)
+  # do nothing - absolute path
+  ;;
+*)
+  htmlhelpdir="\${prefix}/$htmlhelpdir"
+  ;;
+esac
+
+AC_SUBST(htmlhelpdir)
+
+# We must turn on html-generation if html-help is turned on,
+# but without affecting the setup of the BUILD_HTMLPAGES
+# conditional, so HTML files aren't installed if you don't
+# use --enable-html.  20031202 larsa
+sogui_doc_html=`echo $want_html | tr '[a-z]' '[A-Z]'`
+if test x"$want_html_help" = x"yes"; then
+  sogui_doc_html=YES
+fi
+
 # Used in the Doxygen parameter file.
-AC_SUBST([SOGUI_DOC_HTML], [`echo $want_html | tr '[a-z]' '[A-Z]'`])
+AC_SUBST([SOGUI_DOC_HTML], [$sogui_doc_html])
 AC_SUBST([SOGUI_DOC_MAN], [`echo $want_man | tr '[a-z]' '[A-Z]'`])
+AC_SUBST([SOGUI_DOC_HTML_HELP], [`echo $want_html_help | tr '[a-z]' '[A-Z]'`])
 
 AC_SUBST([sogui_build_dir], [`pwd`])
 AC_SUBST([sogui_src_dir], [`cd $srcdir; pwd`])
 AC_SUBST([sogui_html_dir], [`pwd`/html])
+AC_SUBST([sogui_html_help_dir], [`pwd`/htmlhelp])
 AC_SUBST([sogui_man_dir], [`pwd`/man])
 
 AM_CONDITIONAL(BUILD_MANPAGES, test x"$want_man" = x"yes")
 AM_CONDITIONAL(BUILD_HTMLPAGES, test x"$want_html" = x"yes")
+AM_CONDITIONAL(BUILD_HTMLHELP, test x"$want_html_help" = x"yes")
 
 if test x"$want_man" = x"yes"; then
   SIM_AC_CONFIGURATION_SETTING([manpage installation], [$mandir])
@@ -7957,7 +8177,21 @@ if test x"$want_html" = x"yes"; then
   SIM_AC_CONFIGURATION_SETTING([HTML installation], [$htmldir])
 fi
 
-if test x"$want_html" != xno -o x"$want_man" != xno; then
+sim_ac_hhc_exe=
+case $host in
+  *-cygwin)
+    AC_PATH_PROG([sim_ac_hhc_exe], [hhc])
+  ;;
+esac
+
+if test x"$want_html_help" = x"yes"; then
+  SIM_AC_CONFIGURATION_SETTING([HTML-help installation], [$htmlhelpdir])
+  if test x"$sim_ac_hhc_exe" = x; then
+    AC_MSG_WARN([Could not find the HTML Help Compiler (hhc) executable])
+  fi
+fi
+
+if test x"$want_html" != xno -o x"$want_man" != xno -o x"$want_html_help" != xno; then
   SIM_AC_DOXYGEN_TOOL([], [SIM_AC_ERROR([no-doxygen])])
 
   AC_PATH_PROG(sim_ac_perl_exe, perl, false, $PATH)
@@ -8112,30 +8346,52 @@ if $sim_ac_coin_desired; then
     sim_ac_coin_msvcrt=`$sim_ac_coin_configcmd --msvcrt 2>/dev/null`
     sim_ac_coin_cflags=`$sim_ac_coin_configcmd --cflags 2>/dev/null`
     AC_CACHE_CHECK(
-      [whether libCoin is available],
+      [if we can compile and link with the Coin library],
       sim_cv_coin_avail,
       [sim_ac_save_cppflags=$CPPFLAGS
+      sim_ac_save_cxxflags=$CXXFLAGS
       sim_ac_save_ldflags=$LDFLAGS
       sim_ac_save_libs=$LIBS
       CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
+      CXXFLAGS="$CXXFLAGS $sim_ac_coin_cxxflags"
       LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
       LIBS="$sim_ac_coin_libs $LIBS"
       AC_LANG_PUSH(C++)
+
       AC_TRY_LINK(
         [#include <Inventor/SoDB.h>],
         [SoDB::init();],
         [sim_cv_coin_avail=true],
         [sim_cv_coin_avail=false])
+
       AC_LANG_POP
       CPPFLAGS=$sim_ac_save_cppflags
+      CXXFLAGS=$sim_ac_save_cxxflags
       LDFLAGS=$sim_ac_save_ldflags
       LIBS=$sim_ac_save_libs
     ])
     sim_ac_coin_avail=$sim_cv_coin_avail
-  else
+    if ! $sim_ac_coin_avail; then
+      AC_MSG_WARN([
+Compilation and/or linking with the Coin main library SDK failed, for
+unknown reason. If you are familiar with configure-based configuration
+and building, investigate the 'config.log' file for clues.
+
+If you can not figure out what went wrong, please forward the 'config.log'
+file to the email address <coin-support@coin3d.org> and ask for help by
+describing the situation where this failed.
+])
+    fi
+  else # no 'coin-config' found
     locations=`IFS="${sim_ac_pathsep}"; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
     AC_MSG_WARN([cannot find 'coin-config' at any of these locations:
 $locations])
+    AC_MSG_WARN([
+Need to be able to run 'coin-config' to figure out how to build and link
+against the Coin library. To rectify this problem, you most likely need
+to a) install Coin if it has not been installed, b) add the Coin install
+bin/ directory to your PATH environment variable.
+])
   fi
 fi
 
@@ -8568,36 +8824,6 @@ AC_DEFUN([SIM_AC_DODOUBLEBACKSLASH], [
 eval "$1=\"`echo $2 | sed -e 's%\\/%\\\\\\\\\\\\\\\\%g'`\""
 ])
 
-
-# Usage:
-#   SIM_EXPAND_DIR_VARS
-#
-# Description:
-#   Expand these variables into their correct full directory paths:
-#    $prefix  $exec_prefix  $includedir  $libdir  $datadir
-# 
-# Author: Morten Eriksen, <mortene@sim.no>.
-# 
-
-AC_DEFUN([SIM_EXPAND_DIR_VARS], [
-test x"$prefix" = x"NONE" && prefix="$ac_default_prefix"
-test x"$exec_prefix" = x"NONE" && exec_prefix="${prefix}"
-
-# This is the list of all install-path variables found in configure
-# scripts. FIXME: use another "eval-nesting" to move assignments into
-# a for-loop. 20000704 mortene.
-bindir="`eval echo $bindir`"
-sbindir="`eval echo $sbindir`"
-libexecdir="`eval echo $libexecdir`"
-datadir="`eval echo $datadir`"
-sysconfdir="`eval echo $sysconfdir`"
-sharedstatedir="`eval echo $sharedstatedir`"
-localstatedir="`eval echo $localstatedir`"
-libdir="`eval echo $libdir`"
-includedir="`eval echo $includedir`"
-infodir="`eval echo $infodir`"
-mandir="`eval echo $mandir`"
-])
 
 # **************************************************************************
 # SIM_AC_UNIQIFY_LIST( VARIABLE, LIST )
