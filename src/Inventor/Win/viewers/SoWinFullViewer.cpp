@@ -157,10 +157,21 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 
 SoWinFullViewer::~SoWinFullViewer( void )
 {
-	// FIXME: remember to dealocate resources
-      
-  delete this->viewerButtonList;
-  delete this->appButtonList;
+	// FIXME: remember to dealocate all resources
+  int i;
+  
+  for ( i = this->viewerButtonList->getLength( ); i >= 0; i-- ) {
+    delete this->viewerButtonList->get( i );
+    this->viewerButtonList->remove( i );
+  }
+
+  for ( i =  this->appButtonList->getLength( ); i >= 0; i-- ) {
+    this->appButtonList->remove( i );
+  }
+
+  // FIXME: causes error. mariusbu 20010726.
+  //delete this->viewerButtonList;
+  //delete this->appButtonList;
   delete this->pimpl;
 
 }
@@ -558,12 +569,11 @@ SoWinFullViewer::buildAppButtons( HWND parent )
 void
 SoWinFullViewer::buildViewerButtons( HWND parent )
 {
-	// Create coords are not needed - the widget is moved into place (see onSize)
 	// Set id's so they can be used as indices in the list later ( ie. viewerButtonList[id] )
 
   RECT rect;
   GetClientRect( parent, & rect );
-  int x = 0;
+  int x = rect.right - DECORATION_SIZE;
   int y = 0;
   
 	SoWinBitmapButton * button;
@@ -575,6 +585,7 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	button->setId( VIEWERBUTTON_PICK );
 	viewerButtonList->append( button );
 	button->setState( this->isViewing( ) ? FALSE : TRUE );
+  y += DECORATION_SIZE;
 
 	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "view", NULL );
@@ -583,6 +594,7 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	button->setId( VIEWERBUTTON_VIEW );
 	viewerButtonList->append( button );
 	button->setState( this->isViewing( ) );
+  y += DECORATION_SIZE;
 	
 	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "help", NULL );
@@ -590,6 +602,7 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_HELP );
 	viewerButtonList->append( button );
+  y += DECORATION_SIZE;
 
 	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "home", NULL );
@@ -597,6 +610,7 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_HOME );
 	viewerButtonList->append( button );
+  y += DECORATION_SIZE;
 	
 	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "set_home", NULL );
@@ -604,6 +618,7 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	button->setBitmap( 0 );
 	button->setId( VIEWERBUTTON_SET_HOME );
 	viewerButtonList->append( button );
+  y += DECORATION_SIZE;
 	
 	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "view_all", NULL );
@@ -611,6 +626,7 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_VIEW_ALL );
 	viewerButtonList->append( button );
+  y += DECORATION_SIZE;
 	
 	button = new SoWinBitmapButton( parent, x, y, DECORATION_SIZE,
 		DECORATION_SIZE, 24, "seek", NULL );
@@ -618,6 +634,7 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_SEEK );
 	viewerButtonList->append( button );
+  y += DECORATION_SIZE;
 
   this->buildViewerButtonsEx( parent, x, y, DECORATION_SIZE );
 }

@@ -177,8 +177,8 @@ SoWinBitmapButton::buildWidget( HWND parent, RECT rect )
 		                                 NULL,
 		                                 WS_VISIBLE | WS_CHILD |
 		                                 BS_PUSHBUTTON | BS_BITMAP | BS_CENTER,
-		                                 0, 0, // move later
-		                                 rect.right - rect.left, rect.bottom - rect.top,
+		                                 rect.left, rect.top,
+		                                 rect.right, rect.bottom,
 		                                 parent,
 		                                 NULL,
 		                                 SoWin::getInstance( ),
