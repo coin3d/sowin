@@ -157,6 +157,7 @@ SOWIN_OBJECT_SOURCE(SoWinKeyboard);
 #define SOWIN_KEY_INSERT        0x52
 #define SOWIN_KEY_DELETE        0x53
 
+// FIXME: doesn't seem to work!! 20010810 mortene.
 #define SOWIN_KEY_LEFT          0x4b
 #define SOWIN_KEY_RIGHT         0x4d
 #define SOWIN_KEY_UP            0x48
@@ -489,7 +490,7 @@ SoWinKeyboard::~SoWinKeyboard( void )
 // *************************************************************************
 
 /*!
-  This method is not implemented.
+  FIXME: doc
 */
 
 void
@@ -502,7 +503,7 @@ SoWinKeyboard::enable( HWND, // widget,
 } // enable()
 
 /*!
-  This methid is not implemented.
+  FIXME: doc
 */
 
 void
