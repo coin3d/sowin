@@ -213,6 +213,25 @@ SbBool SoWinGLWidget::isDrawToFrontBufferEnable( void ) const
     return this->enableDrawToFrontBuffer;
 }
 
+/*!
+  Enables or disables quad buffer stereo.
+*/
+void 
+SoWinGLWidget::setQuadBufferStereo(const SbBool enable)
+{
+  // FIXME: do proper implementation. 20001123 mortene.
+}
+
+/*!
+  Returns \c TRUE if quad buffer stereo is enabled for this widget.
+*/
+SbBool 
+SoWinGLWidget::isQuadBufferStereo(void) const
+{
+  // FIXME: do proper implementation. 20001123 mortene.
+  return FALSE;
+}
+
 void SoWinGLWidget::setCursor( HCURSOR newCursor )
 {
     assert( newCursor != NULL );

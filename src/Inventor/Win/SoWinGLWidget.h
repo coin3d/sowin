@@ -88,6 +88,9 @@ public:
     void setDrawToFrontBufferEnable( SbBool enable );
     SbBool isDrawToFrontBufferEnable( void ) const;
 
+    void setQuadBufferStereo(const SbBool enable);
+    SbBool isQuadBufferStereo(void) const;
+
     void setCursor( HCURSOR newCursor );
     HCURSOR getCursor( void );
 
