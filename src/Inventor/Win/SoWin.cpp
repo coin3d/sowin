@@ -44,7 +44,7 @@ int SoWin::delaySensorId = 0;
 SbBool SoWin::delaySensorActive = FALSE;
 int SoWin::idleSensorId = 0;
 SbBool SoWin::idleSensorActive = FALSE;
-SbList< MessageHook * > * SoWin::messageHookList = NULL;    //hook
+SbList< MessageHook * > * SoWin::messageHookList = NULL;
 
 // *************************************************************************
 
@@ -83,12 +83,7 @@ SoWin::init( int argc,
 
   SoWin::registerWindowClass( className );
 	
-  RECT rect = { 0, 0, SoWin_DefaultWidth, SoWin_DefaultHeight };  // default window size
-
-  if ( SoWin::fullScreen ) {
-    rect.right = GetSystemMetrics( SM_CXSCREEN );
-    rect.bottom = GetSystemMetrics( SM_CYSCREEN );
-  }
+  RECT rect = { 0, 0, SoWin_DefaultWidth, SoWin_DefaultHeight };
 
   HWND toplevel = SoWin::createWindow( ( char * ) appName, ( char * ) className, rect, NULL );
   SoWin::init( toplevel );
@@ -103,13 +98,13 @@ SoWin::init( HWND const topLevelWidget )
   SoInteraction::init( );
   SoWinObject::init( );
 
-  SoDebugError::setHandlerCallback( SoWin::errorHandlerCB, NULL );    // initialize error handeling
+  SoDebugError::setHandlerCallback( SoWin::errorHandlerCB, NULL );
 
   SoDB::getSensorManager( )->setChangedCallback( SoWin::sensorQueueChanged, NULL );
-  if ( topLevelWidget ) 
+  if ( IsWindow( topLevelWidget ) ) 
     SoWin::mainWidget = topLevelWidget;
 
-  SoWin::messageHookList = new SbList< MessageHook * >;   // add hook
+  SoWin::messageHookList = new SbList< MessageHook * >;
 }
 
 void
@@ -354,15 +349,10 @@ SoWin::errorHandlerCB( const SoError * error, void * data )
 {
   SbString debugstring = error->getDebugString( );
 
-#if SOWIN_DEBUG
-  _cprintf(   "%s\n", debugstring.getString( ) );
-#else
   MessageBox( NULL,
               ( LPCTSTR ) debugstring.getString( ),
               "SoError",
               MB_OK | MB_ICONERROR );
-#endif // SOWIN_DEBUG
-
 }
 
 void
@@ -584,7 +574,7 @@ void CALLBACK
 SoWin::idleSensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
 #if SOWIN_DEBUG && 0
-  SoDebugError::postInfo( "SoWin::idleSensorCB", "called" -;
+  SoDebugError::postInfo( "SoWin::idleSensorCB", "called" );
 #endif // SOWIN_DEBUG
   SoWin::doIdleTasks( );
 }
@@ -649,6 +639,8 @@ SoWin::sensorQueueChanged( void * cbdata )
 LRESULT
 SoWin::onAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
+  // Let windows with messagehooks get the message
+  // FIXME: is this really needed (seems that all they need is W_SIZE)?
   /*
   BOOL messageHandeled = FALSE;
   
