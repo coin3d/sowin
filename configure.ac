@@ -125,7 +125,7 @@ if $sim_ac_build_library; then
 # **************************************************************************
 # Header files we might want.
 
-AC_CHECK_HEADERS([windows.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMisc.h X11/Xproto.h X11/extensions/XInput.h netinet/in.h])
+AC_CHECK_HEADERS([windows.h tlhelp32.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMisc.h X11/Xproto.h X11/extensions/XInput.h netinet/in.h])
 
 # *******************************************************************
 # Instead of getenv() on most Win32 platforms (not Windows CE).
@@ -136,6 +136,14 @@ AC_TRY_LINK([#include <windows.h>],
   [AC_MSG_RESULT([yes])
   AC_DEFINE([HAVE_GETENVIRONMENTVARIABLE],1, [Define to use GetEnvironmentVariable() instead of getenv()])],
   [AC_MSG_RESULT([no])])
+
+# *******************************************************************
+# Win32 LoadLibrary() and friends available? (Used for Win32-specific
+# debugging code).
+
+SIM_AC_CHECK_LOADLIBRARY(
+  AC_DEFINE([HAVE_WIN32_LOADLIBRARY], 1, [Define to use Win32 LoadLibrary()])
+)
 
 # **************************************************************************
 # Compiler control.
