@@ -16,6 +16,7 @@ CLEANFILES = \
 DISTCLEANFILES = \
 	$(SoGui_src_Inventor_Gui_devices_BuiltFiles) \
 	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles) \
+	SoWinDevice.h \
 	SoWinInputFocus.h \
 	SoWinKeyboard.h \
 	SoWinMouse.h \
@@ -34,7 +35,6 @@ endif
 
 libSoWinDevices_la_SOURCES = \
 	SoWinDevice.cpp \
-	SoWinDevice.h \
 	SoWinInputFocus.cpp \
 	SoWinKeyboard.cpp \
 	SoWinMouse.cpp \
