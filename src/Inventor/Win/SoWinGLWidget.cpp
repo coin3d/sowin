@@ -668,9 +668,9 @@ SoWinGLWidget::glLockNormal(void)
 
   PRIVATE(this)->lockcounter++;
 
-  // Make context current no matter what the value of glLockNormal()
+  // Make context current no matter what the value of the lock-counter
   // is, or we could get crash bugs if the context has been released
-  // from somewhere else (from application code, for instance).
+  // from somewhere else (for instance from application code).
   (void)SoWinGLWidgetP::wglMakeCurrent(PRIVATE(this)->hdcNormal,
                                        PRIVATE(this)->ctxNormal);
 }
@@ -696,10 +696,23 @@ SoWinGLWidget::glUnlockNormal(void)
 
   PRIVATE(this)->lockcounter--;
 
+  // Must wait until lockcounter goes to 0 before resetting, or we
+  // could get problems from any internal SoWin code snippet that goes
+  // like this:
+  //
+  // glLockNormal();
+  // [OpenGL commands here];
+  // someOtherSoWinFunctionWithLockUnlockPairing();
+  // [OpenGL commands here]; /* <-- crash here because no current context */
+  // glUnlockNormal();
+
   if (PRIVATE(this)->lockcounter == 0) {
     // FIXME: shouldn't we rather reset to a stored previous context?
     // 20020718 mortene.
     (void)SoWinGLWidgetP::wglMakeCurrent(NULL, NULL);
+    // FIXME: should also investigate if we really have to unlock an
+    // OpenGL context under Win32 WGL. Will save us some trouble if
+    // it's unnecessary (like under GLX). 20020930 mortene.
   }
 }
 
