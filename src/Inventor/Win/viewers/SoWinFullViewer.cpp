@@ -50,6 +50,7 @@ const int DECORATION_BUFFER = 5;
 SOWIN_OBJECT_ABSTRACT_SOURCE( SoWinFullViewer );
 
 SbBool SoWinFullViewer::doButtonBar = TRUE;
+SbBool SoWinFullViewer::doneButtonBar = FALSE;
 
 void
 SoWinFullViewer::setDecoration( SbBool enable )
@@ -150,8 +151,8 @@ void
 SoWinFullViewer::setPopupMenuEnabled( SbBool enable )
 {
 #if SOWIN_DEBUG
-  if ( (enable && this->isPopupMenuEnabled()) ||
-       (!enable && !this->isPopupMenuEnabled()) ) {
+  if ( ( enable && this->isPopupMenuEnabled( ) ) ||
+       ( ! enable && ! this->isPopupMenuEnabled( ) ) ) {
     SoDebugError::postWarning( "SoWinFullViewer::setPopupMenuEnabled",
                                "popup menu already turned %s",
                                enable ? "on" : "off" );
@@ -170,6 +171,14 @@ SoWinFullViewer::isPopupMenuEnabled( void )
 void
 SoWinFullViewer::setDoButtonBar( SbBool enable )
 {
+#if SOWIN_DEBUG
+  if ( SoWinFullViewer::doneButtonBar ) { // buttons already built
+    SoDebugError::postWarning( "SoWinFullViewer::setDoButtonBar():",
+                               "unhandled case" );
+    return;
+  }
+#endif // SOWIN_DEBUG
+  
   SoWinFullViewer::doButtonBar = enable;
 }
 
@@ -273,9 +282,11 @@ SoWinFullViewer::setViewing( SbBool enable )
 
   inherited::setViewing( enable );
 
-	VIEWERBUTTON( VIEWERBUTTON_VIEW )->setState( enable );
-	VIEWERBUTTON( VIEWERBUTTON_PICK )->setState( enable ? FALSE : TRUE );
-	VIEWERBUTTON( VIEWERBUTTON_SEEK )->setEnabled( enable );
+  if ( SoWinFullViewer::doButtonBar ) {
+	  VIEWERBUTTON( VIEWERBUTTON_VIEW )->setState( enable );
+	  VIEWERBUTTON( VIEWERBUTTON_PICK )->setState( enable ? FALSE : TRUE );
+	  VIEWERBUTTON( VIEWERBUTTON_SEEK )->setEnabled( enable );
+  }
 }
 
 void
@@ -289,7 +300,7 @@ SoWinFullViewer::setCamera( SoCamera * newCamera )
 
 		this->setRightWheelString(orthotype ? "Zoom" : "Dolly");
 
-    if ( VIEWERBUTTON( VIEWERBUTTON_PERSPECTIVE ) ) // may not be there if !isButtonBar( )
+    if ( SoWinFullViewer::doButtonBar ) // may not be there if !doButtonBar
       VIEWERBUTTON( VIEWERBUTTON_PERSPECTIVE )->setBitmap( orthotype ? 1 : 0 );
 
 //      if ( this->cameratogglebutton ) {
@@ -574,6 +585,7 @@ SoWinFullViewer::buildDecoration( HWND parent )
 	if ( SoWinFullViewer::doButtonBar ) {
     this->buildViewerButtons( parent );
     this->buildAppButtons( parent );
+    SoWinFullViewer::doneButtonBar = TRUE;
   }
 }
 
@@ -1451,6 +1463,6 @@ SoWinFullViewer::goFullScreen( SbBool enable )
         height - DECORATION_SIZE,
         TRUE );
   }
-  //InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
+  // InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
 }
 

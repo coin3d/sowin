@@ -202,6 +202,7 @@ protected:
   HWND viewerWidget;
   HWND renderAreaWidget;
 
+  static SbBool doneButtonBar;
   static SbBool doButtonBar;
   SoFieldSensor * zoomSensor;
     
