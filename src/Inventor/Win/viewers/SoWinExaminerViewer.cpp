@@ -45,6 +45,8 @@ static const char rcsid[] =
 #include <Inventor/Win/common/pixmaps/ortho.xpm>
 #include <Inventor/Win/SoWinCursors.h>
 
+#define VIEWERBUTTON_PERSPECTIVE ( VIEWERBUTTON_SEEK + 1 )
+
 /*!
   \class SoWinExaminerViewer SoWinExaminerViewer.h Inventor/Win/viewers/SoWinExaminerViewer.h
   \brief The SoWinExaminerViewer class is a full-fledged model viewer
@@ -226,7 +228,7 @@ SoWinExaminerViewer::buildViewerButtonsEx( HWND parent, int x, int y, int size )
 	button->addBitmap( perspective_xpm ); // FIXME: ortho
 	button->addBitmap( ortho_xpm );
 	button->setBitmap( 0 ); // use first ( of two ) bitmap
-	button->setId( VIEWERBUTTON_PERSPECTIVE );
+	button->setId( VIEWERBUTTON_PERSPECTIVE);
 	viewerButtonList->append( button );
 }
 
@@ -459,6 +461,13 @@ SoWinExaminerViewer::setCursorRepresentation(
 {
   if ( ! this->defaultcursor ) {
 		this->defaultcursor = LoadCursor( NULL, IDC_ARROW );
+    
+    unsigned char so_win_rotate_neg[so_win_rotate_width][so_win_rotate_height];
+    unsigned char so_win_rotate_mask_neg[so_win_rotate_width][so_win_rotate_height];    
+    unsigned char so_win_zoom_neg[so_win_rotate_width][so_win_rotate_height];
+    unsigned char so_win_zoom_mask_neg[so_win_rotate_width][so_win_rotate_height];
+    unsigned char so_win_pan_neg[so_win_rotate_width][so_win_rotate_height];
+    unsigned char so_win_pan_mask_neg[so_win_rotate_width][so_win_rotate_height];
 		
 		{
    		unsigned int i, j, k;
@@ -475,6 +484,12 @@ SoWinExaminerViewer::setCursorRepresentation(
 				( so_win_pan_width + 7 ) / 8 * so_win_pan_height,
 			};
 
+      unsigned char * negs[] = {
+        ( unsigned char *) so_win_rotate_neg, ( unsigned char *) so_win_rotate_mask_neg,
+        ( unsigned char *) so_win_zoom_neg, ( unsigned char *) so_win_zoom_mask_neg,
+        ( unsigned char *) so_win_pan_neg, ( unsigned char *) so_win_pan_mask_neg,
+      };
+
       unsigned char byte;
 			for ( i = 0; i < ( sizeof( bitmapsizes ) / sizeof( unsigned int ) ); i++ ) {
 				for ( j = 0; j < bitmapsizes[i]; j++ ) {
@@ -486,30 +501,30 @@ SoWinExaminerViewer::setCursorRepresentation(
           byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
           byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
           byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
-          bitmaps[i * 2][j] = ~byte;
+          negs[i * 2][j] = ~byte;
 
           // reverse mask bits and then not the byte
           byte = ( unsigned char  ) bitmaps[i * 2 + 1][j];
           byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
           byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
           byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
-          bitmaps[i * 2 + 1][j] = ~byte;
+          negs[i * 2 + 1][j] = ~byte;
           
         }
       }
 		}
     
 		this->zoomcursor = CreateCursor( SoWin::getInstance( ), so_win_zoom_x_hot,
-			so_win_zoom_y_hot, so_win_zoom_width, so_win_zoom_height, so_win_zoom_mask_bitmap,
-			so_win_zoom_bitmap );
+			so_win_zoom_y_hot, so_win_zoom_width, so_win_zoom_height, so_win_zoom_mask_neg,
+			so_win_zoom_neg );
 		
 		this->pancursor = CreateCursor( SoWin::getInstance( ), so_win_pan_x_hot,
-			so_win_pan_y_hot, so_win_pan_width, so_win_pan_height, so_win_pan_mask_bitmap,
-			so_win_pan_bitmap );
+			so_win_pan_y_hot, so_win_pan_width, so_win_pan_height, so_win_pan_mask_neg,
+			so_win_pan_neg );
       
 		this->rotatecursor = CreateCursor( SoWin::getInstance( ), so_win_rotate_x_hot,
-			so_win_rotate_y_hot, so_win_rotate_width, so_win_rotate_height, so_win_rotate_mask_bitmap,
-			so_win_rotate_bitmap );
+			so_win_rotate_y_hot, so_win_rotate_width, so_win_rotate_height, so_win_rotate_mask_neg,
+			so_win_rotate_neg );
       
 	}
 	
