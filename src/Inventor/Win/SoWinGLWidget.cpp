@@ -186,29 +186,14 @@ SoWinGLWidget::isDrawToFrontBufferEnable(void) const
   return PRIVATE(this)->drawToFrontBuffer;
 }
 
-/*!
-  Sets whether the GL widget should steal keyboard focus when the mouse
-  is over the GL view.
-
-  Default is TRUE.
-
-  \sa isStealFocus
-*/
-
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::setStealFocus(SbBool enable)
 {
   PRIVATE(this)->stealFocus = enable;
 }
 
-/*!
-  Returns whether focus stealing policy is on (TRUE) or off (FALSE).
-
-  Default is TRUE.
-
-  \sa setStealFocus
-*/
-
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::isStealFocus(void) const
 {
