@@ -482,7 +482,7 @@ SoWinFullViewer::buildDecoration( HWND parent )
 HWND
 SoWinFullViewer::buildLeftWheel( HWND parent )
 {
-  // Create coords are not needed - the widget is moved into place (see onSize)
+  // Create coords are not needed - the widget is moved into place
   this->leftWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
                                          parent,
                                          0,
@@ -500,7 +500,7 @@ SoWinFullViewer::buildLeftWheel( HWND parent )
 HWND
 SoWinFullViewer::buildBottomWheel( HWND parent )
 {
-  // Create coords are not needed - the widget is moved into place (see onSize)
+  // Create coords are not needed - the widget is moved into place
   this->bottomWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal,
                                            parent,
                                            1,
@@ -518,7 +518,7 @@ SoWinFullViewer::buildBottomWheel( HWND parent )
 HWND
 SoWinFullViewer::buildRightWheel( HWND parent )
 {
-  // Create coords are not needed - the widget is moved into place (see onSize)
+  // Create coords are not needed - the widget is moved into place
   this->rightWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
                                           parent,
                                           2,
