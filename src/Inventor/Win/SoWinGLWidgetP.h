@@ -95,6 +95,7 @@ public:
 
   static ATOM managerWndClassAtom;
   static ATOM glWndClassAtom;
+  static ATOM glWidgetTmpAtom;
   static int widgetCounter;
 
 protected:

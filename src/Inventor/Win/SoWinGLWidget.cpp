@@ -97,6 +97,8 @@ SoWinGLWidget::~SoWinGLWidget()
     SoWinGLWidgetP::managerWndClassAtom = 0;
     Win32::UnregisterClass("GL Widget", NULL);
     SoWinGLWidgetP::glWndClassAtom = 0;
+    Win32::UnregisterClass("sowin_glwidget_temp", NULL);
+    SoWinGLWidgetP::glWidgetTmpAtom = 0;
   }
   delete this->pimpl;
 }
@@ -572,6 +574,7 @@ SoWinGLWidget::glFlushBuffer(void)
 
 ATOM SoWinGLWidgetP::managerWndClassAtom = 0;
 ATOM SoWinGLWidgetP::glWndClassAtom = 0;
+ATOM SoWinGLWidgetP::glWidgetTmpAtom = 0;
 int SoWinGLWidgetP::widgetCounter = 0;
 
 SoWinGLWidgetP::SoWinGLWidgetP(SoWinGLWidget * o)
@@ -1202,7 +1205,6 @@ SoWinGLWidgetP::createGLContext(HWND window)
 
   SbBool didtry = FALSE;
 
-  static int didregister = 0;
   const char * pixelformatoverride = NULL;
   int format = 1, maxformat = -1;  
   SbGuiList <so_pixel_format*> pflist;
@@ -1272,9 +1274,8 @@ SoWinGLWidgetP::createGLContext(HWND window)
                            pflist[0]->format, pflist[0]->weight);
   }
 
-  if (!didregister) {
+  if (!SoWinGLWidgetP::glWidgetTmpAtom) {
     WNDCLASS wc;
-    didregister = 1;
     wc.style          = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     wc.lpfnWndProc    = DefWindowProc;
     wc.cbClsExtra     = 0;
@@ -1286,10 +1287,9 @@ SoWinGLWidgetP::createGLContext(HWND window)
     wc.lpszMenuName   = NULL;
     wc.lpszClassName  = "sowin_glwidget_temp";
     
-    if (!Win32::RegisterClass(&wc))
-      goto panic;
+    SoWinGLWidgetP::glWidgetTmpAtom = Win32::RegisterClass(&wc);
   }
-  
+
   i = 0;
   do {
     pf = pflist[i];
