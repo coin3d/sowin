@@ -481,7 +481,7 @@ SoWinGLWidget::getAccumulationBuffer(void) const
 
 /*!
   Enables/disables the OpenGL stencil buffer. Not implemented yet
-  for this toolit.
+  for this toolkit.
 */
 void 
 SoWinGLWidget::setStencilBuffer(const SbBool enable)
