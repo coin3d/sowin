@@ -121,8 +121,12 @@ public:
       break;
 
     case WM_SETCURSOR:
-      SoWinComponent::setWidgetCursor(this->owner->getWidget(),
-                                      *(this->cursor));
+      // this->cursor can be NULL when the virtual
+      // setComponentCursor() method is overridden in subclasses.
+      if (this->cursor) {
+        SoWinComponent::setWidgetCursor(this->owner->getWidget(),
+                                        *(this->cursor));
+      }
       break;
     }
   }
