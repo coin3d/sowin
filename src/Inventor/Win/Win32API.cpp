@@ -40,7 +40,7 @@ Win32::showLastErr(void)
 		  NULL);
 
   if (result) {
-    (void)printf("\n*** GetLastError(): %s\n", buffer);
+    (void)printf("\n*** GetLastError()==%d (\"%s\")\n", lasterr, buffer);
     (void)LocalFree(buffer);
   }
 }
@@ -69,7 +69,9 @@ Win32::EnableWindow(HWND hWnd,     // handle to window
   if (!enabled && !bEnable) { return; }
 
   BOOL r = ::EnableWindow( hWnd, bEnable );
-  assert( r && "EnableWindow() failed -- investigate" );
+  BOOL fail = (!r && bEnable) || (r && !bEnable);
+  if (fail) { Win32::showLastErr(); }
+  assert( !fail && "EnableWindow() failed -- investigate" );
 }
  
 
