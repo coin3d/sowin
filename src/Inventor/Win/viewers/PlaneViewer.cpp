@@ -31,7 +31,6 @@ static const char rcsid[] =
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
 
-#include <Inventor/Win/viewers/SoAnyPlaneViewer.h>
 #include <Inventor/Win/viewers/SoWinPlaneViewer.h>
 
 #include <Inventor/Win/common/pixmaps/ortho.xpm>
@@ -120,7 +119,6 @@ SoWinPlaneViewer::SoWinPlaneViewer(
   SoWinViewer::Type type)
 : inherited(parent, name, embed, flag, type, FALSE)
 {
-  this->common = new SoAnyPlaneViewer(this);
   PRIVATE(this) = new SoWinPlaneViewerP(this);
   PRIVATE(this)->constructor(TRUE);
 } // SoWinPlaneViewer()
@@ -140,7 +138,6 @@ SoWinPlaneViewer::SoWinPlaneViewer(
   SbBool build)
   : inherited(parent, name, embed, flag, type, FALSE)
 {
-  this->common = new SoAnyPlaneViewer(this);
   PRIVATE(this) = new SoWinPlaneViewerP(this);
   PRIVATE(this)->constructor(build);
 } // SoWinPlaneViewer()
@@ -158,6 +155,8 @@ void
 SoWinPlaneViewerP::constructor(// private
   SbBool build)
 {
+  this->commonConstructor(); // init generic stuff
+
   this->mode = IDLE_MODE;
 
   this->projector = new SbPlaneProjector;
@@ -191,7 +190,6 @@ SoWinPlaneViewer::~SoWinPlaneViewer(
 {
   delete PRIVATE(this)->projector;
   delete this->pimpl;
-  delete this->common;
 } // ~SoWinPlaneViewer()
 
 // ************************************************************************
@@ -311,7 +309,7 @@ SbBool
 SoWinPlaneViewer::processSoEvent(// virtual, protected
   const SoEvent * const event)
 {
-  if (common->processSoEvent(event))
+  if (this->processGenericSoEvent(event))
     return TRUE;
 
   return inherited::processSoEvent(event);
@@ -383,7 +381,7 @@ SoWinPlaneViewer::actualRedraw(// virtual
   void)
 {
   inherited::actualRedraw();
-//  common->drawRotateGraphics();
+//  this->drawRotateGraphics();
 } // actualRedraw()
 
 // ************************************************************************
@@ -396,7 +394,7 @@ void
 SoWinPlaneViewer::leftWheelMotion(// virtual
   float value)
 {
-  common->translateY(value - this->getLeftWheelValue());
+  this->translateY(value - this->getLeftWheelValue());
   inherited::leftWheelMotion(value);
 } // leftWheelMotion()
 
@@ -408,7 +406,7 @@ void
 SoWinPlaneViewer::bottomWheelMotion(// virtual
   float value)
 {
-  common->translateX(value - this->getBottomWheelValue());
+  this->translateX(value - this->getBottomWheelValue());
   inherited::bottomWheelMotion(value);
 } // bottomWheelMotion()
 
@@ -420,7 +418,7 @@ void
 SoWinPlaneViewer::rightWheelMotion(// virtual
   float value)
 {
-  common->zoom(this->getRightWheelValue() - value);
+  this->zoom(this->getRightWheelValue() - value);
   inherited::rightWheelMotion(value);
 } // rightWheelMotion()
 
@@ -514,7 +512,7 @@ void
 SoWinPlaneViewerP::xClicked(
   void)
 {
-  owner->common->viewPlaneX();
+  owner->viewPlaneX();
 } // xClicked()
 
 /*!
@@ -525,7 +523,7 @@ void
 SoWinPlaneViewerP::yClicked(
   void)
 {
-  owner->common->viewPlaneY();
+  owner->viewPlaneY();
 } // yClicked()
 
 /*!
@@ -536,7 +534,7 @@ void
 SoWinPlaneViewerP::zClicked(
   void)
 {
-  owner->common->viewPlaneZ();
+  owner->viewPlaneZ();
 } // zClicked()
 
 /*!
