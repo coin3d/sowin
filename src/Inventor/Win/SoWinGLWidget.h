@@ -29,6 +29,8 @@
 class SoWinGLArea;
 class SoWinGLWidgetP;
 
+// FIXME: should collect these at a common place, duplicating them for
+// all So*GLWidget.h files is error prone. 20010921 mortene.
 enum GLModes {
   SO_GL_RGB      = 0x01, SO_GLX_RGB      = SO_GL_RGB,
   SO_GL_DOUBLE   = 0x02, SO_GLX_DOUBLE   = SO_GL_DOUBLE,
