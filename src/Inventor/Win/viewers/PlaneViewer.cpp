@@ -155,7 +155,7 @@ void
 SoWinPlaneViewerP::constructor(// private
   SbBool build)
 {
-  this->commonConstructor(); // init generic stuff
+  this->owner->commonConstructor(); // init generic stuff
 
   this->mode = IDLE_MODE;
 
