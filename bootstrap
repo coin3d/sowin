@@ -146,5 +146,5 @@ echo "Running autoheader..."
 echo "Running automake..."
 ( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | \
   grep -v 'directory should not' | \
-  grep -v 'not a standard ' ) 3>&1 1>&2 2>&3
+  grep -v 'not a standard library name' ) 3>&1 1>&2 2>&3
 

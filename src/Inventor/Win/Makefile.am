@@ -7,7 +7,7 @@ SUBDIRS = devices widgets viewers
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
 if BUILD_WITH_MSVC
-lib_LTLIBRARIES = sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
+lib_LIBRARIES = sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
 else
 lib_LTLIBRARIES = libSoWin@SUFFIX@.la
 endif
