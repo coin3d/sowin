@@ -25,18 +25,180 @@
 
 // Class documentation in common/SoGuiCommon.cpp.in.
 
+// The mainpage documentation below is heavily based on the one for
+// SoQt in SoQt.cpp.
+
 /*!
   \mainpage
 
-  %SoWin is a C++ GUI toolkit for using Coin with the Microsoft
-  Windows Win32 API.  It can also be used on top of Open Inventor from
-  SGI and TGS.  The API is based on the InventorXt API originally from
-  SGI.
+  The %SoWin library is a C++ GUI toolkit that binds together the
+  \COIN rendering library with the user interface parts of the
+  MSWindows Win32 API, thereby providing application programmers a
+  convenient method of using the \COIN library from MSWindows
+  development environments.
 
-  FIXME: improve documentation, with usage examples etc. 20030411 mortene.
+  By using the combination of \COIN and %SoWin for your 3D
+  applications, you have a complete framework for writing software for
+  Microsoft Windows operating systems.
 
-  The corresponding documentation for Coin is located 
-  <a href="http://doc.coin3d.org/Coin/">here</a>.
+  %SoWin, like \COIN, provides the programmer with a high-level
+  application programmer's interface (API) in C++. The library
+  primarily includes a class-hierarchy of viewer components of varying
+  functionality and complexity, with various modes for the end-user to
+  control the 3D-scene camera interaction.
+
+  For a small, completely stand-alone usage example on how to
+  initialize the library and set up a viewer instance window, see the
+  following code:
+
+  \code
+  #include <Inventor/Win/SoWin.h>
+  #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
+  #include <Inventor/nodes/SoBaseColor.h>
+  #include <Inventor/nodes/SoCone.h>
+  #include <Inventor/nodes/SoSeparator.h>
+  
+  int
+  main(int argc, char ** argv)
+  {
+    // Initializes SoWin library (and implicitly also the Coin
+    // library). Returns a top-level / shell window to use.
+    HWND mainwin = SoWin::init(argc, argv, argv[0]);
+  
+    // Make a dead simple scene graph by using the Coin library, only
+    // containing a single yellow cone under the scenegraph root.
+    SoSeparator * root = new SoSeparator;
+    root->ref();
+
+    SoBaseColor * col = new SoBaseColor;
+    col->rgb = SbColor(1, 1, 0);
+    root->addChild(col);
+
+    root->addChild(new SoCone);
+  
+    // Use one of the convenient SoWin viewer classes.
+    SoWinExaminerViewer * eviewer = new SoWinExaminerViewer(mainwin);
+    eviewer->setSceneGraph(root);
+    eviewer->show();
+  
+    // Pop up the main window.
+    SoWin::show(mainwin);
+    // Loop until exit.
+    SoWin::mainLoop();
+
+    // Clean up resources.
+    delete eviewer;
+    root->unref();
+
+    return 0;
+  }
+  \endcode
+
+  As compiled and run, this example provides the end-user with a full
+  fledged 3D viewer. The viewer automatically contains mouse
+  interaction handling logic to let the end-user "examine" the
+  3D-model / scene (since this is the SoWinExaminerViewer class), plus
+  toolbar controls on the right-side decorations border for often used
+  controls:
+
+  <center>
+  <img src="http://doc.coin3d.org/images/SoLibs/general/sogui-class-example.png">
+  </center>
+
+  The %SoWin library contains several such high-level classes as the
+  SoWinExaminerViewer used in the above example. These are primarily
+  used for doing Rapid Application Development (RAD) of new concepts
+  and ideas for your 3D system.  The "real" application will typically
+  use one of the lower-complexity classes higher up in the inheritance
+  hierarchy, such as the SoWinRenderArea, which provides the
+  application programmer with full control over the user interface
+  components and general layout to present for the end-user, as
+  suitable for the specific application needs.
+
+  This is how the %SoWin library fits in with the other system
+  components:
+
+  <center>
+  <img src="http://doc.coin3d.org/images/SoLibs/mainpage/sowin-boxology.png">
+  </center>
+
+  As can be seen from the above figure, %SoWin builds on Systems in
+  Motion's \COIN library for the 3D graphics, and the standard
+  Microsoft Windows Win32 API for the 2D user interface components.
+
+  The additional functionality provided by %SoWin over \COIN is:
+
+  <ul>
+
+  <li>The most convenient management of OpenGL context types, such as
+  singlebuffered versus doublebuffered rendering, the use of overlay
+  planes, stereo rendering, etc. This is handled through the
+  SoWinGLWidget class and through the SoWinRenderArea class (which
+  contains the main binding into the \COIN library's main data
+  structures).</li>
+
+  <li>The translation of native Win32 interaction device events (from
+  e.g. the mouse or the keyboard) into the \COIN library's event
+  types. The translation is done by the SoWinDevice classes,
+  controlled by the SoWinRenderArea.
+
+  These "generic" \COIN events are then passed into the 3D scenegraph
+  for further processing, for instance by \COIN's 3D user interaction
+  components -- like this "trackball manipulator" attached to a simple
+  cone:
+
+  <center>
+  <img src="http://doc.coin3d.org/images/Coin/draggers/trackball-cone.png">
+  </center>
+  </li>
+
+  <li>Some abstract viewer classes, like the SoWinViewer and
+  SoWinFullViewer, which provides additional services on top of the
+  SoWinRenderArea for assisting the application programmer in
+  convenient handling of cameras and lightsources in the 3D scene (by
+  the SoWinViewer), plus adding the basic, common user interface
+  components (by the SoWinFullViewer).</li>
+
+  <li>A set of high-level viewer classes, as has been presented by the
+  SoWinExaminerViewer in the above source code example. There are
+  currently three different non-abstract viewer classes to choose
+  from: the SoWinExaminerViewer (a plain model viewer), the
+  SoWinFlyViewer (for fly-throughs in larger 3D scenes) and the
+  SoWinPlaneViewer (for CAD-style viewing and interaction along the 3
+  principal axes).</li>
+
+  </ul>
+
+  The %SoWin library is "dual-licensed", which means it's available
+  either under a Free Software license (specifically the <a
+  href="http://www.fsf.org/copyleft/gpl.html">GNU General Public
+  License</a>), or a license better suited for the development of
+  proprietary / commercial applications: our <a
+  href="http://www.coin3d.org">Coin Professional Edition License</a>.
+
+  Note that to use %SoWin under the GNU General Public License, you
+  have to comply with that license's restrictions. These restrictions
+  are \e not well suited for the development of non-Free software, so
+  the availability of %SoWin under the GNU GPL is primarily meant to be
+  a service to the Free Software community. We \e strongly advise you
+  to invest in the Coin Professional Edition License for using %SoWin
+  in proprietary development projects. As a Coin Professional Edition
+  License holder, you gain the rights to use the %SoWin library in just
+  about any way you like. See the Coin web site at
+  <http://www.coin3d.org> for more information on the advantages of
+  the Coin Professional Edition License, and how to become a license
+  holder.
+
+  For those who are using the implementation of the Inventor API from
+  SGI, we would like to point out that %SoWin can also be used on top
+  of that library instead of the \COIN library from Systems in Motion.
+
+  The %SoWin API is based on and closely matches the InventorXt
+  library API, originally developed by SGI. This should make it
+  straigthforward to port simple InventorXt code over to %SoWin, for
+  instance to gain greater portability.
+
+  \sa The documentation for the \COIN library: <http://doc.coin3d.org/Coin>.
 */
 
 // *************************************************************************
