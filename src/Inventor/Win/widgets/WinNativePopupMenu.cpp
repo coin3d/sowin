@@ -407,6 +407,8 @@ WinNativePopupMenu::popUp(HWND inside, int x, int y)
   if (this->selectedItem == 0)
     return;
   
+  this->invokeMenuSelection(this->selectedItem);
+
   ItemRecord * itemrec = this->getItemRecord(this->selectedItem);
   assert(itemrec != NULL);
 } // popUp()
