@@ -491,6 +491,9 @@ SoWinGLWidget::makeNormalCurrent( void )
 SbBool
 SoWinGLWidget::swapNormalBuffers( void )
 {
+  if ( ! ( this->glModes & SO_GL_DOUBLE ) )
+    return FALSE;
+  
   if ( this->overlayWidget ) {
     return ( wglSwapLayerBuffers( ( HDC ) this->hdcNormal, WGL_SWAP_MAIN_PLANE ) );
   }
@@ -578,6 +581,7 @@ SoWinGLWidget::setWindowPosition( POINT position )
 {
   this->windowPosition.x = position.x;
   this->windowPosition.y = position.y;
+  //SetWindowPos( ...
 }
 
 ///////////////////////////////////////////////////////////////////
