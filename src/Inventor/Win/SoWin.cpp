@@ -362,21 +362,21 @@ SoWin::mainLoop(void)
 {
   MSG msg;
   while (TRUE) {
-    // FIXME: shouldn't this be a while loop, i.e. process all
-    // messages, before doing the idle tasks? 20040721 mortene.
-    if (GetQueueStatus(QS_ALLINPUT) != 0) { // if messagequeue != empty
-      if (GetMessage(& msg, NULL, 0, 0)) { // if msg != WM_QUIT
+      while (msg.message != WM_QUIT && PeekMessage(& msg, NULL, 0, 0, PM_REMOVE) != NULL ) { // if msg != WM_QUIT
         TranslateMessage(& msg);
         DispatchMessage(& msg);
       }
-      else break; // msg == WM_QUIT
-    }
-    else if (SoWinP::idleSensorId != 0) {
-      SoWinP::doIdleTasks();
-    }
-    else {
-      WaitMessage();
-    }
+      if(msg.message == WM_QUIT)
+        break; // msg == WM_QUIT
+      else  {
+          SoWinP::doIdleTasks();
+          // NOTE: using the following call here is probably better behaviour,
+          //       but results in less calls to SoIdleSensors. Without it the
+          //       behaviour is similar to the SoQT binding with Qt 3.0.3.
+          //       Maybe make an option configurable via some environment variable ?
+          //       Gerhard Reitmayr
+          // WaitMessage();
+      }
   }
 
   SoWin::done();
@@ -659,23 +659,6 @@ SoGuiP::sensorQueueChanged(void * cbdata)
   }
 
   if (sensormanager->isDelaySensorPending()) {
-        
-    if (SoWinP::idleSensorId == 0) {
-      SoWinP::idleSensorId =
-        Win32::SetTimer(NULL,
-                        /* ignored because of NULL first argument: */ 0,
-
-                        // FIXME: this seems like a rather bogus way
-                        // of setting up a timer to check when the
-                        // system goes idle. Should investigate how
-                        // this actually works, and perhaps if there
-                        // is some other mechanism we could
-                        // use. 20040721 mortene.
-                        0,
-
-                        (TIMERPROC)SoWinP::idleSensorCB);
-    }
-
     if (SoWinP::delaySensorId == 0) {
       unsigned long timeout = SoDB::getDelaySensorTimeout().getMsecValue();
       SoWinP::delaySensorId =
@@ -686,6 +669,7 @@ SoGuiP::sensorQueueChanged(void * cbdata)
     }
   }
   else {
+	// FIXME: don't need idleSensor stuff at all. Gerhard Reitmayr
     if (SoWinP::idleSensorId != 0) {
       Win32::KillTimer(NULL, SoWinP::idleSensorId);
       SoWinP::idleSensorId = 0;
