@@ -968,15 +968,9 @@ SoWinFullViewerP::SoWinFullViewerP(SoWinFullViewer * publ)
 
 SoWinFullViewerP::~SoWinFullViewerP()
 {
-  int i;
-
-  for (i = PUBLIC(this)->viewerButtonList->getLength(); i >= 0; i--) {
+  const int len = PUBLIC(this)->viewerButtonList->getLength();
+  for (int i = 0; i < len; i++) {
     delete (SoWinBitmapButton *)PUBLIC(this)->viewerButtonList->get(i);
-    PUBLIC(this)->viewerButtonList->remove(i);
-  }
-
-  for (i =  PUBLIC(this)->appButtonList->getLength(); i >= 0; i--) {
-    PUBLIC(this)->appButtonList->remove(i);
   }
 
   delete PUBLIC(this)->viewerButtonList;
