@@ -222,6 +222,10 @@ AM_CONDITIONAL([MAC_FRAMEWORK], [false])
 
 SIM_AC_SOGUI_SETUP_DOXYGEN(SoWin)
 
+# The following variables are used in sogui.doxygen.in
+AC_SUBST([SOGUI_MAJOR_VERSION], [SOWIN_MAJOR])
+AC_SUBST([SOGUI_MINOR_VERSION], [SOWIN_MINOR])
+
 # **************************************************************************
 
 AC_ARG_WITH(
@@ -477,6 +481,7 @@ AC_OUTPUT([
 	man/man1/Makefile
 	man/man3/Makefile
 	html/Makefile
+	htmlhelp/Makefile
 ])
 
 SIM_AC_CONFIGURATION_SETTING([Installation Prefix], [$prefix])

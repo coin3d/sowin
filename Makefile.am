@@ -17,6 +17,12 @@ else
 HTMLDIR =
 endif
 
+if BUILD_HTMLHELP
+HTMLHELPDIR = htmlhelp
+else
+HTMLHELPDIR =
+endif
+
 if BUILD_LIBRARY
 # Material editor(s) not part of the public API yet, so there's
 # no point yet in installing the material data.
@@ -26,7 +32,9 @@ else
 LIBDIR =
 endif
 
-SUBDIRS = . $(LIBDIR) man $(HTMLDIR)
+DOCDIRS = man $(HTMLDIR) $(HTMLHELPDIR)
+
+SUBDIRS = . $(LIBDIR) $(DOCDIRS)
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
