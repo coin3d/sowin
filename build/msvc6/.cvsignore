@@ -1,3 +1,5 @@
+Debug
+Release
 cfg
 man
 html
@@ -10,5 +12,8 @@ sogui.doxygen
 sowin-config
 sowin-default.cfg
 *.pdb
-sowin*.dll
-
+*.dll
+*.ilk
+*.opt
+*.ncb
+*.plg
