@@ -23,6 +23,7 @@
 
 #include <Inventor/misc/SoBasic.h>
 #include <Inventor/SoLists.h>
+#include <Inventor/SbDict.h>
 #include <Inventor/errors/SoDebugError.h>
 
 #include <Inventor/Win/SoWin.h>
@@ -86,6 +87,8 @@ public:
       }
     }
   }
+
+  static HCURSOR getNativeCursor(const SoWinCursor::CustomCursor * cc);
 
   static void fatalerrorHandler(void * userdata);
   void cleanupWin32References(void);
@@ -205,11 +208,12 @@ public:
 private:
   
   SoWinComponent * owner;
-  
+  static SbDict * cursordict;
 };
 
 ATOM SoWinComponentP::wndClassAtom = NULL;
 SbPList * SoWinComponentP::sowincomplist = NULL;
+SbDict * SoWinComponentP::cursordict = NULL;
 
 #define PRIVATE(o) (o->pimpl)
 
@@ -912,6 +916,66 @@ SoWinComponent::openHelpCard(const char * name)
 } // openHelpCard()
 
 
+// Converts from the common generic cursor format to a Win32 HCURSOR
+// instance.
+HCURSOR
+SoWinComponentP::getNativeCursor(const SoWinCursor::CustomCursor * cc)
+{
+  if (SoWinComponentP::cursordict == NULL) { // first call, initialize
+    SoWinComponentP::cursordict = new SbDict; // FIXME: mem leak. 20011121 mortene.
+  }
+
+  void * qc;
+  SbBool b = SoWinComponentP::cursordict->find((unsigned long)cc, qc);
+  if (b) { return (HCURSOR)qc; }
+
+#define MAXBITMAPWIDTH 32
+#define MAXBITMAPHEIGHT 32
+#define MAXBITMAPBYTES (((MAXBITMAPWIDTH + 7) / 8) * MAXBITMAPHEIGHT)
+
+  unsigned char cursorbitmap[MAXBITMAPBYTES];
+  unsigned char cursormask[MAXBITMAPBYTES];
+  (void)memset(cursorbitmap, 0x00, MAXBITMAPBYTES);
+  (void)memset(cursormask, 0x00, MAXBITMAPBYTES);
+
+  assert(cc->dim[0] <= MAXBITMAPWIDTH && "internal bitmap too large");
+  assert(cc->dim[1] <= MAXBITMAPHEIGHT && "internal bitmap too large");
+
+  const int BYTEWIDTH = (cc->dim[0] + 7) / 8;
+  for (int h=0; h < cc->dim[1]; h++) {
+    for (int w=0; w < BYTEWIDTH; w++) {
+      const int pos = h * BYTEWIDTH + w;
+
+      // reverse color bits and then not the byte
+      unsigned char byte = cc->bitmap[pos];
+      byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
+      byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
+      byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
+      cursorbitmap[pos] = ~byte;
+
+      // reverse mask bits and then not the byte
+      byte = cc->mask[pos];
+      byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
+      byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
+      byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
+      cursormask[pos] = ~byte;
+    }
+  }
+
+  // FIXME: the zoom cursor has a couple of "bug pixels". See if they
+  // disappear if we fix up the buggy bitmap + mask combinations (ref
+  // FIXME in SoGuiCursor.cpp.in). 20011126 mortene.
+
+  // FIXME: currently a memory leak here. 20011121 mortene.
+  HCURSOR c = CreateCursor(SoWin::getInstance(),
+                           cc->hotspot[0], cc->hotspot[1],
+                           cc->dim[0], cc->dim[1],
+                           cursormask, cursorbitmap);
+
+  SoWinComponentP::cursordict->enter((unsigned long)cc, c);
+  return c;
+}
+
 /*!
   Sets the cursor for this component.
 */
@@ -927,10 +991,37 @@ SoWinComponent::setComponentCursor(const SoWinCursor & cursor)
 void
 SoWinComponent::setWidgetCursor(HWND w, const SoWinCursor & cursor)
 {
-  SOWIN_STUB();
-}
+  if (cursor.getShape() == SoWinCursor::CUSTOM_BITMAP) {
+    const SoWinCursor::CustomCursor * cc = &cursor.getCustomCursor();
+    SetCursor(SoWinComponentP::getNativeCursor(cc));
+  }
+  else {
+    switch (cursor.getShape()) {
+    case SoWinCursor::DEFAULT:
+      SetCursor(LoadCursor(NULL, IDC_ARROW));
+      break;
 
-///////////////////////////////////////////////////////////////////
-//
-//  (private)
-//
+    case SoWinCursor::BUSY:
+      SetCursor(LoadCursor(NULL, IDC_WAIT));
+      break;
+
+    case SoWinCursor::BLANK:
+      ShowCursor(FALSE);
+      break;
+
+    case SoWinCursor::CROSSHAIR:
+      SetCursor(LoadCursor(NULL, IDC_CROSS));
+      break;
+
+    case SoWinCursor::UPARROW:
+      SetCursor(LoadCursor(NULL, IDC_UPARROW));
+      break;
+
+    default:
+      assert(FALSE && "unsupported cursor shape type");
+      break;
+    }
+
+    if (cursor.getShape() != SoWinCursor::BLANK) { ShowCursor(TRUE); }
+  }
+}
