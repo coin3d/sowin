@@ -209,7 +209,8 @@ SoWinFullViewer::setDecoration( SbBool enable )
 
   // reposition all widgets
   RECT rect;
-  GetClientRect( this->viewerWidget, & rect );
+  BOOL r = GetClientRect( this->viewerWidget, & rect );
+  assert( r && "GetClientRect() failed -- investigate" );
   PRIVATE( this )->layoutWidgets( rect.right, rect.bottom );
 
   InvalidateRect( ( IsWindow( this->parent ) ?
@@ -463,7 +464,8 @@ SoWinFullViewer::buildDecoration( HWND parent )
 
   // reposition all widgets
   RECT rect;
-  GetClientRect( parent, & rect );
+  BOOL r = GetClientRect( parent, & rect );
+  assert( r && "GetClientRect() failed -- investigate" );
   PRIVATE( this )->layoutWidgets( rect.right, rect.bottom );
 }
 
@@ -534,7 +536,8 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
   // Set id's so they can be used as indices in the list later ( ie. viewerButtonList[id] )
 
   RECT rect;
-  GetClientRect( parent, & rect );
+  BOOL r = GetClientRect( parent, & rect );
+  assert( r && "GetClientRect() failed -- investigate" );
   int x = rect.right - DECORATION_SIZE;
   int y = 0;
 
@@ -629,7 +632,8 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
   // Get the right coords
   RECT clientRect;
   POINT point;
-  GetClientRect( this->renderAreaWidget, & clientRect );
+  BOOL r = GetClientRect( this->renderAreaWidget, & clientRect );
+  assert( r && "GetClientRect() failed -- investigate" );
   point.y = clientRect.bottom - y;
   point.x = x;
   ClientToScreen( this->renderAreaWidget, & point );

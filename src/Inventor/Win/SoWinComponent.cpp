@@ -468,7 +468,8 @@ SoWinComponent::buildFormWidget( HWND parent )
   LONG style;
   
   if ( IsWindow( parent ) && PRIVATE( this )->embedded ) {
-    GetClientRect( parent, & rect );
+    BOOL r = GetClientRect( parent, & rect );
+    assert( r && "GetClientRect() failed -- investigate" );
     style = WS_CHILD | WS_VISIBLE;// | WS_BORDER;
   }
   else {

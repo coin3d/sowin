@@ -614,7 +614,8 @@ SoWinGLWidget::buildWidget( HWND parent )
 
   RECT rect;
   if ( IsWindow( parent ) ) {
-    GetClientRect( parent, & rect );
+    BOOL r = GetClientRect( parent, & rect );
+    assert( r && "GetClientRect() failed -- investigate" );
   }
   else {
     rect.left = 0;
@@ -775,10 +776,11 @@ SoWinGLWidgetP::buildNormalGLWidget( void )
 
   RegisterClass( & windowclass );
  
- this->currentCursor = LoadCursor( SoWin::getInstance( ), IDC_ARROW );
+  this->currentCursor = LoadCursor( SoWin::getInstance( ), IDC_ARROW );
  
   RECT rect;
-  GetClientRect( this->managerWidget, & rect );
+  BOOL r = GetClientRect( this->managerWidget, & rect );
+  assert( r && "GetClientRect() failed -- investigate" );
 
   if ( this->haveBorder ) {
     rect.left += this->borderSize;

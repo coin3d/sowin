@@ -322,7 +322,8 @@ SoWinThumbWheel::move( int x, int y )
   if ( IsWindow( this->labelWindow ) ) {
 
     RECT rect;
-    GetClientRect( this->labelWindow, & rect );
+    BOOL r = GetClientRect( this->labelWindow, & rect );
+    assert( r && "GetClientRect() failed -- investigate" );
     
     if ( this->orient == SoWinThumbWheel::Vertical ) {
       SetWindowPos( this->labelWindow, NULL,
