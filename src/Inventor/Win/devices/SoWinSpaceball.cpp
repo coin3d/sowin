@@ -100,14 +100,14 @@ SoWinSpaceball::enable(HWND hwnd, SoWinEventHandler * , void *)
 void
 SoWinSpaceball::disable(HWND, SoWinEventHandler * , void *)
 {
-  SPW_closeSpaceBall();
+  SPW_disableSpaceBallWin32();
 }
 
 const SoEvent *
 SoWinSpaceball::translateEvent(MSG * msg)
 {
   SPW_InputEvent sbEvent;
-  if (SPW_TranslateEventWin32(NULL,msg,&sbEvent) == TRUE) {
+  if (SPW_TranslateEventWin32(msg, &sbEvent) == TRUE) {
   
     switch (sbEvent.type) {
     case SPW_InputMotionEvent:
@@ -133,7 +133,7 @@ SoWinSpaceball::translateEvent(MSG * msg)
 SbBool
 SoWinSpaceball::exists(void)
 {
-  return SPW_SpaceBallExists();
+  return SPW_SpaceBallExistsWin32();
 }
 
 void
