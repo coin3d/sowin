@@ -10,6 +10,8 @@ lib_LTLIBRARIES = libSoWin.la
 
 BUILT_SOURCES = \
 	SoWinBasic.h \
+	SoWinObject.cpp \
+	SoWinObject.h \
 	SoWinRenderArea.h \
 	SoWinRenderArea.cpp
 
@@ -19,8 +21,6 @@ noinst_DATA = $(BUILT_SOURCES)
 
 libSoWin_la_SOURCES = \
 	$(BUILT_SOURCES) \
-	SoWinObject.h \
-	SoWinObject.cpp \
 	SoWin.h \
 	SoWin.cpp \
 	SoWinComponent.h \
@@ -42,7 +42,7 @@ libSoWinincdir = $(includedir)/Inventor/Win
 
 libSoWininc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/SoWin.h \
-	$(top_srcdir)/src/Inventor/Win/SoWinObject.h \
+	$(top_builddir)/src/Inventor/Win/SoWinObject.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinComponent.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinGLWidget.h \
 	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
@@ -51,6 +51,12 @@ libSoWininc_HEADERS = \
 ############################################################################
 
 SoWinBasic.h: $(srcdir)/common/SoGuiBasic.h.in
+	@( cd $(top_builddir); $(MAKE) built-sources )
+
+SoWinObject.h: $(srcdir)/common/SoGuiObject.h.in
+	@( cd $(top_builddir); $(MAKE) built-sources )
+
+SoWinObject.cpp: $(srcdir)/common/SoGuiObject.cpp.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
 
 SoWinRenderArea.h: $(srcdir)/common/SoGuiRenderArea.h.in

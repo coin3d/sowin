@@ -116,6 +116,8 @@ BUILT_SOURCES = \
 	src/Inventor/Win/SoWinBasic.h \
 	src/Inventor/Win/SoWinCursors.h \
 	src/Inventor/Win/SoWinCursors.cpp \
+	src/Inventor/Win/SoWinObject.h \
+	src/Inventor/Win/SoWinObject.cpp \
 	src/Inventor/Win/SoWinRenderArea.h \
 	src/Inventor/Win/SoWinRenderArea.cpp \
 	src/Inventor/Win/viewers/SoWinViewer.h \
@@ -523,6 +525,14 @@ src/Inventor/Win/SoWinCursors.h: \
 src/Inventor/Win/SoWinCursors.cpp: \
   $(srcdir)/src/Inventor/Win/common/SoGuiCursors.cpp.in
 	@./config.status --file=$@:src/Inventor/Win/common/SoGuiCursors.cpp.in
+
+src/Inventor/Win/SoWinObject.h: \
+  $(srcdir)/src/Inventor/Win/common/SoGuiObject.h.in
+	@./config.status --file=$@:src/Inventor/Win/common/SoGuiObject.h.in
+
+src/Inventor/Win/SoWinObject.cpp: \
+  $(srcdir)/src/Inventor/Win/common/SoGuiObject.cpp.in
+	@./config.status --file=$@:src/Inventor/Win/common/SoGuiObject.cpp.in
 
 src/Inventor/Win/SoWinRenderArea.h: \
   $(srcdir)/src/Inventor/Win/common/SoGuiRenderArea.h.in
