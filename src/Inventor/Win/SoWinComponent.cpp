@@ -97,7 +97,7 @@ SoWinComponentP::commonEventHandler(UINT message, WPARAM wparam, LPARAM lparam)
 
   case WM_CLOSE:
     PUBLIC(this)->hide();
-    PUBLIC(this)->windowCloseAction();
+    if (this->closeCB) { this->closeCB(this->closeCBdata, PUBLIC(this)); }
     break;
 
   case WM_SHOWWINDOW:
@@ -151,6 +151,51 @@ SoWinComponentP::frameWindowHandler(HWND window, UINT message,
   }
 
   return DefWindowProc(window, message, wparam, lparam);
+}
+
+HWND
+SoWinComponentP::buildFormWidget(HWND parent)
+{
+  // When this method is called, the component is *not*
+  // embedded.
+
+  if (! SoWinComponentP::wndClassAtom) {
+    LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
+    HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
+
+    WNDCLASS windowclass;
+    windowclass.lpszClassName = "Component Widget";
+    windowclass.hInstance = NULL;
+    windowclass.lpfnWndProc = SoWinComponentP::frameWindowHandler;
+    windowclass.style = CS_OWNDC;
+    windowclass.lpszMenuName = NULL;
+    windowclass.hIcon = LoadIcon(NULL, icon);
+    windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
+    windowclass.hbrBackground = brush;
+    windowclass.cbClsExtra = 0;
+    windowclass.cbWndExtra = 4;
+
+    SoWinComponentP::wndClassAtom = Win32::RegisterClass(&windowclass);
+  }
+
+  HWND parentwidget = Win32::CreateWindow_("Component Widget",
+                                           PUBLIC(this)->getTitle(),
+                                           WS_OVERLAPPEDWINDOW |
+                                           WS_VISIBLE |
+                                           WS_CLIPSIBLINGS |
+                                           WS_CLIPCHILDREN,
+                                           CW_USEDEFAULT,
+                                           CW_USEDEFAULT,
+                                           500, 500,
+                                           parent,
+                                           NULL,
+                                           NULL,
+                                           NULL);
+
+  (void)Win32::SetWindowLong(parentwidget, GWL_USERDATA, (LONG)PUBLIC(this));
+
+  assert(IsWindow(parentwidget));
+  return parentwidget;
 }
 
 #endif // !DOXYGEN_SKIP_THIS
@@ -218,7 +263,7 @@ SoWinComponent::SoWinComponent(const HWND parent,
     SoWinComponentP::embeddedparents->enter((unsigned long)parent, this);
   }
   else {
-    PRIVATE(this)->parent = this->buildFormWidget(parent);
+    PRIVATE(this)->parent = PRIVATE(this)->buildFormWidget(parent);
   }
 
   if (SoWinComponentP::hookhandle == NULL) {
@@ -664,53 +709,6 @@ SoWinComponent::setClassName(const char * const name)
 }
 
 /*!
- */
-HWND
-SoWinComponent::buildFormWidget(HWND parent)
-{
-  // When this method is called, the component is *not*
-  // embedded.
-
-  if (! SoWinComponentP::wndClassAtom) {
-    LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
-    HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
-
-    WNDCLASS windowclass;
-    windowclass.lpszClassName = "Component Widget";
-    windowclass.hInstance = NULL;
-    windowclass.lpfnWndProc = SoWinComponentP::frameWindowHandler;
-    windowclass.style = CS_OWNDC;
-    windowclass.lpszMenuName = NULL;
-    windowclass.hIcon = LoadIcon(NULL, icon);
-    windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
-    windowclass.hbrBackground = brush;
-    windowclass.cbClsExtra = 0;
-    windowclass.cbWndExtra = 4;
-
-    SoWinComponentP::wndClassAtom = Win32::RegisterClass(&windowclass);
-  }
-
-  HWND parentwidget = Win32::CreateWindow_("Component Widget",
-                                           this->getTitle(),
-                                           WS_OVERLAPPEDWINDOW |
-                                           WS_VISIBLE |
-                                           WS_CLIPSIBLINGS |
-                                           WS_CLIPCHILDREN,
-                                           CW_USEDEFAULT,
-                                           CW_USEDEFAULT,
-                                           500, 500,
-                                           parent,
-                                           NULL,
-                                           NULL,
-                                           NULL);
-
-  (void)Win32::SetWindowLong(parentwidget, GWL_USERDATA, (LONG)this);
-
-  assert(IsWindow(parentwidget));
-  return parentwidget;
-}
-
-/*!
   This method is invoked to notify the component that the size has
   changed.  It is called from the top and all the way down to the
   bottom, the size being adjusted to take into account extra
@@ -720,17 +718,7 @@ SoWinComponent::buildFormWidget(HWND parent)
 void
 SoWinComponent::sizeChanged(const SbVec2s & size)
 {
-
   // The default implementation does nothing.
-}
-
-/*!
-*/
-void
-SoWinComponent::windowCloseAction(void)
-{
-  if (PRIVATE(this)->closeCB)
-    PRIVATE(this)->closeCB(PRIVATE(this)->closeCBdata, this);
 }
 
 // Documented in common/SoGuiComponentCommon.cpp.in.

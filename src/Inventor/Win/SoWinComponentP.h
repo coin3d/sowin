@@ -55,6 +55,7 @@ public:
   void commonEventHandler(UINT message, WPARAM wparam, LPARAM lparam);
   static LRESULT CALLBACK systemEventFilter(int code, WPARAM wparam, LPARAM lparam);
 
+  HWND buildFormWidget(HWND parent);
 
   static HHOOK hookhandle; // for (global) system message queue interception
   HWND parent;
