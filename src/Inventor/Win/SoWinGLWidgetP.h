@@ -81,9 +81,8 @@ public:
   PIXELFORMATDESCRIPTOR pfdOverlay;
 
   SbBool drawToFrontBuffer;
-  SbBool haveFocus;
-  SbBool stealFocus;
   SbBool glRealized;
+  SbBool havefocus;
 
   int glModes;
   int bordersize;

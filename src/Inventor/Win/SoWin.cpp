@@ -88,6 +88,7 @@ public:
                                      UINT message,
                                      UINT idevent,
                                      DWORD dwtime);
+  static void doIdleTasks(void);
   
   static LRESULT onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   static LRESULT onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
@@ -326,10 +327,12 @@ SoWin::mainLoop(void)
       }
       else break; // msg == WM_QUIT
     }
-    else if (SoWinP::idleSensorActive)
-      SoWin::doIdleTasks();
-    else // !idleSensorActive
+    else if (SoWinP::idleSensorActive) {
+      SoWinP::doIdleTasks();
+    }
+    else {
       WaitMessage();
+    }
   }
 
   SoWin::done();
@@ -352,17 +355,6 @@ SoWin::done(void)
 {
   // FIXME: should clean up all resources stlil dangling
   // about. 20020624 mortene.
-}
-
-/*!
-  Dispatch an event message.
-*/
-BOOL
-SoWin::dispatchEvent(MSG * msg)
-{
-  TranslateMessage(msg);
-  DispatchMessage(msg);
-  return TRUE;
 }
 
 /*!
@@ -462,15 +454,6 @@ SoWin::createSimpleErrorDialog(HWND const widget,
 }
 
 /*!
-  Finds next message in event queue and stores in \a msg.
-*/
-SbBool
-SoWin::nextEvent(int appContext, MSG * msg)
-{
-  return GetMessage(msg, NULL, 0, 0);
-}
-
-/*!
   Returns a pointer to the HWND which is the top level widget for the
   given HWND \a hwnd.
 
@@ -515,18 +498,6 @@ SoWinP::errorHandlerCB(const SoError * error, void * data)
     SbString debugstring = error->getDebugString();
     MessageBox(NULL, (LPCTSTR) debugstring.getString(), "SoError", MB_OK | MB_ICONERROR);
   }
-}
-
-/*!
-  Force processing of all Inventor sensors scheduled for execution
-  when the system is idle.
-*/
-void
-SoWin::doIdleTasks(void)
-{
-  SoDB::getSensorManager()->processTimerQueue();
-  SoDB::getSensorManager()->processDelayQueue(TRUE); // isidle = TRUE
-  SoGuiP::sensorQueueChanged(NULL);
 }
 
 LRESULT CALLBACK
@@ -583,13 +554,24 @@ SoWinP::delaySensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoGuiP::sensorQueueChanged(NULL);
 }
 
+// Process of all Inventor sensors scheduled for execution when the
+// system is idle.
+void
+SoWinP::doIdleTasks(void)
+{
+  SoDB::getSensorManager()->processTimerQueue();
+  SoDB::getSensorManager()->processDelayQueue(TRUE); // isidle = TRUE
+  SoGuiP::sensorQueueChanged(NULL);
+}
+
 void CALLBACK
 SoWinP::idleSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo("SoWin::idleSensorCB", "called");
 #endif // SOWIN_DEBUG
-  SoWin::doIdleTasks();
+
+  SoWinP::doIdleTasks();
 }
 
 LRESULT

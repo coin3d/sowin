@@ -70,9 +70,6 @@ SoWinGLWidget::SoWinGLWidget(HWND const parent,
   PRIVATE(this)->hdcOverlay = NULL;
 
   PRIVATE(this)->glModes = glmodes;
-
-  PRIVATE(this)->haveFocus = FALSE;
-  PRIVATE(this)->stealFocus = FALSE;
   PRIVATE(this)->glRealized = FALSE;
 
   this->setClassName("SoWinGLWidget");
@@ -156,14 +153,6 @@ SoWinGLWidget::getOverlayDC(void) const
 {
   assert(PRIVATE(this)->hdcOverlay != NULL);
   return PRIVATE(this)->hdcOverlay;
-}
-
-/*!
- */
-void
-SoWinGLWidget::setStealFocus(SbBool doStealFocus)
-{
-  PRIVATE(this)->stealFocus = doStealFocus;
 }
 
 /*!
@@ -539,8 +528,6 @@ SoWinGLWidget::buildWidget(HWND parent)
   PRIVATE(this)->buildNormalGLWidget(managerwidget);
   this->waitForExpose = TRUE;
 
-  this->setFocusProxy(this->getNormalWidget());
-
   return managerwidget;
 }
 
@@ -672,6 +659,7 @@ SoWinGLWidgetP::SoWinGLWidgetP(SoWinGLWidget * o)
   this->bordersize = 0;
   this->lockcounter = 0;
   this->overlaylockcounter = 0;
+  this->havefocus = FALSE;
 }
 
 // Destructor.
@@ -711,10 +699,25 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
     msg.time = GetTickCount();
     msg.wParam = wparam;
 
-    // Get keystrokes
-    if(((! PRIVATE(object)->haveFocus) && PRIVATE(object)->stealFocus) ||
-        (message == WM_LBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_RBUTTONDOWN)) {
-      PRIVATE(object)->haveFocus = (BOOL) SetFocus(window);
+    // Grab focus so keystrokes are piped in our direction.
+    //
+    // Note that the focus grabbing has one known flaw: when using
+    // e.g. Alt+TAB to select an SoWinComponent window, the form
+    // widget will get the focus, and not the GL widget. For built-in,
+    // non-abstract classes this only has practical consequences for
+    // the SoWinRenderArea, as SoWinFullViewer passes on focus to the
+    // GL widget when it receives WM_SETFOCUS messages.  -mortene.
+    if (!PRIVATE(object)->havefocus) {
+      switch (message) {
+      case WM_LBUTTONDOWN:
+      case WM_MBUTTONDOWN:
+      case WM_RBUTTONDOWN:
+      case WM_MOUSEMOVE:
+        (void)Win32::SetFocus(window);
+        PRIVATE(object)->havefocus = TRUE;
+        break;
+      default: break;
+      }
     }
 
     object->processEvent(&msg);
@@ -739,7 +742,11 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
       return 0;
 
     case WM_KILLFOCUS:
-      PRIVATE(object)->haveFocus = FALSE;
+      PRIVATE(object)->havefocus = FALSE;
+      return 0;
+
+    case WM_SETFOCUS:
+      PRIVATE(object)->havefocus = TRUE;
       return 0;
     }
   }
@@ -1296,7 +1303,7 @@ SoWinGLWidgetP::onCreate(HWND window, UINT message, WPARAM wparam, LPARAM lparam
                               orgmodes, this->glModes);
   }
 
-  SetFocus(window);
+  (void)Win32::SetFocus(window);
   PUBLIC(this)->widgetChanged(window);
   return 0;
 }

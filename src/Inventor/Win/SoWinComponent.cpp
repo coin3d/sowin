@@ -91,10 +91,6 @@ SoWinComponentP::commonEventHandler(UINT message, WPARAM wparam, LPARAM lparam)
     PUBLIC(this)->sizeChanged(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
     break;
 
-  case WM_SETFOCUS:
-    if (IsWindow(this->focusProxy)) { SetFocus(this->focusProxy); }
-    break;
-
   case WM_CLOSE:
     PUBLIC(this)->hide();
     if (this->closeCB) { this->closeCB(this->closeCBdata, PUBLIC(this)); }
@@ -241,8 +237,6 @@ SoWinComponent::SoWinComponent(const HWND parent,
 {
   PRIVATE(this) = new SoWinComponentP(this);
   PRIVATE(this)->realized = FALSE;
-
-  PRIVATE(this)->focusProxy = NULL;
 
   PRIVATE(this)->closeCB = NULL;
   PRIVATE(this)->closeCBdata = NULL;
@@ -647,35 +641,6 @@ SoWinComponent::setWindowCloseCallback(SoWinComponentCB * const func,
   PRIVATE(this)->closeCB = func;
   PRIVATE(this)->closeCBdata = data;
 }
-
-/*!
-  Set \a widget as focus proxy. Returns previously set focus proxy.
-
-  \sa getFocusProxy()
-*/
-HWND
-SoWinComponent::setFocusProxy(HWND widget)
-{
-  HWND w = PRIVATE(this)->focusProxy;
-  PRIVATE(this)->focusProxy = widget;
-  return w;
-}
-
-/*!
-  Get currently set focus proxy. Returns NULL if no focus proxy is set.
-
-  \sa setFocusProxy()
-*/
-HWND
-SoWinComponent::getFocusProxy(void)
-{
-  return PRIVATE(this)->focusProxy;
-}
-
-///////////////////////////////////////////////////////////////////
-//
-//  (protected)
-//
 
 /*!
   Set the core widget for this SoWin component. It is important that
