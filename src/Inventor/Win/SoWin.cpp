@@ -35,6 +35,7 @@
 
 // *************************************************************************
 
+#include <limits.h>
 #include <Inventor/SbTime.h>
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInteraction.h>
@@ -92,6 +93,8 @@ public:
   static SbBool useParentEventHandler;
   static WNDPROC parentEventHandler;
 
+  static int DEBUG_LISTMODULES;
+
 private:
   SoWin * owner;
   
@@ -113,6 +116,10 @@ int SoWinP::idleSensorId = 0;
 SbBool SoWinP::idleSensorActive = FALSE;
 WNDPROC SoWinP::parentEventHandler = NULL;
 SbBool SoWinP::useParentEventHandler = TRUE;
+
+#define ENVVAR_NOT_INITED INT_MAX
+
+int SoWinP::DEBUG_LISTMODULES = ENVVAR_NOT_INITED;
 
 // *************************************************************************
 
@@ -148,6 +155,14 @@ SoWin::init(HWND toplevelwidget)
   SoWinObject::init();
 
   SoDebugError::setHandlerCallback(SoWinP::errorHandlerCB, NULL);
+
+  // This should prove helpful for debugging the pervasive problem
+  // under Win32 with loading multiple instances of the same library.
+  if (SoWinP::DEBUG_LISTMODULES == ENVVAR_NOT_INITED) {
+    const char * env = SoAny::si()->getenv("SOGUI_DEBUG_LISTMODULES");
+    SoWinP::DEBUG_LISTMODULES = env ? atoi(env) : 0;
+    if (SoWinP::DEBUG_LISTMODULES) { SoAny::listWin32ProcessModules(); }
+  }
 
   SoDB::getSensorManager()->setChangedCallback(SoGuiP::sensorQueueChanged, NULL);
   if (IsWindow(toplevelwidget)) 
