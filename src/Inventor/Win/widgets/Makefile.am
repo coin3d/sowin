@@ -68,4 +68,37 @@ widgets.lst: Makefile $(widgets_lst_OBJECTS)
 	rm -f $@; \
 	for i in $(widgets_lst_OBJECTS); do echo $$i >>$@; done
 
+############################################################################
+# header installation
+
+SoWinWidgetsincdir = $(includedir)/Inventor/Win/widgets
+SoWinWidgetsinc_HEADERS = 
+nodist_SoWinWidgetsinc_HEADERS = SoWinPopupMenu.h
+
+install-SoWinWidgetsincHEADERS: $(SoWinWidgetsinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinWidgetsincdir)
+	@list='$(SoWinWidgetsinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinWidgetsincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi; \
+	done
+
+install-nodist_SoWinWidgetsincHEADERS: $(nodist_SoWinWidgetsinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinWidgetsincdir)
+	@list='$(nodist_SoWinWidgetsinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinWidgetsincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi; \
+	done
+
 # EOF ######################################################################
