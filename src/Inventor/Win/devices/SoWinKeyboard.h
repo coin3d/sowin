@@ -17,8 +17,8 @@
  *
 \**************************************************************************/
 
-#ifndef  SO_WIN_KEYBOARD
-#define  SO_WIN_KEYBOARD
+#ifndef  SOWIN_KEYBOARD_H
+#define  SOWIN_KEYBOARD_H
 
 #include <Inventor/events/SoKeyboardEvent.h>
 
@@ -56,4 +56,4 @@ private:
 
 #define SO_WIN_ALL_KEYBOARD_EVENTS SoWinKeyboard::ALL_EVENTS
 
-#endif
+#endif // !SOWIN_KEYBOARD_H

@@ -17,8 +17,8 @@
  *
 \**************************************************************************/
 
-#ifndef  SO_WIN_DEVICE
-#define  SO_WIN_DEVICE
+#ifndef  SOWIN_DEVICE_H
+#define  SOWIN_DEVICE_H
 
 #include <sowindefs.h>
 
@@ -63,4 +63,4 @@ private:
     SbVec2s size;
 };
 
-#endif
+#endif // !SOWIN_DEVICE_H

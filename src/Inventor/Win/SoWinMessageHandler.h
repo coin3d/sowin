@@ -17,8 +17,8 @@
  *
 \**************************************************************************/
 
-#ifndef SOWINMESSAGEHANDLER_H
-#define SOWINMESSAGEHANDLER_H
+#ifndef SOWIN_MESSAGEHANDLER_H
+#define SOWIN_MESSAGEHANDLER_H
 
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/lists/SbList.h>
@@ -45,4 +45,4 @@ private:
     SbList< processEventFunction * > * processList;
 };  // class SoWinMessageHandler
 
-#endif // !SOWINMESSAGEHANDLER_H
+#endif // !SOWIN_MESSAGEHANDLER_H

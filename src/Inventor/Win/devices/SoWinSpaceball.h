@@ -17,11 +17,10 @@
  *
  **************************************************************************/
 
-#ifndef  SO_WIN_SPACEBALL
-#define  SO_WIN_SPACEBALL
+#ifndef  SOWIN_SPACEBALL_H
+#define  SOWIN_SPACEBALL_H
 
 #include <Inventor/Win/SoWin.h>
-//  #include <Inventor/Win/SoWinRenderArea.h>
 #include <Inventor/Win/devices/SoWinDevice.h>
 
 #include <Inventor/events/SoMotion3Event.h>
@@ -75,4 +74,4 @@ private:
 
 #define SO_WIN_ALL_SPACEBALL_EVENTS SoWinSpaceball::ALL_EVENTS
 
-#endif // SO_WIN_SPACEBALL
+#endif // SOWIN_SPACEBALL_H

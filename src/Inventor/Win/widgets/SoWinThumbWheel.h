@@ -104,7 +104,7 @@ protected:
 
     static LRESULT CALLBACK windowProc( HWND window,
                                         UINT message,
-		 					            WPARAM wparam,
+                                        WPARAM wparam,
                                         LPARAM lparam );
 
 private:

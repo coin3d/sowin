@@ -380,4 +380,4 @@ static struct key1map WinToSoMapping[] = {
   {SOWIN_KEY_UNKNOWN, SoKeyboardEvent::ANY} // Ends table
 };
 
-#endif
+#endif // SOWIN_KEYCODES_H

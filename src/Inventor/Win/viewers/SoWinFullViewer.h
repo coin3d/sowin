@@ -17,8 +17,8 @@
  *
 \**************************************************************************/
 
-#ifndef  SO_WIN_FULL_VIEWER
-#define  SO_WIN_FULL_VIEWER
+#ifndef  SOWIN_FULLVIEWER_H
+#define  SOWIN_FULLVIEWER_H
 
 #include <Inventor/Win/viewers/SoWinViewer.h>
 #include <Inventor/SbPList.h>

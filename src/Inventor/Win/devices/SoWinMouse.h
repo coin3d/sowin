@@ -17,8 +17,8 @@
  *
 \**************************************************************************/
 
-#ifndef  SO_WIN_MOUSE
-#define  SO_WIN_MOUSE
+#ifndef  SOWIN_MOUSE_H
+#define  SOWIN_MOUSE_H
 
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/devices/SoWinDevice.h>
@@ -56,4 +56,4 @@ public:
 
 #define SO_WIN_ALL_MOUSE_EVENTS SoWinMouse::ALL_EVENTS
 
-#endif /* SO_WIN_MOUSE */
+#endif // !SOWIN_MOUSE_H
