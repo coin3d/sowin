@@ -52,6 +52,8 @@ SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinComponent);
 
 // *************************************************************************
 
+#ifndef DOXYGEN_SKIP_THIS
+
 // The private data and code for the SoWinComponent.
 
 SoWinComponentP::SoWinComponentP(SoWinComponent * o)
@@ -146,6 +148,8 @@ SoWinComponentP::frameWindowHandler(HWND window, UINT message,
 
   return DefWindowProc(window, message, wparam, lparam);
 }
+
+#endif // !DOXYGEN_SKIP_THIS
 
 // *************************************************************************
 
@@ -260,6 +264,8 @@ SoWinComponent::~SoWinComponent(void)
   delete PRIVATE(this);
 }
 
+#ifndef DOXYGEN_SKIP_THIS
+
 // We were having a specific problem which triggered the need for a
 // "fatal error cleanup" routine. It was reported by Alan Walford of
 // Eos. It is a complex issue where a bug could be triggered like
@@ -303,6 +309,8 @@ SoWinComponentP::cleanupWin32References(void)
 {
   if (IsWindow(this->parent) && !this->embedded) { Win32::DestroyWindow(this->parent); }
 }
+
+#endif // !DOXYGEN_SKIP_THIS
 
 /*!
   This will show the widget, deiconifiying and raising it if
@@ -773,6 +781,8 @@ SoWinComponent::removeVisibilityChangeCallback(SoWinComponentVisibilityCB * func
   }
 }
 
+#ifndef DOXYGEN_SKIP_THIS
+
 static inline unsigned char
 reverse_byte(unsigned char b)
 {
@@ -854,6 +864,8 @@ SoWinComponentP::getNativeCursor(const SoWinCursor::CustomCursor * cc)
   SoWinComponentP::cursordict->enter((unsigned long)cc, c);
   return c;
 }
+
+#endif // !DOXYGEN_SKIP_THIS
 
 // documented in common/SoGuiComponentCommon.cpp.in.
 void
