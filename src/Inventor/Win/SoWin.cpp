@@ -353,8 +353,8 @@ SoWin::done(void)
 }
 
 /*!
-  FIXME: doc
- */
+  Dispatch an event message.
+*/
 BOOL
 SoWin::dispatchEvent(MSG * msg)
 {
@@ -460,8 +460,8 @@ SoWin::createSimpleErrorDialog(HWND const widget,
 }
 
 /*!
-  FIXME: doc
- */
+  Finds next message in event queue and stores in \a msg.
+*/
 SbBool
 SoWin::nextEvent(int appContext, MSG * msg)
 {
@@ -516,8 +516,9 @@ SoWinP::errorHandlerCB(const SoError * error, void * data)
 }
 
 /*!
-  FIXME: doc
- */
+  Force processing of all Inventor sensors scheduled for execution
+  when the system is idle.
+*/
 void
 SoWin::doIdleTasks(void)
 {
