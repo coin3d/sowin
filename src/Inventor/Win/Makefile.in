@@ -159,7 +159,7 @@ libSoWininc_HEADERS = \
 	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
 
 subdir = src/Inventor/Win
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = ../../../config.h
 CONFIG_CLEAN_FILES = 
 LTLIBRARIES =  $(lib_LTLIBRARIES)
@@ -189,7 +189,7 @@ DATA =  $(noinst_DATA)
 
 HEADERS =  $(libSoWininc_HEADERS)
 
-depcomp = $(SHELL) $(top_srcdir)/depcomp
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 DEP_FILES =  @AMDEP@ $(DEPDIR)/SoWin.Plo $(DEPDIR)/SoWinComponent.Plo \
 $(DEPDIR)/SoWinGLWidget.Plo $(DEPDIR)/SoWinObject.Plo \
 $(DEPDIR)/SoWinRenderArea.Plo

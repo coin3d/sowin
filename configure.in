@@ -2,6 +2,7 @@
 # SoWin/configure.in
 
 AC_INIT(src/Inventor/Win/SoWin.h)
+AC_CONFIG_AUX_DIR(cfg)
 AC_CANONICAL_SYSTEM
 
 # **************************************************************************

@@ -126,7 +126,7 @@ libSoWinWidgets_la_SOURCES = \
 	SoWinPopupMenu.h
 
 subdir = src/Inventor/Win/widgets
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = ../../../../config.h
 CONFIG_CLEAN_FILES = 
 LTLIBRARIES =  $(noinst_LTLIBRARIES)
@@ -151,7 +151,7 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES =  $(libSoWinWidgets_la_SOURCES)
-depcomp = $(SHELL) $(top_srcdir)/depcomp
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 DEP_FILES =  @AMDEP@ $(DEPDIR)/SoAnyPopupMenu.Plo \
 $(DEPDIR)/SoAnyThumbWheel.Plo $(DEPDIR)/SoWinPopupMenu.Plo \
 $(DEPDIR)/SoWinThumbWheel.Plo

@@ -146,7 +146,7 @@ m4datadir = $(datadir)/aclocal
 m4data_DATA = conf-macros/sowin.m4
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =  sowin-config
 SCRIPTS =  $(bin_SCRIPTS)
@@ -155,9 +155,9 @@ DIST_SOURCES =
 DATA =  $(m4data_DATA) $(noinst_DATA)
 
 DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
-Makefile.am Makefile.in NEWS acconfig.h aclocal.m4 config.guess \
-config.h.in config.sub configure configure.in depcomp install-sh \
-ltconfig ltmain.sh missing mkinstalldirs sowin-config.in
+Makefile.am Makefile.in NEWS acconfig.h aclocal.m4 cfg/config.guess \
+cfg/config.sub cfg/install-sh cfg/ltconfig cfg/ltmain.sh cfg/missing \
+cfg/mkinstalldirs config.h.in configure configure.in sowin-config.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -400,7 +400,7 @@ dist-all: distdir
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) > /dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/conf-macros
+	$(mkinstalldirs) $(distdir)/cfg $(distdir)/conf-macros
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \

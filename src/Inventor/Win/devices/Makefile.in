@@ -137,7 +137,7 @@ libSoWinDevicesinc_HEADERS = \
 	SoWinSpaceball.h
 
 subdir = src/Inventor/Win/devices
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = ../../../../config.h
 CONFIG_CLEAN_FILES = 
 LTLIBRARIES =  $(noinst_LTLIBRARIES)
@@ -165,7 +165,7 @@ LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDF
 DIST_SOURCES =  $(libSoWinDevices_la_SOURCES)
 HEADERS =  $(libSoWinDevicesinc_HEADERS)
 
-depcomp = $(SHELL) $(top_srcdir)/depcomp
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 DEP_FILES =  @AMDEP@ $(DEPDIR)/SoWinDevice.Plo \
 $(DEPDIR)/SoWinInputFocus.Plo $(DEPDIR)/SoWinKeyboard.Plo \
 $(DEPDIR)/SoWinMouse.Plo $(DEPDIR)/SoWinSpaceball.Plo
