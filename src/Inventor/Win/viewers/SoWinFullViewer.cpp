@@ -602,7 +602,9 @@ SoWinFullViewer::displayPopupMenu( int x, int y, HWND owner )
   //this->popupPreCallback( );
   assert( this->prefmenu != NULL );
   this->prefmenu->popUp( owner, x, y );
-	this->common->menuSelection( ( ( SoWinPopupMenu * ) this->prefmenu )->getSelectedItem( ) );
+	int selectedItem =  ( ( SoWinPopupMenu * ) this->prefmenu )->getSelectedItem( );
+	if ( selectedItem != 0 ) // No item selected ( user aborted )
+		this->common->menuSelection( selectedItem );
   //this->popupPostCallback( );
   return 0;
 }

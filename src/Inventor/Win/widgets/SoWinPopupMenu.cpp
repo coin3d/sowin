@@ -215,10 +215,9 @@ void
 SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-  if ( rec == NULL ) {
-		_cprintf( "rec == NULL\n" );
+  if ( rec == NULL )
     return;
-	}
+	
   
 	if ( enabled )
 		rec->flags |= ITEM_ENABLED;
@@ -272,14 +271,13 @@ SoWinPopupMenu::getMenuItemMarked( int itemid )
   ItemRecord * rec = this->getItemRecord( itemid );
   if ( rec == NULL )
     return FALSE;
-  //if ( rec->parent == NULL )
-    return (rec->flags & ITEM_MARKED) ? TRUE : FALSE;
-
-		/*
+  if ( rec->parent == NULL )
+    return ( rec->flags & ITEM_MARKED ? TRUE : FALSE );
+		
 	MENUITEMINFO  menuiteminfo;
   memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
   GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
-  return ( menuiteminfo.fState & MFS_CHECKED ) ? TRUE : FALSE;*/
+  return ( menuiteminfo.fState & MFS_CHECKED ? TRUE : FALSE );
 } // getMenuItemMarked()
 
 // *************************************************************************
@@ -424,7 +422,7 @@ SoWinPopupMenu::popUp( HWND inside, int x, int y )
 int
 SoWinPopupMenu::getSelectedItem( void )
 {
-	return this->selectedItem;
+	return ( this->selectedItem );
 } // getSelectedItem()
 
 // *************************************************************************
