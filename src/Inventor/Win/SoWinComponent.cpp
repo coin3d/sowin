@@ -202,11 +202,13 @@ SoWinComponent::goFullScreen( const SbBool enable )
     data = new SoWinComponentP::fullscreenData;
     
     RECT rect;
-    
+
+    // save size and position
     GetWindowRect( hwnd, & rect );
     data->pos.setValue( rect.left, rect.top );
     data->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
 
+    // go fullscreen
     data->style = SetWindowLong( hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE );
     data->exstyle = SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
     data->widget = hwnd;
@@ -223,9 +225,13 @@ SoWinComponent::goFullScreen( const SbBool enable )
   }
   else {
 
+    if ( ! this->isFullScreen( ) )
+      return;
+
     // find in list of fullscreen windows
     SoWinComponentP::fullscreenData * d = NULL;
-    for ( int i = 0; i < SoWinComponentP::sowinfullscreenlist->getLength( ); i++ ) {
+    int i;
+    for ( i = 0; i < SoWinComponentP::sowinfullscreenlist->getLength( ); i++ ) {
       d = ( SoWinComponentP::fullscreenData * ) SoWinComponentP::sowinfullscreenlist->get( i );
       if ( d->widget == hwnd ) {
         data = d;
@@ -234,6 +240,7 @@ SoWinComponent::goFullScreen( const SbBool enable )
     }
     if ( ! data ) return;
 
+    // go normal
     SetWindowLong( hwnd, GWL_STYLE, data->style );
     SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
 
@@ -245,7 +252,7 @@ SoWinComponent::goFullScreen( const SbBool enable )
                 TRUE );
     
     // remove from list of fullscreen windows
-    SoWinComponentP::sowinfullscreenlist->removeItem( ( void * ) data );
+    SoWinComponentP::sowinfullscreenlist->remove( i );
     delete data;
   }
 }
@@ -257,7 +264,8 @@ SoWinComponent::isFullScreen( void ) const
   SoWinComponentP::fullscreenData * d = NULL;
   for ( int i = 0; i < SoWinComponentP::sowinfullscreenlist->getLength( ); i++ ) {
     d = ( SoWinComponentP::fullscreenData * ) SoWinComponentP::sowinfullscreenlist->get( i );
-    if ( d->widget == hwnd ) return TRUE;
+    if ( d->widget == hwnd )
+      return TRUE;
   }
   return FALSE;
 }
