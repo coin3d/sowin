@@ -216,7 +216,7 @@ SoWinComponent::goFullScreen( const SbBool enable )
                 0,
                 GetSystemMetrics( SM_CXSCREEN ),
                 GetSystemMetrics( SM_CYSCREEN ),
-                FALSE );
+                TRUE );
     
     // add to list of fullscreen windows
     SoWinComponentP::sowinfullscreenlist->append( data );
