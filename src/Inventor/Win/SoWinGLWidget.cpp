@@ -715,7 +715,7 @@ SoWinGLWidget::getGLAspectRatio(void) const
 /*!
  */
 LRESULT // Used by SoWinRenderArea
-SoWinGLWidget::eventHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+SoWinGLWidgetP::eventHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
   // FIXME: function not implemented
   SOWIN_STUB();

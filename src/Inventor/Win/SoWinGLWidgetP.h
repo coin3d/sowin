@@ -42,6 +42,8 @@ public:
   void buildOverlayGLWidget(HWND manager);
   BOOL createGLContext(HWND window);
 
+  static LRESULT eventHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+
   LRESULT onCreate(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   LRESULT onPaint(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   LRESULT onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
