@@ -1120,12 +1120,10 @@ if test x"$enable_warnings" = x"yes"; then
         #       of the Coin macros).
         # 1375: Non-virtual destructors in base classes.
         # 3201: Unused argument to a function.
-        # 3303: "Meaningless type qualifier on return type" (happens with the
-        #       SoField macros in Coin because of use of const in the macros).
         # 1110: "Statement is not reachable" (the Lex/Flex generated code in
         #       Coin/src/engines has lots of shitty code which needs this).
 
-        sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,3303,1110"
+        sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,1110"
         SIM_AC_CC_COMPILER_OPTION($sim_ac_bogus_warnings,
                                   CPPFLAGS="$CPPFLAGS $sim_ac_bogus_warnings")
       fi
@@ -1183,7 +1181,17 @@ if test x"$with_inventor" != xno; then
     fi
   fi
 
-  sim_ac_oiv_libs="-lInventor -limage"
+  if test x"$sim_ac_linking_style" = xmswin; then
+    cat <<EOF > conftest.c
+#include <Inventor/SbBasic.h>
+PeekInventorVersion: TGS_VERSION
+EOF
+    iv_version=`$CXX -E conftest.c 2>/dev/null | grep "^PeekInventorVersion" | sed -e 's/.* //g' -e 's/.$//'`
+    rm -f conftest.c
+    sim_ac_oiv_libs="inv{$iv_version}.lib"
+  else
+    sim_ac_oiv_libs="-lInventor -limage"
+  fi
 
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
@@ -1344,6 +1352,7 @@ if test "x$with_coin" != "xno"; then
   sim_ac_coin_cppflags=`$sim_ac_conf_cmd --cppflags`
   sim_ac_coin_ldflags=`$sim_ac_conf_cmd --ldflags`
   sim_ac_coin_libs=`$sim_ac_conf_cmd --libs`
+  sim_ac_coin_version=`$sim_ac_conf_cmd --version`
 
   AC_CACHE_CHECK([whether the Coin library is available],
     sim_cv_lib_coin_avail, [
@@ -1526,7 +1535,7 @@ AC_DEFUN([SIM_PARSE_MODIFIER_LIST],
 #
 # Description:
 #   Expand these variables into their correct full directory paths:
-#    $prefix  $exec_prefix  $includedir  $libdir
+#    $prefix  $exec_prefix  $includedir  $libdir  $datadir
 # 
 # Author: Morten Eriksen, <mortene@sim.no>.
 # 
@@ -1534,8 +1543,20 @@ AC_DEFUN([SIM_PARSE_MODIFIER_LIST],
 AC_DEFUN([SIM_EXPAND_DIR_VARS], [
 test x"$prefix" = x"NONE" && prefix="$ac_default_prefix"
 test x"$exec_prefix" = x"NONE" && exec_prefix="${prefix}"
-includedir="`eval echo $includedir`"
-libdir="`eval echo $libdir`"
-])
 
+# This is the list of all install-path variables found in configure
+# scripts. FIXME: use another "eval-nesting" to move assignments into
+# a for-loop. 20000704 mortene.
+bindir="`eval echo $bindir`"
+sbindir="`eval echo $sbindir`"
+libexecdir="`eval echo $libexecdir`"
+datadir="`eval echo $datadir`"
+sysconfdir="`eval echo $sysconfdir`"
+sharedstatedir="`eval echo $sharedstatedir`"
+localstatedir="`eval echo $localstatedir`"
+libdir="`eval echo $libdir`"
+includedir="`eval echo $includedir`"
+infodir="`eval echo $infodir`"
+mandir="`eval echo $mandir`"
+])
 

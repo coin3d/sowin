@@ -2573,12 +2573,10 @@ cross_compiling=$ac_cv_prog_cxx_cross
         #       of the Coin macros).
         # 1375: Non-virtual destructors in base classes.
         # 3201: Unused argument to a function.
-        # 3303: "Meaningless type qualifier on return type" (happens with the
-        #       SoField macros in Coin because of use of const in the macros).
         # 1110: "Statement is not reachable" (the Lex/Flex generated code in
         #       Coin/src/engines has lots of shitty code which needs this).
 
-        sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,3303,1110"
+        sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,1110"
         
 
 ac_ext=c
@@ -2589,19 +2587,19 @@ ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$a
 cross_compiling=$ac_cv_prog_cc_cross
 
 echo $ac_n "checking whether $CC accepts $sim_ac_bogus_warnings... $ac_c" 1>&6
-echo "configure:2593: checking whether $CC accepts $sim_ac_bogus_warnings" 1>&5
+echo "configure:2591: checking whether $CC accepts $sim_ac_bogus_warnings" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS $sim_ac_bogus_warnings"
 cat >conftest.$ac_ext <<EOF
-#line 2598 "configure"
+#line 2596 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:2605: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:2603: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_ac_accept_result=yes
 else
@@ -2668,7 +2666,7 @@ if test x"$with_inventor" != xno; then
     sim_ac_oiv_ldflags="-L${with_inventor}/lib"
   else
     echo $ac_n "checking value of the OIVHOME environment variable... $ac_c" 1>&6
-echo "configure:2672: checking value of the OIVHOME environment variable" 1>&5
+echo "configure:2670: checking value of the OIVHOME environment variable" 1>&5
     if test x"$OIVHOME" = x; then
       echo "$ac_t""empty" 1>&6
       echo "configure: warning: OIVHOME environment variable not set -- this might be an indication of a problem" 1>&2
@@ -2679,7 +2677,17 @@ echo "configure:2672: checking value of the OIVHOME environment variable" 1>&5
     fi
   fi
 
-  sim_ac_oiv_libs="-lInventor -limage"
+  if test x"$sim_ac_linking_style" = xmswin; then
+    cat <<EOF > conftest.c
+#include <Inventor/SbBasic.h>
+PeekInventorVersion: TGS_VERSION
+EOF
+    iv_version=`$CXX -E conftest.c 2>/dev/null | grep "^PeekInventorVersion" | sed -e 's/.* //g' -e 's/.$//'`
+    rm -f conftest.c
+    sim_ac_oiv_libs="inv{$iv_version}.lib"
+  else
+    sim_ac_oiv_libs="-lInventor -limage"
+  fi
 
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
@@ -2690,19 +2698,19 @@ echo "configure:2672: checking value of the OIVHOME environment variable" 1>&5
   LIBS="$sim_ac_oiv_libs $LIBS"
 
   echo $ac_n "checking for Open Inventor developer kit... $ac_c" 1>&6
-echo "configure:2694: checking for Open Inventor developer kit" 1>&5
+echo "configure:2702: checking for Open Inventor developer kit" 1>&5
 if test "${sim_cv_lib_oiv_avail+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 2699 "configure"
+#line 2707 "configure"
 #include "confdefs.h"
 #include <Inventor/SoDB.h>
 int main() {
 SoDB::init();
 ; return 0; }
 EOF
-if { (eval echo configure:2706: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:2714: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_oiv_avail=yes
 else
@@ -2760,7 +2768,7 @@ if test "x$with_coin" != "xno"; then
   # Extract the first word of "coin-config", so it can be a program name with args.
 set dummy coin-config; ac_word=$2
 echo $ac_n "checking for $ac_word... $ac_c" 1>&6
-echo "configure:2764: checking for $ac_word" 1>&5
+echo "configure:2772: checking for $ac_word" 1>&5
 if test "${ac_cv_path_sim_ac_conf_cmd+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2797,9 +2805,10 @@ fi
   sim_ac_coin_cppflags=`$sim_ac_conf_cmd --cppflags`
   sim_ac_coin_ldflags=`$sim_ac_conf_cmd --ldflags`
   sim_ac_coin_libs=`$sim_ac_conf_cmd --libs`
+  sim_ac_coin_version=`$sim_ac_conf_cmd --version`
 
   echo $ac_n "checking whether the Coin library is available... $ac_c" 1>&6
-echo "configure:2803: checking whether the Coin library is available" 1>&5
+echo "configure:2812: checking whether the Coin library is available" 1>&5
 if test "${sim_cv_lib_coin_avail+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2811,14 +2820,14 @@ else
     LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
     LIBS="$sim_ac_coin_libs $LIBS"
     cat >conftest.$ac_ext <<EOF
-#line 2815 "configure"
+#line 2824 "configure"
 #include "confdefs.h"
 #include <Inventor/SoDB.h>
 int main() {
 SoDB::init();
 ; return 0; }
 EOF
-if { (eval echo configure:2822: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:2831: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_coin_avail=yes
 else
@@ -2862,19 +2871,19 @@ fi
 # line rendering), which is not part of older Inventor implementations.
 
 echo $ac_n "checking for the SoPolygonOffset node... $ac_c" 1>&6
-echo "configure:2866: checking for the SoPolygonOffset node" 1>&5
+echo "configure:2875: checking for the SoPolygonOffset node" 1>&5
 if test "${sim_cv_sopolygonoffset+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 2871 "configure"
+#line 2880 "configure"
 #include "confdefs.h"
 #include <Inventor/nodes/SoPolygonOffset.h>
 int main() {
 SoPolygonOffset * p = new SoPolygonOffset;
 ; return 0; }
 EOF
-if { (eval echo configure:2878: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:2887: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_sopolygonoffset=yes
 else
@@ -2906,7 +2915,7 @@ CXXFLAGS="$CXXFLAGS -DSOWIN_INTERNAL=1"
 sim_ac_want_ivexamples=false
 if test x"${with_ivexamples+set}" = x"set"; then
   echo $ac_n "checking for ivexamples directory... $ac_c" 1>&6
-echo "configure:2910: checking for ivexamples directory" 1>&5
+echo "configure:2919: checking for ivexamples directory" 1>&5
   if test -f ${srcdir}/ivexamples/configure.in; then
     echo "$ac_t""found" 1>&6
     sim_ac_want_ivexamples=true
@@ -2979,8 +2988,21 @@ fi
 
 test x"$prefix" = x"NONE" && prefix="$ac_default_prefix"
 test x"$exec_prefix" = x"NONE" && exec_prefix="${prefix}"
-includedir="`eval echo $includedir`"
+
+# This is the list of all install-path variables found in configure
+# scripts. FIXME: use another "eval-nesting" to move assignments into
+# a for-loop. 20000704 mortene.
+bindir="`eval echo $bindir`"
+sbindir="`eval echo $sbindir`"
+libexecdir="`eval echo $libexecdir`"
+datadir="`eval echo $datadir`"
+sysconfdir="`eval echo $sysconfdir`"
+sharedstatedir="`eval echo $sharedstatedir`"
+localstatedir="`eval echo $localstatedir`"
 libdir="`eval echo $libdir`"
+includedir="`eval echo $includedir`"
+infodir="`eval echo $infodir`"
+mandir="`eval echo $mandir`"
 
 
 sim_ac_subconfig="data"
@@ -3318,8 +3340,19 @@ for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
   # Remove last slash and all that follows it.  Not all systems have dirname.
   ac_dir=`echo $ac_file|sed 's%/[^/][^/]*$%%'`
   if test "$ac_dir" != "$ac_file" && test "$ac_dir" != .; then
-    # The file is in a subdirectory.
-    test ! -d "$ac_dir" && mkdir "$ac_dir"
+    # The file is in a subdirectory.  Create subdir, including missing parents.
+    if test ! -d "$ac_dir"; then
+      save_IFS=$IFS
+      IFS="/"
+      set $ac_dir
+      IFS=$save_IFS
+      ac_workdir="$1"
+      while test $# -gt 0; do
+        test ! -d "$ac_workdir" && mkdir "$ac_workdir"
+        shift
+        ac_workdir="$ac_workdir/$1"
+      done
+    fi
     ac_dir_suffix="/`echo $ac_dir|sed 's%^\./%%'`"
     # A "../" for each directory in $ac_dir_suffix.
     ac_dots=`echo $ac_dir_suffix|sed 's%/[^/]*%../%g'`
@@ -3342,9 +3375,17 @@ for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
   *) INSTALL="$ac_dots$ac_given_INSTALL" ;;
   esac
 
-  echo creating "$ac_file"
-  rm -f "$ac_file"
-  configure_input="Generated automatically from `echo $ac_file_in|sed 's%.*/%%'` by configure."
+  if test x"$ac_file" != x-; then
+    echo creating "$ac_file"
+    rm -f "$ac_file"
+  fi
+
+  if test x"$ac_file_in" != x-; then
+    configure_input="Generated automatically from `echo $ac_file_in|sed 's%.*/%%'` by configure."
+  else
+    configure_input="Generated automatically from stdin by configure."
+  fi
+
   case "$ac_file" in
   *[Mm]akefile*) ac_comsub="1i\\
 # $configure_input" ;;
@@ -3353,7 +3394,11 @@ for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
 
 # Don't redirect the output to AC_FILE directly: use `mv' so that updating
 # is atomic, and doesn't need trapping.
-  ac_file_inputs=`echo $ac_file_in | sed -e "s%^%$ac_given_srcdir/%" -e "s%:% $ac_given_srcdir/%g"`
+  if test x"$ac_file_in" != x-; then
+    ac_file_inputs=`echo $ac_file_in | sed -e "s%^%$ac_given_srcdir/%" -e "s%:% $ac_given_srcdir/%g"`
+  else
+    ac_file_inputs=
+  fi
 EOF
 cat >>$CONFIG_STATUS <<EOF
   sed -e "$ac_comsub
@@ -3368,7 +3413,12 @@ s%@srcdir@%$srcdir%;t t
 s%@top_srcdir@%$top_srcdir%;t t
 s%@INSTALL@%$INSTALL%;t t
 " $ac_file_inputs | (eval "$ac_sed_cmds") >$ac_cs_root.out
-  mv $ac_cs_root.out $ac_file
+  if test x"$ac_file" != x-; then
+    mv $ac_cs_root.out $ac_file
+  else
+    cat $ac_cs_root.out
+    rm -f $ac_cs_root.out
+  fi
 
 fi; done
 rm -f $ac_cs_root.s*
@@ -3401,10 +3451,16 @@ for ac_file in .. $CONFIG_HEADERS; do if test "x$ac_file" != x..; then
   *) ac_file_in="${ac_file}.in" ;;
   esac
 
-  echo creating $ac_file
+  if test x"$ac_file" != x-; then
+    echo creating $ac_file
+  fi
 
   rm -f $ac_cs_root.frag $ac_cs_root.in $ac_cs_root.out
-  ac_file_inputs=`echo $ac_file_in|sed -e "s%^%$ac_given_srcdir/%" -e "s%:% $ac_given_srcdir/%g"`
+  if test x"$ac_file_in" != x-; then
+    ac_file_inputs=`echo $ac_file_in|sed -e "s%^%$ac_given_srcdir/%" -e "s%:% $ac_given_srcdir/%g"`
+  else
+    ac_file_inputs=
+  fi
   # Remove the trailing spaces.
   sed -e 's/[ 	]*$//' $ac_file_inputs >$ac_cs_root.in
 
@@ -3497,21 +3553,42 @@ rm -f conftest.undefs
 
 cat >>$CONFIG_STATUS <<\EOF
   rm -f $ac_cs_root.frag $ac_cs_root.h
-  echo "/* $ac_file.  Generated automatically by configure.  */" >$ac_cs_root.h
+  if test x"$ac_file" != x-; then
+    echo "/* $ac_file.  Generated automatically by configure.  */" >$ac_cs_root.h
+  else
+    echo "/* Generated automatically from stdin by configure.  */" >$ac_cs_root.h
+  fi
+
   cat $ac_cs_root.in >>$ac_cs_root.h
   rm -f $ac_cs_root.in
-  if cmp -s $ac_file $ac_cs_root.h 2>/dev/null; then
+  if test x"$ac_file" != x- && cmp -s $ac_file $ac_cs_root.h 2>/dev/null; then
     echo "$ac_file is unchanged"
     rm -f $ac_cs_root.h
   else
-    # Remove last slash and all that follows it.  Not all systems have dirname.
-      ac_dir=`echo $ac_file|sed 's%/[^/][^/]*$%%'`
-      if test "$ac_dir" != "$ac_file" && test "$ac_dir" != .; then
-      # The file is in a subdirectory.
-      test ! -d "$ac_dir" && mkdir "$ac_dir"
+    if test x"$ac_file" = x-; then
+      cat $ac_cs_root.h
+      rm -f $ac_cs_root.h
+    else
+      # Remove last slash and trailing text.  Not all systems have dirname.
+        ac_dir=`echo $ac_file|sed 's%/[^/][^/]*$%%'`
+        if test "$ac_dir" != "$ac_file" && test "$ac_dir" != .; then
+        # The file is in a subdirectory.  Create subdir, including parents.
+        if test ! -d "$ac_dir"; then
+          save_IFS=$IFS
+          IFS="/"
+          set $ac_dir
+          IFS=$save_IFS
+          ac_workdir="$1"
+          while test $# -gt 0; do
+            test ! -d "$ac_workdir" && mkdir "$ac_workdir"
+            shift
+            ac_workdir="$ac_workdir/$1"
+          done
+        fi
+      fi
+      rm -f $ac_file
+      mv $ac_cs_root.h $ac_file
     fi
-    rm -f $ac_file
-    mv $ac_cs_root.h $ac_file
   fi
 fi; done
 EOF
