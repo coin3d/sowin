@@ -243,48 +243,6 @@ SoWinPlaneViewer::buildWidget(
 // ************************************************************************
 
 /*!
-  FIXME: write doc
-*/
-
-const char *
-SoWinPlaneViewer::getDefaultWidgetName(// virtual
-  void) const
-{
-  static const char defaultWidgetName[] = "SoWinPlaneViewer";
-  return defaultWidgetName;
-} // getDefaultWidgetName()
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
-const char *
-SoWinPlaneViewer::getDefaultTitle(// virtual
-  void) const
-{
-  static const char defaultTitle[] = "Plane Viewer";
-  return defaultTitle;
-} // getDefaultTitle()
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
-const char *
-SoWinPlaneViewer::getDefaultIconTitle(// virtual
-  void) const
-{
-  static const char defaultIconTitle[] = "Plane Viewer";
-  return defaultIconTitle;
-} // getDefaultIconTitle()
-
-// ************************************************************************
-
-/*!
   This method overloaded from parent class to handle button messages
   from viewer specific buttons (x, y, z and camera toggle).
 */
