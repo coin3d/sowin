@@ -222,7 +222,7 @@ SoWinFullViewer::setDecoration( SbBool enable )
   }
     
   SoWinRenderArea::sizeChanged( SbVec2s( rect.right, rect.bottom ) );
-  Win32::InvalidateRect( this->viewerWidget, NULL, TRUE );
+  Win32::InvalidateRect( this->getParentWidget( ), NULL, TRUE );
 
 }
 
@@ -657,7 +657,7 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
 
   assert( this->prefmenu != NULL );
   this->common->prepareMenu( this->prefmenu );
-  this->displayPopupMenu( point.x, point.y, this->viewerWidget );
+  this->displayPopupMenu( point.x, point.y, this->getNormalWidget( ) );
 }
 
 void
