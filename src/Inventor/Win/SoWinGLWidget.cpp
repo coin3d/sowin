@@ -405,9 +405,7 @@ SoWinGLWidget::mgrWidgetProc( HWND window,
   if ( message == WM_CREATE ) {
     CREATESTRUCT * createstruct;
     createstruct = ( CREATESTRUCT * ) lparam;
-    SetLastError(0);
-    LONG l = SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
-    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+    LONG l = Win32::SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
     return 0;
   }
 
@@ -433,11 +431,9 @@ SoWinGLWidget::glWidgetProc( HWND window,
   if ( message == WM_CREATE ) {
     CREATESTRUCT * createstruct;
     createstruct = ( CREATESTRUCT * ) lparam;
-
-    SetLastError(0);
-    LONG l = SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
-    assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
-
+		
+    LONG l = Win32::SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
+		
     SoWinGLWidget * object = ( SoWinGLWidget * )( createstruct->lpCreateParams );
     return PRIVATE( object )->onCreate( window, message, wparam, lparam );
   }
@@ -810,8 +806,7 @@ SoWinGLWidgetP::buildNormalGLWidget( void )
   this->currentCursor = LoadCursor( SoWin::getInstance( ), IDC_ARROW );
  
   RECT rect;
-  BOOL r = GetClientRect( this->managerWidget, & rect );
-  assert( r && "GetClientRect() failed -- investigate" );
+  Win32::GetClientRect( this->managerWidget, & rect );
 
   if ( this->haveBorder ) {
     rect.left += this->borderSize;

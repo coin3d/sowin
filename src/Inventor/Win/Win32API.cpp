@@ -177,18 +177,18 @@ Win32::SetWindowLong(HWND hWnd,       // handle of window
            LONG dwNewLong)            // new value
 {
   SetLastError(0);
-  LONG r = ::SetWindowLong(hWnd, nIndex, dwNewLong);
-  if (!r) { Win32::showLastErr(); }  
-  assert( r && "SetWindowLong() failed -- investigate" );
-  return r;
+  LONG l = ::SetWindowLong(hWnd, nIndex, dwNewLong);
+  if (!l) { Win32::showLastErr(); }  
+  assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
+  return l;
 }
 
 LONG
 Win32::GetWindowLong(HWND hWnd,       // handle of window
            int nIndex)                // offset of value to set
 {
-  LONG r = ::GetWindowLong(hWnd, nIndex);
-  if (!r) { Win32::showLastErr(); }  
-  assert( r && "GetWindowLong() failed -- investigate" );
-  return r;
+  LONG l = ::GetWindowLong(hWnd, nIndex);
+  if (!l) { Win32::showLastErr(); }  
+  assert( l && "GetWindowLong() failed -- investigate" );
+  return l;
 }
