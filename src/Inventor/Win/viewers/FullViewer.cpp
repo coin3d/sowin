@@ -215,7 +215,7 @@ SoWinFullViewer::setDecoration(SbBool enable)
 }
 
 SbBool
-SoWinFullViewer::isDecoration(void)
+SoWinFullViewer::isDecoration(void) const
 {
   return PRIVATE(this)->decorations;
 }
@@ -267,7 +267,7 @@ SoWinFullViewer::setPopupMenuEnabled(SbBool enable)
 }
 
 SbBool
-SoWinFullViewer::isPopupMenuEnabled(void)
+SoWinFullViewer::isPopupMenuEnabled(void) const
 {
   return PRIVATE(this)->menuenabled;
 }
@@ -318,13 +318,13 @@ SoWinFullViewer::removeAppPushButton(HWND oldButton)
 }
 
 int
-SoWinFullViewer::findAppPushButton(HWND oldButton)
+SoWinFullViewer::findAppPushButton(HWND oldButton) const
 {
   return this->appButtonList->find(oldButton);
 }
 
 int
-SoWinFullViewer::lengthAppPushButton(void)
+SoWinFullViewer::lengthAppPushButton(void) const
 {
   return this->appButtonList->getLength();
 }
@@ -351,7 +351,7 @@ SoWinFullViewer::addCreateAppPushButtonCallback(CreateAppPushButtonCB * callback
 }
 
 HWND
-SoWinFullViewer::getRenderAreaWidget(void)
+SoWinFullViewer::getRenderAreaWidget(void) const
 {
   return this->renderAreaWidget;
 }
@@ -543,7 +543,7 @@ SoWinFullViewer::buildRightWheel(HWND parent)
   return this->rightWheel->getWidget();
 }
 
-void
+HWND
 SoWinFullViewer::buildViewerButtons(HWND parent)
 {
   // Set id's so they can be used as indices in the list later (ie. viewerButtonList[id])
@@ -615,6 +615,10 @@ SoWinFullViewer::buildViewerButtons(HWND parent)
   y += DECORATION_SIZE;
 
   this->buildViewerButtonsEx(parent, x, y, DECORATION_SIZE);
+
+  // FIXME: there should be a valid return value here, as for the
+  // other toolkits. 20020111 mortene.
+  return NULL;
 }
 
 void
@@ -806,14 +810,6 @@ void
 SoWinFullViewer::openViewerHelpCard(void)
 {
   // virtual; do nothing.
-}
-
-void
-SoWinFullViewer::afterRealizeHook(void)
-{
-  inherited::afterRealizeHook();
-  // FIXME: nothing to do.
-  // Remove ? mariusbu 20010823.
 }
 
 SbBool
@@ -1219,4 +1215,32 @@ SoWinFullViewerP::callWndProc(int code, WPARAM wparam, LPARAM lparam)
     return CallNextHookEx(object->pimpl->msgHook, code, wparam, lparam);
   }
   return 0;
+}
+
+// *************************************************************************
+
+// FIXME: these are present in the other So* toolkits, but was missing
+// in SoWin. Why? 20020111 mortene.
+
+void
+SoWinFullViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
+{
+}
+
+HWND
+SoWinFullViewer::buildLeftTrim(HWND parent)
+{
+  return NULL;
+}
+
+HWND
+SoWinFullViewer::buildBottomTrim(HWND parent)
+{
+  return NULL;
+}
+
+HWND
+SoWinFullViewer::buildRightTrim(HWND parent)
+{
+  return NULL;
 }
