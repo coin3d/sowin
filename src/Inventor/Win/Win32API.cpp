@@ -39,15 +39,21 @@ Win32::getWin32Err(DWORD & lasterr)
                   FORMAT_MESSAGE_IGNORE_INSERTS,
                   NULL,
                   lasterr,
-                  0,
+                  MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                   (LPTSTR)&buffer,
                   0,
                   NULL);
 
-  SbString s = result ? buffer : "*WIN32 ERROR* FormatMessage() failed!";
+  SbString s;
+  if (result)
+    s = buffer;
+  else 
+    s.sprintf("*WIN32 ERROR* FormatMessage() failed! "
+              "GetLastError() returned %lu [0x%lX]", lasterr, lasterr);
+
   if (result) { (void)::LocalFree(buffer); }
   return s;
-  }
+ }
 
 void
 Win32::showLastErr(void)
