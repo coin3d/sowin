@@ -401,17 +401,17 @@ void
 SoWinPopupMenu::popUp( HWND inside, int x, int y )
 {
   MenuRecord * rec = this->getMenuRecord( 0 );
-  selectedItem = TrackPopupMenu( rec->menu,
-                                 TPM_LEFTALIGN |
-                                 TPM_TOPALIGN |
-                                 TPM_LEFTBUTTON |
-                                 //TPM_NONOTIFY |
-                                 TPM_RETURNCMD,
-                                 x,
-                                 y,
-                                 0,
-                                 inside,
-                                 NULL );
+  this->selectedItem = TrackPopupMenu( rec->menu,
+                                       TPM_LEFTALIGN |
+                                       TPM_TOPALIGN |
+                                       TPM_LEFTBUTTON |
+                                       //TPM_NONOTIFY |
+                                       TPM_RETURNCMD,
+                                       x,
+                                       y,
+                                       0,
+                                       inside,
+                                       NULL );
 } // popUp()
 
 // *************************************************************************

@@ -155,12 +155,12 @@ SoWinMouse::makeButtonEvent( MSG * msg, SoButtonEvent::State state )
 
   case WM_MBUTTONDOWN: // midbutton
   case WM_MBUTTONUP:
-    this->buttonEvent->setButton( SoMouseButtonEvent::BUTTON2 );
+    this->buttonEvent->setButton( SoMouseButtonEvent::BUTTON3 );
     break;
 
   case WM_RBUTTONDOWN: // right button
   case WM_RBUTTONUP:
-    this->buttonEvent->setButton( SoMouseButtonEvent::BUTTON3 );
+    this->buttonEvent->setButton( SoMouseButtonEvent::BUTTON2 );
     break;
 
 #if 0   // FIXME: disabled until it's enabled again through autoconf test

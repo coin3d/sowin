@@ -44,7 +44,6 @@ SbBool SoWinFullViewer::doButtonBar = FALSE;
 void
 SoWinFullViewer::setDecoration( SbBool set )
 {
-  // FIXME: function not implemented
   this->decorations = set;
 }
 
@@ -57,7 +56,6 @@ SoWinFullViewer::isDecoration( void )
 void
 SoWinFullViewer::setPopupMenuEnabled( SbBool set )
 {
-  // FIXME: function not implemented
   this->popupEnabled = set;
 }
 
@@ -70,7 +68,6 @@ SoWinFullViewer::isPopupMenuEnabled( void )
 void
 SoWinFullViewer::setDoButtonBar( SbBool set )
 {
-  // FIXME: function not implemented
   SoWinFullViewer::doButtonBar = set;
 }
 
@@ -83,14 +80,18 @@ SoWinFullViewer::isDoButtonBar( void )
 void
 SoWinFullViewer::setClientPopupMenu( HMENU menu )
 {
+  // FIXME: use SoWinPopupMenu * ?
+  // this->clientPopup = menu;
   // FIXME: function not implemented
-  this->clientPopup = menu;
+  SOWIN_STUB();
 }
 
 SbBool
 SoWinFullViewer::isClientPopupMenuInstalled( void ) 
 {
-  return ( this->clientPopup != NULL );
+  // FIXME: function not implemented
+  SOWIN_STUB();
+  return FALSE; //( this->clientPopup != NULL );
 }
     
 HWND
@@ -102,21 +103,18 @@ SoWinFullViewer::getAppPushButtonParent( void ) const
 void
 SoWinFullViewer::addAppPushButton( HWND newButton )
 {
-  // FIXME: function not implemented
   this->appButtonList->append( newButton );
 }
 
 void
 SoWinFullViewer::insertAppPushButton( HWND newButton, int index )
 {
-  // FIXME: function not implemented
   this->appButtonList->insert( newButton, index );
 }
 
 void
 SoWinFullViewer::removeAppPushButton( HWND oldButton )
 {
-  // FIXME: function not implemented
   int index = this->appButtonList->find( oldButton );
   this->appButtonList->remove( index );
 }
@@ -215,36 +213,42 @@ void
 SoWinFullViewer::selectedPrefs( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::resetToHomePosition( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::saveHomePosition( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::viewAll( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::seekbuttonClicked( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::copyView( SbTime time )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
@@ -286,7 +290,11 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   this->decorations = ( flag & SoWinFullViewer::BUILD_DECORATION ) ? TRUE : FALSE;
 
   this->prefmenu = NULL;
-  this->leftWheel = NULL; // FIXME: do the rest of the widgets too! mariusbu 20010611.
+  this->leftWheel = NULL;
+  this->bottomWheel = NULL;
+  this->rightWheel = NULL;
+  this->extraWheel = NULL; // Is this needed? mariusbu 20010611.
+
   this->menutitle = "Viewer Menu";
 
   this->viewerButtonWidgets = new SbPList;
@@ -357,7 +365,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( NULL, icon );
   windowclass.hCursor = LoadCursor( NULL, cursor );
-  windowclass.hbrBackground = this->backgroundBrush = brush;
+  windowclass.hbrBackground = brush;
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;
 
@@ -367,12 +375,12 @@ SoWinFullViewer::buildWidget( HWND parent )
   DWORD style;
   if ( IsWindow( parent ) ) {
     GetClientRect( parent, & rect );
-    style = /*WS_CLIPCHILDREN | WS_CLIPSIBLINGS |*/ WS_BORDER | WS_CHILD;
+    style = WS_BORDER | WS_CHILD;
   }
   else {
     rect.right = SoWin_DefaultWidth;
     rect.bottom = SoWin_DefaultHeight;
-    style = /*WS_CLIPCHILDREN | WS_CLIPSIBLINGS |*/ WS_OVERLAPPEDWINDOW;
+    style = WS_OVERLAPPEDWINDOW;
   }
 
   this->viewerWidget = CreateWindow( wndclassname,
@@ -426,6 +434,8 @@ SoWinFullViewer::buildDecoration( HWND parent )
 {
   // FIXME: function not implemented
   this->buildLeftWheel( parent );
+  this->buildBottomWheel( parent );
+  this->buildRightWheel( parent );
 }
 
 HWND
@@ -498,7 +508,6 @@ SoWinFullViewer::openStereoDialog( void )
 void
 SoWinFullViewer::buildPopupMenu( void )
 {
-  // FIXME: function not implemented
   this->prefmenu = common->setupStandardPopupMenu( );
 }
 
@@ -515,7 +524,7 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
   short x, y;
   position.getValue( x, y );
   _cprintf( "openPopupMenu\n" );
-  this->displayPopupMenu( x, y, this->viewerWidget );
+  this->displayPopupMenu( x, y, /*this->viewerWidget*/this->renderAreaWidget );
 }
 
 void
@@ -528,10 +537,14 @@ SoWinFullViewer::destroyPopupMenu( void )
 int
 SoWinFullViewer::displayPopupMenu( int x, int y, HWND owner )
 {
-  // FIXME: function not implemented
+  // Flip y coord
+  RECT rect;
+  GetWindowRect( owner, & rect );
+  y = rect.bottom - y;
+
   //this->popupPreCallback( );
   assert( this->prefmenu != NULL );
-  this->prefmenu->popUp( owner, x, y ); // FIXME: test. mariusbu 20010531.
+  this->prefmenu->popUp( owner, x, y );
   //this->popupPostCallback( );
   return 0;
 }

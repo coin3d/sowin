@@ -76,17 +76,6 @@ public:
   // SoWinStereoDialog * getStereoDialog( void );
   // void setStereoDialog( SoWinStereoDialog * newDialog );
 
-  HMENU rootPopup;
-  HMENU mainPopup;
-  HMENU funcPopup;
-  HMENU drawPopup;
-  HMENU prefPopup;
-  HMENU clientPopup;
-
-  UINT curPopupDrawItem;
-  UINT curPopupMoveItem;
-  UINT curPopupBufferItem;
-
   void addPushAppButtonCallback( PushAppButtonCB * callback,
                                  void * data = NULL );
   void addRedrawAppButtonCallback( RedrawAppButtonCB * callback,
@@ -111,46 +100,38 @@ protected:
   ~SoWinFullViewer( void );
   HWND viewerWidget; // form which manages all other widgets
   HWND renderAreaWidget;  // render area HWND
-  /*
-  HWND leftTrimForm;
-  HWND bottomTrimForm;
-  HWND rightTrimForm;
-  */
+
   static SbBool doButtonBar;
     
-  HWND zoomForm;
-  HWND zoomField;
-  HWND zoomSlider;
+  //HWND zoomForm;
+  //HWND zoomField;
+  //HWND zoomSlider;
+
   SoFieldSensor * zoomSensor;
     
   SoWinThumbWheel * rightWheel;
   SoWinThumbWheel * bottomWheel;
   SoWinThumbWheel * leftWheel;
   SoWinThumbWheel * extraWheel;
-  /*
-  HWND extraTrimForm;
-  float extraWheelVal;
-  char * extraWheelStr;
-  int extraLabelHeight;
-  HWND extraWheelLabel;
-  */
-  HWND vwrButtonForm;
-
-  HBRUSH backgroundBrush;
 
   char * rightWheelStr;
   char * bottomWheelStr;
   char * leftWheelStr;
+  char * extraWheelStr;
+
   float rightWheelVal;
   float bottomWheelVal;
   float leftWheelVal;
+  float extraWheelVal;
 
   HWND rightWheelLabel;
   HWND bottomWheelLabel;
   HWND leftWheelLabel;
+  HWND extraWheelLabel;
 
   SbPList * viewerButtonWidgets;
 
+  //HWND vwrButtonForm;
   int numFullVwrButtons;
   virtual void pushButtonCB( HWND, int id, void * );
   virtual void pushAppButtonCB( HWND hwnd, int id, void * data );
@@ -159,10 +140,10 @@ protected:
   HWND getButtonWidget( void ) const;
     
   SbBool popupEnabled;
-  HWND popupWidget; // FIXME: not needed? mariusbu 20010611.
-  HWND * popupToggleWidgets;
-  HWND * drawStyleWidgets;
-  HWND bufferStyleWidgets[3];
+  //HWND popupWidget; // FIXME: not needed? mariusbu 20010611.
+  //HWND * popupToggleWidgets;
+  //HWND * drawStyleWidgets;
+  //HWND bufferStyleWidgets[3];
   char * popupTitle;
 
   HWND buildWidget( HWND parent );
@@ -181,15 +162,14 @@ protected:
   virtual void openStereoDialog( void );
 
   virtual void buildPopupMenu( void );
-  void setPopupMenuString( const char * title );
-  void openPopupMenu( const SbVec2s position );
+  virtual void setPopupMenuString( const char * title );
+  virtual void openPopupMenu( const SbVec2s position );
   virtual void destroyPopupMenu( void );  
   virtual int displayPopupMenu( int x, int y, HWND owner );
 
-  /* FIXME: not needed? mariusbu 20010611.
-  HMENU buildFunctionsSubmenu( HMENU popup );
-  HMENU buildDrawStyleSubmenu( HMENU popup );
-  */
+  // FIXME: not needed? mariusbu 20010611.
+  //HMENU buildFunctionsSubmenu( HMENU popup );
+  //HMENU buildDrawStyleSubmenu( HMENU popup );
 
   void setPrefSheetString( const char * name );
   virtual void createPrefSheet( void );
@@ -241,7 +221,9 @@ protected:
   virtual SbBool processSoEvent( const SoEvent * const event );
 
 private:
-  SbString menutitle;
+  void doAppButtonLayout( int start );
+
+  SbString menutitle; // really needed? mariusbu 20010611.
 
   SoAnyPopupMenu * prefmenu;
   SoAnyFullViewer * const common; 
@@ -252,18 +234,18 @@ private:
 
   HWND appButtonForm;
   SbPList * appButtonList;
-  void doAppButtonLayout( int start );
 
-  //	SoWinStereoDialog * stereoDialogBox ;
+  //SoWinStereoDialog * stereoDialogBox ;
     
   SbVec2f zoomSldRange;
+
   void setCameraZoom( float zoom );
   float getCameraZoom( void );
   void setZoomSliderPosition( float zoom );
   void setZoomFieldString( float zoom );
 
   static void zoomSliderCB( HWND, SoWinFullViewer *, void ** );
-  static void zoomFieldCB( HWND, SoWinFullViewer *, void ** );   // was XPointer *
+  static void zoomFieldCB( HWND, SoWinFullViewer *, void ** );
   static void zoomSensorCB( void *, SoSensor *);
     
   SoWinBitmapButton * buttonList[10];
@@ -282,6 +264,8 @@ private:
   HWND stereoField;
   HWND stereoLabel;
   int stereoWheelVal;
+
+  static void drawDecorations( SoWinFullViewer * viewer, HWND hwnd, HDC hdc );
 
   static void visibilityChangeCB( void * pt, SbBool visible );
     
@@ -310,16 +294,15 @@ private:
   LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 
-  PushAppButtonCB * customPushBtnCB ;
+  PushAppButtonCB * customPushBtnCB ; // FIXME: really needed? mariusbu 20010611.
   RedrawAppButtonCB * customRedrawBtnCB ;
   void * customPushBtnData, * customRedrawBtnData ;
   
-  WNDPROC origBtnWndProc;
-  WNDPROC origAppBtnWndProc;
-  WNDPROC origTxtWndProc;
+  //WNDPROC origBtnWndProc;
+  //WNDPROC origAppBtnWndProc;
+  //WNDPROC origTxtWndProc;
 
-  RECT renderAreaOffset;
-  static void drawDecorations( SoWinFullViewer * viewer, HWND hwnd, HDC hdc );
+  RECT renderAreaOffset; // RenderArea position
 };
 
 #endif  // SOWIN_FULLVIEWER_H
