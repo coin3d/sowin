@@ -237,12 +237,16 @@ SoWinExaminerViewer::setCamera( // virtual
   if ( ! newCamera )
     return;
 
-  SbBool orthotype =
+  SbBool isorthotype =
     newCamera->getTypeId( ).isDerivedFrom( SoOrthographicCamera::getClassTypeId( ) );
   
-  if ( this->isDoButtonBar( ) ) // may not be there if !doButtonBar
-    ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_CAMERA] )->setBitmap(
-    orthotype ? 1 : 0 );
+  if ( this->isDoButtonBar( ) ) { // may not be there if !doButtonBar
+    void * btn = this->viewerButtonList->get(VIEWERBUTTON_CAMERA);
+    SoWinBitmapButton * wbtn = ( SoWinBitmapButton * )btn;
+    // If viewer was made without decorations, button will not have
+    // been made yet.
+    if (wbtn) { wbtn->setBitmap(isorthotype ? 1 : 0 ); }
+  }
   
 } // setCamera()
 
