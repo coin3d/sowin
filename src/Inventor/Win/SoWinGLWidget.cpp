@@ -623,13 +623,6 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
     msg.wParam = wparam;
 
     // Grab focus so keystrokes are piped in our direction.
-    //
-    // Note that the focus grabbing has one known flaw: when using
-    // e.g. Alt+TAB to select an SoWinComponent window, the form
-    // widget will get the focus, and not the GL widget. For built-in,
-    // non-abstract classes this only has practical consequences for
-    // the SoWinRenderArea, as SoWinFullViewer passes on focus to the
-    // GL widget when it receives WM_SETFOCUS messages.  -mortene.
     if (!PRIVATE(object)->havefocus) {
       switch (message) {
       case WM_LBUTTONDOWN:
