@@ -419,7 +419,6 @@ SoWinGLWidget::buildWidget( HWND parent )
   RECT rect;
   if ( IsWindow( parent ) ) {
     GetClientRect( parent, & rect );
-    _cprintf("RECT: %d, %d \n", rect.right, rect.bottom);
   }
   else {
     rect.right = SoWin_DefaultWidth;
