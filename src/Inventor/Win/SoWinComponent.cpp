@@ -203,12 +203,12 @@ SoWinComponent::goFullScreen( const SbBool enable )
     
     RECT rect;
 
-    // save size and position
+    // Save size and position
     GetWindowRect( hwnd, & rect );
     data->pos.setValue( rect.left, rect.top );
     data->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
 
-    // go fullscreen
+    // Go fullscreen
     data->style = SetWindowLong( hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE );
     data->exstyle = SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
     data->widget = hwnd;
@@ -220,7 +220,7 @@ SoWinComponent::goFullScreen( const SbBool enable )
                 GetSystemMetrics( SM_CYSCREEN ),
                 TRUE );
     
-    // add to list of fullscreen windows
+    // Add to list of fullscreen windows
     SoWinComponentP::sowinfullscreenlist->append( data );
   }
   else {
@@ -228,7 +228,7 @@ SoWinComponent::goFullScreen( const SbBool enable )
     if ( ! this->isFullScreen( ) )
       return;
 
-    // find in list of fullscreen windows
+    // Find in list of fullscreen windows
     SoWinComponentP::fullscreenData * d = NULL;
     int i;
     for ( i = 0; i < SoWinComponentP::sowinfullscreenlist->getLength( ); i++ ) {
@@ -240,7 +240,7 @@ SoWinComponent::goFullScreen( const SbBool enable )
     }
     if ( ! data ) return;
 
-    // go normal
+    // Go normal
     SetWindowLong( hwnd, GWL_STYLE, data->style );
     SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
 
@@ -251,7 +251,7 @@ SoWinComponent::goFullScreen( const SbBool enable )
                 data->size[1],
                 TRUE );
     
-    // remove from list of fullscreen windows
+    // Remove from list of fullscreen windows
     SoWinComponentP::sowinfullscreenlist->remove( i );
     delete data;
   }
@@ -260,6 +260,7 @@ SoWinComponent::goFullScreen( const SbBool enable )
 SbBool
 SoWinComponent::isFullScreen( void ) const
 {
+  // Check fullscreen list for shell widget
   HWND hwnd = this->getShellWidget( );
   SoWinComponentP::fullscreenData * d = NULL;
   for ( int i = 0; i < SoWinComponentP::sowinfullscreenlist->getLength( ); i++ ) {
@@ -431,10 +432,9 @@ SoWinComponent::buildFormWidget( HWND parent )
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
 	LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
   HBRUSH brush = ( HBRUSH ) GetStockObject( COLOR_BTNFACE );
-  HMENU menu = NULL;
   HWND widget;
 
-  windowclass.lpszClassName = ( char * ) this->getDefaultWidgetName( ); // FIXME: virtual function
+  windowclass.lpszClassName = ( char * ) this->getDefaultWidgetName( );
   windowclass.hInstance = SoWin::getInstance( );
   windowclass.lpfnWndProc = SoWinComponentP::eventHandler;
   windowclass.style = CS_OWNDC;
@@ -447,33 +447,20 @@ SoWinComponent::buildFormWidget( HWND parent )
 
   RegisterClass( & windowclass );
 
-  RECT rect;
-  if ( IsWindow( parent ) ) {
-    GetClientRect( parent, & rect );
-  }
-  else {
-    rect.right = 500;
-    rect.bottom = 500;
-  }
-
-  // FIXME: can this widget ever be toplevel ( not embedded ) ?
-  // If so, make the window WS_VISIBLE and use CX_DEFAULTCOORD. mariusbu 20010718.
-
-  //PRIVATE( this )->style = WS_OVERLAPPEDWINDOW;
-  //PRIVATE( this )->exstyle = NULL;
-
+  // When this method is called, the component is *not* embedded. mariusbu 20010727.
   widget = CreateWindow( ( char * ) this->getDefaultWidgetName( ),
                          ( char * ) this->getTitle( ),
-                         WS_OVERLAPPEDWINDOW,//PRIVATE( this )->style,
-		                     0, // GetClientRect gives rect.top == rect.left == 0
-                         0,
-                         rect.right,
-                         rect.bottom,
+                         WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+		                     CW_USEDEFAULT,
+                         CW_USEDEFAULT,
+                         500,
+                         500,
                          parent,
-                         menu,
+                         NULL,
                          SoWin::getInstance( ),
                          PRIVATE( this ) );
 
+  assert( IsWindow( widget ) );
   return widget;
 }
 
