@@ -212,6 +212,8 @@ target_os = @target_os@
 target_vendor = @target_vendor@
 win_srcdir = @win_srcdir@
 
+DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+
 lib_LIBRARIES = ivf.lib
 
 ivf_lib_SOURCES = \
@@ -219,6 +221,7 @@ ivf_lib_SOURCES = \
 	IvfApp.cpp IvfApp.h \
 	IvfArchiveInput.cpp IvfArchiveInput.h \
 	IvfArchiveOutput.cpp IvfArchiveOutput.h \
+	IvfAsyncFile.cpp IvfAsyncFile.h \
 	IvfComponent.cpp IvfComponent.h \
 	IvfDocument.cpp IvfDocument.h \
 	IvfExaminerViewer.cpp Viewers/IvfExaminerViewer.h \
@@ -266,21 +269,20 @@ LIBRARIES = $(lib_LIBRARIES)
 ivf_lib_AR = $(AR) cru
 ivf_lib_LIBADD =
 am_ivf_lib_OBJECTS = IvfApp.$(OBJEXT) IvfArchiveInput.$(OBJEXT) \
-	IvfArchiveOutput.$(OBJEXT) IvfComponent.$(OBJEXT) \
-	IvfDocument.$(OBJEXT) IvfExaminerViewer.$(OBJEXT) \
-	IvfFlyViewer.$(OBJEXT) IvfMainFrm.$(OBJEXT) \
-	IvfPlaneViewer.$(OBJEXT) IvfRenderArea.$(OBJEXT) \
-	IvfResource.$(OBJEXT) IvfSceneViewer.$(OBJEXT) \
-	IvfSrvrItem.$(OBJEXT) IvfStdViewer.$(OBJEXT) \
-	IvfWalkViewer.$(OBJEXT)
+	IvfArchiveOutput.$(OBJEXT) IvfAsyncFile.$(OBJEXT) \
+	IvfComponent.$(OBJEXT) IvfDocument.$(OBJEXT) \
+	IvfExaminerViewer.$(OBJEXT) IvfFlyViewer.$(OBJEXT) \
+	IvfMainFrm.$(OBJEXT) IvfPlaneViewer.$(OBJEXT) \
+	IvfRenderArea.$(OBJEXT) IvfResource.$(OBJEXT) \
+	IvfSceneViewer.$(OBJEXT) IvfSrvrItem.$(OBJEXT) \
+	IvfStdViewer.$(OBJEXT) IvfWalkViewer.$(OBJEXT)
 ivf_lib_OBJECTS = $(am_ivf_lib_OBJECTS)
-
-DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/IvfApp.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/IvfArchiveInput.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/IvfArchiveOutput.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/IvfAsyncFile.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/IvfComponent.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/IvfDocument.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/IvfExaminerViewer.Po \
@@ -368,6 +370,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfApp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfArchiveInput.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfArchiveOutput.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfAsyncFile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfComponent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfDocument.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfExaminerViewer.Po@am__quote@
