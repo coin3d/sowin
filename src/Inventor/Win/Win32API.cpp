@@ -552,3 +552,23 @@ Win32::SetFocus(HWND hWnd)
   assert(!failed && "SetFocus() failed -- investigate");
   return h;
 }
+
+UINT_PTR
+Win32::SetTimer(HWND hWnd,
+                UINT_PTR nIDEvent,
+                UINT uElapse,
+                TIMERPROC lpTimerFunc)
+{
+  UINT_PTR id = ::SetTimer(hWnd, nIDEvent, uElapse, lpTimerFunc);
+  if (id == 0) { Win32::showLastErr(); }  
+  assert(id != 0 && "SetTimer() failed -- investigate");
+  return id;
+}
+
+void
+Win32::KillTimer(HWND hWnd, UINT_PTR uIDEvent)
+{
+  BOOL ret = ::KillTimer(hWnd, uIDEvent);
+  if (ret == 0) { Win32::showLastErr(); }  
+  assert(ret != 0 && "KillTimer() failed -- investigate");
+}

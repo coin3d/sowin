@@ -81,6 +81,8 @@ public:
   static HCURSOR LoadCursor(HINSTANCE, LPCTSTR);
   static void ClientToScreen(HWND, LPPOINT);
   static HWND SetFocus(HWND);
+  static UINT_PTR SetTimer(HWND, UINT_PTR, UINT, TIMERPROC);
+  static void KillTimer(HWND, UINT_PTR);
 
   // Internal and external interface to GetLastError() + FormatMessage().
   static SbString getWin32Err(DWORD & lasterr);
