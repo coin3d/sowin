@@ -108,7 +108,7 @@ sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 
 SUBDIRS = . src/Inventor/Win
 
-bin_SCRIPTS = soxt-config
+bin_SCRIPTS = sowin-config
 
 BUILT_SOURCES = \
 	sowindefs.h \
@@ -117,8 +117,12 @@ BUILT_SOURCES = \
 	src/Inventor/Win/SoWinRenderArea.cpp \
 	src/Inventor/Win/viewers/SoWinViewer.h \
 	src/Inventor/Win/viewers/SoWinViewer.cpp \
-	src/Inventor/Win/viewers/SoWinFullViewer.h \
-	src/Inventor/Win/viewers/SoWinFullViewer.cpp
+	src/Inventor/Win/viewers/SoAnyFullViewer.h \
+	src/Inventor/Win/viewers/SoAnyFullViewer.cpp \
+	src/Inventor/Win/widgets/SoAnyThumbWheel.h \
+	src/Inventor/Win/widgets/SoAnyThumbWheel.cpp \
+	src/Inventor/Win/widgets/SoAnyPopupMenu.h \
+	src/Inventor/Win/widgets/SoAnyPopupMenu.cpp
 
 noinst_DATA = $(BUILT_SOURCES)
 subdir = .
@@ -494,17 +498,37 @@ src/Inventor/Win/viewers/SoWinViewer.cpp: \
 	CONFIG_FILES=$@:src/Inventor/Win/common/SoGuiViewer.cpp.in \
 	./config.status
 
-src/Inventor/Win/viewers/SoWinFullViewer.h: \
+src/Inventor/Win/viewers/SoAnyFullViewer.h: \
   $(top_srcdir)/src/Inventor/Win/common/SoAnyFullViewer.h.in
 	@CONFIG_HEADERS= \
 	CONFIG_FILES=$@:src/Inventor/Win/common/SoAnyFullViewer.h.in \
 	./config.status
 
-src/Inventor/Win/viewers/SoWinFullViewer.cpp: \
+src/Inventor/Win/viewers/SoAnyFullViewer.cpp: \
   $(top_srcdir)/src/Inventor/Win/common/SoAnyFullViewer.cpp.in
 	@CONFIG_HEADERS= \
 	CONFIG_FILES=$@:src/Inventor/Win/common/SoAnyFullViewer.cpp.in \
 	./config.status
+
+src/Inventor/Win/widgets/SoAnyThumbWheel.h: \
+  $(top_srcdir)/src/Inventor/Win/common/SoAnyThumbWheel.h.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Win/common/SoAnyThumbWheel.h.in \
+	./config.status
+
+src/Inventor/Win/widgets/SoAnyThumbWheel.cpp: \
+  $(top_srcdir)/src/Inventor/Win/common/SoAnyThumbWheel.cpp.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Win/common/SoAnyThumbWheel.cpp.in \
+	./config.status
+
+src/Inventor/Win/widgets/SoAnyPopupMenu.h: \
+  $(srcdir)/src/Inventor/Win/common/SoAnyPopupMenu.h.in
+	@./config.status --file=$@:src/Inventor/Win/common/SoAnyPopupMenu.h.in
+
+src/Inventor/Win/widgets/SoAnyPopupMenu.cpp: \
+  $(srcdir)/src/Inventor/Win/common/SoAnyPopupMenu.cpp.in
+	@./config.status --file=$@:src/Inventor/Win/common/SoAnyPopupMenu.cpp.in
 
 ############################################################################
 

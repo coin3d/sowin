@@ -152,11 +152,6 @@ private:
     void buildNormalGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
     void buildOverlayGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
 
-    void destroyNormalWindows( void );
-    void destroyGLWidget(HWND &w, HGLRC &ctx, SbBool normalWindow);
-
-    static void managerStructureNotifyCB( HWND, SoWinGLWidget *, MSG *, BOOL *);
-
     // Callback for SoWinGL "manager widget" window
     static LRESULT CALLBACK managerWindowProc( HWND window,
                                                UINT message,

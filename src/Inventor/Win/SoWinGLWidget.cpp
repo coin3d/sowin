@@ -190,6 +190,7 @@ SbBool SoWinGLWidget::isDoubleBuffer( void )
 void SoWinGLWidget::setBorder( SbBool set )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 int SoWinGLWidget::getBorderSize( void )
@@ -302,12 +303,14 @@ LRESULT SoWinGLWidget::eventHandler( HWND hwnd,
                                      LPARAM lParam )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
     return 0;
 }
 
 void SoWinGLWidget::setStereoBuffer( SbBool set )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 SbBool SoWinGLWidget::isStereoBuffer( void )
@@ -463,7 +466,7 @@ void SoWinGLWidget::glLock( void )
 
 void SoWinGLWidget::glUnlock( void )
 {
-    // FIXME: function not implemented
+    // FIXME: does nothing
     //wglMakeCurrent( this->hdcNormal, NULL );
 }
 
@@ -552,21 +555,7 @@ void SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // pfd i
 void SoWinGLWidget::buildOverlayGLWidget( PIXELFORMATDESCRIPTOR * pfd )
 {
     // FIXME: function not implemented
-}
-
-void SoWinGLWidget::destroyNormalWindows( void )
-{
-    // FIXME: function not implemented
-}
-
-void SoWinGLWidget::destroyGLWidget( HWND & w, HGLRC & ctx, SbBool normalWindow )
-{
-    // FIXME: function not implemented
-}
-
-void SoWinGLWidget::managerStructureNotifyCB( HWND, SoWinGLWidget *, MSG *, BOOL * )
-{
-    // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 LRESULT CALLBACK SoWinGLWidget::managerWindowProc( HWND window,
@@ -659,16 +648,6 @@ LRESULT CALLBACK SoWinGLWidget::glWindowProc( HWND window,
             case WM_KILLFOCUS:
                 object->haveFocus = FALSE;
                 return 0;
-
-/*          case WM_MOUSEMOVE:
-                object->mousePosition.x = LOWORD(lparam);  // horizontal position of cursor 
-                object->mousePosition.y = HIWORD(lparam);  // vertical position of cursor 
-                return 0;*/
-
-/*          case WM_KEYDOWN:
-            case WM_KEYUP:
-                UpdateWindow( window );
-                return 0;*/
         }
 	}
 	return DefWindowProc( window, message, wparam, lparam );

@@ -167,11 +167,13 @@ void SoWin::createSimpleErrorDialog( HWND const widget, const char * const dialo
 void SoWin::terminate( long terminateSyncTime )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
 }
 
 SbBool SoWin::PreTranslateMessage( MSG * msg )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
     return FALSE;
 }
 
@@ -184,12 +186,14 @@ SbBool SoWin::nextEvent(int appContext, MSG * msg)
 int SoWin::getAppContext( void )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
     return 0;
 }
 
 int * SoWin::getDisplay( void )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
     return NULL;
 }
 
@@ -216,11 +220,13 @@ HWND SoWin::getShellWidget( HWND hwnd )
 void SoWin::getPopupArgs( int * display, int screen, char ** args, int * n )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
 }
 
 void SoWin::addColormapToShell( HWND widget, HWND shell )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
 }
 
 LRESULT SoWin::isInventorMessage( HWND hwnd,
@@ -229,18 +235,21 @@ LRESULT SoWin::isInventorMessage( HWND hwnd,
                                   LPARAM lParam )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
     return 0;
 }
 
 char * SoWin::encodeString( char *string )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
     return NULL;
 }
 
 char * SoWin::decodeString( char * wstring )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
     return NULL;
 }
 
@@ -293,6 +302,7 @@ void SoWin::addExtensionEventHandler( HWND window,
 				                      void * data )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
 }
 
 void SoWin::removeExtensionEventHandler( HWND window,
@@ -301,6 +311,7 @@ void SoWin::removeExtensionEventHandler( HWND window,
 				                          void * data )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
 }
 
 ATOM SoWin::registerClass( WNDCLASS * wndClass, char * className )
@@ -315,66 +326,78 @@ SbBool SoWin::getClassInfo( HINSTANCE dll,
                             WNDCLASS * classInfo )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
     return FALSE;
 }
 
 void SoWin::unregisterProcessClasses( void )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
 }
 
 
 HINSTANCE SoWin::getResDllHandle( void )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
     return NULL;
 }
 
 void SoWin::setPrevInstance( HINSTANCE instance )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
 }
 
 void SoWin::setCmdLine( LPSTR cmdLine )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
 }
 
 void SoWin::setCmdShow( int cmdShow )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
 }
 
 SoWinEventHandler * SoWin::getEventHandler( void )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
     return NULL;
 }
 
 void SoWin::forwardQueryPalette( HWND window )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
 }
 
 void SoWin::forwardPaletteChanged( HWND window )
 {
-
-}    // FIXME: not implemented
+    // FIXME: not implemented
+    SOWIN_STUB( );
+}
 
 SbBool SoWin::handleCtl3DMessage( void )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
     return FALSE;
 }
 
 void SoWin::setHandleCtl3DMessage( SbBool n )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
 }
 
 void SoWin::Ctl3dColorChange( void )
 {
     // FIXME: not implemented
+    SOWIN_STUB( );
 }
 
 ///////////////////////////////////////////////////////////////////

@@ -61,12 +61,14 @@ void
 SoWinMouse::enable(HWND, SoWinEventHandler * , void *, HWND)
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 void
 SoWinMouse::disable(HWND, SoWinEventHandler * , void * )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 // *************************************************************************

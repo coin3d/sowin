@@ -130,6 +130,7 @@ SbBool
 SoWinComponent::isTopLevelShell( void ) const
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
     return FALSE;
 }
 
@@ -137,6 +138,7 @@ HWND
 SoWinComponent::getShellWidget(void) const
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
     return NULL;//this->getMDIAncestor((HWND)this->baseWidget);
 }
 
@@ -150,6 +152,7 @@ int *
 SoWinComponent::getDisplay(void)
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
     return NULL;
 }
 
@@ -230,12 +233,14 @@ SoWinComponent::setWindowCloseCallback( SoWinComponentCB * func, void * data )
 /*    this->windowCloseFunc = func;
     this->windowCloseData = data; */
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 SoWinComponent *
 SoWinComponent::getComponent( HWND const widget )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
     return NULL;
 }
 
@@ -263,12 +268,14 @@ void
 SoWinComponent::registerWidget( HWND widget )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 void
 SoWinComponent::unregisterWidget( HWND widget )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 HWND
@@ -343,29 +350,34 @@ void
 SoWinComponent::windowCloseAction( void )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 void SoWinComponent::afterRealizeHook( void )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 void
 SoWinComponent::addVisibilityChangeCallback( SoWinComponentVisibilityCB * func, void * user )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 void
 SoWinComponent::removeVisibilityChangeCallback( SoWinComponentVisibilityCB * func, void * user )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 void
 SoWinComponent::openHelpCard( const char * name )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 void
@@ -384,6 +396,7 @@ HPALETTE
 SoWinComponent::_setupColorPalette( HDC )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
     return NULL;
 }
 
@@ -391,24 +404,28 @@ void
 SoWinComponent::unSubclassDialog( HWND hWnd )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 void
 SoWinComponent::subclassDialog( HWND hWnd )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 void
 SoWinComponent::drawDialogIcon( HWND hWnd )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
 }
 
 LRESULT CALLBACK
 SoWinComponent::dlgWndProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
     return 0;
 }
 
@@ -505,6 +522,7 @@ LRESULT
 SoWinComponent::OnPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     // FIXME: function not implemented
+    SOWIN_STUB( );
     return 0;
 }
 
