@@ -21,27 +21,20 @@
 
 // *************************************************************************
 
-#include <Inventor/nodes/SoPerspectiveCamera.h>
-#include <Inventor/nodes/SoOrthographicCamera.h>
-#include <Inventor/fields/SoSFTime.h>
-#include <Inventor/sensors/SoTimerSensor.h>
-#include <Inventor/projectors/SbSphereSheetProjector.h>
-#if SOWIN_DEBUG
-#include <Inventor/errors/SoDebugError.h>
-#endif // SOWIN_DEBUG
-
-#include <sowindefs.h>
-
 #include <Inventor/Win/SoWin.h>
-
-#include <Inventor/Win/widgets/SoWinThumbWheel.h>
-#include <Inventor/Win/widgets/SoWinBitmapButton.h>
+#include <Inventor/Win/SoWinCursor.h>
+#include <Inventor/Win/common/pixmaps/ortho.xpm>
+#include <Inventor/Win/common/pixmaps/perspective.xpm>
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewerP.h>
-
-#include <Inventor/Win/common/pixmaps/perspective.xpm>
-#include <Inventor/Win/common/pixmaps/ortho.xpm>
-#include <Inventor/Win/SoWinCursor.h>
+#include <Inventor/Win/widgets/SoWinBitmapButton.h>
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/fields/SoSFTime.h>
+#include <Inventor/nodes/SoOrthographicCamera.h>
+#include <Inventor/nodes/SoPerspectiveCamera.h>
+#include <Inventor/projectors/SbSphereSheetProjector.h>
+#include <Inventor/sensors/SoTimerSensor.h>
+#include <sowindefs.h>
 
 // *************************************************************************
 
