@@ -49,9 +49,9 @@ SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinGLWidget);
 // The private data for the SoWinGLWidget.
 
 class SoWinGLWidgetP {
-  
+
 public:
-  
+
   // Constructor.
   SoWinGLWidgetP(SoWinGLWidget * o)
     : bordersize(0)
@@ -88,7 +88,7 @@ public:
 
   PIXELFORMATDESCRIPTOR pfdNormal;
   PIXELFORMATDESCRIPTOR pfdOverlay;
-  
+
   SbBool drawToFrontBuffer;
   SbBool haveFocus;
   SbBool stealFocus;
@@ -102,9 +102,9 @@ public:
   static int widgetCounter;
 
 private:
-  
+
   SoWinGLWidget * owner;
-  
+
 };
 
 ATOM SoWinGLWidgetP::managerWndClassAtom = NULL;
@@ -132,7 +132,7 @@ SoWinGLWidget::SoWinGLWidget(HWND parent,
   this->pimpl = new SoWinGLWidgetP(this);
   this->waitForExpose = TRUE;
   this->parent = parent;
-  
+
   PRIVATE(this)->managerWidget = NULL;
   PRIVATE(this)->normalWidget = NULL;
   PRIVATE(this)->overlayWidget = NULL;
@@ -166,9 +166,9 @@ SoWinGLWidget::~SoWinGLWidget(void)
 {
   if (IsWindow(PRIVATE(this)->managerWidget))
     Win32::DestroyWindow(PRIVATE(this)->managerWidget);
-  if (IsWindow(PRIVATE(this)->normalWidget))  
+  if (IsWindow(PRIVATE(this)->normalWidget))
     Win32::DestroyWindow(PRIVATE(this)->normalWidget);
-  if (IsWindow(PRIVATE(this)->overlayWidget)) 
+  if (IsWindow(PRIVATE(this)->overlayWidget))
     Win32::DestroyWindow(PRIVATE(this)->overlayWidget);
   SoWinGLWidgetP::widgetCounter--;
   if (SoWinGLWidgetP::widgetCounter <= 0) {
@@ -305,7 +305,7 @@ SoWinGLWidget::setOverlayVisual(PIXELFORMATDESCRIPTOR * vis)
   // case the new format doesn't work on our current display. 20011208 mortene.
   (void)memcpy((& PRIVATE(this)->pfdOverlay), vis,
                 sizeof(PIXELFORMATDESCRIPTOR));
-  
+
   int format = SoWinGLWidgetP::ChoosePixelFormat(PRIVATE(this)->hdcOverlay, vis);
   if (format == 0) { return; }
 
@@ -493,7 +493,7 @@ SoWinGLWidget::hasNormalGLArea(void) const
 
   Default method simply returns FALSE. Overload this method to
   schedule a redraw and return TRUE if you're trying to do The Right
-  Thing.  
+  Thing.
 */
 SbBool
 SoWinGLWidget::glScheduleRedraw(void)
@@ -541,7 +541,7 @@ SoWinGLWidget::glWidgetProc(HWND window, UINT message,
     msg.pt = pt;
     msg.time = GetTickCount();
     msg.wParam = wparam;
-    
+
     // Get keystrokes
     if(((! PRIVATE(object)->haveFocus) && PRIVATE(object)->stealFocus) ||
         (message == WM_LBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_RBUTTONDOWN)) {
@@ -549,7 +549,7 @@ SoWinGLWidget::glWidgetProc(HWND window, UINT message,
     }
 
     object->processEvent(&msg);
-    
+
     switch (message) {
 
     case WM_PAINT:
@@ -676,7 +676,7 @@ SoWinGLWidget::setGLSize(SbVec2s newSize)
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
   Win32::SetWindowPos(PRIVATE(this)->managerWidget, NULL, 0, 0,
                          newSize[0], newSize[1], flags);
-  
+
   flags = SWP_NOMOVE | SWP_NOZORDER;
   Win32::SetWindowPos(PRIVATE(this)->normalWidget,
                       NULL,
@@ -773,7 +773,7 @@ SoWinGLWidget::buildWidget(HWND parent)
   if (! SoWinGLWidgetP::managerWndClassAtom) {
 
     WNDCLASS windowclass;
-    
+
     windowclass.lpszClassName = "Manager Widget";
     windowclass.hInstance = SoWin::getInstance();
     windowclass.lpfnWndProc = SoWinGLWidget::mgrWidgetProc;
@@ -786,7 +786,7 @@ SoWinGLWidget::buildWidget(HWND parent)
     windowclass.cbWndExtra = 4;
 
     SoWinGLWidgetP::managerWndClassAtom = Win32::RegisterClass(&windowclass);
-    
+
   }
 
   RECT rect;
@@ -831,7 +831,7 @@ SoWinGLWidget::buildWidget(HWND parent)
   this->waitForExpose = TRUE;
 
   this->setFocusProxy(this->getNormalWidget());
-  
+
   return managerwidget;
 }
 
@@ -872,7 +872,7 @@ SoWinGLWidget::swapNormalBuffers(void)
 
   if (! (PRIVATE(this)->glModes & SO_GL_DOUBLE))
     return FALSE;
-  
+
   return (SwapBuffers((HDC) PRIVATE(this)->hdcNormal));
 }
 
@@ -920,7 +920,7 @@ SoWinGLWidget::glLockOverlay(void)
   // 20010924 mortene.
 
   (void)SoWinGLWidgetP::wglMakeCurrent(PRIVATE(this)->hdcOverlay,
-                                        PRIVATE(this)->ctxOverlay); 
+                                        PRIVATE(this)->ctxOverlay);
 } // glLockOverlay()
 
 /*!
@@ -979,7 +979,7 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
 
     SoWinGLWidgetP::glWndClassAtom = Win32::RegisterClass(&windowclass);
   }
- 
+
   assert(IsWindow(manager) && "buildNormalGLWidget() argument is erroneous");
 	
   RECT rect;
@@ -1039,11 +1039,11 @@ SoWinGLWidgetP::createGLContext(HWND window)
   if (this->glModes & SO_GL_OVERLAY) { return FALSE; }
 
   // All contexts were destroyed or released in onDestroy()
-  
+
   this->hdcNormal = GetDC(window);
   assert(this->hdcNormal && "GetDC failed -- investigate");
   this->hdcOverlay = this->hdcNormal;
-  
+
   (void)memset(&this->pfdNormal, 0, sizeof(PIXELFORMATDESCRIPTOR));
   this->pfdNormal.nSize = sizeof(PIXELFORMATDESCRIPTOR);
   this->pfdNormal.nVersion = 1;
@@ -1052,9 +1052,9 @@ SoWinGLWidgetP::createGLContext(HWND window)
     (this->glModes & SO_GL_STEREO ? PFD_STEREO : 0) |
     (this->glModes & SO_GL_DOUBLE ? PFD_DOUBLEBUFFER : 0);
   this->pfdNormal.iPixelType = PFD_TYPE_RGBA;
-  this->pfdNormal.cColorBits = 32;    
+  this->pfdNormal.cColorBits = 24; // Total RGB bits, excluding alpha.
   this->pfdNormal.cDepthBits = 32;
-  
+
   int pixelformat = SoWinGLWidgetP::ChoosePixelFormat(this->hdcNormal,
                                                        & this->pfdNormal);
   if (pixelformat == 0) { return FALSE; }
@@ -1084,12 +1084,12 @@ SoWinGLWidgetP::createGLContext(HWND window)
     SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
     return FALSE;
   }
-  
+
 #if 0 // temporary disabled because overlay planes is not supported yet
   // create overlay
   if (this->glModes & SO_GL_OVERLAY) {
     this->ctxOverlay = wglCreateLayerContext(this->hdcOverlay, 1);
-    
+
     // FIXME: set overlay plane. mariusbu 20010801.
   }
 #endif // tmp disabled
@@ -1103,7 +1103,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
     // FIXME: how should we properly react to ok==FALSE?
     // 20010920 mortene.
   }
-  
+
   SoAny::si()->registerGLContext((void *) this->owner, NULL, NULL);
 
   // FIXME: what's this good for -- first setting then unsetting?
@@ -1123,7 +1123,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
 LRESULT
 SoWinGLWidgetP::onCreate(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  
+
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo("SoWinGLWidget::onCreate", "called");
 #endif // SOWIN_DEBUG
@@ -1136,7 +1136,7 @@ SoWinGLWidgetP::onCreate(HWND window, UINT message, WPARAM wparam, LPARAM lparam
 
   // FIXME: add more "downgrade" possibilities. mariusbu 20010802.
   // FIXME: also try combinations of several downgrade bits.  mortene 20010920.
-label:  
+label:
   if (! this->createGLContext(window)) {
     this->glModes = orgmodes; // reset before trying new setting
 
@@ -1229,13 +1229,13 @@ SoWinGLWidgetP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lpara
 {
   // Release context.
   if (!SoWinGLWidgetP::wglMakeCurrent(NULL, NULL)) { return 0; }
-  
+
   SoAny::si()->unregisterGLContext((void *) this->owner);
- 
+
   BOOL r = wglDeleteContext(this->ctxNormal);
   assert(r && "wglDeleteContext() failed -- investigate");
   this->ctxNormal = NULL;
-  
+
   Win32::ReleaseDC(window, this->hdcNormal);
   this->hdcNormal = NULL;
 
