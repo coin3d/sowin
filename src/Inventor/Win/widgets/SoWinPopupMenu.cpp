@@ -256,19 +256,23 @@ SoWinPopupMenu::_setMenuItemMarked( int itemid, SbBool marked )
   assert( IsMenu( rec->parent ) );
 
   rec->flags |= ITEM_TOGGLE;
+
+  MENUITEMINFO info;
   
-  if ( marked )
+  info.cbSize = sizeof( MENUITEMINFO );
+  info.fMask = MIIM_STATE;
+  
+  if ( marked ) {
     rec->flags |= ITEM_MARKED;
-  else
-    rec->flags &= ~ITEM_MARKED;
+    info.fState = MFS_CHECKED;
+  }
+  else {
+    rec->flags &= ~ITEM_MARKED;    
+    info.fState = MFS_UNCHECKED;
+  }
   
-	assert( CheckMenuItem( rec->parent, rec->itemid,
-    MF_BYCOMMAND | ( ( rec->flags & ITEM_MARKED ) ?  MF_CHECKED : MF_UNCHECKED ) )
-    != 0xFFFFFFFF );
-	/*
-  if ( marked )
-    this->setRadioGroupMarkedItem( itemid );
-  */
+  SetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
+
 } // setMenuItemMarked()
 
 SbBool
@@ -277,12 +281,15 @@ SoWinPopupMenu::getMenuItemMarked( int itemid )
   ItemRecord * rec = this->getItemRecord( itemid );
   assert( rec != NULL );
   assert( rec->parent != NULL );
+  
+  MENUITEMINFO info;
 
-	MENUITEMINFO  menuiteminfo;
-  memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
-  GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
+  info.cbSize = sizeof( MENUITEMINFO );
+  info.fMask = MIIM_STATE;
+  
+  GetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
 
-  return ( menuiteminfo.fState & MFS_CHECKED ? TRUE : FALSE );
+  return ( info.fState & MFS_CHECKED ? TRUE : FALSE );
 } // getMenuItemMarked()
 
 // *************************************************************************
@@ -421,17 +428,7 @@ SoWinPopupMenu::popUp( HWND inside, int x, int y )
   
   ItemRecord * itemrec = this->getItemRecord( this->selectedItem );
   assert( itemrec != NULL );
-
-  if ( itemrec->flags & ITEM_TOGGLE ) {
-
-    itemrec->flags ^= ITEM_MARKED;
   
-    assert( CheckMenuItem( itemrec->parent, itemrec->itemid,
-      MF_BYCOMMAND | ( ( itemrec->flags & ITEM_MARKED ) ?  MF_CHECKED : MF_UNCHECKED ) )
-      != 0xFFFFFFFF );
-    
-  }
-	//this->itemActivation( this->selectedItem );
 } // popUp()
 
 int
