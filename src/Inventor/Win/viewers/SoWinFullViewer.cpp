@@ -46,8 +46,8 @@
 #define VIEWERBUTTON_O( index ) ( ( SoWinBitmapButton * ) ( * ( owner->viewerButtonList ) ) [index] )
 #define APPBUTTON_O( index ) ( ( HWND ) ( * ( owner->appButtonList ) )[index] )
 
-const int DECORATION_SIZE = 30;
-const int DECORATION_BUFFER = 5;
+static const int DECORATION_SIZE = 30;
+static const int DECORATION_BUFFER = 5;
 
 SOWIN_OBJECT_ABSTRACT_SOURCE( SoWinFullViewer );
 
@@ -435,11 +435,13 @@ SoWinFullViewer::buildWidget( HWND parent )
     assert ( 0 && "No GLWidget" );
   }
 
-  if ( PRIVATE( this )->menuenabled )
+  if ( PRIVATE( this )->menuenabled ) {
     this->buildPopupMenu( );
+  }
 
-  if ( PRIVATE( this )->decorations )
+  if ( PRIVATE( this )->decorations ) {
     this->buildDecoration( this->viewerWidget );
+  }
 
   //(void)ShowWindow( this->renderAreaWidget, SW_SHOW ); // FIXME: remove ? mariusbu 20010803.
 	/*
@@ -641,7 +643,10 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
   BOOL r = ClientToScreen( this->renderAreaWidget, & point );
   assert( r && "ClientToScreen() failed -- investigate" );
 
-  // Popup
+  // FIXME: this assertion hits if the user builds the fullviewer
+  // without BUILD_POPUP and then hits the right mouse button. This
+  // should be allowed, and definitely *not* cause an
+  // assertion. 20010805 mortene.
   assert( this->prefmenu != NULL );
   this->common->prepareMenu( this->prefmenu );
   this->displayPopupMenu( point.x, point.y, this->viewerWidget );//this->getGLWidget( ) );
@@ -816,18 +821,15 @@ SoWinFullViewer::afterRealizeHook( void )
 SbBool
 SoWinFullViewer::processSoEvent( const SoEvent * const event )
 {
-  if ( common->processSoEvent( event ) ||
-       inherited::processSoEvent( event ) )
-    return TRUE;
-  return FALSE;
+  return ( common->processSoEvent( event ) ||
+           inherited::processSoEvent( event ) );
 }
 
 LRESULT CALLBACK
-SoWinFullViewer::glWidgetProc(
-  HWND window,
-  UINT message,
-  WPARAM wparam,
-  LPARAM lparam )
+SoWinFullViewer::glWidgetProc(HWND window,
+                              UINT message,
+                              WPARAM wparam,
+                              LPARAM lparam )
 {
 
   if ( message != WM_CREATE ) {
