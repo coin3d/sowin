@@ -614,7 +614,7 @@ SoWin::sensorQueueChanged( void * cbdata )
     if ( ! SoWin::delaySensorActive ) {
       unsigned long timeout = SoDB::getDelaySensorTimeout( ).getMsecValue( );
       SoWin::delaySensorId = SetTimer( SoWin::mainWidget,//NULL,
-                                       2,//0,
+                                       3,//0,
                                        timeout,
                                        SoWin::delaySensorCB );
       SoWin::delaySensorActive = TRUE;
