@@ -242,9 +242,6 @@ SoWinComponent::~SoWinComponent(void)
 {
   if (PRIVATE(this)->widget) { this->unregisterWidget(PRIVATE(this)->widget); }
 
-  for (int i = PRIVATE(this)->visibilitychangeCBs->getLength(); i > 0; i--) {
-    PRIVATE(this)->visibilitychangeCBs->remove(i);
-  }
   delete PRIVATE(this)->visibilitychangeCBs;
 
   (void)SoWinComponentP::embeddedparents->remove((unsigned long)this->getParentWidget());
@@ -565,7 +562,7 @@ const char *
 SoWinComponent::getTitle(void) const
 {
   return (PRIVATE(this)->title.getLength() > 0 ?
-    PRIVATE(this)->title.getString() : this->getDefaultTitle());
+          PRIVATE(this)->title.getString() : this->getDefaultTitle());
 }
 
 /*! FIXME: doc */
