@@ -37,9 +37,7 @@
 #include <Inventor/Win/devices/SoWinSpaceball.h>
 #include <Inventor/Win/devices/SoWinSpaceballP.h>
 
-extern "C" {
 #include <Inventor/Win/devices/spwinput_win32.h>
-}
 
 // *************************************************************************
 
@@ -52,16 +50,12 @@ SoWinSpaceballP::SoWinSpaceballP(SoWinSpaceball * p)
   this->translationscale = .001f;
   this->motion3Event = new SoMotion3Event;
   this->buttonEvent = new SoSpaceballButtonEvent;
-  this->Spw_DeviceHandle = SI_NO_HANDLE;
-  SiInitialize();
 }
 
 SoWinSpaceballP::~SoWinSpaceballP()
 {
   delete this->motion3Event;
   delete this->buttonEvent;
-  SiClose(this->Spw_DeviceHandle);
-  SiTerminate();
 }
 
 SbRotation
@@ -98,49 +92,40 @@ SoWinSpaceball::~SoWinSpaceball(void)
 void
 SoWinSpaceball::enable(HWND hwnd, SoWinEventHandler * , void *)
 {
-  SiOpenData oData;
-  SiOpenWinInit(&oData, hwnd);
-  PRIVATE(this)->Spw_DeviceHandle = SiOpen("", SI_ANY_DEVICE, SI_NO_MASK, SI_EVENT, &oData);
-  if (PRIVATE(this)->Spw_DeviceHandle != SI_NO_HANDLE) {
+  if (SPW_CheckForSpaceballWin32(hwnd) == TRUE) {
+    
   }
 }
 
 void
 SoWinSpaceball::disable(HWND, SoWinEventHandler * , void *)
 {
-  // FIXME: should be implemented..? 20030812 mortene.
-  SOWIN_STUB();
+  SPW_closeSpaceBall();
 }
 
 const SoEvent *
 SoWinSpaceball::translateEvent(MSG * msg)
 {
-  // FIXME: don't leave in commented-out code. 20030812 mortene.
-  /*
-  long msec =  GetTickCount();
-  if (soevent) soevent->setTime(SbTime((msec / 1000), (msec % 1000) * 1000)));
-  */
-  SiGetEventData eventdata;
-  SiSpwEvent spwEvent;
-
-  if (PRIVATE(this)->Spw_DeviceHandle != SI_NO_HANDLE) {
-     SiGetEventWinInit (&eventdata, msg->message, msg->wParam, msg->lParam);
-     if (SiGetEvent (PRIVATE(this)->Spw_DeviceHandle, 0, &eventdata, &spwEvent) == SI_IS_EVENT) {
-        if (spwEvent.type == SI_MOTION_EVENT) {
-           long * data = spwEvent.u.spwData.mData;
-
-           PRIVATE(this)->motion3Event->setTranslation(
-             PRIVATE(this)->makeTranslation((float)data[SI_TX],(float)data[SI_TY],(float)data[SI_TZ]));
-
-           PRIVATE(this)->motion3Event->setRotation(
-             PRIVATE(this)->makeRotation((float)data[SI_RX],(float)data[SI_RY],(float)data[SI_RZ]));
-
-           return PRIVATE(this)->motion3Event;
-        }
-        else if (spwEvent.type == SI_BUTTON_EVENT) {
-          return (SoEvent *) NULL;
-        }
-     }
+  SPW_InputEvent sbEvent;
+  if (SPW_TranslateEventWin32(NULL,msg,&sbEvent) == TRUE) {
+  
+    switch (sbEvent.type) {
+    case SPW_InputMotionEvent:
+      PRIVATE(this)->motion3Event->setTranslation(PRIVATE(this)->makeTranslation(sbEvent.sData[0],
+                                                                                 sbEvent.sData[1],
+                                                                                 sbEvent.sData[2]));
+      PRIVATE(this)->motion3Event->setRotation(PRIVATE(this)->makeRotation(sbEvent.sData[3],
+                                                                           sbEvent.sData[4],
+                                                                           sbEvent.sData[5]));
+      
+      return PRIVATE(this)->motion3Event;
+    case SPW_InputButtonPressEvent:
+      return (SoEvent*) NULL;
+    case SPW_InputButtonReleaseEvent:
+      return (SoEvent*) NULL;
+    default:
+      return (SoEvent*) NULL;
+    }
   }
   return (SoEvent *) NULL;
 }
@@ -148,8 +133,7 @@ SoWinSpaceball::translateEvent(MSG * msg)
 SbBool
 SoWinSpaceball::exists(void)
 {
-  // FIXME: should be implemented. 20030812 mortene.
-  return FALSE;
+  return SPW_SpaceBallExists();
 }
 
 void

@@ -40,8 +40,6 @@ public:
   SoWinSpaceballP(SoWinSpaceball * p);
   virtual ~SoWinSpaceballP();
 
-  void * Spw_DeviceHandle;
-
   SbRotation makeRotation(const float rx, const float ry, const float rz) const;
   SbVec3f makeTranslation(const float tx, const float ty, const float tz) const;
 
