@@ -72,16 +72,17 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 ############################################################################
 
 SoWinincdir = $(includedir)/Inventor/Win
-#SoWininc_HEADERS =
+
+SoWininc_HEADERS =
 
 nodist_SoWininc_HEADERS = \
-	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
-	$(top_builddir)/src/Inventor/Win/SoWinObject.h \
-	$(top_builddir)/src/Inventor/Win/SoWinCursors.h \
-	$(top_builddir)/src/Inventor/Win/SoWin.h \
-	$(top_builddir)/src/Inventor/Win/SoWinComponent.h \
-	$(top_builddir)/src/Inventor/Win/SoWinGLWidget.h \
-	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
+	SoWinBasic.h \
+	SoWinObject.h \
+	SoWinCursors.h \
+	SoWin.h \
+	SoWinComponent.h \
+	SoWinGLWidget.h \
+	SoWinRenderArea.h
 
 install-SoWinincHEADERS: $(SoWininc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -186,7 +187,7 @@ install-data-hook: sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
 	  fi \
 	done;
 
-uninstall: uninstall-am
+uninstall-local: uninstall-SoWinincHEADERS uninstall-nodist_SoWinincHEADERS
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
 	for file in \
 	  "$(DESTDIR)$(libdir)/$$basename.lib" \
