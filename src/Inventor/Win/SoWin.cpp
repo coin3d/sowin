@@ -116,11 +116,15 @@ SoWin::mainLoop( void )
 {
   MSG msg;
   while ( TRUE ) {
-    WaitMessage( );
+    //WaitMessage( );
     if ( GetMessage( & msg, NULL, 0, 0 ) ) {
       TranslateMessage( & msg );
       DispatchMessage( & msg );
     } else break;
+    if ( SoWin::idleSensorActive )
+      SoWin::doIdleTasks( );
+    else
+      WaitMessage( );
   }
 }
 
@@ -133,7 +137,7 @@ SoWin::exitMainLoop( void )
 void
 SoWin::doIdleTasks( void )
 {
-  SoDB::getSensorManager( )->processDelayQueue( TRUE );
+  SoDB::getSensorManager( )->processDelayQueue( TRUE ); // isidle = TRUE
   SoWin::sensorQueueChanged( NULL );
 }
 
@@ -183,7 +187,7 @@ SoWin::getWidgetSize( HWND widget )
 HWND
 SoWin::getTopLevelWidget( void )
 {
-  return SoWin::mainWidget; // FIXME: ???
+  return SoWin::mainWidget;
 }
 
 void
@@ -631,6 +635,7 @@ SoWin::onAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
     MessageHook * const * hookList = messageHookList->getArrayPtr( );
     for ( int i = 0; i < length; i++ )
       if ( hookList[i]->message == message ) {
+	//UpdateWindow( hookList[i]->hWnd );
         MoveWindow( hookList[i]->hWnd,
                     0,
                     0,

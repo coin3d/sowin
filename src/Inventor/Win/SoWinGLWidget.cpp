@@ -52,6 +52,8 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
   this->singleBufferWidget = NULL;
   this->overlayWidget = NULL;
 
+  this->enableDrawToFrontBuffer = FALSE;
+
   this->ctxNormal = NULL;
   this->ctxOverlay = NULL;
   this->ctxSingle = NULL;
