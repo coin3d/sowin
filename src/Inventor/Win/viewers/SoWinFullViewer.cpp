@@ -302,12 +302,6 @@ SoWinFullViewer::setCamera( SoCamera * newCamera )
 
     if ( SoWinFullViewer::doButtonBar ) // may not be there if !doButtonBar
       VIEWERBUTTON( VIEWERBUTTON_PERSPECTIVE )->setBitmap( orthotype ? 1 : 0 );
-
-//      if ( this->cameratogglebutton ) {
-//        this->cameratogglebutton->setPixmap( orthotype ?
-//                                            * ( this->orthopixmap ) :
-//                                            * ( this->perspectivepixmap ) );
-//      }
   }
 	
   inherited::setCamera( newCamera );
@@ -548,7 +542,7 @@ SoWinFullViewer::buildWidget( HWND parent )
                                      wndclassname,
                                      style,
                                      CW_USEDEFAULT,
-                                     0,
+                                     CW_USEDEFAULT,
                                      rect.right,
                                      rect.bottom,
                                      parent,
@@ -1181,29 +1175,11 @@ SoWinFullViewer::mgrWindowProc( HWND window,
 
 			case WM_DRAWITEM:
 				return object->onDrawItem( window, message, wparam, lparam );
-
-        // FIXME: this is only a workaround for a bug in SoAnyExaminerviewer.cpp.in
-        // It will decrease interactoveCount on a *BUTTONUP event even without a *BUTTONDOWN
-        // event.
-        /*
-			case WM_LBUTTONDOWN:
-			case WM_MBUTTONDOWN:
-			case WM_RBUTTONDOWN:
-				SetCapture( window );
-				return 0;
-
-			case WM_LBUTTONUP:
-			case WM_MBUTTONUP:
-			case WM_RBUTTONUP:
-				ReleaseCapture( );
-				return 0;
-				*/
       
 			case WM_SETCURSOR:
-        if ( object->getCursor( ) == GetCursor( ) ) {
+        if ( object->getCursor( ) == GetCursor( ) )
           SetCursor( LoadCursor( SoWin::getInstance( ), IDC_ARROW ) );
-          return 0;
-        }
+        return 0;
         
     }
     
@@ -1234,13 +1210,13 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 	// RenderArea
 	assert( IsWindow( this->renderAreaWidget ) );
 	
-	if ( /*this->isFullScreen( ) ||*/ ! this->isDecoration( ) ) {
-		MoveWindow( this->renderAreaWidget, 0, 0, LOWORD( lparam ), HIWORD( lparam ), repaint );
-		return 0; 
-	}
-	else {
+	if ( this->isDecoration( ) ) {
 		MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
 			LOWORD( lparam ) - ( 2 * DECORATION_SIZE ), HIWORD( lparam ) - DECORATION_SIZE, repaint );
+	}
+  else {
+    MoveWindow( this->renderAreaWidget, 0, 0, LOWORD( lparam ), HIWORD( lparam ), repaint );
+		return 0; 
 	}
 
   if ( SoWinFullViewer::doButtonBar ) {
@@ -1463,6 +1439,6 @@ SoWinFullViewer::goFullScreen( SbBool enable )
         height - DECORATION_SIZE,
         TRUE );
   }
-  // InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
+  InvalidateRect( this->viewerWidget, NULL, TRUE );
 }
 
