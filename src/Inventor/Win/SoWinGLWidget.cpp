@@ -652,7 +652,7 @@ SoWinGLWidget::buildWidget( HWND parent )
   HWND managerwidget = CreateWindow( wndclassname,
                                      wndclassname,
                                      WS_VISIBLE |
-                                     WS_CLIPCHILDREN |
+                                     WS_CLIPCHILDREN | 
                                      WS_CHILD,
                                      rect.left,
                                      rect.top,
@@ -824,6 +824,7 @@ SoWinGLWidgetP::buildNormalGLWidget( void )
                                       wndclassname,
                                       wndclassname,
                                       WS_VISIBLE |
+		                                  WS_CLIPSIBLINGS |
                                       WS_CHILD,
                                       rect.left,
                                       rect.top,
