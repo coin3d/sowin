@@ -70,24 +70,20 @@ SoWinComponent::SoWinComponent( const HWND parent,
 {
   this->constructorParent = parent;
 
-  this->title = NULL;
-  this->iconTitle = NULL;
-  this->widgetName = NULL;
-  this->widgetClass = NULL;
   this->firstRealize = TRUE;
   this->size = SbVec2s( -1, -1 );
 
   if (!SoWinComponent::components) SoWinComponent::components = new SbPList;
   SoWinComponent::components->append(this);
 
-  if ( name && strlen( name ) > 0 )
-    this->widgetName = strcpy( new char [ strlen( name ) + 1 ], name );
-
+  if (name) this->widgetName = name;
+  
   if ( ( parent == ( HWND ) NULL) || ! embed ) {
     this->embedded = FALSE;
     this->widget = this->buildFormWidget(parent);   //?
-    
-  } else {
+
+  } 
+  else {
     this->parent = parent;
     this->embedded = TRUE;
   }
@@ -105,10 +101,6 @@ SoWinComponent::SoWinComponent( const HWND parent,
 SoWinComponent::~SoWinComponent( void )
 {
   UnregisterClass( this->getWidgetName( ), SoWin::getInstance( ) );
-  delete [] this->widgetName;
-  delete [] this->widgetClass;
-  delete [] this->title;
-  delete [] this->iconTitle;
 }
 
 void
@@ -198,55 +190,48 @@ SoWinComponent::getSize( void )
 const char *
 SoWinComponent::getWidgetName( void ) const
 {
-  return this->widgetName;
+  return this->widgetName.getString();
 }
 
 const char *
 SoWinComponent::getClassName( void ) const
 {
-  return this->widgetClass;
+  return this->widgetClass.getString();
 }
 
 void
 SoWinComponent::setTitle( const char * const title )
 {
-  assert( title != NULL );
-  if ( this->title && strlen( this->title ) >= strlen( title ) ) {
-    strcpy( this->title, ( char * ) title );
-  } else {
-    delete [] this->title;
-    this->title = strcpy( new char [strlen(title)+1], title );
-  }
+  if (title) this->title = title;
+  else this->title = "";
 
   if ( this->parent ) {
-    SetWindowText( this->parent , ( LPCTSTR ) title );
-  } else {
-    SetWindowText( this->widget, ( LPCTSTR ) title );
+    SetWindowText( this->parent , ( LPCTSTR ) this->title.getString() );
+  } 
+  else {
+    SetWindowText( this->widget, ( LPCTSTR ) this->title.getString() );
   }
 }
 
 const char *
 SoWinComponent::getTitle( void ) const
 {
-  return this->title ? this->title : this->getDefaultTitle( );
+  return this->title->getLength() ? 
+    this->title.getString() : this->getDefaultTitle( );
 }
 
 void
 SoWinComponent::setIconTitle( const char * const title )
 {
-  assert( title != NULL );
-  if ( this->iconTitle && strlen( this->iconTitle ) >= strlen( title ) ) {
-    strcpy( this->iconTitle, ( char *) title );
-  } else {
-    delete [] this->iconTitle;
-    this->iconTitle = strcpy( new char [strlen(title)+1], title );
-  }
+  if (title) this->iconTitle = title;
+  else this->iconTitle = "";
 }
 
 const char *
 SoWinComponent::getIconTitle( void ) const
 {
-  return this->iconTitle ? this->iconTitle : this->getDefaultIconTitle( );
+  return this->iconTitle->getLength() ? 
+    this->iconTitle.getString() : this->getDefaultIconTitle( );
 }
 
 void
@@ -279,11 +264,10 @@ SoWinComponent::setBaseWidget( HWND widget )
 }
 
 void
-SoWinComponent::setClassName(
-                             const char * const name )
+SoWinComponent::setClassName(const char * const name)
 {
-  assert( name != NULL );
-  this->widgetClass = ( char * ) name;
+  if (name) this->widgetClass = name;
+  else this->widgetClass = "";
 }
 
 void
@@ -461,7 +445,7 @@ SoWinComponent::getMDIAncestor( HWND hwnd )
 
   HWND parent = NULL;
   HWND ancestor = NULL;
-    
+
   parent = GetParent( hwnd );
 
   while ( parent )
@@ -539,7 +523,7 @@ SoWinComponent::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam 
 {
   this->size = SbVec2s( HIWORD(lparam), LOWORD(lparam) );
   return 0;
-} 
+}
 
 LRESULT
 SoWinComponent::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )

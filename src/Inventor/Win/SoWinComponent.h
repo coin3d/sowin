@@ -134,7 +134,7 @@ private:
   LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
- 
+
   //  static LRESULT CALLBACK componentWndProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam );
   //  static LRESULT CALLBACK formWindowProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam );
 
@@ -142,10 +142,10 @@ private:
   HWND widget;
   HWND constructorParent;
 
-  char * widgetName;
-  char * widgetClass;
-  char * title;
-  char * iconTitle;
+  SbString widgetName;
+  SbString widgetClass;
+  SbString title;
+  SbString iconTitle;
 
   SbVec2s size;
 
