@@ -20,16 +20,14 @@
 static const char rcsid[] =
 "$Id$";
 
+#include <Inventor/Win/widgets/SoWinThumbWheel.h>
+#include <Inventor/Win/widgets/SoAnyThumbWheel.h>
+#include <Inventor/Win/SoWin.h>
+#include <sowindefs.h>
+
 #include <math.h>
 #include <assert.h>
 #include <stdio.h>
-
-#include <Inventor/SbBasic.h>
-
-#include <sowindefs.h>
-#include <Inventor/Win/SoWin.h>
-#include <Inventor/Win/widgets/SoAnyThumbWheel.h>
-#include <Inventor/Win/widgets/SoWinThumbWheel.h>
 
 // *************************************************************************
 

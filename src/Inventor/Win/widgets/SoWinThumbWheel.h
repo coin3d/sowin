@@ -20,7 +20,8 @@
 #ifndef SOWIN_THUMBWHEEL_H
 #define SOWIN_THUMBWHEEL_H
 
-
+#include <wtypes.h>
+#include <Inventor/SbBasic.h>
 #include <Inventor/Win/SoWinBasic.h>
 
 class SoAnyThumbWheel;
