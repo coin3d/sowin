@@ -132,7 +132,7 @@ Win32::GetDC(HWND hWnd   // handle to a window
              )
 {
   HDC hdc = ::GetDC(hWnd);
-  if (hdc) { Win32::showLastErr(); }
+  if (!hdc) { Win32::showLastErr(); }
   assert( hdc && "GetDC() failed -- investigate");
   return hdc;
 }
