@@ -1,0 +1,41 @@
+#ifndef  SO_WIN_MOUSE
+#define  SO_WIN_MOUSE
+
+#include <Inventor/Win/SoWinBasic.h>
+#include <Inventor/Win/devices/SoWinDevice.h>
+
+#include <Inventor/events/SoLocation2Event.h>
+#include <Inventor/events/SoMouseButtonEvent.h>
+
+class SoWinMouse : public SoWinDevice {
+    enum MouseEvents {
+        BUTTON_PRESS = ButtonPressMask, // 0x01
+        BUTTON_RELEASE = ButtonReleaseMask, // 0x02
+        POINTER_MOTION = PointerMotionMask, // 0x04 - motion, no buttons
+        BUTTON_MOTION = ButtonMotionMask, // 0x08 - motion + buttons
+        ALL_EVENTS = BUTTON_PRESS | BUTTON_RELEASE | POINTER_MOTION | BUTTON_MOTION
+    };
+public:
+
+    // Bitwise OR MouseEvents to specify which events this device should queue.
+    SoWinMouse(int events = ALL_EVENTS);
+    ~SoWinMouse( void );
+    
+    // Enable/disable this device for the passed widget.
+    // Invoked when events occur in widget. Data is the clientData which will be passed.
+    virtual void enable(HWND widget, LRESULT CALLBACK func, void * data, HWND window = NULL);
+    virtual void disable(HWND widget, LRESULT CALLBACK func, void * data);
+    
+    virtual const SoEvent * translateEvent( MSG * msg );
+  
+  private:
+    SoLocation2Event * makeLocationEvent( MSG * msg );
+    SoMouseButtonEvent * makeButtonEvent( MSG * msg, SoButtonEvent::State state );
+    int	events;
+    SoLocation2Event * locationEvent;	// mouse motion
+    SoMouseButtonEvent * buttonEvent;	// mouse button
+};
+
+#define SO_WIN_ALL_MOUSE_EVENTS SoWinMouse::ALL_EVENTS
+
+#endif /* SO_WIN_MOUSE */
