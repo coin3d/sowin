@@ -508,7 +508,8 @@ DISTCLEANFILES = \
 	SoWinDevice.h \
 	SoWinInputFocus.h \
 	SoWinKeyboard.h \
-	SoWinMouse.h
+	SoWinMouse.h \
+	SoWinSpaceball.h
 
 
 @BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = devices.lst
@@ -522,7 +523,9 @@ libSoWinDevices_la_SOURCES = \
 	SoWinDeviceP.h \
 	SoWinInputFocus.cpp \
 	SoWinKeyboard.cpp \
-	SoWinMouse.cpp
+	SoWinMouse.cpp \
+	SoWinSpaceball.cpp \
+	SoWinSpaceballP.h
 
 
 nodist_libSoWinDevices_la_SOURCES = \
@@ -538,7 +541,9 @@ devices_lst_SOURCES = \
 	SoWinDeviceP.h \
 	SoWinInputFocus.cpp \
 	SoWinKeyboard.cpp \
-	SoWinMouse.cpp
+	SoWinMouse.cpp \
+	SoWinSpaceball.cpp \
+	SoWinSpaceballP.h
 
 
 nodist_devices_lst_SOURCES = \
@@ -554,7 +559,8 @@ nodist_SoWinDevicesinc_HEADERS = \
 	SoWinDevice.h \
 	SoWinInputFocus.h \
 	SoWinKeyboard.h \
-	SoWinMouse.h
+	SoWinMouse.h \
+	SoWinSpaceball.h
 
 subdir = src/Inventor/Win/devices
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -565,7 +571,8 @@ LIBRARIES = $(noinst_LIBRARIES)
 devices_lst_AR = $(AR) cru
 devices_lst_LIBADD =
 am_devices_lst_OBJECTS = SoWinDevice.$(OBJEXT) SoWinInputFocus.$(OBJEXT) \
-	SoWinKeyboard.$(OBJEXT) SoWinMouse.$(OBJEXT)
+	SoWinKeyboard.$(OBJEXT) SoWinMouse.$(OBJEXT) \
+	SoWinSpaceball.$(OBJEXT)
 nodist_devices_lst_OBJECTS = spwinput_x11.$(OBJEXT) \
 	So@Gui@DeviceCommon.$(OBJEXT) So@Gui@InputFocusCommon.$(OBJEXT) \
 	So@Gui@KeyboardCommon.$(OBJEXT) So@Gui@MouseCommon.$(OBJEXT) \
@@ -577,7 +584,7 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libSoWinDevices_la_LDFLAGS =
 libSoWinDevices_la_LIBADD =
 am_libSoWinDevices_la_OBJECTS = SoWinDevice.lo SoWinInputFocus.lo \
-	SoWinKeyboard.lo SoWinMouse.lo
+	SoWinKeyboard.lo SoWinMouse.lo SoWinSpaceball.lo
 nodist_libSoWinDevices_la_OBJECTS = spwinput_x11.lo \
 	So@Gui@DeviceCommon.lo So@Gui@InputFocusCommon.lo \
 	So@Gui@KeyboardCommon.lo So@Gui@MouseCommon.lo \
@@ -604,7 +611,10 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/SoWinInputFocus.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinKeyboard.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinKeyboard.Po $(DEPDIR)/SoWinMouse.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoWinMouse.Po $(DEPDIR)/spwinput_x11.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinMouse.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinSpaceball.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinSpaceball.Po \
+@AMDEP_TRUE@	$(DEPDIR)/spwinput_x11.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/spwinput_x11.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -709,6 +719,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinKeyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinMouse.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinMouse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinSpaceball.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinSpaceball.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/spwinput_x11.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/spwinput_x11.Po@am__quote@
 

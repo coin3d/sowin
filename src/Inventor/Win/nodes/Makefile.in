@@ -531,7 +531,10 @@ nodist_nodes_lst_SOURCES = \
 # Headers are kept private.
 SoWinNodesincdir = $(includedir)/Inventor/@Gui@/nodes
 
-SoWinNodesinc_HEADERS = 
+SoWinNodesinc_HEADERS = \
+	SoGuiColorEditor.h \
+	SoGuiMaterialEditor.h
+
 subdir = src/Inventor/Win/nodes
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
