@@ -1,0 +1,14 @@
+build_sowin_win32.sh
+
+        Builds SoWin for the Win32 platform in different
+        configurations. All dependant libraries will be downloaded
+        using wget.
+
+        * Requires cygwin and wget. 
+        * Run from the command line in any directory.
+
+        This script is used by Systems In Motion when creating binary
+        releases of SoWin, and is probably of little use to most
+        SoWin users. If you want to configure and build SoWin yourself,
+        please read the INSTALL file in the SoWin root directory for 
+        instructions.
