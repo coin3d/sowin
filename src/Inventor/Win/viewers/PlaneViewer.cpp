@@ -178,11 +178,10 @@ SoWinPlaneViewer::buildWidget(HWND parent)
 */
 
 LRESULT
-SoWinPlaneViewer::onCommand(// virtual
-  HWND window,
-  UINT message,
-  WPARAM wparam,
-  LPARAM lparam)
+SoWinPlaneViewer::onCommand(HWND window,
+                            UINT message,
+                            WPARAM wparam,
+                            LPARAM lparam)
 {
  int i;
  short nc = HIWORD(wparam);// notification code
@@ -212,7 +211,7 @@ SoWinPlaneViewer::onCommand(// virtual
   }
 
   return 0;
-} // onCommand()
+}
 
 // ************************************************************************
 
@@ -233,11 +232,10 @@ SoWinPlaneViewer::createPrefSheet(void)
 */
 
 void
-SoWinPlaneViewer::buildViewerButtonsEx(// virtual
-  HWND parent,
-  int x,
-  int y,
-  int size)
+SoWinPlaneViewer::buildViewerButtonsEx(HWND parent,
+                                       int x,
+                                       int y,
+                                       int size)
 {
  SoWinBitmapButton * button;
 
@@ -275,11 +273,10 @@ SoWinPlaneViewer::buildViewerButtonsEx(// virtual
 */
 
 void
-SoWinPlaneViewer::openViewerHelpCard(// virtual
-  void)
+SoWinPlaneViewer::openViewerHelpCard(void)
 {
   this->openHelpCard("SoWinPlaneViewer.help");
-} // openViewerHelpCard()
+}
 
 // ************************************************************************
 
