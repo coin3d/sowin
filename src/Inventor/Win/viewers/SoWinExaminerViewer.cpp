@@ -383,6 +383,9 @@ SoWinExaminerViewer::processSoEvent(
   return inherited::processSoEvent( event );
 } // processSoEvent()
 
+/*!
+  Virtual function for handling button messages ( camera toggle ).
+*/
 LRESULT
 SoWinExaminerViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
@@ -454,16 +457,12 @@ void
 SoWinExaminerViewer::setCursorRepresentation(
 	int mode )
 {
-	/*
-	HWND hwnd = this->getRenderAreaWidget( );
-	assert( IsWindow( hwnd ) );
-	*/
   if ( ! this->defaultcursor ) {
 		this->defaultcursor = LoadCursor( NULL, IDC_ARROW );
-
-		unsigned int i, j;
 		
 		{
+   		unsigned int i, j, k;
+      
 			unsigned char * bitmaps[] = {
 				so_win_rotate_bitmap, so_win_rotate_mask_bitmap,
         so_win_zoom_bitmap, so_win_zoom_mask_bitmap,
@@ -475,69 +474,43 @@ SoWinExaminerViewer::setCursorRepresentation(
 				( so_win_zoom_width + 7 ) / 8 * so_win_zoom_height,
 				( so_win_pan_width + 7 ) / 8 * so_win_pan_height,
 			};
-			
+
+      unsigned char byte;
 			for ( i = 0; i < ( sizeof( bitmapsizes ) / sizeof( unsigned int ) ); i++ ) {
-				for ( j = 0; j < bitmapsizes[i]; j++ )
-					//bitmaps[i * 2][j] &= bitmaps[i * 2 + 1][j];
-          bitmaps[i * 2 + 1][j] = ~bitmaps[i * 2][j];
-        // FIXME: use mask
-			}
-			
-			unsigned int bitmapheights[] = {
-				so_win_rotate_height,
-				so_win_zoom_height,
-				so_win_pan_height
-			};
-			
-			unsigned char byte; // FIXME: only works for Nx16 pointers
-      unsigned short line;
-      unsigned short * cwords;
-      unsigned short * mwords;
+				for ( j = 0; j < bitmapsizes[i]; j++ ) {
 
-      for ( i = 0; i < ( sizeof( bitmapheights ) / sizeof( unsigned int ) ); i++ ) {
-
-        for( j = 0; j < bitmapheights[i] * 2; j += 2 ) {
-
-					byte = bitmaps[i * 2][j];
-					bitmaps[i * 2][j] = bitmaps[i * 2][j + 1];
-					bitmaps[i * 2][j + 1] = byte;
-
-					byte = bitmaps[i * 2 + 1][j];
-					bitmaps[i * 2 + 1][j] = bitmaps[i * 2 + 1][j + 1];
-					bitmaps[i * 2 + 1][j + 1] = byte;
-					
-				}
-
-        cwords = ( unsigned short * ) bitmaps[i];
-        mwords = ( unsigned short * ) bitmaps[i * 2];
-        // FIXME: assumes Nx16 cursors
-        for( j = 0; j < bitmapheights[i]; j++ ) {
-
-          line = cwords[j];
-          cwords[j] = cwords[( bitmapheights[i] - 1 ) - j];
-          cwords[( bitmapheights[i] - 1 ) - j] = line;
-          
-          line = mwords[j];
-          mwords[j] = mwords[ ( bitmapheights[i] - 1 ) - j];
-          mwords[( bitmapheights[i] - 1 ) - j] = line;
-    
-				}
+          // reverse bits - GDI paints pixels from bottom right to top left
         
-			}
-      
+          // reverse color bits and then not the byte
+          byte = ( unsigned char  ) bitmaps[i * 2][j];
+          byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
+          byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
+          byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
+          bitmaps[i * 2][j] = ~byte;
+
+          // reverse mask bits and then not the byte
+          byte = ( unsigned char  ) bitmaps[i * 2 + 1][j];
+          byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
+          byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
+          byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
+          bitmaps[i * 2 + 1][j] = ~byte;
+          
+        }
+      }
 		}
-		
+    
 		this->zoomcursor = CreateCursor( SoWin::getInstance( ), so_win_zoom_x_hot,
-			so_win_zoom_y_hot, so_win_zoom_width, so_win_zoom_height, so_win_zoom_bitmap,
-			so_win_zoom_mask_bitmap );
+			so_win_zoom_y_hot, so_win_zoom_width, so_win_zoom_height, so_win_zoom_mask_bitmap,
+			so_win_zoom_bitmap );
 		
 		this->pancursor = CreateCursor( SoWin::getInstance( ), so_win_pan_x_hot,
-			so_win_pan_y_hot, so_win_pan_width, so_win_pan_height, so_win_pan_bitmap,
-			so_win_pan_mask_bitmap );
-		
+			so_win_pan_y_hot, so_win_pan_width, so_win_pan_height, so_win_pan_mask_bitmap,
+			so_win_pan_bitmap );
+      
 		this->rotatecursor = CreateCursor( SoWin::getInstance( ), so_win_rotate_x_hot,
-			so_win_rotate_y_hot, so_win_rotate_width, so_win_rotate_height, so_win_rotate_bitmap,
-			so_win_rotate_mask_bitmap );
+			so_win_rotate_y_hot, so_win_rotate_width, so_win_rotate_height, so_win_rotate_mask_bitmap,
+			so_win_rotate_bitmap );
+      
 	}
 	
 	if ( ! this->isCursorEnabled( ) ) {
