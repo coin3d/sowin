@@ -43,7 +43,7 @@ DISTCLEANFILES = \
 
 if BUILD_LIBRARY
 
-bin_SCRIPTS = so@gui@-config cfg/wrapmsvc.exe
+bin_SCRIPTS = so@gui@-config
 
 m4datadir = $(datadir)/aclocal
 # Don't replace "win" with "@gui@" here, it will pukk up
@@ -76,20 +76,20 @@ built-sources: $(BUILT_SOURCES)
 
 all-local: built-sources
 
-# FIXME: disabled while trying to add wrapmsvc.exe to bin_SCRIPTS.
-# 20030430 mortene.
-#
-# install-exec-local: built-sources $(srcdir)/cfg/wrapmsvc.exe
-# 	@$(NORMAL_INSTALL)
-# 	@if @BUILD_WITH_MSVC@; then \
-# 	  echo " $(mkinstalldirs) $(DESTDIR)$(bindir)"; \
-# 	  $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
-# 	  p=wrapmsvc.exe; \
-# 	  echo " $(INSTALL_PROGRAM) $(top_srcdir)/cfg/$$p $(DESTDIR)$(bindir)/$$p"; \
-# 	  $(INSTALL_PROGRAM) "$(top_srcdir)/cfg/$$p" "$(DESTDIR)$(bindir)/$$p"; \
-# 	fi
+install-exec-local: built-sources $(srcdir)/cfg/wrapmsvc.exe
+	@$(NORMAL_INSTALL)
+	@if @BUILD_WITH_MSVC@; then \
+	  echo " $(mkinstalldirs) $(DESTDIR)$(bindir)"; \
+	  $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
+	  p=wrapmsvc.exe; \
+	  echo " $(INSTALL_PROGRAM) $(top_srcdir)/cfg/$$p $(DESTDIR)$(bindir)/$$p"; \
+	  $(INSTALL_PROGRAM) "$(top_srcdir)/cfg/$$p" "$(DESTDIR)$(bindir)/$$p"; \
+	fi
 
 install-data-local: built-sources
+
+uninstall-local:
+	@rm -f $(DESTDIR)$(bindir)/wrapmsvc.exe
 
 # **************************************************************************
 # misc rules for automatic Microsoft Windows packaging.
