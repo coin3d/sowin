@@ -99,28 +99,6 @@ SoWinGLWidget::~SoWinGLWidget()
   delete this->pimpl;
 }
 
-///////////////////////////////////////////////////////////////////
-//
-//  (public)
-//
-
-/*!
- */
-HWND
-SoWinGLWidget::getNormalWindow(void) const
-{
-  return PRIVATE(this)->normalWidget;
-}
-
-/*!
- */
-HWND
-SoWinGLWidget::getOverlayWindow(void) const
-{
-  // FIXME: overlay not supported yet. mariusbu 20010719.
-  return PRIVATE(this)->overlayWidget;
-}
-
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 HWND
 SoWinGLWidget::getNormalWidget(void) const
@@ -133,94 +111,6 @@ HWND
 SoWinGLWidget::getOverlayWidget(void) const
 {
   return PRIVATE(this)->overlayWidget;
-}
-
-/*!
-  Returns the normal device context.
-*/
-HDC
-SoWinGLWidget::getNormalDC(void) const
-{
-  assert(PRIVATE(this)->hdcNormal != NULL);
-  return PRIVATE(this)->hdcNormal;
-}
-
-/*!
-  Returns the overlay device context.
-*/
-HDC
-SoWinGLWidget::getOverlayDC(void) const
-{
-  assert(PRIVATE(this)->hdcOverlay != NULL);
-  return PRIVATE(this)->hdcOverlay;
-}
-
-/*!
- */
-void
-SoWinGLWidget::setNormalVisual(PIXELFORMATDESCRIPTOR * vis)
-{
-  // FIXME: remove this method. 20020720 mortene.
-  SOWIN_STUB();
-}
-
-/*!
- */
-PIXELFORMATDESCRIPTOR * // FIXME: shouldn't this return value be const? 20011208 mortene.
-SoWinGLWidget::getNormalVisual(void)
-{
-  return (& PRIVATE(this)->pfdNormal);
-}
-
-/*!
- */
-void
-SoWinGLWidget::setOverlayVisual(PIXELFORMATDESCRIPTOR * vis)
-{
-  // FIXME: remove this method. 20020720 mortene.
-  SOWIN_STUB();
-}
-
-/*!
- */
-PIXELFORMATDESCRIPTOR * // FIXME: shouldn't this return value be const? 20011208 mortene.
-SoWinGLWidget::getOverlayVisual(void)
-{
-  return (& PRIVATE(this)->pfdOverlay);
-}
-
-/*!
- */
-void
-SoWinGLWidget::setPixelFormat(int format)
-{
-  BOOL ok = SetPixelFormat(PRIVATE(this)->hdcNormal, format,
-                           &PRIVATE(this)->pfdNormal);
-  if (!ok) {
-    DWORD dummy;
-    SbString err = Win32::getWin32Err(dummy);
-    SbString s = "SetPixelFormat(";
-    s.addIntString(format);
-    s += ") failed with error message ";
-    s += err;
-    SoDebugError::postWarning("SoWinGLWidget::setPixelFormat", s.getString());
-  }
-
-  // FIXME: does this function actually work as expected?  Unlikely,
-  // as I believe we also need to destroy and re-construct the GL
-  // context. 20011208 mortene.
-
-  // FIXME: we should make sure we are robust if a non-supported
-  // pixelformat is attempted set -- ie, the "old" format is continued
-  // used. 20011208 mortene.
-}
-
-/*!
- */
-int
-SoWinGLWidget::getPixelFormat(void)
-{
-  return GetPixelFormat(PRIVATE(this)->hdcNormal);
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
@@ -535,7 +425,7 @@ SoWinGLWidget::buildWidget(HWND parent)
 HWND
 SoWinGLWidget::getGLWidget(void) const
 {
-  return this->getNormalWindow();
+  return PRIVATE(this)->normalWidget;
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
