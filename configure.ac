@@ -118,14 +118,6 @@ AC_SUBST([SOGUI_EXTRA_CXXFLAGS], [$CXXFLAGS])
 AC_SUBST([SOGUI_EXTRA_LDFLAGS], [$LDFLAGS])
 AC_SUBST([SOGUI_EXTRA_LIBS], [$LIBS])
 
-sim_ac_build_library=true
-AC_ARG_ENABLE(
-  [build],
-  [AC_HELP_STRING([--disable-build], [disable configuring for library build])],
-  [case $enableval in
-    no | false) sim_ac_build_library=false ;;
-  esac])
-
 if $sim_ac_build_library; then
 
 # **************************************************************************
@@ -176,7 +168,6 @@ AC_SUBST([WIDGET], [HWND])
 AC_SUBST([EVENT], ["MSG *"])
 AC_SUBST([COMPONENTHEADER], [])
 
-if $sim_ac_build_library; then
 # **************************************************************************
 # it is important that $CONFIG is set up before the Coin detection is run...
 
@@ -205,17 +196,45 @@ AM_CONDITIONAL([MAC_FRAMEWORK], [false])
 SIM_AC_SOGUI_SETUP_DOXYGEN(SoWin)
 
 # **************************************************************************
-# FIXME: insert code for controlling this variable properly (see for
-# instance SoQt configure.in). 20011115 mortene.
 
-AM_CONDITIONAL(BUILD_LIBRARY, true)
+AC_ARG_WITH(
+  [alternate],
+  [AC_HELP_STRING([--with-alternate=string],
+                  [specify name of alternate configuration])],
+  [CONFIG=$withval],
+  [CONFIG=default])
+
+AC_SUBST(CONFIG)
+
+AC_ARG_WITH(
+  [suffix],
+  [AC_HELP_STRING([--with-suffix=string],
+                  [specify library name suffix (e.g. "_g")])],
+  [SUFFIX=$withval],
+  [SUFFIX=])
+
+AC_SUBST(SUFFIX)
+
+# **************************************************************************
+
+sim_ac_build_library=true
+AC_ARG_ENABLE(
+  [build],
+  [AC_HELP_STRING([--disable-build], [disable configuring for library build])],
+  [case $enableval in
+    no | false) sim_ac_build_library=false ;;
+  esac])
+
+if $sim_ac_build_library; then
+# **************************************************************************
+
+AM_CONDITIONAL(BUILD_LIBRARY, $sim_ac_build_library)
 
 # **************************************************************************
 # Will naturally always be false for SoWin.
 
 AM_CONDITIONAL(BUILD_METAFILES, false)
 AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, false)
-
 
 # **************************************************************************
 # Search for and set up stuff we depend on.
