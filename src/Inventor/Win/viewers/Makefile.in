@@ -127,7 +127,7 @@ win_srcdir = @win_srcdir@
 @BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = viewers.lst
 @BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoWinViewers.la
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/src
 LIBS = 
 
 ############################################################################
@@ -143,8 +143,7 @@ BUILT_SOURCES = \
 	SoAnyPlaneViewer.cpp
 
 
-VIEWERSOURCES = \
-	$(BUILT_SOURCES) \
+ViewerSources = \
 	SoWinFullViewer.cpp \
 	SoWinFullViewer.h \
 	SoWinExaminerViewer.cpp \
@@ -157,53 +156,66 @@ VIEWERSOURCES = \
 # libtool setup
 
 libSoWinViewers_la_SOURCES = \
-	$(VIEWERSOURCES)
+	$(ViewerSources)
+
+
+nodist_libSoWinViewers_la_SOURCES = \
+	$(BUILT_SOURCES)
 
 
 ############################################################################
 # custom setup
 
 viewers_lst_SOURCES = \
-	$(VIEWERSOURCES)
+	$(ViewerSources)
+
+
+nodist_viewers_lst_SOURCES = \
+	$(BUILT_SOURCES)
 
 
 ############################################################################
 # headers
 
-libSoWinViewersincdir = $(includedir)/Inventor/Win/viewers
-
-libSoWinViewersinc_HEADERS = \
-	$(top_builddir)/src/Inventor/Win/viewers/SoWinViewer.h \
+SoWinViewersincdir = $(includedir)/Inventor/Win/viewers
+SoWinViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinFullViewer.h \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinExaminerViewer.h \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinPlaneViewer.h
 
+nodist_SoWinViewersinc_HEADERS = \
+	$(top_builddir)/src/Inventor/Win/viewers/SoWinViewer.h
+
 subdir = src/Inventor/Win/viewers
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
+DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)/src
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 viewers_lst_AR = $(AR) cru
 viewers_lst_LIBADD = 
-am_viewers_lst_OBJECTS = SoWinViewer.$(OBJEXT) SoAnyFullViewer.$(OBJEXT) \
-SoAnyExaminerViewer.$(OBJEXT) SoAnyPlaneViewer.$(OBJEXT) \
-SoWinFullViewer.$(OBJEXT) SoWinExaminerViewer.$(OBJEXT) \
-SoWinPlaneViewer.$(OBJEXT)
-viewers_lst_OBJECTS = $(am_viewers_lst_OBJECTS)
+am_viewers_lst_OBJECTS = SoWinFullViewer.$(OBJEXT) \
+SoWinExaminerViewer.$(OBJEXT) SoWinPlaneViewer.$(OBJEXT)
+nodist_viewers_lst_OBJECTS = SoWinViewer.$(OBJEXT) \
+SoAnyFullViewer.$(OBJEXT) SoAnyExaminerViewer.$(OBJEXT) \
+SoAnyPlaneViewer.$(OBJEXT)
+viewers_lst_OBJECTS = $(am_viewers_lst_OBJECTS) \
+$(nodist_viewers_lst_OBJECTS)
 AR = ar
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoWinViewers_la_LDFLAGS = 
 libSoWinViewers_la_LIBADD = 
-am_libSoWinViewers_la_OBJECTS = SoWinViewer.lo SoAnyFullViewer.lo \
-SoAnyExaminerViewer.lo SoAnyPlaneViewer.lo SoWinFullViewer.lo \
+am_libSoWinViewers_la_OBJECTS = SoWinFullViewer.lo \
 SoWinExaminerViewer.lo SoWinPlaneViewer.lo
-libSoWinViewers_la_OBJECTS = $(am_libSoWinViewers_la_OBJECTS)
+nodist_libSoWinViewers_la_OBJECTS = SoWinViewer.lo SoAnyFullViewer.lo \
+SoAnyExaminerViewer.lo SoAnyPlaneViewer.lo
+libSoWinViewers_la_OBJECTS = $(am_libSoWinViewers_la_OBJECTS) \
+$(nodist_libSoWinViewers_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXFLAGS = @CXXFLAGS@
@@ -215,7 +227,7 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(viewers_lst_SOURCES) $(libSoWinViewers_la_SOURCES)
-HEADERS = $(libSoWinViewersinc_HEADERS)
+HEADERS = $(SoWinViewersinc_HEADERS) $(nodist_SoWinViewersinc_HEADERS)
 
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@DEP_FILES = $(DEPDIR)/SoAnyExaminerViewer.Plo \
@@ -226,10 +238,10 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@ $(DEPDIR)/SoWinFullViewer.Po $(DEPDIR)/SoWinPlaneViewer.Plo \
 @AMDEP@ $(DEPDIR)/SoWinPlaneViewer.Po $(DEPDIR)/SoWinViewer.Plo \
 @AMDEP@ $(DEPDIR)/SoWinViewer.Po
-DIST_COMMON = $(libSoWinViewersinc_HEADERS) Makefile.am Makefile.in
+DIST_COMMON = $(SoWinViewersinc_HEADERS) Makefile.am Makefile.in
 
-SOURCES = $(viewers_lst_SOURCES) $(libSoWinViewers_la_SOURCES)
-OBJECTS = $(am_viewers_lst_OBJECTS) $(am_libSoWinViewers_la_OBJECTS)
+SOURCES = $(viewers_lst_SOURCES) $(nodist_viewers_lst_SOURCES) $(libSoWinViewers_la_SOURCES) $(nodist_libSoWinViewers_la_SOURCES)
+OBJECTS = $(am_viewers_lst_OBJECTS) $(nodist_viewers_lst_OBJECTS) $(am_libSoWinViewers_la_OBJECTS) $(nodist_libSoWinViewers_la_OBJECTS)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -269,22 +281,21 @@ clean-noinstLTLIBRARIES:
 
 libSoWinViewers.la: $(libSoWinViewers_la_OBJECTS) $(libSoWinViewers_la_DEPENDENCIES)
 	$(CXXLINK)  $(libSoWinViewers_la_LDFLAGS) $(libSoWinViewers_la_OBJECTS) $(libSoWinViewers_la_LIBADD) $(LIBS)
-install-libSoWinViewersincHEADERS: $(libSoWinViewersinc_HEADERS)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoWinViewersincdir)
-	@list='$(libSoWinViewersinc_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+
+uninstall-SoWinViewersincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(SoWinViewersinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(libSoWinViewersincdir)/$$f"; \
-	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(libSoWinViewersincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(SoWinViewersincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoWinViewersincdir)/$$f; \
 	done
 
-uninstall-libSoWinViewersincHEADERS:
+uninstall-nodist_SoWinViewersincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libSoWinViewersinc_HEADERS)'; for p in $$list; do \
+	@list='$(nodist_SoWinViewersinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libSoWinViewersincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libSoWinViewersincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(SoWinViewersincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoWinViewersincdir)/$$f; \
 	done
 
 tags: TAGS
@@ -364,7 +375,7 @@ top_distdir = ../../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_builddir)/src/Inventor/Win/viewers $(distdir)/$(top_srcdir)/src/Inventor/Win/viewers
+	$(mkinstalldirs) $(distdir)/$(top_srcdir)/src/Inventor/Win/viewers
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -381,7 +392,7 @@ check: check-am
 all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(libSoWinViewersincdir)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinViewersincdir) $(DESTDIR)$(SoWinViewersincdir)
 
 install: install-am
 install-exec: install-exec-am
@@ -428,7 +439,8 @@ info:
 
 info-am:
 
-install-data-am: install-libSoWinViewersincHEADERS
+install-data-am: install-SoWinViewersincHEADERS \
+	install-nodist_SoWinViewersincHEADERS
 
 install-exec-am:
 
@@ -447,19 +459,21 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-libSoWinViewersincHEADERS
+uninstall-am: uninstall-SoWinViewersincHEADERS \
+	uninstall-nodist_SoWinViewersincHEADERS
 
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	clean-noinstLIBRARIES clean-noinstLTLIBRARIES distclean \
 	distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
-	info-am install install-am install-data install-data-am \
-	install-exec install-exec-am install-info \
-	install-libSoWinViewersincHEADERS install-man install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool tags uninstall \
-	uninstall-am uninstall-libSoWinViewersincHEADERS
+	info-am install install-SoWinViewersincHEADERS install-am \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-man install-nodist_SoWinViewersincHEADERS \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	tags uninstall uninstall-SoWinViewersincHEADERS uninstall-am \
+	uninstall-nodist_SoWinViewersincHEADERS
 
 
 ############################################################################
@@ -506,6 +520,32 @@ viewers.lst: Makefile $(viewers_lst_OBJECTS)
 	@echo "Linking viewers.lst..."; \
 	rm -f $@; \
 	for i in $(viewers_lst_OBJECTS); do echo $$i >>$@; done
+
+install-SoWinViewersincHEADERS: $(SoWinViewersinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinViewersincdir)
+	@list='$(SoWinViewersinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
+
+install-nodist_SoWinViewersincHEADERS: $(nodist_SoWinViewersinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinViewersincdir)
+	@list='$(nodist_SoWinViewersinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
 
 # EOF ######################################################################
 

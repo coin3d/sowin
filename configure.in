@@ -204,7 +204,7 @@ AC_EXEEXT
 
 AM_INIT_AUTOMAKE(SoWin, $SOWIN_VERSION)
 
-AM_CONFIG_HEADER(config.h)
+AM_CONFIG_HEADER(src/config.h)
 
 AM_DISABLE_STATIC
 AM_MAINTAINER_MODE
@@ -521,6 +521,8 @@ fi
 
 AC_OUTPUT([
 	Makefile
+	src/Makefile
+	src/Inventor/Makefile
 	src/Inventor/Win/Makefile
 	src/Inventor/Win/devices/Makefile
 	src/Inventor/Win/widgets/Makefile
@@ -528,7 +530,9 @@ AC_OUTPUT([
 	build/sowin.doxygen
 ])
 
-SIM_AC_CONFIGURATION_SETTING([Installation Prefix], [$prefix])
+if $sim_ac_build_library; then
+  SIM_AC_CONFIGURATION_SETTING([Installation Prefix], [$prefix])
+fi
 
 SIM_AC_CONFIGURATION_SUMMARY
 

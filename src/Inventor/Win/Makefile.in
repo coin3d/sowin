@@ -130,7 +130,7 @@ SUBDIRS = devices widgets viewers
 
 ############################################################################
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/src
 
 @BUILD_WITH_MSVC_TRUE@lib_LIBRARIES = sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
 @BUILD_WITH_MSVC_FALSE@lib_LTLIBRARIES = libSoWin@SUFFIX@.la
@@ -147,8 +147,7 @@ BUILT_SOURCES = \
 	SoWinRenderArea.cpp
 
 
-SOWINSOURCES = \
-	$(BUILT_SOURCES) \
+SoWinSources = \
 	SoWin.h \
 	SoWin.cpp \
 	SoWinComponent.h \
@@ -165,7 +164,11 @@ noinst_DATA = $(BUILT_SOURCES)
 # libtool setup
 
 libSoWin@SUFFIX@_la_SOURCES = \
-	$(SOWINSOURCES)
+	$(SoWinSources)
+
+
+nodist_libSoWin@SUFFIX@_la_SOURCES = \
+	$(BUILT_SOURCES)
 
 
 libSoWin@SUFFIX@_la_LIBADD = \
@@ -182,7 +185,11 @@ libSoWin@SUFFIX@_la_LDFLAGS = \
 # alternative custom setup
 
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	$(SOWINSOURCES)
+	$(SoWinSources)
+
+
+nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
+	$(BUILT_SOURCES)
 
 
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
@@ -193,46 +200,52 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 
 ############################################################################
 
-libSoWinincdir = $(includedir)/Inventor/Win
+SoWinincdir = $(includedir)/Inventor/Win
 
-libSoWininc_HEADERS = \
-	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
+SoWininc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/SoWin.h \
-	$(top_builddir)/src/Inventor/Win/SoWinObject.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinComponent.h \
+	$(top_srcdir)/src/Inventor/Win/SoWinGLWidget.h
+
+
+nodist_SoWininc_HEADERS = \
+	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
+	$(top_builddir)/src/Inventor/Win/SoWinObject.h \
 	$(top_builddir)/src/Inventor/Win/SoWinCursors.h \
-	$(top_srcdir)/src/Inventor/Win/SoWinGLWidget.h \
 	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
 
 subdir = src/Inventor/Win
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(lib_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
+DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)/src
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_AR = $(AR) cru
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = \
 devices/devices.lst viewers/viewers.lst widgets/widgets.lst
-am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoAny.$(OBJEXT) \
-SoWinObject.$(OBJEXT) SoWinCursors.$(OBJEXT) SoWinRenderArea.$(OBJEXT) \
-SoWin.$(OBJEXT) SoWinComponent.$(OBJEXT) SoWinGLWidget.$(OBJEXT) \
-Win32API.$(OBJEXT)
+am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoWin.$(OBJEXT) \
+SoWinComponent.$(OBJEXT) SoWinGLWidget.$(OBJEXT) Win32API.$(OBJEXT)
+nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoAny.$(OBJEXT) \
+SoWinObject.$(OBJEXT) SoWinCursors.$(OBJEXT) SoWinRenderArea.$(OBJEXT)
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = \
-$(am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS)
+$(am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+$(nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS)
 AR = ar
 LTLIBRARIES = $(lib_LTLIBRARIES)
 
 libSoWin@SUFFIX@_la_DEPENDENCIES = devices/libSoWinDevices.la \
 viewers/libSoWinViewers.la widgets/libSoWinWidgets.la
-am_libSoWin@SUFFIX@_la_OBJECTS = SoAny.lo SoWinObject.lo SoWinCursors.lo \
-SoWinRenderArea.lo SoWin.lo SoWinComponent.lo SoWinGLWidget.lo \
-Win32API.lo
-libSoWin@SUFFIX@_la_OBJECTS = $(am_libSoWin@SUFFIX@_la_OBJECTS)
+am_libSoWin@SUFFIX@_la_OBJECTS = SoWin.lo SoWinComponent.lo \
+SoWinGLWidget.lo Win32API.lo
+nodist_libSoWin@SUFFIX@_la_OBJECTS = SoAny.lo SoWinObject.lo \
+SoWinCursors.lo SoWinRenderArea.lo
+libSoWin@SUFFIX@_la_OBJECTS = $(am_libSoWin@SUFFIX@_la_OBJECTS) \
+$(nodist_libSoWin@SUFFIX@_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXFLAGS = @CXXFLAGS@
@@ -247,7 +260,7 @@ DIST_SOURCES = $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES) \
 $(libSoWin@SUFFIX@_la_SOURCES)
 DATA = $(noinst_DATA)
 
-HEADERS = $(libSoWininc_HEADERS)
+HEADERS = $(SoWininc_HEADERS) $(nodist_SoWininc_HEADERS)
 
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@DEP_FILES = $(DEPDIR)/SoAny.Plo $(DEPDIR)/SoAny.Po \
@@ -258,11 +271,11 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@ $(DEPDIR)/SoWinObject.Plo $(DEPDIR)/SoWinObject.Po \
 @AMDEP@ $(DEPDIR)/SoWinRenderArea.Plo $(DEPDIR)/SoWinRenderArea.Po \
 @AMDEP@ $(DEPDIR)/Win32API.Plo $(DEPDIR)/Win32API.Po
-DIST_COMMON = $(libSoWininc_HEADERS) Makefile.am Makefile.in
+DIST_COMMON = $(SoWininc_HEADERS) Makefile.am Makefile.in
 
 DIST_SUBDIRS = $(SUBDIRS)
-SOURCES = $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES) $(libSoWin@SUFFIX@_la_SOURCES)
-OBJECTS = $(am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) $(am_libSoWin@SUFFIX@_la_OBJECTS)
+SOURCES = $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES) $(nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES) $(libSoWin@SUFFIX@_la_SOURCES) $(nodist_libSoWin@SUFFIX@_la_SOURCES)
+OBJECTS = $(am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) $(nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) $(am_libSoWin@SUFFIX@_la_OBJECTS) $(nodist_libSoWin@SUFFIX@_la_OBJECTS)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -346,22 +359,21 @@ clean-libLTLIBRARIES:
 
 libSoWin@SUFFIX@.la: $(libSoWin@SUFFIX@_la_OBJECTS) $(libSoWin@SUFFIX@_la_DEPENDENCIES)
 	$(CXXLINK) -rpath $(libdir) $(libSoWin@SUFFIX@_la_LDFLAGS) $(libSoWin@SUFFIX@_la_OBJECTS) $(libSoWin@SUFFIX@_la_LIBADD) $(LIBS)
-install-libSoWinincHEADERS: $(libSoWininc_HEADERS)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoWinincdir)
-	@list='$(libSoWininc_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+
+uninstall-SoWinincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(SoWininc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(libSoWinincdir)/$$f"; \
-	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(libSoWinincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(SoWinincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoWinincdir)/$$f; \
 	done
 
-uninstall-libSoWinincHEADERS:
+uninstall-nodist_SoWinincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libSoWininc_HEADERS)'; for p in $$list; do \
+	@list='$(nodist_SoWininc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libSoWinincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libSoWinincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(SoWinincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoWinincdir)/$$f; \
 	done
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -506,7 +518,7 @@ top_distdir = ../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_builddir)/src/Inventor/Win $(distdir)/$(top_srcdir)/src/Inventor/Win
+	$(mkinstalldirs) $(distdir)/$(top_srcdir)/src/Inventor/Win
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -537,7 +549,7 @@ all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(DATA) $(HEADERS)
 
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs) $(DESTDIR)$(libdir) $(DESTDIR)$(libdir) $(DESTDIR)$(libSoWinincdir)
+	$(mkinstalldirs) $(DESTDIR)$(libdir) $(DESTDIR)$(libdir) $(DESTDIR)$(SoWinincdir) $(DESTDIR)$(SoWinincdir)
 
 install: install-recursive
 install-exec: install-exec-recursive
@@ -583,7 +595,7 @@ info:
 
 info-am:
 
-install-data-am: install-libSoWinincHEADERS
+install-data-am: install-SoWinincHEADERS install-nodist_SoWinincHEADERS
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 
@@ -606,29 +618,55 @@ mostlyclean: mostlyclean-recursive
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-libLIBRARIES uninstall-libLTLIBRARIES \
-	uninstall-libSoWinincHEADERS
+uninstall-am: uninstall-SoWinincHEADERS uninstall-libLIBRARIES \
+	uninstall-libLTLIBRARIES uninstall-nodist_SoWinincHEADERS
 
 .PHONY: all all-am all-recursive check check-am check-recursive clean \
 	clean-generic clean-libLIBRARIES clean-libLTLIBRARIES \
 	clean-libtool clean-recursive distclean distclean-compile \
 	distclean-depend distclean-generic distclean-libtool \
 	distclean-recursive distclean-tags distdir dvi dvi-am \
-	dvi-recursive info info-am info-recursive install install-am \
-	install-data install-data-am install-data-recursive \
-	install-exec install-exec-am install-exec-recursive \
-	install-info install-info-recursive install-libLIBRARIES \
-	install-libLTLIBRARIES install-libSoWinincHEADERS install-man \
-	install-recursive install-strip installcheck installcheck-am \
-	installcheck-recursive installdirs installdirs-am \
-	installdirs-recursive maintainer-clean maintainer-clean-generic \
-	maintainer-clean-recursive mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
-	tags tags-recursive uninstall uninstall-am \
-	uninstall-info-recursive uninstall-libLIBRARIES \
-	uninstall-libLTLIBRARIES uninstall-libSoWinincHEADERS \
-	uninstall-recursive
+	dvi-recursive info info-am info-recursive install \
+	install-SoWinincHEADERS install-am install-data install-data-am \
+	install-data-recursive install-exec install-exec-am \
+	install-exec-recursive install-info install-info-recursive \
+	install-libLIBRARIES install-libLTLIBRARIES install-man \
+	install-nodist_SoWinincHEADERS install-recursive install-strip \
+	installcheck installcheck-am installcheck-recursive installdirs \
+	installdirs-am installdirs-recursive maintainer-clean \
+	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	mostlyclean-recursive tags tags-recursive uninstall \
+	uninstall-SoWinincHEADERS uninstall-am uninstall-info-recursive \
+	uninstall-libLIBRARIES uninstall-libLTLIBRARIES \
+	uninstall-nodist_SoWinincHEADERS uninstall-recursive
 
+
+install-SoWinincHEADERS: $(SoWininc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinincdir)
+	@list='$(SoWininc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
+
+install-nodist_SoWinincHEADERS: $(nodist_SoWininc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinincdir)
+	@list='$(nodist_SoWininc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
 
 ############################################################################
 

@@ -127,7 +127,7 @@ win_srcdir = @win_srcdir@
 @BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = widgets.lst
 @BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoWinWidgets.la
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/src
 LIBS = 
 
 BUILT_SOURCES = \
@@ -137,8 +137,7 @@ BUILT_SOURCES = \
 	SoAnyThumbWheel.cpp
 
 
-WIDGETSOURCES = \
-	$(BUILT_SOURCES) \
+WidgetSources = \
 	SoWinThumbWheel.cpp \
 	SoWinThumbWheel.h \
 	SoWinPopupMenu.cpp \
@@ -153,41 +152,52 @@ WIDGETSOURCES = \
 # libtool setup
 
 libSoWinWidgets_la_SOURCES = \
-	$(WIDGETSOURCES)
+	$(WidgetSources)
+
+
+nodist_libSoWinWidgets_la_SOURCES = \
+	$(BUILT_SOURCES)
 
 
 ############################################################################
 # custom setup
 
 widgets_lst_SOURCES = \
-	$(WIDGETSOURCES)
+	$(WidgetSources)
+
+
+nodist_widgets_lst_SOURCES = \
+	$(BUILT_SOURCES)
 
 subdir = src/Inventor/Win/widgets
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
+DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)/src
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 widgets_lst_AR = $(AR) cru
 widgets_lst_LIBADD = 
-am_widgets_lst_OBJECTS = SoAnyPopupMenu.$(OBJEXT) \
-SoAnyThumbWheel.$(OBJEXT) SoWinThumbWheel.$(OBJEXT) \
+am_widgets_lst_OBJECTS = SoWinThumbWheel.$(OBJEXT) \
 SoWinPopupMenu.$(OBJEXT) SoWinBitmapButton.$(OBJEXT) \
 SoWinViewerPrefSheet.$(OBJEXT)
-widgets_lst_OBJECTS = $(am_widgets_lst_OBJECTS)
+nodist_widgets_lst_OBJECTS = SoAnyPopupMenu.$(OBJEXT) \
+SoAnyThumbWheel.$(OBJEXT)
+widgets_lst_OBJECTS = $(am_widgets_lst_OBJECTS) \
+$(nodist_widgets_lst_OBJECTS)
 AR = ar
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoWinWidgets_la_LDFLAGS = 
 libSoWinWidgets_la_LIBADD = 
-am_libSoWinWidgets_la_OBJECTS = SoAnyPopupMenu.lo SoAnyThumbWheel.lo \
-SoWinThumbWheel.lo SoWinPopupMenu.lo SoWinBitmapButton.lo \
-SoWinViewerPrefSheet.lo
-libSoWinWidgets_la_OBJECTS = $(am_libSoWinWidgets_la_OBJECTS)
+am_libSoWinWidgets_la_OBJECTS = SoWinThumbWheel.lo SoWinPopupMenu.lo \
+SoWinBitmapButton.lo SoWinViewerPrefSheet.lo
+nodist_libSoWinWidgets_la_OBJECTS = SoAnyPopupMenu.lo SoAnyThumbWheel.lo
+libSoWinWidgets_la_OBJECTS = $(am_libSoWinWidgets_la_OBJECTS) \
+$(nodist_libSoWinWidgets_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXFLAGS = @CXXFLAGS@
@@ -209,8 +219,8 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@ $(DEPDIR)/SoWinViewerPrefSheet.Po
 DIST_COMMON = Makefile.am Makefile.in
 
-SOURCES = $(widgets_lst_SOURCES) $(libSoWinWidgets_la_SOURCES)
-OBJECTS = $(am_widgets_lst_OBJECTS) $(am_libSoWinWidgets_la_OBJECTS)
+SOURCES = $(widgets_lst_SOURCES) $(nodist_widgets_lst_SOURCES) $(libSoWinWidgets_la_SOURCES) $(nodist_libSoWinWidgets_la_SOURCES)
+OBJECTS = $(am_widgets_lst_OBJECTS) $(nodist_widgets_lst_OBJECTS) $(am_libSoWinWidgets_la_OBJECTS) $(nodist_libSoWinWidgets_la_OBJECTS)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am

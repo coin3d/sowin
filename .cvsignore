@@ -1,1 +1,6 @@
 autom4te.cache
+SoWin-*.tar.gz
+Makefile
+config.log
+config.status
+libtool

@@ -9,7 +9,7 @@ endif
 ## Remove any linklibraries detected by configure, as they are not
 ## needed in the submodules -- only in the toplevel libSoWin build.
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/src
 LIBS = 
 
 ############################################################################
@@ -25,8 +25,7 @@ BUILT_SOURCES = \
 	SoAnyPlaneViewer.h \
 	SoAnyPlaneViewer.cpp
 
-VIEWERSOURCES = \
-	$(BUILT_SOURCES) \
+ViewerSources = \
 	SoWinFullViewer.cpp \
 	SoWinFullViewer.h \
 	SoWinExaminerViewer.cpp \
@@ -79,13 +78,19 @@ SoAnyPlaneViewer.cpp: \
 # libtool setup
 
 libSoWinViewers_la_SOURCES = \
-	$(VIEWERSOURCES)
+	$(ViewerSources)
+
+nodist_libSoWinViewers_la_SOURCES = \
+	$(BUILT_SOURCES)
 
 ############################################################################
 # custom setup
 
 viewers_lst_SOURCES = \
-	$(VIEWERSOURCES)
+	$(ViewerSources)
+
+nodist_viewers_lst_SOURCES = \
+	$(BUILT_SOURCES)
 
 viewers.lst: Makefile $(viewers_lst_OBJECTS)
 	@echo "Linking viewers.lst..."; \
@@ -95,12 +100,38 @@ viewers.lst: Makefile $(viewers_lst_OBJECTS)
 ############################################################################
 # headers
 
-libSoWinViewersincdir = $(includedir)/Inventor/Win/viewers
-
-libSoWinViewersinc_HEADERS = \
-	$(top_builddir)/src/Inventor/Win/viewers/SoWinViewer.h \
+SoWinViewersincdir = $(includedir)/Inventor/Win/viewers
+SoWinViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinFullViewer.h \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinExaminerViewer.h \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinPlaneViewer.h
+nodist_SoWinViewersinc_HEADERS = \
+	$(top_builddir)/src/Inventor/Win/viewers/SoWinViewer.h
+
+install-SoWinViewersincHEADERS: $(SoWinViewersinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinViewersincdir)
+	@list='$(SoWinViewersinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
+
+install-nodist_SoWinViewersincHEADERS: $(nodist_SoWinViewersinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinViewersincdir)
+	@list='$(nodist_SoWinViewersinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
 
 # EOF ######################################################################

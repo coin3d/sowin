@@ -7,10 +7,10 @@ ACLOCAL_AMFLAGS = -I cfg/m4
 
 SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
-SUBDIRS = src/Inventor/Win
+SUBDIRS = src
 
 BUILT_SOURCES = \
-	sowindefs.h \
+	src/sowindefs.h \
 	src/Inventor/Win/SoAny.h \
 	src/Inventor/Win/SoAny.cpp \
 	src/Inventor/Win/SoWinBasic.h \
@@ -46,7 +46,39 @@ cfgdata_DATA = sowin-@CONFIG@.cfg
 sowin-@CONFIG@.cfg: Makefile sowin.cfg.in
 	@$(SHELL) config.status --file=$@:sowin.cfg.in
 
-EXTRA_DIST = cfg/m4/sowin.m4
+EXTRA_DIST = \
+	LICENSE.LGPL \
+	sowin-config \
+	sowin.cfg.in \
+	cfg/ltconfig \
+	cfg/m4/sowin.m4 \
+	cfg/m4/wrapmsvc.cpp \
+	cfg/m4/wrapmsvc.exe \
+	build/sowin.doxygen.in \
+	src/Inventor/Win/common/ChangeLog \
+	src/Inventor/Win/common/SoAny.h.in \
+	src/Inventor/Win/common/SoAny.cpp.in \
+	src/Inventor/Win/common/SoGuiBasic.h.in \
+	src/Inventor/Win/common/SoGuiCursors.h.in \
+	src/Inventor/Win/common/SoGuiCursors.cpp.in \
+	src/Inventor/Win/common/SoGuiObject.h.in \
+	src/Inventor/Win/common/SoGuiObject.cpp.in \
+	src/Inventor/Win/common/SoGuiRenderArea.h.in \
+	src/Inventor/Win/common/SoGuiRenderArea.cpp.in \
+	src/Inventor/Win/common/SoGuiViewer.h.in \
+	src/Inventor/Win/common/SoGuiViewer.cpp.in \
+	src/Inventor/Win/common/SoAnyFullViewer.h.in \
+	src/Inventor/Win/common/SoAnyFullViewer.cpp.in \
+	src/Inventor/Win/common/SoAnyExaminerViewer.h.in \
+	src/Inventor/Win/common/SoAnyExaminerViewer.cpp.in \
+	src/Inventor/Win/common/SoAnyPlaneViewer.h.in \
+	src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in \
+	src/Inventor/Win/common/SoAnyThumbWheel.h.in \
+	src/Inventor/Win/common/SoAnyThumbWheel.cpp.in \
+	src/Inventor/Win/common/SoAnyPopupMenu.h.in \
+	src/Inventor/Win/common/SoAnyPopupMenu.cpp.in \
+	src/Inventor/Win/common/spwinput.h.in \
+	src/Inventor/Win/common/spwinput_x11.cpp.in
 
 Makefile: $(BUILT_SOURCES)
 
@@ -57,8 +89,8 @@ built-sources: $(BUILT_SOURCES)
 
 ############################################################################
 
-sowindefs.h: $(srcdir)/sowindefs.h.in
-	@./config.status --file=sowindefs.h
+src/sowindefs.h: $(srcdir)/src/sowindefs.h.in
+	@./config.status --file=src/sowindefs.h
 
 src/Inventor/Win/SoWinBasic.h: $(srcdir)/src/Inventor/Win/common/SoGuiBasic.h.in
 	@./config.status \
@@ -165,3 +197,4 @@ doxygen-docs:
 doxygen-doc:
 	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
 
+# EOF ######################################################################

@@ -129,7 +129,7 @@ win_srcdir = @win_srcdir@
 @BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = devices.lst
 @BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoWinDevices.la
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/src
 
 BUILT_SOURCES = 
 
@@ -157,9 +157,8 @@ devices_lst_SOURCES = \
 
 ############################################################################
 
-libSoWinDevicesincdir = $(includedir)/Inventor/Win/devices
-
-libSoWinDevicesinc_HEADERS = \
+SoWinDevicesincdir = $(includedir)/Inventor/Win/devices
+SoWinDevicesinc_HEADERS = \
 	SoWinDevice.h \
 	SoWinInputFocus.h \
 	SoWinKeyboard.h \
@@ -168,12 +167,12 @@ libSoWinDevicesinc_HEADERS = \
 
 subdir = src/Inventor/Win/devices
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
+DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)/src
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
@@ -201,7 +200,7 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(devices_lst_SOURCES) $(libSoWinDevices_la_SOURCES)
-HEADERS = $(libSoWinDevicesinc_HEADERS)
+HEADERS = $(SoWinDevicesinc_HEADERS)
 
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@DEP_FILES = $(DEPDIR)/SoWinDevice.Plo $(DEPDIR)/SoWinDevice.Po \
@@ -209,7 +208,7 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@ $(DEPDIR)/SoWinKeyboard.Plo $(DEPDIR)/SoWinKeyboard.Po \
 @AMDEP@ $(DEPDIR)/SoWinMouse.Plo $(DEPDIR)/SoWinMouse.Po \
 @AMDEP@ $(DEPDIR)/SoWinSpaceball.Plo $(DEPDIR)/SoWinSpaceball.Po
-DIST_COMMON = $(libSoWinDevicesinc_HEADERS) Makefile.am Makefile.in
+DIST_COMMON = $(SoWinDevicesinc_HEADERS) Makefile.am Makefile.in
 
 SOURCES = $(devices_lst_SOURCES) $(libSoWinDevices_la_SOURCES)
 OBJECTS = $(am_devices_lst_OBJECTS) $(am_libSoWinDevices_la_OBJECTS)
@@ -252,22 +251,13 @@ clean-noinstLTLIBRARIES:
 
 libSoWinDevices.la: $(libSoWinDevices_la_OBJECTS) $(libSoWinDevices_la_DEPENDENCIES)
 	$(CXXLINK)  $(libSoWinDevices_la_LDFLAGS) $(libSoWinDevices_la_OBJECTS) $(libSoWinDevices_la_LIBADD) $(LIBS)
-install-libSoWinDevicesincHEADERS: $(libSoWinDevicesinc_HEADERS)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoWinDevicesincdir)
-	@list='$(libSoWinDevicesinc_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(libSoWinDevicesincdir)/$$f"; \
-	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(libSoWinDevicesincdir)/$$f; \
-	done
 
-uninstall-libSoWinDevicesincHEADERS:
+uninstall-SoWinDevicesincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libSoWinDevicesinc_HEADERS)'; for p in $$list; do \
+	@list='$(SoWinDevicesinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libSoWinDevicesincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libSoWinDevicesincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(SoWinDevicesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoWinDevicesincdir)/$$f; \
 	done
 
 tags: TAGS
@@ -359,7 +349,7 @@ check: check-am
 all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(libSoWinDevicesincdir)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinDevicesincdir)
 
 install: install-am
 install-exec: install-exec-am
@@ -406,7 +396,7 @@ info:
 
 info-am:
 
-install-data-am: install-libSoWinDevicesincHEADERS
+install-data-am: install-SoWinDevicesincHEADERS
 
 install-exec-am:
 
@@ -425,19 +415,19 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-libSoWinDevicesincHEADERS
+uninstall-am: uninstall-SoWinDevicesincHEADERS
 
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	clean-noinstLIBRARIES clean-noinstLTLIBRARIES distclean \
 	distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
-	info-am install install-am install-data install-data-am \
-	install-exec install-exec-am install-info \
-	install-libSoWinDevicesincHEADERS install-man install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
+	info-am install install-SoWinDevicesincHEADERS install-am \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-man install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool tags uninstall \
-	uninstall-am uninstall-libSoWinDevicesincHEADERS
+	uninstall-SoWinDevicesincHEADERS uninstall-am
 
 
 ############################################################################
@@ -446,6 +436,19 @@ devices.lst: Makefile $(devices_lst_OBJECTS)
 	@echo "Linking devices.lst..."; \
 	rm -f $@; \
 	for i in $(devices_lst_OBJECTS); do echo $$i >>$@; done
+
+install-SoWinDevicesincHEADERS: $(SoWinDevicesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinDevicesincdir)
+	@list='$(SoWinDevicesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinDevicesincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
 
 # EOF ######################################################################
 

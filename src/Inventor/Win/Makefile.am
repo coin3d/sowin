@@ -4,7 +4,7 @@ SUBDIRS = devices widgets viewers
 
 ############################################################################
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/src
 
 if BUILD_WITH_MSVC
 lib_LIBRARIES = sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
@@ -23,8 +23,7 @@ BUILT_SOURCES = \
 	SoWinRenderArea.h \
 	SoWinRenderArea.cpp
 
-SOWINSOURCES = \
-	$(BUILT_SOURCES) \
+SoWinSources = \
 	SoWin.h \
 	SoWin.cpp \
 	SoWinComponent.h \
@@ -40,7 +39,10 @@ noinst_DATA = $(BUILT_SOURCES)
 # libtool setup
 
 libSoWin@SUFFIX@_la_SOURCES = \
-	$(SOWINSOURCES)
+	$(SoWinSources)
+
+nodist_libSoWin@SUFFIX@_la_SOURCES = \
+	$(BUILT_SOURCES)
 
 libSoWin@SUFFIX@_la_LIBADD = \
 	devices/libSoWinDevices.la \
@@ -54,7 +56,10 @@ libSoWin@SUFFIX@_la_LDFLAGS = \
 # alternative custom setup
 
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	$(SOWINSOURCES)
+	$(SoWinSources)
+
+nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
+	$(BUILT_SOURCES)
 
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \
@@ -63,16 +68,44 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 
 ############################################################################
 
-libSoWinincdir = $(includedir)/Inventor/Win
+SoWinincdir = $(includedir)/Inventor/Win
 
-libSoWininc_HEADERS = \
-	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
+SoWininc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/SoWin.h \
-	$(top_builddir)/src/Inventor/Win/SoWinObject.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinComponent.h \
+	$(top_srcdir)/src/Inventor/Win/SoWinGLWidget.h
+
+nodist_SoWininc_HEADERS = \
+	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
+	$(top_builddir)/src/Inventor/Win/SoWinObject.h \
 	$(top_builddir)/src/Inventor/Win/SoWinCursors.h \
-	$(top_srcdir)/src/Inventor/Win/SoWinGLWidget.h \
 	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
+
+install-SoWinincHEADERS: $(SoWininc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinincdir)
+	@list='$(SoWininc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
+
+install-nodist_SoWinincHEADERS: $(nodist_SoWininc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinincdir)
+	@list='$(nodist_SoWininc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
 
 ############################################################################
 

@@ -1,9 +1,4 @@
-/* config.h.in.  Generated automatically from configure.in by autoheader.  */
-#undef SOWIN_MAJOR_VERSION
-#undef SOWIN_MINOR_VERSION
-#undef SOWIN_MICRO_VERSION
-#undef SOWIN_VERSION
-#undef HAVE_SOPOLYGONOFFSET
+/* src/config.h.in.  Generated automatically from configure.in by autoheader.  */
 
 /* Define if you have the <netinet/in.h> header file. */
 #undef HAVE_NETINET_IN_H

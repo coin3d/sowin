@@ -9,7 +9,7 @@ endif
 ## Remove any linklibraries detected by configure, as they are not
 ## needed in the submodules -- only in the toplevel libSoWin build.
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/src
 LIBS = 
 
 BUILT_SOURCES = \
@@ -18,8 +18,7 @@ BUILT_SOURCES = \
 	SoAnyThumbWheel.h \
 	SoAnyThumbWheel.cpp
 
-WIDGETSOURCES = \
-	$(BUILT_SOURCES) \
+WidgetSources = \
 	SoWinThumbWheel.cpp \
 	SoWinThumbWheel.h \
 	SoWinPopupMenu.cpp \
@@ -28,7 +27,6 @@ WIDGETSOURCES = \
 	SoWinBitmapButton.h \
         SoWinViewerPrefSheet.cpp \
         SoWinViewerPrefSheet.h
-
 
 ############################################################################
 
@@ -52,13 +50,19 @@ SoAnyThumbWheel.cpp: $(top_srcdir)/src/Inventor/Win/common/SoAnyThumbWheel.cpp.i
 # libtool setup
 
 libSoWinWidgets_la_SOURCES = \
-	$(WIDGETSOURCES)
+	$(WidgetSources)
+
+nodist_libSoWinWidgets_la_SOURCES = \
+	$(BUILT_SOURCES)
 
 ############################################################################
 # custom setup
 
 widgets_lst_SOURCES = \
-	$(WIDGETSOURCES)
+	$(WidgetSources)
+
+nodist_widgets_lst_SOURCES = \
+	$(BUILT_SOURCES)
 
 widgets.lst: Makefile $(widgets_lst_OBJECTS)
 	@echo "Linking widgets.lst..."; \
