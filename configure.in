@@ -389,6 +389,8 @@ AC_ARG_WITH(
 SOWIN_DOC_HTML=NO
 if $want_html; then
   SOWIN_DOC_HTML=YES
+  HTML_DOC_DIR=`eval echo "$datadir/SoWin/html"`
+  AC_SUBST(HTML_DOC_DIR)
 fi
 
 SOWIN_DOC_MAN=NO

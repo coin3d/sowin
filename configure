@@ -5137,6 +5137,8 @@ fi;
 SOWIN_DOC_HTML=NO
 if $want_html; then
   SOWIN_DOC_HTML=YES
+  HTML_DOC_DIR=`eval echo "$datadir/SoWin/html"`
+
 fi
 
 SOWIN_DOC_MAN=NO
@@ -5164,7 +5166,7 @@ if test x"$with_doxygen" != xno; then
 
   # Extract the first word of "doxygen", so it can be a program name with args.
 set dummy doxygen; ac_word=$2
-echo "$as_me:5167: checking for $ac_word" >&5
+echo "$as_me:5169: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
 if test "${ac_cv_path_sim_ac_doxygen_exe+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -5181,7 +5183,7 @@ for ac_dir in $ac_dummy; do
   test -z "$ac_dir" && ac_dir=.
   if $as_executable_p "$ac_dir/$ac_word"; then
    ac_cv_path_sim_ac_doxygen_exe="$ac_dir/$ac_word"
-   echo "$as_me:5184: found $ac_dir/$ac_word" >&5
+   echo "$as_me:5186: found $ac_dir/$ac_word" >&5
    break
 fi
 done
@@ -5193,10 +5195,10 @@ fi
 sim_ac_doxygen_exe=$ac_cv_path_sim_ac_doxygen_exe
 
 if test -n "$sim_ac_doxygen_exe"; then
-  echo "$as_me:5196: result: $sim_ac_doxygen_exe" >&5
+  echo "$as_me:5198: result: $sim_ac_doxygen_exe" >&5
 echo "${ECHO_T}$sim_ac_doxygen_exe" >&6
 else
-  echo "$as_me:5199: result: no" >&5
+  echo "$as_me:5201: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
@@ -5694,7 +5696,7 @@ DEFS=-DHAVE_CONFIG_H
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
 ac_clean_files="$ac_clean_files $CONFIG_STATUS"
-{ echo "$as_me:5697: creating $CONFIG_STATUS" >&5
+{ echo "$as_me:5699: creating $CONFIG_STATUS" >&5
 echo "$as_me: creating $CONFIG_STATUS" >&6;}
 cat >$CONFIG_STATUS <<_ACEOF
 #! $SHELL
@@ -5870,7 +5872,7 @@ cat >>$CONFIG_STATUS <<\EOF
     echo "$ac_cs_version"; exit 0 ;;
   --he | --h)
     # Conflict between --help and --header
-    { { echo "$as_me:5873: error: ambiguous option: $1
+    { { echo "$as_me:5875: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -5889,7 +5891,7 @@ Try \`$0 --help' for more information." >&2;}
     ac_need_defaults=false;;
 
   # This is an error.
-  -*) { { echo "$as_me:5892: error: unrecognized option: $1
+  -*) { { echo "$as_me:5894: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -5952,7 +5954,7 @@ do
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "default-2" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-2" ;;
   "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
-  *) { { echo "$as_me:5955: error: invalid argument: $ac_config_target" >&5
+  *) { { echo "$as_me:5957: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
    { (exit 1); exit 1; }; };;
   esac
@@ -6112,6 +6114,7 @@ s,@sim_ac_coin_configcmd@,$sim_ac_coin_configcmd,;t t
 s,@CONFIG@,$CONFIG,;t t
 s,@SUFFIX@,$SUFFIX,;t t
 s,@INSTALL_HEADER@,$INSTALL_HEADER,;t t
+s,@HTML_DOC_DIR@,$HTML_DOC_DIR,;t t
 s,@sim_ac_doxygen_exe@,$sim_ac_doxygen_exe,;t t
 s,@SOWIN_DOC_HTML@,$SOWIN_DOC_HTML,;t t
 s,@SOWIN_DOC_MAN@,$SOWIN_DOC_MAN,;t t
@@ -6237,7 +6240,7 @@ done; }
   esac
 
   if test x"$ac_file" != x-; then
-    { echo "$as_me:6240: creating $ac_file" >&5
+    { echo "$as_me:6243: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
     rm -f "$ac_file"
   fi
@@ -6255,7 +6258,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:6258: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:6261: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -6268,7 +6271,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:6271: error: cannot find input file: $f" >&5
+           { { echo "$as_me:6274: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -6329,7 +6332,7 @@ for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   * )   ac_file_in=$ac_file.in ;;
   esac
 
-  test x"$ac_file" != x- && { echo "$as_me:6332: creating $ac_file" >&5
+  test x"$ac_file" != x- && { echo "$as_me:6335: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
 
   # First look for the input files in the build tree, otherwise in the
@@ -6340,7 +6343,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:6343: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:6346: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -6353,7 +6356,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:6356: error: cannot find input file: $f" >&5
+           { { echo "$as_me:6359: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -6470,7 +6473,7 @@ cat >>$CONFIG_STATUS <<\EOF
   rm -f $tmp/in
   if test x"$ac_file" != x-; then
     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
-      { echo "$as_me:6473: $ac_file is unchanged" >&5
+      { echo "$as_me:6476: $ac_file is unchanged" >&5
 echo "$as_me: $ac_file is unchanged" >&6;}
     else
       ac_dir=`$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
