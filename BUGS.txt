@@ -217,3 +217,8 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     20031215 thammer, based on note written by mortene.
 
 =====================================================================
+
+015 Missing SoWin::nextEvent() / SoWin::dispatchEvent()
+
+    Needed to implement your own event-processing mainloop.
+
