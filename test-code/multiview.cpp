@@ -1,55 +1,107 @@
-// File: multiview.cpp
+// File: testapp.cpp
 
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
 #include <Inventor/Win/viewers/SoWinPlaneViewer.h>
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoCone.h>
+#include <Inventor/SoInput.h>
 
-HWND examiner = NULL;
-HWND plane = NULL;
+void
+setUserData(
+  HWND window,
+  LONG data)
+{
+	SetWindowLong(window, GWL_USERDATA, data);
+}
 
-SoWinExaminerViewer * ev = NULL;
-SoWinPlaneViewer * pv = NULL;
-
-void sizeWindow(HWND window, int width, int height)
+void
+sizeWindow(
+  HWND window,
+  int width,
+  int height)
 {
 	UINT flags = SWP_NOMOVE | SWP_NOZORDER;
 	SetWindowPos(window, NULL, 0, 0, width, height, flags);
 }
 
-LRESULT CALLBACK mainWindowProc(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
+LRESULT CALLBACK
+mainWindowProc(
+  HWND window,
+  UINT message,
+  WPARAM wparam,
+  LPARAM lparam)
 {
+	HWND * win = (HWND *)GetWindowLong(window, GWL_USERDATA);
 	if ( message == WM_DESTROY ) {
 		PostQuitMessage( 0 );
 		return 0;
 	}
 	if ( message == WM_SIZE ) {
-		MoveWindow(plane, 0, 0, LOWORD(lparam) / 2, HIWORD(lparam), TRUE);
-		MoveWindow(examiner, LOWORD(lparam) / 2, 0, LOWORD(lparam) / 2, HIWORD(lparam), TRUE);
+		if (win) {
+			MoveWindow(
+        win[1],
+        0,
+        0,
+        LOWORD(lparam) / 2,
+        HIWORD(lparam) / 2,
+        TRUE);
+			MoveWindow(
+        win[2],
+        LOWORD(lparam) / 2,
+        0,
+        LOWORD(lparam) / 2,
+        HIWORD(lparam) / 2,
+        TRUE);
+			MoveWindow(
+        win[3],
+        0,
+        HIWORD(lparam) / 2,
+        LOWORD(lparam) / 2,
+        HIWORD(lparam) / 2,
+        TRUE);
+			MoveWindow(
+        win[4],
+        LOWORD(lparam) / 2,
+        HIWORD(lparam) / 2,
+        LOWORD(lparam) / 2,
+        HIWORD(lparam) / 2,
+        TRUE);
+		}
 	}
 	return DefWindowProc(window, message, wparam, lparam);
 }
 
-LRESULT CALLBACK planeWindowProc(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
+LRESULT CALLBACK
+planeWindowProc(
+  HWND window,
+  UINT message,
+  WPARAM wparam,
+  LPARAM lparam)
 {
-	if (message == WM_SIZE) {
-		if (pv) setWindowSize(pv->getWidget(), LOWORD(lparam), HIWORD(lparam));
-		return 0;
-	}
+	SoWinPlaneViewer * pv =
+    (SoWinPlaneViewer *)GetWindowLong(window, GWL_USERDATA);
+	if (message == WM_SIZE)
+		if (pv)	sizeWindow(pv->getWidget(), LOWORD(lparam), HIWORD(lparam));
 	return DefWindowProc(window, message, wparam, lparam);
 }
 
-LRESULT CALLBACK examinerWindowProc(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
+LRESULT CALLBACK
+examinerWindowProc(
+  HWND window,
+  UINT message,
+  WPARAM wparam,
+  LPARAM lparam)
 {
-	if (message == WM_SIZE) {
-		if (ev) setWindowSize(ev->getWidget(), LOWORD(lparam), HIWORD(lparam));
-		return 0;
-	}
+	SoWinExaminerViewer * ev =
+    (SoWinExaminerViewer *)GetWindowLong(window, GWL_USERDATA);
+	if (message == WM_SIZE)
+		if (ev)	sizeWindow(ev->getWidget(), LOWORD(lparam), HIWORD(lparam));
 	return DefWindowProc(window, message, wparam, lparam);
 }
 
-HWND createWindow(
+HWND
+createWindow(
 	HINSTANCE instance,
 	HWND parent,
 	LPSTR wndclassname,
@@ -80,64 +132,105 @@ HWND createWindow(
   RegisterClass(&windowclass);
 
   HWND window = CreateWindow(wndclassname,
-    wndclassname,
-    style,
-    pos[0],
-    pos[1],
-    size[0],
-    size[1],
-    parent,
-    NULL,
-    instance,
-    NULL);
+                             wndclassname,
+                             style,
+                             pos[0],
+                             pos[1],
+                             size[0],
+                             size[1],
+                             parent,
+                             NULL,
+                             instance,
+                             NULL);
+
   
   return window;
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+int WINAPI
+WinMain(
+  HINSTANCE hInstance,
+  HINSTANCE hPrevInstance,
+  LPSTR lpCmdLine,
+  int nShowCmd)
 {
-  HWND mainwin = createWindow(hInstance,
-    NULL,
-    "MainWindow",
-    WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-    SbVec2s(CW_USEDEFAULT,CW_USEDEFAULT),
-    SbVec2s(600,600),
-    mainWindowProc);
+  HWND win[5];
 
-  HWND planewin = createWindow(hInstance,
-    mainwin,
-    "PlaneWindow",
-    WS_CHILD | WS_VISIBLE,
-    SbVec2s(0,0),
-    SbVec2s(300,600),
-    planeWindowProc);
-  HWND examinerwin = createWindow(hInstance,
-    mainwin,
-    "ExaminerWindow",
-    WS_CHILD | WS_VISIBLE,
-    SbVec2s(300,0),
-    SbVec2s(300,600),
-    examinerWindowProc);
-  
-  plane = planewin;
-  examiner = examinerwin;
+  win[0] = createWindow(hInstance,
+						NULL,
+						"MainWindow",
+						WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+						SbVec2s(CW_USEDEFAULT,CW_USEDEFAULT),
+						SbVec2s(600,600),
+						mainWindowProc);
 
-  SoWin::init(mainwin);
+  win[1] = createWindow(hInstance,
+						win[0],
+						"PlaneWindowA",
+						WS_CHILD|WS_VISIBLE,
+						SbVec2s(0,0),
+						SbVec2s(300,300),
+						planeWindowProc);
 
-  SoSeparator * s = new SoSeparator;
+  win[2] = createWindow(hInstance,
+						win[0],
+						"ExaminerWindow",
+						WS_CHILD|WS_VISIBLE,
+						SbVec2s(300,0),
+						SbVec2s(300,300),
+						examinerWindowProc);
+
+  win[3] = createWindow(hInstance,
+						win[0],
+						"PlaneWindowB",
+						WS_CHILD|WS_VISIBLE,
+						SbVec2s(0,300),
+						SbVec2s(300,300),
+						planeWindowProc);
+
+  win[4] = createWindow(hInstance,
+						win[0],
+						"PlaneWindowC",
+						WS_CHILD|WS_VISIBLE,
+						SbVec2s(300,300),
+						SbVec2s(300,300),
+						planeWindowProc);
+
+  setUserData(win[0], (LONG)win);
+
+  SoWin::init(win[0]);
+
+  SoSeparator * s = new SoSeparator; // Scene root
   s->addChild(new SoCone);
 
-  SoWinExaminerViewer * eviewer = ev = new SoWinExaminerViewer(examinerwin);
+  SoWinPlaneViewer * pviewer_a = new SoWinPlaneViewer(win[1]);
+  setUserData(win[1], (LONG)pviewer_a);
+  pviewer_a->setSceneGraph(s);
+  pviewer_a->show();
+
+  SoWinExaminerViewer * eviewer = new SoWinExaminerViewer(win[2]);
+  setUserData(win[2], (LONG)eviewer);
   eviewer->setSceneGraph(s);
   eviewer->show();
 
-  SoWinPlaneViewer * pviewer = pv = new SoWinPlaneViewer(planewin);
-  pviewer->setSceneGraph(s);
-  pviewer->show();
+  SoWinPlaneViewer * pviewer_b = new SoWinPlaneViewer(win[3]);
+  setUserData(win[3], (LONG)pviewer_b);
+  pviewer_b->setSceneGraph(s);
+  pviewer_b->show();
 
-  sizeWindow(mainwin, 500, 500); // The viewers size to default
-                                 // size when created. We size them back.
+  SoWinPlaneViewer * pviewer_c = new SoWinPlaneViewer(win[4]);
+  setUserData(win[4], (LONG)pviewer_c);
+  pviewer_c->setSceneGraph(s);
+  pviewer_c->show();
+
+  sizeWindow(win[0], 600, 600); // The viewers size to default size
+                                // when created. We size them back.
   SoWin::mainLoop();
 
+  delete eviewer;
+  delete pviewer_a;
+  delete pviewer_b;
+  delete pviewer_c;
+  
   return 0;
 }
