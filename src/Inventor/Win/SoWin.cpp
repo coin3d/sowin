@@ -169,7 +169,7 @@ void
 SoWin::setWidgetSize( HWND widget, const SbVec2s size )
 {
   SIZE old_size;
-  HDC hdc = GetDC( mainWidget );
+  HDC hdc = GetDC( SoWin::mainWidget );
 
   SetWindowExtEx( hdc, size[ 0 ], size[ 1 ], & old_size );
 } 
@@ -178,7 +178,7 @@ SbVec2s
 SoWin::getWidgetSize( HWND widget )
 {
   SIZE size;
-  HDC hdc = GetDC( mainWidget );
+  HDC hdc = GetDC( SoWin::mainWidget );
 
   if ( ! GetWindowExtEx( hdc, & size ) )
     {
@@ -349,7 +349,7 @@ SoWin::errorHandlerCB( const SoError * error, void * data )
 {
   SbString debugstring = error->getDebugString( );
 
-  MessageBox( NULL,
+  MessageBox( SoWin::mainWidget,
               ( LPCTSTR ) debugstring.getString( ),
               "SoError",
               MB_OK | MB_ICONERROR );

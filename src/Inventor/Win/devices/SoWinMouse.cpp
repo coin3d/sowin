@@ -130,7 +130,15 @@ SoWinMouse::translateEvent( MSG * msg )
 SoLocation2Event *
 SoWinMouse::makeLocationEvent( MSG * msg )
 {
-  if (this->locationEvent == NULL) 
+  static POINT prevPos = { 0xFFFF, 0xFFFF };
+  if ( ( msg->pt.x == prevPos.x ) && ( msg->pt.y == prevPos.y ) ) {
+    return NULL;
+  }
+  else {
+    prevPos = msg->pt;
+  }
+  
+  if ( this->locationEvent == NULL ) 
     this->locationEvent = new SoLocation2Event;
   this->setEventPosition( this->locationEvent, msg->pt.x, msg->pt.y );
 
