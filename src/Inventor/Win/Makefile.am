@@ -30,7 +30,9 @@ SOWINSOURCES = \
 	SoWinComponent.h \
 	SoWinComponent.cpp \
 	SoWinGLWidget.h \
-	SoWinGLWidget.cpp
+	SoWinGLWidget.cpp \
+	Win32API.cpp \
+	Win32API.h
 
 noinst_DATA = $(BUILT_SOURCES)
 

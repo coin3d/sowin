@@ -154,7 +154,9 @@ SOWINSOURCES = \
 	SoWinComponent.h \
 	SoWinComponent.cpp \
 	SoWinGLWidget.h \
-	SoWinGLWidget.cpp
+	SoWinGLWidget.cpp \
+	Win32API.cpp \
+	Win32API.h
 
 
 noinst_DATA = $(BUILT_SOURCES)
@@ -218,7 +220,8 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = \
 devices/devices.lst viewers/viewers.lst widgets/widgets.lst
 am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoAny.$(OBJEXT) \
 SoWinObject.$(OBJEXT) SoWinCursors.$(OBJEXT) SoWinRenderArea.$(OBJEXT) \
-SoWin.$(OBJEXT) SoWinComponent.$(OBJEXT) SoWinGLWidget.$(OBJEXT)
+SoWin.$(OBJEXT) SoWinComponent.$(OBJEXT) SoWinGLWidget.$(OBJEXT) \
+Win32API.$(OBJEXT)
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = \
 $(am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS)
 AR = ar
@@ -227,7 +230,7 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 libSoWin@SUFFIX@_la_DEPENDENCIES = devices/libSoWinDevices.la \
 viewers/libSoWinViewers.la widgets/libSoWinWidgets.la
 am_libSoWin@SUFFIX@_la_OBJECTS = SoAny.lo SoWinObject.lo SoWinCursors.lo \
-SoWinRenderArea.lo SoWin.lo SoWinComponent.lo SoWinGLWidget.lo
+SoWinRenderArea.lo SoWin.lo SoWinComponent.lo SoWinGLWidget.lo Win32API.lo
 libSoWin@SUFFIX@_la_OBJECTS = $(am_libSoWin@SUFFIX@_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -251,6 +254,7 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@ $(DEPDIR)/SoWinComponent.Plo $(DEPDIR)/SoWinComponent.Po \
 @AMDEP@ $(DEPDIR)/SoWinCursors.Plo $(DEPDIR)/SoWinCursors.Po \
 @AMDEP@ $(DEPDIR)/SoWinGLWidget.Plo $(DEPDIR)/SoWinGLWidget.Po \
+@AMDEP@ $(DEPDIR)/Win32API.Plo $(DEPDIR)/Win32API.Po \
 @AMDEP@ $(DEPDIR)/SoWinObject.Plo $(DEPDIR)/SoWinObject.Po \
 @AMDEP@ $(DEPDIR)/SoWinRenderArea.Plo $(DEPDIR)/SoWinRenderArea.Po
 DIST_COMMON = $(libSoWininc_HEADERS) Makefile.am Makefile.in
@@ -464,6 +468,8 @@ distclean-tags:
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinCursors.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinGLWidget.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinGLWidget.Po
+@AMDEP@@_am_include@ $(DEPDIR)/Win32API.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/Win32API.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinObject.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinObject.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinRenderArea.Plo
