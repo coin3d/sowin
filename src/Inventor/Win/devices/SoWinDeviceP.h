@@ -27,10 +27,12 @@
 #define MK_ALT 0x02
 #endif
 
+#include <Inventor/Win/devices/SoGuiDeviceP.h>
+
 class SoWinDeviceP : public SoGuiDeviceP {
 public:
-  SoQtDeviceP(SoQtDevice * p) : SoGuiDeviceP(p) { }
-  virtual ~SoQtDeviceP() { }
+  SoWinDeviceP(SoWinDevice * p) : SoGuiDeviceP(p) { }
+  virtual ~SoWinDeviceP() { }
 
   // FIXME: ugly hack done by mariusbu to share this define between
   // SoWinMouse and SoWinKeyboard. Should instead find out how we
