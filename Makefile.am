@@ -58,6 +58,7 @@ EXTRA_DIST = \
 	LICENSE.LGPL \
 	src/Inventor/Win/common/sogui-config.in \
 	src/Inventor/Win/common/sogui.cfg.in \
+	src/Inventor/Win/common/soguidefs.h.in \
 	cfg/ltconfig \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \
