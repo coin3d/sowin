@@ -88,6 +88,11 @@ SoWinComponentP::commonEventHandler(UINT message, WPARAM wparam, LPARAM lparam)
 {
   switch (message) {
   case WM_SIZE:
+#if SOWIN_DEBUG && 0 // debug
+    SoDebugError::postInfo("SoWinComponentP::commonEventHandler",
+                           "WM_SIZE==<%d, %d>",
+                           LOWORD(lparam), HIWORD(lparam));
+#endif // debug
     PUBLIC(this)->sizeChanged(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
     break;
 
@@ -348,7 +353,7 @@ SbBool
 SoWinComponent::setFullScreen(const SbBool enable)
 {
   SoWinComponentP::FullscreenData * data = &(PRIVATE(this)->fullscreendata);
-  if (enable == data->on) { return TRUE; }
+  if (!!enable == !!data->on) { return TRUE; }
   data->on = enable;
 
   // FIXME: this check to see if we're a top-level component doesn't
@@ -361,37 +366,31 @@ SoWinComponent::setFullScreen(const SbBool enable)
 
   if (enable) {
     // Save size, position and styles.
-    RECT rect;
-    Win32::GetWindowRect(hwnd, &rect);
     data->style = Win32::SetWindowLong(hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
     data->exstyle = Win32::SetWindowLong(hwnd, GWL_EXSTYLE, WS_EX_TOPMOST);
 
-    if (data->style & WS_MAXIMIZE) {
-      data->pos.setValue(0, 0);
-      data->size.setValue(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CXSCREEN));
-    }
-    else {
-      data->pos.setValue((short)rect.left, (short)rect.top);
-      data->size.setValue((short)(rect.right - rect.left),
-                          (short)(rect.bottom - rect.top));
-    }
-    // Go fullscreen.
+    // Store old position and size.
+    RECT rect;
+    Win32::GetWindowRect(hwnd, &rect);
+    data->pos.setValue((short)rect.left, (short)rect.top);
+    data->size.setValue((short)(rect.right - rect.left),
+                        (short)(rect.bottom - rect.top));
 
-    Win32::MoveWindow(hwnd,
-                      0,
-                      0,
-                      GetSystemMetrics(SM_CXSCREEN),
-                      GetSystemMetrics(SM_CYSCREEN),
-                      TRUE);
+    SbVec2s maxsize(GetSystemMetrics(SM_CXSCREEN),
+                    GetSystemMetrics(SM_CYSCREEN));
+
+    // Go fullscreen.
+    Win32::MoveWindow(hwnd, 0, 0, maxsize[0], maxsize[1], TRUE);
 
     // FIXME: isn't there a specific method in the Win32 API for
     // maximizing a window? If yes, use that mechanism instead of this
     // "homegrown" method with MoveWindow() resizing. 20010820 mortene.
-    // ShowWindow(hwnd, SW_MAXIMIZE);
+    //
+    // UPDATE 20030422 mortene: perhaps we can use
+    // ShowWindow(hwnd,SW_MAXIMIZE) + ShowWindow(hwnd,SW_RESTORE)?
   }
   else {
-    // Go "normal".
-    // ShowWindow(hwnd, SW_RESTORE);
+    // Restore old window settings.
     (void)Win32::SetWindowLong(hwnd, GWL_STYLE, data->style | WS_VISIBLE);
     (void)Win32::SetWindowLong(hwnd, GWL_EXSTYLE, data->exstyle);
 
