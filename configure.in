@@ -431,14 +431,16 @@ SIM_AC_UNIQIFY_LIST(CFLAGS, $CFLAGS)
 SIM_AC_UNIQIFY_LIST(LDFLAGS, $LDFLAGS)
 SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
 
+SOWIN_STATIC=false
+
 case $enable_static in
 yes | true)  SOWIN_STATIC=true;;
 *)           SOWIN_STATIC=false;;
 esac
 
 case $enable_shared in
-yes | true)  SOWIN_SHARED=true;;
-*)           SOWIN_SHARED=false;;
+yes | true)  SOWIN_STATIC=false ;;
+*)           SOWIN_STATIC=true ;;
 esac
 
 LIBFLAGS=
@@ -536,8 +538,12 @@ fi
 
 SIM_AC_CONFIGURATION_SUMMARY
 
-echo ""
-echo "Now, run 'make install' to build and install."
-echo ""
+if $sim_ac_build_library; then
+  echo ""
+  echo "Now, run 'make install' to build and install."
+  echo ""
+else
+  echo ""
+fi
 
 # **************************************************************************
