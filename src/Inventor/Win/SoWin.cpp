@@ -169,26 +169,6 @@
 
   </ul>
 
-  The %SoWin library is "dual-licensed", which means it's available
-  either under a Free Software license (specifically the <a
-  href="http://www.fsf.org/copyleft/gpl.html">GNU General Public
-  License</a>), or a license better suited for the development of
-  proprietary / commercial applications: our <a
-  href="http://www.coin3d.org">Coin Professional Edition License</a>.
-
-  Note that to use %SoWin under the GNU General Public License, you
-  have to comply with that license's restrictions. These restrictions
-  are \e not well suited for the development of non-Free software, so
-  the availability of %SoWin under the GNU GPL is primarily meant to be
-  a service to the Free Software community. We \e strongly advise you
-  to invest in the Coin Professional Edition License for using %SoWin
-  in proprietary development projects. As a Coin Professional Edition
-  License holder, you gain the rights to use the %SoWin library in just
-  about any way you like. See the Coin web site at
-  <http://www.coin3d.org> for more information on the advantages of
-  the Coin Professional Edition License, and how to become a license
-  holder.
-
   For those who are using the implementation of the Inventor API from
   SGI, we would like to point out that %SoWin can also be used on top
   of that library instead of the \COIN library from Systems in Motion.
@@ -197,6 +177,10 @@
   library API, originally developed by SGI. This should make it
   straigthforward to port simple InventorXt code over to %SoWin, for
   instance to gain greater portability.
+
+  For more information about the Coin3D family of libraries, including
+  licensing information, please visit the Coin3D web site 
+  <http://www.coin3d.org>.
 
   \sa The documentation for the \COIN library: <http://doc.coin3d.org/Coin>.
 */
