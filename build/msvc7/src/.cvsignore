@@ -1,4 +1,2 @@
 Makefile
-*.lst
 stamp-*
-sowin*.so*
