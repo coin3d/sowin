@@ -766,6 +766,19 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
                                  SbBool want_overlay, /* default FALSE */
                                  SbBool want_alphachannel) /* default FALSE */
 {
+  // FIXME: I have thought of one improvement we should make: fix
+  // interface to make it possible to ask for a particular amount of
+  // color and/or depth and/or stencil and/or accumulation buffer
+  // bits, and then punish *extra* bits aswell as too few (but punish
+  // fewer bits *more* than extra bits).
+  //
+  // The rationale behind this suggestion is that excessive bits takes
+  // up more memory, which increases the chances that
+  // e.g. wglMakeCurrent() will later fail due to resource
+  // problems.
+  //
+  // 20031203 mortene.
+
   if ((pfd->dwFlags & PFD_SUPPORT_OPENGL) == 0) { return -FLT_MAX; }
   // We only care for on-screen windows for now. If we ever want to
   // use this weighting method for offscreen buffers aswell, we should
