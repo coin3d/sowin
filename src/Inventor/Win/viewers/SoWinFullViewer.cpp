@@ -472,12 +472,11 @@ SoWinFullViewer::buildDecoration( HWND parent )
     SoWinFullViewerP::doneButtonBar = TRUE;
   }
 
+  // FIXME: remove. mariusbu 20010808.
   // reposition all widgets
-  RECT rect;
-  Win32::GetClientRect( parent, & rect );
-  
-  // layout widgets
-  // this->sizeChanged( SbVec2s( rect.right, rect.bottom ) );
+  //RECT rect;
+  //Win32::GetClientRect( parent, & rect );
+  //this->sizeChanged( SbVec2s( rect.right, rect.bottom ) );
 }
 
 HWND
@@ -651,13 +650,9 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
   BOOL r = ClientToScreen( this->renderAreaWidget, & point );
   assert( r && "ClientToScreen() failed -- investigate" );
 
-  // FIXME: this assertion hits if the user builds the fullviewer
-  // without BUILD_POPUP and then hits the right mouse button. This
-  // should be allowed, and definitely *not* cause an
-  // assertion. 20010805 mortene.
   assert( this->prefmenu != NULL );
   this->common->prepareMenu( this->prefmenu );
-  this->displayPopupMenu( point.x, point.y, this->viewerWidget );//this->getGLWidget( ) );
+  this->displayPopupMenu( point.x, point.y, this->viewerWidget );
 }
 
 void
