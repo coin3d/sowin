@@ -19,44 +19,36 @@
 
 #include <windows.h>
 
-#if SOWIN_DEBUG
 #include <Inventor/errors/SoDebugError.h>
-#endif // SOWIN_DEBUG
-
-#include <Inventor/misc/SoBasic.h>
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
 
-#include <sowindefs.h>
-#include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/devices/SoWinMouse.h>
+#include <Inventor/Win/devices/SoGuiMouseP.h>
 #include <Inventor/Win/devices/SoWinDeviceP.h>
-
-/*
-  FIXME: implement BUTTON_MOTION filtering
-*/
 
 // *************************************************************************
 
-SOWIN_OBJECT_SOURCE(SoWinMouse);
+class SoWinMouseP : public SoGuiMouseP {
+public:
+  SoWinMouseP(SoWinMouse * p) : SoGuiMouseP(p) { }
+
+  SoLocation2Event * makeLocationEvent(MSG * msg);
+  SoMouseButtonEvent * makeButtonEvent(MSG * msg, SoButtonEvent::State state);
+};
 
 // *************************************************************************
 
 SoWinMouse::SoWinMouse(int events)
 {
-  this->eventmask = events;
-  this->locationevent = NULL;
-  this->buttonevent = NULL;
-} // SoWinMouse()
-
-/*!
-*/
+  PRIVATE(this) = new SoWinMouseP(this);
+  PRIVATE(this)->eventmask = events;
+}
 
 SoWinMouse::~SoWinMouse(void)
 {
-  delete this->locationevent;
-  delete this->buttonevent;
-} // ~SoWinMouse()
+  delete PRIVATE(this);
+}
 
 // *************************************************************************
 
@@ -65,6 +57,11 @@ SoWinMouse::enable(HWND, SoWinEventHandler * , void *)
 {
   // Win32 has no way of enabling the mouse. mariusbu 20010823.
   // Do nothing.
+
+  // FIXME: should still try to add some magic here so Win32 events
+  // are actually enabled or disabled for the widget handle in
+  // question, or the semantics won't really match what the client
+  // code expects. 20020625 mortene.
 }
 
 void
@@ -72,6 +69,11 @@ SoWinMouse::disable(HWND, SoWinEventHandler * , void *)
 {
   // Win32 has no way of disabling the mouse. mariusbu 20010823.
   // Do nothing.
+
+  // FIXME: should still try to add some magic here so Win32 events
+  // are actually enabled or disabled for the widget handle in
+  // question, or the semantics won't really match what the client
+  // code expects. 20020625 mortene.
 }
 
 // *************************************************************************
@@ -87,23 +89,26 @@ SoWinMouse::translateEvent(MSG * msg)
   case WM_LBUTTONDOWN:
   case WM_MBUTTONDOWN:
   case WM_RBUTTONDOWN:
-    if (! (this->eventmask & SoWinMouse::BUTTON_PRESS)) break;
+    if (! (PRIVATE(this)->eventmask & SoWinMouse::BUTTON_PRESS)) break;
     state = SoButtonEvent::DOWN;
-    soevent = this->makeButtonEvent(msg, state);
+    soevent = PRIVATE(this)->makeButtonEvent(msg, state);
     break;
 
   case WM_LBUTTONUP:
   case WM_MBUTTONUP:
   case WM_RBUTTONUP:
-    if (! (this->eventmask & SoWinMouse::BUTTON_RELEASE)) break;
+    if (! (PRIVATE(this)->eventmask & SoWinMouse::BUTTON_RELEASE)) break;
     state = SoButtonEvent::UP;
-    soevent = this->makeButtonEvent(msg, state);
+    soevent = PRIVATE(this)->makeButtonEvent(msg, state);
     break;
 
   case WM_MOUSEMOVE:
-    if (! (this->eventmask & SoWinMouse::POINTER_MOTION)) break;
-    soevent = this->makeLocationEvent(msg);
+    if (! (PRIVATE(this)->eventmask & SoWinMouse::POINTER_MOTION)) break;
+    soevent = PRIVATE(this)->makeLocationEvent(msg);
     break;
+
+    // FIXME: implement BUTTON_MOTION filtering. mariusbu.
+
 
   case WM_SETFOCUS:
   case WM_KILLFOCUS:
@@ -118,7 +123,7 @@ SoWinMouse::translateEvent(MSG * msg)
   default:
     break;
 
-  } // switch (event->type)
+  }
 
   if (soevent) {
     long msec = GetTickCount();
@@ -126,12 +131,12 @@ SoWinMouse::translateEvent(MSG * msg)
   }
 
   return (SoEvent *) soevent;
-} // translateEvent()
+}
 
 // *************************************************************************
 
 SoLocation2Event *
-SoWinMouse::makeLocationEvent(MSG * msg)
+SoWinMouseP::makeLocationEvent(MSG * msg)
 {
   static POINT prevPos = { 0xFFFF, 0xFFFF };
   if ((msg->pt.x == prevPos.x) && (msg->pt.y == prevPos.y)) {
@@ -143,17 +148,17 @@ SoWinMouse::makeLocationEvent(MSG * msg)
   
   if (this->locationevent == NULL) 
     this->locationevent = new SoLocation2Event;
-  this->setEventPosition(this->locationevent, msg->pt.x, msg->pt.y);
+  PUBLIC(this)->setEventPosition(this->locationevent, msg->pt.x, msg->pt.y);
 
   this->locationevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
   this->locationevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
   this->locationevent->setAltDown((SoWinDeviceP::modifierKeys & MK_ALT) ? TRUE : FALSE);
 
   return this->locationevent;
-} // makeLocationEvent()
+}
 
 SoMouseButtonEvent *
-SoWinMouse::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
+SoWinMouseP::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
 {
   if (this->buttonevent == NULL)
     this->buttonevent = new SoMouseButtonEvent;
@@ -181,7 +186,8 @@ SoWinMouse::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
   case WM_MOUSEWHEEL:
     if (HIWORD(message->wParam) < 0) {  // delta z = WHEEL_DELTA = 120
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
-    } else {
+    }
+    else {
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
     }
     break;
@@ -189,19 +195,19 @@ SoWinMouse::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
   default:
     this->buttonevent->setButton(SoMouseButtonEvent::ANY);
     break;
-  } // switch (message.message)
+  }
 
   /*  if (this->locationevent) {
     this->buttonevent->setPosition(this->locationevent->getPosition());
   }
   else {*/
-    this->setEventPosition(this->buttonevent, msg->pt.x, msg->pt.y);
+    PUBLIC(this)->setEventPosition(this->buttonevent, msg->pt.x, msg->pt.y);
     //}
   this->buttonevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
   this->buttonevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
   this->buttonevent->setAltDown((SoWinDeviceP::modifierKeys & MK_ALT) ? TRUE : FALSE);
   
   return this->buttonevent;
-} // makeButtonEvent()
+}
 
 // *************************************************************************

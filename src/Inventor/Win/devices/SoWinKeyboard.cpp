@@ -17,18 +17,6 @@
  *
  **************************************************************************/
 
-/*!
-  \class SoWinKeyboard Inventor/Win/devices/SoWinKeyboard.h
-  \brief The SoWinKeyboard class glues Win32 keyboard interaction together
-  with the Open Inventor scene graph.
-  \ingroup devices
-
-  All components derived from the SoWinRenderArea have got an SoWinKeyboard
-  device attached by default.
-*/
-
-// *************************************************************************
-
 #include <ctype.h> // toupper()
 
 #include <Inventor/misc/SoBasic.h>
@@ -37,13 +25,10 @@
 
 #include <sowindefs.h>
 #include <Inventor/Win/devices/SoWinKeyboard.h>
+#include <Inventor/Win/devices/SoGuiKeyboardP.h>
 #include <Inventor/Win/devices/SoWinDeviceP.h>
 #include <Inventor/Win/SoWinBasic.h>
 #include <winuser.h> // VK_ defines
-
-// *************************************************************************
-
-SOWIN_OBJECT_SOURCE(SoWinKeyboard);
 
 // *************************************************************************
 
@@ -350,23 +335,19 @@ static struct key1map WinToSoMapping[] = {
 
 // *************************************************************************
 
-/*!
-  \enum SoWinKeyboard::KeyboardEvents
-
-  Enumeration over supported event types.
-*/
-
 static SbDict * translatetable = NULL;
 
 // *************************************************************************
 
-/*!
-  Public constructor.
-*/
+class SoWinKeyboardP : public SoGuiKeyboardP {
+};
+
+// *************************************************************************
+
 SoWinKeyboard::SoWinKeyboard(int events)
 {
-  this->eventmask = events;
-  this->kbdevent = new SoKeyboardEvent;
+  PRIVATE(this) = new SoWinKeyboardP();
+  PRIVATE(this)->eventmask = events;
 
   if (translatetable == NULL) {
     // FIXME: memory leak, deallocate on exit. 20000811 mortene.
@@ -380,50 +361,38 @@ SoWinKeyboard::SoWinKeyboard(int events)
   }
 }
 
-/*!
-  Destructor.
-*/
 SoWinKeyboard::~SoWinKeyboard()
 {
-  delete this->kbdevent;
+  delete PRIVATE(this);
 }
 
 // *************************************************************************
 
-/*!
-  FIXME: doc
-*/
-
 void
-SoWinKeyboard::enable(HWND, // widget,
-                       SoWinEventHandler * , // callbackproc,
-                       void *)
+SoWinKeyboard::enable(HWND widget, SoWinEventHandler * callbackproc, void * data)
 {
   // Win32 has no way of enabling the keyboard. mariusbu 20010823.
   // Do nothing.
-} // enable()
 
-/*!
-  FIXME: doc
-*/
+  // FIXME: should still try to add some magic here so Win32 events
+  // are actually enabled or disabled for the widget handle in
+  // question, or the semantics won't really match what the client
+  // code expects. 20020625 mortene.
+}
 
 void
-SoWinKeyboard::disable(HWND, // widget,
-                        SoWinEventHandler * , // callbackproc,
-                        void *) // data)
+SoWinKeyboard::disable(HWND widget, SoWinEventHandler * callbackproc, void * data)
 {
   // Win32 has no way of disabling the keyboard. mariusbu 20010823.
   // Do nothing.
-} // disable()
+
+  // FIXME: should still try to add some magic here so Win32 events
+  // are actually enabled or disabled for the widget handle in
+  // question, or the semantics won't really match what the client
+  // code expects. 20020625 mortene.
+}
 
 // *************************************************************************
-
-/*!
-  This method translates between Win32 messages and Open Inventor events.
-
-  If the win32 message is a WM_KEYDOWN, an event of the type SoKeyboardEvent
-  is returned.  Otherwise, NULL is returned.
-*/
 
 const SoEvent *
 SoWinKeyboard::translateEvent(MSG * msg)
@@ -432,14 +401,16 @@ SoWinKeyboard::translateEvent(MSG * msg)
     return NULL;
   }
 
+  // FIXME: looks like we ignore the value of the eventmask? 20020625 mortene.
+
   SoButtonEvent::State state =
     (msg->message == WM_KEYDOWN) ? SoButtonEvent::DOWN : SoButtonEvent::UP;
 
-  this->kbdevent->setState(state);
+  PRIVATE(this)->kbdevent->setState(state);
 
   // FIXME: wrong -- should be the time the event actually
   // happened. 20011210 mortene.
-  this->kbdevent->setTime(SbTime::getTimeOfDay());
+  PRIVATE(this)->kbdevent->setTime(SbTime::getTimeOfDay());
 
   if (SOWIN_DEBUG && 0) { // debug
     SoDebugError::postInfo("SoWinKeyboard::makeKeyboardEvent",
@@ -449,10 +420,10 @@ SoWinKeyboard::translateEvent(MSG * msg)
 
   void * sokey;
   if (translatetable->find(msg->wParam, sokey)) {
-    this->kbdevent->setKey((SoKeyboardEvent::Key)(int)sokey);
+    PRIVATE(this)->kbdevent->setKey((SoKeyboardEvent::Key)(int)sokey);
   }
   else {
-    this->kbdevent->setKey(SoKeyboardEvent::ANY);
+    PRIVATE(this)->kbdevent->setKey(SoKeyboardEvent::ANY);
     return NULL;
   }
 
@@ -490,11 +461,11 @@ SoWinKeyboard::translateEvent(MSG * msg)
     }
   }
 
-  this->kbdevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
-  this->kbdevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
-  this->kbdevent->setAltDown((SoWinDeviceP::modifierKeys & MK_ALT) ? TRUE : FALSE);
+  PRIVATE(this)->kbdevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
+  PRIVATE(this)->kbdevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
+  PRIVATE(this)->kbdevent->setAltDown((SoWinDeviceP::modifierKeys & MK_ALT) ? TRUE : FALSE);
   
-  return this->kbdevent;
+  return PRIVATE(this)->kbdevent;
 }
 
 // *************************************************************************
