@@ -13,6 +13,8 @@
 
 @SET_MAKE@
 
+############################################################################
+
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -119,8 +121,17 @@ win_srcdir = @win_srcdir@
 
 SUBDIRS = . Inventor
 
+BUILT_SOURCES = \
+	$(SoGuiAllBuiltFiles)
+
+
+CLEANFILES = \
+	$(SoGui_src_BuiltMetaFiles)
+
+
 DISTCLEANFILES = \
-	sowindefs.h
+	$(SoGui_src_BuiltFiles) \
+	$(SoGui_src_BuiltMetaFiles)
 
 subdir = src
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -134,7 +145,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
 DIST_COMMON = ./stamp-h.in Makefile.am Makefile.in config.h.in
 DIST_SUBDIRS = $(SUBDIRS)
-all: config.h
+all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
@@ -329,6 +340,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
@@ -337,6 +349,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-recursive
 
 clean-am: clean-generic clean-libtool mostlyclean-am
@@ -354,7 +367,7 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-data-local
+install-data-am:
 
 install-exec-am:
 
@@ -381,23 +394,19 @@ uninstall-info: uninstall-info-recursive
 	distclean-generic distclean-hdr distclean-libtool \
 	distclean-recursive distclean-tags distdir dvi dvi-am \
 	dvi-recursive info info-am info-recursive install install-am \
-	install-data install-data-am install-data-local \
-	install-data-recursive install-exec install-exec-am \
-	install-exec-recursive install-info install-info-am \
-	install-info-recursive install-man install-recursive \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am installdirs-recursive maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
-	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
-	tags tags-recursive uninstall uninstall-am uninstall-info-am \
+	install-data install-data-am install-data-recursive \
+	install-exec install-exec-am install-exec-recursive \
+	install-info install-info-am install-info-recursive install-man \
+	install-recursive install-strip installcheck installcheck-am \
+	installdirs installdirs-am installdirs-recursive \
+	maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-generic \
+	mostlyclean-libtool mostlyclean-recursive tags tags-recursive \
+	uninstall uninstall-am uninstall-info-am \
 	uninstall-info-recursive uninstall-recursive
 
 
-sowindefs.h: $(srcdir)/Inventor/Win/common/soguidefs.h.in
-	@( cd $(top_builddir); $(MAKE) src/sowindefs.h )
-
-install-data-local: sowindefs.h
-	@( cd $(top_builddir); $(MAKE) built-sources )
+include Inventor/@Gui@/common/Makefile.common
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -13,6 +13,8 @@
 
 @SET_MAKE@
 
+############################################################################
+
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -117,7 +119,16 @@ sowin_dox_build_dir = @sowin_dox_build_dir@
 sowin_dox_src_dir = @sowin_dox_src_dir@
 win_srcdir = @win_srcdir@
 
-SUBDIRS = Win
+SUBDIRS = @Gui@
+
+BUILT_SOURCES = \
+	$(SoGuiAllBuiltFiles)
+
+
+CLEANFILES = \
+	$(SoGui_src_Inventor_BuiltFiles) \
+	$(SoGui_src_Inventor_BuiltMetaFiles)
+
 subdir = src/Inventor
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
@@ -130,7 +141,8 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
 DIST_COMMON = Makefile.am Makefile.in
 DIST_SUBDIRS = $(SUBDIRS)
-all: all-recursive
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
 
@@ -299,6 +311,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
@@ -306,6 +319,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-recursive
 
 clean-am: clean-generic clean-libtool mostlyclean-am
@@ -360,6 +374,8 @@ uninstall-info: uninstall-info-recursive
 	tags tags-recursive uninstall uninstall-am uninstall-info-am \
 	uninstall-info-recursive uninstall-recursive
 
+
+include @Gui@/common/Makefile.common
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

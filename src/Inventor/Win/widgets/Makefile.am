@@ -1,3 +1,8 @@
+############################################################################
+##
+
+include ../common/Makefile.common
+
 ## Process this file with automake to generate Makefile.in.
 
 if BUILD_WITH_MSVC
@@ -12,16 +17,22 @@ endif
 INCLUDES = -I$(top_srcdir)/src
 LIBS = 
 
+## Handle built sourcecode files.
+
 BUILT_SOURCES = \
-	SoAnyPopupMenu.h \
-	SoAnyPopupMenu.cpp \
-	SoAnyThumbWheel.h \
-	SoAnyThumbWheel.cpp
+	$(SoGuiAllBuiltFiles)
+
+CLEANFILES = \
+	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 DISTCLEANFILES = \
-	$(BUILT_SOURCES)
+	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
-WidgetSources = \
+############################################################################
+# libtool setup
+
+libSoWinWidgets_la_SOURCES = \
 	SoWinThumbWheel.cpp \
 	SoWinThumbWheel.h \
 	SoWinPopupMenu.cpp \
@@ -31,41 +42,26 @@ WidgetSources = \
         SoWinViewerPrefSheet.cpp \
         SoWinViewerPrefSheet.h
 
-############################################################################
-
-SoAnyPopupMenu.h: $(top_srcdir)/src/Inventor/Win/common/SoAnyPopupMenu.h.in
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Win/widgets/SoAnyPopupMenu.h )
-
-SoAnyPopupMenu.cpp: $(top_srcdir)/src/Inventor/Win/common/SoAnyPopupMenu.cpp.in
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Win/widgets/SoAnyPopupMenu.cpp )
-
-SoAnyThumbWheel.h: $(top_srcdir)/src/Inventor/Win/common/SoAnyThumbWheel.h.in
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Win/widgets/SoAnyThumbWheel.h )
-
-SoAnyThumbWheel.cpp: $(top_srcdir)/src/Inventor/Win/common/SoAnyThumbWheel.cpp.in
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Win/widgets/SoAnyThumbWheel.cpp )
-
-############################################################################
-# libtool setup
-
-libSoWinWidgets_la_SOURCES = \
-	$(WidgetSources)
-
 nodist_libSoWinWidgets_la_SOURCES = \
-	$(BUILT_SOURCES)
+	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
+#	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 ############################################################################
 # custom setup
 
 widgets_lst_SOURCES = \
-	$(WidgetSources)
+	SoWinThumbWheel.cpp \
+	SoWinThumbWheel.h \
+	SoWinPopupMenu.cpp \
+	SoWinPopupMenu.h \
+	SoWinBitmapButton.cpp \
+	SoWinBitmapButton.h \
+        SoWinViewerPrefSheet.cpp \
+        SoWinViewerPrefSheet.h
 
 nodist_widgets_lst_SOURCES = \
-	$(BUILT_SOURCES)
+	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
+#	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 widgets.lst: Makefile $(widgets_lst_OBJECTS)
 	@echo "Linking widgets.lst..."; \

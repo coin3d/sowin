@@ -177,6 +177,20 @@ AC_ARG_WITH(
 AC_SUBST(SUFFIX)
 
 # **************************************************************************
+# FIXME: insert code for controlling these variables properly (see for
+# instance SoQt configure.in). 20011115 mortene.
+
+AM_CONDITIONAL(BUILD_LIBRARY, true)
+AM_CONDITIONAL(BUILD_HTMLPAGES, false)
+
+# **************************************************************************
+# Will naturally always be false for SoWin.
+
+AM_CONDITIONAL(BUILD_METAFILES, false)
+AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, false)
+
+
+# **************************************************************************
 # Search for and set up stuff we depend on.
 
 AC_CHECK_HEADERS([GL/gl.h OpenGL/gl.h GL/glu.h OpenGL/glu.h])

@@ -1,275 +1,74 @@
 ############################################################################
-## Process this file with automake to generate Makefile.in.
+## Makefile.am
 
-ACLOCAL_AMFLAGS = -I cfg/m4
+include src/Inventor/@Gui@/common/Makefile.common
 
 ############################################################################
+##
 
+ACLOCAL_AMFLAGS = -I cfg/m4
 SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
-SUBDIRS = src
+############################################################################
+## 
+
+if BUILD_HTMLPAGES
+HTMLDIR = html
+else
+HTMLDIR =
+endif
+
+if BUILD_LIBRARY
+LIBDIR = data src
+else
+LIBDIR =
+endif
+
+SUBDIRS = . $(LIBDIR) man $(HTMLDIR)
 
 BUILT_SOURCES = \
-	src/sowindefs.h \
-	src/Inventor/Win/SoAny.h \
-	src/Inventor/Win/SoAny.cpp \
-	src/Inventor/Win/SoWinBasic.h \
-	src/Inventor/Win/SoWinCursors.h \
-	src/Inventor/Win/SoWinCursors.cpp \
-	src/Inventor/Win/SoWinObject.h \
-	src/Inventor/Win/SoWinObject.cpp \
-	src/Inventor/Win/SoWin.h \
-	src/Inventor/Win/SoWinComponent.h \
-	src/Inventor/Win/SoWinGLWidget.h \
-	src/Inventor/Win/SoWinRenderArea.h \
-	src/Inventor/Win/SoWinRenderArea.cpp \
-	src/Inventor/Win/common/gl.h \
-	src/Inventor/Win/viewers/SoWinViewer.h \
-	src/Inventor/Win/viewers/SoWinViewer.cpp \
-	src/Inventor/Win/viewers/SoAnyFullViewer.h \
-	src/Inventor/Win/viewers/SoAnyFullViewer.cpp \
-	src/Inventor/Win/viewers/SoAnyExaminerViewer.h \
-	src/Inventor/Win/viewers/SoAnyExaminerViewer.cpp \
-	src/Inventor/Win/viewers/SoAnyPlaneViewer.h \
-	src/Inventor/Win/viewers/SoAnyPlaneViewer.cpp \
-	src/Inventor/Win/viewers/SoWinConstrainedViewer.h \
-	src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp \
-	src/Inventor/Win/viewers/SoWinFlyViewer.h \
-	src/Inventor/Win/viewers/SoWinFlyViewer.cpp \
-	src/Inventor/Win/widgets/SoAnyThumbWheel.h \
-	src/Inventor/Win/widgets/SoAnyThumbWheel.cpp \
-	src/Inventor/Win/widgets/SoAnyPopupMenu.h \
-	src/Inventor/Win/widgets/SoAnyPopupMenu.cpp
-#	src/Inventor/Win/devices/spwinput.h \
-#	src/Inventor/Win/devices/spwinput_x11.cpp
+	$(SoGuiAllBuiltFiles)
+
+CLEANFILES = \
+	$(SoGui_BuiltMetaFiles)
+
+DISTCLEANFILES = \
+	libtool \
+	build/so@gui@.doxygen \
+	$(SoGui_BuiltFiles) \
+	$(SoGui_BuiltMetaFiles)
+
+if BUILD_LIBRARY
 
 bin_SCRIPTS = so@gui@-config
 
 m4datadir = $(datadir)/aclocal
-m4data_DATA = so@gui@.m4
+dist_m4data_DATA = so@gui@.m4
 
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = so@gui@-@CONFIG@.cfg
 
-so@gui@-config: Makefile config.status $(srcdir)/src/Inventor/@Gui@/common/sogui-config.in
-	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/sogui-config.in
+endif
 
 EXTRA_DIST = \
 	LICENSE.LGPL \
-	bootstrap \
-	sowin.m4 \
-	src/Inventor/Win/common/sogui-config.in \
-	src/Inventor/Win/common/sogui.cfg.in \
-	src/Inventor/Win/common/soguidefs.h.in \
+	HACKING \
+	build/so@gui@.doxygen.in \
+	cfg/doxy4win.pl \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \
-	build/sowin.doxygen.in \
-	src/Inventor/Win/common/ChangeLog \
-	src/Inventor/Win/common/SoAny.h.in \
-	src/Inventor/Win/common/SoAny.cpp.in \
-	src/Inventor/Win/common/SoGuiBasic.h.in \
-	src/Inventor/Win/common/SoGuiCursors.h.in \
-	src/Inventor/Win/common/SoGuiCursors.cpp.in \
-	src/Inventor/Win/common/SoGuiObject.h.in \
-	src/Inventor/Win/common/SoGuiObject.cpp.in \
-	src/Inventor/Win/common/SoGui.h.in \
-	src/Inventor/Win/common/SoGuiComponent.h.in \
-	src/Inventor/Win/common/SoGuiGLWidget.h.in \
-	src/Inventor/Win/common/SoGuiRenderArea.h.in \
-	src/Inventor/Win/common/SoGuiRenderArea.cpp.in \
-	src/Inventor/Win/common/SoGuiViewer.h.in \
-	src/Inventor/Win/common/SoGuiViewer.cpp.in \
-	src/Inventor/Win/common/SoGuiConstrainedViewer.h.in \
-	src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in \
-	src/Inventor/Win/common/SoGuiFlyViewer.h.in \
-	src/Inventor/Win/common/SoGuiFlyViewer.cpp.in \
-	src/Inventor/Win/common/SoAnyFullViewer.h.in \
-	src/Inventor/Win/common/SoAnyFullViewer.cpp.in \
-	src/Inventor/Win/common/SoAnyExaminerViewer.h.in \
-	src/Inventor/Win/common/SoAnyExaminerViewer.cpp.in \
-	src/Inventor/Win/common/SoAnyPlaneViewer.h.in \
-	src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in \
-	src/Inventor/Win/common/SoAnyThumbWheel.h.in \
-	src/Inventor/Win/common/SoAnyThumbWheel.cpp.in \
-	src/Inventor/Win/common/SoAnyPopupMenu.h.in \
-	src/Inventor/Win/common/SoAnyPopupMenu.cpp.in \
-	src/Inventor/Win/common/gl.h.in \
-	src/Inventor/Win/common/spwinput.h.in \
-	src/Inventor/Win/common/spwinput_x11.cpp.in \
-	src/Inventor/Win/common/pixmaps/help.xpm \
-	src/Inventor/Win/common/pixmaps/home.xpm \
-	src/Inventor/Win/common/pixmaps/ortho.xpm \
-	src/Inventor/Win/common/pixmaps/perspective.xpm \
-	src/Inventor/Win/common/pixmaps/pick.xpm \
-	src/Inventor/Win/common/pixmaps/seek.xpm \
-	src/Inventor/Win/common/pixmaps/set_home.xpm \
-	src/Inventor/Win/common/pixmaps/view.xpm \
-	src/Inventor/Win/common/pixmaps/view_all.xpm \
-	src/Inventor/Win/common/pixmaps/x.xpm \
-	src/Inventor/Win/common/pixmaps/y.xpm \
-	src/Inventor/Win/common/pixmaps/z.xpm
+	$(SoGuiCommonDistFiles)
 
-DISTCLEANFILES = \
-	libtool
-
-# this screws up "make distclean"
-# Makefile: $(BUILT_SOURCES)
-
-# Target which is present to make it simple to only generate the
-# sourcefiles from the common sources.
+# Target which is present to make it simple to only generate all the source
+# files from the common sources.
 
 built-sources: $(BUILT_SOURCES)
 
 ############################################################################
 
-src/sowindefs.h: $(srcdir)/src/Inventor/Win/common/soguidefs.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/soguidefs.h.in
+all-local: built-sources
 
-src/Inventor/Win/SoWinBasic.h: $(srcdir)/src/Inventor/Win/common/SoGuiBasic.h.in
-	@./config.status \
-	  --file=-:$(srcdir)/src/Inventor/Win/common/SoGuiBasic.h.in | \
-	  ./config.status --header=$@:-
-
-src/Inventor/Win/SoAny.h: \
-  $(srcdir)/src/Inventor/Win/common/SoAny.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAny.h.in
-
-src/Inventor/Win/SoAny.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoAny.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAny.cpp.in
-
-src/Inventor/Win/SoWinCursors.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiCursors.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiCursors.h.in
-
-src/Inventor/Win/SoWinCursors.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiCursors.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiCursors.cpp.in
-
-src/Inventor/Win/SoWinObject.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiObject.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiObject.h.in
-
-src/Inventor/Win/SoWinObject.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiObject.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiObject.cpp.in
-
-src/Inventor/Win/SoWin.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGui.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGui.h.in
-
-src/Inventor/Win/SoWinComponent.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiComponent.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiComponent.h.in
-
-src/Inventor/Win/SoWinGLWidget.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiGLWidget.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiGLWidget.h.in
-
-src/Inventor/Win/SoWinRenderArea.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiRenderArea.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiRenderArea.h.in
-
-src/Inventor/Win/SoWinRenderArea.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiRenderArea.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiRenderArea.cpp.in
-
-src/Inventor/Win/common/gl.h: $(srcdir)/src/Inventor/Win/common/gl.h.in
-	@if test -d src/Inventor/Win/common; then :; else \
-	  echo " mkdir src/Inventor/Win/common"; \
-	  mkdir src/Inventor/Win/common; \
-	fi
-	@./config.status --file=$@:src/Inventor/Win/common/gl.h.in
-
-src/Inventor/Win/viewers/SoWinViewer.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiViewer.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiViewer.h.in
-
-src/Inventor/Win/viewers/SoWinViewer.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiViewer.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiViewer.cpp.in
-
-src/Inventor/Win/viewers/SoAnyFullViewer.h: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyFullViewer.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAnyFullViewer.h.in
-
-src/Inventor/Win/viewers/SoAnyFullViewer.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyFullViewer.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAnyFullViewer.cpp.in
-
-src/Inventor/Win/viewers/SoAnyExaminerViewer.h: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyExaminerViewer.h.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoAnyExaminerViewer.h.in
-
-src/Inventor/Win/viewers/SoAnyExaminerViewer.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyExaminerViewer.cpp.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoAnyExaminerViewer.cpp.in
-
-src/Inventor/Win/viewers/SoAnyPlaneViewer.h: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyPlaneViewer.h.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoAnyPlaneViewer.h.in
-
-src/Inventor/Win/viewers/SoAnyPlaneViewer.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in
-
-src/Inventor/Win/viewers/SoWinConstrainedViewer.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiConstrainedViewer.h.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoGuiConstrainedViewer.h.in
-
-src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in
-
-src/Inventor/Win/viewers/SoWinFlyViewer.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiFlyViewer.h.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoGuiFlyViewer.h.in
-
-src/Inventor/Win/viewers/SoWinFlyViewer.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiFlyViewer.cpp.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoGuiFlyViewer.cpp.in
-
-src/Inventor/Win/widgets/SoAnyThumbWheel.h: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyThumbWheel.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAnyThumbWheel.h.in
-
-src/Inventor/Win/widgets/SoAnyThumbWheel.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyThumbWheel.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAnyThumbWheel.cpp.in
-
-src/Inventor/Win/widgets/SoAnyPopupMenu.h: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyPopupMenu.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAnyPopupMenu.h.in
-
-src/Inventor/Win/widgets/SoAnyPopupMenu.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyPopupMenu.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAnyPopupMenu.cpp.in
-
-src/Inventor/Win/devices/spwinput.h: \
-  $(srcdir)/src/Inventor/Win/common/spwinput.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/spwinput.h.in
-
-src/Inventor/Win/devices/spwinput_x11.cpp: \
-  $(srcdir)/src/Inventor/Win/common/spwinput_x11.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/spwinput_x11.cpp.in
-
-############################################################################
-
-doxygen-docs:
-	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
-
-doxygen-doc:
-	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
-
-install-exec-local: $(srcdir)/cfg/m4/wrapmsvc.exe
+install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	@if @BUILD_WITH_MSVC@; then \
@@ -277,5 +76,7 @@ install-exec-local: $(srcdir)/cfg/m4/wrapmsvc.exe
 	  echo " $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
 	  $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p; \
 	fi
+
+install-data-local: built-sources
 
 # EOF ######################################################################

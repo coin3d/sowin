@@ -119,115 +119,52 @@ sowin_dox_build_dir = @sowin_dox_build_dir@
 sowin_dox_src_dir = @sowin_dox_src_dir@
 win_srcdir = @win_srcdir@
 
+
+############################################################################
 ACLOCAL_AMFLAGS = -I cfg/m4
+SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
 
 ############################################################################
-SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
+@BUILD_HTMLPAGES_TRUE@HTMLDIR = html
+@BUILD_HTMLPAGES_FALSE@HTMLDIR = 
 
-SUBDIRS = src
+@BUILD_LIBRARY_TRUE@LIBDIR = data src
+@BUILD_LIBRARY_FALSE@LIBDIR = 
+
+SUBDIRS = . $(LIBDIR) man $(HTMLDIR)
 
 BUILT_SOURCES = \
-	src/sowindefs.h \
-	src/Inventor/Win/SoAny.h \
-	src/Inventor/Win/SoAny.cpp \
-	src/Inventor/Win/SoWinBasic.h \
-	src/Inventor/Win/SoWinCursors.h \
-	src/Inventor/Win/SoWinCursors.cpp \
-	src/Inventor/Win/SoWinObject.h \
-	src/Inventor/Win/SoWinObject.cpp \
-	src/Inventor/Win/SoWin.h \
-	src/Inventor/Win/SoWinComponent.h \
-	src/Inventor/Win/SoWinGLWidget.h \
-	src/Inventor/Win/SoWinRenderArea.h \
-	src/Inventor/Win/SoWinRenderArea.cpp \
-	src/Inventor/Win/common/gl.h \
-	src/Inventor/Win/viewers/SoWinViewer.h \
-	src/Inventor/Win/viewers/SoWinViewer.cpp \
-	src/Inventor/Win/viewers/SoAnyFullViewer.h \
-	src/Inventor/Win/viewers/SoAnyFullViewer.cpp \
-	src/Inventor/Win/viewers/SoAnyExaminerViewer.h \
-	src/Inventor/Win/viewers/SoAnyExaminerViewer.cpp \
-	src/Inventor/Win/viewers/SoAnyPlaneViewer.h \
-	src/Inventor/Win/viewers/SoAnyPlaneViewer.cpp \
-	src/Inventor/Win/viewers/SoWinConstrainedViewer.h \
-	src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp \
-	src/Inventor/Win/viewers/SoWinFlyViewer.h \
-	src/Inventor/Win/viewers/SoWinFlyViewer.cpp \
-	src/Inventor/Win/widgets/SoAnyThumbWheel.h \
-	src/Inventor/Win/widgets/SoAnyThumbWheel.cpp \
-	src/Inventor/Win/widgets/SoAnyPopupMenu.h \
-	src/Inventor/Win/widgets/SoAnyPopupMenu.cpp
+	$(SoGuiAllBuiltFiles)
 
 
-#	src/Inventor/Win/devices/spwinput.h \
-#	src/Inventor/Win/devices/spwinput_x11.cpp
-bin_SCRIPTS = so@gui@-config
-
-m4datadir = $(datadir)/aclocal
-m4data_DATA = so@gui@.m4
-
-cfgdatadir = $(datadir)/Coin/conf
-cfgdata_DATA = so@gui@-@CONFIG@.cfg
-
-EXTRA_DIST = \
-	LICENSE.LGPL \
-	bootstrap \
-	sowin.m4 \
-	src/Inventor/Win/common/sogui-config.in \
-	src/Inventor/Win/common/sogui.cfg.in \
-	src/Inventor/Win/common/soguidefs.h.in \
-	cfg/m4/wrapmsvc.cpp \
-	cfg/m4/wrapmsvc.exe \
-	build/sowin.doxygen.in \
-	src/Inventor/Win/common/ChangeLog \
-	src/Inventor/Win/common/SoAny.h.in \
-	src/Inventor/Win/common/SoAny.cpp.in \
-	src/Inventor/Win/common/SoGuiBasic.h.in \
-	src/Inventor/Win/common/SoGuiCursors.h.in \
-	src/Inventor/Win/common/SoGuiCursors.cpp.in \
-	src/Inventor/Win/common/SoGuiObject.h.in \
-	src/Inventor/Win/common/SoGuiObject.cpp.in \
-	src/Inventor/Win/common/SoGui.h.in \
-	src/Inventor/Win/common/SoGuiComponent.h.in \
-	src/Inventor/Win/common/SoGuiGLWidget.h.in \
-	src/Inventor/Win/common/SoGuiRenderArea.h.in \
-	src/Inventor/Win/common/SoGuiRenderArea.cpp.in \
-	src/Inventor/Win/common/SoGuiViewer.h.in \
-	src/Inventor/Win/common/SoGuiViewer.cpp.in \
-	src/Inventor/Win/common/SoGuiConstrainedViewer.h.in \
-	src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in \
-	src/Inventor/Win/common/SoGuiFlyViewer.h.in \
-	src/Inventor/Win/common/SoGuiFlyViewer.cpp.in \
-	src/Inventor/Win/common/SoAnyFullViewer.h.in \
-	src/Inventor/Win/common/SoAnyFullViewer.cpp.in \
-	src/Inventor/Win/common/SoAnyExaminerViewer.h.in \
-	src/Inventor/Win/common/SoAnyExaminerViewer.cpp.in \
-	src/Inventor/Win/common/SoAnyPlaneViewer.h.in \
-	src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in \
-	src/Inventor/Win/common/SoAnyThumbWheel.h.in \
-	src/Inventor/Win/common/SoAnyThumbWheel.cpp.in \
-	src/Inventor/Win/common/SoAnyPopupMenu.h.in \
-	src/Inventor/Win/common/SoAnyPopupMenu.cpp.in \
-	src/Inventor/Win/common/gl.h.in \
-	src/Inventor/Win/common/spwinput.h.in \
-	src/Inventor/Win/common/spwinput_x11.cpp.in \
-	src/Inventor/Win/common/pixmaps/help.xpm \
-	src/Inventor/Win/common/pixmaps/home.xpm \
-	src/Inventor/Win/common/pixmaps/ortho.xpm \
-	src/Inventor/Win/common/pixmaps/perspective.xpm \
-	src/Inventor/Win/common/pixmaps/pick.xpm \
-	src/Inventor/Win/common/pixmaps/seek.xpm \
-	src/Inventor/Win/common/pixmaps/set_home.xpm \
-	src/Inventor/Win/common/pixmaps/view.xpm \
-	src/Inventor/Win/common/pixmaps/view_all.xpm \
-	src/Inventor/Win/common/pixmaps/x.xpm \
-	src/Inventor/Win/common/pixmaps/y.xpm \
-	src/Inventor/Win/common/pixmaps/z.xpm
+CLEANFILES = \
+	$(SoGui_BuiltMetaFiles)
 
 
 DISTCLEANFILES = \
-	libtool
+	libtool \
+	build/so@gui@.doxygen \
+	$(SoGui_BuiltFiles) \
+	$(SoGui_BuiltMetaFiles)
+
+
+@BUILD_LIBRARY_TRUE@bin_SCRIPTS = so@gui@-config
+
+@BUILD_LIBRARY_TRUE@m4datadir = $(datadir)/aclocal
+@BUILD_LIBRARY_TRUE@dist_m4data_DATA = so@gui@.m4
+
+@BUILD_LIBRARY_TRUE@cfgdatadir = $(datadir)/Coin/conf
+@BUILD_LIBRARY_TRUE@cfgdata_DATA = so@gui@-@CONFIG@.cfg
+
+EXTRA_DIST = \
+	LICENSE.LGPL \
+	HACKING \
+	build/so@gui@.doxygen.in \
+	cfg/doxy4win.pl \
+	cfg/m4/wrapmsvc.cpp \
+	cfg/m4/wrapmsvc.exe \
+	$(SoGuiCommonDistFiles)
 
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -237,18 +174,19 @@ CONFIG_CLEAN_FILES = sowin-$CONFIG.cfg build/sowin.doxygen
 SCRIPTS = $(bin_SCRIPTS)
 
 DIST_SOURCES =
-DATA = $(cfgdata_DATA) $(m4data_DATA)
+DATA = $(cfgdata_DATA) $(dist_m4data_DATA)
 
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-info-recursive all-recursive install-data-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
-DIST_COMMON = README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
-	Makefile.in NEWS aclocal.m4 cfg/config.guess cfg/config.sub \
-	cfg/depcomp cfg/install-sh cfg/ltmain.sh cfg/missing \
-	cfg/mkinstalldirs configure configure.in
-DIST_SUBDIRS = $(SUBDIRS)
+DIST_COMMON = README $(dist_m4data_DATA) AUTHORS COPYING ChangeLog \
+	INSTALL Makefile.am Makefile.in NEWS aclocal.m4 \
+	cfg/config.guess cfg/config.sub cfg/depcomp cfg/install-sh \
+	cfg/ltmain.sh cfg/missing cfg/mkinstalldirs configure \
+	configure.in
+DIST_SUBDIRS = . data src man html
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -321,19 +259,19 @@ uninstall-cfgdataDATA:
 	  echo " rm -f $(DESTDIR)$(cfgdatadir)/$$f"; \
 	  rm -f $(DESTDIR)$(cfgdatadir)/$$f; \
 	done
-install-m4dataDATA: $(m4data_DATA)
+install-dist_m4dataDATA: $(dist_m4data_DATA)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(m4datadir)
-	@list='$(m4data_DATA)'; for p in $$list; do \
+	@list='$(dist_m4data_DATA)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(m4datadir)/$$f"; \
 	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(m4datadir)/$$f; \
 	done
 
-uninstall-m4dataDATA:
+uninstall-dist_m4dataDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(m4data_DATA)'; for p in $$list; do \
+	@list='$(dist_m4data_DATA)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f $(DESTDIR)$(m4datadir)/$$f"; \
 	  rm -f $(DESTDIR)$(m4datadir)/$$f; \
@@ -442,7 +380,7 @@ GZIP_ENV = --best
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/build $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/src/Inventor/Win/common $(distdir)/src/Inventor/Win/common/pixmaps
+	$(mkinstalldirs) $(distdir)/build $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/src/Inventor/Win/common
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -458,7 +396,7 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	for subdir in $(SUBDIRS); do \
+	for subdir in $(DIST_SUBDIRS); do \
 	  if test "$$subdir" = .; then :; else \
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \
@@ -513,7 +451,7 @@ distcheck: dist
 	  sed 'h;s/./=/g;p;x;p;x'
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(SCRIPTS) $(DATA)
+all-am: Makefile $(SCRIPTS) $(DATA) all-local
 installdirs: installdirs-recursive
 installdirs-am:
 	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(cfgdatadir) $(DESTDIR)$(m4datadir)
@@ -534,6 +472,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
@@ -563,7 +502,8 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-cfgdataDATA install-m4dataDATA
+install-data-am: install-cfgdataDATA install-data-local \
+	install-dist_m4dataDATA
 
 install-exec-am: install-binSCRIPTS install-exec-local
 
@@ -582,191 +522,42 @@ mostlyclean: mostlyclean-recursive
 mostlyclean-am: mostlyclean-generic mostlyclean-libtool
 
 uninstall-am: uninstall-binSCRIPTS uninstall-cfgdataDATA \
-	uninstall-info-am uninstall-m4dataDATA
+	uninstall-dist_m4dataDATA uninstall-info-am
 
 uninstall-info: uninstall-info-recursive
 
-.PHONY: $(RECURSIVE_TARGETS) GTAGS all all-am check check-am clean \
-	clean-generic clean-libtool clean-recursive dist dist-all \
+.PHONY: $(RECURSIVE_TARGETS) GTAGS all all-am all-local check check-am \
+	clean clean-generic clean-libtool clean-recursive dist dist-all \
 	distcheck distclean distclean-generic distclean-libtool \
 	distclean-recursive distclean-tags distdir dvi dvi-am \
 	dvi-recursive info info-am info-recursive install install-am \
 	install-binSCRIPTS install-cfgdataDATA install-data \
-	install-data-am install-data-recursive install-exec \
-	install-exec-am install-exec-local install-exec-recursive \
-	install-info install-info-am install-info-recursive \
-	install-m4dataDATA install-man install-recursive install-strip \
-	installcheck installcheck-am installdirs installdirs-am \
-	installdirs-recursive maintainer-clean maintainer-clean-generic \
+	install-data-am install-data-local install-data-recursive \
+	install-dist_m4dataDATA install-exec install-exec-am \
+	install-exec-local install-exec-recursive install-info \
+	install-info-am install-info-recursive install-man \
+	install-recursive install-strip installcheck installcheck-am \
+	installdirs installdirs-am installdirs-recursive \
+	maintainer-clean maintainer-clean-generic \
 	maintainer-clean-recursive mostlyclean mostlyclean-generic \
 	mostlyclean-libtool mostlyclean-recursive tags tags-recursive \
 	uninstall uninstall-am uninstall-binSCRIPTS \
-	uninstall-cfgdataDATA uninstall-info-am \
-	uninstall-info-recursive uninstall-m4dataDATA \
-	uninstall-recursive
+	uninstall-cfgdataDATA uninstall-dist_m4dataDATA \
+	uninstall-info-am uninstall-info-recursive uninstall-recursive
 
 
-so@gui@-config: Makefile config.status $(srcdir)/src/Inventor/@Gui@/common/sogui-config.in
-	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/sogui-config.in
+include src/Inventor/@Gui@/common/Makefile.common
 
-# this screws up "make distclean"
-# Makefile: $(BUILT_SOURCES)
-
-# Target which is present to make it simple to only generate the
-# sourcefiles from the common sources.
+# Target which is present to make it simple to only generate all the source
+# files from the common sources.
 
 built-sources: $(BUILT_SOURCES)
 
 ############################################################################
 
-src/sowindefs.h: $(srcdir)/src/Inventor/Win/common/soguidefs.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/soguidefs.h.in
+all-local: built-sources
 
-src/Inventor/Win/SoWinBasic.h: $(srcdir)/src/Inventor/Win/common/SoGuiBasic.h.in
-	@./config.status \
-	  --file=-:$(srcdir)/src/Inventor/Win/common/SoGuiBasic.h.in | \
-	  ./config.status --header=$@:-
-
-src/Inventor/Win/SoAny.h: \
-  $(srcdir)/src/Inventor/Win/common/SoAny.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAny.h.in
-
-src/Inventor/Win/SoAny.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoAny.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAny.cpp.in
-
-src/Inventor/Win/SoWinCursors.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiCursors.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiCursors.h.in
-
-src/Inventor/Win/SoWinCursors.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiCursors.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiCursors.cpp.in
-
-src/Inventor/Win/SoWinObject.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiObject.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiObject.h.in
-
-src/Inventor/Win/SoWinObject.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiObject.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiObject.cpp.in
-
-src/Inventor/Win/SoWin.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGui.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGui.h.in
-
-src/Inventor/Win/SoWinComponent.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiComponent.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiComponent.h.in
-
-src/Inventor/Win/SoWinGLWidget.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiGLWidget.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiGLWidget.h.in
-
-src/Inventor/Win/SoWinRenderArea.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiRenderArea.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiRenderArea.h.in
-
-src/Inventor/Win/SoWinRenderArea.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiRenderArea.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiRenderArea.cpp.in
-
-src/Inventor/Win/common/gl.h: $(srcdir)/src/Inventor/Win/common/gl.h.in
-	@if test -d src/Inventor/Win/common; then :; else \
-	  echo " mkdir src/Inventor/Win/common"; \
-	  mkdir src/Inventor/Win/common; \
-	fi
-	@./config.status --file=$@:src/Inventor/Win/common/gl.h.in
-
-src/Inventor/Win/viewers/SoWinViewer.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiViewer.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiViewer.h.in
-
-src/Inventor/Win/viewers/SoWinViewer.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiViewer.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoGuiViewer.cpp.in
-
-src/Inventor/Win/viewers/SoAnyFullViewer.h: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyFullViewer.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAnyFullViewer.h.in
-
-src/Inventor/Win/viewers/SoAnyFullViewer.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyFullViewer.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAnyFullViewer.cpp.in
-
-src/Inventor/Win/viewers/SoAnyExaminerViewer.h: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyExaminerViewer.h.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoAnyExaminerViewer.h.in
-
-src/Inventor/Win/viewers/SoAnyExaminerViewer.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyExaminerViewer.cpp.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoAnyExaminerViewer.cpp.in
-
-src/Inventor/Win/viewers/SoAnyPlaneViewer.h: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyPlaneViewer.h.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoAnyPlaneViewer.h.in
-
-src/Inventor/Win/viewers/SoAnyPlaneViewer.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in
-
-src/Inventor/Win/viewers/SoWinConstrainedViewer.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiConstrainedViewer.h.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoGuiConstrainedViewer.h.in
-
-src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in
-
-src/Inventor/Win/viewers/SoWinFlyViewer.h: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiFlyViewer.h.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoGuiFlyViewer.h.in
-
-src/Inventor/Win/viewers/SoWinFlyViewer.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoGuiFlyViewer.cpp.in
-	@./config.status \
-	  --file=$@:src/Inventor/Win/common/SoGuiFlyViewer.cpp.in
-
-src/Inventor/Win/widgets/SoAnyThumbWheel.h: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyThumbWheel.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAnyThumbWheel.h.in
-
-src/Inventor/Win/widgets/SoAnyThumbWheel.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyThumbWheel.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAnyThumbWheel.cpp.in
-
-src/Inventor/Win/widgets/SoAnyPopupMenu.h: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyPopupMenu.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAnyPopupMenu.h.in
-
-src/Inventor/Win/widgets/SoAnyPopupMenu.cpp: \
-  $(srcdir)/src/Inventor/Win/common/SoAnyPopupMenu.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/SoAnyPopupMenu.cpp.in
-
-src/Inventor/Win/devices/spwinput.h: \
-  $(srcdir)/src/Inventor/Win/common/spwinput.h.in
-	@./config.status --file=$@:src/Inventor/Win/common/spwinput.h.in
-
-src/Inventor/Win/devices/spwinput_x11.cpp: \
-  $(srcdir)/src/Inventor/Win/common/spwinput_x11.cpp.in
-	@./config.status --file=$@:src/Inventor/Win/common/spwinput_x11.cpp.in
-
-############################################################################
-
-doxygen-docs:
-	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
-
-doxygen-doc:
-	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
-
-install-exec-local: $(srcdir)/cfg/m4/wrapmsvc.exe
+install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	@if @BUILD_WITH_MSVC@; then \
@@ -774,6 +565,8 @@ install-exec-local: $(srcdir)/cfg/m4/wrapmsvc.exe
 	  echo " $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
 	  $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p; \
 	fi
+
+install-data-local: built-sources
 
 # EOF ######################################################################
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

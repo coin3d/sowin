@@ -1,10 +1,26 @@
 ############################################################################
+## So@Gui@/src/Inventor/@Gui@/makefile.am
 
-SUBDIRS = devices widgets viewers
+include common/Makefile.common
 
 ############################################################################
+##
 
-INCLUDES = -I$(top_srcdir)/src
+SUBDIRS = devices viewers widgets
+
+INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/data
+
+BUILT_SOURCES = \
+	$(SoGuiAllBuiltfiles)
+
+CLEANFILES = \
+	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
+
+DISTCLEANFILES = \
+	$(SoGui_src_Inventor_Gui_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
+
+############################################################################
 
 if BUILD_WITH_MSVC
 lib_LIBRARIES = sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
@@ -12,40 +28,19 @@ else
 lib_LTLIBRARIES = libSoWin@SUFFIX@.la
 endif
 
-BUILT_SOURCES = \
-	SoAny.h \
-	SoAny.cpp \
-	SoWinBasic.h \
-	SoWinObject.cpp \
-	SoWinObject.h \
-	SoWinCursors.cpp \
-	SoWinCursors.h \
-	SoWin.h \
-	SoWinComponent.h \
-	SoWinGLWidget.h \
-	SoWinRenderArea.h \
-	SoWinRenderArea.cpp
+############################################################################
+# libtool setup
 
-DISTCLEANFILES = \
-	$(BUILT_SOURCES)
-
-SoWinSources = \
+libSoWin@SUFFIX@_la_SOURCES = \
 	SoWin.cpp \
 	SoWinComponent.cpp \
 	SoWinGLWidget.cpp \
 	Win32API.cpp \
 	Win32API.h
 
-noinst_DATA = $(BUILT_SOURCES)
-
-############################################################################
-# libtool setup
-
-libSoWin@SUFFIX@_la_SOURCES = \
-	$(SoWinSources)
-
 nodist_libSoWin@SUFFIX@_la_SOURCES = \
-	$(BUILT_SOURCES)
+	$(SoGui_src_Inventor_Gui_BuiltFiles)
+#	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
 libSoWin@SUFFIX@_la_LIBADD = \
 	devices/libSoWinDevices.la \
@@ -56,13 +51,18 @@ libSoWin@SUFFIX@_la_LDFLAGS = \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 ############################################################################
-# alternative custom setup
+# custom setup
 
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	$(SoWinSources)
+	SoWin.cpp \
+	SoWinComponent.cpp \
+	SoWinGLWidget.cpp \
+	Win32API.cpp \
+	Win32API.h
 
 nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	$(BUILT_SOURCES)
+	$(SoGui_src_Inventor_Gui_BuiltFiles)
+#	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \
@@ -70,16 +70,16 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	widgets/widgets.lst
 
 ############################################################################
+# header installation
 
 SoWinincdir = $(includedir)/Inventor/Win
-
 SoWininc_HEADERS =
 
 nodist_SoWininc_HEADERS = \
+	SoWin.h \
 	SoWinBasic.h \
 	SoWinObject.h \
 	SoWinCursors.h \
-	SoWin.h \
 	SoWinComponent.h \
 	SoWinGLWidget.h \
 	SoWinRenderArea.h
@@ -112,101 +112,66 @@ install-nodist_SoWinincHEADERS: $(nodist_SoWininc_HEADERS)
 
 ############################################################################
 
-SoWinBasic.h: $(srcdir)/common/SoGuiBasic.h.in
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
-SoAny.h: $(srcdir)/common/SoAny.h.in
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
-SoAny.cpp: $(srcdir)/common/SoAny.cpp.in
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
-SoWinObject.h: $(srcdir)/common/SoGuiObject.h.in
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
-SoWinObject.cpp: $(srcdir)/common/SoGuiObject.cpp.in
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
-SoWinCursors.h: $(srcdir)/common/SoGuiCursors.h.in
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
-SoWinCursors.cpp: $(srcdir)/common/SoGuiCursors.cpp.in
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
-SoWin.h: $(srcdir)/common/SoGui.h.in
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
-SoWinComponent.h: $(srcdir)/common/SoGuiComponent.h.in
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
-SoWinGLWidget.h: $(srcdir)/common/SoGuiGLWidget.h.in
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
-SoWinRenderArea.h: $(srcdir)/common/SoGuiRenderArea.h.in
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
-SoWinRenderArea.cpp: $(srcdir)/common/SoGuiRenderArea.cpp.in
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
-############################################################################
-
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
   $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
   $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES)
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
 	rm -f "$$basename.lib" "$$basename.dll"; \
-	echo "Linking $@..."; \
-	echo $(CC) $(LDFLAGS) $(LIBFLAGS) \
-	      $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
-	      $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS); \
-	$(CC) $(LDFLAGS) $(LIBFLAGS) \
-	      $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
-	      $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS)
+	  echo "Linking $@..." \
+	  echo $(CC) $(LDFLAGS) $(LIBFLAGS) \
+	    $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+	    $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS); \
+	  $(CC) $(LDFLAGS) $(LIBFLAGS) \
+	    $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+	    $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS);
 
-# **************************************************************************
+############################################################################
 
-install-exec-hook: sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
+install-exec-local:
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
-	for ext in dll pdb; do \
-	  file="$$basename.$$ext"; \
-	  if test -s "$$file"; then \
-	    $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
-	    echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
-	    $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file"; \
-	  fi \
-	done;
+	if @BUILD_WITH_MSVC@; then \
+	  for ext in dll pdb; do \
+	    file="$$basename.$$ext"; \
+	    if test -f "$$file"; then \
+	      $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
+	      echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+	      $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+	    fi \
+	  done; \
+	else :; fi
 
-install-data-hook: sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
+install-data-local:
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
-	for ext in lib; do \
-	  file="$$basename.$$ext"; \
-	  if test -s "$$file"; then \
-	    $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
-	    echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
-	    $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
-	  fi \
-	done;
+	if @BUILD_WITH_MSVC@; then \
+	  for ext in lib; do \
+	    file="$$basename.$$ext"; \
+	    if test -f "$$file"; then \
+	      $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
+	      echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	      $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	    fi \
+	  done; \
+	else :; fi
 
 uninstall-local: uninstall-SoWinincHEADERS uninstall-nodist_SoWinincHEADERS
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
 	for file in \
-	  "$(DESTDIR)$(libdir)/$$basename.lib" \
 	  "$(DESTDIR)$(bindir)/$$basename.dll" \
-	  "$(DESTDIR)$(bindir)/$$basename.pdb"; do \
+	  "$(DESTDIR)$(bindir)/$$basename.pdb" \
+	  "$(DESTDIR)$(libdir)/$$basename.lib"; do \
 	  if test -f "$$file"; then \
 	    echo " rm -f" "$$file"; \
-	    rm -f "$$file"; \
+	    echo rm -f "$$file"; \
 	  fi \
 	done; \
-	baseincdir="$(DESTDIR)$(includedir)/Inventor"; \
+	baseincdir="$(DESTDIR)$(includedir)/Inventor/Win"; \
 	for dir in \
-	  "$$baseincdir/Win/devices" \
-	  "$$baseincdir/Win/viewers" \
-	  "$$baseincdir/Win" \
+	  "$$baseincdir/devices" \
+	  "$$baseincdir/viewers" \
 	  "$$baseincdir"; do \
 	  if test -d "$$dir"; then \
 	    echo " rmdir" "$$dir"; \
-	    rmdir "$$dir"; \
+	    rmdir "$$dir" &>/dev/null; \
 	  fi \
 	done; \
 	:

@@ -1,12 +1,16 @@
+############################################################################
+## So@Gui@/src/Makefile.am
+
+include Inventor/@Gui@/common/Makefile.common
 
 SUBDIRS = . Inventor
 
+BUILT_SOURCES = \
+	$(SoGuiAllBuiltFiles)
+
+CLEANFILES = \
+	$(SoGui_src_BuiltMetaFiles)
+
 DISTCLEANFILES = \
-	sowindefs.h
-
-sowindefs.h: $(srcdir)/Inventor/Win/common/soguidefs.h.in
-	@( cd $(top_builddir); $(MAKE) src/sowindefs.h )
-
-install-data-local: sowindefs.h
-	@( cd $(top_builddir); $(MAKE) built-sources )
-
+	$(SoGui_src_BuiltFiles) \
+	$(SoGui_src_BuiltMetaFiles)
