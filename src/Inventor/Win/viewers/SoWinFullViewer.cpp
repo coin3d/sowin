@@ -42,6 +42,8 @@
 #include <Inventor/Win/common/pixmaps/ortho.xpm>
 
 #define VIEWERBUTTON( id ) ( ( SoWinBitmapButton * ) ( * viewerButtonList )[id] )
+const int DECORATION_SIZE = 30;
+const int DECORATION_BUFFER = 5;
 
 SOWIN_OBJECT_ABSTRACT_SOURCE( SoWinFullViewer );
 
@@ -303,7 +305,7 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   this->viewerButtonList = new SbPList;
   this->appButtonList = new SbPList;
 
-  this->setSize( SbVec2s( 500, 400 ) ); // FIXME: make default values
+  this->setSize( SbVec2s( 500, 420 ) ); // FIXME: make default values
 
   if ( buildNow ) {
     this->setClassName( "SoWinFullViewer" );
@@ -376,8 +378,8 @@ SoWinFullViewer::buildWidget( HWND parent )
     style = WS_CHILD;
   }
   else {
-    rect.right = SoWin_DefaultWidth;
-    rect.bottom = SoWin_DefaultHeight;
+    rect.right = 500;
+    rect.bottom = 420;
     style = WS_OVERLAPPEDWINDOW;
   }
 
@@ -397,24 +399,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   this->renderAreaWidget = inherited::buildWidget( this->viewerWidget );
   assert( IsWindow( this->renderAreaWidget ) );
 
-  ZeroMemory( & renderAreaOffset, sizeof( renderAreaOffset ) );
-
-  if ( this->decorations ) {
-    renderAreaOffset.top = 0;
-    renderAreaOffset.left = 30;
-    renderAreaOffset.right = -60;
-    renderAreaOffset.bottom = -30;
-    this->buildDecoration( this->viewerWidget );
-    //this->showDecorationWidgets( TRUE );
-  }
-
-  MoveWindow( SoWin::getTopLevelWidget( ), 0, 0, 500, 400, FALSE ); // FIXME: make default values
-  MoveWindow( this->renderAreaWidget,
-              renderAreaOffset.left,
-              renderAreaOffset.top,
-              500 + renderAreaOffset.right,
-              400 + renderAreaOffset.bottom,
-              FALSE );
+	MoveWindow( SoWin::getTopLevelWidget( ), 0, 0, 500, 420, FALSE ); // FIXME: make default values
 
   if ( this->menuenabled )
     this->buildPopupMenu( );
@@ -423,6 +408,9 @@ SoWinFullViewer::buildWidget( HWND parent )
   ShowWindow( this->renderAreaWidget, SW_SHOW );
 
   SoWin::addMessageHook( this->viewerWidget, WM_SIZE );
+
+	if ( this->decorations )
+			this->buildDecoration( this->viewerWidget );
 
   return this->viewerWidget;
 }
@@ -451,7 +439,7 @@ SoWinFullViewer::buildLeftWheel( HWND parent )
   this->leftWheel->registerCallback( this->leftWheelCB );
 	this->leftWheel->registerViewer( this );
 	this->leftWheel->setRangeBoundaryHandling( SoWinThumbWheel::MODULATE );
-	this->leftWheel->setLabelOffset( 0, 6 );
+	this->leftWheel->setLabelOffset( -9, 12 );
 	
   return leftWheel->getWidget( );
 }
@@ -468,7 +456,7 @@ SoWinFullViewer::buildBottomWheel( HWND parent )
   this->bottomWheel->registerCallback( this->bottomWheelCB );
 	this->bottomWheel->registerViewer( this );
 	this->bottomWheel->setRangeBoundaryHandling( SoWinThumbWheel::MODULATE );
-	this->bottomWheel->setLabelOffset( 0, 3 );
+	this->bottomWheel->setLabelOffset( -5, -3 );
 	
   return this->bottomWheel->getWidget( );
 }
@@ -485,7 +473,7 @@ SoWinFullViewer::buildRightWheel( HWND parent )
   this->rightWheel->registerCallback( this->rightWheelCB );
 	this->rightWheel->registerViewer( this );
 	this->rightWheel->setRangeBoundaryHandling( SoWinThumbWheel::ACCUMULATE );
-	this->rightWheel->setLabelOffset( -12, 6 );
+	this->rightWheel->setLabelOffset( -15, 12 );
 
 	return this->rightWheel->getWidget( );
 }
@@ -496,10 +484,10 @@ SoWinFullViewer::buildZoomSlider( HWND parent )
   // FIXME: function not implemented
   // SOWIN_STUB();
   // return NULL;
-
+	/*
 	this->zoomSlider = CreateWindow( "SCROLLBAR", "Zoom", WS_CHILD | WS_VISIBLE, 300, 350,
 		100, 18, parent, NULL, SoWin::getInstance( ), NULL );
-
+	*/	
 	return this->zoomSlider;
 }
 
@@ -516,51 +504,53 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	// Create coords are not needed - the widget is moved into place (see onSize)
 	// Set id's so they can be used as indices in the list later ( ie. viewerButtonList[id] )
 	
-	SoWinBitmapButton * button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "pick", NULL );
+	SoWinBitmapButton * button;
+
+	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE, DECORATION_SIZE, 24, "pick", NULL );
 	button->addBitmap( pick_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_PICK );
 	viewerButtonList->append( button );
 	button->setState( this->isViewing( ) ? FALSE : TRUE );
 
-	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "view", NULL );
+	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE, DECORATION_SIZE, 24, "view", NULL );
 	button->addBitmap( view_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_VIEW );
 	viewerButtonList->append( button );
 	button->setState( this->isViewing( ) );
 	
-	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "help", NULL );
+	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE, DECORATION_SIZE, 24, "help", NULL );
 	button->addBitmap( help_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_HELP );
 	viewerButtonList->append( button );
 
-	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "home", NULL );
+	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE, DECORATION_SIZE, 24, "home", NULL );
 	button->addBitmap( home_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_HOME );
 	viewerButtonList->append( button );
 	
-	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "set_home", NULL );
+	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE, DECORATION_SIZE, 24, "set_home", NULL );
 	button->addBitmap( set_home_xpm );
 	button->setBitmap( 0 );
 	button->setId( VIEWERBUTTON_SET_HOME );
 	viewerButtonList->append( button );
 	
-	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "view_all", NULL );
+	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE, DECORATION_SIZE, 24, "view_all", NULL );
 	button->addBitmap( view_all_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_VIEW_ALL );
 	viewerButtonList->append( button );
 	
-	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "seek", NULL );
+	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE, DECORATION_SIZE, 24, "seek", NULL );
 	button->addBitmap( seek_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_SEEK );
 	viewerButtonList->append( button );
 	
-	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "perspective", NULL );
+	button = new SoWinBitmapButton( parent, 0, 0, DECORATION_SIZE, DECORATION_SIZE, 24, "perspective", NULL );
 	button->addBitmap( perspective_xpm ); // FIXME: ortho
 	button->addBitmap( ortho_xpm );
 	button->setBitmap( 0 ); // use first ( of two ) bitmap
@@ -1086,56 +1076,115 @@ SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lpar
 LRESULT
 SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-	assert( this->renderAreaWidget != NULL );
+	int i, x, y, width, height, bottom, right, top, numButtons;
+
+	// RenderArea
+	assert( IsWindow( this->renderAreaWidget ) );
 	
-	// In fullscreen, we only see the renderarea
 	if ( this->isFullScreen( ) ) {
-			MoveWindow( this->renderAreaWidget,
-				          0, 0,
-                  LOWORD( lparam ),
-                  HIWORD( lparam ),
-                  FALSE );
+			MoveWindow( this->renderAreaWidget, 0, 0, LOWORD( lparam ), HIWORD( lparam ), FALSE );
 			return 0; 
 	}
-	
-	MoveWindow( this->renderAreaWidget,
-              this->renderAreaOffset.left,
-              this->renderAreaOffset.top,
-              LOWORD( lparam ) + this->renderAreaOffset.right,
-              HIWORD( lparam ) + this->renderAreaOffset.bottom,
-              FALSE );
-	
-	// FIXME: handle size too!
-
-  // Left wheel
-  if ( this->leftWheel )
-		this->leftWheel->move( this->renderAreaOffset.left - this->leftWheel->width( ) - 2,
-                           HIWORD( lparam ) + this->renderAreaOffset.bottom
-                           - this->leftWheel->height( ) + 1 );
-  // Bottom wheel
-  if ( this->bottomWheel )
-		this->bottomWheel->move( this->renderAreaOffset.left + 42,
-			                       HIWORD( lparam ) + this->renderAreaOffset.bottom + 4 );
-	
-  // Right wheel
-  if ( this->rightWheel )
-		this->rightWheel->move( LOWORD( lparam ) - this->renderAreaOffset.left + 4,
-			                      HIWORD( lparam ) + this->renderAreaOffset.bottom
-			                      - this->rightWheel->height( ) + 1 );
+	else {
+		MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
+			LOWORD( lparam ) - ( 2 * DECORATION_SIZE ), HIWORD( lparam ) - DECORATION_SIZE, FALSE );
+	}
 	
   // Viewer buttons
-	int length = viewerButtonList->getLength( );
-	for( int i = 0; i < length; i++ )
+	numButtons = viewerButtonList->getLength( );
+
+	for( i = 0; i < numButtons; i++ )
 		( ( SoWinBitmapButton * )( * viewerButtonList )[i] )->move(
-			LOWORD( lparam ) - this->renderAreaOffset.left,
-			this->renderAreaOffset.left * i, // 30 * i
-			this->renderAreaOffset.left,
-			this->renderAreaOffset.left );
+			LOWORD( lparam ) - DECORATION_SIZE, DECORATION_SIZE * i );
+
+	bottom = ( HIWORD( lparam ) - ( DECORATION_SIZE + DECORATION_BUFFER ) );
+	right = ( LOWORD( lparam ) - ( DECORATION_SIZE + DECORATION_BUFFER ) );
+	
+	// Left wheel
+  if ( this->leftWheel ) {
+
+		x = ( DECORATION_SIZE / 2 ) - ( this->leftWheel->sizeHint( ).cx / 2 ) - 1;
+		width = this->leftWheel->sizeHint( ).cx;
+
+		top = DECORATION_BUFFER;
+		
+		// if area is large enough for original height
+		if ( ( bottom - top ) > this->leftWheel->sizeHint( ).cy ) {
+
+			height = this->leftWheel->sizeHint( ).cy;
+
+			y = bottom - height;
+
+		} // else we must use all available space
+		else {
+
+			y = top;
+
+			height = bottom - top;
+			
+		}
+		
+		this->leftWheel->move( x, y, width, height );
+	}
+	
+  // Bottom wheel
+	if ( this->bottomWheel ) {
+
+		x = DECORATION_SIZE + 42;
+		y = ( HIWORD( lparam ) - DECORATION_SIZE ) +
+			( ( DECORATION_SIZE / 2 ) - ( this->bottomWheel->sizeHint( ).cy / 2 ) + 1 );
+		
+		height = this->bottomWheel->sizeHint( ).cy;
+		
+		if ( right < ( x + this->bottomWheel->sizeHint( ).cx ) ) {
+
+			width = right - x;
+			
+		}
+		else {
+
+			width =  this->bottomWheel->sizeHint( ).cx;
+			
+		}	
+
+		this->bottomWheel->move( x, y, width, height );
+			
+	}
+	
+  // Right wheel
+  if ( this->rightWheel ) {
+		
+		x = ( LOWORD( lparam ) - DECORATION_SIZE ) +
+			( ( DECORATION_SIZE / 2 ) - ( this->rightWheel->sizeHint( ).cx / 2 ) + 1 );
+		
+		width = this->rightWheel->sizeHint( ).cx;
+
+		top = numButtons * DECORATION_SIZE + DECORATION_BUFFER;
+		
+		// if area is large enough for original height
+		if ( ( bottom - top ) > this->rightWheel->sizeHint( ).cy ) {
+
+			height = this->rightWheel->sizeHint( ).cy;
+
+			y = bottom - height;
+
+		} // else we must use all available space
+		else {
+
+			y = top;
+
+			height = bottom - top;
+			
+		}
+		
+		this->rightWheel->move( x, y, width, height );
+	}
+	
 	/*
 	// Slider
 	MoveWindow( this->zoomSlider,
-		LOWORD( lparam ) - ( 170 + this->renderAreaOffset.left ),
-		HIWORD( lparam ) + this->renderAreaOffset.bottom + 6,
+		LOWORD( lparam ) - ( 170 + DECORATION_SIZE ),
+		HIWORD( lparam ) + DECORATION_SIZE + 6,
 		150, 18, FALSE );
 	*/
   return 0;

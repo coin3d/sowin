@@ -31,14 +31,12 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-static const int SHADEBORDERWIDTH = 2;
-
 SoWinThumbWheel::SoWinThumbWheel( HWND parent,
                                   int x,
                                   int y,
                                   char * name )
 {
-  RECT rect = { x, y, x + sizeHint( ).cx, y + sizeHint( ).cy };
+  RECT rect = { x, y, x + this->sizeHint( ).cx, y + this->sizeHint( ).cy };
   this->constructor( SoWinThumbWheel::Vertical );
   this->buildWidget( parent, rect, name );
 } // SoWinThumbWheel( )
@@ -52,8 +50,8 @@ SoWinThumbWheel::SoWinThumbWheel( Orientation orientation,
   RECT rect = { x, y, sizeHint( ).cx, sizeHint( ).cy };
     
   if ( orientation == SoWinThumbWheel::Vertical ) {
-    rect.right = sizeHint( ).cy;
-    rect.bottom = sizeHint( ).cx;
+    rect.right = this->sizeHint( ).cy;
+    rect.bottom = this->sizeHint( ).cx;
   }
 
   this->constructor( orientation );
@@ -78,8 +76,8 @@ SoWinThumbWheel::~SoWinThumbWheel( void )
 SIZE
 SoWinThumbWheel::sizeHint( void ) const
 {
-  const int length = 88;
-  int thick = 24;
+  const int length = 122;
+  int thick = 12;
   SIZE size;
 
   if ( this->orient == SoWinThumbWheel::Horizontal ) {
@@ -130,13 +128,14 @@ SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lpara
 {
   PAINTSTRUCT ps;
   HDC hdc = BeginPaint( window, & ps );
+
   int w, d;
   if ( this->orient == SoWinThumbWheel::Vertical ) {
-    w = this->width( ) - 2 * SHADEBORDERWIDTH - 6;
-    d = this->height( ) - 2 * SHADEBORDERWIDTH - 12;
+    w = this->width( ) - 2;
+    d = this->height( ) - 2;
   } else {
-    w = this->height( ) - 2 * SHADEBORDERWIDTH - 6;
-    d = this->width( ) - 2 * SHADEBORDERWIDTH - 12;
+    w = this->height( ) - 2;
+    d = this->width( ) - 2;
   }
 
   // Handle resizing to too small dimensions gracefully.
@@ -147,44 +146,9 @@ SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lpara
   int pixmap = this->wheel->getBitmapForValue( this->tempWheelValue,
                                                ( this->state == SoWinThumbWheel::Disabled ) ?
                                                SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED );
-
-  RECT wheelrect = { SHADEBORDERWIDTH, SHADEBORDERWIDTH,
-                     this->width( ) - 2 * SHADEBORDERWIDTH,
-                     this->height( ) - 2 * SHADEBORDERWIDTH };
-
-  // this->drawShadePanel( hdc, 0, 0, this->width( ), this->height( ), SHADEBORDERWIDTH, TRUE );
-
-  if ( this->orient == Vertical ) {
-    wheelrect.top = wheelrect.top + 4;
-    wheelrect.bottom = wheelrect.bottom - 4;
-    wheelrect.left = wheelrect.left + 1;
-    wheelrect.right = wheelrect.right - 1;
-  }
-  else {
-    wheelrect.top = wheelrect.top + 1;
-    wheelrect.bottom = wheelrect.bottom - 1;
-    wheelrect.left = wheelrect.left + 4;
-    wheelrect.right = wheelrect.right - 4;
-  }
-
-  drawPlainRect( hdc,
-                 wheelrect.left,
-                 wheelrect.top,
-                 wheelrect.right - wheelrect.left,
-                 wheelrect.bottom - wheelrect.top,
-                 0x00000000 );
-
-  wheelrect.top = wheelrect.top + 1;
-  wheelrect.bottom = wheelrect.bottom - 1;
-  wheelrect.left = wheelrect.left + 1;
-  wheelrect.right = wheelrect.right - 1;
-  // wheelrect is currently wheel-only
-
-  if ( this->orient == Vertical )
-    this->BlitBitmap( this->pixmaps[pixmap], hdc, wheelrect.left, wheelrect.top, w, d );
-  else
-    this->BlitBitmap( this->pixmaps[pixmap], hdc, wheelrect.left, wheelrect.top, d, w );
-
+	
+	this->BlitBitmap( this->pixmaps[pixmap], hdc, 0, 0, this->width( ) - 2, this->height( ) - 2 );
+	
   this->currentPixmap = pixmap;
 
   EndPaint( window, & ps );
@@ -196,35 +160,17 @@ SoWinThumbWheel::onLButtonDown( HWND window, UINT message, WPARAM wparam, LPARAM
 {
   if ( this->state != SoWinThumbWheel::Idle )
     return 0;
-	
-  RECT wheel;
-  if ( this->orient == Vertical ) {
-    wheel.left =  SHADEBORDERWIDTH + 3;
-    wheel.top = SHADEBORDERWIDTH + 6;
-    wheel.right = this->width( ) - SHADEBORDERWIDTH - 3;
-    wheel.bottom = this->height( ) - SHADEBORDERWIDTH - 6;
-  }
-	else {
-    wheel.left = SHADEBORDERWIDTH + 6;
-    wheel.top = SHADEBORDERWIDTH + 3;
-    wheel.right = this->width( ) - SHADEBORDERWIDTH - 6;
-    wheel.bottom = this->height( ) - SHADEBORDERWIDTH - 3;
-  }
 
 	short x =  LOWORD( lparam );
-	short y =  HIWORD( lparam );	
-	POINT point = { x, y };
+	short y =  HIWORD( lparam );
 	
-  if ( ! PtInRect( & wheel, point ) )
-		return 0;
-
 	SetCapture( window );
 
   this->state = SoWinThumbWheel::Dragging;
   if ( this->orient == SoWinThumbWheel::Vertical )
-    this->mouseDownPos = y;// - SHADEBORDERWIDTH - 6;
+    this->mouseDownPos = y;
   else
-    this->mouseDownPos = x;// - SHADEBORDERWIDTH - 6;
+    this->mouseDownPos = x;
 
   this->mouseLastPos = this->mouseDownPos;
 	
@@ -244,9 +190,9 @@ SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM wparam, LPARAM l
 	short y =  HIWORD( lparam );
 	
   if ( this->orient == SoWinThumbWheel::Vertical )
-    this->mouseLastPos = y;// - SHADEBORDERWIDTH - 6;
+    this->mouseLastPos = y;
   else
-    this->mouseLastPos = x;// - SHADEBORDERWIDTH - 6;
+    this->mouseLastPos = x;
 	
   this->tempWheelValue = this->wheel->calculateValue( this->wheelValue,
                                                       this->mouseDownPos,
@@ -327,23 +273,40 @@ SoWinThumbWheel::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lp
 int
 SoWinThumbWheel::width( void )
 {
-  return this->sizeHint( ).cx;
-  //return( this->rect.right - this->rect.left );
+	RECT rect;
+
+	GetWindowRect( this->wheelWindow, & rect );
+
+	return ( rect.right - rect.left );
+	
+  //return this->sizeHint( ).cx;
 }
 
 int
 SoWinThumbWheel::height( void )
 {
-  return this->sizeHint( ).cy;
-  //return( this->rect.bottom - this->rect.top );
+	RECT rect;
+	
+	GetWindowRect( this->wheelWindow, & rect );
+
+	return ( rect.bottom - rect.top );
+	
+  //return this->sizeHint( ).cy;
 }
 
 void
 SoWinThumbWheel::move( int x, int y )
 {
+	//this->move( x, y, this->width( ), this->height( ) );
+	this->move( x, y, this->sizeHint( ).cx, this->sizeHint( ).cy );
+}
+
+void
+SoWinThumbWheel::move( int x, int y, int width, int height )
+{
 	// Wheel
 
-  MoveWindow( this->wheelWindow, x, y, this->width( ), this->height( ), TRUE );
+  MoveWindow( this->wheelWindow, x, y, width, height, TRUE );
 
 	// Label
 
@@ -426,8 +389,9 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect, char * name )
 																		WS_VISIBLE |
                                     WS_CLIPCHILDREN |
                                     WS_CLIPSIBLINGS |
-                                    WS_CHILD,// |
-                                    //WS_DLGFRAME,//WS_BORDER,
+                                    WS_CHILD |
+																		WS_BORDER,// |
+                                    //WS_DLGFRAME,
                                     rect.left,
                                     rect.top,
                                     rect.right,
@@ -463,8 +427,8 @@ SoWinThumbWheel::initWheel( int diameter, int width )
 
   if ( this->pixmaps != NULL ) {
     for ( int i = 0; i < this->numPixmaps; i++ ) {
-      //delete this->pixmaps[i]->bmBits
-      delete this->pixmaps[i];
+			DeleteObject( this->pixmaps[i] );
+			this->pixmaps[i] = NULL;
     }
     delete [] this->pixmaps;
   }
@@ -490,7 +454,7 @@ SoWinThumbWheel::setEnabled( bool enable )
     this->state = SoWinThumbWheel::Idle;
   else
     this->state = SoWinThumbWheel::Disabled;
-  UpdateWindow( this->wheelWindow );
+	InvalidateRect( this->wheelWindow, NULL, FALSE );
 } // setEnabled()
 
 bool
@@ -504,7 +468,7 @@ SoWinThumbWheel::setValue( float value )
 {
   this->wheelValue = this->tempWheelValue = value;
   this->mouseDownPos = this->mouseLastPos;
-  UpdateWindow( this->wheelWindow );
+	InvalidateRect( this->wheelWindow, NULL, FALSE );
 } // setValue()
 
 float
@@ -630,67 +594,4 @@ SoWinThumbWheel::BlitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int
   BitBlt( dc, x, y, width, height, memorydc, 0, 0, SRCCOPY );
   SelectObject( memorydc, oldBitmap );
   DeleteDC( memorydc );
-}
-
-void
-SoWinThumbWheel::drawShadePanel( HDC hdc,
-                                 int x,
-                                 int y,
-                                 int width,
-                                 int height,
-                                 int border,
-                                 SbBool elevated )
-{
-  /*  HBRUSH whiteBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
-      HBRUSH blackBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
-      HBRUSH dkgrayBrush = (HBRUSH)GetStockObject(DKGRAY_BRUSH);
-      HBRUSH ltgrayBrush = (HBRUSH)GetStockObject(LTGRAY_BRUSH);*/
-
-  HBRUSH upperLeftBrush;
-  HBRUSH lowerRightBrush;
-
-  if ( elevated ) {
-    upperLeftBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
-    lowerRightBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
-  } else {
-    upperLeftBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
-    lowerRightBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
-  }
-
-  HBRUSH oldBrush = (HBRUSH)SelectObject( hdc, upperLeftBrush );
-
-  for (int i=0; i < border; i++ ) {
-    SelectObject( hdc, upperLeftBrush );
-    MoveToEx( hdc, x + i, height - i - 1, NULL );
-    LineTo( hdc, x + i, y + i );    // left
-    LineTo( hdc, x + width - 3 * i, y + i );    // top
-    SelectObject( hdc, lowerRightBrush );
-    LineTo( hdc, x + width - 3 * i, y + height - 3 * i );    //  right
-    LineTo( hdc, x + i, y + height - 3 * i );  // bottom
-  }
-
-  SelectObject( hdc, oldBrush );
-}
-
-void
-SoWinThumbWheel::drawPlainRect( HDC hdc, 
-                                int x,
-                                int y,
-                                int width,
-                                int height,
-                                COLORREF color )
-{
-  HBRUSH brush = CreateSolidBrush( color );
-  HBRUSH oldBrush = ( HBRUSH ) SelectObject( hdc, brush );
-
-  //RECT rect = { x, y, x + width, y + height };
-
-  //FillRect( hdc, & rect, brush );
-  MoveToEx( hdc, x, y, NULL );
-  LineTo( hdc, x + width - 1, y );
-  LineTo( hdc, x + width - 1, y + height - 1 );
-  LineTo( hdc, x, y + height - 1 );
-  LineTo( hdc, x, y );
-
-  SelectObject( hdc, oldBrush );
 }

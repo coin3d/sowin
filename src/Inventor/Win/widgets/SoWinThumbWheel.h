@@ -74,6 +74,7 @@ public:
   int width( void );
   int height( void );
   void move( int x, int y );
+	void move( int x, int y, int width, int height );
   void registerCallback( thumbWheelCB * func );
 	void registerViewer( SoWinFullViewer * viewer );
 
@@ -126,8 +127,6 @@ private:
 	HWND createLabel( HWND parent, int x, int y, char * text );
   HBITMAP createDIB( int width, int height, int bpp, void ** bits );
   void BlitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int height ) const;
-  void drawShadePanel( HDC hdc, int x, int y, int width, int height, int border, SbBool elevated );
-  void drawPlainRect( HDC hdc, int x, int y, int width, int height, COLORREF color );
 
   Orientation orient;
   State state;

@@ -284,8 +284,6 @@ private:
 	SbPList * viewerButtonList;
 
 	SbVec2f zoomSldRange;
-	
-  RECT renderAreaOffset; // RenderArea position
 };
 
 #endif  // SOWIN_FULLVIEWER_H
