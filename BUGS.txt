@@ -89,3 +89,11 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     20030124 mortene.
 
 =====================================================================
+
+008 Mouse movement causes continuous cursor updates?
+
+    pederb reports that he is seeing this. Investigate.
+
+    20030204 mortene.
+
+=====================================================================
