@@ -84,5 +84,130 @@ inline int _not_null( const void * arg ) { return (arg != NULL) ? 1 : 0; }
   } while (0)
 
 // *************************************************************************
+// ( virtual ) key codes
+
+#define SOWIN_OEM_3        0x29    // |
+#define SOWIN_1            0x02
+#define SOWIN_2            0x03
+#define SOWIN_3            0x04
+#define SOWIN_4            0x05
+#define SOWIN_5            0x06
+#define SOWIN_6            0x07
+#define SOWIN_7            0x08
+#define SOWIN_8            0x09
+#define SOWIN_9            0x0a
+#define SOWIN_0            0x0b
+#define SOWIN_OEM_ADD      0x0c    // +
+#define SOWIN_OEM_SUBTRACT 0x0d    /* \ */ 
+#define SOWIN_Q            0x10
+#define SOWIN_W            0x11
+#define SOWIN_E            0x12
+#define SOWIN_R            0x13
+#define SOWIN_T            0x14
+#define SOWIN_Y            0x15
+#define SOWIN_U            0x16
+#define SOWIN_I            0x17
+#define SOWIN_O            0x18
+#define SOWIN_P            0x19
+#define SOWIN_OEM_4        0x1a    // å
+#define SOWIN_OEM_6        0x1b    // ¨
+#define SOWIN_OEM_5        0x2b    // '
+#define SOWIN_A            0x1e
+#define SOWIN_S            0x1f
+#define SOWIN_D            0x20
+#define SOWIN_F            0x21
+#define SOWIN_G            0x22
+#define SOWIN_H            0x23
+#define SOWIN_J            0x24
+#define SOWIN_K            0x25
+#define SOWIN_L            0x26
+#define SOWIN_OEM_1        0x27     // ø
+#define SOWIN_OEM_7        0x28     // æ
+#define SOWIN_Z            0x2c
+#define SOWIN_X            0x2d
+#define SOWIN_C            0x2e
+#define SOWIN_V            0x2f
+#define SOWIN_B            0x30
+#define SOWIN_N            0x31
+#define SOWIN_M            0x32
+#define SOWIN_OEM_COMMA    0x33    // ,
+#define SOWIN_OEM_PERIOD   0x34    // .
+#define SOWIN_OEM_2        0x35    // -
+#define SOWIN_OEM_102      0x56    // <
+#define SOWIN_DECIMAL      0x53  // NUM_DECIMAL
+
+#define SOWIN_ESC          0x01
+#define SOWIN_BACKSPACE    0x0e
+#define SOWIN_TAB          0x0f
+#define SOWIN_ENTER        0x1c
+#define SOWIN_CTRL         0x1d
+#define SOWIN_SHIFT        0x2a
+
+#define SOWIN_NUM_DIVIDE   0x35
+#define SOWIN_RSHIFT       0x36
+#define SOWIN_NUM_MULTIPLY 0x37
+#define SOWIN_ALT          0x38
+#define SOWIN_SPACE        0x39
+#define SOWIN_CAPS_LOCK    0x3a
+#define SOWIN_F1           0x3b
+#define SOWIN_F2           0x3c
+#define SOWIN_F3           0x3d
+#define SOWIN_F4           0x3e
+#define SOWIN_F5           0x3f
+#define SOWIN_F6           0x40
+#define SOWIN_F7           0x41
+#define SOWIN_F8           0x42
+#define SOWIN_F9           0x43
+#define SOWIN_F10          0x44
+#define SOWIN_PAUSE        0X00//0x45
+#define SOWIN_SCROLL_LOCK  0x46
+#define SOWIN_NUM_7        0x47
+#define SOWIN_NUM_8        0x48
+#define SOWIN_NUM_9        0x49
+#define SOWIN_NUM_SUBTRACT 0x4a
+#define SOWIN_NUM_4        0x4b
+#define SOWIN_NUM_5        0x4c
+#define SOWIN_NUM_6        0x4d
+#define SOWIN_NUM_ADD      0x4e
+#define SOWIN_NUM_1        0x4f
+#define SOWIN_NUM_2        0x50
+#define SOWIN_NUM_3        0x51
+#define SOWIN_NUM_0        0x52
+#define SOWIN_NUM_DELETE   0x53
+#define SOWIN_SYS_REQ      0x54
+#define SOWIN_F11          0x57
+#define SOWIN_F12          0x58
+#define SOWIN_F13          0x7c
+#define SOWIN_F14          0x7d
+#define SOWIN_F15          0x7e
+#define SOWIN_F16          0x7f
+#define SOWIN_F17          0x80
+#define SOWIN_F18          0x81
+#define SOWIN_F19          0x82
+#define SOWIN_F20          0x83
+#define SOWIN_F21          0x84
+#define SOWIN_F22          0x85
+#define SOWIN_F23          0x86
+#define SOWIN_F24          0x87
+
+#define SOWIN_HOME          0x47
+#define SOWIN_END           0x4f
+#define SOWIN_PGUP          0x49
+#define SOWIN_PGDN          0x51
+#define SOWIN_INSERT        0x52
+#define SOWIN_DELETE        0x53
+
+#define SOWIN_LEFT          0x4b
+#define SOWIN_RIGHT         0x4d
+#define SOWIN_UP            0x48
+#define SOWIN_DOWN          0x50
+
+#define SOWIN_RETURN        0x1c
+#define SOWIN_PRINT         0x54
+#define SOWIN_NUM_LOCK      0x45
+
+#define SOWIN_UNKNOWN       0xff
+
+// *************************************************************************
 
 #endif // ! SO@uGUI@_INTERNALDEFS_H
