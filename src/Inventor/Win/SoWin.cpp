@@ -187,14 +187,6 @@ SoWin::internal_init(HWND toplevelwidget)
 } // internal_init()
 
 /*!
- */
-void
-SoWin::internal_init(void)
-{
-  SoWin::internal_init("SoWin", "SoWin");
-} // internal_init()
-
-/*!
   This is the event dispatch loop. It doesn't return until
   \a PostQuitMessage() is called (which is also done automatically by
   Windows whenever the user closes an application's main widget).
