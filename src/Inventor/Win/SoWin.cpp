@@ -133,8 +133,6 @@ SoWin::exitMainLoop( void )
 void
 SoWin::doIdleTasks( void )
 {
-  SoWin::idleSensorId = 0;
-  SoWin::idleSensorActive = FALSE;
   SoDB::getSensorManager( )->processDelayQueue( TRUE );
   SoWin::sensorQueueChanged( NULL );
 }
@@ -545,8 +543,6 @@ SoWin::timerSensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo( "SoWin::timerSensorCB", "called" );
 #endif // SOWIN_DEBUG
-  SoWin::timerSensorId = 0;
-  SoWin::timerSensorActive = FALSE;
   SoDB::getSensorManager( )->processTimerQueue( );
   SoWin::sensorQueueChanged( NULL );
 }
@@ -557,8 +553,6 @@ SoWin::delaySensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo( "SoWin::delaySensorCB", "called" );
 #endif // SOWIN_DEBUG
-  SoWin::delaySensorId = 0;
-  SoWin::delaySensorActive = FALSE;
   SoDB::getSensorManager( )->processDelayQueue( FALSE );
   SoWin::sensorQueueChanged( NULL );
 }
@@ -592,7 +586,6 @@ SoWin::sensorQueueChanged( void * cbdata )
     SoWin::timerSensorActive = TRUE;
   } else if ( SoWin::timerSensorActive ) {
     KillTimer( NULL, SoWin::timerSensorId );
-    SoWin::timerSensorId = 0;
     SoWin::timerSensorActive = FALSE;
   }
 
@@ -618,13 +611,11 @@ SoWin::sensorQueueChanged( void * cbdata )
                              
     if ( SoWin::idleSensorActive ) {
       KillTimer( NULL, SoWin::idleSensorId );
-      SoWin::idleSensorId = 0;
       SoWin::idleSensorActive = FALSE;
     }
 
     if ( SoWin::delaySensorActive ) {
       KillTimer( NULL, SoWin::delaySensorId );
-      SoWin::delaySensorId = 0;
       SoWin::delaySensorActive = FALSE;
     }
   }
