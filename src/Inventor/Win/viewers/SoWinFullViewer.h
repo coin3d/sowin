@@ -179,7 +179,7 @@ protected:
 private:
 
   SoWinFullViewerP * pimpl;
-  SoAnyFullViewer * const common;
+  SoAnyFullViewer * common;
   SoAnyPopupMenu * prefmenu;
 
 };

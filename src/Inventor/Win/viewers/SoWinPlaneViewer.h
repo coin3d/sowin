@@ -88,8 +88,8 @@ protected:
 
 private:
   
-  SoAnyPlaneViewer * const common;
-  SoWinPlaneViewerP * const pimpl;
+  SoAnyPlaneViewer * common;
+  SoWinPlaneViewerP * pimpl;
   
 }; // class SoWinPlaneViewer
 

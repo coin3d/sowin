@@ -95,8 +95,8 @@ protected:
   
 private:
 
-  SoAnyExaminerViewer * const common;
-  SoWinExaminerViewerP * const pimpl;
+  SoAnyExaminerViewer * common;
+  SoWinExaminerViewerP * pimpl;
   
 }; // class SoWinExaminerViewer
 
