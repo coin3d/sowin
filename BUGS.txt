@@ -301,3 +301,117 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     all surrounding windows will have a default cursor.
 
     20040219 thammer
+
+=====================================================================
+
+019 SoWinSpaceball device registration weirdness?
+
+    It was reported to coin-support by Cristian J. Luciano that the
+    following program does not provide a working spaceball interface:
+
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+#include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/viewers/SoWinExaminerViewer.h>
+#include <Inventor/nodes/SoEventCallback.h>
+#include <Inventor/nodes/SoCone.h>
+#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoRotation.h>
+#include <Inventor/nodes/SoTranslation.h>
+#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoTransform.h>
+#include <Inventor/Win/devices/SoWinSpaceball.h>
+#include <Inventor/events/SoSpaceballButtonEvent.h>
+#include <Inventor/events/SoMotion3Event.h>
+ 
+
+#include <iostream.h>
+ 
+ 
+ 
+void motion3TransformationCB (void *userData, SoEventCallback *cb)
+{
+  const SoMotion3Event *ev = (const SoMotion3Event *) cb->getEvent();
+  SoTransform *transformation = (SoTransform *) userData;
+ 
+ SbVec3f SpaceBallTranslation = ev->getTranslation();
+ SbRotation SpaceBallRotation = ev->getRotation();
+ 
+ transformation->translation = transformation->translation.getValue() + SpaceBallTranslation;
+ transformation->rotation = transformation->rotation.getValue() * SpaceBallRotation;
+ 
+}  
+ 
+SoNode * buildSceneGraph(int argc, char *argv[])
+{
+  SoSeparator *root = new SoSeparator;
+  root->ref();
+ 
+  SoSeparator *separator = new SoSeparator;
+  root->addChild(separator);
+ 
+  SoTransform *transform = new SoTransform;
+  separator->addChild(transform);
+ 
+  SoCone *cone = new SoCone;
+  separator->addChild(cone);
+ 
+  SoEventCallback *cb = new SoEventCallback;
+  cb->addEventCallback(
+    SoMotion3Event::getClassTypeId(),
+    motion3TransformationCB,
+    transform);
+  separator->addChild(cb);
+ 
+  return root;
+}
+ 
+ 
+ 
+int main(int argc, char **argv)
+{
+ HWND mainWindow = SoWin::init(argv[0]);
+ 
+ SoWinExaminerViewer *vwr = new SoWinExaminerViewer(mainWindow);
+ vwr->setSceneGraph(buildSceneGraph(argc,argv));
+ vwr->setTitle("Space Ball and Space Mouse Device");
+ vwr->setViewing(FALSE);   // come up in pick mode
+ vwr->setHeadlight(TRUE);
+ 
+
+ if (! SoWinSpaceball::exists()) {
+  cerr << "Sorry, no Space Ball or Magellan Space Mouse on this display!" << endl;
+ }
+ else
+ {
+  SoWinSpaceball *sb = new SoWinSpaceball;
+  vwr->registerDevice(sb);
+  float rotScaleFactor = sb->getRotationScaleFactor();
+  float transScaleFactor = sb->getTranslationScaleFactor();
+ 
+  cout << "Default rotation scale factor: " << rotScaleFactor << endl;
+  cout << "Default translation scale factor: " << transScaleFactor << endl;
+ }
+ 
+    vwr->setStereoViewing (true);
+    vwr->setQuadBufferStereo (true);
+ 
+
+ vwr->show();
+ vwr->viewAll();
+ 
+
+ SoWin::show(mainWindow);
+ SoWin::mainLoop();
+ 
+ return 0;
+}
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+
+    The reported replied to himself by saying that it worked if the
+    quad-buffer stereo was set up _before_ the spaceball. But I
+    believe the spaceball should work anyway, so investigate why this
+    happens.
+
+    20040607 mortene.
+
+=====================================================================
