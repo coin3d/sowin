@@ -64,7 +64,7 @@ public:
     int width( void );
     int height( void );
     void move( int x, int y );
-    void registerCallback( thumbWheelCB func );
+    void registerCallback( thumbWheelCB * func );
 
 protected:
 
@@ -130,7 +130,7 @@ private:
     HWND windowHandle;
     RECT rect;
 
-    thumbWheelCB viewerCB;
+    thumbWheelCB * viewerCB;
 }; // class SoWinThumbWheel
 
 // *************************************************************************

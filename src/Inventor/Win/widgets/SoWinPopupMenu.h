@@ -36,8 +36,8 @@ class SOWIN_DLL_EXPORT SoWinPopupMenu : public SoAnyPopupMenu
   typedef SoAnyPopupMenu inherited;
 
 public:
-  SoWinPopupMenu(void);
-  ~SoWinPopupMenu(void);
+  SoWinPopupMenu( void );
+  ~SoWinPopupMenu( void );
 
   int NewMenu( char * name, int menuid = -1 );
   int GetMenu( char * name );
@@ -51,6 +51,8 @@ public:
   void SetMenuItemEnabled( int itemid, SbBool enabled );
   SbBool GetMenuItemEnabled( int itemid );
   SbBool GetMenuItemMarked( int itemid );
+
+  virtual void SetMenuItemMarked( int itemid, SbBool marked );
 
   void AddMenu( int menuid, int submenuid, int pos = -1 );
   void AddMenuItem( int menuid, int itemid, int pos = -1 );

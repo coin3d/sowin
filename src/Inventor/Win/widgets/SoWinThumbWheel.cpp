@@ -216,7 +216,7 @@ LRESULT CALLBACK SoWinThumbWheel::onLButtonDown( HWND window, UINT message, WPAR
     this->mouseLastPos = this->mouseDownPos;
 
     //if( this->viewerCB )
-    this->viewerCB( NULL,  );
+    this->viewerCB( NULL, NULL );
 
     return 0;
 }
@@ -231,8 +231,8 @@ LRESULT CALLBACK SoWinThumbWheel::onLButtonUp( HWND window, UINT message, WPARAM
     this->mouseLastPos = this->mouseDownPos;
     this->state = SoWinThumbWheel::Idle;
 
-    if( this->viewerCB )
-        this->viewerCB( window, message, wparam, lparam );
+    //if( this->viewerCB )
+    this->viewerCB( NULL, NULL );
 
     return 0;
 }
@@ -255,8 +255,8 @@ LRESULT CALLBACK SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM
 
     InvalidateRect( this->windowHandle, NULL, FALSE );
 
-    if( this->viewerCB )
-        this->viewerCB( window, message, wparam, lparam );
+    //if( this->viewerCB )
+    this->viewerCB( NULL, NULL );   // change last parameter to data
 
     return 0;
 }
@@ -323,7 +323,7 @@ void SoWinThumbWheel::move( int x, int y )
     MoveWindow( this->windowHandle, x, y, this->width( ), this->height( ), TRUE );
 }
 
-void SoWinThumbWheel::registerCallback( thumbWheelCB func )
+void SoWinThumbWheel::registerCallback( thumbWheelCB * func )
 {
     this->viewerCB = func;
 }
