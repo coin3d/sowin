@@ -94,49 +94,51 @@ public:
   static void fatalerrorHandler(void * userdata);
   void cleanupWin32References(void);
 
-  static LRESULT CALLBACK eventHandler(HWND window, UINT message,
-                                       WPARAM wparam, LPARAM lparam);
+  static LRESULT CALLBACK frameWindowHandler(HWND window, UINT message,
+                                             WPARAM wparam, LPARAM lparam);
+
+  void commonEventHandler(UINT message, WPARAM wparam, LPARAM lparam)
+  {
+    switch (message) {
+    case WM_SIZE:
+      this->owner->sizeChanged(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
+      break;
+
+    case WM_SETFOCUS:
+      if (IsWindow(this->focusProxy)) { SetFocus(this->focusProxy); }
+      break;
+
+    case WM_CLOSE:
+      this->owner->hide();
+      this->owner->windowCloseAction();
+      break;
+
+    case WM_SHOWWINDOW:
+      if (!this->owner->realized) {
+        this->owner->afterRealizeHook();
+        this->owner->realized = TRUE;
+      }
+      break;
+
+    case WM_SETCURSOR:
+      SoWinComponent::setWidgetCursor(this->owner->getWidget(),
+                                      *(this->cursor));
+      break;
+    }
+  }
 
   // Message hook
   static LRESULT CALLBACK
-  callWndProc(int code, WPARAM wparam, LPARAM lparam)
+  systemEventFilter(int code, WPARAM wparam, LPARAM lparam)
   {
-    CWPSTRUCT * msg = (CWPSTRUCT *) lparam;
-
+    CWPSTRUCT * msg = (CWPSTRUCT *)lparam;
     void * comp;
-    SbBool found =
-      SoWinComponentP::embeddedparents->find((unsigned long)msg->hwnd, comp);
-
-    if (found) {
+    if (SoWinComponentP::embeddedparents->find((unsigned long)msg->hwnd, comp) &&
+        // as per the API doc on CallWndProc(): only process msg if code>=0
+        (code >= 0)) {
       SoWinComponent * component = (SoWinComponent *)comp;
-
-      // as per the API doc on CallWndProc(): only process msg if code>=0
-      if (code >= 0) {
-
-        switch (msg->message) {
-
-          case WM_SIZE:
-            component->sizeChanged(SbVec2s(LOWORD(msg->lParam), HIWORD(msg->lParam)));
-            break;
-
-          case WM_SETFOCUS:
-            if (IsWindow(PRIVATE(component)->focusProxy)) {
-              SetFocus(PRIVATE(component)->focusProxy);
-            }
-            break;
-
-          case WM_CLOSE:
-            component->windowCloseAction();
-            break;
-
-          case WM_SHOWWINDOW:
-          if (! component->realized) {
-            component->afterRealizeHook();
-            component->realized = TRUE;
-          }
-          break;
-        }
-      }
+      PRIVATE(component)->commonEventHandler(msg->message,
+                                             msg->wParam, msg->lParam);
     }
     return CallNextHookEx(SoWinComponentP::hookhandle, code, wparam, lparam);
   }
@@ -188,42 +190,14 @@ HHOOK SoWinComponentP::hookhandle = NULL;
 SbDict * SoWinComponentP::embeddedparents = NULL;
 
 LRESULT CALLBACK
-SoWinComponentP::eventHandler(HWND window, UINT message,
-                              WPARAM wparam, LPARAM lparam)
+SoWinComponentP::frameWindowHandler(HWND window, UINT message,
+                                    WPARAM wparam, LPARAM lparam)
 {
   SoWinComponent * component = (SoWinComponent *)
     Win32::GetWindowLong(window, GWL_USERDATA);
 
   if (component) {
-    switch (message) {
-
-    case WM_SIZE:
-      component->sizeChanged(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
-      break;
-
-    case WM_CLOSE:
-      component->hide();
-      component->windowCloseAction();
-      return 0;
-
-    case WM_SETFOCUS:
-      if (IsWindow(component->pimpl->focusProxy)) {
-        SetFocus(component->pimpl->focusProxy);
-      }
-      return 0;
-
-    case WM_SHOWWINDOW:
-      if (! component->realized) {
-        component->afterRealizeHook();
-        component->realized = TRUE;
-      }
-      break;
-
-    case WM_SETCURSOR:
-      SoWinComponent::setWidgetCursor(component->getWidget(),
-                                      *(PRIVATE(component)->cursor));
-      break;
-    }
+    PRIVATE(component)->commonEventHandler(message, wparam, lparam);
   }
 
   return DefWindowProc(window, message, wparam, lparam);
@@ -302,7 +276,7 @@ SoWinComponent::SoWinComponent(const HWND parent,
   if (SoWinComponentP::hookhandle == NULL) {
     SoWinComponentP::hookhandle =
       Win32::SetWindowsHookEx(WH_CALLWNDPROC, 
-                              (HOOKPROC)SoWinComponentP::callWndProc,
+                              (HOOKPROC)SoWinComponentP::systemEventFilter,
                               NULL, GetCurrentThreadId());
   }
 
@@ -368,7 +342,7 @@ SoWinComponent::~SoWinComponent(void)
 //
 // 3) in the process of cleaning up, the application client code
 // causes a message to be sent to the SoWinGLWidget-instance's window,
-// which triggers the SoWinComponent::eventHandler() function
+// which triggers the SoWinComponent::frameWindowHandler() function
 //
 // 4) in that method, operations on the SoWinComponent instance is
 // done -- which of course causes a crash, since it was never properly
@@ -811,7 +785,7 @@ SoWinComponent::buildFormWidget(HWND parent)
     WNDCLASS windowclass;
     windowclass.lpszClassName = "Component Widget";
     windowclass.hInstance = SoWin::getInstance();
-    windowclass.lpfnWndProc = SoWinComponentP::eventHandler;
+    windowclass.lpfnWndProc = SoWinComponentP::frameWindowHandler;
     windowclass.style = CS_OWNDC;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = LoadIcon(SoWin::getInstance(), icon);
