@@ -37,10 +37,10 @@ noinst_DATA = $(BUILT_SOURCES)
 
 sowin-config: sowin-config.in
 
-EXTRA_DIST = conf-macros/sowin.m4
+EXTRA_DIST = cfg/m4/sowin.m4
 
 m4datadir = $(datadir)/aclocal
-m4data_DATA = conf-macros/sowin.m4
+m4data_DATA = cfg/m4/sowin.m4
 
 ############################################################################
 
