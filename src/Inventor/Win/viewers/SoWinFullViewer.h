@@ -36,6 +36,7 @@ typedef void RedrawAppPushButtonCB( LPDRAWITEMSTRUCT lpdis, void * userData );
 typedef void CreateAppPushButtonCB( LPMEASUREITEMSTRUCT lpmis, void * userData );
 
 class SOWIN_DLL_API SoWinFullViewer : public SoWinViewer {
+  
   SOWIN_OBJECT_ABSTRACT_HEADER( SoWinFullViewer, SoWinViewer );
 
   friend class SoAnyFullViewer;
@@ -182,8 +183,6 @@ protected:
   
 	SbPList * viewerButtonList;
 	SbPList * appButtonList;
-
-  SbVec2s initSize;
 
   HWND viewerWidget;
   HWND renderAreaWidget;

@@ -144,14 +144,13 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 	PRIVATE( this )->createAppPushButtonCB = NULL;
 	PRIVATE( this )->createAppPushButtonData = NULL;
 
-  //this->initSize.setValue( 500, 420 );
-  this->setSize( SbVec2s( 500, 420 ) );
-  
   if ( buildNow ) {
     this->setClassName( "SoWinFullViewer" );
     HWND window = this->buildWidget( parent );
     this->setBaseWidget( window );
   }
+
+  this->setSize( SbVec2s( 500, 420 ) );
 
   this->zoomrange = SbVec2f( 1.0f, 140.0f ); // FIXME: make init function
 }
@@ -421,8 +420,8 @@ SoWinFullViewer::buildWidget( HWND parent )
     style = WS_CHILD | WS_VISIBLE;
   }
   else {
-    rect.right = this->initSize[0];
-    rect.bottom = this->initSize[1];
+    rect.right = 500;
+    rect.bottom = 420;
     style = WS_OVERLAPPEDWINDOW;
   }
 
@@ -443,14 +442,15 @@ SoWinFullViewer::buildWidget( HWND parent )
   assert( IsWindow( this->renderAreaWidget ) );
 
   if ( IsWindow( this->getGLWidget( ) ) ) {
-    // Hack glWidget
+    
     SetLastError( 0 );
     assert(
       ( SetWindowLong( this->getGLWidget( ), GWL_WNDPROC,
         ( LONG ) SoWinFullViewer::glWidgetProc ) != 0 )
       && ( GetLastError( ) == 0 ) );
+    
   }
-  else assert ( 0 ); // FIXME:
+  else assert ( 0 && "No glWidget" ); // FIXME: do something more informative. mariusbu 20010724.
 
   if ( PRIVATE( this )->menuenabled )
     this->buildPopupMenu( );
@@ -913,8 +913,8 @@ SoWinFullViewer::vwrWidgetProc(
 LRESULT
 SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-	if ( ! this->isViewing( ) ) this->setViewing( TRUE );
-  //this->setSize( this->initSize );
+	if ( ! this->isViewing( ) )
+    this->setViewing( TRUE );
   return 0;
 }
 
