@@ -261,6 +261,7 @@ static struct key1map WinToSoMapping[] = {
 //    {Key_Plus, SoKeyboardEvent::}, // FIXME
   {SOWIN_KEY_OEM_COMMA, SoKeyboardEvent::COMMA},
   {SOWIN_KEY_OEM_SUBTRACT, SoKeyboardEvent::MINUS},
+  {SOWIN_KEY_OEM_ADD, SoKeyboardEvent::EQUAL},
   {SOWIN_KEY_OEM_PERIOD, SoKeyboardEvent::PERIOD},
   {SOWIN_KEY_OEM_2, SoKeyboardEvent::SLASH},
   {SOWIN_KEY_0, SoKeyboardEvent::NUMBER_0},
@@ -280,6 +281,23 @@ static struct key1map WinToSoMapping[] = {
 //    {Key_Greater, SoKeyboardEvent::}, // FIXME
 //    {Key_Question, SoKeyboardEvent::}, // FIXME
 //    {Key_At, SoKeyboardEvent::}, // FIXME
+  
+  {SOWIN_KEY_NUM_DELETE, SoKeyboardEvent::PAD_DELETE},
+  {SOWIN_KEY_NUM_SUBTRACT, SoKeyboardEvent::PAD_SUBTRACT},
+  {SOWIN_KEY_NUM_ADD, SoKeyboardEvent::PAD_ADD},
+  {SOWIN_KEY_NUM_DIVIDE, SoKeyboardEvent::PAD_DIVIDE},
+  {SOWIN_KEY_NUM_MULTIPLY, SoKeyboardEvent::PAD_MULTIPLY},
+  {SOWIN_KEY_NUM_0, SoKeyboardEvent::PAD_0},
+  {SOWIN_KEY_NUM_1, SoKeyboardEvent::PAD_1},
+  {SOWIN_KEY_NUM_2, SoKeyboardEvent::PAD_2},
+  {SOWIN_KEY_NUM_3, SoKeyboardEvent::PAD_3},
+  {SOWIN_KEY_NUM_4, SoKeyboardEvent::PAD_4},
+  {SOWIN_KEY_NUM_5, SoKeyboardEvent::PAD_5},
+  {SOWIN_KEY_NUM_6, SoKeyboardEvent::PAD_6},
+  {SOWIN_KEY_NUM_7, SoKeyboardEvent::PAD_7},
+  {SOWIN_KEY_NUM_8, SoKeyboardEvent::PAD_8},
+  {SOWIN_KEY_NUM_9, SoKeyboardEvent::PAD_9},
+  
   {SOWIN_KEY_A, SoKeyboardEvent::A},
   {SOWIN_KEY_B, SoKeyboardEvent::B},
   {SOWIN_KEY_C, SoKeyboardEvent::C},
