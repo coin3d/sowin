@@ -1875,6 +1875,12 @@ AC_CACHE_VAL([lt_cv_sys_max_cmd_len], [dnl
     lt_cv_sys_max_cmd_len=8192;
     ;;
 
+  mks*)
+    # this test is apparently horribly slow on MKS systems (and results
+    # in 1024, while 8192 should work fine).  We therefore just set it
+    # directly, as for cygwin/mingw...
+    lt_cv_sys_max_cmd_len=8192;
+    ;;
  *)
     # If test is not a shell built-in, we'll probably end up computing a
     # maximum length that is only half of the actual maximum length, but
@@ -3857,7 +3863,7 @@ test -z "${LDCXX+set}" || LD=$LDCXX
 CC=${CXX-"c++"}
 compiler=$CC
 _LT_AC_TAGVAR(compiler, $1)=$CC
-cc_basename=`$echo X"$compiler" | $Xsed -e 's%^.*/%%'`
+cc_basename=`$echo X"$compiler" | $Xsed -e 's%^.*/%%' -e 's%[ \t]*$%%'`
 
 # We don't want -fno-exception wen compiling C++ code, so set the
 # no_builtin_flag separately
@@ -4222,7 +4228,9 @@ case $host_os in
 	  _LT_AC_TAGVAR(archive_cmds, $1)='$LD -b +h $soname -o $lib $linker_flags $libobjs $deplibs'
 	  ;;
 	*)
-	  _LT_AC_TAGVAR(archive_cmds, $1)='$CC -b ${wl}+h ${wl}$soname ${wl}+b ${wl}$install_libdir -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags'
+	# larsa 2003-08-07 - added "${wl}-a,shared"
+	# _LT_AC_TAGVAR(archive_cmds, $1)='$CC -b ${wl}+h ${wl}$soname ${wl}+b ${wl}$install_libdir -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags'
+	  _LT_AC_TAGVAR(archive_cmds, $1)='$CC -b ${wl}+h ${wl}$soname ${wl}+b ${wl}$install_libdir -o $lib ${wl}-a,shared $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags'
 	  ;;
 	esac
 	# Commands to make compiler produce verbose output that lists
@@ -7096,6 +7104,90 @@ AC_DEFUN([AM_MAINTAINER_MODE],
 )
 
 AU_DEFUN([jm_MAINTAINER_MODE], [AM_MAINTAINER_MODE])
+
+# **************************************************************************
+# SIM_AC_CHECK_HEADER_TLHELP32_H:
+#
+#   Check for tlhelp32.h.
+
+AC_DEFUN([SIM_AC_CHECK_HEADER_TLHELP32_H], [
+# At least with MSVC++, these headers needs windows.h to have been included first.
+AC_CHECK_HEADERS([tlhelp32.h], [], [], [
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+])
+]) # SIM_AC_CHECK_HEADER_TLHELP32_H
+
+
+# **************************************************************************
+# SIM_AC_CHECK_FUNC__SPLITPATH:
+#
+#   Check for the _splitpath() macro/function.
+
+AC_DEFUN([SIM_AC_CHECK_FUNC__SPLITPATH], [
+AC_MSG_CHECKING([for _splitpath()])
+AC_COMPILE_IFELSE(
+[AC_LANG_PROGRAM([
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+#include <stdlib.h>
+], [
+  char filename[[100]];
+  char drive[[100]];
+  char dir[[100]];
+  _splitpath(filename, drive, dir, NULL, NULL);
+])], [
+  AC_DEFINE([HAVE__SPLITPATH], 1, [define if the system has _splitpath()])
+  AC_MSG_RESULT([found])
+], [
+  AC_MSG_RESULT([not found])
+])
+]) # SIM_AC_CHECK_FUNC__SPLITPATH
+
+
+# **************************************************************************
+# SIM_AC_CHECK_WIN32_API:
+#
+#   Check if the basic Win32 API is available.
+#
+#   Defines HAVE_WIN32_API, and sets sim_ac_have_win32_api to
+#   either true or false.
+
+AC_DEFUN([SIM_AC_CHECK_WIN32_API], [
+sim_ac_have_win32_api=false
+AC_MSG_CHECKING([if the Win32 API is available])
+AC_COMPILE_IFELSE(
+[AC_LANG_PROGRAM([
+#include <windows.h>
+],
+[
+  /* These need to be as basic as possible. I.e. they should be
+     available on all Windows versions. That means NT 3.1 and later,
+     Win95 and later, WinCE 1.0 and later), their definitions should
+     be available from windows.h, and should be linked in from kernel32.
+
+     The ones below are otherwise rather random picks.
+  */
+  (void)CreateDirectory(NULL, NULL);
+  (void)RemoveDirectory(NULL);
+  SetLastError(0);
+  (void)GetLastError();
+  (void)LocalAlloc(0, 1);
+  (void)LocalFree(NULL);
+  return 0;
+])],
+[sim_ac_have_win32_api=true])
+
+if $sim_ac_have_win32_api; then
+  AC_DEFINE([HAVE_WIN32_API], [1], [Define if the Win32 API is available])
+  AC_MSG_RESULT([yes])
+else
+  AC_MSG_RESULT([no])
+fi
+]) # SIM_AC_CHECK_WIN32_API
+
 
 # SIM_AC_CHECK_DL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 # ----------------------------------------------------------
