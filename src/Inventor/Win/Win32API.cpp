@@ -401,7 +401,7 @@ void
 Win32::RemoveMenu(HMENU hMenu,     // handle to menu
                   UINT uPosition,  // menu item identifier or position
                   UINT uFlags      // menu item flag
-)
+                  )
 {
   BOOL r = ::RemoveMenu(hMenu, uPosition, uFlags);
   if (!r) { Win32::showLastErr(); }  
@@ -412,10 +412,27 @@ DWORD
 Win32::CheckMenuItem(HMENU hmenu,        // handle to menu
                      UINT uIDCheckItem,  // menu item to check or uncheck
                      UINT uCheck         // menu item flags
-)
+                     )
 {
   DWORD r = ::CheckMenuItem(hmenu, uIDCheckItem, uCheck);
   if (r==0xFFFFFFFF) { Win32::showLastErr(); }  
   assert(r!=0xFFFFFFFF && "CheckMenuItem() failed -- investigate");
+  return r;
+}
+
+HCURSOR
+Win32::CreateCursor(HINSTANCE hInst,         // handle to application instance
+                    int xHotSpot,            // horizontal position of hot spot
+                    int yHotSpot,            // vertical position of hot spot
+                    int nWidth,              // cursor width
+                    int nHeight,             // cursor height
+                    CONST VOID *pvANDPlane,  // pointer to AND bitmask array
+                    CONST VOID *pvXORPlane   // pointer to XOR bitmask array
+                    )
+{
+  HCURSOR r = ::CreateCursor(hInst, xHotSpot, yHotSpot, nWidth, nHeight,
+                             pvANDPlane, pvXORPlane);
+  if (r == NULL) { Win32::showLastErr(); }  
+  assert(r != NULL && "CreateCursor() failed -- investigate");
   return r;
 }
