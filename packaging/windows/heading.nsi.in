@@ -19,7 +19,7 @@ InstType "Run-Time Only"
 InstType "Full"
 
 DirText "Where to install SoWin"
-InstallDir "D:\Coin3D"
+InstallDir "C:\Coin3D"
 InstallDirRegKey HKEY_LOCAL_MACHINE SOFTWARE\Coin3D InstallPath
 
 # **************************************************************************
