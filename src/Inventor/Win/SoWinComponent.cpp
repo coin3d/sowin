@@ -17,6 +17,12 @@
  *
  **************************************************************************/
 
+// *************************************************************************
+
+// Class documentation in common/SoGuiComponentCommon.cpp.in.
+
+// *************************************************************************
+
 #include <assert.h>
 #include <string.h>
 #include <windows.h>
@@ -512,19 +518,6 @@ SoWinComponent::getWidget(void) const
   \sa setBaseWidget()
 */
 HWND
-SoWinComponent::baseWidget(void) const
-{
-  return this->getBaseWidget();
-} // baseWidget()
-
-/*!
-  An SoWinComponent may be composed of any number of widgets in
-  parent-children relationships in a tree structure with any depth.
-  This method will return the root widget in that tree.
-
-  \sa setBaseWidget()
-*/
-HWND
 SoWinComponent::getBaseWidget(void) const
 {
   return this->getWidget();
@@ -542,29 +535,6 @@ SoWinComponent::isTopLevelShell(void) const
   return (PRIVATE(this)->embedded ? FALSE : TRUE);
   // FIXME: compare with SoWin::getTopLevelWidget() ? mariusbu 20010806.
 } // isTopLevelShell()
-
-/*!
-  Returns the toplevel shell widget for this component. The toplevel
-  shell is the desktop window which contains the component.
-
-  \sa isTopLevelShell(), getWidget()
-*/
-HWND
-SoWinComponent::getShellWidget(void) const
-{
-  LONG style;
-  HWND hwnd;
-  HWND parent = PRIVATE(this)->parent;
-
-  do {
-    hwnd = parent;
-    style = Win32::GetWindowLong(hwnd, GWL_STYLE);
-    if (style & WS_OVERLAPPEDWINDOW) break;
-    parent = GetParent(hwnd);
-  } while(IsWindow(parent));
-
-  return hwnd;
-} // getShellWidget()
 
 /*!
   Returns the widget which is the parent (i.e. contains) this
@@ -587,8 +557,8 @@ void
 SoWinComponent::setSize(const SbVec2s size)
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER; // do redraw
-  Win32::SetWindowPos(this->getShellWidget(), NULL, 0, 0,
-                       size[0], size[1], flags);
+  Win32::SetWindowPos(this->getWidget(), NULL, 0, 0,
+                      size[0], size[1], flags);
 } // setSize()
 
 /*!
@@ -600,7 +570,7 @@ SbVec2s
 SoWinComponent::getSize(void) const
 {
   RECT rect;
-  Win32::GetWindowRect(this->getShellWidget(), & rect);
+  Win32::GetWindowRect(this->getWidget(), & rect);
   return SbVec2s(rect.right - rect.left, rect.bottom - rect.top);
 } // getSize()
 
@@ -673,14 +643,6 @@ SoWinComponent::getIconTitle(void) const
 {
   // FIXME: seems to easy.. is this really correct? 20011012 mortene.
   return this->getTitle();
-}
-
-/*! FIXME: doc */
-const char *
-SoWinComponent::getDefaultIconTitle(void) const
-{
-  // FIXME: seems too easy.. is this really correct? 20011012 mortene.
-  return this->getDefaultTitle();
 }
 
 /*!
@@ -834,28 +796,6 @@ SoWinComponent::sizeChanged(const SbVec2s & size)
 
   // The default implementation does nothing.
 } // sizeChanged()
-
-/*!
-  Returns the default name of an SoQtComponent widget. Should be
-  overloaded by subclasses.
-*/
-const char *
-SoWinComponent::getDefaultWidgetName(void) const
-{
-  static const char defaultWidgetName[] = "SoWinComponent";
-  return defaultWidgetName;
-} // getDefaultWidgetName()
-
-/*!
-  Returns the default window caption string of this component. Should
-  be overloaded by subclasses.
-*/
-const char *
-SoWinComponent::getDefaultTitle(void) const
-{
-  static const char defaultTitle[] = "Win Component";
-  return defaultTitle;
-} // getDefaultTitle()
 
 /*!
 */
