@@ -131,14 +131,19 @@ SoWinComponent::goFullScreen( SbBool enable )
     this->style = GetWindowLong( hwnd, GWL_STYLE );
     this->exstyle = GetWindowLong( hwnd, GWL_EXSTYLE );
 
+    ShowWindow( hwnd, SW_HIDE );
+
     SetWindowLong( hwnd, GWL_STYLE, WS_POPUP );
     SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
+
     MoveWindow( hwnd,
                 0,
                 0,
                 GetSystemMetrics( SM_CXSCREEN ),
                 GetSystemMetrics( SM_CYSCREEN ),
-                TRUE );
+                FALSE );
+
+    ShowWindow( hwnd, SW_SHOW );
   }
   else {
     short width, height;
