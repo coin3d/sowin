@@ -1120,6 +1120,10 @@ SoWinGLWidgetP::createGLContext(HWND window)
     return FALSE;
   }
 
+  // FIXME: need to set up the app-programmer visible format flags
+  // from what kind of canvas we actually got. (Like we do in
+  // SoQtGLWidget.cpp.)  20011018 mortene.
+
   return TRUE;
 }
 
@@ -1166,6 +1170,17 @@ label:
       goto label;
     }
     else {
+      // FIXME: clean up as good as possible, in case the application
+      // has registered a "fatal error" handler callback and is able
+      // to run without the functionality provided by SoWin.
+      //
+      // Note that this must be done _before_ calling
+      // SoAny::invokeFatalErrorHandler(), since the fatal error
+      // handler might throw an exception -- in which case it will not
+      // return by using our stack address.
+      //
+      // 20011014 mortene.
+
       // FIXME: should provide more details about the error condition,
       // if possible. Could for instance use the GL vendor and / or
       // version and / or renderer string to smoke out the exact ATI
@@ -1173,12 +1188,7 @@ label:
       // DirectX is in non-accelerated mode at the same time) -- as
       // reported by Alan Walford of Eos. 20011014 mortene.
       SbString s = "Could not find any supported OpenGL mode on your system.";
-      if (SoAny::si()->invokeFatalErrorHandler(s, SoWin::NO_OPENGL_CANVAS)) {
-        // FIXME: clean up as good as possible, in case the
-        // application is able to run without the functionality
-        // provided by SoWin. 20011014 mortene.
-      }
-      else {
+      if (!SoAny::si()->invokeFatalErrorHandler(s, SoWin::NO_OPENGL_CANVAS)) {
         exit(1);
       }
     }
