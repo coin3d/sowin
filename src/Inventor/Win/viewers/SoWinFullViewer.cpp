@@ -363,6 +363,20 @@ SoWinFullViewer::getRenderAreaWidget(void)
   return this->renderAreaWidget;
 }
 
+// Doc in superclass.
+void
+SoWinFullViewer::setComponentCursor(const SoWinCursor & cursor)
+{
+  // FIXME: generic method, move to common code. 20011126 mortene.
+
+  // Overridden to apply the new cursor only for the rendering canvas
+  // widget. Otherwise, the default SoWinComponent setComponentCursor()
+  // method will set the cursor for the top-most parent widget, which
+  // makes it affect all sub-widgets, like the decorations stuff.
+
+  SoWinComponent::setWidgetCursor(this->getRenderAreaWidget(), cursor);
+}
+
 void
 SoWinFullViewer::setViewing(SbBool enable)
 {
