@@ -1178,6 +1178,9 @@ label:
         // application is able to run without the functionality
         // provided by SoWin. 20011014 mortene.
       }
+      else {
+        exit(1);
+      }
     }
   }
   SetFocus(window);
