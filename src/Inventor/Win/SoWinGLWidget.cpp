@@ -580,13 +580,25 @@ SoWinGLWidget::redrawOverlay( void )
 } // redrawOverlay()
 
 /*!
+  Any events from the native window system that goes to the OpenGL
+  canvas gets piped through this method.
+
+  It is overloaded in the subclasses to catch user interaction with
+  the render canvas in the viewers, aswell as forwarding relevant
+  events to the scenegraph.
 */
 void
 SoWinGLWidget::processEvent( MSG * msg )
 {
-  // virtual - does nothing
-  // FIXME: move some event processing here. mariusbu 20010719.
-} // processEvent()
+  // Nothing is done here for the SoWinGLWidget, as the events we need
+  // to handle for this superclass are caught by the method
+  // SoWinGLWidget::glWidgetProc() and forwarded directly to
+  // SoWinGLWidget::onPaint() etc.  The events we don't care about
+  // (like mouse- and keyboard-interaction) are forwarded from
+  // glWidgetProc() through this virtual method down to the
+  // subclass(es).
+  //                          mortene.
+}
 
 /*!
   Will be called when GL widget should initialize graphic, after
