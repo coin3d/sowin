@@ -83,40 +83,34 @@ SoWinPlaneViewerP::constructor(SbBool build)
 }
 
 void
-SoWinPlaneViewerP::xClicked(void)
+SoWinPlaneViewerP::xButtonProc(SoWinBitmapButton * b, void * userdata)
 {
-  this->viewPlaneX();
+  SoWinPlaneViewerP * that = (SoWinPlaneViewerP *)userdata;
+  that->viewPlaneX();
 }
 
 void
-SoWinPlaneViewerP::yClicked(void)
+SoWinPlaneViewerP::yButtonProc(SoWinBitmapButton * b, void * userdata)
 {
-  this->viewPlaneY();
+  SoWinPlaneViewerP * that = (SoWinPlaneViewerP *)userdata;
+  that->viewPlaneY();
 }
 
 void
-SoWinPlaneViewerP::zClicked(void)
+SoWinPlaneViewerP::zButtonProc(SoWinBitmapButton * b, void * userdata)
 {
-  this->viewPlaneZ();
+  SoWinPlaneViewerP * that = (SoWinPlaneViewerP *)userdata;
+  that->viewPlaneZ();
 }
 
 void
-SoWinPlaneViewerP::cameratoggleClicked(void)
+SoWinPlaneViewerP::cameraButtonProc(SoWinBitmapButton * b, void * userdata)
 {
-  PUBLIC(this)->toggleCameraType();
+  SoWinPlaneViewerP * that = (SoWinPlaneViewerP *)userdata;
+  if (PUBLIC(that)->getCamera()) { PUBLIC(that)->toggleCameraType(); }
 }
 
 #endif // DOXYGEN_SKIP_THIS
-
-// ************************************************************************
-
-// FIXME: this has got to be guaranteed unique versus the FullViewer
-// button ids. This is just a quick hack. 20020719 mortene.
-#define VIEWERBUTTON_STARTID 4242
-#define VIEWERBUTTON_X (0+VIEWERBUTTON_STARTID)
-#define VIEWERBUTTON_Y (1+VIEWERBUTTON_STARTID)
-#define VIEWERBUTTON_Z (2+VIEWERBUTTON_STARTID)
-#define VIEWERBUTTON_CAMERA (3+VIEWERBUTTON_STARTID)
 
 // ************************************************************************
 
@@ -147,76 +141,34 @@ SoWinPlaneViewer::buildWidget(HWND parent)
 
 // ************************************************************************
 
-/*!
-  This method overloaded from parent class to handle button messages
-  from viewer specific buttons (x, y, z and camera toggle).
-*/
-
-LRESULT
-SoWinPlaneViewer::onCommand(HWND window,
-                            UINT message,
-                            WPARAM wparam,
-                            LPARAM lparam)
-{
- short nc = HIWORD(wparam);// notification code
- short id = LOWORD(wparam);// item, control, or accelerator identifier
- HWND hwnd = (HWND) lparam;// control handle
-
- switch (id) {
-
- case VIEWERBUTTON_CAMERA:
-   PRIVATE(this)->cameratoggleClicked();
-   return 0;
-   
- case VIEWERBUTTON_X:
-   PRIVATE(this)->xClicked();
-   return 0;
-
- case VIEWERBUTTON_Y:
-   PRIVATE(this)->yClicked();
-   return 0;
-
- case VIEWERBUTTON_Z:
-   PRIVATE(this)->zClicked();
-   return 0;
-
- default:
-   return inherited::onCommand(window, message, wparam, lparam);
- }
-
-  return 0;
-}
-
-// ************************************************************************
-
 void
 SoWinPlaneViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
 {
   inherited::createViewerButtons(parent, buttonlist);
 
-  SoWinBitmapButton * button = new SoWinBitmapButton(parent, 24, "x", NULL);
-  button->addBitmap(x_xpm);
-  button->setBitmap(0);
-  button->setId(VIEWERBUTTON_X);
-  buttonlist->append(button);
+  SoWinBitmapButton * b = new SoWinBitmapButton(parent, 24, "x", NULL);
+  b->addBitmap(x_xpm);
+  b->setBitmap(0);
+  b->registerClickedProc(SoWinPlaneViewerP::xButtonProc, PRIVATE(this));
+  buttonlist->append(b);
   
-  button = new SoWinBitmapButton(parent, 24, "y", NULL);
-  button->addBitmap(y_xpm);
-  button->setBitmap(0);
-  button->setId(VIEWERBUTTON_Y);
-  buttonlist->append(button);
+  b = new SoWinBitmapButton(parent, 24, "y", NULL);
+  b->addBitmap(y_xpm);
+  b->setBitmap(0);
+  b->registerClickedProc(SoWinPlaneViewerP::yButtonProc, PRIVATE(this));
+  buttonlist->append(b);
 
-  button = new SoWinBitmapButton(parent, 24, "z", NULL);
-  button->addBitmap(z_xpm);
-  button->setBitmap(0);
-  button->setId(VIEWERBUTTON_Z);
-  buttonlist->append(button);
+  b = new SoWinBitmapButton(parent, 24, "z", NULL);
+  b->addBitmap(z_xpm);
+  b->setBitmap(0);
+  b->registerClickedProc(SoWinPlaneViewerP::zButtonProc, PRIVATE(this));
+  buttonlist->append(b);
   
-  button = new SoWinBitmapButton(parent, 24, "camera", NULL);
-  button->addBitmap(perspective_xpm);
-  button->addBitmap(ortho_xpm);
-  button->setBitmap(0);
-  button->setId(VIEWERBUTTON_CAMERA);
-  buttonlist->append(button);
-  PRIVATE(this)->camerabutton = button;
+  b = new SoWinBitmapButton(parent, 24, "camera", NULL);
+  b->addBitmap(perspective_xpm);
+  b->addBitmap(ortho_xpm);
+  b->setBitmap(0);
+  b->registerClickedProc(SoWinPlaneViewerP::cameraButtonProc, PRIVATE(this));
+  buttonlist->append(b);
+  PRIVATE(this)->camerabutton = b;
 }

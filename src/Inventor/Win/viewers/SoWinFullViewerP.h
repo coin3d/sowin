@@ -64,12 +64,13 @@ public:
   static void rightWheelCB(SoWinThumbWheel::Interaction type, float val,
                            void * userdata);
 
-  void interactbuttonClicked(void);
-  void viewbuttonClicked(void);
-  void homebuttonClicked(void);
-  void sethomebuttonClicked(void);
-  void viewallbuttonClicked(void);
+  static void interactbuttonProc(SoWinBitmapButton * b, void * userdata);
+  static void examinebuttonProc(SoWinBitmapButton * b, void * userdata);
+  static void homebuttonProc(SoWinBitmapButton * b, void * userdata);
+  static void sethomebuttonProc(SoWinBitmapButton * b, void * userdata);
+  static void viewallbuttonProc(SoWinBitmapButton * b, void * userdata);
 
+  static void seekbuttonProc(SoWinBitmapButton * b, void * userdata);
   void seekbuttonClicked(void);
 
   void showDecorationWidgets(SbBool onOff);

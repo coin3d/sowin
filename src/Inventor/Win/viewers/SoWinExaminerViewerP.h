@@ -44,8 +44,8 @@ public:
   ~SoWinExaminerViewerP();
 
   void constructor(SbBool build);
-  void cameratoggleClicked(void);
 
+  static void cameraButtonProc(class SoWinBitmapButton * b, void * userdata);
   class SoWinBitmapButton * camerabutton;
 };
 

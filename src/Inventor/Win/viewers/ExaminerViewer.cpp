@@ -84,9 +84,10 @@ SoWinExaminerViewerP::constructor(SbBool build)
 }
 
 void
-SoWinExaminerViewerP::cameratoggleClicked(void)
+SoWinExaminerViewerP::cameraButtonProc(SoWinBitmapButton * b, void * userdata)
 {
-  if (PUBLIC(this)->getCamera()) PUBLIC(this)->toggleCameraType();
+  SoWinExaminerViewer * that = (SoWinExaminerViewer *)userdata;
+  if (that->getCamera()) that->toggleCameraType();
 }
 
 #endif // DOXYGEN_SKIP_THIS
@@ -97,9 +98,7 @@ SOWIN_OBJECT_SOURCE(SoWinExaminerViewer);
 
 // *************************************************************************
 
-// FIXME: this has got to be guaranteed unique versus the FullViewer
-// button ids. This is just a quick hack. 20020719 mortene.
-#define VIEWERBUTTON_CAMERA 4242
+// FIXME: share doc with SoQt. 20030424 mortene.
 
 /*!
   Constructor.  See parent class for explanation of arguments.
@@ -176,31 +175,6 @@ SoWinExaminerViewer::setCamera(SoCamera * newCamera)
 
 // *************************************************************************
 
-/*!
-  This method overloaded from parent class to handle button messages
-  from viewer specific buttons (camera toggle).
-*/
-
-LRESULT
-SoWinExaminerViewer::onCommand(HWND window,
-                               UINT message,
-                               WPARAM wparam,
-                               LPARAM lparam)
-{
-  short nc = HIWORD(wparam);// notification code
-  short id = LOWORD(wparam);// item, control, or accelerator identifier
-  HWND hwnd = (HWND) lparam;// control handle
-
-  if (id == VIEWERBUTTON_CAMERA)
-    PRIVATE(this)->cameratoggleClicked();
-  else
-    return inherited::onCommand(window, message, wparam, lparam);
-
-  return 0;
-}
-
-// *************************************************************************
-
 void
 SoWinExaminerViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
 {
@@ -211,6 +185,6 @@ SoWinExaminerViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
   b->addBitmap(perspective_xpm);
   b->addBitmap(ortho_xpm);
   b->setBitmap(0);
-  b->setId(VIEWERBUTTON_CAMERA);
+  b->registerClickedProc(SoWinExaminerViewerP::cameraButtonProc, this);
   buttonlist->append(b);
 }

@@ -44,11 +44,11 @@ public:
   ~SoWinPlaneViewerP();
 
   void constructor(SbBool build);
-
-  void xClicked(void);
-  void yClicked(void);
-  void zClicked(void);
-  void cameratoggleClicked(void);
+ 
+  static void xButtonProc(class SoWinBitmapButton * b, void * userdata);
+  static void yButtonProc(class SoWinBitmapButton * b, void * userdata);
+  static void zButtonProc(class SoWinBitmapButton * b, void * userdata);
+  static void cameraButtonProc(class SoWinBitmapButton * b, void * userdata);
 
   class SoWinBitmapButton * camerabutton;
 };

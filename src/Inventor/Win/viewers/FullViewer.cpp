@@ -260,8 +260,8 @@ SoWinFullViewer::setViewing(SbBool enable)
   inherited::setViewing(enable);
 
   if (PRIVATE(this)->viewerButton(SoWinFullViewerP::VIEWERBUTTON_VIEW) != NULL) {
-    PRIVATE(this)->viewerButton(SoWinFullViewerP::VIEWERBUTTON_VIEW)->setState(enable);
-    PRIVATE(this)->viewerButton(SoWinFullViewerP::VIEWERBUTTON_PICK)->setState(enable ? FALSE : TRUE);
+    PRIVATE(this)->viewerButton(SoWinFullViewerP::VIEWERBUTTON_VIEW)->setPressedState(enable);
+    PRIVATE(this)->viewerButton(SoWinFullViewerP::VIEWERBUTTON_PICK)->setPressedState(enable ? FALSE : TRUE);
     PRIVATE(this)->viewerButton(SoWinFullViewerP::VIEWERBUTTON_SEEK)->setEnabled(enable);
   }
 }
@@ -385,43 +385,6 @@ SoWinFullViewer::setRightWheelString(const char * const name)
     PRIVATE(this)->rightthumbwheel->setLabelText(name);
 }
 
-LRESULT
-SoWinFullViewer::onCommand(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
-{
-  const short nc = HIWORD(wparam); // notification code
-  const short id = LOWORD(wparam); // item, control, or accelerator identifier
-  const HWND hwnd = (HWND) lparam; // control handle
-
-  switch (id) {
-
-  case SoWinFullViewerP::VIEWERBUTTON_PICK:
-    PRIVATE(this)->interactbuttonClicked();
-    break;
-
-  case SoWinFullViewerP::VIEWERBUTTON_VIEW:
-    PRIVATE(this)->viewbuttonClicked();
-    break;
-
-  case SoWinFullViewerP::VIEWERBUTTON_HOME:
-    PRIVATE(this)->homebuttonClicked();
-    break;
-
-  case SoWinFullViewerP::VIEWERBUTTON_SET_HOME:
-    PRIVATE(this)->sethomebuttonClicked();
-    break;
-
-  case SoWinFullViewerP::VIEWERBUTTON_VIEW_ALL:
-    PRIVATE(this)->viewallbuttonClicked();
-    break;
-
-  case SoWinFullViewerP::VIEWERBUTTON_SEEK:
-    PRIVATE(this)->seekbuttonClicked();
-    break;
-  }
-
-  return 0;
-}
-
 // *************************************************************************
 
 #ifndef DOXYGEN_SKIP_THIS
@@ -495,6 +458,13 @@ SoWinFullViewerP::buildRightWheel(HWND parent)
 }
 
 void
+SoWinFullViewerP::seekbuttonProc(SoWinBitmapButton * b, void * userdata)
+{
+  SoWinFullViewerP * that = (SoWinFullViewerP *)userdata;
+  that->seekbuttonClicked();
+}
+
+void
 SoWinFullViewerP::seekbuttonClicked(void)
 {
   PUBLIC(this)->setSeekMode(PUBLIC(this)->isSeekMode() ? FALSE : TRUE);
@@ -531,39 +501,42 @@ SoWinFullViewerP::rightWheelCB(SoWinThumbWheel::Interaction type, float val,
 }
 
 void
-SoWinFullViewerP::interactbuttonClicked(void)
+SoWinFullViewerP::interactbuttonProc(SoWinBitmapButton * b, void * userdata)
 {
-  this->viewerButton(SoWinFullViewerP::VIEWERBUTTON_PICK)->setState(TRUE);
-  this->viewerButton(SoWinFullViewerP::VIEWERBUTTON_VIEW)->setState(FALSE);
-  if (PUBLIC(this)->isViewing())
-    PUBLIC(this)->setViewing(FALSE);
+  SoWinFullViewerP * that = (SoWinFullViewerP *)userdata;
+  that->viewerButton(SoWinFullViewerP::VIEWERBUTTON_PICK)->setPressedState(TRUE);
+  that->viewerButton(SoWinFullViewerP::VIEWERBUTTON_VIEW)->setPressedState(FALSE);
+  if (PUBLIC(that)->isViewing()) { PUBLIC(that)->setViewing(FALSE); }
 }
 
 void
-SoWinFullViewerP::viewbuttonClicked(void)
+SoWinFullViewerP::examinebuttonProc(SoWinBitmapButton * b, void * userdata)
 {
-  this->viewerButton(SoWinFullViewerP::VIEWERBUTTON_VIEW)->setState(TRUE);
-  this->viewerButton(SoWinFullViewerP::VIEWERBUTTON_PICK)->setState(FALSE);
-  if (! PUBLIC(this)->isViewing())
-    PUBLIC(this)->setViewing(TRUE);
+  SoWinFullViewerP * that = (SoWinFullViewerP *)userdata;
+  that->viewerButton(SoWinFullViewerP::VIEWERBUTTON_VIEW)->setPressedState(TRUE);
+  that->viewerButton(SoWinFullViewerP::VIEWERBUTTON_PICK)->setPressedState(FALSE);
+  if (!PUBLIC(that)->isViewing()) { PUBLIC(that)->setViewing(TRUE); }
 }
 
 void
-SoWinFullViewerP::homebuttonClicked(void)
+SoWinFullViewerP::homebuttonProc(SoWinBitmapButton * b, void * userdata)
 {
-  PUBLIC(this)->resetToHomePosition();
+  SoWinFullViewerP * that = (SoWinFullViewerP *)userdata;
+  PUBLIC(that)->resetToHomePosition();
 }
 
 void
-SoWinFullViewerP::sethomebuttonClicked(void)
+SoWinFullViewerP::sethomebuttonProc(SoWinBitmapButton * b, void * userdata)
 {
-  PUBLIC(this)->saveHomePosition();
+  SoWinFullViewerP * that = (SoWinFullViewerP *)userdata;
+  PUBLIC(that)->saveHomePosition();
 }
 
 void
-SoWinFullViewerP::viewallbuttonClicked(void)
+SoWinFullViewerP::viewallbuttonProc(SoWinBitmapButton * b, void * userdata)
 {
-  PUBLIC(this)->viewAll();
+  SoWinFullViewerP * that = (SoWinFullViewerP *)userdata;
+  PUBLIC(that)->viewAll();
 }
 
 int
@@ -721,6 +694,10 @@ SoWinFullViewerP::showDecorationWidgets(SbBool enable)
 LRESULT CALLBACK
 SoWinFullViewerP::systemEventHook(int code, WPARAM wparam, LPARAM lparam)
 {
+  // FIXME: if I'm not mistaken, this message hook catches ~ all
+  // messages in our process, for _all_ windows / widgets. This is
+  // superbly inefficient, and should be cleaned up. 20030424 mortene.
+
   CWPSTRUCT * msg = (CWPSTRUCT *)lparam;
 
   void * comp;
@@ -748,11 +725,6 @@ SoWinFullViewerP::systemEventHook(int code, WPARAM wparam, LPARAM lparam)
       case WM_SETFOCUS:
         (void)Win32::SetFocus(object->getGLWidget());
         break;
-
-        // For the UI decoration buttons.
-      case WM_COMMAND:
-        object->onCommand(msg->hwnd, msg->message, msg->wParam, msg->lParam);
-        break;
       }
     }
   }
@@ -768,39 +740,39 @@ SoWinFullViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
   SoWinBitmapButton * button = new SoWinBitmapButton(parent, 24, "pick", NULL);
   button->addBitmap(pick_xpm);
   button->setBitmap(0); // use first (and only) bitmap
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_PICK);
+  button->registerClickedProc(SoWinFullViewerP::interactbuttonProc, PRIVATE(this));
   buttonlist->append(button);
-  button->setState(this->isViewing() ? FALSE : TRUE);
+  button->setPressedState(this->isViewing() ? FALSE : TRUE);
 
   button = new SoWinBitmapButton(parent, 24, "view", NULL);
   button->addBitmap(view_xpm);
   button->setBitmap(0); // use first (and only) bitmap
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_VIEW);
+  button->registerClickedProc(SoWinFullViewerP::examinebuttonProc, PRIVATE(this));
   buttonlist->append(button);
-  button->setState(this->isViewing());
+  button->setPressedState(this->isViewing());
 
   button = new SoWinBitmapButton(parent, 24, "home", NULL);
   button->addBitmap(home_xpm);
   button->setBitmap(0); // use first (and only) bitmap
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_HOME);
+  button->registerClickedProc(SoWinFullViewerP::homebuttonProc, PRIVATE(this));
   buttonlist->append(button);
 
   button = new SoWinBitmapButton(parent, 24, "set_home", NULL);
   button->addBitmap(set_home_xpm);
   button->setBitmap(0);
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_SET_HOME);
+  button->registerClickedProc(SoWinFullViewerP::sethomebuttonProc, PRIVATE(this));
   buttonlist->append(button);
 
   button = new SoWinBitmapButton(parent, 24, "view_all", NULL);
   button->addBitmap(view_all_xpm);
   button->setBitmap(0); // use first (and only) bitmap
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_VIEW_ALL);
+  button->registerClickedProc(SoWinFullViewerP::viewallbuttonProc, PRIVATE(this));
   buttonlist->append(button);
 
   button = new SoWinBitmapButton(parent, 24, "seek", NULL);
   button->addBitmap(seek_xpm);
   button->setBitmap(0); // use first (and only) bitmap
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_SEEK);
+  button->registerClickedProc(SoWinFullViewerP::seekbuttonProc, PRIVATE(this));
   buttonlist->append(button);
 }
 
