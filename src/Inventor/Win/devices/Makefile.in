@@ -131,10 +131,15 @@ win_srcdir = @win_srcdir@
 
 INCLUDES = -I$(top_srcdir)/src
 
-BUILT_SOURCES = 
+# BUILT_SOURCES = \
+# 	swpinput.h \
+# 	swpinput_x11.cpp
 
-DEVICESOURCES = \
-	$(BUILT_SOURCES) \
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
+
+DeviceSources = \
 	SoWinDevice.h \
 	SoWinDevice.cpp \
 	SoWinInputFocus.h \
@@ -148,11 +153,11 @@ DEVICESOURCES = \
 
 
 libSoWinDevices_la_SOURCES = \
-	$(DEVICESOURCES)
+	$(DeviceSources)
 
 
 devices_lst_SOURCES = \
-	$(DEVICESOURCES)
+	$(DeviceSources)
 
 
 ############################################################################
@@ -213,8 +218,7 @@ DIST_COMMON = $(SoWinDevicesinc_HEADERS) Makefile.am Makefile.in
 SOURCES = $(devices_lst_SOURCES) $(libSoWinDevices_la_SOURCES)
 OBJECTS = $(am_devices_lst_OBJECTS) $(am_libSoWinDevices_la_OBJECTS)
 
-all: $(BUILT_SOURCES)
-	$(MAKE) $(AM_MAKEFLAGS) all-am
+all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .cpp .h .lo .o .obj
@@ -372,12 +376,12 @@ clean-generic:
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES)
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
 	-rm -f Makefile.in
-	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
 clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \

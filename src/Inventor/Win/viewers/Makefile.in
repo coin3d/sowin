@@ -143,6 +143,10 @@ BUILT_SOURCES = \
 	SoAnyPlaneViewer.cpp
 
 
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
+
 ViewerSources = \
 	SoWinFullViewer.cpp \
 	SoWinFullViewer.h \
@@ -416,6 +420,7 @@ clean-generic:
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES)
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -529,7 +534,7 @@ install-libSoWinViewersincHEADERS: $(SoWinViewersinc_HEADERS)
 	@list='$(SoWinViewersinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinincdir)/$$f"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinViewersincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
 	    $(INSTALL_HEADER) "$$src" "$$dst"; \
@@ -542,7 +547,7 @@ install-nodist_libSoWinViewersincHEADERS: $(nodist_SoWinViewersinc_HEADERS)
 	@list='$(nodist_SoWinViewersinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinincdir)/$$f"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinViewersincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
 	    $(INSTALL_HEADER) "$$src" "$$dst"; \

@@ -31,9 +31,9 @@ BUILT_SOURCES = \
 	src/Inventor/Win/widgets/SoAnyThumbWheel.h \
 	src/Inventor/Win/widgets/SoAnyThumbWheel.cpp \
 	src/Inventor/Win/widgets/SoAnyPopupMenu.h \
-	src/Inventor/Win/widgets/SoAnyPopupMenu.cpp \
-	src/Inventor/Win/devices/spwinput.h \
-	src/Inventor/Win/devices/spwinput_x11.cpp
+	src/Inventor/Win/widgets/SoAnyPopupMenu.cpp
+#	src/Inventor/Win/devices/spwinput.h \
+#	src/Inventor/Win/devices/spwinput_x11.cpp
 
 bin_SCRIPTS = sowin-config
 
@@ -80,7 +80,11 @@ EXTRA_DIST = \
 	src/Inventor/Win/common/spwinput.h.in \
 	src/Inventor/Win/common/spwinput_x11.cpp.in
 
-Makefile: $(BUILT_SOURCES)
+DISTCLEANFILES = \
+	libtool
+
+# this screws up "make distclean"
+# Makefile: $(BUILT_SOURCES)
 
 # Target which is present to make it simple to only generate the
 # sourcefiles from the common sources.

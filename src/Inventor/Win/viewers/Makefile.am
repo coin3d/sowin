@@ -25,6 +25,9 @@ BUILT_SOURCES = \
 	SoAnyPlaneViewer.h \
 	SoAnyPlaneViewer.cpp
 
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
 ViewerSources = \
 	SoWinFullViewer.cpp \
 	SoWinFullViewer.h \
@@ -114,7 +117,7 @@ install-libSoWinViewersincHEADERS: $(SoWinViewersinc_HEADERS)
 	@list='$(SoWinViewersinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinincdir)/$$f"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinViewersincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
 	    $(INSTALL_HEADER) "$$src" "$$dst"; \
@@ -127,7 +130,7 @@ install-nodist_libSoWinViewersincHEADERS: $(nodist_SoWinViewersinc_HEADERS)
 	@list='$(nodist_SoWinViewersinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinincdir)/$$f"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoWinViewersincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
 	    $(INSTALL_HEADER) "$$src" "$$dst"; \

@@ -147,6 +147,10 @@ BUILT_SOURCES = \
 	SoWinRenderArea.cpp
 
 
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
+
 SoWinSources = \
 	SoWin.h \
 	SoWin.cpp \
@@ -201,7 +205,6 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 ############################################################################
 
 SoWinincdir = $(includedir)/Inventor/Win
-
 SoWininc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/SoWin.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinComponent.h \
@@ -571,6 +574,7 @@ clean-generic:
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES)
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"

@@ -10,10 +10,14 @@ endif
 
 INCLUDES = -I$(top_srcdir)/src
 
-BUILT_SOURCES =
+# BUILT_SOURCES = \
+# 	swpinput.h \
+# 	swpinput_x11.cpp
 
-DEVICESOURCES = \
-	$(BUILT_SOURCES) \
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
+DeviceSources = \
 	SoWinDevice.h \
 	SoWinDevice.cpp \
 	SoWinInputFocus.h \
@@ -26,10 +30,10 @@ DEVICESOURCES = \
 	SoWinSpaceball.cpp
 
 libSoWinDevices_la_SOURCES = \
-	$(DEVICESOURCES)
+	$(DeviceSources)
 
 devices_lst_SOURCES = \
-	$(DEVICESOURCES)
+	$(DeviceSources)
 
 ############################################################################
 

@@ -18,6 +18,9 @@ BUILT_SOURCES = \
 	SoAnyThumbWheel.h \
 	SoAnyThumbWheel.cpp
 
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
 WidgetSources = \
 	SoWinThumbWheel.cpp \
 	SoWinThumbWheel.h \

@@ -137,6 +137,10 @@ BUILT_SOURCES = \
 	SoAnyThumbWheel.cpp
 
 
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
+
 WidgetSources = \
 	SoWinThumbWheel.cpp \
 	SoWinThumbWheel.h \
@@ -374,6 +378,7 @@ clean-generic:
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES)
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"

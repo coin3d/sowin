@@ -23,6 +23,9 @@ BUILT_SOURCES = \
 	SoWinRenderArea.h \
 	SoWinRenderArea.cpp
 
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
 SoWinSources = \
 	SoWin.h \
 	SoWin.cpp \
@@ -69,7 +72,6 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 ############################################################################
 
 SoWinincdir = $(includedir)/Inventor/Win
-
 SoWininc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/SoWin.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinComponent.h \
