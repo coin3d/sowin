@@ -28,7 +28,7 @@
 
 #define SO_WIN_ALL_FOCUS_EVENTS (sowinEnterWindowMask | sowinLeaveWindowMask)
 
-class SOWIN_DLL_EXPORT SoWinInputFocus : public SoWinDevice {
+class SOWIN_DLL_API SoWinInputFocus : public SoWinDevice {
     typedef SoWinDevice inherited;
 
 public:

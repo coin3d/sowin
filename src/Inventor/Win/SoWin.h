@@ -48,7 +48,7 @@ const int SoWin_DefaultHeight = 500;
 
 // *************************************************************************
 
-class SOWIN_DLL_EXPORT SoWin
+class SOWIN_DLL_API SoWin
 {
 
 public:

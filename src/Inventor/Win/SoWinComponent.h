@@ -37,7 +37,7 @@ typedef void SoWinComponentVisibilityCB( void * user, SbBool visible );
 const char pfd_cDepthBits = 32;
 const char pfd_cColorBits = 32;
 
-class SOWIN_DLL_EXPORT SoWinComponent
+class SOWIN_DLL_API SoWinComponent
 {
 
 protected:

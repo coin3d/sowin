@@ -23,7 +23,7 @@
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/lists/SbList.h>
 
-class SOWIN_DLL_EXPORT SoWinMessageHandler
+class SOWIN_DLL_API SoWinMessageHandler
 {
 public:
     SoWinMessageHandler( void );

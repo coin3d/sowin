@@ -38,7 +38,7 @@ enum GLModes {        // remove the GLX ones?
 
 // *************************************************************************
 
-class SOWIN_DLL_EXPORT SoWinGLWidget : public SoWinComponent {
+class SOWIN_DLL_API SoWinGLWidget : public SoWinComponent {
     typedef SoWinComponent inherited;
 protected:    
     // Subclasses can pass in a bitwise OR specifying the GL modes
