@@ -72,7 +72,8 @@ public:
   int layoutWidgets(int cx, int cy);
   static LRESULT CALLBACK callWndProc(int code, WPARAM wparam, LPARAM lparam);
 
-  HHOOK msgHook;
+  static HHOOK hookhandle;
+  static int nrinstances;
   
   // App button callbacks
   AppPushButtonCB * appPushButtonCB;
@@ -98,6 +99,8 @@ private:
 
 SbBool SoWinFullViewerP::doButtonBar = TRUE;
 SbBool SoWinFullViewerP::doneButtonBar = FALSE;
+HHOOK SoWinFullViewerP::hookhandle = NULL;
+int SoWinFullViewerP::nrinstances = 0;
 
 #define PRIVATE(o) (o->pimpl)
 
@@ -116,8 +119,15 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
   inherited(parent, name, embedded, type, FALSE)
 {
   this->pimpl = new SoWinFullViewerP(this);
-  
-  PRIVATE(this)->msgHook = NULL;
+  SoWinFullViewerP::nrinstances++;
+
+  if (SoWinFullViewerP::nrinstances == 1) {
+    SoWinFullViewerP::hookhandle =
+      Win32::SetWindowsHookEx(WH_CALLWNDPROC,
+                              (HOOKPROC)SoWinFullViewerP::callWndProc,
+                              NULL, GetCurrentThreadId());
+  }
+
   this->viewerWidget = NULL;
   this->renderAreaWidget = NULL;
 
@@ -159,8 +169,12 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
 
 SoWinFullViewer::~SoWinFullViewer(void)
 {
-  if (PRIVATE(this)->msgHook)
-    UnhookWindowsHookEx(PRIVATE(this)->msgHook);
+  SoWinFullViewerP::nrinstances--;
+
+  if (SoWinFullViewerP::nrinstances == 0) {
+    assert(SoWinFullViewerP::hookhandle != NULL);
+    Win32::UnhookWindowsHookEx(SoWinFullViewerP::hookhandle);
+  }
   
   int i;
 
@@ -425,11 +439,6 @@ SoWinFullViewer::buildWidget(HWND parent)
   // This method will always be called with a parent.
 
   assert(IsWindow(parent));
-  
-  PRIVATE(this)->msgHook =
-    Win32::SetWindowsHookEx(WH_CALLWNDPROC, 
-			    (HOOKPROC)SoWinFullViewerP::callWndProc,
-                            NULL, GetCurrentThreadId());
   
   this->viewerWidget = parent;
   this->renderAreaWidget = inherited::buildWidget(parent);
@@ -1148,43 +1157,42 @@ SoWinFullViewerP::callWndProc(int code, WPARAM wparam, LPARAM lparam)
   if (component && component->getTypeId().isDerivedFrom(fullvt)) {
     SoWinFullViewer * object = (SoWinFullViewer *)component;
 
-    if (code < 0) {
-      // According to MSVC++ Win32 API doc on CallWndProc(), if code<0
-      // we should not do any processing -- just pass message along to
-      // next hook.
-      return CallNextHookEx(object->pimpl->msgHook, code, wparam, lparam);
-    }
-
-    switch (msg->message) {
-    case WM_SETCURSOR:
-      SoWinComponent::setWidgetCursor(object->getRenderAreaWidget(),
-                                      PRIVATE(object)->cursor);
-      break;
-
-    case WM_COMMAND:
-      object->onCommand(msg->hwnd, msg->message, msg->wParam, msg->lParam);
-      break;
-
-    case WM_MEASUREITEM:
-      object->onMeasureItem(msg->hwnd, msg->message, msg->wParam, msg->lParam);
-      break;
-
-    case WM_DRAWITEM:
-      object->onDrawItem(msg->hwnd, msg->message, msg->wParam, msg->lParam);
-      break;
-
-    case WM_LBUTTONDOWN:
-      SetFocus(object->getGLWidget());
-      break;
-
+    // According to MSVC++ Win32 API doc on CallWndProc(), if code<0
+    // we should not do any processing -- just pass message along to
+    // next hook.
+    if (code >= 0) {
       // FIXME: if code==HC_ACTION the Win32 API doc says we _must_
-      // process the message. Weird. Try to fin out what that really
+      // process the message. Weird. Try to find out what that really
       // means. 20011126 mortene.
-    }
 
-    return CallNextHookEx(object->pimpl->msgHook, code, wparam, lparam);
+      switch (msg->message) {
+      case WM_SETCURSOR:
+        SoWinComponent::setWidgetCursor(object->getRenderAreaWidget(),
+                                        PRIVATE(object)->cursor);
+        break;
+
+      case WM_LBUTTONDOWN:
+        SetFocus(object->getGLWidget());
+        break;
+
+        // Next 3 are for the UI decoration buttons.
+
+      case WM_COMMAND:
+        object->onCommand(msg->hwnd, msg->message, msg->wParam, msg->lParam);
+        break;
+
+      case WM_MEASUREITEM:
+        object->onMeasureItem(msg->hwnd, msg->message, msg->wParam, msg->lParam);
+        break;
+
+      case WM_DRAWITEM:
+        object->onDrawItem(msg->hwnd, msg->message, msg->wParam, msg->lParam);
+        break;
+      }
+    }
   }
-  return 0;
+
+  return CallNextHookEx(SoWinFullViewerP::hookhandle, code, wparam, lparam);
 }
 
 // *************************************************************************
