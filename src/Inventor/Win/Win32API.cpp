@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-#include <Win32API.h>
+#include <Inventor/Win/Win32API.h>
 #include <stdio.h>
 #include <assert.h>
 

@@ -28,7 +28,7 @@
 #error this is a private header file
 #endif /* !SOWIN_INTERNAL */
 
-#include <SoGuiPlaneViewerP.h>
+#include <Inventor/Win/viewers/SoGuiPlaneViewerP.h>
 
 class SoWinPlaneViewer;
 

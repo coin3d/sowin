@@ -28,7 +28,7 @@
 #error this is a private header file
 #endif /* !SOWIN_INTERNAL */
 
-#include <SoGuiFullViewerP.h>
+#include <Inventor/Win/viewers/SoGuiFullViewerP.h>
 #include <Inventor/Win/SoWinCursor.h>
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 
