@@ -134,7 +134,7 @@ if test x"$1" = x"--register-public-header"; then
   # relheader=`echo "$relheader"`
   # finalheader=`echo "$finalheader"`
 
-  echo "copy $headerfile $finalheader" >>"$installheadersfile"
+  echo "copy $headerfile $finalheader >nul:" >>"$installheadersfile"
   exit 0
 fi
 
@@ -400,7 +400,7 @@ if test x"$sourcefile" = x""; then :; else
     echo "InputPath=$headerfile" >>"$studiofile"
     echo "" >>"$studiofile"
     echo "\"$mocfile\" : \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"" >>"$studiofile"
-    echo "	\$(QTDIR)\bin\moc -o $mocfile \$(InputPath)" >>"$studiofile"
+    echo "	\$(QTDIR)\bin\moc -o $mocfile $headerfile" >>"$studiofile"
     echo "" >>"$studiofile"
     echo "# End Custom Build" >>"$studiofile"
     echo "" >>"$studiofile"
@@ -411,7 +411,7 @@ if test x"$sourcefile" = x""; then :; else
     echo "InputPath=$headerfile" >>"$studiofile"
     echo "" >>"$studiofile"
     echo "\"$mocfile\" : \$(SOURCE) \"\$(INTDIR)\" \"\$(OUTDIR)\"" >>"$studiofile"
-    echo "	\$(QTDIR)\bin\moc -o $mocfile \$(InputPath)" >>"$studiofile"
+    echo "	\$(QTDIR)\bin\moc -o $mocfile $headerfile" >>"$studiofile"
     echo "" >>"$studiofile"
     echo "# End Custom Build" >>"$studiofile"
     echo "" >>"$studiofile"
