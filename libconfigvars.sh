@@ -11,7 +11,7 @@ COMPONENTHEADER=""
 # new
 Gui=Win
 gui=win
-GUI="WIN"
+GUI=WIN
 
 export Gui gui GUI WIDGET EVENT COMPONENTHEADER
 

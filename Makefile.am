@@ -12,7 +12,9 @@ BUILT_SOURCES = \
 	src/Inventor/Win/SoWinRenderArea.h \
 	src/Inventor/Win/SoWinRenderArea.cpp \
 	src/Inventor/Win/viewers/SoWinViewer.h \
-	src/Inventor/Win/viewers/SoWinViewer.cpp
+	src/Inventor/Win/viewers/SoWinViewer.cpp \
+	src/Inventor/Win/viewers/SoWinFullViewer.h \
+	src/Inventor/Win/viewers/SoWinFullViewer.cpp
 
 noinst_DATA = $(BUILT_SOURCES)
 
@@ -52,8 +54,18 @@ src/Inventor/Win/viewers/SoWinViewer.cpp: \
 	CONFIG_FILES=$@:src/Inventor/Win/common/SoGuiViewer.cpp.in \
 	./config.status
 
-#	src/Inventor/Win/common/viewers/SoAnyFullViewer.h \
-#	src/Inventor/Win/common/viewers/SoAnyFullViewer.cpp \
+src/Inventor/Win/viewers/SoWinFullViewer.h: \
+  $(top_srcdir)/src/Inventor/Win/common/SoAnyFullViewer.h.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Win/common/SoAnyFullViewer.h.in \
+	./config.status
+
+src/Inventor/Win/viewers/SoWinFullViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Win/common/SoAnyFullViewer.cpp.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Win/common/SoAnyFullViewer.cpp.in \
+	./config.status
+
 #	src/Inventor/Win/common/viewers/SoAnyExaminerViewer.h \
 #	src/Inventor/Win/common/viewers/SoAnyExaminerViewer.cpp \
 #	src/Inventor/Win/common/viewers/SoAnyPlaneViewer.h \

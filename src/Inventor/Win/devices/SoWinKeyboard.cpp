@@ -59,11 +59,11 @@ SoWinKeyboard::makeTranslationTable(
     void )
 {
     // assert(SoWinKeyboard::translatetable == NULL);
-    // FIXME: deallocate on exit. 20000311 mortene.
+    // FIXME: deallocate on exit. 20000811 mortene.
     SoWinKeyboard::translatetable = new SbDict;
 
     int i=0;
-    while ( WinToSoMapping[i].from != SOWIN_UNKNOWN ) {
+    while ( WinToSoMapping[i].from != SOWIN_KEY_UNKNOWN ) {
         SoWinKeyboard::translatetable->enter( WinToSoMapping[i].from,
                                               ( void * )WinToSoMapping[i].to );
         i++;
@@ -156,7 +156,7 @@ SoWinKeyboard::translateEvent( // virtual
 
 
 /*!
-  This method creates an SoKeyboardEvent from an win32 MSG.
+  This method creates an SoKeyboardEvent from an win32 MSG *.
 */
 
 SoKeyboardEvent *

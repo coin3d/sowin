@@ -544,6 +544,8 @@ void SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // pfd i
         this->singleBufferWidget = normalwidget;
     }
 
+    this->initGraphic( );
+
     ShowWindow( normalwidget, SW_SHOW );
 }
 

@@ -17,8 +17,8 @@
  *
 \**************************************************************************/
 
-#ifndef _SOWIN_H
-#define _SOWIN_H
+#ifndef SOWIN_H
+#define SOWIN_H
 
 #include <math.h>
 #include <windows.h>
@@ -61,6 +61,7 @@ public:
     static void init( void );
 
     static void mainLoop( void );
+    static void exitMainLoop( void );
     static void doIdleTasks( void );
     static BOOL dispatchEvent( MSG * msg );
 
@@ -218,4 +219,4 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
 // !Globals
 // *************************************************************************
 
-#endif // ! _SOWIN_H
+#endif // ! SOWIN_H

@@ -101,6 +101,11 @@ void SoWin::mainLoop( void )
     }*/
 }
 
+void SoWin::exitMainLoop( void )
+{
+    PostQuitMessage( 0 );
+}
+
 void SoWin::doIdleTasks( void )
 {
     SoWin::idleSensorId = 0;
