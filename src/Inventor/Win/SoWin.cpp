@@ -319,11 +319,6 @@ SoWin::errorHandlerCB( const SoError * error, void * data )
               MB_OK | MB_ICONERROR );
 }
 
-///////////////////////////////////////////////////////////////////
-//
-//  (protected)
-//
-
 void
 SoWin::doIdleTasks( void )
 {
@@ -331,6 +326,11 @@ SoWin::doIdleTasks( void )
   SoDB::getSensorManager( )->processDelayQueue( TRUE ); // isidle = TRUE
   SoWinP::sensorQueueChanged( NULL );
 }
+
+///////////////////////////////////////////////////////////////////
+//
+//  (protected)
+//
 
 void
 SoWin::registerWindowClass( const char * const className )
