@@ -915,6 +915,14 @@ SoWinComponent::openHelpCard(const char * name)
              "SoWin", MB_ICONEXCLAMATION | MB_OK);
 } // openHelpCard()
 
+static inline unsigned char
+reverse_byte(unsigned char b)
+{
+  b = ((b & 0xf0) >> 4) | ((b & 0x0f) << 4);
+  b = ((b & 0xcc) >> 2) | ((b & 0x33) << 2);
+  b = ((b & 0xaa) >> 1) | ((b & 0x55) << 1);
+  return b;
+}
 
 // Converts from the common generic cursor format to a Win32 HCURSOR
 // instance.
@@ -929,48 +937,61 @@ SoWinComponentP::getNativeCursor(const SoWinCursor::CustomCursor * cc)
   SbBool b = SoWinComponentP::cursordict->find((unsigned long)cc, qc);
   if (b) { return (HCURSOR)qc; }
 
-#define MAXBITMAPWIDTH 32
-#define MAXBITMAPHEIGHT 32
-#define MAXBITMAPBYTES (((MAXBITMAPWIDTH + 7) / 8) * MAXBITMAPHEIGHT)
+  const short cursorwidth = GetSystemMetrics(SM_CXCURSOR);
+  const short cursorheight = GetSystemMetrics(SM_CYCURSOR);
+  assert(cursorwidth!=0 && cursorheight!=0 &&
+         "GetSystemMetrics() failed -- investigate");
+  const int cursorbytewidth = (cursorwidth + 7) / 8;
+  const int cursorbytes = cursorbytewidth * cursorheight;
 
-  unsigned char cursorbitmap[MAXBITMAPBYTES];
-  unsigned char cursormask[MAXBITMAPBYTES];
-  (void)memset(cursorbitmap, 0x00, MAXBITMAPBYTES);
-  (void)memset(cursormask, 0x00, MAXBITMAPBYTES);
+  unsigned char * ANDbitmap = new unsigned char[cursorbytes];
+  unsigned char * XORbitmap = new unsigned char[cursorbytes];
+  (void)memset(ANDbitmap, 0xff, cursorbytes);
+  (void)memset(XORbitmap, 0x00, cursorbytes);
 
-  assert(cc->dim[0] <= MAXBITMAPWIDTH && "internal bitmap too large");
-  assert(cc->dim[1] <= MAXBITMAPHEIGHT && "internal bitmap too large");
-
-  const int BYTEWIDTH = (cc->dim[0] + 7) / 8;
-  for (int h=0; h < cc->dim[1]; h++) {
-    for (int w=0; w < BYTEWIDTH; w++) {
-      const int pos = h * BYTEWIDTH + w;
-
-      // reverse color bits and then not the byte
-      unsigned char byte = cc->bitmap[pos];
-      byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
-      byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
-      byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
-      cursorbitmap[pos] = ~byte;
-
-      // reverse mask bits and then not the byte
-      byte = cc->mask[pos];
-      byte = ((byte & 0xf0) >> 4) | ((byte & 0x0f) << 4);
-      byte = ((byte & 0xcc) >> 2) | ((byte & 0x33) << 2);
-      byte = ((byte & 0xaa) >> 1) | ((byte & 0x55) << 1);
-      cursormask[pos] = ~byte;
+  if (SOWIN_DEBUG) {
+    if ((cc->dim[0] > cursorwidth) || (cc->dim[1] > cursorheight)) {
+      SoDebugError::postWarning("SoWinComponentP::getNativeCursor",
+                                "internal cursor bitmap too large: <%d, %d> "
+                                "(max dimensions are <%d, %d>)",
+                                cc->dim[0], cc->dim[1],
+                                cursorwidth, cursorheight);
+      // Only a warning is necessary, as below we just crop the
+      // cursor.
     }
   }
 
-  // FIXME: the zoom cursor has a couple of "bug pixels". See if they
-  // disappear if we fix up the buggy bitmap + mask combinations (ref
-  // FIXME in SoGuiCursor.cpp.in). 20011126 mortene.
+  // The input data for CreateCursor() should follow this format:
+  //
+  //  AND | XOR | Display
+  // -----+-----+--------
+  //   0  |  0  | Black
+  //   0  |  1  | White
+  //   1  |  0  | Screen (transparency)
+  //   1  |  1  | Reverse screen
+  //
+  // ..so we need to do some processing on the original data here.
+  // (Also, the bits should be reversed versus the original format.)
 
-  // FIXME: currently a memory leak here. 20011121 mortene.
-  HCURSOR c = CreateCursor(SoWin::getInstance(),
-                           cc->hotspot[0], cc->hotspot[1],
-                           cc->dim[0], cc->dim[1],
-                           cursormask, cursorbitmap);
+  const int nativebytewidth = (cc->dim[0] + 7) / 8;
+  for (int h=0; h < SoWinMin(cc->dim[1], cursorheight); h++) {
+    for (int w=0; w < SoWinMin(nativebytewidth, cursorbytewidth); w++) {
+      const int cursorpos = h * cursorbytewidth + w;
+      const int nativepos = h * nativebytewidth + w;
+      unsigned char b = reverse_byte(cc->bitmap[nativepos]);
+      unsigned char m = reverse_byte(cc->mask[nativepos]);
+      ANDbitmap[cursorpos] = ~(b | m);
+      XORbitmap[cursorpos] = b ^ m;
+    }
+  }
+
+  // FIXME: plug this memory leak by using DestroyCursor(). 20011126 mortene.
+  HCURSOR c = Win32::CreateCursor(SoWin::getInstance(),
+                                  cc->hotspot[0], cc->hotspot[1],
+                                  cursorwidth, cursorheight,
+                                  ANDbitmap, XORbitmap);
+  delete ANDbitmap;
+  delete XORbitmap;
 
   SoWinComponentP::cursordict->enter((unsigned long)cc, c);
   return c;
