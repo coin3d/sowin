@@ -1058,26 +1058,26 @@ SoWinGLWidgetP::buildOverlayGLWidget( HWND manager )
 BOOL
 SoWinGLWidgetP::createGLContext( HWND window )
 {
-  BOOL ok;
+  assert(IsWindow(window) && "createGLContext() argument failed IsWindow() check!");
 
-  assert( IsWindow( window ) );
+  // FIXME: overlay planes not properly supported yet. Returning FALSE
+  // will cause the caller (SoWinGLWidgetP::onCreate()) to try without
+  // the overlay planes. 20010920 mortene.
+  if ( this->glModes & SO_GL_OVERLAY ) { return FALSE; }
 
   // All contexts were destroyed or released in onDestroy()
   
   this->hdcNormal = GetDC( window );
-	assert( this->hdcNormal && "GetDC failed -- investigate" );
+  assert( this->hdcNormal && "GetDC failed -- investigate" );
   this->hdcOverlay = this->hdcNormal;
   
-  memset( & this->pfdNormal, 0, sizeof( PIXELFORMATDESCRIPTOR ) );
+  (void)memset(&this->pfdNormal, 0, sizeof( PIXELFORMATDESCRIPTOR ));
   this->pfdNormal.nSize = sizeof( PIXELFORMATDESCRIPTOR );
   this->pfdNormal.nVersion = 1;
-  this->pfdNormal.dwFlags = PFD_DRAW_TO_WINDOW |
-                            PFD_SUPPORT_OPENGL |
-                            PFD_SWAP_LAYER_BUFFERS |
-                            ( this->glModes & SO_GL_STEREO ?
-                            PFD_STEREO : 0 ) |
-                            ( this->glModes & SO_GL_DOUBLE ?
-                            PFD_DOUBLEBUFFER : 0 );
+  this->pfdNormal.dwFlags =
+    PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_SWAP_LAYER_BUFFERS |
+    ( this->glModes & SO_GL_STEREO ? PFD_STEREO : 0 ) |
+    ( this->glModes & SO_GL_DOUBLE ? PFD_DOUBLEBUFFER : 0 );
   this->pfdNormal.iPixelType = PFD_TYPE_RGBA;
   this->pfdNormal.cColorBits = 32;    
   this->pfdNormal.cDepthBits = 32;
@@ -1085,38 +1085,48 @@ SoWinGLWidgetP::createGLContext( HWND window )
   int pixelformat = SoWinGLWidgetP::ChoosePixelFormat( this->hdcNormal,
                                                        & this->pfdNormal );
   if (pixelformat == 0) { return FALSE; }
-  ok = SetPixelFormat( this->hdcNormal, pixelformat, & this->pfdNormal );
-
-  if ( ! ok ) {
-    #if SOWIN_DEBUG && 1
-    SoDebugError::postWarning( "SoWinGLWidget::createGLContext",
-      "Pixelformat was not supported." );
-    #endif // SOWIN_DEBUG
+  if (!SetPixelFormat( this->hdcNormal, pixelformat, & this->pfdNormal )) {
+    DWORD dummy;
+    SbString err = Win32::getWin32Err(dummy);
+    SbString s = "SetPixelFormat(";
+    s.addIntString(this->glModes);
+    s += ") failed with error message ";
+    s += err;
+    SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
     return FALSE;
   }
   
   this->ctxNormal = wglCreateContext( this->hdcNormal );
   if ( ! this->ctxNormal ) {
-    #if SOWIN_DEBUG && 1
-    SoDebugError::postWarning( "SoWinGLWidget::createGLContext",
-      "The rendering context could not be created." );
-    #endif // SOWIN_DEBUG
+    DWORD dummy;
+    SbString err = Win32::getWin32Err(dummy);
+    SbString s = "The rendering context for format ";
+    s.addIntString(this->glModes);
+    s += " could not be created, as ";
+    s += "wglCreateContext() failed with error message: ";
+    s += err;
+    SoDebugError::postWarning("SoWinGLWidgetP::createGLContext", s.getString());
     return FALSE;
   }
   
+#if 0 // temporary disabled because overlay planes is not supported yet
   // create overlay
   if ( this->glModes & SO_GL_OVERLAY ) {
     this->ctxOverlay = wglCreateLayerContext( this->hdcOverlay, 1 );
     
     // FIXME: set overlay plane. mariusbu 20010801.
   }
+#endif // tmp disabled
 
   // share context
   SoWinGLWidget * share = ( SoWinGLWidget * )
   SoAny::si( )->getSharedGLContext( NULL, NULL );
 
-  if ( share != NULL )
-    wglShareLists( PRIVATE( share )->ctxNormal, this->ctxNormal );
+  if ( share != NULL ) {
+    BOOL ok = wglShareLists( PRIVATE( share )->ctxNormal, this->ctxNormal );
+    // FIXME: how should we properly react to ok==FALSE?
+    // 20010920 mortene.
+  }
   
   SoAny::si( )->registerGLContext( ( void * ) this->owner, NULL, NULL );
 
@@ -1138,28 +1148,50 @@ SoWinGLWidgetP::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lpara
   SoDebugError::postInfo( "SoWinGLWidget::onCreate", "called" );
 #endif // SOWIN_DEBUG
 
-  // FIXME: add more tests. mariusbu 20010802.
+  int orgmodes = this->glModes;
+  SbBool tried_nostereo = FALSE;
+  SbBool tried_nooverlay = FALSE;
+  SbBool tried_nodouble = FALSE;
+  SbBool tried_withdouble = FALSE;
+
+  // FIXME: add more "downgrade" possibilities. mariusbu 20010802.
+  // FIXME: also try combinations of several downgrade bits.  mortene 20010920.
 label:  
   if ( ! this->createGLContext( window ) ) {
-    if ( this->glModes & SO_GL_STEREO ) {
-      this->glModes &= ~SO_GL_STEREO;
-      goto label;
-    }
-    if ( this->glModes & SO_GL_OVERLAY ) {
+    this->glModes = orgmodes; // reset before trying new setting
+
+    // Downgrading is ordered from what seems "most likely to help".
+
+    if (( orgmodes & SO_GL_OVERLAY ) && !tried_nooverlay) {
       this->glModes &= ~SO_GL_OVERLAY;
+      tried_nooverlay = TRUE;
       goto label;
     }
-    if ( this->glModes & SO_GL_DOUBLE ) {
+    else if (( orgmodes & SO_GL_STEREO ) && !tried_nostereo) {
+      this->glModes &= ~SO_GL_STEREO;
+      tried_nostereo = TRUE;
+      goto label;
+    }
+    else if (( orgmodes & SO_GL_DOUBLE ) && !tried_nodouble) {
       this->glModes &= ~SO_GL_DOUBLE;
+      tried_nodouble = TRUE;
       goto label;
     }
-    if ( ! ( this->glModes & SO_GL_DOUBLE ) ) {
+    else if ( !( orgmodes & SO_GL_DOUBLE ) && !tried_withdouble) {
       this->glModes |= SO_GL_DOUBLE;
+      tried_withdouble = TRUE;
       goto label;
+    }
+    else {
+      SoWin::createSimpleErrorDialog(NULL, "Fatal application error",
+                                     "Could not find any supported OpenGL "
+                                     "mode on your system.",
+                                     "Application will exit.");
+      exit(1);
     }
   }
   SetFocus( window );
-	this->owner->widgetChanged( window );
+  this->owner->widgetChanged( window );
   return 0;
 }
 
