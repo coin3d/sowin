@@ -111,21 +111,24 @@ SoWinObject::init(void)
 //
 
 /*!
+  \fn HWND SoWin::init(const char * const appName, const char * const className)
+
   This method is provided for easier porting/compatibility with the
   Open Inventor SoXt component classes. It just adds dummy \a argc and
   \a argv arguments and calls the SoWin::init() method below.
 */
 HWND
-SoWin::init(const char * const appName,
-            const char * const className)
+SoWin::internal_init(const char * const appName, const char * const className)
 {
   int argc = 1;
   char * argv[] = { (char *) appName, NULL };
-  return SoWin::init(argc, argv, appName, className);
-} // init()
+  return SoWin::internal_init(argc, argv, appName, className);
+} // internal_init()
 
 
 /*!
+  \fn HWND SoWin::init(int argc, char ** argv, const char * const appName, const char * const className)
+
   Initializes the SoWin component toolkit library, as well as the Open Inventor
   library.
 
@@ -134,10 +137,10 @@ SoWin::init(const char * const appName,
 */
 
 HWND
-SoWin::init(int & argc,
-            char ** argv,
-            const char * const appName,
-            const char * const className)
+SoWin::internal_init(int argc,
+                     char ** argv,
+                     const char * const appName,
+                     const char * const className)
 {
   if (appName)
     SoWinP::appName = strcpy(new char [ strlen(appName) + 1 ], appName);
@@ -150,19 +153,21 @@ SoWin::init(int & argc,
   HWND toplevel = SoWin::createWindow((char *) appName, (char *) className, size, NULL);
   SoWinP::useParentEventHandler = FALSE;
   
-  SoWin::init(toplevel);
+  SoWin::internal_init( toplevel );
   
   return toplevel;
-} // init()
+} // internal_init()
 
 
 /*!
+  \fn SoWin::init(HWND const topLevelWidget)
+
   Calls \a SoDB::init(), \a SoNodeKit::init() and \a SoInteraction::init().
   Assumes you are creating your main widget.
   \a topLevelWidget should be your application's main widget.
 */
 void
-SoWin::init(HWND const topLevelWidget)
+SoWin::internal_init(HWND const topLevelWidget)
 {
   SoDB::init();
   SoNodeKit::init();
@@ -179,15 +184,15 @@ SoWin::init(HWND const topLevelWidget)
     SoWinP::parentEventHandler = (WNDPROC) Win32::GetWindowLong(topLevelWidget, GWL_WNDPROC);
     (void)Win32::SetWindowLong(topLevelWidget, GWL_WNDPROC, (long) SoWin::eventHandler);
   }
-} // init()
+} // internal_init()
 
 /*!
  */
 void
-SoWin::init(void)
+SoWin::internal_init(void)
 {
-  SoWin::init("SoWin", "SoWin");
-} // init()
+  SoWin::internal_init("SoWin", "SoWin");
+} // internal_init()
 
 /*!
   This is the event dispatch loop. It doesn't return until
@@ -639,6 +644,69 @@ SoWinP::onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 
   return 0;
 } // onQuit()
+
+
+SbBool
+SoWin::isDebugLibrary(void)
+{
+  return SOWIN_DEBUG != 0 ? TRUE : FALSE;
+} // isDebugLibrary()
+
+SbBool
+SoWin::isCompatible(unsigned int major, unsigned int minor)
+{
+  if ( major != SOWIN_MAJOR_VERSION )
+    return FALSE;
+  if ( minor > SOWIN_MINOR_VERSION )
+    return FALSE;
+  return TRUE;
+} // isCompatible()
+
+SoWinABIType
+SoWin::getABIType(void)
+{
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+#ifdef COIN_MAKE_DLL
+  return SOWIN_DLL_ABI;
+#else
+  return SOWIN_LIB_ABI;
+#endif
+#endif
+  return SOWIN_UNKNOWN_ABI;
+} // getABIType()
+
+void
+SoWin::abort(SoWinABIError error)
+{
+  SIZE size = { 500, 200 };
+  switch ( error ) {
+  case SOWIN_LINKTIME_MISMATCH:
+    SoWin::createSimpleErrorDialog(
+      SoWin::createWindow("SoWin", "Fatal Error", size, NULL),
+      "Fatal Error",
+      "Detected linktime mismatch error.");
+    break;
+  case SOWIN_LINKSTYLE_MISMATCH:
+    SoWin::createSimpleErrorDialog(
+      SoWin::createWindow("SoWin", "Fatal Error", size, NULL),
+      "Fatal Error",
+      "Detected linkstyle mismatch error (DLL vs. LIB).");
+    break;
+  case SOWIN_RUNTIME_MISMATCH:
+    SoWin::createSimpleErrorDialog(
+      SoWin::createWindow("SoWin", "Fatal Error", size, NULL),
+      "Fatal Error",
+      "Detected runtime mismatch error (versioning and ABI compatibility).");
+    break;
+  default:
+    SoWin::createSimpleErrorDialog(
+      SoWin::createWindow("SoWin", "Fatal Error", size, NULL),
+      "Fatal Error",
+      "SoWin doesn't even know about the error :(");
+    break;
+  }
+  exit(-1);
+} // abort()
 
 
 /*!
