@@ -68,7 +68,10 @@ public:
   static HINSTANCE Instance;
   static HWND mainWidget;
   static char * appName;
-  static char * className;  
+  static char * className;
+
+  
+  static WNDPROC parentEventHandler;
 
 private:
   SoWin * owner;
@@ -89,6 +92,7 @@ int SoWinP::delaySensorId = 0;
 SbBool SoWinP::delaySensorActive = FALSE;
 int SoWinP::idleSensorId = 0;
 SbBool SoWinP::idleSensorActive = FALSE;
+WNDPROC SoWinP::parentEventHandler = NULL;
 
 // *************************************************************************
 
@@ -148,6 +152,9 @@ SoWin::init( HWND const topLevelWidget )
   SoDB::getSensorManager( )->setChangedCallback( SoWinP::sensorQueueChanged, NULL );
   if ( IsWindow( topLevelWidget ) ) 
     SoWinP::mainWidget = topLevelWidget;
+  
+  SoWinP::parentEventHandler = ( WNDPROC ) GetWindowLong( topLevelWidget, GWL_WNDPROC );
+  SetWindowLong( topLevelWidget, GWL_WNDPROC, ( long ) SoWin::eventHandler );
 }
 
 void
@@ -354,17 +361,33 @@ SoWin::unRegisterWindowClass( const char * const className )
 LRESULT CALLBACK
 SoWin::eventHandler( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
+  LRESULT retval = 0;
+  BOOL handled = FALSE;
+  
   switch( message )
     {
     case WM_SIZE:
-      return SoWinP::onSize( window, message, wparam, lparam );
+      retval =  SoWinP::onSize( window, message, wparam, lparam );
+      handled = TRUE;
+      break;
 
     case WM_DESTROY:
-      return SoWinP::onDestroy( window, message, wparam, lparam );
+      retval = SoWinP::onDestroy( window, message, wparam, lparam );
+      handled = TRUE;      
+      break;
             
     case WM_QUIT:
-      return SoWinP::onQuit( window, message, wparam, lparam );
+      retval = SoWinP::onQuit( window, message, wparam, lparam );
+      handled = TRUE;
+      break;
     }
+
+  if ( SoWinP::parentEventHandler )
+    return SoWinP::parentEventHandler( window, message, wparam, lparam );
+
+  if ( handled )
+    return retval;
+    
   return DefWindowProc( window, message, wparam, lparam );
 }
 
