@@ -190,25 +190,6 @@ SoWinGLWidget::getOverlayDC(void) const
 }
 
 /*!
-  Returns the normal GL context.
-*/
-HGLRC
-SoWinGLWidget::getNormalContext(void) const
-{
-  assert(PRIVATE(this)->ctxNormal != NULL);
-  return PRIVATE(this)->ctxNormal;
-}
-
-/*!
-  Returns the overlay GL context.
-*/
-HGLRC
-SoWinGLWidget::getOverlayContext(void) const
-{
-  return PRIVATE(this)->ctxOverlay;
-}
-
-/*!
  */
 void
 SoWinGLWidget::setStealFocus(SbBool doStealFocus)
