@@ -26,6 +26,7 @@
 #include <Inventor/Win/SoWinGLWidget.h>
 #include <Inventor/Win/SoAny.h>
 #include <sowindefs.h>
+#include <Inventor/Win/Win32API.h>
 
 #if SOWIN_DEBUG
 #include <Inventor/errors/SoDebugError.h>
@@ -692,6 +693,8 @@ SoWinGLWidget::makeNormalCurrent( void )
 SbBool
 SoWinGLWidget::swapNormalBuffers( void )
 {
+  // FIXME: not in use..? 20010803 mortene.
+
   if ( ! ( PRIVATE( this )->glModes & SO_GL_DOUBLE ) )
     return FALSE;
   
@@ -733,8 +736,7 @@ void
 SoWinGLWidget::glSwapBuffers( void )
 {
   assert( PRIVATE( this )->hdcNormal != NULL );
-  BOOL r = SwapBuffers( PRIVATE( this )->hdcNormal );
-  assert( r && "SwapBuffers() failed -- investigate" );
+  Win32::SwapBuffers( PRIVATE( this )->hdcNormal );
 }
 
 void

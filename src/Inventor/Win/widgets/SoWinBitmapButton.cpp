@@ -229,8 +229,7 @@ SoWinBitmapButton::getState( void ) const
 void
 SoWinBitmapButton::setEnabled( SbBool enable )
 {
-  BOOL r = EnableWindow( this->buttonWindow, enable );
-  assert( r && "EnableWindow() failed -- investigate (should use IsWindowEnabled()?)" );
+  Win32::EnableWindow( this->buttonWindow, enable );
 } // setEnabled()
 
 SbBool

@@ -58,3 +58,26 @@ Win32::MoveWindow(HWND hWnd,      // handle to window
   if (!r) { Win32::showLastErr(); }
   assert( r && "MoveWindow() failed -- investigate");
 }
+
+void
+Win32::EnableWindow(HWND hWnd,     // handle to window
+		    BOOL bEnable   // flag for enabling or disabling input
+		    )
+{
+  BOOL enabled = ::IsWindowEnabled(hWnd);
+  if (enabled && bEnable) { return; }
+  if (!enabled && !bEnable) { return; }
+
+  BOOL r = ::EnableWindow( hWnd, bEnable );
+  assert( r && "EnableWindow() failed -- investigate" );
+}
+ 
+
+void
+Win32::SwapBuffers(HDC hdc  // device context whose buffers get swapped
+		   )
+{
+  BOOL r = ::SwapBuffers(hdc);
+  if (!r) { Win32::showLastErr(); }
+  assert( r && "SwapBuffers() failed -- investigate");
+}

@@ -631,8 +631,7 @@ void SoWinViewerPrefSheet::setChecked( HWND hwnd, BOOL check )
 
 void SoWinViewerPrefSheet::setEnabled( HWND hwnd, BOOL enable )
 {
-  BOOL r = EnableWindow( hwnd, enable );
-  assert( r && "EnableWindow() failed -- investigate (should use IsWindowEnabled()?)" );
+  Win32::EnableWindow( hwnd, enable );
 }
 
 void SoWinViewerPrefSheet::setEditValue( HWND edit, float value )

@@ -20,8 +20,9 @@
 #ifndef SOWIN_WIN32API
 #define SOWIN_WIN32API
 
-// This is an internal class which wraps the Win32 API functions we
-// use in SoWin -- to do robust checking of return values etc.
+// This is an internal class which wraps most of the Win32 API
+// functions we use in SoWin -- to do robust checking of return values
+// etc.
 //
 // This way, we should be able to early detect programming errors on
 // our behalf, while still keeping the sourcecode nice and clean.
@@ -29,12 +30,14 @@
 #include <windows.h>
 
 class Win32 {
+public:
+  static void MoveWindow(HWND, int, int, int, int, BOOL);
+  static void EnableWindow(HWND, BOOL);
+
+  static void SwapBuffers(HDC);
 
 private:
   static void showLastErr(void);
-
-public:
-  static void MoveWindow(HWND, int, int, int, int, BOOL);
 };
 
 #endif // SOWIN_WIN32API

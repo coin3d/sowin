@@ -498,8 +498,7 @@ SoWinThumbWheel::setEnabled( bool enable )
     this->state = SoWinThumbWheel::Disabled;
   BOOL r = InvalidateRect( this->wheelWindow, NULL, FALSE );
   assert( r && "InvalidateRect() failed -- investigate" );
-  r = EnableWindow( this->labelWindow, enable );
-  assert( r && "EnableWindow() failed -- investigate (should use IsWindowEnabled()?)" );
+  Win32::EnableWindow( this->labelWindow, enable );
 } // setEnabled()
 
 bool
