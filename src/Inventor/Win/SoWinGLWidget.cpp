@@ -1056,8 +1056,41 @@ SoWinGLWidgetP::createGLContext(HWND window)
   this->pfdNormal.cDepthBits = 32;
 
   int pixelformat = SoWinGLWidgetP::ChoosePixelFormat(this->hdcNormal,
-                                                       & this->pfdNormal);
+                                                      & this->pfdNormal);
   if (pixelformat == 0) { return FALSE; }
+
+  PIXELFORMATDESCRIPTOR tmpdescriptor;
+
+  // FIXME: This is a woraround for problems we experienced with
+  // GeForce2MX and GeForce2Go cards. If we requested a 32 bit depth
+  // buffer, ChoosePixelFormat returned an 8 bit (or something) depth
+  // buffer, since 32 bits is not supported on those cards. By testing
+  // the returned pixel format, and trying 24 and 16 bits depth, a
+  // better depth buffer precision was achieved.  pederb, 2001-12-11
+	
+  if (DescribePixelFormat(this->hdcNormal,
+                          pixelformat,
+                          sizeof(PIXELFORMATDESCRIPTOR),
+                          &tmpdescriptor) != 0) {
+    if (tmpdescriptor.cDepthBits < 24) {
+      this->pfdNormal.cDepthBits = 24;
+      pixelformat = SoWinGLWidgetP::ChoosePixelFormat(this->hdcNormal,
+                                                      &this->pfdNormal);
+      if (pixelformat == 0) return FALSE;
+      if (DescribePixelFormat(this->hdcNormal,
+                              pixelformat,
+                              sizeof(PIXELFORMATDESCRIPTOR),
+                              &tmpdescriptor) != 0) {
+        if (tmpdescriptor.cDepthBits < 16) {
+          this->pfdNormal.cDepthBits = 16;
+          pixelformat = SoWinGLWidgetP::ChoosePixelFormat(this->hdcNormal,
+                                                          &this->pfdNormal);
+          if (pixelformat == 0) return FALSE;
+        }
+      }
+    }
+  }
+  
   if (!SetPixelFormat(this->hdcNormal, pixelformat, & this->pfdNormal)) {
     DWORD dummy;
     SbString err = Win32::getWin32Err(dummy);
