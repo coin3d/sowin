@@ -37,6 +37,7 @@
 
 #include <sowindefs.h>
 #include <Inventor/Win/devices/SoWinKeyboard.h>
+#include <Inventor/Win/devices/SoWinDeviceP.h>
 #include <Inventor/Win/SoWinBasic.h>
 #include <winuser.h> // VK_ defines
 
@@ -458,40 +459,40 @@ SoWinKeyboard::translateEvent(MSG * msg)
   // modifiers:
   if ((int)sokey == SoKeyboardEvent::LEFT_SHIFT) {
     if (state == SoButtonEvent::UP) {
-      SoWinDevice::modifierKeys &= ~MK_SHIFT;
+      SoWinDeviceP::modifierKeys &= ~MK_SHIFT;
       //return NULL;
     }
     else {    // SoButtonEvent::DOWN
-      if (SoWinDevice::modifierKeys & MK_SHIFT) return NULL;
-      SoWinDevice::modifierKeys |= MK_SHIFT;
+      if (SoWinDeviceP::modifierKeys & MK_SHIFT) return NULL;
+      SoWinDeviceP::modifierKeys |= MK_SHIFT;
     }
   }
 
   if ((int)sokey == SoKeyboardEvent::LEFT_CONTROL) {
     if (state == SoButtonEvent::UP) {
-      SoWinDevice::modifierKeys &= ~MK_CONTROL;
+      SoWinDeviceP::modifierKeys &= ~MK_CONTROL;
       //return NULL;
     }
     else {    // SoButtonEvent::DOWN
-      if (SoWinDevice::modifierKeys & MK_CONTROL) return NULL;
-      SoWinDevice::modifierKeys |= MK_CONTROL;
+      if (SoWinDeviceP::modifierKeys & MK_CONTROL) return NULL;
+      SoWinDeviceP::modifierKeys |= MK_CONTROL;
     }
   }
 
   if ((int)sokey == SoKeyboardEvent::LEFT_ALT) {
     if (state == SoButtonEvent::UP) {
-      SoWinDevice::modifierKeys &= ~MK_ALT;
+      SoWinDeviceP::modifierKeys &= ~MK_ALT;
       //return NULL;
     }
     else {    // SoButtonEvent::DOWN
-      if (SoWinDevice::modifierKeys & MK_ALT) return NULL;
-      SoWinDevice::modifierKeys |= MK_ALT;
+      if (SoWinDeviceP::modifierKeys & MK_ALT) return NULL;
+      SoWinDeviceP::modifierKeys |= MK_ALT;
     }
   }
 
-  this->kbdevent->setShiftDown((SoWinDevice::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
-  this->kbdevent->setCtrlDown((SoWinDevice::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
-  this->kbdevent->setAltDown((SoWinDevice::modifierKeys & MK_ALT) ? TRUE : FALSE);
+  this->kbdevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
+  this->kbdevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
+  this->kbdevent->setAltDown((SoWinDeviceP::modifierKeys & MK_ALT) ? TRUE : FALSE);
   
   return this->kbdevent;
 }

@@ -30,6 +30,7 @@
 #include <sowindefs.h>
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/devices/SoWinMouse.h>
+#include <Inventor/Win/devices/SoWinDeviceP.h>
 
 /*
   FIXME: implement BUTTON_MOTION filtering
@@ -144,9 +145,9 @@ SoWinMouse::makeLocationEvent(MSG * msg)
     this->locationevent = new SoLocation2Event;
   this->setEventPosition(this->locationevent, msg->pt.x, msg->pt.y);
 
-  this->locationevent->setShiftDown((SoWinDevice::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
-  this->locationevent->setCtrlDown((SoWinDevice::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
-  this->locationevent->setAltDown((SoWinDevice::modifierKeys & MK_ALT) ? TRUE : FALSE);
+  this->locationevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
+  this->locationevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
+  this->locationevent->setAltDown((SoWinDeviceP::modifierKeys & MK_ALT) ? TRUE : FALSE);
 
   return this->locationevent;
 } // makeLocationEvent()
@@ -196,9 +197,9 @@ SoWinMouse::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
   else {*/
     this->setEventPosition(this->buttonevent, msg->pt.x, msg->pt.y);
     //}
-  this->buttonevent->setShiftDown((SoWinDevice::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
-  this->buttonevent->setCtrlDown((SoWinDevice::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
-  this->buttonevent->setAltDown((SoWinDevice::modifierKeys & MK_ALT) ? TRUE : FALSE);
+  this->buttonevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
+  this->buttonevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
+  this->buttonevent->setAltDown((SoWinDeviceP::modifierKeys & MK_ALT) ? TRUE : FALSE);
   
   return this->buttonevent;
 } // makeButtonEvent()
