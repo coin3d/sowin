@@ -48,13 +48,13 @@ SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinComponent);
 // The private data for the SoWinComponent.
 
 class SoWinComponentP {
-  
+
 public:
   // Constructor.
   SoWinComponentP(SoWinComponent * o)
   {
     this->owner = o;
-
+    this->cursor = NULL;
     this->msgHook = NULL;
     this->parent = NULL;
 
@@ -79,7 +79,7 @@ public:
         // too!
         //
         // mariusbu 20010803.
-        
+
         if (SoWinComponentP::wndClassAtom) { // if wndclass is registered
           Win32::UnregisterClass("Component Widget", SoWin::getInstance());
           SoWinComponentP::wndClassAtom = NULL;
@@ -93,61 +93,26 @@ public:
   static void fatalerrorHandler(void * userdata);
   void cleanupWin32References(void);
 
-  // event handler
-  static LRESULT CALLBACK
-  eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
-  {
-    SoWinComponent * component = SoWinComponent::getComponent(window);
+  static LRESULT CALLBACK eventHandler(HWND window, UINT message,
+                                       WPARAM wparam, LPARAM lparam);
 
-    if (component) {
-
-      switch (message) {
-      
-        case WM_SIZE:
-          component->sizeChanged(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
-          break;
-          
-        case WM_CLOSE:
-          component->hide();
-          component->windowCloseAction();
-          return 0;
-      
-        case WM_SETFOCUS:
-          if (IsWindow(component->pimpl->focusProxy)) {
-            SetFocus(component->pimpl->focusProxy);
-          }
-          return 0;
-          
-        case WM_SHOWWINDOW:
-          if (! component->realized) {
-            component->afterRealizeHook();
-            component->realized = TRUE;
-          }
-          break;
-          
-      }
-    }
-    
-    return DefWindowProc(window, message, wparam, lparam);
-  }
-  
   // Message hook
   static LRESULT CALLBACK
   callWndProc(int code, WPARAM wparam, LPARAM lparam)
   {
     CWPSTRUCT * msg = (CWPSTRUCT *) lparam;
     if (HC_ACTION);// must process message
-    
+
     SoWinComponent * component = SoWinComponent::getComponent(msg->hwnd);
     if (component) {
       if (code >= 0) {
 
         switch (msg->message) {
-        
+
           case WM_SIZE:
             component->sizeChanged(SbVec2s(LOWORD(msg->lParam), HIWORD(msg->lParam)));
             break;
-        
+
           case WM_SETFOCUS:
             if (IsWindow(component->pimpl->focusProxy)) {
               SetFocus(component->pimpl->focusProxy);
@@ -157,14 +122,13 @@ public:
           case WM_CLOSE:
             component->windowCloseAction();
             break;
-            
+
           case WM_SHOWWINDOW:
           if (! component->realized) {
             component->afterRealizeHook();
             component->realized = TRUE;
           }
           break;
-            
         }
       }
       return CallNextHookEx(component->pimpl->msgHook, code, wparam, lparam);
@@ -186,7 +150,7 @@ public:
   // This is the atom returned when the component
   // window class is registered.
   static ATOM wndClassAtom;
-  
+
   // List of all SoWinComponent instances. Needed for the
   // SoWinComponent::getComponent() function.
   static SbPList * sowincomplist;
@@ -205,8 +169,9 @@ public:
 
   struct FullscreenData fullscreendata;
 
+  const SoWinCursor * cursor;
+
 private:
-  
   SoWinComponent * owner;
   static SbDict * cursordict;
 };
@@ -216,6 +181,49 @@ SbPList * SoWinComponentP::sowincomplist = NULL;
 SbDict * SoWinComponentP::cursordict = NULL;
 
 #define PRIVATE(o) (o->pimpl)
+
+
+LRESULT CALLBACK
+SoWinComponentP::eventHandler(HWND window, UINT message,
+                              WPARAM wparam, LPARAM lparam)
+{
+  SoWinComponent * component = SoWinComponent::getComponent(window);
+
+  if (component) {
+
+    switch (message) {
+
+    case WM_SIZE:
+      component->sizeChanged(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
+      break;
+
+    case WM_CLOSE:
+      component->hide();
+      component->windowCloseAction();
+      return 0;
+
+    case WM_SETFOCUS:
+      if (IsWindow(component->pimpl->focusProxy)) {
+        SetFocus(component->pimpl->focusProxy);
+      }
+      return 0;
+
+    case WM_SHOWWINDOW:
+      if (! component->realized) {
+        component->afterRealizeHook();
+        component->realized = TRUE;
+      }
+      break;
+
+    case WM_SETCURSOR:
+      SoWinComponent::setWidgetCursor(component->getWidget(),
+                                      *(PRIVATE(component)->cursor));
+      break;
+    }
+  }
+
+  return DefWindowProc(window, message, wparam, lparam);
+}
 
 // *************************************************************************
 
@@ -264,11 +272,11 @@ SoWinComponent::SoWinComponent(const HWND parent,
   this->realized = FALSE;
 
   PRIVATE(this)->focusProxy = NULL;
-  
+
   PRIVATE(this)->closeCB = NULL;
   PRIVATE(this)->closeCBdata = NULL;
   PRIVATE(this)->visibilitychangeCBs = new SbPList;
- 
+
   PRIVATE(this)->widget = NULL;
   PRIVATE(this)->embedded = embed;
 
@@ -305,9 +313,9 @@ SoWinComponent::~SoWinComponent(void)
     PRIVATE(this)->visibilitychangeCBs->remove(i);
   }
   delete PRIVATE(this)->visibilitychangeCBs;
-  
+
   PRIVATE(this)->cleanupWin32References();
-  
+
   delete this->pimpl;
 }
 
@@ -315,7 +323,7 @@ SoWinComponent::~SoWinComponent(void)
 // "fatal error cleanup" routine. It was reported by Alan Walford of
 // Eos. It is a complex issue where a bug could be triggered like
 // this:
-// 
+//
 // 0) the construction of a SoWinGLWidget-derived instance (like for
 // instance a renderarea) fails due to lack of or faulty
 // OpenGL-support -- or due to any other fatal error condition
@@ -399,7 +407,7 @@ SoWinComponent::setFullScreen(const SbBool enable)
   SoWinComponentP::FullscreenData * data = &(PRIVATE(this)->fullscreendata);
   if (enable == data->on) { return TRUE; }
   data->on = enable;
-  
+
   HWND hwnd = this->getParentWidget();
   if (hwnd != this->getShellWidget()) {
     return FALSE;
@@ -411,7 +419,7 @@ SoWinComponent::setFullScreen(const SbBool enable)
     Win32::GetWindowRect(hwnd, & rect);
     data->style = Win32::SetWindowLong(hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
     data->exstyle = Win32::SetWindowLong(hwnd, GWL_EXSTYLE, WS_EX_TOPMOST);
-    
+
     if (data->style & WS_MAXIMIZE) {
       data->pos.setValue(0, 0);
       data->size.setValue(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CXSCREEN));
@@ -421,14 +429,14 @@ SoWinComponent::setFullScreen(const SbBool enable)
       data->size.setValue(rect.right - rect.left, rect.bottom - rect.top);
     }
     // Go fullscreen.
-    
+
     Win32::MoveWindow(hwnd,
                        0,
                        0,
                        GetSystemMetrics(SM_CXSCREEN),
                        GetSystemMetrics(SM_CYSCREEN),
                        TRUE);
-    
+
     // FIXME: isn't there a specific method in the Win32 API for
     // maximizing a window? If yes, use that mechanism instead of this
     // "homegrown" method with MoveWindow() resizing. 20010820 mortene.
@@ -439,7 +447,7 @@ SoWinComponent::setFullScreen(const SbBool enable)
     // ShowWindow(hwnd, SW_RESTORE);
     (void)Win32::SetWindowLong(hwnd, GWL_STYLE, data->style | WS_VISIBLE);
     (void)Win32::SetWindowLong(hwnd, GWL_EXSTYLE, data->exstyle);
-    
+
     Win32::MoveWindow(hwnd,
                        (data->pos[0] > -1 ? data->pos[0] :
                          ((GetSystemMetrics(SM_CXSCREEN) / 2) - 210)),
@@ -448,7 +456,7 @@ SoWinComponent::setFullScreen(const SbBool enable)
                        (data->size[0] > 0 ? data->size[0] : 420),
                        (data->size[1] > 0 ? data->size[1] : 500),
                        TRUE);
-    
+
   }
 
   return TRUE;
@@ -542,14 +550,14 @@ SoWinComponent::getShellWidget(void) const
   LONG style;
   HWND hwnd;
   HWND parent = PRIVATE(this)->parent;
-  
+
   do {
     hwnd = parent;
     style = Win32::GetWindowLong(hwnd, GWL_STYLE);
     if (style & WS_OVERLAPPEDWINDOW) break;
     parent = GetParent(hwnd);
   } while(IsWindow(parent));
-  
+
   return hwnd;
 } // getShellWidget()
 
@@ -684,7 +692,7 @@ void
 SoWinComponent::setWindowCloseCallback(SoWinComponentCB * func, void * data)
 {
   PRIVATE(this)->closeCB = func;
-  PRIVATE(this)->closeCBdata = data; 
+  PRIVATE(this)->closeCBdata = data;
 } // setWindowCloseCallback()
 
 /*!
@@ -760,7 +768,7 @@ SoWinComponent::setClassName(const char * const name)
 } // setClassName()
 
 /*!
- */  
+ */
 HWND
 SoWinComponent::buildFormWidget(HWND parent)
 {
@@ -850,7 +858,7 @@ SoWinComponent::windowCloseAction(void)
 } // windowCloseAction()
 
 /*!
-*/  
+*/
 void
 SoWinComponent::afterRealizeHook(void) // virtual
 {
@@ -999,9 +1007,10 @@ SoWinComponentP::getNativeCursor(const SoWinCursor::CustomCursor * cc)
 /*!
   Sets the cursor for this component.
 */
-void 
+void
 SoWinComponent::setComponentCursor(const SoWinCursor & cursor)
 {
+  PRIVATE(this)->cursor = &cursor;
   SoWinComponent::setWidgetCursor(this->getWidget(), cursor);
 }
 
