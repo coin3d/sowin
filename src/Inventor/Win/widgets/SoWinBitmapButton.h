@@ -33,11 +33,11 @@ typedef void bitmapButtonCB( SoWinFullViewer * viewer, void ** data );
 
 class SOWIN_DLL_API SoWinBitmapButton {
 public:
-  SoWinBitmapButton( HWND parent = 0,
-		                 int x = 0,
-		                 int y = 0,
-		                 int width = 24,
-		                 int height = 24,
+  SoWinBitmapButton( HWND parent,
+		                 int x,
+		                 int y,
+		                 int width = 30,
+		                 int height = 30,
 		                 int depth = 0,
 		                 const char * name = NULL,
 										 void * bits = NULL );

@@ -323,15 +323,15 @@ SoWinThumbWheel::move( int x, int y, int width, int height )
 		MoveWindow( this->labelWindow,
 			          x + labelOffset.x,
 			          y + this->height( ) + labelOffset.y,
-			          textSize.cx,
-			          textSize.cy,
+			          textSize.cx + 2,
+			          textSize.cy + 2,
 			          TRUE );
 	else
 		MoveWindow( this->labelWindow,
 			          x - textSize.cx + labelOffset.x,
 			          y + labelOffset.y,
-			          textSize.cx,
-			          textSize.cy,
+			          textSize.cx + 2,
+			          textSize.cy + 2,
 			          TRUE );
 }
 
@@ -488,6 +488,19 @@ void
 SoWinThumbWheel::setLabelText( char * text )
 {
 	SetWindowText( this->labelWindow, text );
+	/*
+	RECT rect;
+	GetWindowRect( this->labelWindow, & rect );
+
+	int len = strlen( text );
+
+	HDC hdc = GetDC( this->labelWindow );
+
+	SIZE size;
+	GetTextExtentPoint( hdc, text, len, & size );
+	
+	MoveWindow( this->labelWindow, rect.left, rect.top, size.cx, size.cy, TRUE );
+	*/
 }
 
 void

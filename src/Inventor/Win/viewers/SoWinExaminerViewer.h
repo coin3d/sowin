@@ -85,6 +85,9 @@ protected:
 
   virtual void afterRealizeHook( void );
 
+	// Button clicked
+	virtual void cameratoggleClicked( void );
+
 private:
   void constructor( SbBool build );
   void setCursorRepresentation( int mode );

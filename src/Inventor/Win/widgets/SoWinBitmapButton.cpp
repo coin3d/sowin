@@ -55,10 +55,15 @@ SoWinBitmapButton::SoWinBitmapButton( HWND button )
 {
 	assert( IsWindow( button) );
 
-	// FIXME: check if button has BS_BITMAP style
+	char name[8];
+	GetClassName( button, name, 8 );
+	assert( strcmp( name, "BUTTON" ) == 0 );
 	
 	this->constructor( );
 	this->buttonWindow = button;
+	this->addBitmap( ( HBITMAP ) (
+		SendMessage( this->buttonWindow, BM_GETIMAGE, ( WPARAM ) IMAGE_BITMAP, 0 )
+		) );
 } // SoWinBitmapButton()
 
 SoWinBitmapButton::~SoWinBitmapButton( void )

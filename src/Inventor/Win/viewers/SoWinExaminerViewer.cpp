@@ -199,20 +199,7 @@ void
 SoWinExaminerViewer::setCamera( // virtual
   SoCamera * newCamera )
 {
-  if ( newCamera ) {
-    SoType camtype = newCamera->getTypeId( );
-    SbBool orthotype =
-      camtype.isDerivedFrom( SoOrthographicCamera::getClassTypeId( ) );
-
-		this->setRightWheelString(orthotype ? "Zoom" : "Dolly");
-//      if ( this->cameratogglebutton ) {
-//        this->cameratogglebutton->setPixmap( orthotype ?
-//                                            * ( this->orthopixmap ) :
-//                                            * ( this->perspectivepixmap ) );
-//      }
-  }
-
-  inherited::setCamera(newCamera);
+  inherited::setCamera( newCamera );
 } // setCamera()
 
 // *************************************************************************
@@ -601,6 +588,14 @@ SoWinExaminerViewer::afterRealizeHook( // virtual
   this->setCursorRepresentation( this->common->currentmode );
   inherited::afterRealizeHook( );
 } // afterRealizeHook()
+
+
+void
+SoWinExaminerViewer::cameratoggleClicked( void ) // virtual
+{
+  if ( this->getCamera( ) ) this->toggleCameraType( );
+}
+
 
 // *************************************************************************
 
