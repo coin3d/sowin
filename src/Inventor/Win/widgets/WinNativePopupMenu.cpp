@@ -26,12 +26,12 @@ static const char rcsid[] =
 #include <Inventor/errors/SoDebugError.h>
 
 #include <sowindefs.h>
-#include <Inventor/Win/widgets/SoWinPopupMenu.h>
+#include <Inventor/Win/widgets/WinNativePopupMenu.h>
 #include <Inventor/Win/Win32API.h>
 
 /*!
-  \class SoWinPopupMenu Inventor/Win/widgets/SoWinPopupMenu.h
-  \brief The SoWinPopupMenu class implements a common interface for popup
+  \class WinNativePopupMenu Inventor/Win/widgets/WinNativePopupMenu.h
+  \brief The WinNativePopupMenu class implements a common interface for popup
   menu management for all the Coin GUI toolkit libraries.
 */
 
@@ -60,16 +60,16 @@ struct ItemRecord {
 
 // *************************************************************************
 
-SoWinPopupMenu::SoWinPopupMenu(void)
+WinNativePopupMenu::WinNativePopupMenu(void)
 {
   this->menus = new SbPList;
   this->items = new SbPList;
 
   this->notify = FALSE;
   this->selectedItem = -1;
-} // SoWinPopupMenu()
+} // WinNativePopupMenu()
 
-SoWinPopupMenu::~SoWinPopupMenu(void)
+WinNativePopupMenu::~WinNativePopupMenu(void)
 {
   const int numMenus = this->menus->getLength();
   HMENU popup = NULL;
@@ -93,12 +93,12 @@ SoWinPopupMenu::~SoWinPopupMenu(void)
 
   // delete root popup menu
   delete popup;
-} // ~SoWinPopupMenu()
+} // ~WinNativePopupMenu()
 
 // *************************************************************************
 
 int
-SoWinPopupMenu::newMenu(const char * name, int menuid)
+WinNativePopupMenu::newMenu(const char * name, int menuid)
 {
   int id = menuid;
   if (id == -1) {
@@ -116,7 +116,7 @@ SoWinPopupMenu::newMenu(const char * name, int menuid)
 } // newMenu()
 
 int
-SoWinPopupMenu::getMenu(const char * name)
+WinNativePopupMenu::getMenu(const char * name)
 {
   const int numMenus = this->menus->getLength();
   int i;
@@ -129,7 +129,7 @@ SoWinPopupMenu::getMenu(const char * name)
 } // getMenu()
 
 void
-SoWinPopupMenu::setMenuTitle(int menuid, const char * title)
+WinNativePopupMenu::setMenuTitle(int menuid, const char * title)
 {
   MenuRecord * rec = this->getMenuRecord(menuid);
   assert(rec != NULL && "no such menu");
@@ -142,7 +142,7 @@ SoWinPopupMenu::setMenuTitle(int menuid, const char * title)
 } // setMenuTitle()
 
 const char *
-SoWinPopupMenu::getMenuTitle(int menuid)
+WinNativePopupMenu::getMenuTitle(int menuid)
 {
   MenuRecord * rec = this->getMenuRecord(menuid);
   assert(rec != NULL && "no such menu");
@@ -152,7 +152,7 @@ SoWinPopupMenu::getMenuTitle(int menuid)
 // *************************************************************************
 
 int
-SoWinPopupMenu::newMenuItem(const char * name, int itemid)
+WinNativePopupMenu::newMenuItem(const char * name, int itemid)
 {
   int id = itemid;
   if (id == -1) {
@@ -161,7 +161,7 @@ SoWinPopupMenu::newMenuItem(const char * name, int itemid)
   } else {
     if (this->getItemRecord(itemid) != NULL) {
 #if SOWIN_DEBUG
-      SoDebugError::postInfo("SoWinPopupMenu::newMenuItem",
+      SoDebugError::postInfo("WinNativePopupMenu::newMenuItem",
                               "requested itemid already taken");
 #endif // SOWIN_DEBUG
       return -1;
@@ -174,7 +174,7 @@ SoWinPopupMenu::newMenuItem(const char * name, int itemid)
 } // newMenuItem()
 
 int
-SoWinPopupMenu::getMenuItem(const char * name)
+WinNativePopupMenu::getMenuItem(const char * name)
 {
   const int numItems = this->items->getLength();
   int i;
@@ -185,7 +185,7 @@ SoWinPopupMenu::getMenuItem(const char * name)
 } // getMenuItem()
 
 void
-SoWinPopupMenu::setMenuItemTitle(int itemid, const char * title)
+WinNativePopupMenu::setMenuItemTitle(int itemid, const char * title)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
   assert(rec != NULL && "no such menu");
@@ -197,7 +197,7 @@ SoWinPopupMenu::setMenuItemTitle(int itemid, const char * title)
 } // setMenuItemTitle()
 
 const char *
-SoWinPopupMenu::getMenuItemTitle(int itemid)
+WinNativePopupMenu::getMenuItemTitle(int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
   assert(rec != NULL && "no such menu");
@@ -205,7 +205,7 @@ SoWinPopupMenu::getMenuItemTitle(int itemid)
 } // getMenuItemTitle()
 
 void
-SoWinPopupMenu::setMenuItemEnabled(int itemid, SbBool enabled)
+WinNativePopupMenu::setMenuItemEnabled(int itemid, SbBool enabled)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
 
@@ -232,7 +232,7 @@ SoWinPopupMenu::setMenuItemEnabled(int itemid, SbBool enabled)
 } // setMenuItemEnabled()
 
 SbBool
-SoWinPopupMenu::getMenuItemEnabled(int itemid)
+WinNativePopupMenu::getMenuItemEnabled(int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
   
@@ -248,7 +248,7 @@ SoWinPopupMenu::getMenuItemEnabled(int itemid)
 } // getMenuItemEnabled()
 
 void
-SoWinPopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
+WinNativePopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
 
@@ -276,7 +276,7 @@ SoWinPopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
 } // setMenuItemMarked()
 
 SbBool
-SoWinPopupMenu::getMenuItemMarked(int itemid)
+WinNativePopupMenu::getMenuItemMarked(int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
   assert(rec != NULL && "no such menu");
@@ -295,7 +295,7 @@ SoWinPopupMenu::getMenuItemMarked(int itemid)
 // *************************************************************************
 
 void
-SoWinPopupMenu::addMenu(int menuid, int submenuid, int pos)
+WinNativePopupMenu::addMenu(int menuid, int submenuid, int pos)
 {
   MenuRecord * super = this->getMenuRecord(menuid);
   MenuRecord * sub = this->getMenuRecord(submenuid);
@@ -318,7 +318,7 @@ SoWinPopupMenu::addMenu(int menuid, int submenuid, int pos)
 } // addMenu()
 
 void
-SoWinPopupMenu::addMenuItem(int menuid, int itemid, int pos)
+WinNativePopupMenu::addMenuItem(int menuid, int itemid, int pos)
 {
   MenuRecord * menu = this->getMenuRecord(menuid);
   ItemRecord * item = this->getItemRecord(itemid);
@@ -332,7 +332,7 @@ SoWinPopupMenu::addMenuItem(int menuid, int itemid, int pos)
 } // addMenuItem()
 
 void
-SoWinPopupMenu::addSeparator(int menuid, int pos)
+WinNativePopupMenu::addSeparator(int menuid, int pos)
 {
   MenuRecord * menu = this->getMenuRecord(menuid);
   assert(menu != NULL && "no such menu");
@@ -344,7 +344,7 @@ SoWinPopupMenu::addSeparator(int menuid, int pos)
 } // addSeparator()
 
 void
-SoWinPopupMenu::removeMenu(int menuid)
+WinNativePopupMenu::removeMenu(int menuid)
 {
   MenuRecord * rec = this->getMenuRecord(menuid);
   assert(rec != NULL && "no such menu");
@@ -352,13 +352,13 @@ SoWinPopupMenu::removeMenu(int menuid)
   // FIXME: just assumes root-menu has id==0. Bad. 20010810 mortene.
   if (rec->menuid == 0) {
 #if SOWIN_DEBUG
-    SoDebugError::postInfo("SoWinPopupMenu::removeMenu", "can't remove root");
+    SoDebugError::postInfo("WinNativePopupMenu::removeMenu", "can't remove root");
 #endif // SOWIN_DEBUG
     return;
   }
   if (rec->parent == NULL) {
 #if SOWIN_DEBUG
-    SoDebugError::postInfo("SoWinPopupMenu::removeMenu", "menu not attached");
+    SoDebugError::postInfo("WinNativePopupMenu::removeMenu", "menu not attached");
 #endif // SOWIN_DEBUG
     return;
   }
@@ -367,13 +367,13 @@ SoWinPopupMenu::removeMenu(int menuid)
 } // removeMenu()
 
 void
-SoWinPopupMenu::removeMenuItem(int itemid)
+WinNativePopupMenu::removeMenuItem(int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
   assert(rec != NULL && "no such menu");
   if (rec->parent == NULL) {
 #if SOWIN_DEBUG
-    SoDebugError::postInfo("SoWinPopupMenu::removeMenuItem", "item not attached");
+    SoDebugError::postInfo("WinNativePopupMenu::removeMenuItem", "item not attached");
 #endif // SOWIN_DEBUG
     return;
   }
@@ -384,7 +384,7 @@ SoWinPopupMenu::removeMenuItem(int itemid)
 // *************************************************************************
 
 void
-SoWinPopupMenu::popUp(HWND inside, int x, int y)
+WinNativePopupMenu::popUp(HWND inside, int x, int y)
 {
 
   MenuRecord * menurec = this->getMenuRecord(0);
@@ -409,13 +409,13 @@ SoWinPopupMenu::popUp(HWND inside, int x, int y)
 } // popUp()
 
 int
-SoWinPopupMenu::getSelectedItem(void)
+WinNativePopupMenu::getSelectedItem(void)
 {
  return (this->selectedItem);
 } // getSelectedItem()
 
 void
-SoWinPopupMenu::setNotify(SbBool enable)
+WinNativePopupMenu::setNotify(SbBool enable)
 {
  this->notify = enable;
 } // setNotify()
@@ -423,7 +423,7 @@ SoWinPopupMenu::setNotify(SbBool enable)
 // *************************************************************************
 
 MenuRecord *
-SoWinPopupMenu::getMenuRecord(int menuid)
+WinNativePopupMenu::getMenuRecord(int menuid)
 {
   const int numMenus = this->menus->getLength();
   int i;
@@ -434,7 +434,7 @@ SoWinPopupMenu::getMenuRecord(int menuid)
 } // getMenuRecord()
 
 ItemRecord *
-SoWinPopupMenu::getItemRecord(int itemid)
+WinNativePopupMenu::getItemRecord(int itemid)
 {
   const int numItems = this->items->getLength();
   int i;
@@ -449,7 +449,7 @@ SoWinPopupMenu::getItemRecord(int itemid)
 // *************************************************************************
 
 MenuRecord *
-SoWinPopupMenu::createMenuRecord(const char * name)
+WinNativePopupMenu::createMenuRecord(const char * name)
 {
   MenuRecord * rec = new MenuRecord;
   rec->menuid = -1;
@@ -461,7 +461,7 @@ SoWinPopupMenu::createMenuRecord(const char * name)
 } // create()
 
 ItemRecord *
-SoWinPopupMenu::createItemRecord(const char * name)
+WinNativePopupMenu::createItemRecord(const char * name)
 {
   ItemRecord * rec = new ItemRecord;
   rec->itemid = -1;
@@ -475,7 +475,7 @@ SoWinPopupMenu::createItemRecord(const char * name)
 // *************************************************************************
 
 void
-SoWinPopupMenu::itemActivation(int itemid)
+WinNativePopupMenu::itemActivation(int itemid)
 {
   inherited::invokeMenuSelection(itemid);
 } // menuSelection()

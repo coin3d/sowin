@@ -263,7 +263,7 @@ SoGuiBuiltFiles = \
 @BUILD_METAFILES_FALSE@SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles = 
 
 @BUILD_METAFILES_TRUE@SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles = \
-@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@PopupMenu.cpp \
+@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.cpp
 
@@ -385,8 +385,8 @@ DISTCLEANFILES = \
 libSoWinWidgets_la_SOURCES = \
 	SoWinThumbWheel.cpp \
 	SoWinThumbWheel.h \
-	SoWinPopupMenu.cpp \
-	SoWinPopupMenu.h \
+	WinNativePopupMenu.cpp \
+	WinNativePopupMenu.h \
 	SoWinBitmapButton.cpp \
 	SoWinBitmapButton.h \
         SoWinViewerPrefSheet.cpp \
@@ -404,8 +404,8 @@ nodist_libSoWinWidgets_la_SOURCES = \
 widgets_lst_SOURCES = \
 	SoWinThumbWheel.cpp \
 	SoWinThumbWheel.h \
-	SoWinPopupMenu.cpp \
-	SoWinPopupMenu.h \
+	WinNativePopupMenu.cpp \
+	WinNativePopupMenu.h \
 	SoWinBitmapButton.cpp \
 	SoWinBitmapButton.h \
         SoWinViewerPrefSheet.cpp \
@@ -424,7 +424,7 @@ LIBRARIES = $(noinst_LIBRARIES)
 widgets_lst_AR = $(AR) cru
 widgets_lst_LIBADD =
 am_widgets_lst_OBJECTS = SoWinThumbWheel.$(OBJEXT) \
-	SoWinPopupMenu.$(OBJEXT) SoWinBitmapButton.$(OBJEXT) \
+	WinNativePopupMenu.$(OBJEXT) SoWinBitmapButton.$(OBJEXT) \
 	SoWinViewerPrefSheet.$(OBJEXT)
 nodist_widgets_lst_OBJECTS = SoAnyThumbWheel.$(OBJEXT) \
 	SoAnyPopupMenu.$(OBJEXT)
@@ -434,7 +434,7 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoWinWidgets_la_LDFLAGS =
 libSoWinWidgets_la_LIBADD =
-am_libSoWinWidgets_la_OBJECTS = SoWinThumbWheel.lo SoWinPopupMenu.lo \
+am_libSoWinWidgets_la_OBJECTS = SoWinThumbWheel.lo WinNativePopupMenu.lo \
 	SoWinBitmapButton.lo SoWinViewerPrefSheet.lo
 nodist_libSoWinWidgets_la_OBJECTS = SoAnyThumbWheel.lo SoAnyPopupMenu.lo
 libSoWinWidgets_la_OBJECTS = $(am_libSoWinWidgets_la_OBJECTS) \
@@ -451,12 +451,12 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/SoAnyThumbWheel.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinBitmapButton.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinBitmapButton.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoWinPopupMenu.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoWinPopupMenu.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinThumbWheel.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinThumbWheel.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinViewerPrefSheet.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoWinViewerPrefSheet.Po
+@AMDEP_TRUE@	$(DEPDIR)/SoWinViewerPrefSheet.Po \
+@AMDEP_TRUE@	$(DEPDIR)/WinNativePopupMenu.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/WinNativePopupMenu.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -530,12 +530,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyThumbWheel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinBitmapButton.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinBitmapButton.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinPopupMenu.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinPopupMenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinThumbWheel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinThumbWheel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinViewerPrefSheet.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinViewerPrefSheet.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/WinNativePopupMenu.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/WinNativePopupMenu.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -1028,10 +1028,10 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 @BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h`"; \
 @BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h` )
 
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@PopupMenu.cpp: $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.h $(top_builddir)/config.status
+@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.cpp: $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@PopupMenu.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@PopupMenu.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.h` )
+@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h` )
 
 ############################################################################
 #	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)

@@ -35,8 +35,8 @@ DISTCLEANFILES = \
 libSoWinWidgets_la_SOURCES = \
 	SoWinThumbWheel.cpp \
 	SoWinThumbWheel.h \
-	SoWinPopupMenu.cpp \
-	SoWinPopupMenu.h \
+	WinNativePopupMenu.cpp \
+	WinNativePopupMenu.h \
 	SoWinBitmapButton.cpp \
 	SoWinBitmapButton.h \
         SoWinViewerPrefSheet.cpp \
@@ -52,8 +52,8 @@ nodist_libSoWinWidgets_la_SOURCES = \
 widgets_lst_SOURCES = \
 	SoWinThumbWheel.cpp \
 	SoWinThumbWheel.h \
-	SoWinPopupMenu.cpp \
-	SoWinPopupMenu.h \
+	WinNativePopupMenu.cpp \
+	WinNativePopupMenu.h \
 	SoWinBitmapButton.cpp \
 	SoWinBitmapButton.h \
         SoWinViewerPrefSheet.cpp \

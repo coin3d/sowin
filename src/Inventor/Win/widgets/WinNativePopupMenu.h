@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef SOWIN_POPUPMENU_H
-#define SOWIN_POPUPMENU_H
+#ifndef SOWIN_WINNATIVEPOPUPMENU_H
+#define SOWIN_WINNATIVEPOPUPMENU_H
 
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/widgets/SoAnyPopupMenu.h>
@@ -30,12 +30,12 @@
 struct MenuRecord;
 struct ItemRecord;
 
-class SOWIN_DLL_API SoWinPopupMenu : public SoAnyPopupMenu {
+class SOWIN_DLL_API WinNativePopupMenu : public SoAnyPopupMenu {
   typedef SoAnyPopupMenu inherited;
 
 public:
-  SoWinPopupMenu(void);
-  ~SoWinPopupMenu(void);
+  WinNativePopupMenu(void);
+  ~WinNativePopupMenu(void);
 
   virtual int newMenu(const char * name, int menuid = -1);
   virtual int getMenu(const char * name);
@@ -76,8 +76,8 @@ private:
   SbBool notify;
 
   int selectedItem;
-};  // class SoWinPopupMenu
+};  // class WinNativePopupMenu
 
 // *************************************************************************
 
-#endif // ! SOWIN_POPUPMENU_H
+#endif // ! SOWIN_WINNATIVEPOPUPMENU_H
