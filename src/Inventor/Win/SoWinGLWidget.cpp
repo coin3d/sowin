@@ -1202,6 +1202,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
   this->hdcNormal = GetDC(window);
   assert(this->hdcNormal && "GetDC failed -- investigate");
   this->hdcOverlay = this->hdcNormal;
+  this->glRealised = FALSE; // so that initGraphic() is executed for the new context
 
   SbBool didtry = FALSE;
 
