@@ -470,9 +470,6 @@ if $BUILD_WITH_MSVC; then
     SIM_AC_CONFIGURATION_SETTING([SoWin build type], [static .lib])
     LIBFLAGS="-LIB"
     LIBFLAGS="$LIBFLAGS /OUT:sowin$SOWIN_MAJOR_VERSION$SUFFIX.lib"
-    SOWIN_EXTRA_CPPFLAGS="-I$includedir"
-    SOWIN_EXTRA_LDFLAGS="-L$libdir"
-    SOWIN_EXTRA_LIBS=
   else
     LIBFLAGS="-DLL /INCREMENTAL:NO"
     case $enable_symbols in
