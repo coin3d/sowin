@@ -96,6 +96,8 @@ AC_PROG_LIBTOOL
 
 # These are used for constructing the sowin-config file.
 AC_SUBST([SOGUI_EXTRA_CPPFLAGS], [$CPPFLAGS])
+AC_SUBST([SOGUI_EXTRA_CFLAGS], [$CFLAGS])
+AC_SUBST([SOGUI_EXTRA_CXXFLAGS], [$CXXFLAGS])
 AC_SUBST([SOGUI_EXTRA_LDFLAGS], [$LDFLAGS])
 AC_SUBST([SOGUI_EXTRA_LIBS], [$LIBS])
 
@@ -140,19 +142,12 @@ fi
 # **************************************************************************
 # Variable substitutions for using libSoWin in the generic code.
 
-GUI=WIN
-Gui=Win
-gui=win
-WIDGET="HWND"
-EVENT="MSG *"
-COMPONENTHEADER=""
-
-AC_SUBST(Gui)
-AC_SUBST(gui)
-AC_SUBST(GUI)
-AC_SUBST(WIDGET)
-AC_SUBST(EVENT)
-AC_SUBST(COMPONENTHEADER)
+AC_SUBST([Gui], [Win])
+AC_SUBST([gui], [win])
+AC_SUBST([GUI], [WIN])
+AC_SUBST([WIDGET], [HWND])
+AC_SUBST([EVENT], ["MSG *"])
+AC_SUBST([COMPONENTHEADER], [])
 
 if $sim_ac_build_library; then
 # **************************************************************************
