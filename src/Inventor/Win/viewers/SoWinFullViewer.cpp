@@ -22,6 +22,7 @@
 #include <Inventor/errors/SoDebugError.h>
 
 #include <sowindefs.h>
+#include <Inventor/Win/Win32API.h>
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
@@ -1149,15 +1150,13 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
   assert( IsWindow( this->owner->renderAreaWidget ) );
 
   if ( this->decorations ) {
-    BOOL r = MoveWindow( this->owner->renderAreaWidget, DECORATION_SIZE, 0,
-                         cx - ( 2 * DECORATION_SIZE ), cy - DECORATION_SIZE,
-                         repaint );
-    assert( r && "MoveWindow() failed -- investigate" );
+    Win32::MoveWindow( this->owner->renderAreaWidget, DECORATION_SIZE, 0,
+                       cx - ( 2 * DECORATION_SIZE ), cy - DECORATION_SIZE,
+                       repaint );
   }
   else {
-    BOOL r = MoveWindow( this->owner->renderAreaWidget, 0, 0, cx, cy,
-                         repaint );
-    assert( r && "MoveWindow() failed -- investigate" );
+    Win32::MoveWindow( this->owner->renderAreaWidget, 0, 0, cx, cy,
+                       repaint );
     return 0;
   }
 
@@ -1169,10 +1168,9 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
 
     // App buttons
     for( i = 0; i < numAppButtons; i++ ) {
-      BOOL r = MoveWindow( APPBUTTON_O( i ),
-                           0, ( DECORATION_SIZE * ( i + numViewerButtons ) ),
-                           DECORATION_SIZE, DECORATION_SIZE, repaint );
-      assert( r && "MoveWindow() failed -- investigate" );
+      Win32::MoveWindow( APPBUTTON_O( i ),
+                         0, ( DECORATION_SIZE * ( i + numViewerButtons ) ),
+                         DECORATION_SIZE, DECORATION_SIZE, repaint );
     }
   }
 

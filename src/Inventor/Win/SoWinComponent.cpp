@@ -34,6 +34,7 @@
 #include <Inventor/Win/viewers/SoWinFullViewer.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
 #include <sowindefs.h> // SOWIN_STUB
+#include <Inventor/Win/Win32API.h>
 
 // *************************************************************************
 
@@ -238,13 +239,12 @@ SoWinComponent::goFullScreen( const SbBool enable )
 
     data->widget = hwnd;
 
-    r = MoveWindow( hwnd,
-                    0,
-                    0,
-                    GetSystemMetrics( SM_CXSCREEN ),
-                    GetSystemMetrics( SM_CYSCREEN ),
-                    TRUE );
-    assert( r && "MoveWindow() failed -- investigate" );
+    Win32::MoveWindow( hwnd,
+                       0,
+                       0,
+                       GetSystemMetrics( SM_CXSCREEN ),
+                       GetSystemMetrics( SM_CYSCREEN ),
+                       TRUE );
     
     // Add to list of fullscreen windows
     SoWinComponentP::sowinfullscreenlist->append( data );
@@ -276,13 +276,12 @@ SoWinComponent::goFullScreen( const SbBool enable )
     l = SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
     assert( ! ( l==0 && GetLastError()!= 0 ) && "SetWindowLong() failed -- investigate" );
 
-    BOOL r = MoveWindow( hwnd,
-                         data->pos[0],
-                         data->pos[1],
-                         data->size[0],
-                         data->size[1],
-                         TRUE );
-    assert( r && "MoveWindow() failed -- investigate" );
+    Win32::MoveWindow( hwnd,
+                       data->pos[0],
+                       data->pos[1],
+                       data->size[0],
+                       data->size[1],
+                       TRUE );
     
     // Remove from list of fullscreen windows
     SoWinComponentP::sowinfullscreenlist->remove( i );

@@ -24,6 +24,7 @@ static const char rcsid[] =
 #include <Inventor/Win/widgets/SoAnyThumbWheel.h>
 #include <Inventor/Win/SoWin.h>
 #include <sowindefs.h>
+#include <Inventor/Win/Win32API.h>
 
 #include <math.h>
 #include <assert.h>

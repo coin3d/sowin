@@ -30,6 +30,7 @@ static const char rcsid[] =
 #include <Inventor/Win/viewers/SoAnyExaminerViewer.h>
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoWinViewerPrefSheet.h>
+#include <Inventor/Win/Win32API.h>
 
 #define AXES_SIZE_FROM_WHEEL( value ) ( value * 10 )
 #define AXES_SIZE_TO_WHEEL( value ) ( value / 10 )
@@ -69,14 +70,13 @@ void SoWinViewerPrefSheet::size( void )
   r = GetWindowRect( this->mainWidget, & rect );
   assert( r && "GetWindowRect() failed -- investigate" );
 
-  r = MoveWindow( this->mainWidget,
-                  rect.left,
-                  rect.top,
-                  // FIXME no adjustment to width yet
-                  ( rect.right - rect.left ),
-                  ( rect.bottom - rect.top ) + ( ( this->y + 10 )  - height ),
-                  TRUE );
-  assert( r && "MoveWindow() failed -- investigate" );
+  Win32::MoveWindow( this->mainWidget,
+                     rect.left,
+                     rect.top,
+                     // FIXME no adjustment to width yet
+                     ( rect.right - rect.left ),
+                     ( rect.bottom - rect.top ) + ( ( this->y + 10 )  - height ),
+                     TRUE );
 }
 
 void SoWinViewerPrefSheet::destroy( void )

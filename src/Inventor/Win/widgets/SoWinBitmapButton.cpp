@@ -24,6 +24,7 @@ static const char rcsid[] =
 #include <Inventor/Win/widgets/SoWinBitmapButton.h>
 #include <Inventor/Win/SoWin.h>
 #include <sowindefs.h>
+#include <Inventor/Win/Win32API.h>
 
 #include <assert.h>
 #include <stdio.h>
@@ -118,8 +119,7 @@ void
 SoWinBitmapButton::move( int x, int y, int width, int height )
 {
   assert( IsWindow( this->buttonWindow ) );
-  BOOL r = MoveWindow( this->buttonWindow, x, y, width, height, FALSE );
-  assert( r && "MoveWindow() failed -- investigate" );
+  Win32::MoveWindow( this->buttonWindow, x, y, width, height, FALSE );
 }
 
 void
