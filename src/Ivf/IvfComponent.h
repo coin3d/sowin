@@ -46,11 +46,11 @@ public:
   void IvfViewmodesSelectionmode(void);
   void IvfViewmodesViewingmode(void);
 
+  // IVF_COMPONENT_BASE:
   virtual void IvfSetSceneGraph(SoNode * root) = 0;
   virtual SoNode * IvfGetSceneGraph(void) = 0;
   virtual SoNode * IvfGetBaseViewerSceneGraph(void) = 0;
   virtual void IvfReleaseSceneGraph(void) = 0;
-
   virtual void IvfSetBackgroundColor(SbColor & background) = 0;
   virtual void IvfSetHeadlight(BOOL enable) = 0;
   virtual BOOL IvfIsHeadlight(void) = 0;
@@ -160,7 +160,7 @@ protected:
     
   virtual BOOL IvfOnCommand(WPARAM wParam, LPARAM lParam);
 
-  virtual BOOL IvfOnCmdMsg(UINT id, int code, void * axtra,
+  virtual BOOL IvfOnCmdMsg(UINT id, int code, void * extra,
                            AFX_CMDHANDLERINFO * info) ;
 
   virtual void IvfOnSelectViewAnchors(void);
@@ -226,7 +226,7 @@ ComponentName::IVF_MFC_ON_UPD_METHOD_NAME(CmdName)(CCmdUI * cmd)            \
 {                                                                           \
   IVF_ON_UPD_METHOD_NAME(CmdName)(cmd);                                     \
 }
- 
+
 #define IVF_COMMAND_HANDLER_BETA2(ComponentName, ViewerName, CmdName)       \
 void                                                                        \
 ComponentName::IVF_MFC_ON_METHOD_NAME(CmdName)(void)                        \
@@ -238,6 +238,6 @@ void                                                                        \
 ComponentName::IVF_MFC_ON_UPD_METHOD_NAME(CmdName)(CCmdUI * cmd)            \
 {                                                                           \
   IVF_ON_UPD_METHOD_NAME(CmdName)(cmd);                                     \
-}  
+}
 
 #endif // !IVF_COMPONENT_H

@@ -20,7 +20,12 @@ ivf_lst_SOURCES = \
 	IvfSceneViewer.cpp Viewers/IvfSceneViewer.h \
 	IvfSrvrItem.cpp IvfSrvrItem.h \
 	IvfStdViewer.cpp Viewers/IvfStdViewer.h \
-	IvfWalkViewer.cpp Viewers/IvfWalkViewer.h
+	IvfWalkViewer.cpp Viewers/IvfWalkViewer.h \
+	SoSceneMenu.cpp Viewers/SoSceneMenu.h \
+	SoSceneViewer.cpp Viewers/SoSceneViewer.h \
+	SvManipList.cpp Viewers/SvManipList.h
+
+ivf_lst_CPPFLAGS = -DIVF_DLL_API="__declspec(dllexport)"
 
 ivfincdir = $(includedir)/Ivf
 ivfinc_HEADERS = \
@@ -43,7 +48,10 @@ ivfviewersinc_HEADERS = \
 	Viewers/IvfRenderArea.h \
 	Viewers/IvfSceneViewer.h \
 	Viewers/IvfStdViewer.h \
-	Viewers/IvfWalkViewer.h
+	Viewers/IvfWalkViewer.h \
+	Viewers/SoSceneMenu.h \
+	Viewers/SoSceneViewer.h \
+	Viewers/SvManipList.h
 
 ivf.lst: Makefile $(ivf_lst_OBJECTS)
 	@echo "Linking ivf.lst..."; \

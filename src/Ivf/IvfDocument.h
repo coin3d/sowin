@@ -69,7 +69,7 @@ public:
   virtual void IvfSetSceneGraph(SoSeparator * root);
   SoSeparator * IvfGetDocSceneGraph(void);
 
-  SoCamera * IvfGetActiveCamera(int in_idx = -1);
+  SoCamera * IvfGetActiveCamera(int idx = -1);
   int IvfGetActiveCameraIX(void);
   SoGroup * IvfGetActiveCamParent(void);
   SbPList * IvfGetCameraList(void);
