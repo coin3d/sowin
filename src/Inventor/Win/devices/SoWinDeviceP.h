@@ -27,9 +27,10 @@
 #define MK_ALT 0x02
 #endif
 
-class SoWinDeviceP {
+class SoWinDeviceP : public SoGuiDeviceP {
 public:
-  SbVec2s size;
+  SoQtDeviceP(SoQtDevice * p) : SoGuiDeviceP(p) { }
+  virtual ~SoQtDeviceP() { }
 
   // FIXME: ugly hack done by mariusbu to share this define between
   // SoWinMouse and SoWinKeyboard. Should instead find out how we

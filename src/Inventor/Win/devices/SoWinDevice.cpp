@@ -17,101 +17,24 @@
  *
  **************************************************************************/
 
-#include <assert.h>
-
-#if SOWIN_DEBUG
-#include <Inventor/errors/SoDebugError.h>
-#endif // SOWIN_DEBUG
-
-#include <Inventor/misc/SoBasic.h>
-#include <Inventor/events/SoEvent.h>
-
 #include <sowindefs.h>
 #include <Inventor/Win/devices/SoWinDevice.h>
 #include <Inventor/Win/devices/SoWinDeviceP.h>
-#include <Inventor/Win/devices/SoWinInputFocus.h>
-#include <Inventor/Win/devices/SoWinKeyboard.h>
-#include <Inventor/Win/devices/SoWinMouse.h>
-#include <Inventor/Win/devices/SoWinSpaceball.h>
 
 // *************************************************************************
 
 long SoWinDeviceP::modifierKeys = 0;
 
-#define PRIVATE(p) (p->pimpl)
-
-// *************************************************************************
-
-SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinDevice);
-
-void
-SoWinDevice::initClasses(void)
-{
-  SoWinDevice::initClass();
-  SoWinInputFocus::initClass();
-  SoWinKeyboard::initClass();
-  SoWinMouse::initClass();
-  SoWinSpaceball::initClass();
-}
-
 // *************************************************************************
 
 SoWinDevice::SoWinDevice(void)
 {
-  PRIVATE(this) = new SoWinDeviceP;
-  PRIVATE(this)->size = SbVec2s(0, 0);
+  PRIVATE(this) = new SoWinDeviceP(this);
 }
 
 SoWinDevice::~SoWinDevice()
 {
   delete PRIVATE(this);
-}
-
-void
-SoWinDevice::setWindowSize(const SbVec2s newSize)
-{
-  PRIVATE(this)->size = newSize;
-}
-
-SbVec2s
-SoWinDevice::getWindowSize(void) const
-{
-  return PRIVATE(this)->size;
-}
-
-void
-SoWinDevice::setEventPosition(SoEvent *event, int x, int y) const
-{
-  assert(event != NULL);
-  SbVec2s position(x, PRIVATE(this)->size[1] - y - 1);
-  event->setPosition(position);
-}
-
-// *************************************************************************
-
-SbVec2s
-SoWinDevice::getLastEventPosition(void)
-{
-  // FIXME: implementation missing for SoWin (but present on other So*
-  // toolkits (?)). 20020624 mortene.
-  SOWIN_STUB();
-  return SbVec2s(0, 0);
-}
-
-void
-SoWinDevice::addEventHandler(HWND, SoWinEventHandler *, void *)
-{
-  // FIXME: implementation missing for SoWin (but present on other So*
-  // toolkits (?)). 20020624 mortene.
-  SOWIN_STUB();
-}
-
-void
-SoWinDevice::removeEventHandler(HWND, SoWinEventHandler *, void *)
-{
-  // FIXME: implementation missing for SoWin (but present on other So*
-  // toolkits (?)). 20020624 mortene.
-  SOWIN_STUB();
 }
 
 void
