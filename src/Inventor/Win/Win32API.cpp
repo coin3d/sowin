@@ -333,8 +333,9 @@ Win32::EnableMenuItem(HMENU hMenu,         // handle to menu
                       )
 {
   BOOL r = ::EnableMenuItem(hMenu, uIDEnableItem, uEnable);
-  if (!r) { Win32::showLastErr(); }  
-  assert( r && "EnableMenuItem() failed -- investigate" );
+  BOOL failed = r == 0xFFFFFFFF;
+  if (failed) { Win32::showLastErr(); }  
+  assert( !failed && "EnableMenuItem() failed -- investigate" );
 }
 
 void
