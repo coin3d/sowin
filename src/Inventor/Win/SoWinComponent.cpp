@@ -65,15 +65,28 @@ public:
     this->cursor = NULL;
     this->parent = NULL;
 
-    if (! SoWinComponentP::sowincomplist)
+    if (! SoWinComponentP::sowincomplist) {
       SoWinComponentP::sowincomplist = new SbPList;
+    }
     SoWinComponentP::sowincomplist->append((void *) this->owner);
+#if SOWIN_DEBUG && 0 // debug
+    SoDebugError::postInfo("SoWinComponentP::SoWinComponentP",
+                           "add %p to sowincomplist %p",
+                           this->owner, SoWinComponentP::sowincomplist);
+#endif // debug
   }
 
   // Destructor.
   ~SoWinComponentP() {
 
     if (SoWinComponentP::sowincomplist) {
+#if SOWIN_DEBUG && 0 // debug
+    SoDebugError::postInfo("SoWinComponentP::~SoWinComponentP",
+                           "remove %p from sowincomplist %p, length: %d->%d",
+                           this->owner, SoWinComponentP::sowincomplist,
+                           SoWinComponentP::sowincomplist->getLength(),
+                           SoWinComponentP::sowincomplist->getLength() - 1);
+#endif // debug
       SoWinComponentP::sowincomplist->removeItem(this->owner);
       if (SoWinComponentP::sowincomplist->getLength() == 0) {
         delete SoWinComponentP::sowincomplist;
@@ -313,12 +326,8 @@ SoWinComponent::~SoWinComponent(void)
 
   (void)SoWinComponentP::embeddedparents->remove((unsigned long)this->getParentWidget());
 
-  int idx = SoWinComponentP::sowincomplist->find((void *)this);
-  assert(idx != -1);
-  SoWinComponentP::sowincomplist->remove(idx);
-
-  // Clean up static data if this was the last component.
-  if (SoWinComponentP::sowincomplist->getLength() == 0) {
+  // Clean up static data if this is the last component.
+  if (SoWinComponentP::sowincomplist->getLength() == 1) {
     // Global MSG hook.
     assert(SoWinComponentP::hookhandle != NULL);
     Win32::UnhookWindowsHookEx(SoWinComponentP::hookhandle);
