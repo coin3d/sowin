@@ -187,7 +187,8 @@ void
 SoWinComponent::show( void )
 {
   ShowWindow( PRIVATE( this )->widget, SW_SHOW );
-  InvalidateRect( PRIVATE( this )->widget, NULL, FALSE );
+  BOOL r = InvalidateRect( PRIVATE( this )->widget, NULL, FALSE );
+  assert( r && "InvalidateRect() failed -- investigate" );
 }
 
 void
@@ -215,7 +216,8 @@ SoWinComponent::goFullScreen( const SbBool enable )
     RECT rect;
 
     // Save size and position
-    GetWindowRect( hwnd, & rect );
+    BOOL r = GetWindowRect( hwnd, & rect );
+    assert( r && "GetWindowRect() failed -- investigate" );
     data->pos.setValue( rect.left, rect.top );
     data->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
 
@@ -224,12 +226,12 @@ SoWinComponent::goFullScreen( const SbBool enable )
     data->exstyle = SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
     data->widget = hwnd;
 
-    BOOL r = MoveWindow( hwnd,
-                         0,
-                         0,
-                         GetSystemMetrics( SM_CXSCREEN ),
-                         GetSystemMetrics( SM_CYSCREEN ),
-                         TRUE );
+    r = MoveWindow( hwnd,
+                    0,
+                    0,
+                    GetSystemMetrics( SM_CXSCREEN ),
+                    GetSystemMetrics( SM_CYSCREEN ),
+                    TRUE );
     assert( r && "MoveWindow() failed -- investigate" );
     
     // Add to list of fullscreen windows
@@ -349,14 +351,17 @@ void
 SoWinComponent::setSize( const SbVec2s size )
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;// redraw
-  SetWindowPos( this->getShellWidget( ), NULL, 0, 0, size[0], size[1], flags );
+  BOOL r = SetWindowPos( this->getShellWidget( ), NULL, 0, 0,
+                         size[0], size[1], flags );
+  assert( r && "SetWindowPos() failed -- investigate" );
 }
 
 SbVec2s
 SoWinComponent::getSize( void )
 {
   RECT rect;
-  GetWindowRect( this->getShellWidget( ), & rect );
+  BOOL r = GetWindowRect( this->getShellWidget( ), & rect );
+  assert( r && "GetWindowRect() failed -- investigate" );
   return SbVec2s( rect.right - rect.left, rect.bottom - rect.top );
 }
 

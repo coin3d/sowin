@@ -191,23 +191,26 @@ SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM wparam, LPARAM l
   if ( this->state != SoWinThumbWheel::Dragging )
     return 0;
 
- short x =  LOWORD( lparam );
- short y =  HIWORD( lparam );
+  short x =  LOWORD( lparam );
+  short y =  HIWORD( lparam );
  
   if ( this->orient == SoWinThumbWheel::Vertical )
     this->mouseLastPos = y;
   else
     this->mouseLastPos = x;
  
-  this->tempWheelValue = this->wheel->calculateValue( this->wheelValue,
-                                                      this->mouseDownPos,
-                                                      this->mouseLastPos - this->mouseDownPos );
+  this->tempWheelValue =
+    this->wheel->calculateValue( this->wheelValue,
+                                 this->mouseDownPos,
+                                 this->mouseLastPos - this->mouseDownPos );
 
-  InvalidateRect( this->wheelWindow, NULL, FALSE );
+  BOOL r = InvalidateRect( this->wheelWindow, NULL, FALSE );
+  assert( r && "InvalidateRect() failed -- investigate" );
  
   float * value = & this->tempWheelValue;
- if ( ( this->viewerCB != NULL ) && ( this->viewer != NULL ) )
+  if ( ( this->viewerCB != NULL ) && ( this->viewer != NULL ) ) {
     this->viewerCB( this->viewer, ( void ** ) & value );
+  }
   else {
     WPARAM wparam = GetWindowLong( window, GWL_ID );
     LPARAM lparam = ( LPARAM ) value;
@@ -284,9 +287,8 @@ int
 SoWinThumbWheel::width( void )
 {
  RECT rect;
-
- GetWindowRect( this->wheelWindow, & rect );
-
+ BOOL r = GetWindowRect( this->wheelWindow, & rect );
+ assert( r && "GetWindowRect() failed -- investigate" );
  return ( rect.right - rect.left );
  
   //return this->sizeHint( ).cx;
@@ -295,11 +297,10 @@ SoWinThumbWheel::width( void )
 int
 SoWinThumbWheel::height( void )
 {
- RECT rect;
- 
- GetWindowRect( this->wheelWindow, & rect );
-
- return ( rect.bottom - rect.top );
+  RECT rect;
+  BOOL r = GetWindowRect( this->wheelWindow, & rect );
+  assert( r && "GetWindowRect() failed -- investigate" );
+  return ( rect.bottom - rect.top );
  
   //return this->sizeHint( ).cy;
 }
@@ -317,25 +318,28 @@ SoWinThumbWheel::move( int x, int y )
 {
   UINT flags = SWP_NOSIZE | SWP_NOZORDER;// | SWP_NOREDRAW;
 
-  SetWindowPos( this->wheelWindow, NULL, x, y, 0, 0, flags );
+  BOOL r = SetWindowPos( this->wheelWindow, NULL, x, y, 0, 0, flags );
+  assert( r && "SetWindowPos() failed -- investigate" );
 
   if ( IsWindow( this->labelWindow ) ) {
 
     RECT rect;
-    BOOL r = GetClientRect( this->labelWindow, & rect );
+    r = GetClientRect( this->labelWindow, & rect );
     assert( r && "GetClientRect() failed -- investigate" );
     
     if ( this->orient == SoWinThumbWheel::Vertical ) {
-      SetWindowPos( this->labelWindow, NULL,
-        x + this->labelOffset.x,
-        y + this->labelOffset.y + this->height( ),
-        0, 0, flags );
+      r = SetWindowPos( this->labelWindow, NULL,
+                        x + this->labelOffset.x,
+                        y + this->labelOffset.y + this->height( ),
+                        0, 0, flags );
+      assert( r && "SetWindowPos() failed -- investigate" );
     }
     else {
-      SetWindowPos( this->labelWindow, NULL,
-        x + this->labelOffset.x - rect.right,
-        y + this->labelOffset.y,
-        0, 0, flags );
+      r = SetWindowPos( this->labelWindow, NULL,
+                        x + this->labelOffset.x - rect.right,
+                        y + this->labelOffset.y,
+                        0, 0, flags );
+      assert( r && "SetWindowPos() failed -- investigate" );
     }
   }
 }
@@ -344,14 +348,15 @@ void
 SoWinThumbWheel::size( int width, int height )
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
-  SetWindowPos( this->wheelWindow, NULL, 0, 0, width, height, flags );
+  BOOL r = SetWindowPos( this->wheelWindow, NULL, 0, 0, width, height, flags );
+  assert( r && "SetWindowPos() failed -- investigate" );
 }
 
 void
 SoWinThumbWheel::show( void )
 {
- ShowWindow( this->wheelWindow, SW_SHOW );
- ShowWindow( this->labelWindow, SW_SHOW );
+  ShowWindow( this->wheelWindow, SW_SHOW );
+  ShowWindow( this->labelWindow, SW_SHOW );
 }
 
 void
@@ -485,8 +490,10 @@ SoWinThumbWheel::setEnabled( bool enable )
     this->state = SoWinThumbWheel::Idle;
   else
     this->state = SoWinThumbWheel::Disabled;
- InvalidateRect( this->wheelWindow, NULL, FALSE );
-  EnableWindow( this->labelWindow, enable );
+  BOOL r = InvalidateRect( this->wheelWindow, NULL, FALSE );
+  assert( r && "InvalidateRect() failed -- investigate" );
+  r = EnableWindow( this->labelWindow, enable );
+  assert( r && "EnableWindow() failed -- investigate (should use IsWindowEnabled()?)" );
 } // setEnabled()
 
 bool
@@ -500,7 +507,8 @@ SoWinThumbWheel::setValue( float value )
 {
   this->wheelValue = this->tempWheelValue = value;
   this->mouseDownPos = this->mouseLastPos;
- InvalidateRect( this->wheelWindow, NULL, FALSE );
+  BOOL r = InvalidateRect( this->wheelWindow, NULL, FALSE );
+  assert( r && "InvalidateRect() failed -- investigate" );
 } // setValue()
 
 float
@@ -527,9 +535,10 @@ SoWinThumbWheel::setLabelText( char * text )
   else {
     RECT rect;
     HWND parent = GetParent( this->wheelWindow );
-    GetWindowRect( this->wheelWindow, & rect );
+    BOOL r = GetWindowRect( this->wheelWindow, & rect );
+    assert( r && "GetWindowRect() failed -- investigate" );
     this->labelWindow = createLabel( parent, rect.right + this->labelOffset.x,
-      rect.bottom + labelOffset.y, text );
+                                     rect.bottom + labelOffset.y, text );
   }
       
   int len = strlen( text );
@@ -538,7 +547,9 @@ SoWinThumbWheel::setLabelText( char * text )
   GetTextExtentPoint( hdc, text, len, & textSize );
   
   UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
-  SetWindowPos( this->labelWindow, NULL, 0, 0, textSize.cx + 2, textSize.cy, flags );
+  BOOL r = SetWindowPos( this->labelWindow, NULL, 0, 0,
+                         textSize.cx + 2, textSize.cy, flags );
+  assert( r && "SetWindowPos() failed -- investigate" );
 }
 
 void
@@ -552,11 +563,9 @@ SIZE
 SoWinThumbWheel::getLabelSize( void )
 {
   RECT rect;
-  
- GetWindowRect( this->labelWindow, & rect );
-
+  BOOL r = GetWindowRect( this->labelWindow, & rect );
+  assert( r && "GetWindowRect() failed -- investigate" );
   SIZE size = { rect.right - rect.left, rect.bottom - rect.top };
-
   return ( size );
 }
 

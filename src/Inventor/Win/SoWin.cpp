@@ -215,16 +215,17 @@ SoWin::hide( HWND const widget )
 void
 SoWin::setWidgetSize( HWND widget, const SbVec2s size )
 {
- UINT flags = SWP_NOMOVE | SWP_NOZORDER;
- SetWindowPos( widget, NULL, 0, 0, size[0], size[1], flags);
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER;
+  BOOL r = SetWindowPos( widget, NULL, 0, 0, size[0], size[1], flags);
+  assert( r && "SetWindowPos() failed -- investigate" );
 } 
 
 SbVec2s
 SoWin::getWidgetSize( HWND widget )
 {
-  SIZE size;
   HDC hdc = GetDC( SoWinP::mainWidget );
 
+  SIZE size;
   if ( ! GetWindowExtEx( hdc, & size ) ) {
     size.cx = -1;
     size.cy = -1;
@@ -306,12 +307,16 @@ SoWin::getInstance( void )
 void
 SoWin::errorHandlerCB( const SoError * error, void * data )
 {
+#if 1 // Normally, errors, warnings and info goes to a dialog box..
   SbString debugstring = error->getDebugString( );
 
   MessageBox( SoWinP::mainWidget,
               ( LPCTSTR ) debugstring.getString( ),
               "SoError",
               MB_OK | MB_ICONERROR );
+#else // ..but during development it might be better to pipe it to the console.
+  (void)printf("%s\n", error->getDebugString().getString() );
+#endif
 }
 
 void
@@ -496,7 +501,9 @@ SoWinP::sizeChildProc( HWND window, LPARAM lparam )
 {
   if ( GetParent( window ) == SoWin::getTopLevelWidget( ) ) {
     UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
-    SetWindowPos( window, NULL, 0, 0, LOWORD( lparam ), HIWORD( lparam ), flags );
+    BOOL r = SetWindowPos( window, NULL, 0, 0,
+                           LOWORD( lparam ), HIWORD( lparam ), flags );
+    assert( r && "SetWindowPos() failed -- investigate" );
   }
   return TRUE;
 }

@@ -47,7 +47,8 @@ SoWinViewerPrefSheet::~SoWinViewerPrefSheet( void )
 void SoWinViewerPrefSheet::create( HWND parent )
 {
   if ( IsWindow( this->mainWidget ) ) {
-    SetActiveWindow( this->mainWidget );
+    HWND r = SetActiveWindow( this->mainWidget );
+    assert( ( r != NULL ) && "SetActiveWindow() failed -- investigate" );
     return;
   }
 
@@ -65,7 +66,8 @@ void SoWinViewerPrefSheet::size( void )
   assert( r && "GetClientRect() failed -- investigate" );
   int height = rect.bottom;
   
-  GetWindowRect( this->mainWidget, & rect );
+  r = GetWindowRect( this->mainWidget, & rect );
+  assert( r && "GetWindowRect() failed -- investigate" );
 
   r = MoveWindow( this->mainWidget,
                   rect.left,
@@ -596,7 +598,8 @@ void SoWinViewerPrefSheet::setChecked( HWND hwnd, BOOL check )
 
 void SoWinViewerPrefSheet::setEnabled( HWND hwnd, BOOL enable )
 {
-  EnableWindow( hwnd, enable );
+  BOOL r = EnableWindow( hwnd, enable );
+  assert( r && "EnableWindow() failed -- investigate (should use IsWindowEnabled()?)" );
 }
 
 void SoWinViewerPrefSheet::setEditValue( HWND edit, float value )
@@ -651,7 +654,8 @@ SoWinViewerPrefSheet::processEvent( HWND window, UINT message, WPARAM wparam, LP
 
 LRESULT SoWinViewerPrefSheet::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  SetActiveWindow( window );
+  HWND r = SetActiveWindow( window );
+  assert( ( r != NULL ) && "SetActiveWindow() failed -- investigate" );
   SetFocus( window );
   ReleaseCapture( );
   return 0;

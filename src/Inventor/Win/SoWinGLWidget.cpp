@@ -534,7 +534,9 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )
   PRIVATE( this )->glSize = newSize;
 
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
-  SetWindowPos( PRIVATE( this )->normalWidget, NULL, 0, 0, newSize[0], newSize[1], flags );
+  BOOL r = SetWindowPos( PRIVATE( this )->normalWidget, NULL, 0, 0,
+                         newSize[0], newSize[1], flags );
+  assert( r && "SetWindowPos() failed -- investigate" );
 
   this->validate( this->getShellWidget( ) ); // FIXME: does this do any good ? mariusbu 20010801
  
@@ -738,7 +740,8 @@ SoWinGLWidget::validate( HWND hwnd )
   
   POINT pt = { 0, 0 };
 
-  ClientToScreen( PRIVATE( this )->normalWidget, & pt );
+  BOOL r = ClientToScreen( PRIVATE( this )->normalWidget, & pt );
+  assert( r && "ClientToScreen() failed -- investigate" );
   ScreenToClient( hwnd, & pt );
 
   RECT rect = {

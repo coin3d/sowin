@@ -213,9 +213,10 @@ SoWinFullViewer::setDecoration( SbBool enable )
   assert( r && "GetClientRect() failed -- investigate" );
   PRIVATE( this )->layoutWidgets( rect.right, rect.bottom );
 
-  InvalidateRect( ( IsWindow( this->parent ) ?
-                    this->parent : this->viewerWidget ),
-                  NULL, TRUE );
+  r = InvalidateRect( ( IsWindow( this->parent ) ?
+                        this->parent : this->viewerWidget ),
+                      NULL, TRUE );
+  assert( r && "InvalidateRect() failed -- investigate" );
 }
 
 SbBool
@@ -442,7 +443,9 @@ SoWinFullViewer::buildWidget( HWND parent )
 
   ShowWindow( this->renderAreaWidget, SW_SHOW );
 
-  InvalidateRect( ( IsWindow( parent ) ? parent : this->viewerWidget ), NULL, TRUE );
+  BOOL r = InvalidateRect( ( IsWindow( parent ) ? parent : this->viewerWidget ),
+                           NULL, TRUE );
+  assert( r && "InvalidateRect() failed -- investigate" );
 
   return this->viewerWidget;
 }
@@ -631,12 +634,15 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
 
   // Get the right coords
   RECT clientRect;
-  POINT point;
   BOOL r = GetClientRect( this->renderAreaWidget, & clientRect );
   assert( r && "GetClientRect() failed -- investigate" );
+
+  POINT point;
   point.y = clientRect.bottom - y;
   point.x = x;
-  ClientToScreen( this->renderAreaWidget, & point );
+
+  r = ClientToScreen( this->renderAreaWidget, & point );
+  assert( r && "ClientToScreen() failed -- investigate" );
 
   // Popup
   assert( this->prefmenu != NULL );
@@ -894,7 +900,8 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 {
   PRIVATE( this )->layoutWidgets( LOWORD( lparam ), HIWORD( lparam ) );
 
-  InvalidateRect( window, NULL, TRUE );
+  BOOL r = InvalidateRect( window, NULL, TRUE );
+  assert( r && "InvalidateRect() failed -- investigate" );
   this->validate( window );// FIXME validate buttons and thumbwheel too
 
   return 0;
