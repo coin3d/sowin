@@ -173,7 +173,7 @@ WinMain(
 						win[0],
 						"PlaneWindowA",
 						WS_CHILD|WS_VISIBLE,
-            // |WS_OVERLAPPEDWINDOW|WS_CLIPCHILDREN|WS_CLIPSIBLINGS,
+            // |WS_OVERLAPPEDWINDOW|WS_CLIPSIBLINGS,
 						SbVec2s(0,0),
 						SbVec2s(300,300),
 						viewerWindowProc);
@@ -182,7 +182,7 @@ WinMain(
 						win[0],
 						"ExaminerWindow",
 						WS_CHILD|WS_VISIBLE,
-            // |WS_OVERLAPPEDWINDOW|WS_CLIPCHILDREN|WS_CLIPSIBLINGS,
+            // |WS_OVERLAPPEDWINDOW|WS_CLIPSIBLINGS,
 						SbVec2s(300,0),
 						SbVec2s(300,300),
 						viewerWindowProc);
@@ -191,7 +191,7 @@ WinMain(
 						win[0],
 						"PlaneWindowB",
 						WS_CHILD|WS_VISIBLE,
-            // |WS_OVERLAPPEDWINDOW|WS_CLIPCHILDREN|WS_CLIPSIBLINGS,
+            // |WS_OVERLAPPEDWINDOW|WS_CLIPSIBLINGS,
 						SbVec2s(0,300),
 						SbVec2s(300,300),
 						viewerWindowProc);
@@ -200,7 +200,7 @@ WinMain(
 						win[0],
 						"PlaneWindowC",
 						WS_CHILD|WS_VISIBLE,
-            // |WS_OVERLAPPEDWINDOW|WS_CLIPCHILDREN|WS_CLIPSIBLINGS,
+            // |WS_OVERLAPPEDWINDOW|WS_CLIPSIBLINGS,
 						SbVec2s(300,300),
 						SbVec2s(300,300),
 						viewerWindowProc);
