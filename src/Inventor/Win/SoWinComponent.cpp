@@ -679,7 +679,7 @@ SoWinComponent::getIconTitle(void) const
 const char *
 SoWinComponent::getDefaultIconTitle(void) const
 {
-  // FIXME: seems to easy.. is this really correct? 20011012 mortene.
+  // FIXME: seems too easy.. is this really correct? 20011012 mortene.
   return this->getDefaultTitle();
 }
 
