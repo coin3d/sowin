@@ -639,8 +639,9 @@ SoWinFullViewer::openPopupMenu(const SbVec2s position)
 
   RECT clientrect;
   Win32::GetClientRect(this->renderAreaWidget, &clientrect);
-  this->displayPopupMenu(position[0], clientrect.bottom - position[1],
-                         GetActiveWindow());
+
+  this->prefmenu->popUp(GetActiveWindow(),
+                        position[0], clientrect.bottom - position[1]);
 }
 
 void
@@ -648,20 +649,6 @@ SoWinFullViewer::destroyPopupMenu(void)
 {
   delete this->prefmenu;
   this->prefmenu = NULL;
-}
-
-int
-SoWinFullViewer::displayPopupMenu(int x, int y, HWND owner)
-{
-  //this->popupPreCallback();
-  assert(this->prefmenu != NULL);
-  this->prefmenu->popUp(owner, x, y);
-  int selectedItem =  ((WinNativePopupMenu *) this->prefmenu)->getSelectedItem();
-  if (selectedItem != 0) { // 0 == no item selected (user aborted)
-    this->menuSelection(selectedItem);
-  }
-  //this->popupPostCallback();
-  return 0;
 }
 
 void
