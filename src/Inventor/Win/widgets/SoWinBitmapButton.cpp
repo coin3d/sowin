@@ -26,6 +26,45 @@
 #include <assert.h>
 #include <stdio.h>
 
+
+// *************************************************************************
+
+class SoWinBitmapButtonP {
+public:
+  SoWinBitmapButtonP(SoWinBitmapButton * master)
+  {
+    this->owner = master;
+    this->viewerCB = NULL;
+    this->viewer = NULL;
+    this->buttonWindow = NULL;
+    this->depth = 0;
+  }
+
+  ~SoWinBitmapButtonP()
+  {
+    const int len = this->bitmapList.getLength();
+    for (int i = 0; i < len; i++) { Win32::DeleteObject(this->bitmapList[i]); }
+  }
+
+  HWND buildWidget(HWND parent, RECT rect);
+  HBITMAP createDIB(int width, int height, int bpp, void ** bits);
+  HBITMAP parseXpm(const char ** xpm, int dibDepth = 24);
+  static int axtoi(const char * str);
+
+  HWND buttonWindow;
+  SbPList bitmapList;
+  int depth;
+
+  bitmapButtonCB * viewerCB;
+  SoWinFullViewer * viewer; // owner object pointer
+
+private:
+  SoWinBitmapButton * owner;
+};
+
+#define PRIVATE(p) (p->pimpl)
+#define PUBLIC(p) (p->owner)
+
 // *************************************************************************
 
 SoWinBitmapButton::SoWinBitmapButton(HWND parent,
@@ -37,14 +76,14 @@ SoWinBitmapButton::SoWinBitmapButton(HWND parent,
                                      const char * name,
                                      void * bits)
 {
+  PRIVATE(this) = new SoWinBitmapButtonP(this);
+
   RECT rect = { x, y, width, height };
+  PRIVATE(this)->buildWidget(parent, rect);
 
-  this->constructor();
-  this->buildWidget(parent, rect);
+  PRIVATE(this)->depth = depth;
 
-  this->depth = depth;
-
-  if(bits != NULL) {
+  if (bits != NULL) {
     this->addBitmap(width, height, depth, bits);
     this->setBitmap(0);
   }
@@ -53,23 +92,23 @@ SoWinBitmapButton::SoWinBitmapButton(HWND parent,
 
 SoWinBitmapButton::SoWinBitmapButton(HWND button)
 {
- assert(IsWindow(button));
+  PRIVATE(this) = new SoWinBitmapButtonP(this);
 
- char name[8];
- GetClassName(button, name, 8);
- assert(strcmp(name, "BUTTON") == 0);
+  assert(IsWindow(button));
 
- this->constructor();
- this->buttonWindow = button;
- this->addBitmap((HBITMAP) (
-  SendMessage(this->buttonWindow, BM_GETIMAGE, (WPARAM) IMAGE_BITMAP, 0)
- ));
+  char name[8];
+  GetClassName(button, name, 8);
+  assert(strcmp(name, "BUTTON") == 0);
+
+  PRIVATE(this)->buttonWindow = button;
+  HBITMAP bm = (HBITMAP)SendMessage(PRIVATE(this)->buttonWindow, BM_GETIMAGE,
+                                    (WPARAM) IMAGE_BITMAP, 0);
+  this->addBitmap(bm);
 }
 
 SoWinBitmapButton::~SoWinBitmapButton(void)
 {
- // FIXME: cleanup resources
- this->destructor();
+  delete PRIVATE(this);
 }
 
 SIZE
@@ -82,14 +121,14 @@ SoWinBitmapButton::sizeHint(void) const
 HWND
 SoWinBitmapButton::getWidget(void)
 {
-  return this->buttonWindow;
+  return PRIVATE(this)->buttonWindow;
 }
 
 int
 SoWinBitmapButton::width(void)
 {
   RECT rect;
-  Win32::GetWindowRect(this->buttonWindow, & rect);
+  Win32::GetWindowRect(PRIVATE(this)->buttonWindow, & rect);
   return (rect.right - rect.left); //this->sizeHint().cx;
 }
 
@@ -97,81 +136,60 @@ int
 SoWinBitmapButton::height(void)
 {
   RECT rect;
-  Win32::GetWindowRect(this->buttonWindow, & rect);
+  Win32::GetWindowRect(PRIVATE(this)->buttonWindow, & rect);
   return (rect.bottom - rect.top); //this->sizeHint().cy;
 }
 
 void
 SoWinBitmapButton::move(int x, int y)
 {
-  assert(IsWindow(this->buttonWindow));
+  assert(IsWindow(PRIVATE(this)->buttonWindow));
   UINT flags = SWP_NOSIZE | SWP_NOZORDER;
-  Win32::SetWindowPos(this->buttonWindow, NULL, x, y, 0, 0, flags);
+  Win32::SetWindowPos(PRIVATE(this)->buttonWindow, NULL, x, y, 0, 0, flags);
 }
 
 void
 SoWinBitmapButton::move(int x, int y, int width, int height)
 {
-  assert(IsWindow(this->buttonWindow));
-  Win32::MoveWindow(this->buttonWindow, x, y, width, height, TRUE);
+  assert(IsWindow(PRIVATE(this)->buttonWindow));
+  Win32::MoveWindow(PRIVATE(this)->buttonWindow, x, y, width, height, TRUE);
 }
 
 void
 SoWinBitmapButton::size(int width, int height)
 {
-  assert(IsWindow(this->buttonWindow));
+  assert(IsWindow(PRIVATE(this)->buttonWindow));
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
-  Win32::SetWindowPos(this->buttonWindow, NULL, 0, 0, width, height, flags);
+  Win32::SetWindowPos(PRIVATE(this)->buttonWindow, NULL, 0, 0, width, height, flags);
 }
 
 void
 SoWinBitmapButton::show(void)
 {
-  (void)ShowWindow(this->buttonWindow, SW_SHOW);
+  (void)ShowWindow(PRIVATE(this)->buttonWindow, SW_SHOW);
 }
 
 void
 SoWinBitmapButton::hide(void)
 {
-  (void)ShowWindow(this->buttonWindow, SW_HIDE);
+  (void)ShowWindow(PRIVATE(this)->buttonWindow, SW_HIDE);
 }
 
 void
 SoWinBitmapButton::registerCallback(bitmapButtonCB * func)
 {
-  this->viewerCB = func;
+  PRIVATE(this)->viewerCB = func;
 }
 
 void
 SoWinBitmapButton::registerViewer(SoWinFullViewer * viewer)
 {
-  this->viewer = viewer;
-}
-
-void
-SoWinBitmapButton::constructor(void)
-{
-  this->buttonWindow = NULL;
-  this->viewerCB = NULL;
-  this->viewer = NULL;
-  this->bitmapList = new SbPList;
-  this->depth = 0;
-}
-
-void
-SoWinBitmapButton::destructor(void)
-{
-  const int len = this->bitmapList->getLength();
-  for (int i = 0; i < len; i++) {
-    Win32::DeleteObject(this->bitmapList->get(i));
-  }
-  delete this->bitmapList;
+  PRIVATE(this)->viewer = viewer;
 }
 
 HWND
-SoWinBitmapButton::buildWidget(HWND parent, RECT rect)
+SoWinBitmapButtonP::buildWidget(HWND parent, RECT rect)
 {
-
   assert(IsWindow(parent));
 
   this->buttonWindow = Win32::CreateWindow_("BUTTON",
@@ -184,50 +202,49 @@ SoWinBitmapButton::buildWidget(HWND parent, RECT rect)
                                             NULL,
                                             NULL,
                                             NULL);
-
   return this->buttonWindow;
 }
 
 void
 SoWinBitmapButton::setId(long id)
 {
-  (void)Win32::SetWindowLong(this->buttonWindow, GWL_ID, id);
+  (void)Win32::SetWindowLong(PRIVATE(this)->buttonWindow, GWL_ID, id);
 }
 
 long
 SoWinBitmapButton::getId(void)
 {
-  return Win32::GetWindowLong(this->buttonWindow, GWL_ID);
+  return Win32::GetWindowLong(PRIVATE(this)->buttonWindow, GWL_ID);
 }
 
 void
 SoWinBitmapButton::setState(SbBool pushed)
 {
- (void)SendMessage(this->buttonWindow, BM_SETSTATE, (WPARAM) pushed, 0);
+ (void)SendMessage(PRIVATE(this)->buttonWindow, BM_SETSTATE, (WPARAM) pushed, 0);
 }
 
 SbBool
 SoWinBitmapButton::getState(void) const
 {
- return (SendMessage(this->buttonWindow, BM_GETSTATE, 0, 0) & BST_PUSHED);
+ return (SendMessage(PRIVATE(this)->buttonWindow, BM_GETSTATE, 0, 0) & BST_PUSHED);
 }
 
 void
 SoWinBitmapButton::setEnabled(SbBool enable)
 {
-  Win32::EnableWindow(this->buttonWindow, enable);
+  Win32::EnableWindow(PRIVATE(this)->buttonWindow, enable);
 }
 
 SbBool
 SoWinBitmapButton::isEnabled(void) const
 {
-  return (! (Win32::GetWindowLong(buttonWindow, GWL_STYLE) & WS_DISABLED));
+  return (! (Win32::GetWindowLong(PRIVATE(this)->buttonWindow, GWL_STYLE) & WS_DISABLED));
 }
 
 void
 SoWinBitmapButton::addBitmap(HBITMAP hbmp)
 {
- this->bitmapList->append(hbmp);
+  PRIVATE(this)->bitmapList.append(hbmp);
 }
 
 void
@@ -235,49 +252,38 @@ SoWinBitmapButton::addBitmap(int width, int height, int bpp, void * src)
 {
  void * dest;
 
- HBITMAP hbmp = this->createDIB(width, height, bpp, & dest);
-
- memcpy(dest, src, width * height * (bpp / 8));
-
+ HBITMAP hbmp = PRIVATE(this)->createDIB(width, height, bpp, & dest);
+ (void)memcpy(dest, src, width * height * (bpp / 8));
  this->addBitmap(hbmp);
-
 }
 
 void
 SoWinBitmapButton::addBitmap(const char ** xpm)
 {
- this->addBitmap(this->parseXpm(xpm, ((this->depth > 0) ? this->depth : 24)));
+  this->addBitmap(PRIVATE(this)->parseXpm(xpm, ((PRIVATE(this)->depth > 0) ? PRIVATE(this)->depth : 24)));
 }
 
 HBITMAP
 SoWinBitmapButton::getBitmap(int index)
 {
- return (HBITMAP) (* this->bitmapList)[index];
+  return (HBITMAP) PRIVATE(this)->bitmapList[index];
 }
 
 void
 SoWinBitmapButton::setBitmap(int index)
 {
-  assert(IsWindow(this->buttonWindow));
+  assert(IsWindow(PRIVATE(this)->buttonWindow));
 
-  (void)SendMessage(this->buttonWindow,
-                     BM_SETIMAGE,
-                     (WPARAM) IMAGE_BITMAP,
-                     (LPARAM) this->getBitmap(index));
+  (void)SendMessage(PRIVATE(this)->buttonWindow,
+                    BM_SETIMAGE,
+                    (WPARAM) IMAGE_BITMAP,
+                    (LPARAM) this->getBitmap(index));
 
-  Win32::InvalidateRect(this->buttonWindow, NULL, FALSE);
+  Win32::InvalidateRect(PRIVATE(this)->buttonWindow, NULL, FALSE);
 }
-/*
-HBITMAP
-SoWinBitmapButton::getCurrentBitmap(void) const
-{
- assert(IsWindow(this->buttonWindow));
 
- return (HBITMAP) (SendMessage(this->buttonWindow, BM_GETIMAGE, (WPARAM) IMAGE_BITMAP, 0));
-}
-*/
 HBITMAP
-SoWinBitmapButton::createDIB(int width, int height, int bpp, void ** bits) // 16||24||32 bpp
+SoWinBitmapButtonP::createDIB(int width, int height, int bpp, void ** bits) // 16||24||32 bpp
 {
   assert(bpp > 8);
 
@@ -314,7 +320,7 @@ SoWinBitmapButton::createDIB(int width, int height, int bpp, void ** bits) // 16
 
 // Convert from xpm to DIB (demands hex colors).
 HBITMAP
-SoWinBitmapButton::parseXpm(const char ** xpm, int dibdepth)
+SoWinBitmapButtonP::parseXpm(const char ** xpm, int dibdepth)
 {
   unsigned char pixelsize = dibdepth / 8;
 
@@ -341,7 +347,7 @@ SoWinBitmapButton::parseXpm(const char ** xpm, int dibdepth)
     const char * strend = strstart + 2;
 
     if (*strend == '#')
-      colorlookuptable[i] = SoWinBitmapButton::axtoi(strend + 1);
+      colorlookuptable[i] = SoWinBitmapButtonP::axtoi(strend + 1);
     else
       colorlookuptable[i] = -1; // Parse string (color name)
 
@@ -412,7 +418,7 @@ SoWinBitmapButton::parseXpm(const char ** xpm, int dibdepth)
 }
 
 int
-SoWinBitmapButton::axtoi(const char * str) // convert from ASCII hex to int
+SoWinBitmapButtonP::axtoi(const char * str) // convert from ASCII hex to int
 {
   const char * c = str;
   int n = (strchr(c, '\0') - c);

@@ -29,7 +29,6 @@
 #include <Inventor/Win/SoWinBasic.h>
 
 class SoWinFullViewer;
-class SbPList;
 
 typedef void bitmapButtonCB(SoWinFullViewer * viewer, void ** data);
 
@@ -79,23 +78,9 @@ public:
   void registerCallback(bitmapButtonCB * func);
   void registerViewer(SoWinFullViewer * viewer);
 
-protected:
-
 private:
-
-  void constructor(void);
-  void destructor(void);
-  HWND buildWidget(HWND parent, RECT rect);
-  HBITMAP createDIB(int width, int height, int bpp, void ** bits);
-  HBITMAP parseXpm(const char ** xpm, int dibDepth = 24);
-  static int axtoi(const char * str);
-
-  HWND buttonWindow;
-  SbPList * bitmapList;
-  int depth;
-
-  bitmapButtonCB * viewerCB;
-  SoWinFullViewer * viewer; // owner object pointer
+  class SoWinBitmapButtonP * pimpl;
+  friend class SoWinBitmapButtonP;
 };
 
 // *************************************************************************
