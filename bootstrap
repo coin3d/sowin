@@ -7,11 +7,10 @@
 # Authors:
 #   Morten Eriksen <mortene@sim.no>
 #   Lars J. Aas <larsa@sim.no>
-#   Ralph Levien (original autogen.sh picked up from Gnome source archive).
 
 directory=`echo "$0" | sed -e 's/[^\/]*$//g'`;
 cd $directory
-if ! test -f ./autogen.sh; then
+if test ! -f ./bootstrap; then
   echo "unexpected problem with your shell - bailing out"
   exit 1
 fi
