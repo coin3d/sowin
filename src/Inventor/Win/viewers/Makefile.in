@@ -136,7 +136,9 @@ BUILT_SOURCES = \
 	SoAnyFullViewer.h \
 	SoAnyFullViewer.cpp \
 	SoAnyExaminerViewer.h \
-	SoAnyExaminerViewer.cpp
+	SoAnyExaminerViewer.cpp \
+	SoAnyPlaneViewer.h \
+	SoAnyPlaneViewer.cpp
 
 
 VIEWERSOURCES = \
@@ -144,7 +146,9 @@ VIEWERSOURCES = \
 	SoWinFullViewer.cpp \
 	SoWinFullViewer.h \
 	SoWinExaminerViewer.cpp \
-	SoWinExaminerViewer.h
+	SoWinExaminerViewer.h \
+        SoWinPlaneViewer.cpp \
+        SoWinPlaneViewer.h
 
 
 ############################################################################
@@ -169,7 +173,8 @@ libSoWinViewersincdir = $(includedir)/Inventor/Win/viewers
 libSoWinViewersinc_HEADERS = \
 	$(top_builddir)/src/Inventor/Win/viewers/SoWinViewer.h \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinFullViewer.h \
-	$(top_srcdir)/src/Inventor/Win/viewers/SoWinExaminerViewer.h
+	$(top_srcdir)/src/Inventor/Win/viewers/SoWinExaminerViewer.h \
+	$(top_srcdir)/src/Inventor/Win/viewers/SoWinPlaneViewer.h
 
 subdir = src/Inventor/Win/viewers
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -183,17 +188,22 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 viewers_lst_AR = $(AR) cru
 viewers_lst_LIBADD = 
-am_viewers_lst_OBJECTS = SoWinViewer.$(OBJEXT) SoAnyFullViewer.$(OBJEXT) \
-SoAnyExaminerViewer.$(OBJEXT) SoWinFullViewer.$(OBJEXT) \
-SoWinExaminerViewer.$(OBJEXT)
+am_viewers_lst_OBJECTS = \
+SoWinViewer.$(OBJEXT) SoAnyFullViewer.$(OBJEXT) \
+SoAnyExaminerViewer.$(OBJEXT) SoAnyPlaneViewer.$(OBJEXT) \
+SoWinFullViewer.$(OBJEXT) SoWinExaminerViewer.$(OBJEXT) \
+SoWinPlaneViewer.$(OBJEXT)
 viewers_lst_OBJECTS = $(am_viewers_lst_OBJECTS)
 AR = ar
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoWinViewers_la_LDFLAGS = 
 libSoWinViewers_la_LIBADD = 
-am_libSoWinViewers_la_OBJECTS = SoWinViewer.lo SoAnyFullViewer.lo \
-SoAnyExaminerViewer.lo SoWinFullViewer.lo SoWinExaminerViewer.lo
+am_libSoWinViewers_la_OBJECTS = \
+SoWinViewer.lo SoAnyFullViewer.lo \
+SoAnyExaminerViewer.lo SoAnyPlaneViewer.lo \
+SoWinFullViewer.lo SoWinExaminerViewer.lo \
+SoWinPlaneViewer.lo
 libSoWinViewers_la_OBJECTS = $(am_libSoWinViewers_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -209,12 +219,13 @@ DIST_SOURCES = $(viewers_lst_SOURCES) $(libSoWinViewers_la_SOURCES)
 HEADERS = $(libSoWinViewersinc_HEADERS)
 
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP@DEP_FILES = $(DEPDIR)/SoAnyExaminerViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoAnyExaminerViewer.Po $(DEPDIR)/SoAnyFullViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoAnyFullViewer.Po $(DEPDIR)/SoWinExaminerViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoWinExaminerViewer.Po $(DEPDIR)/SoWinFullViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoWinFullViewer.Po $(DEPDIR)/SoWinViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoWinViewer.Po
+@AMDEP@DEP_FILES = $(DEPDIR)/SoAnyPlaneViewer.Plo $(DEPDIR)/SoAnyPlaneViewer.Po \
+@AMDEP@ $(DEPDIR)/SoAnyExaminerViewer.Plo $(DEPDIR)/SoAnyExaminerViewer.Po \
+@AMDEP@ $(DEPDIR)/SoAnyFullViewer.Plo $(DEPDIR)/SoAnyFullViewer.Po \
+@AMDEP@ $(DEPDIR)/SoWinPlaneViewer.Plo $(DEPDIR)/SoWinPlaneViewer.Po \
+@AMDEP@ $(DEPDIR)/SoWinExaminerViewer.Plo $(DEPDIR)/SoWinExaminerViewer.Po \
+@AMDEP@ $(DEPDIR)/SoWinFullViewer.Plo $(DEPDIR)/SoWinFullViewer.Po \
+@AMDEP@ $(DEPDIR)/SoWinViewer.Plo $(DEPDIR)/SoWinViewer.Po
 DIST_COMMON = $(libSoWinViewersinc_HEADERS) Makefile.am Makefile.in
 
 SOURCES = $(viewers_lst_SOURCES) $(libSoWinViewers_la_SOURCES)
@@ -308,10 +319,14 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID
 
+@AMDEP@@_am_include@ $(DEPDIR)/SoAnyPlaneViewer.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoAnyPlaneViewer.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoAnyExaminerViewer.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoAnyExaminerViewer.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoAnyFullViewer.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoAnyFullViewer.Po
+@AMDEP@@_am_include@ $(DEPDIR)/SoWinPlaneViewer.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoWinPlaneViewer.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinExaminerViewer.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinExaminerViewer.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoWinFullViewer.Plo

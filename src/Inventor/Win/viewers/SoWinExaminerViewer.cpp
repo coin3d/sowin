@@ -45,8 +45,6 @@ static const char rcsid[] =
 #include <Inventor/Win/common/pixmaps/ortho.xpm>
 #include <Inventor/Win/SoWinCursors.h>
 
-#define VIEWERBUTTON_PERSPECTIVE ( VIEWERBUTTON_SEEK + 1 )
-
 /*!
   \class SoWinExaminerViewer SoWinExaminerViewer.h Inventor/Win/viewers/SoWinExaminerViewer.h
   \brief The SoWinExaminerViewer class is a full-fledged model viewer
@@ -75,6 +73,8 @@ static const char rcsid[] =
 SOWIN_OBJECT_SOURCE(SoWinExaminerViewer);
 
 // *************************************************************************
+
+#define VIEWERBUTTON_CAMERA ( VIEWERBUTTON_SEEK + 1 )
 
 /*!
   Constructor.  See parent class for explanation of arguments.
@@ -201,7 +201,7 @@ SoWinExaminerViewer::setCamera( // virtual
     newCamera->getTypeId( ).isDerivedFrom( SoOrthographicCamera::getClassTypeId( ) );
   
   if ( this->isDoButtonBar( ) ) // may not be there if !doButtonBar
-    ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_PERSPECTIVE] )->setBitmap(
+    ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_CAMERA] )->setBitmap(
     orthotype ? 1 : 0 );
   
 } // setCamera()
@@ -224,7 +224,7 @@ SoWinExaminerViewer::buildViewerButtonsEx( // virtual
 	button->addBitmap( perspective_xpm );
 	button->addBitmap( ortho_xpm );
 	button->setBitmap( 0 );
-	button->setId( VIEWERBUTTON_PERSPECTIVE );
+	button->setId( VIEWERBUTTON_CAMERA );
 	this->viewerButtonList->append( button );
 }
 
@@ -399,7 +399,7 @@ SoWinExaminerViewer::onCommand( // virtual
 	short id = LOWORD( wparam );// item, control, or accelerator identifier
 	HWND hwnd = ( HWND ) lparam;// control handle
 
-	if ( id == VIEWERBUTTON_PERSPECTIVE )
+	if ( id == VIEWERBUTTON_CAMERA )
 			this->cameratoggleClicked( );
   else
     return inherited::onCommand( window, message, wparam, lparam );

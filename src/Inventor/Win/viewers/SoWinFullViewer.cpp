@@ -144,7 +144,8 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 	PRIVATE( this )->createAppPushButtonCB = NULL;
 	PRIVATE( this )->createAppPushButtonData = NULL;
 
-  this->initSize.setValue( 500, 420 );
+  //this->initSize.setValue( 500, 420 );
+  this->setSize( SbVec2s( 500, 420 ) );
   
   if ( buildNow ) {
     this->setClassName( "SoWinFullViewer" );
@@ -913,7 +914,7 @@ LRESULT
 SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
 	if ( ! this->isViewing( ) ) this->setViewing( TRUE );
-  this->setSize( this->initSize );
+  //this->setSize( this->initSize );
   return 0;
 }
 
