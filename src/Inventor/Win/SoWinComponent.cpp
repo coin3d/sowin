@@ -362,7 +362,7 @@ SoWinComponent::setFullScreen(const SbBool enable)
   if (enable) {
     // Save size, position and styles.
     RECT rect;
-    Win32::GetWindowRect(hwnd, & rect);
+    Win32::GetWindowRect(hwnd, &rect);
     data->style = Win32::SetWindowLong(hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
     data->exstyle = Win32::SetWindowLong(hwnd, GWL_EXSTYLE, WS_EX_TOPMOST);
 
@@ -396,13 +396,13 @@ SoWinComponent::setFullScreen(const SbBool enable)
     (void)Win32::SetWindowLong(hwnd, GWL_EXSTYLE, data->exstyle);
 
     Win32::MoveWindow(hwnd,
-                       (data->pos[0] > -1 ? data->pos[0] :
-                         ((GetSystemMetrics(SM_CXSCREEN) / 2) - 210)),
-                       (data->pos[1] > -1 ? data->pos[1] :
-                         ((GetSystemMetrics(SM_CYSCREEN) / 2) - 250)),
-                       (data->size[0] > 0 ? data->size[0] : 420),
-                       (data->size[1] > 0 ? data->size[1] : 500),
-                       TRUE);
+                      (data->pos[0] > -1 ? data->pos[0] :
+                       ((GetSystemMetrics(SM_CXSCREEN) / 2) - 210)),
+                      (data->pos[1] > -1 ? data->pos[1] :
+                       ((GetSystemMetrics(SM_CYSCREEN) / 2) - 250)),
+                      (data->size[0] > 0 ? data->size[0] : 420),
+                      (data->size[1] > 0 ? data->size[1] : 500),
+                      TRUE);
 
   }
 
@@ -456,6 +456,8 @@ SoWinComponent::getParentWidget(void) const
 void
 SoWinComponent::setSize(const SbVec2s size)
 {
+  this->setFullScreen(FALSE);
+
   UINT flags = SWP_NOMOVE | SWP_NOZORDER; // do redraw
   Win32::SetWindowPos(this->getParentWidget(), NULL, 0, 0,
                       size[0], size[1], flags);
