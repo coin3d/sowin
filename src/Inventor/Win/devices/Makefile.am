@@ -48,7 +48,6 @@ nodist_libSoWinDevices_la_SOURCES = \
 # custom setup
 
 devices_lst_SOURCES = \
-	SoWinDevice.h \
 	SoWinDevice.cpp \
 	SoWinInputFocus.cpp \
 	SoWinKeyboard.cpp \
@@ -68,10 +67,10 @@ devices.lst: Makefile $(devices_lst_OBJECTS)
 ## Header file installation information.
 
 SoWinDevicesincdir = $(includedir)/Inventor/Win/devices
-SoWinDevicesinc_HEADERS = \
-	SoWinDevice.h
+SoWinDevicesinc_HEADERS =
 
 nodist_SoWinDevicesinc_HEADERS = \
+	SoWinDevice.h \
 	SoWinInputFocus.h \
 	SoWinKeyboard.h \
 	SoWinMouse.h \
