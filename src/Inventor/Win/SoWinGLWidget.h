@@ -75,15 +75,6 @@ public:
     virtual void setOverlayVisual( PIXELFORMATDESCRIPTOR *vis );    // no effect
     PIXELFORMATDESCRIPTOR * getOverlayVisual( void );
 
-    // Specify exactly what the pixel format should be.
-    // These methods take a pixel format index, where the ones immediately
-    // above take a ptr to a PIXELFORMATDESCRIPTOR struct.  These methods
-    // allow an application to specify a pixel format that has extended
-    // attributes that can't be specified in a PFD struct.
-    // We don't have separate calls for normal and overlay because the
-    // overlay is not a separate window on Win32 machines.
-    // The specified format *must* support OpenGL and drawing to a window.
-    //
     virtual void setPixelFormat( int format );
     int getPixelFormat( void );
 
@@ -94,34 +85,13 @@ public:
     int getBorderSize( void );
     SbBool isBorder( void ) const;
     
-    // Inventor 2.1 changed the behavior of double buffered windows to
-    // redraw temporary to the front buffer when an expose event is received
-    // or when a new sceneGraph() is set on an SoXtRenderArea. This does not
-    // apply for general interactive rendering. The idea is that it is 
-    // better to see something redraw (especially if it is slow) than
-    // to see garbage in the window (in the expose case) or an old invalid 
-    // scene graph (in the SoXtRenderArea::setSceneGraph() case).
-    //
-    // This API enables you to turn this functionality OFF if for some reason
-    // you are unable to prevent repeated expose from causing a redraw (which
-    // is bad and should be fixed, as it gets worse for large scenes). 
-    // This will be the case for example if you can't create a pulldown 
-    // menu in the popup planes.
-    //
-    // NOTE: this api might be removed in some future releases and is only
-    // intended as a porting help for Inventor 2.0 to 2.1
-    //
     void setDrawToFrontBufferEnable( SbBool enable );
     SbBool isDrawToFrontBufferEnable( void ) const;
 
     void setCursor( HCURSOR newCursor );
     HCURSOR getCursor( void ); // coin spesific
-protected:
-    // subclasses MUST redefine redraw() to draw in the normal bit planes.
-    // redrawOverlay() should be defined if the overlay planes are being
-    // used, and processEvent() should be defined if X events are being 
-    // received (see eventMask).
 
+protected:
 /*  virtual void redraw( void ) = 0;
     virtual void redrawOverlay( void );
     virtual void processEvent( MSG * anymsg );*/
@@ -134,11 +104,8 @@ protected:
     virtual void sizeChanged( const SbVec2s newSize );
     virtual void widgetChanged( HWND newWidget );
     
-    // sets/gets the size of the glx widget(s) - Note this size could be
-    // different from the SoWinComponent::getSize() method which return
-    // the size of the component, not necessary the same as the glx widget
-    // window (because of extra stuff like the decoration in the viewers).
     void setGlxSize( SbVec2s newSize );
+    void setGLSize( SbVec2s newSize );  // Coin spesific
     const SbVec2s getGlxSize( void ) const;
     const SbVec2s getGLSize( void ) const;
     
@@ -148,8 +115,7 @@ protected:
     SbBool isStereoBuffer( void );
     SbBool isRGBMode( void );
     
-    // returns the display lists share group for given context:
-    int	getDisplayListShareGroup( HGLRC ctx );   // 2.1
+    int	getDisplayListShareGroup( HGLRC ctx );
     
     HWND buildWidget( HWND parent );
     HWND getGlxMgrWidget( void );
@@ -180,9 +146,8 @@ protected:
 
     SbBool waitForExpose;
     SbBool drawToFrontBuffer;
+
 private:
-    // creates a GLX widget of the correct current type and get the current
-    // set of windows, color maps, etc...
     void buildNormalGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
     void buildOverlayGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
 
@@ -203,10 +168,10 @@ private:
 		 					              WPARAM wparam,
                                           LPARAM lparam );
 
-    static LRESULT dispatchMessage( HWND window,
-                             UINT message,
-                             WPARAM wparam,
-                             LPARAM lparam);
+    LRESULT OnCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT OnPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT OnDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 
     HWND getManagerWidget( void );
 

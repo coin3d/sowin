@@ -24,10 +24,8 @@
 #include <Inventor/SoLists.h>
 #include <Inventor/errors/SoDebugError.h>
 
-//#include <sowindefs.h>
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/SoWinComponent.h>
-//#include <Inventor/Win/SoWinMessageHandler.h>
 
 // *************************************************************************
 
@@ -197,7 +195,12 @@ SoWinComponent::setTitle( const char * const title )
         delete [] this->title;
         this->title = strcpy( new char [strlen(title)+1], title );
     }
-    SetWindowText( this->widget, ( LPCTSTR ) title );
+
+    if ( this->parent ) {
+        SetWindowText( this->parent , ( LPCTSTR ) title );
+    } else {
+        SetWindowText( this->widget, ( LPCTSTR ) title );
+    }
 }
 
 const char *
@@ -295,13 +298,21 @@ SoWinComponent::buildFormWidget( HWND parent )
 
     RegisterClass(&windowclass);
 
+    RECT rect;
+    if( IsWindow( parent ) ) {
+        GetClientRect( parent, & rect );
+    } else {
+        rect.right = SoWin_DefaultWidth;
+        rect.bottom = SoWin_DefaultHeight;
+    }
+
     widget = CreateWindow( ( char * ) this->getDefaultWidgetName( ),
 						   ( char * ) this->getTitle(),
 						   WS_CLIPCHILDREN|WS_CLIPSIBLINGS|WS_OVERLAPPEDWINDOW,
 						   0,
                            0,
-                           SoWin_DefaultWidth,
-                           SoWin_DefaultHeight,
+                           rect.right,
+                           rect.bottom,
 						   parent,
 						   menu,
 						   SoWin::getInstance( ),
@@ -427,7 +438,10 @@ SoWinComponent::getMDIAncestor( HWND hwnd )
 }
 
 int
-SoWinComponent::ChoosePixelFormatOIV( HDC hdc,int pixelType,int glModes, PIXELFORMATDESCRIPTOR *pfd )
+SoWinComponent::ChoosePixelFormatOIV( HDC hdc,
+                                      int pixelType,
+                                      int glModes,
+                                      PIXELFORMATDESCRIPTOR * pfd )
 {
     assert( hdc != NULL );
     assert( pfd != NULL );
@@ -437,12 +451,11 @@ SoWinComponent::ChoosePixelFormatOIV( HDC hdc,int pixelType,int glModes, PIXELFO
     pfd->nSize = sizeof( PIXELFORMATDESCRIPTOR );
     pfd->nVersion = 1;
     pfd->dwFlags = PFD_SUPPORT_OPENGL|PFD_DRAW_TO_WINDOW|PFD_SWAP_LAYER_BUFFERS;
-    if ( glModes & GL_DOUBLEBUFFER )
-    {
+    if ( glModes & GL_DOUBLEBUFFER ) {
         pfd->dwFlags |= PFD_DOUBLEBUFFER;
     }
-    pfd->iPixelType = PFD_TYPE_RGBA;  // FIXME: no support for palette  
-    pfd->cColorBits = pixelType;
+    pfd->iPixelType = pixelType;
+    pfd->cColorBits = pfd_cColorBits;
     pfd->cDepthBits = pfd_cDepthBits;
     pfd->iLayerType = PFD_MAIN_PLANE;  // FIXME: no support for overlay
 
@@ -456,12 +469,6 @@ SoWinComponent::ChoosePixelFormatOIV( HDC hdc,int pixelType,int glModes, PIXELFO
 //
 //  (private)
 //
-
-LRESULT
-SoWinComponent::dispatchMessage( HWND window, UINT message, WPARAM wparam, LPARAM lparam)
-{
-	return DefWindowProc( window, message, wparam, lparam );
-}
 
 LRESULT CALLBACK
 SoWinComponent::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lparam)
@@ -479,37 +486,36 @@ SoWinComponent::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lpa
         switch ( message )
         {
             case WM_SIZE:
-                object->OnSize( window, message, wparam, lparam );
-                return 0;
+                return object->OnSize( window, message, wparam, lparam );
 
             case WM_PAINT:
-                object->OnPaint( window, message, wparam, lparam );
-                return 0;
+                return object->OnPaint( window, message, wparam, lparam );
 
             case WM_DESTROY:
-                object->OnDestroy( window, message, wparam, lparam );
-                return 0;
+                return object->OnDestroy( window, message, wparam, lparam );
         }
-		return object->dispatchMessage( window, message, wparam, lparam );
 	}
 	return DefWindowProc( window, message, wparam, lparam );
 }
 
-void
+LRESULT
 SoWinComponent::OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     this->size = SbVec2s( HIWORD(lparam), LOWORD(lparam) );
+    return 0;
 } 
 
-void
+LRESULT
 SoWinComponent::OnPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     // FIXME: function not implemented
+    return 0;
 }
 
-void
+LRESULT
 SoWinComponent::OnDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     this->windowCloseAction();
     PostQuitMessage( 0 );
+    return 0;
 }

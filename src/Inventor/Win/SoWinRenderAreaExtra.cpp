@@ -43,10 +43,8 @@ SoWinRenderArea::processEvent( // virtual, protected
   const SoEvent * sceneEvent = NULL;
 
   if ( this->devices.extra )
-    for ( int i = 0; i < this->devices.extra->getLength() &&
-                     sceneEvent == NULL; i++ )
-      sceneEvent =
-        ((SoWinDevice *)(*this->devices.extra)[i])->translateEvent( msg );
+    for ( int i = 0; i < this->devices.extra->getLength() && sceneEvent == NULL; i++ )
+      sceneEvent = ((SoWinDevice *)(*this->devices.extra)[i])->translateEvent( msg );
 
   if ( ! sceneEvent && this->devices.mouse )
     sceneEvent = this->devices.mouse->translateEvent( msg );

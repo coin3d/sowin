@@ -5,7 +5,7 @@
 # Source Substitutions:
 
 WIDGET="HWND"
-EVENT="MSG"
+EVENT="MSG *"
 COMPONENTHEADER=""
 
 # new

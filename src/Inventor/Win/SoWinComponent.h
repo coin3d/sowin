@@ -17,8 +17,6 @@
  *
 \**************************************************************************/
 
-//  $Id$
-
 #ifndef SOWIN_COMPONENT_H
 #define SOWIN_COMPONENT_H
 
@@ -128,12 +126,11 @@ protected:
 
 private:
 
-    LRESULT dispatchMessage(HWND window,UINT message,WPARAM wparam,LPARAM lparam);
     static LRESULT CALLBACK windowProc(HWND window,UINT message, WPARAM wparam,LPARAM lparam);
 
-    void OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-    void OnPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-    void OnDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT OnPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT OnDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
  
 //  static LRESULT CALLBACK componentWndProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam );
 //  static LRESULT CALLBACK formWindowProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam );

@@ -29,6 +29,8 @@
 #include <sowindefs.h>
 #include <Inventor/Win/devices/SoWinDevice.h>
 
+long SoWinDevice::modifierKeys = 0;
+
 // *************************************************************************
 
 SoWinDevice::SoWinDevice(

@@ -38,7 +38,7 @@
 // *************************************************************************
 
 SoWinMouse::SoWinMouse(
-  int events )
+  UINT events )
 {
     this->events = events;
     this->locationEvent = NULL;
@@ -125,11 +125,11 @@ SoWinMouse::makeLocationEvent( MSG * msg )
 {
     delete this->locationEvent;
     this->locationEvent = new SoLocation2Event;
-    this->setEventPosition( this->locationEvent, LOWORD(msg->lParam), HIWORD(msg->lParam) );
+    this->setEventPosition( this->locationEvent, msg->pt.x, msg->pt.y );
 
-    this->locationEvent->setShiftDown( (LOWORD(msg->wParam) & MK_SHIFT) ? TRUE : FALSE );
-    this->locationEvent->setCtrlDown( (LOWORD(msg->wParam) & MK_CONTROL) ? TRUE : FALSE );
-//  this->locationEvent->setAltDown( (LOWORD(msg->wParam) & Mod1Mask) ? TRUE : FALSE );
+    SoWinMouse::locationEvent->setShiftDown( ( SoWinDevice::modifierKeys & MK_SHIFT ) ? TRUE : FALSE );
+    SoWinMouse::locationEvent->setCtrlDown( ( SoWinDevice::modifierKeys & MK_CONTROL ) ? TRUE : FALSE );
+    SoWinMouse::locationEvent->setAltDown( ( SoWinDevice::modifierKeys & MK_ALT ) ? TRUE : FALSE );
 
   return this->locationEvent;
 } // makeLocationEvent()
@@ -144,18 +144,21 @@ SoWinMouse::makeButtonEvent( MSG * msg, SoButtonEvent::State state )
     switch ( msg->message ) {
 
         case WM_LBUTTONDOWN: // left button
+        case WM_LBUTTONUP:
             this->buttonEvent->setButton( SoMouseButtonEvent::BUTTON1 );
             break;
 
         case WM_MBUTTONDOWN: // midbutton
+        case WM_MBUTTONUP:
             this->buttonEvent->setButton( SoMouseButtonEvent::BUTTON2 );
             break;
 
         case WM_RBUTTONDOWN: // right button
+        case WM_RBUTTONUP:
             this->buttonEvent->setButton( SoMouseButtonEvent::BUTTON3 );
             break;
 
-#if 0 // FIXME: disabled until it's enabled again through autoconf test
+#if 0   // FIXME: disabled until it's enabled again through autoconf test
         case WM_MOUSEWHEEL:
             if ( HIWORD(message->wParam) < 0) {  // delta z = WHEEL_DELTA = 120
                 this->buttonEvent->setButton( SoMouseButtonEvent::BUTTON4 );
@@ -168,11 +171,11 @@ SoWinMouse::makeButtonEvent( MSG * msg, SoButtonEvent::State state )
             this->buttonEvent->setButton( SoMouseButtonEvent::ANY );
         break;
         } // switch ( message.message)
-    this->setEventPosition( this->buttonEvent, LOWORD(msg->lParam), HIWORD(msg->lParam) );
+    this->setEventPosition( this->buttonEvent, msg->pt.x, msg->pt.y );
 
-    this->buttonEvent->setShiftDown( (LOWORD(msg->wParam) & MK_SHIFT) ? TRUE : FALSE );
-    this->buttonEvent->setCtrlDown( (LOWORD(msg->wParam) & MK_CONTROL) ? TRUE : FALSE );
-//  this->buttonEvent->setAltDown( (LOWORD(msg->wParam) & Mod1Mask) ? TRUE : FALSE );
+    SoWinMouse::buttonEvent->setShiftDown( ( SoWinDevice::modifierKeys & MK_SHIFT ) ? TRUE : FALSE );
+    SoWinMouse::buttonEvent->setCtrlDown( ( SoWinDevice::modifierKeys & MK_CONTROL ) ? TRUE : FALSE );
+    SoWinMouse::buttonEvent->setAltDown( ( SoWinDevice::modifierKeys & MK_ALT ) ? TRUE : FALSE );
 
     return this->buttonEvent;
 } // makeButtonEvent()

@@ -38,11 +38,10 @@
 #include <Inventor/events/SoKeyboardEvent.h>
 #include <Inventor/errors/SoDebugError.h>
 
-#include <Inventor/Win/devices/SoWinKeyCodes.h>
 #include <sowindefs.h>
-#include <Inventor/Win/SoWinBasic.h>
-
+#include <Inventor/Win/devices/SoWinKeyCodes.h>
 #include <Inventor/Win/devices/SoWinKeyboard.h>
+#include <Inventor/Win/SoWinBasic.h>
 
 // *************************************************************************
 
@@ -53,12 +52,13 @@
 */
 
 SbDict * SoWinKeyboard::translatetable = NULL;
+SoKeyboardEvent * SoWinKeyboard::keyboardEvent = NULL;
 
 void
 SoWinKeyboard::makeTranslationTable(
     void )
 {
-//    assert(SoWinKeyboard::translatetable == NULL);
+    // assert(SoWinKeyboard::translatetable == NULL);
     // FIXME: deallocate on exit. 20000311 mortene.
     SoWinKeyboard::translatetable = new SbDict;
 
@@ -78,10 +78,11 @@ SoWinKeyboard::makeTranslationTable(
 */
 
 SoWinKeyboard::SoWinKeyboard(
-  int events )
+  UINT events )
 {
   this->events = events;
-  this->keyboardEvent = NULL;
+  SoWinKeyboard::keyboardEvent = new SoKeyboardEvent;
+  this->makeTranslationTable( );
 } // SoWinKeyboard()
 
 /*!
@@ -91,7 +92,8 @@ SoWinKeyboard::SoWinKeyboard(
 SoWinKeyboard::~SoWinKeyboard( // virtual
   void )
 {
-  delete this->keyboardEvent;
+  //delete this->translatetable;
+    delete SoWinKeyboard::keyboardEvent;
 } // ~SoWinKeyboard()
 
 // *************************************************************************
@@ -136,21 +138,18 @@ const SoEvent *
 SoWinKeyboard::translateEvent( // virtual
     MSG * msg )
 {
-  switch ( msg->message ) {
-  // events we should catch:
-  case WM_KEYDOWN:
-    return this->makeKeyboardEvent( msg, SoButtonEvent::DOWN);
-    break;
-  case WM_KEYUP:
-    return this->makeKeyboardEvent( msg, SoButtonEvent::UP );
-    break;
+    switch ( msg->message ) {
+        // events we should catch:
+        case WM_KEYDOWN:
+            return this->makeKeyboardEvent( msg, SoButtonEvent::DOWN);
+        case WM_KEYUP:
+            return this->makeKeyboardEvent( msg, SoButtonEvent::UP );
+        // events we should ignore:
+        default:
+            break;
 
-  // events we should ignore:
-  default:
-    break;
-
-  } // switch ( event->type )
-  return (SoEvent *) NULL;
+    } // switch ( msg->message )
+    return (SoEvent *) NULL;
 } // translateEvent()
 
 // *************************************************************************
@@ -165,29 +164,53 @@ SoWinKeyboard::makeKeyboardEvent( // private
   MSG * msg,
   SoButtonEvent::State state )
 {
-
-    delete this->keyboardEvent;
-    this->keyboardEvent = new SoKeyboardEvent;
-    this->keyboardEvent->setState( state );
+    SoWinKeyboard::keyboardEvent->setState( state );
 
     //unsigned char repeat = ( unsigned char )( msg.lParam & 0x0f );
-
     void * sokey;
-    if ( !(msg->lParam & 0x80000000) ) { // if key pressed
-        if (SoWinKeyboard::translatetable->find( MapVirtualKey(msg->wParam,0), sokey)) {
-            this->keyboardEvent->setKey((SoKeyboardEvent::Key)(int)sokey);
-        } else {
-            this->keyboardEvent->setKey( SoKeyboardEvent::ANY );
+    if ( SoWinKeyboard::translatetable->find( MapVirtualKey(msg->wParam,0), sokey ) ) {
+        SoWinKeyboard::keyboardEvent->setKey( ( SoKeyboardEvent::Key )(int)sokey );
+    } else {
+        SoWinKeyboard::keyboardEvent->setKey( SoKeyboardEvent::ANY );
+        return NULL;
+    }
+
+    // modifiers:
+    if ( (int)sokey == SoKeyboardEvent::LEFT_SHIFT ) {
+        if ( state == SoButtonEvent::UP ) {
+            SoWinDevice::modifierKeys ^= MK_SHIFT;
             return NULL;
+        } else {    // SoButtonEvent::DOWN
+            if ( SoWinDevice::modifierKeys & MK_SHIFT ) return NULL;
+            SoWinDevice::modifierKeys |= MK_SHIFT;
         }
-    }   // if
+    }
 
-  // modifiers:
-    this->keyboardEvent->setShiftDown( (LOWORD(msg->wParam) & VK_SHIFT) ? TRUE : FALSE );
-    this->keyboardEvent->setCtrlDown( (LOWORD(msg->wParam) & VK_CONTROL) ? TRUE : FALSE );
-    this->keyboardEvent->setAltDown( (LOWORD(msg->wParam) & SOWIN_ALT) ? TRUE : FALSE );
+    if ( (int)sokey == SoKeyboardEvent::LEFT_CONTROL ) {
+        if ( state == SoButtonEvent::UP ) {
+            SoWinDevice::modifierKeys ^= MK_CONTROL;
+            return NULL;
+        } else {    // SoButtonEvent::DOWN
+            if ( SoWinDevice::modifierKeys & MK_CONTROL ) return NULL;
+            SoWinDevice::modifierKeys |= MK_CONTROL;
+        }
+    }
 
-  return this->keyboardEvent;
+    if ( (int)sokey == SoKeyboardEvent::LEFT_ALT ) {
+        if ( state == SoButtonEvent::UP ) {
+            SoWinDevice::modifierKeys ^= MK_ALT;
+            return NULL;
+        } else {    // SoButtonEvent::DOWN
+            if ( SoWinDevice::modifierKeys & MK_ALT ) return NULL;
+            SoWinDevice::modifierKeys |= MK_ALT;
+        }
+    }
+
+    SoWinKeyboard::keyboardEvent->setShiftDown( (SoWinDevice::modifierKeys & MK_SHIFT) ? TRUE : FALSE );
+    SoWinKeyboard::keyboardEvent->setCtrlDown( (SoWinDevice::modifierKeys & MK_CONTROL) ? TRUE : FALSE );
+    SoWinKeyboard::keyboardEvent->setAltDown( (SoWinDevice::modifierKeys & MK_ALT) ? TRUE : FALSE );
+
+    return SoWinKeyboard::keyboardEvent;
 } // makeKeyboardEvent()
 
-// *************************************************************************
+// *********************************uy****************************************

@@ -17,19 +17,16 @@
  *
  **************************************************************************/
 
-#if SOWIN_DEBUG
-/*static const char rcsid[] =
-  "$Id$";*/
-#endif // SOWIN_DEBUG
-
-#include <conio.h>
-
 #include <Inventor/SbVec2s.h>
 
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/SoWinGLWidget.h>
 
+#if SOWIN_DEBUG
+#include <Inventor/errors/SoDebugError.h>
+#include <conio.h>
+#endif // SOWIN_DEBUG
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -64,6 +61,7 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
     this->borderSize = 3;
     
     this->windowResized = FALSE;
+    this->haveFocus = FALSE;
 
     this->parent = parent;
 
@@ -166,7 +164,8 @@ PIXELFORMATDESCRIPTOR * SoWinGLWidget::getOverlayVisual( void )
 void SoWinGLWidget::setPixelFormat( int format )
 {
     this->nPixelFormat = format;
-    //assert( SetPixelFormat( this->hdcNormal, this->nPixelFormat, &pfdNormal ) == TRUE );
+    //BOOL ok = SetPixelFormat( this->hdcNormal, this->nPixelFormat, & pfdNormal )
+    //assert( ok );
 }
 
 int SoWinGLWidget::getPixelFormat( void )
@@ -270,8 +269,21 @@ void SoWinGLWidget::widgetChanged( HWND newWidget )
     
 void SoWinGLWidget::setGlxSize( SbVec2s newSize )
 {
+    this->setGLSize( newSize );
+}
+
+void SoWinGLWidget::setGLSize( SbVec2s newSize )  // Coin spesific
+{
+    short width, height;
+    newSize.getValue( width, height );
     this->glSize = newSize;
     this->sizeChanged( newSize );
+    MoveWindow( this->getNormalWidget( ),
+                0,
+                0,
+                width,
+                height,
+                TRUE );
 }
 
 const SbVec2s SoWinGLWidget::getGlxSize( void ) const
@@ -329,10 +341,15 @@ HWND SoWinGLWidget::buildWidget( HWND parent )
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = 4;
 
-    RegisterClass( &windowclass );
+    RegisterClass( & windowclass );
 
     RECT rect;
-    GetClientRect( parent, &rect );
+    if( IsWindow( parent ) ) {
+        GetClientRect( parent, & rect );
+    } else {
+        rect.right = SoWin_DefaultWidth;
+        rect.bottom = SoWin_DefaultHeight;
+    }
 
     this->managerWidget = CreateWindow(
                             wndclassname,
@@ -340,8 +357,8 @@ HWND SoWinGLWidget::buildWidget( HWND parent )
 						    WS_CLIPCHILDREN|
                             WS_CLIPSIBLINGS|
                             WS_CHILD|
-                            //WS_BORDER,
-                            WS_THICKFRAME,    //makes trouble
+                            WS_BORDER,
+                            //WS_THICKFRAME,
                             //WS_DLGFRAME,
 						    0,
                             0,
@@ -353,13 +370,14 @@ HWND SoWinGLWidget::buildWidget( HWND parent )
 						    this );
 
     assert( IsWindow( this->managerWidget ) );
-//    SoWin::addMessageCB( this->managerWindowProc );    // get messages
 
     if( this->glModes & SO_GL_OVERLAY ) {
         this->buildOverlayGLWidget( & this->pfd ); // FIXME: overlay not supported
     } else {
         this->buildNormalGLWidget( & this->pfd );
     }
+
+    SoWin::addMessageHook( this->managerWidget, WM_SIZE );
 
     return this->managerWidget;
 }
@@ -410,40 +428,17 @@ void SoWinGLWidget::changeCursor( HCURSOR newCursor )
 
 void SoWinGLWidget::glExpose( void )
 {
-    if ( firstRealize ) {
-        firstRealize = FALSE;
+    if ( this->firstRealize ) {
+        this->firstRealize = FALSE;
         this->glInit( );
     }
 }
 
 void SoWinGLWidget::glInit( void )
 {
-
-    this->ctxNormal = wglCreateContext( this->hdcNormal );
-
-/*    if ( ! this->ctxNormal )
-    {
-        SoDebugError::postInfo( "SoWinGLWidget::glInit",
-        "wglCreateContext() returned NULL" );
-    }*/
-
-    assert( this->ctxNormal != NULL );
-    if ( this->isDoubleBuffer( ) )   //FIXME: don't support overlay
-    {
-        assert( this->hdcDouble != NULL );
-        this->hdcNormal = this->hdcDouble;
-        this->ctxDouble = this->ctxNormal;
-    }
-    else
-    {
-        assert( this->hdcSingle != NULL );
-        this->hdcNormal = this->hdcSingle;
-        this->ctxSingle = this->ctxNormal;
-    }
-
-    this->glLock( );
+    glLock( );
     glEnable( GL_DEPTH_TEST );
-    this->glUnlock( );
+    glUnlock( );
 }
 
 void SoWinGLWidget::glReshape( int width, int height ) // virtual
@@ -458,14 +453,14 @@ void SoWinGLWidget::glRender( void ) // virtual
 
 void SoWinGLWidget::glLock( void )
 {
-  assert( this->hdcNormal != NULL );
-  wglMakeCurrent( this->hdcNormal, this->ctxNormal );
+    assert( this->hdcNormal != NULL );
+    wglMakeCurrent( this->hdcNormal, this->ctxNormal );
 }
 
 void SoWinGLWidget::glUnlock( void )
 {
     // FIXME: function not implemented
-    wglMakeCurrent( this->hdcNormal, NULL );
+    //wglMakeCurrent( this->hdcNormal, NULL );
 }
 
 void SoWinGLWidget::glSwapBuffers( void )
@@ -477,8 +472,8 @@ void SoWinGLWidget::glSwapBuffers( void )
 
 void SoWinGLWidget::glFlushBuffer( void )
 {
-  // nothing to do...
-  glFlush( );
+    // nothing to do...
+    glFlush( );
 }
 
 float SoWinGLWidget::getGLAspectRatio( void )
@@ -493,9 +488,9 @@ float SoWinGLWidget::getGLAspectRatio( void )
 //  (private)
 //
 
-void SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR *pfd )
+void SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // pfd is ignored
 {
-    LPCTSTR cursor = MAKEINTRESOURCE(IDC_NO);
+    LPCTSTR cursor = MAKEINTRESOURCE(IDC_ARROW);//MAKEINTRESOURCE(IDC_CROSS);
     HMENU menu = NULL;
     LPSTR wndclassname = "SoWinGLWidget_glwidget";
 
@@ -514,7 +509,12 @@ void SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR *pfd )
     RegisterClass( & windowclass );
 
     RECT rect;
-    GetClientRect( this->managerWidget, &rect);
+    if( IsWindow( parent ) ) {
+        GetClientRect( parent, & rect );
+    } else {
+        rect.right = SoWin_DefaultWidth;
+        rect.bottom = SoWin_DefaultHeight;
+    }
 
     HWND normalwidget = CreateWindow( wndclassname,
 						              wndclassname,
@@ -532,35 +532,18 @@ void SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR *pfd )
 
     assert( IsWindow( normalwidget ) );
 
-    this->hdcNormal = GetDC( normalwidget );
-    assert( this->hdcNormal != NULL );
-
     this->firstRealize = TRUE;
 
-    memcpy( (void *) (& this->pfdNormal), pfd, sizeof(PIXELFORMATDESCRIPTOR) );
-
-    this->nPixelFormat = this->ChoosePixelFormatOIV( this->hdcNormal,
-                                                     pfd_cColorBits,
-                                                     this->glModes,
-                                                     pfd );
-
-    assert( SetPixelFormat( this->hdcNormal, this->nPixelFormat, pfd ) == TRUE );
-    
     if( this->glModes & SO_GL_DOUBLE ) {// ( vis->dwFlags & PFD_DOUBLEBUFFER )
-        memcpy( & this->pfdDouble, pfd, sizeof( PIXELFORMATDESCRIPTOR ) );
-        this->hdcDouble = this->hdcNormal;
         this->doubleBufferWidget = normalwidget;
     } else {
-        memcpy( & this->pfdSingle, pfd, sizeof( PIXELFORMATDESCRIPTOR ) );
-        this->hdcSingle = this->hdcNormal;
         this->singleBufferWidget = normalwidget;
     }
 
     ShowWindow( normalwidget, SW_SHOW );
-//        SoWin::addProcessEventFunction( processEvent ); // TEST
 }
 
-void SoWinGLWidget::buildOverlayGLWidget( PIXELFORMATDESCRIPTOR *pfd )
+void SoWinGLWidget::buildOverlayGLWidget( PIXELFORMATDESCRIPTOR * pfd )
 {
     // FIXME: function not implemented
 }
@@ -570,20 +553,20 @@ void SoWinGLWidget::destroyNormalWindows( void )
     // FIXME: function not implemented
 }
 
-void SoWinGLWidget::destroyGLWidget( HWND &w, HGLRC &ctx, SbBool normalWindow )
+void SoWinGLWidget::destroyGLWidget( HWND & w, HGLRC & ctx, SbBool normalWindow )
 {
     // FIXME: function not implemented
 }
 
-void SoWinGLWidget::managerStructureNotifyCB( HWND, SoWinGLWidget *, MSG *, BOOL *)
+void SoWinGLWidget::managerStructureNotifyCB( HWND, SoWinGLWidget *, MSG *, BOOL * )
 {
     // FIXME: function not implemented
 }
 
 LRESULT CALLBACK SoWinGLWidget::managerWindowProc( HWND window,
-                                           UINT message,
-		 					               WPARAM wparam,
-                                           LPARAM lparam )
+                                                   UINT message,
+		 					                       WPARAM wparam,
+                                                   LPARAM lparam )
 {
     if ( message == WM_CREATE ) {
 		CREATESTRUCT * createstruct;
@@ -593,12 +576,13 @@ LRESULT CALLBACK SoWinGLWidget::managerWindowProc( HWND window,
 	}
 
 	SoWinGLWidget * object = ( SoWinGLWidget * ) GetWindowLong( window, 0 );
-	//if ( object && ( window == object->getManagerWidget( ) ) ) {
+
     if ( object && object->getManagerWidget( ) ) {
         switch ( message )
         {
             case WM_SIZE:
                 object->sizeChanged( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
+
                 MoveWindow( object->getNormalWidget( ),
                             0,
                             0,
@@ -607,35 +591,30 @@ LRESULT CALLBACK SoWinGLWidget::managerWindowProc( HWND window,
                             TRUE );
                 return 0;
         }
-        //return 0;
-		return object->dispatchMessage( window, message, wparam, lparam );
 	}
 	return DefWindowProc( window, message, wparam, lparam );
 }
 
 LRESULT CALLBACK SoWinGLWidget::glWindowProc( HWND window,
-                                       UINT message,
-		 					           WPARAM wparam,
-                                       LPARAM lparam )
+                                              UINT message,
+		 					                  WPARAM wparam,
+                                              LPARAM lparam )
 {
     if ( message == WM_CREATE ) {
 		CREATESTRUCT * createstruct;
 		createstruct = ( CREATESTRUCT * ) lparam;
 		SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
-		return 0;
+
+        SoWinGLWidget * object = ( SoWinGLWidget * )( createstruct->lpCreateParams );
+        return object->OnCreate( window, message, wparam, lparam ); // won't work
 	}
 
-    PAINTSTRUCT ps;
-
 	SoWinGLWidget * object = ( SoWinGLWidget * ) GetWindowLong( window, 0 );
-    //if ( object && ( window == object->getNormalWidget( ) ) ) {
 
     if ( object && object->getNormalWidget( ) ) {
 
         MSG msg;
-        POINT pt;
-        pt.x = LOWORD( lparam );
-        pt.y = HIWORD( lparam );
+        POINT pt = { LOWORD(lparam), HIWORD(lparam) };
         msg.hwnd = window;
         msg.lParam = lparam;
         msg.message = message;
@@ -644,51 +623,175 @@ LRESULT CALLBACK SoWinGLWidget::glWindowProc( HWND window,
         msg.wParam = wparam;
         object->processEvent( & msg );
         
+        if( ! object->haveFocus ) {
+            object->haveFocus = ( BOOL ) SetFocus( window );
+        }
+
         switch ( message )
         {
             case WM_SIZE:
-                _cprintf( "SoWinGLWidget: WM_SIZE\n" );
-                object->glReshape( LOWORD( lparam ), HIWORD( lparam ) );
-                return 0;
+                return object->OnSize( window, message, wparam, lparam );
 
             case WM_PAINT:
-                object->hdcNormal = BeginPaint( window, & ps );
-                _cprintf("SoWinGLWidget: WM_PAINT\n");
-                object->glExpose( );
-                object->glRender( );
-                //object->OnGLPaint( window, message, wparam, lparam );
-                EndPaint( window, & ps );
-                return 0;
-
-            case WM_LBUTTONDOWN:
-                _cprintf( "SoWinGLWidget: WM_LBUTTONDOWN\n" );
-                // call function
-                return 0;
-
-            case WM_MOUSEMOVE:
-                if ( wparam & MK_LBUTTON )  // drag
-                    _cprintf( "SoWinGLWidget: WM_MOUSEMOVE & MK_LBUTTON x:%d y:%d\n",
-                              LOWORD( lparam ),
-                              HIWORD( lparam ) );
-                return 0;
+                return object->OnPaint( window, message, wparam, lparam );
 
             case WM_DESTROY:
-                _cprintf( "SoWinGLWidget: WM_DESTROY\n" );
-                //object->OnGLDestroy( window, message, wparam, lparam );
-                return 0;
-        }
-		return object->dispatchMessage( window, message, wparam, lparam );
-	}
-	return DefWindowProc( window, message, wparam, lparam );
-}
+                return object->OnDestroy( window, message, wparam, lparam );
 
-LRESULT
-SoWinGLWidget::dispatchMessage( HWND window, UINT message, WPARAM wparam, LPARAM lparam)
-{
+            case WM_LBUTTONDOWN:
+            case WM_MBUTTONDOWN:
+            case WM_RBUTTONDOWN:
+                SetCapture( window );
+                return 0;
+
+            case WM_LBUTTONUP:
+            case WM_MBUTTONUP:
+            case WM_RBUTTONUP:
+                ReleaseCapture( );
+                return 0;
+
+            case WM_KILLFOCUS:
+                object->haveFocus = FALSE;
+                return 0;
+
+/*          case WM_MOUSEMOVE:
+                object->mousePosition.x = LOWORD(lparam);  // horizontal position of cursor 
+                object->mousePosition.y = HIWORD(lparam);  // vertical position of cursor 
+                return 0;*/
+
+/*          case WM_KEYDOWN:
+            case WM_KEYUP:
+                UpdateWindow( window );
+                return 0;*/
+        }
+	}
 	return DefWindowProc( window, message, wparam, lparam );
 }
 
 HWND SoWinGLWidget::getManagerWidget( void )
 {
     return this->managerWidget;
+}
+
+LRESULT
+SoWinGLWidget::OnCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+    //CREATESTRUCT * cs = ( CREATESTRUCT * ) lparam;
+
+    int nPixelFormat;
+    BOOL ok;
+
+    HDC hDC = GetDC( window );
+    
+    static PIXELFORMATDESCRIPTOR pfd =  // FIXME: no palette or doublebuffer support
+	{
+		sizeof(PIXELFORMATDESCRIPTOR),	// size of this pfd
+		1,								// version number
+		PFD_DRAW_TO_WINDOW				// support window
+		|PFD_SUPPORT_OPENGL				// support OpenGL
+		|PFD_DOUBLEBUFFER				// double buffer
+		|PFD_TYPE_RGBA,					// RGBA type
+		32,								// 32-bit colour depth
+		0, 0, 0, 0, 0, 0,				// colour bits ignored
+		0,								// no alpha buffer
+		0,								// shift bit ignored
+		0,								// on accumulation buffer
+		0, 0, 0, 0,						// accum bits ignored
+		32,								// 32-bits z-buffer
+		0,								// no stencil buffer
+		0,								// no auxiliary buffer
+		PFD_MAIN_PLANE,					// main layer
+		0,								// reserved
+		0, 0, 0							// layer masks ignored
+    };
+
+    nPixelFormat = ChoosePixelFormat( hDC, & pfd );
+
+    ok = SetPixelFormat( hDC, nPixelFormat, & pfd );
+    assert( ok );
+
+    HGLRC hRC = wglCreateContext( hDC );    // FIXME: returns NULL in Release mode
+    #if SOWIN_DEBUG && 0
+    SoDebugError::postInfo( "SoWinGLWidget::OnCreate", "called" );
+
+    if( ! desc ) WinDisplayLastError( );
+
+    #endif // SOWIN_DEBUG
+    ok = wglMakeCurrent( hDC, hRC );
+    assert( ok );
+
+    //GLSetupRC( );
+    //this->glInit( );
+
+    this->hdcNormal = hDC;
+    this->ctxNormal = hRC;
+    this->nPixelFormat = nPixelFormat;
+
+    wglMakeCurrent( NULL, NULL );
+
+    memcpy( ( void * ) ( & this->pfdNormal ), & pfd, sizeof( PIXELFORMATDESCRIPTOR ) );
+    if( this->glModes & SO_GL_DOUBLE ) {
+        memcpy( & this->pfdDouble, & pfd, sizeof( PIXELFORMATDESCRIPTOR ) );
+        this->hdcDouble = this->hdcNormal;
+        this->ctxDouble = this->ctxNormal;
+    } else {
+        memcpy( & this->pfdSingle, & pfd, sizeof( PIXELFORMATDESCRIPTOR ) );
+        this->hdcSingle = this->hdcNormal;
+        this->ctxSingle = this->ctxNormal;
+    }
+
+    return 0;
+} 
+
+LRESULT
+SoWinGLWidget::OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+    #if SOWIN_DEBUG && 0
+    SoDebugError::postInfo( "SoWinGLWidget::OnSize", "called" );
+    #endif // SOWIN_DEBUG
+
+    BOOL ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
+    assert( ok );
+    //GLResize( LOWORD( lparam ), HIWORD( lparam ) );
+
+    this->glReshape( LOWORD( lparam ), HIWORD( lparam ) );
+    this->setGLSize( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
+    this->sizeChanged(SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
+
+    ok = wglMakeCurrent( NULL, NULL );
+    assert( ok );
+
+    return 0;
+} 
+
+LRESULT
+SoWinGLWidget::OnPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+    #if SOWIN_DEBUG && 0
+    SoDebugError::postInfo( "SoWinGLWidget::OnPaint", "called" );
+    #endif // SOWIN_DEBUG
+
+    PAINTSTRUCT ps;
+    this->hdcNormal = BeginPaint( window, & ps );
+
+    wglMakeCurrent( this->hdcNormal, this->ctxNormal );
+    // GLRenderScene( NULL );
+
+    this->glExpose( );
+    this->glRender( );
+
+    wglMakeCurrent( this->hdcNormal, NULL );
+
+    EndPaint( window, & ps );
+
+    return 0;
+}
+
+LRESULT
+SoWinGLWidget::OnDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+    wglDeleteContext( this->ctxNormal );
+    ReleaseDC( window, this->hdcNormal );
+
+    return 0;
 }

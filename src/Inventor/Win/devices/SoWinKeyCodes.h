@@ -28,7 +28,7 @@
 #define SOWIN_OEM_6        0x1b    // ¨
 #define SOWIN_OEM_5        0x2b    // '
 #define SOWIN_A            0x1e
-#define SOWIN_S            0x1d
+#define SOWIN_S            0x1f
 #define SOWIN_D            0x20
 #define SOWIN_F            0x21
 #define SOWIN_G            0x22
@@ -36,8 +36,8 @@
 #define SOWIN_J            0x24
 #define SOWIN_K            0x25
 #define SOWIN_L            0x26
-#define SOWIN_OEM_1        0x27
-#define SOWIN_OEM_7        0x28
+#define SOWIN_OEM_1        0x27     // ø
+#define SOWIN_OEM_7        0x28     // æ
 #define SOWIN_Z            0x2c
 #define SOWIN_X            0x2d
 #define SOWIN_C            0x2e
@@ -154,8 +154,8 @@ static struct key1map WinToSoMapping[] = {
 
   {SOWIN_SHIFT, SoKeyboardEvent::LEFT_SHIFT},
   {SOWIN_CTRL, SoKeyboardEvent::LEFT_CONTROL},
-//  {Key_Meta, SoKeyboardEvent::LEFT_ALT},
-  {SOWIN_ALT, SoKeyboardEvent::LEFT_ALT},
+//{Key_Meta, SoKeyboardEvent::LEFT_ALT},
+  {SOWIN_ALT, SoKeyboardEvent::LEFT_ALT}, // FIXME: makes trouble
   {SOWIN_CAPS_LOCK, SoKeyboardEvent::CAPS_LOCK},
   {SOWIN_NUM_LOCK, SoKeyboardEvent::NUM_LOCK},
   {SOWIN_SCROLL_LOCK, SoKeyboardEvent::SCROLL_LOCK},
@@ -252,7 +252,7 @@ static struct key1map WinToSoMapping[] = {
   {SOWIN_P, SoKeyboardEvent::P},
   {SOWIN_Q, SoKeyboardEvent::Q},
   {SOWIN_R, SoKeyboardEvent::R},
-  {SOWIN_S, SoKeyboardEvent::S},
+//  {SOWIN_S, SoKeyboardEvent::S},
   {SOWIN_T, SoKeyboardEvent::T},
   {SOWIN_U, SoKeyboardEvent::U},
   {SOWIN_V, SoKeyboardEvent::V},

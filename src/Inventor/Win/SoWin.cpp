@@ -1,17 +1,14 @@
+#include <conio.h>
+
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInteraction.h>
 #include <Inventor/nodekits/SoNodeKit.h>
 #include <Inventor/SbTime.h>
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
-
-#if SOWIN_DEBUG
 #include <Inventor/errors/SoDebugError.h>
-#include <conio.h>
-#endif // SOWIN_DEBUG
 
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/SoWinComponent.h>
-#include <Inventor/Win/SoWinMessageHandler.h>
 
 // *************************************************************************
 
@@ -19,13 +16,13 @@ HINSTANCE SoWin::Instance = NULL;
 HWND SoWin::mainWidget = NULL;
 char * SoWin::appName = NULL;
 char * SoWin::className = NULL;
-SoWinMessageHandler * SoWin::messageHandler = NULL;
 int SoWin::timerSensorId = 0;
 SbBool SoWin::timerSensorActive = FALSE;
 int SoWin::delaySensorId = 0;
 SbBool SoWin::delaySensorActive = FALSE;
 int SoWin::idleSensorId = 0;
 SbBool SoWin::idleSensorActive = FALSE;
+SbList< messageHook * > * SoWin::messageHookList = NULL;    //hook
 
 // *************************************************************************
 
@@ -53,7 +50,6 @@ HWND SoWin::init( int argc,
     if ( className )
        SoWin::className = strcpy( new char [strlen( className ) + 1], className );
 
-    messageHandler = new SoWinMessageHandler;
     SoWin::registerWindowClass( className );
 
     RECT rect = { 0, 0, SoWin_DefaultWidth, SoWin_DefaultHeight };  // default window size
@@ -62,15 +58,19 @@ HWND SoWin::init( int argc,
     return toplevel;
 }
 
-void SoWin::init( HWND const topLevelWidget )   // requires messageHandler to be initialized
+void SoWin::init( HWND const topLevelWidget )
 {
     SoDB::init( );
     SoNodeKit::init( );
     SoInteraction::init( );
 
+    SoDebugError::setHandlerCallback( SoWin::errorHandlerCB, NULL );    // initialize error handeling
+
     SoDB::getSensorManager( )->setChangedCallback( SoWin::sensorQueueChanged, NULL );
     if(topLevelWidget)
         SoWin::mainWidget = topLevelWidget;
+
+    SoWin::messageHookList = new SbList< messageHook * >;   // add hook
 }
 
 void SoWin::init( void )
@@ -80,14 +80,29 @@ void SoWin::init( void )
 
 void SoWin::mainLoop( void )
 {
-    messageHandler->messageLoop( );
+    MSG msg;
+    while ( TRUE ) {
+        WaitMessage( );
+        if ( GetMessage( & msg, NULL, 0, 0 ) ) {
+            TranslateMessage( & msg );
+            DispatchMessage( & msg );
+        } else break;
+    }
+
+/*  // Realtime loop - hogs CPU 
+    while ( TRUE ) {
+        if ( PeekMessage( & msg, NULL, 0, 0, PM_NOREMOVE ) ) {
+            if ( GetMessage( & msg, NULL, 0, 0 ) ) {
+                TranslateMessage( & msg );
+                DispatchMessage( & msg );
+            } else break;   // recieved WM_QUIT
+        } else //SoWin::idleSensorCB( msg.hwnd, msg.message, msg.wParam, msg.time );
+            SoWin::doIdleTasks( );
+    }*/
 }
 
 void SoWin::doIdleTasks( void )
 {
-    static int idleCount = 0;
-    _cprintf( "doIdleTasks %d\n", idleCount++ );
-    // FIXME: tmp fix
     SoWin::idleSensorId = 0;
     SoWin::idleSensorActive = FALSE;
     SoDB::getSensorManager( )->processDelayQueue( TRUE );
@@ -96,12 +111,8 @@ void SoWin::doIdleTasks( void )
 
 BOOL SoWin::dispatchEvent( MSG * msg )
 {
-    /*switch ( msg->message ) {
-        case WM_TIMER: if( msg->... id = idleTimerId) retval = TRUE;
-    }*/
-
-    DispatchMessage( msg );
-    return ( TRUE );
+    // FIXME: not implemented
+    return FALSE;
 }
 
 void SoWin::show( HWND const widget )
@@ -119,7 +130,7 @@ void SoWin::setWidgetSize( HWND widget, const SbVec2s size )
     SIZE old_size;
     HDC hdc = GetDC( mainWidget );
 
-    SetWindowExtEx( hdc, size[0], size[1], &old_size );
+    SetWindowExtEx( hdc, size[0], size[1], & old_size );
 } 
 
 SbVec2s SoWin::getWidgetSize( HWND widget )
@@ -137,7 +148,7 @@ SbVec2s SoWin::getWidgetSize( HWND widget )
 
 HWND SoWin::getTopLevelWidget( void )
 {
-  return SoWin::mainWidget; // FIXME: ???
+    return SoWin::mainWidget; // FIXME: ???
 }
 
 void SoWin::createSimpleErrorDialog( HWND const widget, const char * const dialogTitle, const char * const errorStr1, const char * const errorStr2)
@@ -238,40 +249,38 @@ HINSTANCE SoWin::getInstance( void )
 {
     return SoWin::Instance;
 }
-/*
-void SoWin::errorHandlerCB( const SoError *error, void *data )
+
+void SoWin::errorHandlerCB( const SoError * error, void * data )
 {
-   // FIXME: not implemented
-}*/
+    SbString debugstring = error->getDebugString( );
+
+    #if SOWIN_DEBUG
+    _cprintf(   "%s\n", debugstring.getString( ) );
+    #else
+    MessageBox( NULL,
+                ( LPCTSTR ) debugstring.getString( ),
+                "SoError",
+                MB_OK | MB_ICONERROR );
+    #endif // SOWIN_DEBUG
+
+}
 
 void SoWin::addMessageHook( HWND hwnd, UINT message )
 {
-//    messageHandler.addMessageHook( hwnd, message );
+    messageHook * hook = new messageHook;
+    hook->hWnd = hwnd;
+    hook->message = message;
+
+    SoWin::messageHookList->append( hook );
 }
 
 void SoWin::removeMessageHook( HWND hwnd, UINT message )
 {
-//    messageHandler.removeMessageHook( hwnd, message );
-}
+    /*messageHook * hook = new messageHook;
+    hook->hWnd = hwnd;
+    hook->message = message;
 
-// Coin spesific
-
-void SoWin::deInit( void )  // cleanup
-{
-    delete SoWin::messageHandler;
-    SoWin::messageHandler = NULL;
-
-    SoWin::unRegisterWindowClass( SoWin::className );
-}
-
-void SoWin::addProcessEventFunction( processEventFunction * function )
-{
-    SoWin::messageHandler->addProcessEventFunction( function );
-}
-
-void SoWin::removeProcessEventFunction( processEventFunction * function )
-{
-    SoWin::messageHandler->removeProcessEventFunction( function );
+    SoWin::messageHookList->removeItem( hook );*/
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -292,7 +301,7 @@ void SoWin::registerWindowClass( const char * const className )
     windowclass.lpszClassName = className;
     windowclass.hInstance = SoWin::Instance;
     windowclass.lpfnWndProc = SoWin::windowCB;
-	windowclass.style = CS_HREDRAW|CS_VREDRAW|CS_OWNDC;
+	windowclass.style = /*CS_HREDRAW|CS_VREDRAW|*/CS_OWNDC;
 	windowclass.lpszMenuName = NULL;
 	windowclass.hIcon = LoadIcon( NULL, icon );
 	windowclass.hCursor = LoadCursor( NULL, cursor );
@@ -300,7 +309,7 @@ void SoWin::registerWindowClass( const char * const className )
 	windowclass.cbClsExtra = 0;
 	windowclass.cbWndExtra = 4;
 
-	RegisterClass( &windowclass );
+	RegisterClass( & windowclass );
 }
 
 void SoWin::unRegisterWindowClass( const char * const className )
@@ -314,42 +323,36 @@ HWND SoWin::createWindow( char * title, char * className, RECT rect, HWND parent
     LPVOID params = NULL;
 
     SoWin::mainWidget = CreateWindow( className,
-						title,
-						style,
-						rect.left,
-                        rect.top,
-                        rect.right - rect.left,
-                        rect.bottom - rect.top,
-						parent,
-						menu,
-						SoWin::Instance,
-						params );
-
-
-    //messageHandler->addCB( SoWin::windowCB );
+						              title,
+						              style,
+						              rect.left,
+                                      rect.top,
+                                      rect.right - rect.left,
+                                      rect.bottom - rect.top,
+						              parent,
+						              menu,
+						              SoWin::Instance,
+						              params );
 
     return SoWin::mainWidget;
 }
 
 LRESULT CALLBACK SoWin::windowCB( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
+    SoWin::OnAny( window, message, wparam, lparam );
+
     switch( message )
     {
-        /*case WM_ACTIVATE:
-            return 0;*/
-
-        /*case WM_SIZE:     
-            return 0;*/
+        case WM_SIZE:
+            return SoWin::OnSize( window, message, wparam, lparam );
 
         case WM_DESTROY:
-            PostQuitMessage( 0 );
-            return 0;
+            return SoWin::OnDestroy( window, message, wparam, lparam );
             
         case WM_QUIT:
-            SoWin::deInit( );
-            return 0;
+            return SoWin::OnQuit( window, message, wparam, lparam );
+            
     }
-//    return object->dispatchMessage( window, message, wparam, lparam );
     return DefWindowProc( window, message, wparam, lparam );
 }
 
@@ -363,7 +366,6 @@ void CALLBACK SoWin::timerSensorCB( HWND window, UINT message, UINT idevent, DWO
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo( "SoWin::timerSensorCB", "called" );
 #endif // SOWIN_DEBUG
-  _cprintf( "SoWin::timerSensorCB\n" );
   SoWin::timerSensorId = 0;
   SoWin::timerSensorActive = FALSE;
   SoDB::getSensorManager( )->processTimerQueue( );
@@ -386,17 +388,12 @@ void CALLBACK SoWin::idleSensorCB( HWND window, UINT message, UINT idevent, DWOR
     #if SOWIN_DEBUG && 0
     SoDebugError::postInfo( "SoWin::idleSensorCB", "called" );
     #endif // SOWIN_DEBUG
-    _cprintf( "idleSensorCB\n" );
-/*  SoWin::idleSensorId = 0;
-    SoWin::idleSensorActive = FALSE;
-    SoDB::getSensorManager( )->processDelayQueue( TRUE );
-    SoWin::sensorQueueChanged( NULL );*/
     SoWin::doIdleTasks( );
 }
 
 void SoWin::sensorQueueChanged( void * cbdata )
 {
-   SoSensorManager * sensormanager = SoDB::getSensorManager( );
+    SoSensorManager * sensormanager = SoDB::getSensorManager( );
 
     SbTime timevalue;
     if ( sensormanager->isTimerSensorPending( timevalue ) ) {
@@ -409,6 +406,7 @@ void SoWin::sensorQueueChanged( void * cbdata )
                                          0,
                                          interval.getMsecValue( ),
                                          SoWin::timerSensorCB );
+
         SoWin::timerSensorActive = TRUE;
     } else if ( SoWin::timerSensorActive ) {
         KillTimer( NULL, SoWin::timerSensorId );
@@ -417,19 +415,14 @@ void SoWin::sensorQueueChanged( void * cbdata )
     }
 
     if ( sensormanager->isDelaySensorPending( ) ) {
-        /* fix - remove                             
+        
         if ( ! SoWin::idleSensorActive ) {
             SoWin::idleSensorId = SetTimer( NULL,
                                         0,
-                                        1000,
+                                        0,
                                         SoWin::idleSensorCB );
             SoWin::idleSensorActive = TRUE;
-        }*/
-        /*if ( ! SoXt::idleSensorActive ) {
-            SoWin::idleSensorId =
-                XtAppAddWorkProc( SoXt::getAppContext( ), SoXt::idleSensorCB, NULL );
-            SoWin::idleSensorActive = TRUE;
-        }*/
+        }
 
         if ( ! SoWin::delaySensorActive ) {
             unsigned long timeout = SoDB::getDelaySensorTimeout( ).getMsecValue( );
@@ -440,17 +433,13 @@ void SoWin::sensorQueueChanged( void * cbdata )
             SoWin::delaySensorActive = TRUE;
         }
     } else {
-        /* fix - remove                             
+                             
         if ( SoWin::idleSensorActive ) {
             KillTimer( NULL, SoWin::idleSensorId );
             SoWin::idleSensorId = 0;
             SoWin::idleSensorActive = FALSE;
-        } */
-        /*if ( SoXt::idleSensorActive ) {
-            XtRemoveWorkProc( SoXt::idleSensorId );
-            SoXt::idleSensorId = 0;
-            SoXt::idleSensorActive = FALSE;
-        }*/
+        }
+
         if ( SoWin::delaySensorActive ) {
             KillTimer( NULL, SoWin::delaySensorId );
             SoWin::delaySensorId = 0;
@@ -459,12 +448,64 @@ void SoWin::sensorQueueChanged( void * cbdata )
     }
 }
 
+LRESULT SoWin::OnAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+    if ( messageHookList ) {
+        int length = messageHookList->getLength( );
+        messageHook * const * hookList = messageHookList->getArrayPtr( );
+        for ( int i = 0; i < length; i++ )
+            if ( hookList[i]->message == message ) {
+                //SendMessage( hookList[i]->hWnd, message, wparam, lparam );
+                //PostMessage( hookList[i]->hWnd, message, wparam, lparam );
+
+                switch( message) {
+
+                    case WM_SIZE:
+                        MoveWindow( hookList[i]->hWnd,
+                                    0,
+                                    0,
+                                    LOWORD( lparam ),
+                                    HIWORD( lparam ),
+                                    TRUE );
+                        return 0;
+                }
+            }
+    }
+    return 0;
+}
+
+LRESULT SoWin::OnSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+    UpdateWindow( window );
+    //InvalidateRect( window, NULL, FALSE );
+    return 0;
+}
+
+LRESULT SoWin::OnDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+    PostQuitMessage( 0 );
+    return 0;
+}
+ 
+LRESULT SoWin::OnQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+    delete SoWin::messageHookList;  // remove hook
+
+    if ( SoWin::idleSensorActive ) KillTimer( NULL, SoWin::idleSensorId );
+    if ( SoWin::timerSensorActive ) KillTimer( NULL, SoWin::timerSensorId );
+    if ( SoWin::delaySensorActive ) KillTimer( NULL, SoWin::delaySensorId );
+
+    SoWin::unRegisterWindowClass( SoWin::className );
+
+    return 0;
+}
+
 ///////////////////////////////////////////////////////////////////
 //
 //  (globals)
 //
 
-#ifdef _DEBUG
+#if SOWIN_DEBUG
 
 void WinDisplayLastError( void )
 {
@@ -486,7 +527,7 @@ void WinDisplayLastError( void )
     LocalFree( lpMsgBuf );
 }
 
-#endif // _DEBUG
+#endif // SOWIN_DEBUG
 
 #ifndef SOWIN_INTERNAL
 
@@ -533,21 +574,21 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
     free( cmdline );
 
-    #ifdef _DEBUG
+    #if SOWIN_DEBUG
     AllocConsole( );
     _cprintf( "Console open...\n" );
     for (i = 0; i < argc; i++ )
         _cprintf( "Argv[%d] = %s\n", i, argv[i] ); 
-    #endif  // _DEBUG
+    #endif  // SOWIN_DEBUG
 
     //retval = ivMain( argc, argv );
     ivMain( argc, argv );
     retval = 0;
 
-    #ifdef _DEBUG
+    #if SOWIN_DEBUG
     _cprintf( "Closing console...\n" );
     FreeConsole( );
-    #endif // _DEBUG
+    #endif // SOWIN_DEBUG
 
     // free allocated memory
     for( i = 0; i < argc; i++)

@@ -17,8 +17,6 @@
  *
 \**************************************************************************/
 
-//  $Id$
-
 #ifndef SOWIN_H
 #define SOWIN_H
 
@@ -29,10 +27,18 @@
 #include <Inventor/SbBasic.h>
 #include <Inventor/SbLinear.h>
 
+#include <Inventor/lists/SbList.h>
+#include <Inventor/errors/SoError.h>
+
 #include <Inventor/Win/SoWinBasic.h>
 
+struct messageHook
+{
+    HWND hWnd;
+    UINT message;
+};
+
 class SoSensor;
-class SoWinMessageHandler;
 
 // default values when creating window ( !embed )
 const int SoWin_DefaultWidth = 500;
@@ -46,7 +52,7 @@ class SOWIN_DLL_EXPORT SoWin
 public:
     static HWND init( const char * const appName,
                       const char * const className = "SoWin" );
-    static HWND init( int argc, char ** argv,           // FIXME: oiv don't have this...
+    static HWND init( int argc, char ** argv,           // FIXME: coin spesific
                       const char * const appName,
                       const char * const className = "SoWin" );
     static void init( HWND const topLevelWidget );
@@ -68,40 +74,34 @@ public:
                                          const char * const errorStr1,
                                          const char * const errorStr2 = NULL );
 
-
     // TGS sh*t - not implemented
     static void terminate( long terminateSyncTime = 100 );
     static SbBool PreTranslateMessage( MSG * msg );
     static SbBool nextEvent( int appContext, MSG * msg );
     static int getAppContext( void );
     static int * getDisplay( void );
-    static HWND getShellWidget(HWND widget);
+    static HWND getShellWidget( HWND widget );
     static void	getPopupArgs( int * display, int screen, char ** args, int * n );
     static void	addColormapToShell( HWND widget, HWND shell );
     static LRESULT isInventorMessage( HWND hwnd,
                                       UINT message,
                                       WPARAM wParam,
                                       LPARAM lParam );
-    char * encodeString( char *string );
+    char * encodeString( char * string );
     char * decodeString( char * wstring );
 
     static UINT wmTimerMsg;
     static UINT wmWorkMsg;
 
+
+
     static void setInstance( HINSTANCE instance );
     static HINSTANCE getInstance( void );
 
-
     // "SoWININTERNAL public"
-//  static void errorHandlerCB( const SoError *error, void *data );
+    static void errorHandlerCB( const SoError * error, void * data );
     static void addMessageHook( HWND hwnd, UINT message );
     static void removeMessageHook( HWND hwnd, UINT message );
-
-    // Coin spesific
-    static void deInit( void );
-
-    void addProcessEventFunction( processEventFunction * function );
-    void removeProcessEventFunction( processEventFunction * function );
 
 protected:
     static void registerWindowClass( const char * const className );
@@ -140,30 +140,43 @@ private:
                                        UINT idevent,
                                        DWORD dwtime );
 
+    static LRESULT OnAny( HWND window,
+                          UINT message,
+                          WPARAM wparam,
+                          LPARAM lparam );
+    static LRESULT OnSize( HWND window,
+                           UINT message,
+                           WPARAM wparam,
+                           LPARAM lparam );
+    static LRESULT OnDestroy( HWND window,
+                              UINT message,
+                              WPARAM wparam,
+                              LPARAM lparam );
+    static LRESULT OnQuit( HWND window,
+                           UINT message,
+                           WPARAM wparam,
+                           LPARAM lparam );
+
     static HINSTANCE Instance;
     static HWND mainWidget;
     static char * appName;
     static char * className;
 
-    static SoWinMessageHandler * messageHandler;
+    static SbList< messageHook * > * messageHookList;
 
 }; // class SoWin
 
 // *************************************************************************
 // Globals
 
-#ifdef _DEBUG
-
+#if SOWIN_DEBUG
 void WinDisplayLastError( void );
-
-#endif // _DEBUG
+#endif // SOWIN_DEBUG
 
 #ifndef SOWIN_INTERNAL
-
 //int ivMain(int argc, char ** argv);
 void ivMain(int argc, char ** argv);
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
-
 #endif // !SOWIN_INTERNAL
 
 // !Globals
