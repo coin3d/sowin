@@ -858,6 +858,7 @@ void
 SoWinComponent::setComponentCursor(const SoWinCursor & cursor)
 {
   PRIVATE(this)->currcursor = cursor;
+  PRIVATE(this)->hascursor = TRUE;
   SoWinComponent::setWidgetCursor(this->getWidget(), cursor);
 }
 
