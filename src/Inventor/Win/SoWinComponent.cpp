@@ -430,7 +430,6 @@ SoWinComponent::getClassName( void ) const
 void
 SoWinComponent::setTitle( const char * const title )
 {
-  printf( "%s\n", title );
   if ( title ) {
     PRIVATE( this )->title = title;
   }
