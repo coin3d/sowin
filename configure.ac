@@ -353,7 +353,7 @@ if $BUILD_WITH_MSVC; then
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOWIN_DLL"
   fi
 
-  debugfile="`pwd`/src/Inventor/Win/sowin$SOWIN_MAJOR_VERSION.pdb"
+  debugfile="`pwd`/src/Inventor/Win/sowin${SOWIN_MAJOR_VERSION}${SUFFIX}.pdb"
   debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
   if $SOWIN_STATIC; then
     SIM_AC_CONFIGURATION_SETTING([SoWin build type], [static .lib])
@@ -369,8 +369,8 @@ if $BUILD_WITH_MSVC; then
       ;;
     *)
       SIM_AC_CONFIGURATION_SETTING([SoWin build type], [dynamic .dll + .pdb])
-      CXXFLAGS="/Fd$debugfile $CXXFLAGS"
       CFLAGS="/Fd$debugfile $CFLAGS"
+      CXXFLAGS="/Fd$debugfile $CXXFLAGS"
       LIBFLAGS="$LIBFLAGS /DEBUG /PDB:sowin$SOWIN_MAJOR_VERSION$SUFFIX.pdb"
       ;;
     esac
