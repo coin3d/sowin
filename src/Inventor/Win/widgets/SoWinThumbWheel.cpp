@@ -226,7 +226,9 @@ SoWinThumbWheel::onMouseMove(HWND window, UINT message, WPARAM wparam, LPARAM lp
     (void)SendMessage(GetParent(window), WM_THUMBWHEEL, wparam, lparam);
   }
 
- return 0;
+  this->setValue(*value);
+
+  return 0;
 }
 
 LRESULT CALLBACK
