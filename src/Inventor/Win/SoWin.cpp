@@ -33,6 +33,8 @@
   SGI and TGS.  The API is based on the InventorXt API originally from
   SGI.
 
+  FIXME: improve documentation, with usage examples etc. 20030411 mortene.
+
   The corresponding documentation for Coin is located 
   <a href="http://doc.coin3d.org/Coin/">here</a>.
 */
