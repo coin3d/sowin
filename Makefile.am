@@ -33,6 +33,8 @@ BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
 
 CLEANFILES = \
+	sowin@SOWIN_MAJOR_VERSION@.dsp \
+	sowin@SOWIN_MAJOR_VERSION@.dsw \
 	$(SoGui_BuiltMetaFiles)
 
 DISTCLEANFILES = \
