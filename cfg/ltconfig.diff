@@ -1,0 +1,24 @@
+--- ltconfig.orig	Fri Jan 12 14:44:31 2001
++++ ltconfig	Fri Jan 12 14:47:11 2001
+@@ -846,11 +846,8 @@
+ fi
+ CFLAGS="$save_CFLAGS"
+ chmod u+w .
+-$rm conftest* out/*
+-rmdir out
+ cd ..
+-rmdir conftest
+-$rm -r conftest 2>/dev/null
++rm -rf conftest 2>/dev/null
+ 
+ if test x"$compiler_c_o" = x"yes"; then
+   # Check to see if we can write to a .lo
+@@ -1333,7 +1330,7 @@
+     old_archive_from_new_cmds='true'
+     # FIXME: Should let the user specify the lib program.
+     old_archive_cmds='lib /OUT:$oldlib$oldobjs'
+-    fix_srcfile_path='`cygpath -w $srcfile`'
++    fix_srcfile_path='`cygpath -w "$srcfile"`'
+     ;;
+ 
+   freebsd1*)
