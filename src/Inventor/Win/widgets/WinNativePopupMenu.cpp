@@ -112,6 +112,10 @@ WinNativePopupMenu::~WinNativePopupMenu(void)
 int
 WinNativePopupMenu::newMenu(const char * name, int menuid)
 {
+  // FIXME: this function is the same in the other So-libraries --
+  // move to common abstraction layer SoGuiPopupMenu of
+  // possible. 20031012 mortene.
+
   int id = menuid;
   if (id == -1) {
     id = 1;
