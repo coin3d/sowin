@@ -342,8 +342,11 @@ SoWinComponent::setFullScreen(const SbBool enable)
   if (enable == data->on) { return TRUE; }
   data->on = enable;
 
+  // FIXME: this check to see if we're a top-level component doesn't
+  // match the one in SoWinComponent::setTitle(). Which one is better?
+  // 20020824 mortene.
   HWND hwnd = this->getParentWidget();
-  if (hwnd != this->getShellWidget()) {
+  if (hwnd != SoWin::getShellWidget(this->getWidget())) {
     return FALSE;
   }
 
@@ -532,9 +535,12 @@ SoWinComponent::setTitle(const char * const title)
     PRIVATE(this)->title = "";
   }
 
-  HWND shellWidget = this->getShellWidget();
+  // FIXME: this check to see if we're a top-level component doesn't
+  // match the one in SoWinComponent::setFullscreen(). Which one is
+  // better? 20020824 mortene.
+  HWND shellWidget = SoWin::getShellWidget(this->getWidget());
   if (shellWidget == SoWin::getTopLevelWidget() ||
-       shellWidget == this->getParentWidget()) {
+      shellWidget == this->getParentWidget()) {
     Win32::SetWindowText(shellWidget, PRIVATE(this)->title.getString());
   }
 }
