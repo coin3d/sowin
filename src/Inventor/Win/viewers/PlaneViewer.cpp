@@ -162,10 +162,7 @@ SoWinPlaneViewer::setCamera(SoCamera * camera)
 HWND
 SoWinPlaneViewer::buildWidget(HWND parent)
 {
-  HWND widget = inherited::buildWidget(parent);
-  ((SoWinThumbWheel *)this->leftWheel)->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
-  ((SoWinThumbWheel *)this->bottomWheel)->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);
-  return widget;
+  return inherited::buildWidget(parent);
 }
 
 // ************************************************************************
