@@ -221,4 +221,6 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
 015 Missing SoWin::nextEvent() / SoWin::dispatchEvent()
 
     Needed to implement your own event-processing mainloop.
+    Will probably also need to expose doIdleTasks() (SoWinP) to be
+    able to reimplement SoWin::mainLoop() in the application.
 
