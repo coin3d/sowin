@@ -172,12 +172,7 @@ SoWinComponent::hide( void )
 void
 SoWinComponent::goFullScreen( const SbBool enable )
 {
-  HWND hwnd;
-  
-  if ( PRIVATE( this )->embedded )
-    hwnd = PRIVATE( this )->parent;
-  else
-    hwnd = PRIVATE( this )->widget;
+  HWND hwnd = this->getShellWidget( );
 
   if ( enable ) {
     RECT rect;
