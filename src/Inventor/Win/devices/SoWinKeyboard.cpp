@@ -157,7 +157,8 @@ SOWIN_OBJECT_SOURCE(SoWinKeyboard);
 #define SOWIN_KEY_INSERT        0x52
 #define SOWIN_KEY_DELETE        0x53
 
-// FIXME: doesn't seem to work!! 20010810 mortene.
+// FIXME: doesn't work -- maps to same keycodes as the numpad
+// codes. 20010815 mortene.
 #define SOWIN_KEY_LEFT          0x4b
 #define SOWIN_KEY_RIGHT         0x4d
 #define SOWIN_KEY_UP            0x48
@@ -553,6 +554,12 @@ SoWinKeyboard::makeKeyboardEvent( MSG * msg,
                                   SoButtonEvent::State state )
 {
   SoWinKeyboard::keyboardEvent->setState( state );
+
+#if SOWIN_DEBUG && 0 // debug
+  SoDebugError::postInfo("SoWinKeyboard::makeKeyboardEvent",
+                         "MapVirtualKey(msg->wParam,0) == %d",
+                         MapVirtualKey(msg->wParam, 0) );
+#endif // debug
 
   //unsigned char repeat = ( unsigned char )( msg.lParam & 0x0f );
   void * sokey;
