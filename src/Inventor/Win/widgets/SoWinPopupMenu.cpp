@@ -210,6 +210,7 @@ SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
   ItemRecord * rec = this->getItemRecord( itemid );
 
   assert( rec && "could not find item record" );
+  assert( rec->parent && "a menuitem must have a parent to be enabled/disabled" );
   assert( IsMenu( rec->parent ) );
   
 #if 1 // old code
@@ -251,7 +252,7 @@ SoWinPopupMenu::getMenuItemEnabled( int itemid )
   //Win32::GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
   //return ( menuiteminfo.fState & MFS_ENABLED ) ? TRUE : FALSE;
  
- return ( rec->flags & ITEM_ENABLED ? TRUE : FALSE );
+  return ( rec->flags & ITEM_ENABLED ? TRUE : FALSE );
 } // getMenuItemEnabled()
 
 void
