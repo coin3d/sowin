@@ -91,6 +91,8 @@ viewerWindowProc(
 
   if (message == WM_DESTROY) {
     if (v) {
+      SetWindowLong(window, GWL_USERDATA, NULL);
+			v->setSceneGraph(NULL);    
       if (v->getTypeId() == SoWinPlaneViewer::getClassTypeId())
         delete (SoWinPlaneViewer *)v;
       else
