@@ -57,6 +57,7 @@ endif
 
 EXTRA_DIST = \
 	LICENSE.GPL \
+	cfg/sowin.m4 \
 	docs/ChangeLog.v1.0.0 \
 	docs/announcement-1_1_0.txt \
 	packaging/windows/Makefile.in \
