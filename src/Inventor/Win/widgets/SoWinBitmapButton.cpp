@@ -165,7 +165,7 @@ void
 SoWinBitmapButton::destructor( void )
 {
   for ( int i = this->bitmapList->getLength( ); i >= 0; i-- ) {
-    DeleteObject( this->bitmapList->get( i ) );
+    Win32::DeleteObject( this->bitmapList->get( i ) );
     this->bitmapList->remove( i );
   }
   delete this->bitmapList;
@@ -208,8 +208,7 @@ SoWinBitmapButton::getId( void )
 void
 SoWinBitmapButton::setState( SbBool pushed )
 {
- SendMessage( this->buttonWindow, BM_SETSTATE, ( WPARAM ) pushed, 0 );
- // Win32::InvalidateRect( this->buttonWindow, NULL, FALSE );
+ (void)SendMessage( this->buttonWindow, BM_SETSTATE, ( WPARAM ) pushed, 0 );
 } // setState()
 
 SbBool
@@ -266,10 +265,10 @@ SoWinBitmapButton::setBitmap( int index )
 {
   assert( IsWindow( this->buttonWindow ) );
 
-  SendMessage( this->buttonWindow,
-               BM_SETIMAGE,
-               ( WPARAM ) IMAGE_BITMAP,
-               ( LPARAM ) this->getBitmap( index) );
+  (void)SendMessage( this->buttonWindow,
+                     BM_SETIMAGE,
+                     ( WPARAM ) IMAGE_BITMAP,
+                     ( LPARAM ) this->getBitmap( index) );
 
   Win32::InvalidateRect( this->buttonWindow, NULL, FALSE );
 } // setBitmap()
@@ -310,11 +309,10 @@ SoWinBitmapButton::createDIB( int width, int height, int bpp, void ** bits ) // 
 
   UINT flag = DIB_RGB_COLORS;
   bitmap = CreateDIBSection( hdc, format, flag, ( void ** ) bits, NULL, 0 );
-
   assert( * bits );
 
   HeapFree( heap, 0, format );
-  DeleteDC( hdc );
+  Win32::DeleteDC( hdc );
 
   return bitmap;
 }

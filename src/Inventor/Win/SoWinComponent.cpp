@@ -530,24 +530,19 @@ SoWinComponent::buildFormWidget( HWND parent )
 
   }
 
-  HWND parentWidget;
-  RECT rect;
-  LONG style;
-  
-  rect.left = CW_USEDEFAULT;
-  rect.top = CW_USEDEFAULT;
-  rect.right = 500;
-  rect.bottom = 500;
-  style = WS_OVERLAPPEDWINDOW | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
+  HWND parentWidget = NULL;
 
   // When this method is called, the component is *not* embedded. mariusbu 20010727.
   parentWidget = CreateWindow( "Component Widget",
                                this->getTitle( ),
-                               style,
-                               rect.left,
-                               rect.top,
-                               rect.right,
-                               rect.bottom,
+                               WS_OVERLAPPEDWINDOW |
+                               WS_VISIBLE |
+                               WS_CLIPSIBLINGS |
+                               WS_CLIPCHILDREN,
+                               CW_USEDEFAULT,
+                               CW_USEDEFAULT,
+                               500,
+                               500,
                                parent,
                                NULL,
                                SoWin::getInstance( ),
