@@ -19,6 +19,7 @@
 
 #include <sowindefs.h>
 #include <Inventor/Win/viewers/SoWinWalkViewer.h>
+#include <Inventor/Win/viewers/SoGuiWalkViewerP.h>
 
 /*!
   \class SoWinWalkViewer Inventor/Win/viewers/SoWinWalkViewers.h
@@ -29,6 +30,19 @@
 // ************************************************************************
 
 SOWIN_OBJECT_SOURCE(SoWinWalkViewer);
+
+// ************************************************************************
+
+class SoWinWalkViewerP : public SoGuiWalkViewerP {
+public:
+  SoWinWalkViewerP(SoWinWalkViewer * o)
+    : SoGuiWalkViewerP(o)
+  {
+  }
+};
+
+#define PRIVATE(ptr) ptr->pimpl
+#define PUBLIC(ptr) ptr->pub
 
 // ************************************************************************
 
@@ -44,6 +58,7 @@ SoWinWalkViewer::SoWinWalkViewer(
   SoWinViewer::Type type)
 : inherited(parent, name, embed, flag, type, TRUE)
 {
+  PRIVATE(this) = new SoWinWalkViewerP(this);
 //  this->constructor(TRUE);
 } // SoWinWalkViewer()
 
@@ -62,6 +77,7 @@ SoWinWalkViewer::SoWinWalkViewer(// protected
   SbBool build)
 : inherited(parent, name, embed, flag, type, FALSE)
 {
+  PRIVATE(this) = new SoWinWalkViewerP(this);
 //  this->constructor(build);
 } // SoWinWalkViewer()
 
@@ -71,9 +87,9 @@ SoWinWalkViewer::SoWinWalkViewer(// protected
   The destructor.
 */
 
-SoWinWalkViewer::~SoWinWalkViewer(
-  void)
+SoWinWalkViewer::~SoWinWalkViewer()
 {
+  delete PRIVATE(this);
 } // ~SoWinWalkViewer()
 
 // ************************************************************************
