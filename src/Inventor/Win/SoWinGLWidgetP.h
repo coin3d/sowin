@@ -48,6 +48,8 @@ public:
                                  SbBool want_dblbuffer = TRUE,
                                  SbBool want_zbuffer = TRUE,
                                  SbBool want_stereo = FALSE,
+                                 SbBool want_accum = FALSE,
+                                 SbBool want_stencil = FALSE,
                                  SbBool want_overlay = FALSE);
 
   void buildNormalGLWidget(HWND manager);
@@ -85,6 +87,7 @@ public:
   SbBool havefocus;
 
   int glModes;
+  SbBool accumulationenabled, stencilenabled;
   int bordersize;
   int lockcounter;
   int overlaylockcounter;

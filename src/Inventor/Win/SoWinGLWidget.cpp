@@ -195,30 +195,38 @@ SoWinGLWidget::setQuadBufferStereo(const SbBool flag)
 void
 SoWinGLWidget::setAccumulationBuffer(const SbBool enable)
 {
-  // FIXME: not implemented yet. 20020503 mortene.
-  SOWIN_STUB();
+  if (!enable == !PRIVATE(this)->accumulationenabled) { return; }
+
+  PRIVATE(this)->accumulationenabled = enable;
+
+  Win32::DestroyWindow(this->getNormalWidget());
+  PRIVATE(this)->buildNormalGLWidget(PRIVATE(this)->managerWidget);
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::getAccumulationBuffer(void) const
 {
-  return FALSE;
+  return PRIVATE(this)->accumulationenabled;
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoWinGLWidget::setStencilBuffer(const SbBool enable)
 {
-  // FIXME: not implemented yet. 20020503 mortene.
-  SOWIN_STUB();
+  if (!enable == !PRIVATE(this)->stencilenabled) { return; }
+
+  PRIVATE(this)->stencilenabled = enable;
+
+  Win32::DestroyWindow(this->getNormalWidget());
+  PRIVATE(this)->buildNormalGLWidget(PRIVATE(this)->managerWidget);
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoWinGLWidget::getStencilBuffer(void) const
 {
-  return FALSE;
+  return PRIVATE(this)->stencilenabled;
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
@@ -550,6 +558,8 @@ SoWinGLWidgetP::SoWinGLWidgetP(SoWinGLWidget * o)
   this->lockcounter = 0;
   this->overlaylockcounter = 0;
   this->havefocus = FALSE;
+  this->accumulationenabled = FALSE;
+  this->stencilenabled = FALSE;
 }
 
 // Destructor.
@@ -730,6 +740,8 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
                                  SbBool want_dblbuffer, /* default TRUE */
                                  SbBool want_zbuffer, /* default TRUE */
                                  SbBool want_stereo, /* default FALSE */
+                                 SbBool want_accum, /* default FALSE */
+                                 SbBool want_stencil, /* default FALSE */
                                  SbBool want_overlay) /* default FALSE */
 {
   if ((pfd->dwFlags & PFD_SUPPORT_OPENGL) == 0) { return -FLT_MAX; }
@@ -786,6 +798,9 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   const double PER_COLOR_BIT = 1;
   const double PER_DEPTH_BIT = 2.5;
 
+  const double PER_ACCUMULATION_BIT = 0.5;
+  const double PER_STENCIL_BIT = 0.5;
+
 
   // *** calculate weight for given pixelformat ******************
 
@@ -815,6 +830,20 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   const SbBool has_stereo = ((pfd->dwFlags & PFD_STEREO) != 0);
   if (want_stereo && has_stereo) { weight += STEREO_PRESENT; }
   // otherwise ignore -- no need to punish stereo mode if we requested mono
+
+  // We reward extra weight points to formats with accumulation bits
+  // or stencil bits if they are actually requested. We *punish*
+  // formats with them if they are *not* requested.
+  weight += (PER_ACCUMULATION_BIT * pfd->cAccumBits) * (want_accum ? 1.0 : -1.0);
+  weight += (PER_STENCIL_BIT * pfd->cStencilBits) * (want_stencil ? 1.0 : -1.0);
+  // The rationale behind punishing unwanted accum and stencil buffers
+  // is that extra accumulation and stencil planes can potentially
+  // take up a lot of memory, so we don't want just random selection
+  // if two or more otherwise equal formats will demand different
+  // amounts of graphics memory. (We have had reports from systems
+  // where the user ran out of graphics memory due to this problem,
+  // which is why we introduced the current strategy.)
+
 
   if (want_overlay) {
     const int nr_planes = pfd->bReserved & 0x07;
@@ -974,9 +1003,11 @@ SoWinGLWidgetP::createGLContext(HWND window)
   assert(this->hdcNormal && "GetDC failed -- investigate");
   this->hdcOverlay = this->hdcNormal;
 
+  const char * pixelformatoverride = NULL;
   int format = 1, maxformat = -1, bestformat = -1;
   double maxweight = -FLT_MAX;
   PIXELFORMATDESCRIPTOR desc;
+
   do {
     maxformat = DescribePixelFormat(this->hdcNormal, format,
                                     sizeof(PIXELFORMATDESCRIPTOR), &desc);
@@ -995,6 +1026,8 @@ SoWinGLWidgetP::createGLContext(HWND window)
                                        (this->glModes & SO_GL_DOUBLE) != 0,
                                        (this->glModes & SO_GL_ZBUFFER) != 0,
                                        (this->glModes & SO_GL_STEREO) != 0,
+                                       this->accumulationenabled,
+                                       this->stencilenabled,
                                        // FIXME: overlay support not
                                        // implemented yet. 20020720 mortene.
                                        FALSE);
@@ -1018,6 +1051,17 @@ SoWinGLWidgetP::createGLContext(HWND window)
     SoDebugError::postInfo("SoWinGLWidgetP::createGLContext",
                            "bestformat==%d, maxweight==%f",
                            bestformat, maxweight);
+  }
+
+  // Make it possible to override the selected pixel format by setting
+  // an environment variable. Useful for debugging and for assisting
+  // on remote client systems where the pixelformat weighting selects
+  // a sub-optimal format. If the latter, this can be used as a
+  // stop-gap solution until we fix the weighting algorithm.
+  pixelformatoverride = SoAny::si()->getenv("SOWIN_OVERRIDE_PIXELFORMAT");
+  if (pixelformatoverride) {
+    bestformat = atoi(pixelformatoverride);
+    assert(bestformat > 0 && bestformat <= maxformat);
   }
 
   if (!SetPixelFormat(this->hdcNormal, bestformat, &this->pfdNormal)) {
@@ -1149,6 +1193,8 @@ SoWinGLWidgetP::createGLContext(HWND window)
     this->glModes |= (this->pfdNormal.dwFlags & PFD_DOUBLEBUFFER) ? SO_GL_DOUBLE : 0;
     this->glModes |= (this->pfdNormal.cDepthBits > 0) ? SO_GL_ZBUFFER : 0;
     this->glModes |= (this->pfdNormal.dwFlags & PFD_STEREO) ? SO_GL_STEREO : 0;
+    this->accumulationenabled = (this->pfdNormal.cAccumBits > 0);
+    this->stencilenabled = (this->pfdNormal.cStencilBits > 0);
     // FIXME: check for overlay planes when support for this is
     // implemented. 20020719 mortene.
   }
