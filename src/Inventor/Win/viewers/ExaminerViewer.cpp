@@ -293,57 +293,6 @@ SoWinExaminerViewer::rightWheelMotion(float value)
 // *************************************************************************
 
 /*!
-  Overloaded to provide name of class.
-*/
-
-const char *
-SoWinExaminerViewer::getDefaultWidgetName(void) const
-{
-  static const char defaultWidgetName[] = "SoWinExaminerViewer";
-  return defaultWidgetName;
-}
-
-// *************************************************************************
-
-/*!
-  Overloaded to provide ``title'' of class.
-*/
-
-const char *
-SoWinExaminerViewer::getDefaultTitle(void) const
-{
-  static const char defaultTitle[] = "Examiner Viewer";
-  return defaultTitle;
-}
-
-// *************************************************************************
-
-/*!
-  Overloaded to provide ``title'' of class.
-*/
-
-const char *
-SoWinExaminerViewer::getDefaultIconTitle(void) const
-{
-  static const char defaultIconTitle[] = "Examiner Viewer";
-  return defaultIconTitle;
-}
-
-// *************************************************************************
-
-/*!
-  Pops up the examiner viewer help card.
-*/
-
-void
-SoWinExaminerViewer::openViewerHelpCard(void)
-{
-  this->openHelpCard("SoWinExaminerViewer.help");
-}
-
-// *************************************************************************
-
-/*!
   This method overloaded from parent class to handle button messages
   from viewer specific buttons (camera toggle).
 */
@@ -365,23 +314,6 @@ SoWinExaminerViewer::onCommand(HWND window,
     return inherited::onCommand(window, message, wparam, lparam);
 
   return 0;
-}
-
-// *************************************************************************
-
-/*!
-  Overload this method to be able to draw the axis cross if selected
-  in the preferences sheet.
-*/
-void
-SoWinExaminerViewer::actualRedraw(void)
-{
-  this->actualGenericRedraw();
-  inherited::actualRedraw();
-  if (this->isFeedbackVisible())
-    this->drawAxisCross();
-  if (this->isAnimating())
-    this->scheduleRedraw();
 }
 
 // *************************************************************************

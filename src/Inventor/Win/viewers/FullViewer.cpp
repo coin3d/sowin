@@ -391,6 +391,7 @@ SoWinFullViewer::setComponentCursor(const SoWinCursor & cursor)
   SoWinComponent::setWidgetCursor(this->getRenderAreaWidget(), cursor);
 }
 
+// Documented in superclass.
 void
 SoWinFullViewer::setViewing(SbBool enable)
 {
@@ -797,12 +798,6 @@ SoWinFullViewer::setRightWheelString(const char * name)
 {
   if(this->rightWheel)
     this->rightWheel->setLabelText((char *) name);
-}
-
-void
-SoWinFullViewer::openViewerHelpCard(void)
-{
-  // virtual; do nothing.
 }
 
 LRESULT

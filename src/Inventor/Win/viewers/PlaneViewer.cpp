@@ -268,18 +268,6 @@ SoWinPlaneViewer::buildViewerButtonsEx(HWND parent,
 
 // ************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-
-void
-SoWinPlaneViewer::openViewerHelpCard(void)
-{
-  this->openHelpCard("SoWinPlaneViewer.help");
-}
-
-// ************************************************************************
-
 // FIXME: these are present in the other So* toolkits, but was missing
 // in SoWin. Why? 20020111 mortene.
 
