@@ -578,7 +578,7 @@ SoQt_ExtraBuiltMetaFiles = \
 
 
 @BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = nodes.lst
-@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoWinNodes.la
+@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoGuiNodes.la
 
 DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
@@ -597,9 +597,9 @@ DISTCLEANFILES = \
 
 
 ############################################################################
-libSoWinNodes_la_SOURCES = 
+libSoGuiNodes_la_SOURCES = 
 
-nodist_libSoWinNodes_la_SOURCES = \
+nodist_libSoGuiNodes_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_nodes_BuiltFiles) \
 	$(SoGui_src_Inventor_Gui_nodes_BuiltMetaFiles)
 
@@ -615,9 +615,9 @@ nodist_nodes_lst_SOURCES = \
 
 ############################################################################
 # Headers are kept private.
-SoWinNodesincdir = $(includedir)/Inventor/@Gui@/nodes
+SoGuiNodesincdir = $(includedir)/Inventor/@Gui@/nodes
 
-nodist_SoWinNodesinc_HEADERS = \
+nodist_SoGuiNodesinc_HEADERS = \
 	SoGuiColorEditor.h \
 	SoGuiMaterialEditor.h
 
@@ -642,17 +642,17 @@ nodist_nodes_lst_OBJECTS = $(am__objects_1)
 nodes_lst_OBJECTS = $(am_nodes_lst_OBJECTS) $(nodist_nodes_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
-libSoWinNodes_la_LDFLAGS =
-libSoWinNodes_la_LIBADD =
-am_libSoWinNodes_la_OBJECTS =
+libSoGuiNodes_la_LDFLAGS =
+libSoGuiNodes_la_LIBADD =
+am_libSoGuiNodes_la_OBJECTS =
 am__objects_2 = Nodes.lo SceneTexture2.lo ViewportFix.lo \
 	ViewpointWrapper.lo Pane.lo Position.lo Translation.lo Frame.lo \
 	Image.lo Label.lo ToggleButton.lo RadioButton.lo \
 	ClickCounter.lo Slider1.lo Slider2.lo ColorEditor.lo \
 	MaterialEditor.lo
-nodist_libSoWinNodes_la_OBJECTS = $(am__objects_2) $(am__objects_3)
-libSoWinNodes_la_OBJECTS = $(am_libSoWinNodes_la_OBJECTS) \
-	$(nodist_libSoWinNodes_la_OBJECTS)
+nodist_libSoGuiNodes_la_OBJECTS = $(am__objects_2) $(am__objects_3)
+libSoGuiNodes_la_OBJECTS = $(am_libSoGuiNodes_la_OBJECTS) \
+	$(nodist_libSoGuiNodes_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/ClickCounter.Plo \
@@ -694,12 +694,12 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(nodes_lst_SOURCES) $(libSoWinNodes_la_SOURCES)
-HEADERS = $(nodist_SoWinNodesinc_HEADERS)
+DIST_SOURCES = $(nodes_lst_SOURCES) $(libSoGuiNodes_la_SOURCES)
+HEADERS = $(nodist_SoGuiNodesinc_HEADERS)
 
 DIST_COMMON = $(srcdir)/../common/Makefile.common Makefile.am \
 	Makefile.in
-SOURCES = $(nodes_lst_SOURCES) $(nodist_nodes_lst_SOURCES) $(libSoWinNodes_la_SOURCES) $(nodist_libSoWinNodes_la_SOURCES)
+SOURCES = $(nodes_lst_SOURCES) $(nodist_nodes_lst_SOURCES) $(libSoGuiNodes_la_SOURCES) $(nodist_libSoGuiNodes_la_SOURCES)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -723,8 +723,8 @@ clean-noinstLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libSoWinNodes.la: $(libSoWinNodes_la_OBJECTS) $(libSoWinNodes_la_DEPENDENCIES) 
-	$(CXXLINK)  $(libSoWinNodes_la_LDFLAGS) $(libSoWinNodes_la_OBJECTS) $(libSoWinNodes_la_LIBADD) $(LIBS)
+libSoGuiNodes.la: $(libSoGuiNodes_la_OBJECTS) $(libSoGuiNodes_la_DEPENDENCIES) 
+	$(CXXLINK)  $(libSoGuiNodes_la_LDFLAGS) $(libSoGuiNodes_la_OBJECTS) $(libSoGuiNodes_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -1373,23 +1373,23 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
-nodist_SoWinNodesincHEADERS_INSTALL = $(INSTALL_HEADER)
-install-nodist_SoWinNodesincHEADERS: $(nodist_SoWinNodesinc_HEADERS)
+nodist_SoGuiNodesincHEADERS_INSTALL = $(INSTALL_HEADER)
+install-nodist_SoGuiNodesincHEADERS: $(nodist_SoGuiNodesinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(SoWinNodesincdir)
-	@list='$(nodist_SoWinNodesinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(SoGuiNodesincdir)
+	@list='$(nodist_SoGuiNodesinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(nodist_SoWinNodesincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(SoWinNodesincdir)/$$f"; \
-	  $(nodist_SoWinNodesincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(SoWinNodesincdir)/$$f; \
+	  echo " $(nodist_SoGuiNodesincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(SoGuiNodesincdir)/$$f"; \
+	  $(nodist_SoGuiNodesincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(SoGuiNodesincdir)/$$f; \
 	done
 
-uninstall-nodist_SoWinNodesincHEADERS:
+uninstall-nodist_SoGuiNodesincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(nodist_SoWinNodesinc_HEADERS)'; for p in $$list; do \
+	@list='$(nodist_SoGuiNodesinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(SoWinNodesincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(SoWinNodesincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(SoGuiNodesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoGuiNodesincdir)/$$f; \
 	done
 
 ETAGS = etags
@@ -1484,7 +1484,7 @@ check: $(BUILT_SOURCES)
 all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(SoWinNodesincdir)
+	$(mkinstalldirs) $(DESTDIR)$(SoGuiNodesincdir)
 install: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) install-am
 install-exec: install-exec-am
@@ -1531,7 +1531,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-nodist_SoWinNodesincHEADERS
+install-data-am: install-nodist_SoGuiNodesincHEADERS
 
 install-exec-am:
 
@@ -1558,7 +1558,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-info-am uninstall-nodist_SoWinNodesincHEADERS
+uninstall-am: uninstall-info-am uninstall-nodist_SoGuiNodesincHEADERS
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
@@ -1566,12 +1566,12 @@ uninstall-am: uninstall-info-am uninstall-nodist_SoWinNodesincHEADERS
 	distclean-generic distclean-libtool distclean-tags distdir dvi \
 	dvi-am info info-am install install-am install-data \
 	install-data-am install-exec install-exec-am install-info \
-	install-info-am install-man install-nodist_SoWinNodesincHEADERS \
+	install-info-am install-man install-nodist_SoGuiNodesincHEADERS \
 	install-strip installcheck installcheck-am installdirs \
 	maintainer-clean maintainer-clean-generic mostlyclean \
 	mostlyclean-compile mostlyclean-generic mostlyclean-libtool pdf \
 	pdf-am ps ps-am tags uninstall uninstall-am uninstall-info-am \
-	uninstall-nodist_SoWinNodesincHEADERS
+	uninstall-nodist_SoGuiNodesincHEADERS
 
 
 ############################################################################

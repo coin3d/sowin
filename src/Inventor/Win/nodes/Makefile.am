@@ -6,7 +6,7 @@ include ../common/Makefile.common
 if BUILD_WITH_MSVC
 noinst_LIBRARIES = nodes.lst
 else
-noinst_LTLIBRARIES = libSoWinNodes.la
+noinst_LTLIBRARIES = libSoGuiNodes.la
 endif
 
 DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
@@ -24,9 +24,9 @@ DISTCLEANFILES = \
 
 ############################################################################
 
-libSoWinNodes_la_SOURCES =
+libSoGuiNodes_la_SOURCES =
 
-nodist_libSoWinNodes_la_SOURCES = \
+nodist_libSoGuiNodes_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_nodes_BuiltFiles) \
 	$(SoGui_src_Inventor_Gui_nodes_BuiltMetaFiles)
 
@@ -46,9 +46,9 @@ nodes.lst: Makefile $(nodes_lst_OBJECTS)
 ############################################################################
 # Headers are kept private.
 
-SoWinNodesincdir = $(includedir)/Inventor/@Gui@/nodes
+SoGuiNodesincdir = $(includedir)/Inventor/@Gui@/nodes
 
-nodist_SoWinNodesinc_HEADERS = \
+nodist_SoGuiNodesinc_HEADERS = \
 	SoGuiColorEditor.h \
 	SoGuiMaterialEditor.h
 
