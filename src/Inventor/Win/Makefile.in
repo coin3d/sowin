@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4a from Makefile.am
+# Makefile.in generated automatically by automake 1.4c from Makefile.am
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000
 # Free Software Foundation, Inc.
@@ -75,6 +75,7 @@ CPP = @CPP@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
+DLLFLAGS = @DLLFLAGS@
 DLLTOOL = @DLLTOOL@
 EVENT = @EVENT@
 GUI = @GUI@
@@ -199,6 +200,7 @@ DIST_COMMON =  $(libSoWininc_HEADERS) Makefile.am Makefile.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
+DIST_SUBDIRS =  $(SUBDIRS)
 SOURCES = $(libSoWin_la_SOURCES)
 OBJECTS = $(am_libSoWin_la_OBJECTS)
 
@@ -314,7 +316,11 @@ mostlyclean-recursive clean-recursive distclean-recursive \
 maintainer-clean-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
 	dot_seen=no; \
-	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
+	case "$@" in \
+	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+	  *) list='$(SUBDIRS)' ;; \
+	esac; \
+	rev=''; for subdir in $$list; do \
 	  if test "$$subdir" = "."; then :; else \
 	    rev="$$subdir $$rev"; \
 	  fi; \
@@ -364,6 +370,11 @@ TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
 	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
+
+GTAGS:
+	here=`CDPATH=: && cd $(top_builddir) && pwd` \
+	  && cd $(top_srcdir) \
+	  && gtags -i $$here
 
 mostlyclean-tags:
 
@@ -437,6 +448,9 @@ check-am: all-am
 check: check-recursive
 installcheck-am:
 installcheck: installcheck-recursive
+all-recursive-am: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
+
 install-exec-am: install-libLTLIBRARIES
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
@@ -451,7 +465,7 @@ install: install-recursive
 uninstall-am: uninstall-libLTLIBRARIES uninstall-libSoWinincHEADERS
 uninstall: uninstall-recursive
 all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
-all-redirect: all-recursive
+all-redirect: all-recursive-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs: installdirs-recursive
@@ -512,11 +526,11 @@ maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
 distclean-tags clean-tags maintainer-clean-tags mostlyclean-depend \
 distclean-depend clean-depend maintainer-clean-depend distdir info-am \
 info dvi-am dvi check check-am installcheck-am installcheck \
-install-exec-am install-exec install-data-am install-data install-am \
-install uninstall-am uninstall all-redirect all-am all install-strip \
-installdirs-am installdirs mostlyclean-generic distclean-generic \
-clean-generic maintainer-clean-generic clean mostlyclean distclean \
-maintainer-clean
+all-recursive-am install-exec-am install-exec install-data-am \
+install-data install-am install uninstall-am uninstall all-redirect \
+all-am all install-strip installdirs-am installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
 
 
 ############################################################################
@@ -544,7 +558,7 @@ sowin@SOWIN_MAJOR_VERSION@.dll: $(libSoWin_la_OBJECTS) $(libSoWin_la_DEPENDENCIE
 	@rm -f sowin@SOWIN_MAJOR_VERSION@.dll && \
 	if @BUILD_WITH_MSVC@; then \
 	  echo "Linking DLL..."; \
-	  $(CC) /dll /out:sowin@SOWIN_MAJOR_VERSION@.dll $(LDFLAGS) \
+	  $(CC) @DLLFLAGS@ /out:sowin@SOWIN_MAJOR_VERSION@.dll $(LDFLAGS) \
 	        `echo $(libSoWin_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
 	        $(libSoWin_la_LIBADD) $(LIBS); \
 	else \
@@ -554,10 +568,22 @@ sowin@SOWIN_MAJOR_VERSION@.dll: $(libSoWin_la_OBJECTS) $(libSoWin_la_DEPENDENCIE
 install-exec-hook: sowin@SOWIN_MAJOR_VERSION@.dll
 	@if test -s sowin@SOWIN_MAJOR_VERSION@.dll; then \
 	  echo "Installing sowin@SOWIN_MAJOR_VERSION@.dll"; \
-	  for i in sowin@SOWIN_MAJOR_VERSION@.dll sowin@SOWIN_MAJOR_VERSION@.lib; do \
-	    $(INSTALL_DATA) $$i $(DESTDIR)$(libdir)/$$i; \
+	  for e in dll lib pdb; do \
+	    file="sowin@SOWIN_MAJOR_VERSION@.$$e"; \
+	    if test -f $$file; then \
+	      $(INSTALL_DATA) $$file $(DESTDIR)$(libdir)/$$file; \
+	    fi \
 	  done \
 	fi
+
+uninstall: uninstall-am
+	@for e in dll lib pdb; do \
+	  file="$(DESTDIR)$(libdir)/sowin@SOWIN_MAJOR_VERSION@.$$e"; \
+	  if test -f "$$file"; then \
+	    echo rm -f "$$file"; \
+	    rm -f "$$file"; \
+	  fi \
+	done
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

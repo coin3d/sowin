@@ -846,11 +846,8 @@ else
 fi
 CFLAGS="$save_CFLAGS"
 chmod u+w .
-$rm conftest* out/*
-rmdir out
 cd ..
-# rmdir conftest
-$rm -r conftest 2>/dev/null
+rm -rf conftest 2>/dev/null
 
 if test x"$compiler_c_o" = x"yes"; then
   # Check to see if we can write to a .lo
