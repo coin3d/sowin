@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4a-SIM-20000531 from Makefile.am
+# Makefile.in generated automatically by automake 1.4a from Makefile.am
 
 # Copyright (C) 1994, 1995-9, 2000 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -98,7 +98,6 @@ WIDGET = @WIDGET@
 gui = @gui@
 install_sh = @install_sh@
 lGUI = @lGUI@
-sim_ac_conf_cmd = @sim_ac_conf_cmd@
 uGUI = @uGUI@
 
 ############################################################################

@@ -1,4 +1,4 @@
-dnl aclocal.m4 generated automatically by aclocal 1.4a-SIM-20000531
+dnl aclocal.m4 generated automatically by aclocal 1.4a
 
 dnl Copyright (C) 1994, 1995-9, 2000 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
@@ -277,16 +277,14 @@ for mf in $CONFIG_FILES; do
   grep '^DEP_FILES *= *[^ #]' < "$mf" > /dev/null || continue
   # Extract the definition of DEP_FILES from the Makefile without
   # running `make'.
-  DEPDIR=`tr -d "
-" < "$mf" | sed -n -e '/^DEPDIR = / s///p'`
+  DEPDIR=`sed -n -e '/^DEPDIR = / s///p' < "$mf"`
   test -z "$DEPDIR" && continue
   # When using ansi2knr, U may be empty or an underscore; expand it
   U=`sed -n -e '/^U = / s///p' < "$mf"`
   test -d "$dirpart/$DEPDIR" || mkdir "$dirpart/$DEPDIR"
   # We invoke sed twice because it is the simplest approach to
   # changing $(DEPDIR) to its actual value in the expansion.
-  for file in `tr -d "
-" < "$mf" | sed -n -e '
+  for file in `sed -n -e '
     /^DEP_FILES = .*\\\\$/ {
       s/^DEP_FILES = //
       :loop
@@ -296,7 +294,7 @@ for mf in $CONFIG_FILES; do
 	/\\\\$/ b loop
       p
     }
-    /^DEP_FILES = / s/^DEP_FILES = //p' | \
+    /^DEP_FILES = / s/^DEP_FILES = //p' < "$mf" | \
        sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g' -e 's/\$U/'"$U"'/g'`; do
     # Make sure the directory exists.
     test -f "$dirpart/$file" && continue
@@ -799,7 +797,7 @@ AC_ARG_ENABLE(
   [case "${enableval}" in
     yes) enable_rtti=yes ;;
     no)  enable_rtti=no ;;
-    *) AC_MSG_ERROR(bad value \"${enableval}\" for --enable-rtti) ;;
+    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-rtti) ;;
   esac],
   [enable_rtti=yes])
 
@@ -838,7 +836,7 @@ AC_ARG_ENABLE(
   [case "${enableval}" in
     yes) enable_exceptions=yes ;;
     no)  enable_exceptions=no ;;
-    *) AC_MSG_ERROR(bad value \"${enableval}\" for --enable-exceptions) ;;
+    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-exceptions) ;;
   esac],
   [enable_exceptions=no])
 
@@ -982,7 +980,7 @@ AC_ARG_ENABLE(
   [case "${enableval}" in
     yes) enable_profile=yes ;;
     no)  enable_profile=no ;;
-    *) AC_MSG_ERROR(bad value \"${enableval}\" for --enable-profile) ;;
+    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-profile) ;;
   esac],
   [enable_profile=no])
 
@@ -1033,7 +1031,7 @@ AC_ARG_ENABLE(
   [case "${enableval}" in
     yes) enable_debug=yes ;;
     no)  enable_debug=no ;;
-    *) AC_MSG_ERROR(bad value \"${enableval}\" for --enable-debug) ;;
+    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-debug) ;;
   esac],
   [enable_debug=yes])
 
@@ -1080,7 +1078,7 @@ AC_ARG_ENABLE(
   [case "${enableval}" in
     yes) enable_warnings=yes ;;
     no)  enable_warnings=no ;;
-    *) AC_MSG_ERROR(bad value \"${enableval}\" for --enable-warnings) ;;
+    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-warnings) ;;
   esac],
   [enable_warnings=yes])
 
@@ -1186,9 +1184,15 @@ if test x"$with_inventor" != xno; then
 #include <Inventor/SbBasic.h>
 PeekInventorVersion: TGS_VERSION
 EOF
-    iv_version=`$CXX -E conftest.c 2>/dev/null | grep "^PeekInventorVersion" | sed -e 's/.* //g' -e 's/.$//'`
+    iv_version=`$CXX -E conftest.c 2>/dev/null | grep "^PeekInventorVersion" | sed 's/.* //g'`
+    if test x"$iv_version" = xTGS_VERSION; then
+      AC_MSG_ERROR([SbBasic.h does not define TGS_VERSION.  Maybe it's a Coin file?])
+    fi
+    iv_version=`echo $iv_version | sed 's/.$//'`
     rm -f conftest.c
-    sim_ac_oiv_libs="inv{$iv_version}.lib"
+    sim_ac_oiv_libs="inv${iv_version}.lib"
+    sim_ac_oiv_enter="#include <SoWinEnterScope.h>"
+    sim_ac_oiv_leave="#include <SoWinLeaveScope.h>"
   else
     sim_ac_oiv_libs="-lInventor -limage"
   fi
@@ -1203,7 +1207,8 @@ EOF
 
   AC_CACHE_CHECK([for Open Inventor developer kit],
     sim_cv_lib_oiv_avail,
-    [AC_TRY_LINK([#include <Inventor/SoDB.h>],
+    [AC_TRY_LINK([$sim_ac_oiv_enter
+                  #include <Inventor/SoDB.h>],
                  [SoDB::init();],
                  [sim_cv_lib_oiv_avail=yes],
                  [sim_cv_lib_oiv_avail=no])])
@@ -1259,18 +1264,18 @@ else
 fi
 ])
 
-# Usage:
-#  SIM_HAVE_SOPOLYGONOFFSET([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# **************************************************************************
+# SIM_AC_HAVE_SOPOLYGONOFFSET( [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]] )
 #
-#  Check whether or not the SoPolygonOffset node is part of the
-#  Open Inventor development system. If it is found, the
-#  HAVE_SOPOLYGONOFFSET define is set.
+# Check whether or not the SoPolygonOffset node is part of the
+# Open Inventor development system. If it is found, the
+# HAVE_SOPOLYGONOFFSET define is set.
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
 #
 
-AC_DEFUN([SIM_HAVE_SOPOLYGONOFFSET], [
-AC_CACHE_CHECK([for the SoPolygonOffset node],
+AC_DEFUN([SIM_AC_HAVE_SOPOLYGONOFFSET],
+[AC_CACHE_CHECK([for the SoPolygonOffset node],
   sim_cv_sopolygonoffset,
   [AC_TRY_LINK([#include <Inventor/nodes/SoPolygonOffset.h>],
                [SoPolygonOffset * p = new SoPolygonOffset;],
@@ -1283,251 +1288,32 @@ if test x"$sim_cv_sopolygonoffset" = xyes; then
 else
   ifelse([$2], , :, [$2])
 fi
-])
+]) # SIM_AC_HAVE_SOPOLYGONOFFSET
 
-
-# Usage:
-#   SIM_CHECK_COIN( ACTION-IF-FOUND, ACTION-IF-NOT-FOUND, ATTRIBUTE-LIST )
-#
-# Description:
-#   This macro locates the Coin development system.  If it is found, the
-#   set of variables listed below are set up as described and made available
-#   to the configure script.
-#
-# ATTRIBUTE-LIST Options:
-#   [no]default              whether --with-coin is default or not
-#                            (default on)
-#   [no]searchprefix         whether to look for Coin where --prefix is set
-#                            (default off)
-#
-# Autoconf Variables:
-#   $sim_ac_coin_avail       yes | no
-#   $sim_ac_coin_cppflags    (extra flags the compiler needs for Coin)
-#   $sim_ac_coin_ldflags     (extra flags the linker needs for Coin)
-#   $sim_ac_coin_libs        (link libraries the linker needs for Coin)
-#   $CPPFLAGS                $CPPFLAGS $sim_ac_coin_cppflags
-#   $LDFLAGS                 $LDFLAGS $sim_ac_coin_ldflags
-#   $LIBS                    $sim_ac_coin_libs $LIBS
+# **************************************************************************
+# SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS
 #
 # Authors:
-#   Morten Eriksen, <mortene@sim.no>
-#   Lars J. Aas, <larsa@sim.no>
-#
-# TODO:
-# * [mortene:20000123] make sure this work on MSWin (with Cygwin)
-# * [larsa:20000216] find a less strict AC_PREREQ (investigate used features)
+#   Lars J. Aas <larsa@sim.no>
 
-AC_DEFUN([SIM_CHECK_COIN], [
-AC_PREREQ([2.14.1])
+AC_DEFUN([SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS],
+[AC_CACHE_CHECK(
+  [for SoMousebuttonEvent::BUTTON5 availability],
+  sim_cv_somousebuttonevent_buttons,
+  [AC_TRY_COMPILE(
+    [#include <Inventor/events/SoMouseButtonEvent.h>],
+    [int button = SoMouseButtonEvent::BUTTON5],
+    [sim_cv_somousebuttonevent_buttons=true],
+    [sim_cv_somousebuttonevent_buttons=false])])
 
-SIM_PARSE_MODIFIER_LIST([$3],[
-  sim4_coin_with          yes
-  sim4_coin_searchprefix  no
-],[
-  default                 sim4_coin_with  yes
-  nodefault               sim4_coin_with  no
-  searchprefix            sim4_coin_searchprefix  yes
-  nosearchprefix          sim4_coin_searchprefix  no
-])
-
-AC_ARG_WITH(coin, AC_HELP_STRING([--with-coin=DIR], changequote({,}){set the prefix directory where Coin resides [default=}sim4_coin_with{]}changequote([,])), , [with_coin=sim4_coin_with])
-
-sim_ac_coin_avail=no
-
-if test "x$with_coin" != "xno"; then
-  sim_ac_path=$PATH
-  if test "x$with_coin" != "xyes"; then
-    sim_ac_path=${with_coin}/bin:$PATH
-    ifelse(sim4_coin_searchprefix, yes,
-    [if test "x$exec_prefix" != "xNONE"; then
-      sim_ac_path=$sim_ac_path:$exec_prefix/bin
-    fi], :)
-  fi
-
-  AC_PATH_PROG(sim_ac_conf_cmd, coin-config, false, $sim_ac_path)
-  if test "x$sim_ac_conf_cmd" = "xfalse"; then
-    AC_MSG_WARN(could not find 'coin-config' in $sim_ac_path)
-  fi
-
-  sim_ac_coin_cppflags=`$sim_ac_conf_cmd --cppflags`
-  sim_ac_coin_ldflags=`$sim_ac_conf_cmd --ldflags`
-  sim_ac_coin_libs=`$sim_ac_conf_cmd --libs`
-  sim_ac_coin_version=`$sim_ac_conf_cmd --version`
-
-  AC_CACHE_CHECK([whether the Coin library is available],
-    sim_cv_lib_coin_avail, [
-    sim_ac_save_cppflags=$CPPFLAGS
-    sim_ac_save_ldflags=$LDFLAGS
-    sim_ac_save_libs=$LIBS
-    CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
-    LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
-    LIBS="$sim_ac_coin_libs $LIBS"
-    AC_TRY_LINK([#include <Inventor/SoDB.h>],
-                 [SoDB::init();],
-                 sim_cv_lib_coin_avail=yes,
-                 sim_cv_lib_coin_avail=no)
-    CPPFLAGS=$sim_ac_save_cppflags
-    LDFLAGS=$sim_ac_save_ldflags
-    LIBS=$sim_ac_save_libs
-  ])
-
-  if test "x$sim_cv_lib_coin_avail" = "xyes"; then
-    sim_ac_coin_avail=yes
-    CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
-    LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
-    LIBS="$sim_ac_coin_libs $LIBS"
-    $1
-  else
-    ifelse([$2], , :, [$2])
-  fi
+if $sim_cv_somousebuttonevent_buttons; then
+  AC_DEFINE(HAVE_SOMOUSEBUTTONEVENT_BUTTONS, 1,
+    [Define to enable use of SoMouseButtonEvent::BUTTON5])
+  $1
 else
   ifelse([$2], , :, [$2])
 fi
-])
-
-
-dnl ************************************************************************
-dnl Usage:
-dnl   SIM_AC_PARSE_MODIFIER_LIST( MODIFIER-LIST-STRING, MODIFIER-VARIABLES, 
-dnl       MODIFIER-LIST, opt ACTION-ON-SUCCESS, opt ACTION-ON-FAILURE )
-dnl
-dnl Description:
-dnl   This macro makes it easy to let macros have a MODIFIER-LIST argument
-dnl   which can add some flexibility to the macro by letting the developer
-dnl   configure some of the macro beaviour from the invocation in the
-dnl   configure.in file.
-dnl
-dnl   Everything is handled on the m4-level, which means things are handled
-dnl   at autoconf-run-time, not configure-run-time.  This lets you discover
-dnl   problems at an earlier stage, which is nice.  It also lets you insert
-dnl   the modifier values into e.g. help strings, something you can't do
-dnl   on the shell level.
-dnl
-dnl   MODIFIER-LIST-STRING is the string of modifiers used in the
-dnl   macro invocation.
-dnl
-dnl   MODIFIER-VARIABLES is a list of variables and their default values.
-dnl   The variables and values are recognized as words matching [[^\s-]*]
-dnl   separated by whitespace, and they must of course come in pairs.
-dnl
-dnl   MODIFIER-LIST is a description-list of all the valid modifiers that
-dnl   can be used in the MODIFIER-LIST-STRING argument.  They must come in
-dnl   tuples of three and three words (same word-definition as above) where
-dnl   the first word is the modifier, the second word is the variable
-dnl   that is to be set by the modifier, and last the value the modifier
-dnl   variable should be set to.
-dnl
-dnl   ACTION-ON-SUCCESS is the expansion of the macro if all the modifiers
-dnl   in MODIFIER-LIST-STRING pass through without problem.  The default
-dnl   expansion is nothing.
-dnl
-dnl   ACTION-ON-FAILURE is the expansion of the macro if some of the
-dnl   modifiers in MODIFIER-LIST-STRING doesn't pass through.  The default
-dnl   expansion is nothing, but warnings are printed to stderr on the
-dnl   modifiers causing the problem.
-dnl
-dnl Sample Usage:
-dnl   [to come later]
-dnl
-dnl Authors:
-dnl   Lars J. Aas <larsa@sim.no> (idea, design, coding)
-dnl   Akim Demaille <akim@epita.fr> (hints, tips, corrections)
-dnl
-dnl TODO:
-dnl * [larsa:20000222] more warnings on potential problems
-dnl
-
-define([m4_noquote],
-[changequote(-=<{,}>=-)$1-=<{}>=-changequote([,])])
-
-AC_DEFUN([SIM_AC_PML_WARNING],
-[errprint([SIM_PARSE_MODIFIER_LIST: $1
-  (file "]__file__[", line ]__line__[)
-])])
-
-define([TAB],[	])
-define([LF],[
-])
-
-dnl * this is an unquoted string compaction - words in string must expand to
-dnl * nothing before compaction starts...
-AC_DEFUN([SIM_AC_PML_STRING_COMPACT],
-[patsubst(patsubst([$1],m4_noquote([[TAB LF]+]),[ ]),[^ \| $],[])])
-
-AC_DEFUN([SIM_AC_PML_STRING_WORDCOUNT_COMPACT],
-[m4_eval((1+len(patsubst([$1],[[^ ]+],[_])))/2)])
-
-AC_DEFUN([SIM_AC_PML_STRING_WORDCOUNT],
-[SIM_AC_PML_STRING_WORDCOUNT_COMPACT([SIM_AC_PML_STRING_COMPACT([$1])])])
-
-AC_DEFUN([SIM_AC_PML_DEFINE_VARIABLE],
-[define([$1],[$2])])
-
-AC_DEFUN([SIM_AC_PML_DEFINE_VARIABLES],
-[ifelse(SIM_AC_PML_STRING_WORDCOUNT_COMPACT([$1]), 2,
-        [patsubst([$1],[^\([^ ]+\) \([^ ]+\)],
-                  [SIM_AC_PML_DEFINE_VARIABLE([\1],[\2])])],
-        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \(.*\)],
-                  [SIM_AC_PML_DEFINE_VARIABLE([\1],[\2])SIM_AC_PML_DEFINE_VARIABLES([\3])])])])
-
-AC_DEFUN([SIM_AC_PML_PUSHDEF_MODIFIER],
-[ifelse(defn([$2]), [],
-        [SIM_AC_PML_ERROR([invalid variable in argument 3: "$2"])],
-        [pushdef([$1],[define([$2],[$3])])])])
-
-AC_DEFUN([SIM_AC_PML_PUSHDEF_MODIFIERS],
-[ifelse(SIM_AC_PML_STRING_WORDCOUNT_COMPACT([$1]), 3,
-        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\)],
-                  [SIM_AC_PML_PUSHDEF_MODIFIER([\1],[\2],[\3])])],
-        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\) \(.*\)],
-                  [SIM_AC_PML_PUSHDEF_MODIFIER([\1],[\2],[\3])SIM_AC_PML_PUSHDEF_MODIFIERS([\4])])])])
-
-AC_DEFUN([SIM_AC_PML_POPDEF_MODIFIER],
-[popdef([$1])])
-
-AC_DEFUN([SIM_AC_PML_POPDEF_MODIFIERS],
-[ifelse(SIM_AC_PML_STRING_WORDCOUNT_COMPACT([$1]), 3,
-        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\)],
-                  [SIM_AC_PML_POPDEF_MODIFIER([\1])])],
-        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\) \(.*\)],
-                  [SIM_AC_PML_POPDEF_MODIFIER([\1])SIM_AC_PML_POPDEF_MODIFIERS([\4])])])])
-
-AC_DEFUN([SIM_AC_PML_PARSE_MODIFIER_LIST],
-[pushdef([wordcount],SIM_AC_PML_STRING_WORDCOUNT([$2]))]dnl
-[ifelse(m4_eval(((wordcount % 2) == 0) && (wordcount > 0)), 1,
-        [],
-        [SIM_AC_PML_WARNING([invalid word count ]wordcount[ for argument 2: "]SIM_AC_PML_STRING_COMPACT([$2])")])]dnl
-[popdef([wordcount])]dnl
-[pushdef([wordcount],SIM_AC_PML_STRING_WORDCOUNT([$3]))]dnl
-[ifelse(m4_eval(((wordcount % 3) == 0) && (wordcount > 0)), 1,
-        [],
-        [SIM_AC_PML_WARNING([invalid word count ]wordcount[ for argument 3: "$3"])])]dnl
-[popdef([wordcount])]dnl
-[SIM_AC_PML_DEFINE_VARIABLES([$2])]dnl
-[SIM_AC_PML_PUSHDEF_MODIFIERS([$3])]dnl
-[ifelse(SIM_AC_PML_STRING_COMPACT([$1]), [],
-        [ifelse([$4], [], [], [$4])],
-        [ifelse([$5], [],
-                [SIM_AC_PML_WARNING([modifier(s) parse error: "]SIM_AC_PML_STRING_COMPACT([$1])")],
-                [$5])])]dnl
-[SIM_AC_PML_POPDEF_MODIFIERS([$3])])
-
-AC_DEFUN([SIM_AC_PARSE_MODIFIER_LIST],
-[SIM_AC_PML_PARSE_MODIFIER_LIST(
-        SIM_AC_PML_STRING_COMPACT([$1]),
-        SIM_AC_PML_STRING_COMPACT([$2]),
-        SIM_AC_PML_STRING_COMPACT([$3]),
-        [$4],
-        [$5])])
-
-dnl * to be deleted after migrating dependant macros to ac_sim_...
-AC_DEFUN([SIM_PARSE_MODIFIER_LIST],
-[SIM_AC_PML_PARSE_MODIFIER_LIST(
-        SIM_AC_PML_STRING_COMPACT([$1]),
-        SIM_AC_PML_STRING_COMPACT([$2]),
-        SIM_AC_PML_STRING_COMPACT([$3]),
-        [$4],
-        [$5])])
+]) # SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS()
 
 
 # Usage:

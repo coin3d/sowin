@@ -22,8 +22,8 @@ PROJECT=So$GUI
 MACRODIR=conf-macros
 DIE=false
 
-SUBPROJECTS="$MACRODIR data examples"
-SUBPROJECTNAMES="$MACRODIR SoXtData SoXtExamples"
+SUBPROJECTS="$MACRODIR data"
+SUBPROJECTNAMES="$MACRODIR SoWinData"
 AUTOMAKE_ADD=
 
 if test "$1" = "--clean"; then
@@ -48,7 +48,7 @@ fi
 
 echo "Checking the installed configuration tools..."
 
-AUTOCONF_VER=2.14.1-SIM  # Autoconf from CVS @ 2000-01-13.
+AUTOCONF_VER=2.14a # Autoconf from CVS @ 2000-01-13.
 if test -z "`autoconf --version | grep \" $AUTOCONF_VER\" 2> /dev/null`"; then
     echo
     echo "You must have autoconf version $AUTOCONF_VER installed to"
@@ -63,7 +63,7 @@ if test -z "`autoconf --version | grep \" $AUTOCONF_VER\" 2> /dev/null`"; then
     DIE=true
 fi
 
-AUTOMAKE_VER=1.4a-SIM-20000531  # Automake from CVS
+AUTOMAKE_VER=1.4a # Automake from CVS
 if test -z "`automake --version | grep \" $AUTOMAKE_VER\" 2> /dev/null`"; then
     echo
     echo "You must have automake version $AUTOMAKE_VER installed to"

@@ -1,0 +1,89 @@
+#! /bin/sh
+# **************************************************************************
+# sowin-config -- a utility for retrieving configuration information about
+# the installed SoWin library.
+
+me=`echo $0 | sed 's,^.*[/\\],,g'`
+
+usage="\
+Usage: $me [OPTIONS]
+Options:
+  --cppflags
+  --ldflags
+  --libs
+  --datadir
+  --ac-subst <subst>
+  --have-feature <feature>
+  --build <program> <sourcefile> [<sourcefile>]...
+  --version
+  --help | --usage"
+
+version="@SOWIN_VERSION@"
+
+# NOTE: If the first argument is changed in the following variables, it is
+# also necessary to update configure.in, since that argument is shifted off.
+
+cppflags="-I@includedir@ @SOWIN_EXTRA_CPPFLAGS@"
+ldflags="-L@libdir@ @SOWIN_EXTRA_LDFLAGS@"
+libs="-lSoWin @SOWIN_EXTRA_LIBS@"
+
+datadir="@sowin_data_dir@"
+
+while test $# -gt 0
+do
+  case $1 in
+    --help | --usage)  echo "$usage"    ;;
+    --version)         echo "$version"  ;;
+    --cppflags)        echo "$cppflags" ;;
+    --ldflags)         echo "$ldflags"  ;;
+    --libs)            echo "$libs"     ;;
+    --datadir)         echo "$datadir"  ;;
+    --ac-subst)
+      shift
+      case $1 in
+        GUI)             echo "@GUI@" ;;
+        Gui)             echo "@Gui@" ;;
+        gui)             echo "@gui@" ;;
+        WIDGET)          echo "@WIDGET@" ;;
+        WINWIDGET)       echo "@WINWIDGET@" ;;
+        EVENT)           echo "@EVENT@" ;;
+        COMPONENTHEADER) echo "@COMPONENTHEADER@" ;;
+        *)
+          echo >&2 "$me: Invalid AC_SUBST: \"$1\""
+          exit 1
+          ;;
+      esac
+      ;;
+    --have-feature)
+      shift
+      case $1 in
+        renderarea)      exit 0 ;;
+        examinerviewer)  exit 0 ;;
+        planeviewer)     exit 0 ;;
+        walkviewer)      exit 0 ;;
+        flyviewer)       exit 0 ;;
+        materiallist)    exit 0 ;;
+        *)               exit 1 ;;
+      esac
+      ;;
+    --build)
+      shift
+      program=$1
+      shift
+      exec @CXX@ \
+        $CPPFLAGS $cppflags \
+        $LDFLAGS $ldflags \
+        -o $program $@ \
+        $LIBS $libs
+      ;;
+    *)
+      echo >&2 "$me: Invalid option: \"$1\""
+      echo >&2 "$usage"
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+exit 0
+

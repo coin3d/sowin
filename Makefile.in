@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4a-SIM-20000531 from Makefile.am
+# Makefile.in generated automatically by automake 1.4a from Makefile.am
 
 # Copyright (C) 1994, 1995-9, 2000 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -98,7 +98,6 @@ WIDGET = @WIDGET@
 gui = @gui@
 install_sh = @install_sh@
 lGUI = @lGUI@
-sim_ac_conf_cmd = @sim_ac_conf_cmd@
 uGUI = @uGUI@
 
 ############################################################################
@@ -128,8 +127,8 @@ DATA =  $(noinst_DATA)
 
 DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
 Makefile.am Makefile.in NEWS acconfig.h aclocal.m4 config.guess \
-config.h.in config.sub configure configure.in install-sh ltconfig \
-ltmain.sh missing mkinstalldirs sowin-config.in
+config.h.in config.sub configure configure.in depcomp install-sh \
+ltconfig ltmain.sh missing mkinstalldirs sowin-config.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
