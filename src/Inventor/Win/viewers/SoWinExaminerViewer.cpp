@@ -171,18 +171,21 @@ SoWinExaminerViewerP::constructor(
   this->owner->setPopupMenuString( "Examiner Viewer" );
   this->owner->setPrefSheetString( "Examiner Viewer Preference Sheet" );
 
-  this->owner->setLeftWheelString( "Rotx" );
-  this->owner->setBottomWheelString( "Roty" );
-
   if ( ! build ) return;
 
   HWND widget = this->owner->buildWidget( this->owner->getParentWidget( ) );
   this->owner->setBaseWidget( widget );
-    
-  this->owner->setSize( SbVec2s( 500, 420 ) );
+  
+  this->owner->setLeftWheelString( "RotX" );
+  this->owner->setBottomWheelString( "RotX" );  
+
   this->owner->setCursorEnabled( TRUE );
   this->owner->setAnimationEnabled( TRUE );
-
+  
+  this->owner->setSize( SbVec2s( 500, 421 ) );
+  // If the new size is the same as the old size, Windows will never size the
+  // widget, and layoutWidgets() will never be called. mariusbu 20010823.
+  
 } // constructor()
 
 // *************************************************************************
