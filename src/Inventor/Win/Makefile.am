@@ -6,7 +6,11 @@ SUBDIRS = devices widgets viewers
 
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
+if BUILD_WITH_MSVC
+lib_LTLIBRARIES = sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
+else
 lib_LTLIBRARIES = libSoWin@SUFFIX@.la
+endif
 
 BUILT_SOURCES = \
 	SoAny.h \
@@ -19,11 +23,7 @@ BUILT_SOURCES = \
 	SoWinRenderArea.h \
 	SoWinRenderArea.cpp
 
-noinst_DATA = $(BUILT_SOURCES)
-
-############################################################################
-
-libSoWin@SUFFIX@_la_SOURCES = \
+SOWINSOURCES = \
 	$(BUILT_SOURCES) \
 	SoWin.h \
 	SoWin.cpp \
@@ -32,6 +32,14 @@ libSoWin@SUFFIX@_la_SOURCES = \
 	SoWinGLWidget.h \
 	SoWinGLWidget.cpp
 
+noinst_DATA = $(BUILT_SOURCES)
+
+############################################################################
+# libtool setup
+
+libSoWin@SUFFIX@_la_SOURCES = \
+	$(SOWINSOURCES)
+
 libSoWin@SUFFIX@_la_LIBADD = \
 	devices/libSoWinDevices.la \
 	viewers/libSoWinViewers.la \
@@ -39,6 +47,17 @@ libSoWin@SUFFIX@_la_LIBADD = \
 
 libSoWin@SUFFIX@_la_LDFLAGS = \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
+
+############################################################################
+# alternative custom setup
+
+sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
+	$(SOWINSOURCES)
+
+sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
+	devices/devices.lst \
+	viewers/viewers.lst \
+	widgets/widgets.lst
 
 ############################################################################
 
@@ -85,22 +104,17 @@ SoWinRenderArea.cpp: $(srcdir)/common/SoGuiRenderArea.cpp.in
 ############################################################################
 
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
-  $(libSoWin@SUFFIX@_la_OBJECTS) $(libSoWin@SUFFIX@_la_DEPENDENCIES)
+  $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+  $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES)
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
 	rm -f "$$basename.lib" "$$basename.dll"; \
-	if @BUILD_WITH_MSVC@; then \
-	  echo "Linking $@..."; \
-	  echo $(CC) $(LDFLAGS) $(LIBFLAGS) \
-	        `echo $(libSoWin@SUFFIX@_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
-	        $(libSoWin@SUFFIX@_la_LIBADD) $(LIBS); \
-	  $(CC) $(LDFLAGS) $(LIBFLAGS) \
-	        `echo $(libSoWin@SUFFIX@_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
-	        $(libSoWin@SUFFIX@_la_LIBADD) $(LIBS); \
-	else \
-	  touch "$$basename.lib" "$$basename.dll"; \
-	fi
-
-all-local: sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
+	echo "Linking $@..."; \
+	echo $(CC) $(LDFLAGS) $(LIBFLAGS) \
+	      $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+	      $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS); \
+	$(CC) $(LDFLAGS) $(LIBFLAGS) \
+	      $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+	      $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS)
 
 # **************************************************************************
 

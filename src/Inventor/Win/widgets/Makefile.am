@@ -1,6 +1,10 @@
 ## Process this file with automake to generate Makefile.in.
 
+if BUILD_WITH_MSVC
+noinst_LIBRARIES = widgets.lst
+else
 noinst_LTLIBRARIES = libSoWinWidgets.la
+endif
 
 ## Remove any linklibraries detected by configure, as they are not
 ## needed in the submodules -- only in the toplevel libSoWin build.
@@ -14,6 +18,14 @@ BUILT_SOURCES = \
 	SoAnyThumbWheel.h \
 	SoAnyThumbWheel.cpp
 
+WIDGETSOURCES = \
+	$(BUILT_SOURCES) \
+	SoWinThumbWheel.cpp \
+	SoWinThumbWheel.h \
+	SoWinPopupMenu.cpp \
+	SoWinPopupMenu.h \
+	SoWinBitmapButton.cpp \
+	SoWinBitmapButton.h
 
 ############################################################################
 
@@ -34,15 +46,22 @@ SoAnyThumbWheel.cpp: $(top_srcdir)/src/Inventor/Win/common/SoAnyThumbWheel.cpp.i
 	   $(MAKE) src/Inventor/Win/widgets/SoAnyThumbWheel.cpp )
 
 ############################################################################
-
-## All source files used when building this submodule, including all
-## headers.
+# libtool setup
 
 libSoWinWidgets_la_SOURCES = \
-	$(BUILT_SOURCES) \
-	SoWinThumbWheel.cpp \
-	SoWinThumbWheel.h \
-	SoWinPopupMenu.cpp \
-	SoWinPopupMenu.h \
-	SoWinBitmapButton.cpp \
-	SoWinBitmapButton.h
+	$(WIDGETSOURCES)
+
+############################################################################
+# custom setup
+
+widgets_lst_SOURCES = \
+	$(WIDGETSOURCES)
+
+widgets.lst: Makefile $(widgets_lst_OBJECTS)
+	@echo "Linking widgets.lst..."; \
+	echo $(CC) /LST:widgets.lst \
+	  $(widgets_lst_OBJECTS); \
+	$(CC) /LST:widgets.lst \
+	  $(widgets_lst_OBJECTS);
+
+# EOF ######################################################################

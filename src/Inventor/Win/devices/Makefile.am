@@ -2,13 +2,18 @@
 ## SoWin/src/Inventor/Win/devices/Makefile.am
 ## $Id$
 
+if BUILD_WITH_MSVC
+noinst_LIBRARIES = devices.lst
+else
 noinst_LTLIBRARIES = libSoWinDevices.la
+endif
 
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
 BUILT_SOURCES =
 
-libSoWinDevices_la_SOURCES = \
+DEVICESOURCES = \
+	$(BUILT_SOURCES) \
 	SoWinDevice.h \
 	SoWinDevice.cpp \
 	SoWinInputFocus.h \
@@ -20,6 +25,21 @@ libSoWinDevices_la_SOURCES = \
 	SoWinSpaceball.h \
 	SoWinSpaceball.cpp
 
+libSoWinDevices_la_SOURCES = \
+	$(DEVICESOURCES)
+
+devices_lst_SOURCES = \
+	$(DEVICESOURCES)
+
+############################################################################
+
+devices.lst: Makefile $(devices_lst_OBJECTS)
+	@echo "Linking devices.lst..."; \
+	echo $(CC) /LST:devices.lst \
+	  $(devices_lst_OBJECTS); \
+	$(CC) /LST:devices.lst \
+	  $(devices_lst_OBJECTS);
+
 ############################################################################
 
 libSoWinDevicesincdir = $(includedir)/Inventor/Win/devices
@@ -30,3 +50,5 @@ libSoWinDevicesinc_HEADERS = \
 	SoWinKeyboard.h \
 	SoWinMouse.h \
 	SoWinSpaceball.h
+
+# EOF ######################################################################

@@ -237,35 +237,33 @@ WARN_FORMAT           = "$file:$line: $text"
 # with spaces. 
 
 INPUT                 = \
-	@sowin_dox_build_dir@/src/Inventor/Win/SoWinBasic.h \
-	@sowin_dox_src_dir@/src/Inventor/Win/SoWin.cpp \
-	@sowin_dox_src_dir@/src/Inventor/Win/SoWin.h \
-	@sowin_dox_build_dir@/src/Inventor/Win/SoWinObject.cpp \
-	@sowin_dox_build_dir@/src/Inventor/Win/SoWinObject.h \
-	@sowin_dox_src_dir@/src/Inventor/Win/SoWinComponent.cpp \
-	@sowin_dox_src_dir@/src/Inventor/Win/SoWinComponent.h \
-	@sowin_dox_src_dir@/src/Inventor/Win/SoWinGLWidget.cpp \
-	@sowin_dox_src_dir@/src/Inventor/Win/SoWinGLWidget.h \
-	@sowin_dox_build_dir@/src/Inventor/Win/SoWinRenderArea.cpp \
-	@sowin_dox_build_dir@/src/Inventor/Win/SoWinRenderArea.h \
-	@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinDevice.cpp \
-	@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinDevice.h \
-	@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinInputFocus.cpp \
-	@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinInputFocus.h \
-	@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinKeyboard.cpp \
-	@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinKeyboard.h \
-	@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinMouse.cpp \
-	@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinMouse.h \
-	@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinSpaceball.cpp \
-	@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinSpaceball.h \
-	@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinLinuxJoystick.cpp \
-	@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinLinuxJoystick.h \
-	@sowin_dox_build_dir@/src/Inventor/Win/viewers/SoWinViewer.cpp \
-	@sowin_dox_build_dir@/src/Inventor/Win/viewers/SoWinViewer.h \
-	@sowin_dox_src_dir@/src/Inventor/Win/viewers/SoWinFullViewer.cpp \
-	@sowin_dox_src_dir@/src/Inventor/Win/viewers/SoWinFullViewer.h \
-	@sowin_dox_src_dir@/src/Inventor/Win/viewers/SoWinExaminerViewer.cpp \
-	@sowin_dox_src_dir@/src/Inventor/Win/viewers/SoWinExaminerViewer.h
+	@path_tag@@sowin_dox_build_dir@/src/Inventor/Win/SoWinBasic.h \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/SoWin.cpp \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/SoWin.h \
+	@path_tag@@sowin_dox_build_dir@/src/Inventor/Win/SoWinObject.cpp \
+	@path_tag@@sowin_dox_build_dir@/src/Inventor/Win/SoWinObject.h \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/SoWinComponent.cpp \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/SoWinComponent.h \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/SoWinGLWidget.cpp \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/SoWinGLWidget.h \
+	@path_tag@@sowin_dox_build_dir@/src/Inventor/Win/SoWinRenderArea.cpp \
+	@path_tag@@sowin_dox_build_dir@/src/Inventor/Win/SoWinRenderArea.h \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinDevice.cpp \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinDevice.h \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinInputFocus.cpp \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinInputFocus.h \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinKeyboard.cpp \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinKeyboard.h \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinMouse.cpp \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinMouse.h \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinSpaceball.cpp \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/devices/SoWinSpaceball.h \
+	@path_tag@@sowin_dox_build_dir@/src/Inventor/Win/viewers/SoWinViewer.cpp \
+	@path_tag@@sowin_dox_build_dir@/src/Inventor/Win/viewers/SoWinViewer.h \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/viewers/SoWinFullViewer.cpp \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/viewers/SoWinFullViewer.h \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/viewers/SoWinExaminerViewer.cpp \
+	@path_tag@@sowin_dox_src_dir@/src/Inventor/Win/viewers/SoWinExaminerViewer.h
 
 # If the value of the INPUT tag contains directories, you can use the 
 # FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
