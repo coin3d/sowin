@@ -31,8 +31,7 @@ class SOWIN_DLL_API SoWinDevice : public SoWinObject {
   SOWIN_OBJECT_ABSTRACT_HEADER(SoWinDevice, SoWinObject);
 
 public:
-  SoWinDevice(void);
-  ~SoWinDevice(void);
+  virtual ~SoWinDevice();
 
   virtual void enable(HWND widget, SoWinEventHandler * callbackproc, void * data) = 0;
   virtual void disable(HWND widget, SoWinEventHandler * callbackproc, void * data) = 0;
@@ -45,7 +44,14 @@ public:
   static void initClasses(void);
 
 protected:
+  SoWinDevice(void);
+
   void setEventPosition(SoEvent * event, int x, int y) const;
+  static SbVec2s getLastEventPosition(void);
+
+  void addEventHandler(HWND, SoWinEventHandler *, void *);
+  void removeEventHandler(HWND, SoWinEventHandler *, void *);
+  void invokeHandlers(MSG * event);
     
 private:
   class SoWinDeviceP * pimpl;

@@ -88,3 +88,38 @@ SoWinDevice::setEventPosition(SoEvent *event, int x, int y) const
 }
 
 // *************************************************************************
+
+SbVec2s
+SoWinDevice::getLastEventPosition(void)
+{
+  // FIXME: implementation missing for SoWin (but present on other So*
+  // toolkits (?)). 20020624 mortene.
+  SOWIN_STUB();
+  return SbVec2s(0, 0);
+}
+
+void
+SoWinDevice::addEventHandler(HWND, SoWinEventHandler *, void *)
+{
+  // FIXME: implementation missing for SoWin (but present on other So*
+  // toolkits (?)). 20020624 mortene.
+  SOWIN_STUB();
+}
+
+void
+SoWinDevice::removeEventHandler(HWND, SoWinEventHandler *, void *)
+{
+  // FIXME: implementation missing for SoWin (but present on other So*
+  // toolkits (?)). 20020624 mortene.
+  SOWIN_STUB();
+}
+
+void
+SoWinDevice::invokeHandlers(MSG * event)
+{
+  // FIXME: implementation missing for SoWin (but present on other So*
+  // toolkits (?)). 20020624 mortene.
+  SOWIN_STUB();
+}
+
+// *************************************************************************
