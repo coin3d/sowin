@@ -41,3 +41,16 @@
     20021015 mortene.
 
 =====================================================================
+
+004 Win32-specific build problem: if Coin is a static library, SoWin
+    must also be built static and *without* including Coin.
+
+    If built as a DLL under those circumstances, the static library we
+    depend on will be linked into the DLL -- but without it being
+    accessible from the application code. Then an app programmer is
+    likely to include several instances of Coin, which results in
+    various sorts of difficult to understand problems.
+
+    20021118 mortene.
+    
+=====================================================================
