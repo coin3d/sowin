@@ -1,0 +1,6 @@
+
+void
+SoWinFlyViewerP::updateCursorRepresentation()
+{
+}
+

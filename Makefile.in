@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4l from Makefile.am.
+# Makefile.in generated automatically by automake 1.5 from Makefile.am.
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -76,6 +76,7 @@ CXX = @CXX@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
 DSUFFIX = @DSUFFIX@
+ECHO = @ECHO@
 EVENT = @EVENT@
 EXEEXT = @EXEEXT@
 GUI = @GUI@
@@ -104,6 +105,7 @@ SOWIN_MAJOR_VERSION = @SOWIN_MAJOR_VERSION@
 SOWIN_MICRO_VERSION = @SOWIN_MICRO_VERSION@
 SOWIN_MINOR_VERSION = @SOWIN_MINOR_VERSION@
 SOWIN_VERSION = @SOWIN_VERSION@
+STRIP = @STRIP@
 SUFFIX = @SUFFIX@
 VERSION = @VERSION@
 WIDGET = @WIDGET@
@@ -146,6 +148,10 @@ BUILT_SOURCES = \
 	src/Inventor/Win/viewers/SoAnyExaminerViewer.cpp \
 	src/Inventor/Win/viewers/SoAnyPlaneViewer.h \
 	src/Inventor/Win/viewers/SoAnyPlaneViewer.cpp \
+	src/Inventor/Win/viewers/SoWinConstrainedViewer.h \
+	src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp \
+	src/Inventor/Win/viewers/SoWinFlyViewer.h \
+	src/Inventor/Win/viewers/SoWinFlyViewer.cpp \
 	src/Inventor/Win/widgets/SoAnyThumbWheel.h \
 	src/Inventor/Win/widgets/SoAnyThumbWheel.cpp \
 	src/Inventor/Win/widgets/SoAnyPopupMenu.h \
@@ -157,7 +163,7 @@ BUILT_SOURCES = \
 bin_SCRIPTS = sowin-config
 
 m4datadir = $(datadir)/aclocal
-m4data_DATA = cfg/m4/sowin.m4
+m4data_DATA = sowin.m4
 
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = sowin-@CONFIG@.cfg
@@ -167,7 +173,6 @@ EXTRA_DIST = \
 	sowin-config \
 	sowin.cfg.in \
 	cfg/ltconfig \
-	cfg/m4/sowin.m4 \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \
 	build/sowin.doxygen.in \
@@ -259,7 +264,7 @@ $(top_builddir)/config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 $(srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
-$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.in cfg/m4/changesonly.m4 cfg/m4/check_be.m4 cfg/m4/check_dl.m4 cfg/m4/check_inventor.m4 cfg/m4/check_jpeglib.m4 cfg/m4/check_linkstyle.m4 cfg/m4/check_mathlib.m4 cfg/m4/check_motif.m4 cfg/m4/check_nprintf.m4 cfg/m4/check_oggvorbis.m4 cfg/m4/check_openal.m4 cfg/m4/check_opengl.m4 cfg/m4/check_pnglib.m4 cfg/m4/check_pthread.m4 cfg/m4/check_qt.m4 cfg/m4/check_tifflib.m4 cfg/m4/check_ungif.m4 cfg/m4/check_x11.m4 cfg/m4/check_zlib.m4 cfg/m4/coin.m4 cfg/m4/compile_debug.m4 cfg/m4/compile_exceptions.m4 cfg/m4/compile_functionname.m4 cfg/m4/compile_profiling.m4 cfg/m4/compile_rtti.m4 cfg/m4/compile_symbols.m4 cfg/m4/compile_warnings.m4 cfg/m4/compiler_capabilities.m4 cfg/m4/configuration_summary.m4 cfg/m4/cvschanges.m4 cfg/m4/dime.m4 cfg/m4/doxygen_detection.m4 cfg/m4/expand_dir_vars.m4 cfg/m4/general.m4 cfg/m4/gettext.m4 cfg/m4/guile.m4 cfg/m4/iso8601.m4 cfg/m4/lcmessage.m4 cfg/m4/linux_api.m4 cfg/m4/macro_quoting.m4 cfg/m4/misc_compiler.m4 cfg/m4/modifierlist.m4 cfg/m4/msvccc.m4 cfg/m4/network.m4 cfg/m4/path_conversion.m4 cfg/m4/profit.m4 cfg/m4/progtest.m4 cfg/m4/reconfigure.m4 cfg/m4/simage.m4 cfg/m4/smallchange.m4 cfg/m4/sobe.m4 cfg/m4/sockets.m4 cfg/m4/sogtk.m4 cfg/m4/sogui.m4 cfg/m4/soqt.m4 cfg/m4/sowin.m4 cfg/m4/soxt.m4 cfg/m4/uniqify.m4
+$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.in cfg/m4/changesonly.m4 cfg/m4/check_be.m4 cfg/m4/check_dl.m4 cfg/m4/check_inventor.m4 cfg/m4/check_jpeglib.m4 cfg/m4/check_linkstyle.m4 cfg/m4/check_mathlib.m4 cfg/m4/check_motif.m4 cfg/m4/check_nprintf.m4 cfg/m4/check_oggvorbis.m4 cfg/m4/check_openal.m4 cfg/m4/check_opengl.m4 cfg/m4/check_pnglib.m4 cfg/m4/check_pthread.m4 cfg/m4/check_qt.m4 cfg/m4/check_tifflib.m4 cfg/m4/check_ungif.m4 cfg/m4/check_x11.m4 cfg/m4/check_zlib.m4 cfg/m4/coin.m4 cfg/m4/compile_debug.m4 cfg/m4/compile_exceptions.m4 cfg/m4/compile_functionname.m4 cfg/m4/compile_profiling.m4 cfg/m4/compile_rtti.m4 cfg/m4/compile_symbols.m4 cfg/m4/compile_warnings.m4 cfg/m4/compiler_capabilities.m4 cfg/m4/configuration_summary.m4 cfg/m4/cvschanges.m4 cfg/m4/dates.m4 cfg/m4/dime.m4 cfg/m4/doxygen_detection.m4 cfg/m4/errors.m4 cfg/m4/expand_dir_vars.m4 cfg/m4/general.m4 cfg/m4/gettext.m4 cfg/m4/guile.m4 cfg/m4/lcmessage.m4 cfg/m4/linux_api.m4 cfg/m4/macro_quoting.m4 cfg/m4/misc_compiler.m4 cfg/m4/modifierlist.m4 cfg/m4/msvccc.m4 cfg/m4/network.m4 cfg/m4/path_conversion.m4 cfg/m4/profit.m4 cfg/m4/progtest.m4 cfg/m4/reconfigure.m4 cfg/m4/simage.m4 cfg/m4/smallchange.m4 cfg/m4/sobe.m4 cfg/m4/sockets.m4 cfg/m4/sogtk.m4 cfg/m4/sogui.m4 cfg/m4/soqt.m4 cfg/m4/sowin.m4 cfg/m4/soxt.m4 cfg/m4/uniqify.m4
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 build/sowin.doxygen: $(top_builddir)/config.status $(top_srcdir)/build/sowin.doxygen.in
 	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
@@ -600,8 +605,8 @@ built-sources: $(BUILT_SOURCES)
 
 ############################################################################
 
-src/sowindefs.h: $(srcdir)/src/sowindefs.h.in
-	@./config.status --file=src/sowindefs.h
+src/sowindefs.h: $(srcdir)/src/Inventor/Win/common/soguidefs.h.in
+	@./config.status --file=$@:src/Inventor/Win/common/soguidefs.h.in
 
 src/Inventor/Win/SoWinBasic.h: $(srcdir)/src/Inventor/Win/common/SoGuiBasic.h.in
 	@./config.status \
@@ -675,6 +680,26 @@ src/Inventor/Win/viewers/SoAnyPlaneViewer.cpp: \
   $(srcdir)/src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in
 	@./config.status \
 	  --file=$@:src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in
+
+src/Inventor/Win/viewers/SoWinConstrainedViewer.h: \
+  $(srcdir)/src/Inventor/Win/common/SoGuiConstrainedViewer.h.in
+	@./config.status \
+	  --file=$@:src/Inventor/Win/common/SoGuiConstrainedViewer.h.in
+
+src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp: \
+  $(srcdir)/src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in
+	@./config.status \
+	  --file=$@:src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in
+
+src/Inventor/Win/viewers/SoWinFlyViewer.h: \
+  $(srcdir)/src/Inventor/Win/common/SoGuiFlyViewer.h.in
+	@./config.status \
+	  --file=$@:src/Inventor/Win/common/SoGuiFlyViewer.h.in
+
+src/Inventor/Win/viewers/SoWinFlyViewer.cpp: \
+  $(srcdir)/src/Inventor/Win/common/SoGuiFlyViewer.cpp.in
+	@./config.status \
+	  --file=$@:src/Inventor/Win/common/SoGuiFlyViewer.cpp.in
 
 src/Inventor/Win/widgets/SoAnyThumbWheel.h: \
   $(srcdir)/src/Inventor/Win/common/SoAnyThumbWheel.h.in

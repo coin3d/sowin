@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4l from Makefile.am.
+# Makefile.in generated automatically by automake 1.5 from Makefile.am.
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -74,6 +74,7 @@ CXX = @CXX@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
 DSUFFIX = @DSUFFIX@
+ECHO = @ECHO@
 EVENT = @EVENT@
 EXEEXT = @EXEEXT@
 GUI = @GUI@
@@ -102,6 +103,7 @@ SOWIN_MAJOR_VERSION = @SOWIN_MAJOR_VERSION@
 SOWIN_MICRO_VERSION = @SOWIN_MICRO_VERSION@
 SOWIN_MINOR_VERSION = @SOWIN_MINOR_VERSION@
 SOWIN_VERSION = @SOWIN_VERSION@
+STRIP = @STRIP@
 SUFFIX = @SUFFIX@
 VERSION = @VERSION@
 WIDGET = @WIDGET@
@@ -133,7 +135,15 @@ BUILT_SOURCES = \
 	SoAnyExaminerViewer.h \
 	SoAnyExaminerViewer.cpp \
 	SoAnyPlaneViewer.h \
-	SoAnyPlaneViewer.cpp
+	SoAnyPlaneViewer.cpp \
+	SoWinConstrainedViewer.h \
+	SoWinConstrainedViewer.cpp \
+	SoWinFlyViewer.h \
+	SoWinFlyViewer.cpp
+
+
+EXTRADISTFILES = \
+	SoNativeFlyViewer.cpp
 
 
 DISTCLEANFILES = \
@@ -195,7 +205,8 @@ am_viewers_lst_OBJECTS = SoWinFullViewer.$(OBJEXT) \
 	SoWinExaminerViewer.$(OBJEXT) SoWinPlaneViewer.$(OBJEXT)
 nodist_viewers_lst_OBJECTS = SoWinViewer.$(OBJEXT) \
 	SoAnyFullViewer.$(OBJEXT) SoAnyExaminerViewer.$(OBJEXT) \
-	SoAnyPlaneViewer.$(OBJEXT)
+	SoAnyPlaneViewer.$(OBJEXT) SoWinConstrainedViewer.$(OBJEXT) \
+	SoWinFlyViewer.$(OBJEXT)
 viewers_lst_OBJECTS = $(am_viewers_lst_OBJECTS) \
 	$(nodist_viewers_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
@@ -205,7 +216,8 @@ libSoWinViewers_la_LIBADD =
 am_libSoWinViewers_la_OBJECTS = SoWinFullViewer.lo \
 	SoWinExaminerViewer.lo SoWinPlaneViewer.lo
 nodist_libSoWinViewers_la_OBJECTS = SoWinViewer.lo SoAnyFullViewer.lo \
-	SoAnyExaminerViewer.lo SoAnyPlaneViewer.lo
+	SoAnyExaminerViewer.lo SoAnyPlaneViewer.lo \
+	SoWinConstrainedViewer.lo SoWinFlyViewer.lo
 libSoWinViewers_la_OBJECTS = $(am_libSoWinViewers_la_OBJECTS) \
 	$(nodist_libSoWinViewers_la_OBJECTS)
 
@@ -220,8 +232,12 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/SoAnyFullViewer.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoAnyPlaneViewer.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoAnyPlaneViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinConstrainedViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinConstrainedViewer.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinExaminerViewer.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinExaminerViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinFlyViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoWinFlyViewer.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinFullViewer.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinFullViewer.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinPlaneViewer.Plo \
@@ -294,8 +310,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyFullViewer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyPlaneViewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyPlaneViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinConstrainedViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinConstrainedViewer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinExaminerViewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinExaminerViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinFlyViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinFlyViewer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinFullViewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinFullViewer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinPlaneViewer.Plo@am__quote@
@@ -523,6 +543,26 @@ SoAnyPlaneViewer.cpp: \
   $(top_srcdir)/src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in
 	@( cd $(top_builddir); \
 	   $(MAKE) src/Inventor/Win/viewers/SoAnyPlaneViewer.cpp )
+
+SoWinConstrainedViewer.h: \
+  $(top_srcdir)/src/Inventor/Win/common/SoGuiConstrainedViewer.h.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoWinConstrainedViewer.h )
+
+SoWinConstrainedViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp )
+
+SoWinFlyViewer.h: \
+  $(top_srcdir)/src/Inventor/Win/common/SoGuiFlyViewer.h.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoWinFlyViewer.h )
+
+SoWinFlyViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Win/common/SoGuiFlyViewer.cpp.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoWinFlyViewer.cpp )
 
 viewers.lst: Makefile $(viewers_lst_OBJECTS)
 	@echo "Linking viewers.lst..."; \

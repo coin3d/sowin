@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4l from Makefile.am.
+# Makefile.in generated automatically by automake 1.5 from Makefile.am.
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -76,6 +76,7 @@ CXX = @CXX@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
 DSUFFIX = @DSUFFIX@
+ECHO = @ECHO@
 EVENT = @EVENT@
 EXEEXT = @EXEEXT@
 GUI = @GUI@
@@ -104,6 +105,7 @@ SOWIN_MAJOR_VERSION = @SOWIN_MAJOR_VERSION@
 SOWIN_MICRO_VERSION = @SOWIN_MICRO_VERSION@
 SOWIN_MINOR_VERSION = @SOWIN_MINOR_VERSION@
 SOWIN_VERSION = @SOWIN_VERSION@
+STRIP = @STRIP@
 SUFFIX = @SUFFIX@
 VERSION = @VERSION@
 WIDGET = @WIDGET@

@@ -23,7 +23,14 @@ BUILT_SOURCES = \
 	SoAnyExaminerViewer.h \
 	SoAnyExaminerViewer.cpp \
 	SoAnyPlaneViewer.h \
-	SoAnyPlaneViewer.cpp
+	SoAnyPlaneViewer.cpp \
+	SoWinConstrainedViewer.h \
+	SoWinConstrainedViewer.cpp \
+	SoWinFlyViewer.h \
+	SoWinFlyViewer.cpp
+
+EXTRADISTFILES = \
+	SoNativeFlyViewer.cpp
 
 DISTCLEANFILES = \
 	$(BUILT_SOURCES)
@@ -75,6 +82,26 @@ SoAnyPlaneViewer.cpp: \
   $(top_srcdir)/src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in
 	@( cd $(top_builddir); \
 	   $(MAKE) src/Inventor/Win/viewers/SoAnyPlaneViewer.cpp )
+
+SoWinConstrainedViewer.h: \
+  $(top_srcdir)/src/Inventor/Win/common/SoGuiConstrainedViewer.h.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoWinConstrainedViewer.h )
+
+SoWinConstrainedViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp )
+
+SoWinFlyViewer.h: \
+  $(top_srcdir)/src/Inventor/Win/common/SoGuiFlyViewer.h.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoWinFlyViewer.h )
+
+SoWinFlyViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Win/common/SoGuiFlyViewer.cpp.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoWinFlyViewer.cpp )
 
 
 ############################################################################

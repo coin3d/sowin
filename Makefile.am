@@ -28,6 +28,10 @@ BUILT_SOURCES = \
 	src/Inventor/Win/viewers/SoAnyExaminerViewer.cpp \
 	src/Inventor/Win/viewers/SoAnyPlaneViewer.h \
 	src/Inventor/Win/viewers/SoAnyPlaneViewer.cpp \
+	src/Inventor/Win/viewers/SoWinConstrainedViewer.h \
+	src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp \
+	src/Inventor/Win/viewers/SoWinFlyViewer.h \
+	src/Inventor/Win/viewers/SoWinFlyViewer.cpp \
 	src/Inventor/Win/widgets/SoAnyThumbWheel.h \
 	src/Inventor/Win/widgets/SoAnyThumbWheel.cpp \
 	src/Inventor/Win/widgets/SoAnyPopupMenu.h \
@@ -38,7 +42,7 @@ BUILT_SOURCES = \
 bin_SCRIPTS = sowin-config
 
 m4datadir = $(datadir)/aclocal
-m4data_DATA = cfg/m4/sowin.m4
+m4data_DATA = sowin.m4
 
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = sowin-@CONFIG@.cfg
@@ -51,7 +55,6 @@ EXTRA_DIST = \
 	sowin-config \
 	sowin.cfg.in \
 	cfg/ltconfig \
-	cfg/m4/sowin.m4 \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \
 	build/sowin.doxygen.in \
@@ -105,8 +108,8 @@ built-sources: $(BUILT_SOURCES)
 
 ############################################################################
 
-src/sowindefs.h: $(srcdir)/src/sowindefs.h.in
-	@./config.status --file=src/sowindefs.h
+src/sowindefs.h: $(srcdir)/src/Inventor/Win/common/soguidefs.h.in
+	@./config.status --file=$@:src/Inventor/Win/common/soguidefs.h.in
 
 src/Inventor/Win/SoWinBasic.h: $(srcdir)/src/Inventor/Win/common/SoGuiBasic.h.in
 	@./config.status \
@@ -180,6 +183,26 @@ src/Inventor/Win/viewers/SoAnyPlaneViewer.cpp: \
   $(srcdir)/src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in
 	@./config.status \
 	  --file=$@:src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in
+
+src/Inventor/Win/viewers/SoWinConstrainedViewer.h: \
+  $(srcdir)/src/Inventor/Win/common/SoGuiConstrainedViewer.h.in
+	@./config.status \
+	  --file=$@:src/Inventor/Win/common/SoGuiConstrainedViewer.h.in
+
+src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp: \
+  $(srcdir)/src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in
+	@./config.status \
+	  --file=$@:src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in
+
+src/Inventor/Win/viewers/SoWinFlyViewer.h: \
+  $(srcdir)/src/Inventor/Win/common/SoGuiFlyViewer.h.in
+	@./config.status \
+	  --file=$@:src/Inventor/Win/common/SoGuiFlyViewer.h.in
+
+src/Inventor/Win/viewers/SoWinFlyViewer.cpp: \
+  $(srcdir)/src/Inventor/Win/common/SoGuiFlyViewer.cpp.in
+	@./config.status \
+	  --file=$@:src/Inventor/Win/common/SoGuiFlyViewer.cpp.in
 
 src/Inventor/Win/widgets/SoAnyThumbWheel.h: \
   $(srcdir)/src/Inventor/Win/common/SoAnyThumbWheel.h.in
