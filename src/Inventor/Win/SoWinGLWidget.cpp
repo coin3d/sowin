@@ -524,21 +524,19 @@ SoWinGLWidget::widgetChanged( HWND newWidget )
   // virtual
   // called whenever the widget is changed (i.e. at initialization
   // or after switching from single->double buffer)
-  PRIVATE( this )->createGLContext( this->getNormalWidget( ) );
 }
 
 void
 SoWinGLWidget::setGLSize( SbVec2s newSize )
 {
-  short width, height;
-  newSize.getValue( width, height );
   if ( newSize == PRIVATE( this )->glSize ) return;
 
   PRIVATE( this )->glSize = newSize;
-  this->sizeChanged( newSize );
 
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
-  SetWindowPos( this->getNormalWidget( ), NULL, 0, 0, width, height, flags );
+  SetWindowPos( this->getNormalWidget( ), NULL, 0, 0, newSize[0], newSize[1], flags );
+
+  this->sizeChanged( newSize );
 }
 
 SbVec2s
