@@ -360,14 +360,14 @@ SoWin::eventHandler( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
   switch( message )
     {
     case WM_SIZE:
-      if( ! SoWinP::parentEventHandler ) {
+      if( ! SoWinP::useParentEventHandler ) {
         retval =  SoWinP::onSize( window, message, wparam, lparam );
         handled = TRUE;
       }
       break;
 
     case WM_DESTROY:
-      if ( ! SoWinP::parentEventHandler ) {
+      if ( ! SoWinP::useParentEventHandler ) {
         retval = SoWinP::onDestroy( window, message, wparam, lparam );
         handled = TRUE;
       }

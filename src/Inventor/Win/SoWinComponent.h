@@ -35,9 +35,12 @@ typedef void SoWinComponentVisibilityCB( void * user, SbBool visible );
 // *************************************************************************
 
 class SOWIN_DLL_API SoWinComponent : SoWinObject {
+
   SOWIN_OBJECT_ABSTRACT_HEADER( SoWinComponent, SoWinObject );
   friend class SoWinComponentP;
+  
 public:
+  
   virtual ~SoWinComponent( void );
 
   virtual void show( void );
@@ -80,10 +83,7 @@ protected:
 
   void setBaseWidget( HWND widget );
   void setClassName( const char * const name );
-  /*
-  void registerWidget( HWND widget );
-  void unregisterWidget( HWND widget );
-  */
+
   HWND buildFormWidget( HWND parent );
 
   virtual const char * getDefaultWidgetName( void ) const;
@@ -102,30 +102,11 @@ protected:
   SbBool getResize( void );
 
   SbBool realized;
-  //HWND parent;
-  //HWND componentWidget;
   
 private:
 
   SoWinComponentP * pimpl;
-  /*
-  HWND constructorParent;
-  LONG style;
-  LONG exstyle;
-  SbBool fullScreen;  
-  SbString widgetName;
-  SbString widgetClass;
-  SbString title;
-  SbVec2s size;
-  SbVec2s pos;
-  SbBool embedded;
 
-  static SbPList * widgets;
-  static SbPList * components;
-
-  SoWinComponentCB * closeCB;
-  void * closeCBData;
-  */
 }; // class SoWinComponent
 
 // *************************************************************************

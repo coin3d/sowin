@@ -79,16 +79,17 @@ public:
     
   }
   
-  static LRESULT CALLBACK eventHandler( HWND window,UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onClose( HWND window, UINT message, WPARAM wparam, LPARAM lparam );  
-  LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  static LRESULT CALLBACK eventHandler(
+    HWND window, UINT message, WPARAM wparam, LPARAM lparam ) {
+    // Do nothing. This method is just a place holder.
+    return DefWindowProc( window, message, wparam, lparam );
+  }
 
   // Variables.
 
   HWND parent;
   HWND widget;
-  SbBool embedded, shelled;
+  SbBool embedded;//, shelled;
   SbString classname, widgetname, title;
   SoWinComponentCB * closeCB;
   void * closeCBdata;
@@ -105,10 +106,14 @@ public:
     LONG style;
     LONG exstyle;
   };
+
+  // List of all fullscreen widgets.
   static SbPList * sowinfullscreenlist;
 
 private:
+  
   SoWinComponent * owner;
+  
 };
 
 SbPList * SoWinComponentP::sowincomplist = NULL;
@@ -149,16 +154,16 @@ SoWinComponent::SoWinComponent( const HWND parent,
   PRIVATE( this )->closeCBdata = NULL;
  
   if ( name ) PRIVATE( this )->widgetname = name;
-  
-  if ( ! IsWindow( parent ) || ! embed ) {
-    PRIVATE( this )->parent = NULL;
-    PRIVATE( this )->embedded = FALSE;
-    PRIVATE( this )->widget = this->buildFormWidget( parent );
+
+  PRIVATE( this )->widget = NULL;
+  PRIVATE( this )->embedded = embed;
+    
+  if ( IsWindow( parent ) && embed ) {
+    PRIVATE( this )->parent = parent;
   } 
   else {
-    PRIVATE( this )->parent = parent;
-    PRIVATE( this )->embedded = TRUE;
-    PRIVATE( this )->widget = NULL;
+    PRIVATE( this )->parent = this->buildFormWidget( parent );
+    this->setTitle( name );
   }
 }
 
@@ -326,8 +331,6 @@ SoWinComponent::getParentWidget( void ) const
 void
 SoWinComponent::setSize( const SbVec2s size )
 {
-  //PRIVATE( this )->size = size;
-  
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
   SetWindowPos( this->getShellWidget( ), NULL, 0, 0, size[0], size[1], flags );
 }
@@ -338,7 +341,6 @@ SoWinComponent::getSize( void )
   RECT rect;
   GetWindowRect( this->getShellWidget( ), & rect );
   return SbVec2s( rect.right - rect.left, rect.bottom - rect.top );
-  //return PRIVATE( this )->size;
 }
 
 const char *
@@ -359,7 +361,7 @@ SoWinComponent::setTitle( const char * const title )
   if ( title ) PRIVATE( this )->title = title;
   else PRIVATE( this )->title = "";
 
-  if ( IsWindow( PRIVATE( this )->parent ) ) {
+  if ( IsWindow( PRIVATE( this )->parent ) && title ) {
     SetWindowText( PRIVATE( this )->parent , ( LPCTSTR ) PRIVATE( this )->title.getString( ) );
   } 
   else {
@@ -431,7 +433,7 @@ SoWinComponent::buildFormWidget( HWND parent )
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
 	LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
-  HBRUSH brush = ( HBRUSH ) GetStockObject( COLOR_BTNFACE );
+  HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
   HWND widget;
 
   windowclass.lpszClassName = ( char * ) this->getDefaultWidgetName( );
@@ -467,22 +469,22 @@ SoWinComponent::buildFormWidget( HWND parent )
 const char *
 SoWinComponent::getDefaultWidgetName( void ) const
 {
-  static const char defaultWidgetTitle[] = "Win Component";
+  static const char defaultWidgetTitle[] = "SoWinComponent";
   return defaultWidgetTitle;
 }
 
 const char *
 SoWinComponent::getDefaultTitle( void ) const
 {
-  static const char defaultTitle[] = "Win Component";
+  static const char defaultTitle[] = "SoWinComponent";
   return defaultTitle;
 }
 
 void
 SoWinComponent::windowCloseAction( void )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
+  if ( PRIVATE( this )->closeCB )
+    PRIVATE( this )->closeCB( PRIVATE( this )->closeCBdata, this );
 }
 
 void
@@ -520,56 +522,3 @@ SoWinComponent::openHelpCard( const char * name )
 //
 //  (private)
 //
-
-LRESULT CALLBACK
-SoWinComponentP::eventHandler( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
-  if ( message == WM_CREATE )
-  {
-    CREATESTRUCT * createstruct;
-    createstruct = ( CREATESTRUCT * )lparam;
-    SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
-    return 0;
-  }
-
-  SoWinComponentP * object = ( SoWinComponentP * ) GetWindowLong( window, 0 );
-  
-  if ( object ) {
-    switch ( message )
-      {
-				
-      case WM_SIZE:
-        return object->onSize( window, message, wparam, lparam );
-
-      case WM_CLOSE:
-        return object->onClose( window, message, wparam, lparam );
-
-      case WM_DESTROY:
-        return object->onDestroy( window, message, wparam, lparam );
-        
-      }
-  }
-  return DefWindowProc( window, message, wparam, lparam );
-}
-
-LRESULT
-SoWinComponentP::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
-  //this->size = SbVec2s( HIWORD(lparam), LOWORD(lparam) );
-  return 0;
-}
-
-LRESULT
-SoWinComponentP::onClose( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
-  this->owner->windowCloseAction( );
-  if ( this->closeCB ) this->closeCB( this->closeCBdata, owner );
-  return 0;
-}
-
-LRESULT
-SoWinComponentP::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
-  PostQuitMessage( 0 );
-  return 0;
-}

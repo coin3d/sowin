@@ -59,10 +59,12 @@ public:
   // Constructor.
   SoWinFullViewerP( SoWinFullViewer * o ) {
     this->owner = o;
+    this->parentEventHandler = NULL;
   }
 
   // Destructor.
   ~SoWinFullViewerP( ) {
+    
   }
     
   static void rightWheelCB( SoWinFullViewer * viewer, void ** data );
@@ -86,11 +88,13 @@ public:
 	CreateAppPushButtonCB * createAppPushButtonCB;
 	void * createAppPushButtonData;
 
+  WNDPROC parentEventHandler;
+  
   SbBool menuenabled;
   SbBool decorations;
 
   static SbBool doneButtonBar;
-  static SbBool doButtonBar;  
+  static SbBool doButtonBar;
 
 private:
   
@@ -145,12 +149,19 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 	PRIVATE( this )->createAppPushButtonData = NULL;
 
   if ( buildNow ) {
+    HWND window;
     this->setClassName( "SoWinFullViewer" );
-    HWND window = this->buildWidget( parent );
+    if ( ! embedded )
+      window = this->buildWidget( this->getParentWidget( ) );
+    else  
+      window = this->buildWidget( parent );
     this->setBaseWidget( window );
   }
 
   this->setSize( SbVec2s( 500, 420 ) );
+
+  if ( ! this->isViewing( ) )
+    this->setViewing( TRUE );
 
   this->zoomrange = SbVec2f( 1.0f, 140.0f ); // FIXME: make init function
 }
@@ -168,7 +179,7 @@ SoWinFullViewer::~SoWinFullViewer( void )
   for ( i =  this->appButtonList->getLength( ); i >= 0; i-- ) {
     this->appButtonList->remove( i );
   }
-
+  
   // FIXME: causes error. mariusbu 20010726.
   //delete this->viewerButtonList;
   //delete this->appButtonList;
@@ -403,52 +414,14 @@ SoWinFullViewer::selectedPrefs( void )
 HWND
 SoWinFullViewer::buildWidget( HWND parent )
 {
-  WNDCLASS windowclass;
+  // This method will always be called with a parent.
+  
+  assert( IsWindow( parent ) );
+  this->viewerWidget = parent;
 
-  LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
-	LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
-  HMENU menu = NULL;
-  HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
-  LPSTR wndclassname = ( LPSTR ) this->getClassName( );
-
-  windowclass.lpszClassName = wndclassname;
-  windowclass.hInstance = SoWin::getInstance( );
-  windowclass.lpfnWndProc = SoWinFullViewer::vwrWidgetProc;
-  windowclass.style = CS_OWNDC;
-  windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = LoadIcon( NULL, icon );
-  windowclass.hCursor = LoadCursor( SoWin::getInstance( ), cursor );
-  windowclass.hbrBackground = brush;
-  windowclass.cbClsExtra = 0;
-  windowclass.cbWndExtra = 4;
-
-  RegisterClass( & windowclass );
-
-  RECT rect;
-  DWORD style;
-  if ( IsWindow( parent ) ) {
-    GetClientRect( parent, & rect );
-    style = WS_CHILD | WS_VISIBLE;
-  }
-  else {
-    rect.right = 500;
-    rect.bottom = 420;
-    style = WS_OVERLAPPEDWINDOW;
-  }
-
-  this->viewerWidget = CreateWindow( wndclassname,
-                                     wndclassname,
-                                     style,
-                                     CW_USEDEFAULT,
-                                     CW_USEDEFAULT,
-                                     rect.right,
-                                     rect.bottom,
-                                     parent,
-                                     menu,
-                                     SoWin::getInstance( ),
-                                     this );
-  assert( IsWindow( this->viewerWidget ) );
-
+  PRIVATE( this )->parentEventHandler =
+    ( WNDPROC ) SetWindowLong( parent, GWL_WNDPROC, ( long ) SoWinFullViewer::vwrWidgetProc );
+  
   this->renderAreaWidget = inherited::buildWidget( this->viewerWidget );
   assert( IsWindow( this->renderAreaWidget ) );
 
@@ -885,15 +858,12 @@ SoWinFullViewer::vwrWidgetProc(
   WPARAM wparam,
   LPARAM lparam )
 {
-  if ( message == WM_CREATE ) {
-    CREATESTRUCT * createstruct;
-    createstruct = ( CREATESTRUCT * ) lparam;
-    SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
-    SoWinFullViewer * object = ( SoWinFullViewer * ) GetWindowLong( window, 0 );
-    return object->onCreate( window, message, wparam, lparam );
-  }
+  
+  SoWinFullViewer * object = NULL;
+  SoWinComponent * comp = SoWinComponent::getComponent( window );
 
-  SoWinFullViewer * object = ( SoWinFullViewer * ) GetWindowLong( window, 0 );
+  // FIXME: do type check. mariusbu 20010727.
+  object = ( SoWinFullViewer * ) comp;
 
   if ( object && window == object->viewerWidget ) {
 		
@@ -904,9 +874,6 @@ SoWinFullViewer::vwrWidgetProc(
 
       case WM_SIZE:
         return object->onSize( window, message, wparam, lparam );
-
-      case WM_DESTROY:
-        return object->onDestroy( window, message, wparam, lparam );
 				
 			case WM_COMMAND:
 			  return object->onCommand( window, message, wparam, lparam );
@@ -921,12 +888,15 @@ SoWinFullViewer::vwrWidgetProc(
         SetFocus( object->getGLWidget( ) );
         return 0;
 
+      default:
+        return object->pimpl->parentEventHandler( window, message, wparam, lparam );
     }
     
   }
+
   return DefWindowProc( window, message, wparam, lparam );
 }
-
+/*
 LRESULT
 SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
@@ -934,14 +904,13 @@ SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lpar
     this->setViewing( TRUE );
   return 0;
 }
-
+*/
 LRESULT
 SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   PRIVATE( this )->layoutWidgets( LOWORD( lparam ), HIWORD( lparam ) );
 
-  if ( ! IsWindow( GetParent( window ) ) )
-    InvalidateRect( window, NULL, TRUE );
+  InvalidateRect( window, NULL, TRUE );
 
   return 0;
 }
@@ -1026,14 +995,6 @@ SoWinFullViewer::onDrawItem( HWND window, UINT message, WPARAM wparam, LPARAM lp
 				PRIVATE( this )->redrawAppPushButtonCB( lpdis, PRIVATE( this )->redrawAppPushButtonData );
 			break;
 		}
-  return 0;
-}
-
-LRESULT
-SoWinFullViewer::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB();
   return 0;
 }
 

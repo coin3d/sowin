@@ -163,10 +163,8 @@ protected:
   static LRESULT CALLBACK vwrWidgetProc( HWND window, UINT message,
     WPARAM wparam, LPARAM lparam );
 
-  virtual LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 	virtual LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   virtual LRESULT onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  virtual LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 	virtual LRESULT onDrawItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 	virtual LRESULT onMeasureItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 
