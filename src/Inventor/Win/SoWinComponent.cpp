@@ -216,7 +216,7 @@ SoWinComponent::setTitle( const char * const title )
 const char *
 SoWinComponent::getTitle( void ) const
 {
-  return this->title->getLength() ? 
+  return this->title.getLength() ? 
     this->title.getString() : this->getDefaultTitle( );
 }
 
@@ -230,7 +230,7 @@ SoWinComponent::setIconTitle( const char * const title )
 const char *
 SoWinComponent::getIconTitle( void ) const
 {
-  return this->iconTitle->getLength() ? 
+  return this->iconTitle.getLength() ? 
     this->iconTitle.getString() : this->getDefaultIconTitle( );
 }
 
