@@ -198,7 +198,7 @@ SoWinComponentP::buildFormWidget(HWND parent)
 
 // *************************************************************************
 
-// documented in common/SoGuiComponentCommon.cpp.in.
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::initClasses(void)
 {
@@ -213,25 +213,8 @@ SoWinComponent::initClasses(void)
 
 // *************************************************************************
 
-///////////////////////////////////////////////////////////////////
-//
-//  Constructor/Destructor
-//  (protected)
-//
-
-/*!
-  Constructor.
-
-  \a parent is the widget we'll build this component inside. If \a
-  parent is \c NULL, make a new toplevel window.
-
-  \a name is mostly interesting for debugging purposes.
-
-  \a buildInsideParent specifies whether or not we should make a new
-  toplevel window for the component even when we've got a non-NULL \a
-  parent.
-*/
-SoWinComponent::SoWinComponent(const HWND parent,
+// Documented in common/SoGuiComponentCommon.cpp.in.
+SoWinComponent::SoWinComponent(HWND const parent,
                                const char * const name,
                                const SbBool embed)
 {
@@ -273,15 +256,8 @@ SoWinComponent::SoWinComponent(const HWND parent,
   }
 }
 
-///////////////////////////////////////////////////////////////////
-//
-//  (public)
-//
-
-/*!
-  Destructor.
-*/
-SoWinComponent::~SoWinComponent(void)
+// Documented in common/SoGuiComponentCommon.cpp.in.
+SoWinComponent::~SoWinComponent()
 {
   if (PRIVATE(this)->widget) { this->unregisterWidget(PRIVATE(this)->widget); }
 
@@ -352,12 +328,7 @@ SoWinComponentP::cleanupWin32References(void)
 
 #endif // !DOXYGEN_SKIP_THIS
 
-/*!
-  This will show the widget, deiconifiying and raising it if
-  necessary.
-
-  \sa hide(), isVisible()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::show(void)
 {
@@ -365,24 +336,14 @@ SoWinComponent::show(void)
   Win32::InvalidateRect(PRIVATE(this)->parent, NULL, FALSE);
 }
 
-/*!
-  This will hide the widget.
-
-  \sa show(), isVisible()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::hide(void)
 {
   (void)ShowWindow(PRIVATE(this)->parent, SW_HIDE);
 }
 
-/*!
-  Toggle full screen mode for this component, if possible.
-
-  Returns \c FALSE if operation failed.  This might happen if the
-  toolkit doesn't support attempts at making the component cover the
-  complete screen or if the component is not a toplevel window.
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 SbBool
 SoWinComponent::setFullScreen(const SbBool enable)
 {
@@ -417,11 +378,11 @@ SoWinComponent::setFullScreen(const SbBool enable)
     // Go fullscreen.
 
     Win32::MoveWindow(hwnd,
-                       0,
-                       0,
-                       GetSystemMetrics(SM_CXSCREEN),
-                       GetSystemMetrics(SM_CYSCREEN),
-                       TRUE);
+                      0,
+                      0,
+                      GetSystemMetrics(SM_CXSCREEN),
+                      GetSystemMetrics(SM_CYSCREEN),
+                      TRUE);
 
     // FIXME: isn't there a specific method in the Win32 API for
     // maximizing a window? If yes, use that mechanism instead of this
@@ -448,62 +409,35 @@ SoWinComponent::setFullScreen(const SbBool enable)
   return TRUE;
 }
 
-/*!
-  Returns if this widget/component is in full screen mode.
-
-  \sa setFullScreen()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 SbBool
 SoWinComponent::isFullScreen(void) const
 {
   return PRIVATE(this)->fullscreendata.on;
 }
 
-/*!
-  Returns visibility status on the widget. If any parents of this
-  widget or this widget itself is hidden, returns \c FALSE.
-
-  Note that a widget which is just obscured by other windows on the
-  desktop is not hidden in this sense, and \c TRUE will be returned.
-
-  \sa show(), hide()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 SbBool
 SoWinComponent::isVisible(void)
 {
   return IsWindowVisible(PRIVATE(this)->widget);
 }
 
-/*!
-  Returns a pointer to the component's window system widget.
-
-  \sa getShellWidget(), getParentWidget()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 HWND
 SoWinComponent::getWidget(void) const
 {
   return PRIVATE(this)->widget;
 }
 
-/*!
-  An SoWinComponent may be composed of any number of widgets in
-  parent-children relationships in a tree structure with any depth.
-  This method will return the root widget in that tree.
-
-  \sa setBaseWidget()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 HWND
 SoWinComponent::getBaseWidget(void) const
 {
   return this->getWidget();
 }
 
-/*!
-  Returns \c TRUE if this component is a toplevel shell, i.e. it has a
-  window representation on the desktop.
-
-  \sa getShellWidget()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 SbBool
 SoWinComponent::isTopLevelShell(void) const
 {
@@ -511,23 +445,14 @@ SoWinComponent::isTopLevelShell(void) const
   // FIXME: compare with SoWin::getTopLevelWidget() ? mariusbu 20010806.
 }
 
-/*!
-  Returns the widget which is the parent (i.e. contains) this
-  component's base widget.
-
-  \sa getWidget(), baseWidget(), isTopLevelShell()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 HWND
 SoWinComponent::getParentWidget(void) const
 {
   return PRIVATE(this)->parent;
 }
 
-/*!
-  Resize the component widget.
-
-  \sa getSize()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::setSize(const SbVec2s size)
 {
@@ -536,11 +461,7 @@ SoWinComponent::setSize(const SbVec2s size)
                       size[0], size[1], flags);
 }
 
-/*!
-  Returns the component widget size.
-
-  \sa setSize()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 SbVec2s
 SoWinComponent::getSize(void) const
 {
@@ -550,9 +471,7 @@ SoWinComponent::getSize(void) const
                  (short)(rect.bottom - rect.top));
 }
 
-/*!
-  Returns name of the widget.
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 const char *
 SoWinComponent::getWidgetName(void) const
 {
@@ -560,21 +479,14 @@ SoWinComponent::getWidgetName(void) const
     PRIVATE(this)->widgetname.getString() : this->getDefaultWidgetName();
 }
 
-/*!
-  Returns class name of widget.
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 const char *
 SoWinComponent::getClassName(void) const
 {
   return PRIVATE(this)->classname.getString();
 }
 
-/*!
-  Set the window title of this component. This will not work unless
-  the component is a toplevel shell.
-
-  \sa getTitle(), setIconTitle(), isTopLevelShell()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::setTitle(const char * const title)
 {
@@ -595,12 +507,7 @@ SoWinComponent::setTitle(const char * const title)
   }
 }
 
-/*!
-  Returns the window title. The component should be a toplevel shell
-  if you call this method.
-
-  \sa setTitle(), isTopLevelShell()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 const char *
 SoWinComponent::getTitle(void) const
 {
@@ -608,7 +515,7 @@ SoWinComponent::getTitle(void) const
           PRIVATE(this)->title.getString() : this->getDefaultTitle());
 }
 
-/*! FIXME: doc */
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::setIconTitle(const char * const title)
 {
@@ -616,7 +523,7 @@ SoWinComponent::setIconTitle(const char * const title)
   this->setTitle(title);
 }
 
-/*! FIXME: doc */
+// Documented in common/SoGuiComponentCommon.cpp.in.
 const char *
 SoWinComponent::getIconTitle(void) const
 {
@@ -624,31 +531,19 @@ SoWinComponent::getIconTitle(void) const
   return this->getTitle();
 }
 
-/*!
-  Set up a callback function to use when the component gets closed. A
-  component must be a toplevel shell for this to have any effect.
-
-  For toplevel shells with no close callback set, the window will
-  simply be hidden. The typical action to take in the callback would
-  be to delete the component.
-
-  \sa isTopLevelShell()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::setWindowCloseCallback(SoWinComponentCB * const func,
                                        void * const data)
 {
+  // FIXME: generic code, can we collect from all So* toolkits? The
+  // implementation in SoXt is more complex (and better?). 20030411 mortene.
+
   PRIVATE(this)->closeCB = func;
   PRIVATE(this)->closeCBdata = data;
 }
 
-/*!
-  Set the core widget for this SoWin component. It is important that
-  subclasses get this correct, as the widget set here will be the
-  widget returned from query methods.
-
-  \sa baseWidget()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::setBaseWidget(HWND widget)
 {
@@ -659,27 +554,20 @@ SoWinComponent::setBaseWidget(HWND widget)
   this->registerWidget(PRIVATE(this)->widget);
 }
 
-/*!
-  Set class name of widget.
-
-  \sa getClassName(), componentClassName()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::setClassName(const char * const name)
 {
+  // FIXME: generic code, can we collect from all So* toolkits?
+  // 20030411 mortene.
+
   if (name)
     PRIVATE(this)->classname = name;
   else
     PRIVATE(this)->classname = "";
 }
 
-/*!
-  This method is invoked to notify the component that the size has
-  changed.  It is called from the top and all the way down to the
-  bottom, the size being adjusted to take into account extra
-  decorations having been added at each level in the component class
-  hierarchy.
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::sizeChanged(const SbVec2s & size)
 {
@@ -699,17 +587,14 @@ SoWinComponent::afterRealizeHook(void) // virtual
   }
 }
 
-/*!
-  Add a callback which will be called whenever the widget component
-  changes visibility status (because of iconification or
-  deiconification, for instance).
-
-  \sa removeVisibilityChangeCallback(), isVisible()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::addVisibilityChangeCallback(SoWinComponentVisibilityCB * const func,
                                             void * const user)
 {
+  // FIXME: generic code, can we collect from all So* toolkits?
+  // 20030411 mortene.
+
   void ** combo = new void * [2];
   combo[0] = (void*)func;
   combo[1] = user;
@@ -717,16 +602,14 @@ SoWinComponent::addVisibilityChangeCallback(SoWinComponentVisibilityCB * const f
   //FIXME: the functions are never called. mariusbu 20010824.
 }
 
-/*!
-  Remove one of the callbacks from the list of visibility notification
-  callbacks.
-
-  \sa addVisibilityChangeCallback(), isVisible()
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::removeVisibilityChangeCallback(SoWinComponentVisibilityCB * const func,
                                                void * const user)
 {
+  // FIXME: generic code, can we collect from all So* toolkits?
+  // 20030411 mortene.
+
   void ** combo;
   for (int i = 0; i < PRIVATE(this)->visibilitychangeCBs->getLength(); i++) {
     combo = (void **) PRIVATE(this)->visibilitychangeCBs->get(i);
@@ -824,7 +707,7 @@ SoWinComponentP::getNativeCursor(const SoWinCursor::CustomCursor * cc)
 
 #endif // !DOXYGEN_SKIP_THIS
 
-// documented in common/SoGuiComponentCommon.cpp.in.
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::setComponentCursor(const SoWinCursor & cursor)
 {
@@ -833,7 +716,7 @@ SoWinComponent::setComponentCursor(const SoWinCursor & cursor)
   SoWinComponent::setWidgetCursor(this->getWidget(), cursor);
 }
 
-// documented in common/SoGuiComponentCommon.cpp.in.
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::setWidgetCursor(HWND w, const SoWinCursor & cursor)
 {
