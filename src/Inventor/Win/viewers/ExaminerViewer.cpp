@@ -164,6 +164,8 @@ SoWinExaminerViewer::setCamera(SoCamera * newCamera)
   SbBool isorthotype =
     newCamera->getTypeId().isDerivedFrom(SoOrthographicCamera::getClassTypeId());
 
+  this->setRightWheelString(isorthotype ? "Zoom" : "Dolly");
+
   if (this->isDoButtonBar()) { // may not be there if !doButtonBar
     SoWinBitmapButton * wbtn = PRIVATE(this)->camerabutton;
     // If viewer was made without decorations, button will not have
