@@ -733,14 +733,9 @@ SoWinGLWidget::glWindowProc( HWND window,
         object->haveFocus = FALSE;
         return 0;
 
-			case WM_MOUSEMOVE:
-				// FIXME: only set when pointer enters window
-				if ( object->getCursor( ) != GetCursor( ) )
-					SetCursor( object->getCursor( ) );
+			case WM_SETCURSOR:
+				SetCursor( object->getCursor( ) );
 				return 0;
-				
-        //case WM_KEYDOWN:
-        //return 0;
       }
   }
   return DefWindowProc( window, message, wparam, lparam );

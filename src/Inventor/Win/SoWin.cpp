@@ -538,7 +538,7 @@ SoWin::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
       return SoWin::onDestroy( window, message, wparam, lparam );
             
     case WM_QUIT:
-      return SoWin::onQuit( window, message, wparam, lparam ); 	
+      return SoWin::onQuit( window, message, wparam, lparam );
     }
   return DefWindowProc( window, message, wparam, lparam );
 }

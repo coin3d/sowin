@@ -1099,6 +1099,10 @@ SoWinFullViewer::mgrWindowProc( HWND window,
 			case WM_RBUTTONUP:
 				ReleaseCapture( );
 				return 0;
+                
+      case WM_SETCURSOR:
+        SetCursor( LoadCursor( SoWin::getInstance( ), IDC_ARROW ) );
+        return 0;
 				
 			case WM_COMMAND:
 			  return object->onCommand( window, message, wparam, lparam );
@@ -1287,7 +1291,7 @@ SoWinFullViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lpa
 							id, this->appPushButtonData, NULL );
 					break;
 				}
-			//this->unknownCommand( id );
+			//this->unknownCommand( hwnd, nc, id );
 			break;
 			
 	}
