@@ -301,7 +301,7 @@ SoWinComponentP::fatalerrorHandler(void * userdata)
 void
 SoWinComponentP::cleanupWin32References(void)
 {
-  if (IsWindow(this->parent)) { Win32::DestroyWindow(this->parent); }
+  if (IsWindow(this->parent) && !this->embedded) { Win32::DestroyWindow(this->parent); }
 }
 
 /*!
