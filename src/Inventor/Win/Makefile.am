@@ -121,7 +121,7 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
   $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES)
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
 	rm -f "$$basename.lib" "$$basename.dll"; \
-	  echo "Linking $@..." \
+	  echo "Linking $@..."; \
 	  echo $(CC) $(LDFLAGS) $(LIBFLAGS) \
 	    $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
 	    $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS); \
