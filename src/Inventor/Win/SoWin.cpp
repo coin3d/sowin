@@ -281,6 +281,8 @@ SoWin::mainLoop(void)
     else // !idleSensorActive
       WaitMessage();
   }
+
+  SoWin::done();
 }
 
 /*!
@@ -292,6 +294,14 @@ void
 SoWin::exitMainLoop(void)
 {
   PostQuitMessage(0);
+}
+
+// documented in common/SoGuiCommon.cpp.in
+void
+SoWin::done(void)
+{
+  // FIXME: should clean up all resources stlil dangling
+  // about. 20020624 mortene.
 }
 
 /*!
