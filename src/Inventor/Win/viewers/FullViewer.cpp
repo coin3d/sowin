@@ -776,8 +776,9 @@ SoWinFullViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
   buttonlist->append(button);
 }
 
-// FIXME: the build*Trim() functions are present in the other So*
-// toolkits, but was missing in SoWin. Why? 20020111 mortene.
+// FIXME: the build*Trim() functions are present and working in the
+// other So* toolkits, but are unimplemented missing in SoWin. Why?
+// 20020111 mortene.
 
 HWND
 SoWinFullViewer::buildLeftTrim(HWND parent)
