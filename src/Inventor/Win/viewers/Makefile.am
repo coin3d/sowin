@@ -136,7 +136,9 @@ SoWinViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinExaminerViewer.h \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinPlaneViewer.h
 nodist_SoWinViewersinc_HEADERS = \
-	$(top_builddir)/src/Inventor/Win/viewers/SoWinViewer.h
+	$(top_builddir)/src/Inventor/Win/viewers/SoWinViewer.h \
+	$(top_builddir)/src/Inventor/Win/viewers/SoWinConstrainedViewer.h \
+	$(top_builddir)/src/Inventor/Win/viewers/SoWinFlyViewer.h
 
 install-SoWinViewersincHEADERS: $(SoWinViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)
