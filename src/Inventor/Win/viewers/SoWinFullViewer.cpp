@@ -162,6 +162,9 @@ SoWinFullViewer::setViewing( SbBool set )
     VIEWERBUTTON( INTERACT_BUTTON )->setOn( set ? FALSE : TRUE);
     VIEWERBUTTON( SEEK_BUTTON )->setEnabled( set );
   */
+	VIEWERBUTTON( VIEWERBUTTON_VIEW )->setState( set );
+	VIEWERBUTTON( VIEWERBUTTON_PICK )->setState( set ? FALSE : TRUE );
+	VIEWERBUTTON( VIEWERBUTTON_SEEK )->setEnabled( set );
 }
 
 void
@@ -174,10 +177,10 @@ SoWinFullViewer::setCamera( SoCamera * camera )
     this->setZoomFieldString( this->getCameraZoom( ) );
 
     SbBool on = camera ? TRUE : FALSE;
-    /*      this->zoomSlider->setEnabled( on );
-            this->zoomField->setEnabled( on );
-            this->zoomrangefrom->setEnabled( on );
-            this->zoomrangeto->setEnabled( on );*/
+    /*  this->zoomSlider->setEnabled( on );
+        this->zoomField->setEnabled( on );
+        this->zoomrangefrom->setEnabled( on );
+        this->zoomrangeto->setEnabled( on );*/
   }
 }
 
@@ -370,7 +373,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   DWORD style;
   if ( IsWindow( parent ) ) {
     GetClientRect( parent, & rect );
-    style = WS_BORDER | WS_CHILD;
+    style = WS_CHILD;
   }
   else {
     rect.right = SoWin_DefaultWidth;
@@ -430,7 +433,7 @@ SoWinFullViewer::buildDecoration( HWND parent )
   this->buildLeftWheel( parent );
   this->buildBottomWheel( parent );
   this->buildRightWheel( parent );
-	this->buildZoomSlider( parent );
+	//this->buildZoomSlider( parent );
 	//if ( SoWinFullViewer::doButtonBar )
 	this->buildViewerButtons( parent );
 	this->buildAppButtons( parent );
@@ -518,12 +521,14 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_PICK );
 	viewerButtonList->append( button );
+	button->setState( this->isViewing( ) ? FALSE : TRUE );
 
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "view", NULL );
 	button->addBitmap( view_xpm );
 	button->setBitmap( 0 ); // use first ( and only ) bitmap
 	button->setId( VIEWERBUTTON_VIEW );
 	viewerButtonList->append( button );
+	button->setState( this->isViewing( ) );
 	
 	button = new SoWinBitmapButton( parent, 0, 0, 30, 30, 24, "help", NULL );
 	button->addBitmap( help_xpm );
@@ -561,10 +566,6 @@ SoWinFullViewer::buildViewerButtons( HWND parent )
 	button->setBitmap( 0 ); // use first ( of two ) bitmap
 	button->setId( VIEWERBUTTON_PERSPECTIVE );
 	viewerButtonList->append( button );
-
-	// Set button states
-	VIEWERBUTTON( VIEWERBUTTON_VIEW )->setState( ( this->isViewing( ) ? FALSE : TRUE ) );
-	VIEWERBUTTON( VIEWERBUTTON_PICK )->setState( ( this->isViewing( ) ? TRUE : FALSE ) );
 }
 /*
 void
@@ -1078,7 +1079,7 @@ LRESULT
 SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   // FIXME: function not implemented
-  this->setViewing( FALSE );
+	if ( ! this->isViewing( ) ) this->setViewing( TRUE );
   return 0;
 }
 
@@ -1130,13 +1131,13 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 			this->renderAreaOffset.left * i, // 30 * i
 			this->renderAreaOffset.left,
 			this->renderAreaOffset.left );
-
+	/*
 	// Slider
 	MoveWindow( this->zoomSlider,
 		LOWORD( lparam ) - ( 170 + this->renderAreaOffset.left ),
 		HIWORD( lparam ) + this->renderAreaOffset.bottom + 6,
 		150, 18, FALSE );
-	
+	*/
   return 0;
 }
 
@@ -1184,7 +1185,7 @@ SoWinFullViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lpa
 			break;
 			
 		case VIEWERBUTTON_PERSPECTIVE:
-			//this->setViewing( this->is
+			// FIXME
 			break;
 			
 	}

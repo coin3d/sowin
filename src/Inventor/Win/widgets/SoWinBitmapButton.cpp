@@ -175,7 +175,7 @@ void
 SoWinBitmapButton::setState( SbBool pushed )
 {
 	SendMessage( this->buttonWindow, BM_SETSTATE, ( WPARAM ) pushed, 0 );
-	UpdateWindow( this->buttonWindow );
+	InvalidateRect( this->buttonWindow, NULL, FALSE );
 } // setState()
 
 SbBool
@@ -195,7 +195,7 @@ SoWinBitmapButton::setEnabled( SbBool enable )
 		style |= WS_DISABLED;
 
 	SetWindowLong( this->buttonWindow, GWL_STYLE, style );
-	UpdateWindow( this->buttonWindow );
+	InvalidateRect( this->buttonWindow, NULL, FALSE );
 } // setEnabled()
 
 SbBool
@@ -245,7 +245,7 @@ SoWinBitmapButton::setBitmap( int index )
 		( WPARAM ) IMAGE_BITMAP,
 		( LPARAM ) this->getBitmap( index) );
 
-	UpdateWindow( this->buttonWindow );
+	InvalidateRect( this->buttonWindow, NULL, FALSE );
 } // setBitmap()
 /*
 HBITMAP
@@ -361,12 +361,14 @@ SoWinBitmapButton::parseXpm( char ** xpm ) // convert from xpm to 24 bit DIB ( d
 		if ( * strEnd == '#' )
 			colorLookupTable[i] = axtoi( strEnd + 1 );
 		else
-			colorLookupTable[i] = 0L;//-1; // Parse string ( color name )
+			colorLookupTable[i] = -1; // Parse string ( color name )
 		
 	}
 
 	// create bitmap
 	hbmp = this->createDIB( width, height, depth, & dest );
+
+	DWORD colorValue;
 	
 	// put pixels
 	for ( i = 0; i < height; i++ ) {
@@ -383,14 +385,19 @@ SoWinBitmapButton::parseXpm( char ** xpm ) // convert from xpm to 24 bit DIB ( d
 
 				if ( l >= numChars ) {
 					
+					if ( colorLookupTable[k] == -1 )
+						colorValue = GetSysColor( COLOR_3DFACE ); // FIXME: make param
+					else
+						colorValue =  colorLookupTable[k];
+					
 					( ( char * ) dest )[( i * width * 3 ) + ( j * 3 )] =
-						( char ) ( colorLookupTable[k] & 0x000000FF );
+						( char ) ( colorValue & 0x000000FF );
 					
 					( ( char * ) dest )[( i * width * 3 ) + ( j * 3 ) + 1] =
-						( char ) ( ( colorLookupTable[k] & 0x0000FF00 ) >> 8 );
+						( char ) ( ( colorValue & 0x0000FF00 ) >> 8 );
 
 					( ( char * ) dest )[( i * width * 3 ) + ( j * 3 ) + 2] =
-						( char ) ( ( colorLookupTable[k] & 0x00FF0000 ) >> 16 );
+						( char ) ( ( colorValue & 0x00FF0000 ) >> 16 );
 					
 					break;
 					
