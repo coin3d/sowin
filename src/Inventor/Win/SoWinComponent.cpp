@@ -865,20 +865,6 @@ SoWinComponent::removeVisibilityChangeCallback(SoWinComponentVisibilityCB * func
   }
 }
 
-/*!
-  Open a dialog providing help about use of this component.
-
-  NB: no help system has been implemented yet, so for the time being
-  this will only pop up an error message.
-*/
-void
-SoWinComponent::openHelpCard(const char * name)
-{
-  MessageBox(PRIVATE(this)->parent,
-             "The help functionality has not been implemented.",
-             "SoWin", MB_ICONEXCLAMATION | MB_OK);
-}
-
 static inline unsigned char
 reverse_byte(unsigned char b)
 {

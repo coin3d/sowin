@@ -33,7 +33,6 @@
 // Button icons.
 #include <Inventor/Win/common/pixmaps/pick.xpm>
 #include <Inventor/Win/common/pixmaps/view.xpm>
-#include <Inventor/Win/common/pixmaps/help.xpm>
 #include <Inventor/Win/common/pixmaps/home.xpm>
 #include <Inventor/Win/common/pixmaps/set_home.xpm>
 #include <Inventor/Win/common/pixmaps/view_all.xpm>
@@ -517,14 +516,6 @@ SoWinFullViewer::buildViewerButtons(HWND parent)
   y += DECORATION_SIZE;
 
   button = new SoWinBitmapButton(parent, x, y, DECORATION_SIZE,
-                                  DECORATION_SIZE, 24, "help", NULL);
-  button->addBitmap(help_xpm);
-  button->setBitmap(0); // use first (and only) bitmap
-  button->setId(SoWinFullViewerP::VIEWERBUTTON_HELP);
-  this->viewerButtonList->append(button);
-  y += DECORATION_SIZE;
-
-  button = new SoWinBitmapButton(parent, x, y, DECORATION_SIZE,
                                   DECORATION_SIZE, 24, "home", NULL);
   button->addBitmap(home_xpm);
   button->setBitmap(0); // use first (and only) bitmap
@@ -625,10 +616,6 @@ SoWinFullViewer::onCommand(HWND window, UINT message, WPARAM wparam, LPARAM lpar
 
   case SoWinFullViewerP::VIEWERBUTTON_VIEW:
     PRIVATE(this)->viewbuttonClicked();
-    break;
-
-  case SoWinFullViewerP::VIEWERBUTTON_HELP:
-    PRIVATE(this)->helpbuttonClicked();
     break;
 
   case SoWinFullViewerP::VIEWERBUTTON_HOME:
@@ -773,12 +760,6 @@ SoWinFullViewerP::viewbuttonClicked(void)
   this->viewerButton(SoWinFullViewerP::ButtonId::VIEWERBUTTON_PICK)->setState(FALSE);
   if (! PUBLIC(this)->isViewing())
     PUBLIC(this)->setViewing(TRUE);
-}
-
-void
-SoWinFullViewerP::helpbuttonClicked(void)
-{
-  PUBLIC(this)->openViewerHelpCard();
 }
 
 void

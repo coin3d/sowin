@@ -229,14 +229,3 @@ SoWinWalkViewer::buildLeftTrim(// virtual
 } // buildLeftTrim()
 
 // ************************************************************************
-
-/*!
-*/
-
-void
-SoWinWalkViewer::openViewerHelpCard(// virtual
-  void)
-{
-} // openViewerHelpCard()
-
-// ************************************************************************

@@ -41,7 +41,6 @@ public:
   enum ButtonId {
     VIEWERBUTTON_PICK,
     VIEWERBUTTON_VIEW,
-    VIEWERBUTTON_HELP,
     VIEWERBUTTON_HOME,
     VIEWERBUTTON_SET_HOME,
     VIEWERBUTTON_VIEW_ALL,
@@ -59,7 +58,6 @@ public:
 
   void interactbuttonClicked(void);
   void viewbuttonClicked(void);
-  void helpbuttonClicked(void);
   void homebuttonClicked(void);
   void sethomebuttonClicked(void);
   void viewallbuttonClicked(void);
