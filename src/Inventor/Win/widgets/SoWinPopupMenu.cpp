@@ -39,8 +39,8 @@ static const char rcsid[] =
 
 struct MenuRecord {
   int menuid;
-  char * name;
-  char * title;
+  const char * name;
+  const char * title;
   HMENU menu;
   HMENU parent;
 }; // struct MenuRecord
@@ -48,8 +48,8 @@ struct MenuRecord {
 struct ItemRecord {
   int itemid;
   int flags;
-  char * name;
-  char * title;
+  const char * name;
+  const char * title;
   HMENU parent;
 }; // struct ItemRecord
 
@@ -98,7 +98,7 @@ SoWinPopupMenu::~SoWinPopupMenu( void )
 // *************************************************************************
 
 int
-SoWinPopupMenu::newMenu( char * name, int menuid )
+SoWinPopupMenu::newMenu( const char * name, int menuid )
 {
   int id = menuid;
   if ( id == -1 ) {
@@ -121,7 +121,7 @@ SoWinPopupMenu::newMenu( char * name, int menuid )
 } // newMenu()
 
 int
-SoWinPopupMenu::getMenu( char * name )
+SoWinPopupMenu::getMenu( const char * name )
 {
   const int numMenus = this->menus->getLength();
   int i;
@@ -132,7 +132,7 @@ SoWinPopupMenu::getMenu( char * name )
 } // getMenu()
 
 void
-SoWinPopupMenu::setMenuTitle( int menuid, char * title )
+SoWinPopupMenu::setMenuTitle( int menuid, const char * title )
 {
   MenuRecord * rec = this->getMenuRecord( menuid );
   if ( rec == NULL ) {
@@ -148,7 +148,7 @@ SoWinPopupMenu::setMenuTitle( int menuid, char * title )
 
 } // setMenuTitle()
 
-char *
+const char *
 SoWinPopupMenu::getMenuTitle( int menuid )
 {
   MenuRecord * rec = this->getMenuRecord( menuid );
@@ -160,7 +160,7 @@ SoWinPopupMenu::getMenuTitle( int menuid )
 // *************************************************************************
 
 int
-SoWinPopupMenu::newMenuItem( char * name, int itemid )
+SoWinPopupMenu::newMenuItem( const char * name, int itemid )
 {
   int id = itemid;
   if ( id == -1 ) {
@@ -182,7 +182,7 @@ SoWinPopupMenu::newMenuItem( char * name, int itemid )
 } // newMenuItem()
 
 int
-SoWinPopupMenu::getMenuItem( char * name )
+SoWinPopupMenu::getMenuItem( const char * name )
 {
   const int numItems = this->items->getLength( );
   int i;
@@ -193,7 +193,7 @@ SoWinPopupMenu::getMenuItem( char * name )
 } // getMenuItem()
 
 void
-SoWinPopupMenu::setMenuItemTitle( int itemid, char * title )
+SoWinPopupMenu::setMenuItemTitle( int itemid, const char * title )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
   if ( rec == NULL )
@@ -205,7 +205,7 @@ SoWinPopupMenu::setMenuItemTitle( int itemid, char * title )
     Win32::ModifyMenu( rec->parent, rec->itemid, MF_BYCOMMAND | MF_STRING, rec->itemid, rec->title );
 } // setMenuItemTitle()
 
-char *
+const char *
 SoWinPopupMenu::getMenuItemTitle( int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
@@ -469,7 +469,7 @@ SoWinPopupMenu::getItemRecord( int itemid )
 // *************************************************************************
 
 MenuRecord *
-SoWinPopupMenu::createMenuRecord( char * name )
+SoWinPopupMenu::createMenuRecord( const char * name )
 {
   MenuRecord * rec = new MenuRecord;
   rec->menuid = -1;
@@ -481,7 +481,7 @@ SoWinPopupMenu::createMenuRecord( char * name )
 } // create()
 
 ItemRecord *
-SoWinPopupMenu::createItemRecord( char * name )
+SoWinPopupMenu::createItemRecord( const char * name )
 {
   ItemRecord * rec = new ItemRecord;
   rec->itemid = -1;
