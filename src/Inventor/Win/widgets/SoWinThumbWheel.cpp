@@ -63,6 +63,7 @@ SoWinThumbWheel::constructor(Orientation orientation,
                              HWND parent, long id, int x, int y,
                              const char * name)
 {
+  SoWinThumbWheel::wheelWidgetCounter++;
   this->orient = orientation;
   this->state = SoWinThumbWheel::Idle;
   this->wheelValue = this->tempWheelValue = 0.0f;
@@ -106,9 +107,12 @@ SoWinThumbWheel::~SoWinThumbWheel(void)
   if (IsWindow(this->labelWindow))
     Win32::DestroyWindow(this->labelWindow);
 
+  SoWinThumbWheel::wheelWidgetCounter--;
   assert(SoWinThumbWheel::wheelWidgetCounter >= 0);
   if (SoWinThumbWheel::wheelWidgetCounter == 0) {
-    Win32::UnregisterClass("ThumbWheel Widget", NULL);
+    if (SoWinThumbWheel::wheelWndClassAtom)
+      Win32::UnregisterClass("ThumbWheel Widget", NULL);
+    SoWinThumbWheel::wheelWndClassAtom = NULL;
     delete SoWinThumbWheel::hwnddict;
     SoWinThumbWheel::hwnddict = NULL;
   }
@@ -456,8 +460,6 @@ SoWinThumbWheel::buildWidget(HWND parent, RECT rect, const char * name)
     SoWinThumbWheel::wheelWndClassAtom = Win32::RegisterClass(& windowclass);
 
   }
-
-  SoWinThumbWheel::wheelWidgetCounter++;
 
   this->wheelWindow = Win32::CreateWindow_(wndclassname,
                                            wndclassname,
