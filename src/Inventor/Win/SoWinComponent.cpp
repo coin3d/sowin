@@ -31,6 +31,8 @@
 #include <Inventor/Win/SoWinGLWidget.h>
 #include <Inventor/Win/SoWinRenderArea.h>
 #include <Inventor/Win/viewers/SoWinViewer.h>
+#include <Inventor/Win/viewers/SoWinFullViewer.h>
+#include <Inventor/Win/viewers/SoWinExaminerViewer.h>
 #include <sowindefs.h> // SOWIN_STUB
 
 // *************************************************************************
@@ -44,6 +46,8 @@ SoWinComponent::initClasses(void)
   SoWinGLWidget::initClass();
   SoWinRenderArea::initClass();
   SoWinViewer::initClass();
+  SoWinFullViewer::initClass();
+  SoWinExaminerViewer::initClass();
 } // initClasses()
 
 // *************************************************************************

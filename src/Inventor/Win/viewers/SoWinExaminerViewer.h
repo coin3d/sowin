@@ -22,14 +22,7 @@
 #ifndef SOWIN_EXAMINERVIEWER_H
 #define SOWIN_EXAMINERVIEWER_H
 
-#include <Inventor/SbLinear.h>
-
 #include <Inventor/Win/viewers/SoWinFullViewer.h>
-
-class SoSeparator;
-class SoSwitch;
-class SoTranslation;
-class SoScale;
 
 class SoWinThumbWheel;
 class SoAnyExaminerViewer;
@@ -94,7 +87,9 @@ protected:
 
 private:
   void constructor( SbBool build );
+  void setCursorRepresentation( int mode );
 
+  SoAnyExaminerViewer * const common;
 }; // class SoWinExaminerViewer
 
 // *************************************************************************

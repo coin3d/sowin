@@ -54,6 +54,7 @@ do
       shift
       case $1 in
         renderarea)      exit 0 ;;
+        examinerviewer)  exit 0 ;;
         *)               exit 1 ;;
       esac
       ;;
