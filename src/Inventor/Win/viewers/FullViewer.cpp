@@ -680,7 +680,7 @@ SoWinFullViewerP::seekbuttonClicked(void)
 //
 //
 
-float
+void
 SoWinFullViewerP::leftWheelCB(SoWinThumbWheel::Interaction type, float val,
                               void * userdata)
 {
@@ -688,10 +688,9 @@ SoWinFullViewerP::leftWheelCB(SoWinThumbWheel::Interaction type, float val,
   if (type == SoWinThumbWheel::START) { PUBLIC(that)->leftWheelStart(); }
   else if (type == SoWinThumbWheel::END) { PUBLIC(that)->leftWheelFinish(); }
   else { PUBLIC(that)->leftWheelMotion(val); }
-  return val;
 }
 
-float
+void
 SoWinFullViewerP::bottomWheelCB(SoWinThumbWheel::Interaction type, float val,
                                 void * userdata)
 {
@@ -699,10 +698,9 @@ SoWinFullViewerP::bottomWheelCB(SoWinThumbWheel::Interaction type, float val,
   if (type == SoWinThumbWheel::START) { PUBLIC(that)->bottomWheelStart(); }
   else if (type == SoWinThumbWheel::END) { PUBLIC(that)->bottomWheelFinish(); }
   else { PUBLIC(that)->bottomWheelMotion(val); }
-  return val;
 }
 
-float
+void
 SoWinFullViewerP::rightWheelCB(SoWinThumbWheel::Interaction type, float val,
                                void * userdata)
 {
@@ -710,7 +708,6 @@ SoWinFullViewerP::rightWheelCB(SoWinThumbWheel::Interaction type, float val,
   if (type == SoWinThumbWheel::START) { PUBLIC(that)->rightWheelStart(); }
   else if (type == SoWinThumbWheel::END) { PUBLIC(that)->rightWheelFinish(); }
   else { PUBLIC(that)->rightWheelMotion(val); }
-  return val;
 }
 
 void

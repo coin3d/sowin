@@ -25,10 +25,7 @@
 #include <Inventor/Win/SoWinBasic.h>
 
 class SoAnyThumbWheel;
-class SoWinFullViewer;
 
-// Define our own window message (WM_USER = 0x0400)
-#define WM_THUMBWHEEL 0x0401
 
 // *************************************************************************
 
@@ -36,7 +33,7 @@ class SOWIN_DLL_API SoWinThumbWheel {
 
 public:
   enum Interaction { START, MOVE, END };
-  typedef float ThumbWheelCB(Interaction type, float val, void * userdata);
+  typedef void ThumbWheelCB(Interaction type, float val, void * userdata);
 
   enum Orientation {
     Horizontal,

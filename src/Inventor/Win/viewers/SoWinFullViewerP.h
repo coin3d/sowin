@@ -53,12 +53,12 @@ public:
 
   static void setThumbWheelValue(void * wheel, float val);
 
-  static float leftWheelCB(SoWinThumbWheel::Interaction type, float val,
-                           void * userdata);
-  static float bottomWheelCB(SoWinThumbWheel::Interaction type, float val,
-                             void * userdata);
-  static float rightWheelCB(SoWinThumbWheel::Interaction type, float val,
+  static void leftWheelCB(SoWinThumbWheel::Interaction type, float val,
+                          void * userdata);
+  static void bottomWheelCB(SoWinThumbWheel::Interaction type, float val,
                             void * userdata);
+  static void rightWheelCB(SoWinThumbWheel::Interaction type, float val,
+                           void * userdata);
 
   void interactbuttonClicked(void);
   void viewbuttonClicked(void);

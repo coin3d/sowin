@@ -187,7 +187,7 @@ SoWinThumbWheel::onLButtonDown(HWND window, UINT message, WPARAM wparam, LPARAM 
   this->mouseLastPos = this->mouseDownPos;
 
   if (this->viewerCB) {
-    (void)this->viewerCB(START, this->wheelValue, this->userdataCB);
+    this->viewerCB(START, this->wheelValue, this->userdataCB);
   }
 
   return 0;
@@ -222,8 +222,7 @@ SoWinThumbWheel::onMouseMove(HWND window, UINT message, WPARAM wparam, LPARAM lp
   Win32::InvalidateRect(this->wheelWindow, NULL, FALSE);
 
   if (this->viewerCB) {
-    this->tempWheelValue = this->viewerCB(MOVE, this->tempWheelValue,
-                                          this->userdataCB);
+    this->viewerCB(MOVE, this->tempWheelValue, this->userdataCB);
   }
 
   this->setValue(this->tempWheelValue);
@@ -243,7 +242,7 @@ SoWinThumbWheel::onLButtonUp(HWND window, UINT message, WPARAM wparam, LPARAM lp
   this->state = SoWinThumbWheel::Idle;
 
   if (this->viewerCB) {
-    (void)this->viewerCB(END, this->wheelValue, this->userdataCB);
+    this->viewerCB(END, this->wheelValue, this->userdataCB);
   }
 
   return 0;
