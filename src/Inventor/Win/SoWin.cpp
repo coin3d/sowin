@@ -251,7 +251,7 @@ SoWin::createWindow( char * title, char * className, SIZE size, HWND parent, HME
   DWORD style, exstyle;
   LPVOID params = NULL;
 
-  style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+  style = WS_OVERLAPPEDWINDOW;
   exstyle = NULL;
 
   HWND widget = CreateWindowEx( exstyle,
