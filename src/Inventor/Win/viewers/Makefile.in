@@ -103,21 +103,78 @@ install_sh = @install_sh@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sowin_configure_date = @sowin_configure_date@
 
+
+noinst_LTLIBRARIES = libSoWinViewers.la
+
+INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+LIBS = 
+
 ############################################################################
+
+BUILT_SOURCES = \
+	SoWinViewer.h \
+	SoWinViewer.cpp \
+	SoAnyFullViewer.h \
+	SoAnyFullViewer.cpp
+
+
+############################################################################
+
+libSoWinViewers_la_SOURCES = \
+	$(BUILT_SOURCES) \
+	SoWinFullViewer.cpp \
+	SoWinFullViewer.h
+
+
+libSoWinViewersincdir = $(includedir)/Inventor/Win/viewers
+
+libSoWinViewersinc_HEADERS = \
+	$(top_builddir)/src/Inventor/Win/viewers/SoWinViewer.h \
+	$(top_srcdir)/src/Inventor/Win/viewers/SoWinFullViewer.h
 
 subdir = src/Inventor/Win/viewers
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../config.h
 CONFIG_CLEAN_FILES = 
-DIST_SOURCES = 
-DIST_COMMON =  Makefile.am Makefile.in
+LTLIBRARIES =  $(noinst_LTLIBRARIES)
+
+
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../..
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+libSoWinViewers_la_LDFLAGS = 
+libSoWinViewers_la_LIBADD = 
+am_libSoWinViewers_la_OBJECTS =  SoWinViewer.lo SoAnyFullViewer.lo \
+SoWinFullViewer.lo
+libSoWinViewers_la_OBJECTS =  $(am_libSoWinViewers_la_OBJECTS)
+CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXFLAGS = @CXXFLAGS@
+CXXLD = $(CXX)
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+CFLAGS = @CFLAGS@
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+DIST_SOURCES =  $(libSoWinViewers_la_SOURCES)
+HEADERS =  $(libSoWinViewersinc_HEADERS)
+
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+DEP_FILES =  @AMDEP@ $(DEPDIR)/SoAnyFullViewer.Plo \
+$(DEPDIR)/SoWinFullViewer.Plo $(DEPDIR)/SoWinViewer.Plo
+DIST_COMMON =  $(libSoWinViewersinc_HEADERS) Makefile.am Makefile.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
+SOURCES = $(libSoWinViewers_la_SOURCES)
+OBJECTS = $(am_libSoWinViewers_la_OBJECTS)
+
 all: all-redirect
 .SUFFIXES:
+.SUFFIXES: .c .cpp .h .lo .o
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Inventor/Win/viewers/Makefile
 
@@ -125,13 +182,125 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
+
+mostlyclean-noinstLTLIBRARIES:
+
+clean-noinstLTLIBRARIES:
+	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+
+distclean-noinstLTLIBRARIES:
+
+maintainer-clean-noinstLTLIBRARIES:
+
+mostlyclean-compile:
+	-rm -f *.o core *.core
+
+clean-compile:
+
+distclean-compile:
+	-rm -f *.tab.c
+
+maintainer-clean-compile:
+
+mostlyclean-libtool:
+	-rm -f *.lo
+
+clean-libtool:
+	-rm -rf .libs _libs
+
+distclean-libtool:
+
+maintainer-clean-libtool:
+
+libSoWinViewers.la: $(libSoWinViewers_la_OBJECTS) $(libSoWinViewers_la_DEPENDENCIES)
+	$(CXXLINK)  $(libSoWinViewers_la_LDFLAGS) $(libSoWinViewers_la_OBJECTS) $(libSoWinViewers_la_LIBADD) $(LIBS)
+
+install-libSoWinViewersincHEADERS: $(libSoWinViewersinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(libSoWinViewersincdir)
+	@list='$(libSoWinViewersinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  if cmp -s $$d$$p $(DESTDIR)$(libSoWinViewersincdir)/$$f; then :; else \
+	    echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoWinViewersincdir)/$$f"; \
+	    $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoWinViewersincdir)/$$f; \
+	  fi; \
+	done
+
+uninstall-libSoWinViewersincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(libSoWinViewersinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(libSoWinViewersincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(libSoWinViewersincdir)/$$f; \
+	done
+
 tags: TAGS
-TAGS:
+
+ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	mkid -fID $$unique $(LISP)
+
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+		$(TAGS_FILES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
+
+mostlyclean-tags:
+
+clean-tags:
+
+distclean-tags:
+	-rm -f TAGS ID
+
+maintainer-clean-tags:
+
+@AMDEP@include $(DEPDIR)/SoAnyFullViewer.Plo
+@AMDEP@include $(DEPDIR)/SoWinFullViewer.Plo
+@AMDEP@include $(DEPDIR)/SoWinViewer.Plo
+
+mostlyclean-depend:
+
+clean-depend:
+
+distclean-depend:
+	-rm -rf $(DEPDIR)
+
+maintainer-clean-depend:
+
+@AMDEP@CXXDEPMODE = @CXXDEPMODE@
+
+.cpp.o:
+@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+
+.cpp.lo:
+@AMDEP@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
 
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/$(top_builddir)/src/Inventor/Win/viewers \
+	   $(distdir)/$(top_srcdir)/src/Inventor/Win/viewers
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -154,19 +323,20 @@ installcheck: installcheck-am
 install-exec-am:
 install-exec: install-exec-am
 
-install-data-am:
+install-data-am: install-libSoWinViewersincHEADERS
 install-data: install-data-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
-uninstall-am:
+uninstall-am: uninstall-libSoWinViewersincHEADERS
 uninstall: uninstall-am
-all-am: Makefile
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs:
+	$(mkinstalldirs)  $(DESTDIR)$(libSoWinViewersincdir)
 
 
 mostlyclean-generic:
@@ -179,32 +349,89 @@ distclean-generic:
 
 maintainer-clean-generic:
 	-rm -f Makefile.in
-mostlyclean-am:  mostlyclean-generic
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
+mostlyclean-am:  mostlyclean-noinstLTLIBRARIES mostlyclean-compile \
+		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
+		mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
-clean-am:  clean-generic mostlyclean-am
+clean-am:  clean-noinstLTLIBRARIES clean-compile clean-libtool \
+		clean-tags clean-depend clean-generic mostlyclean-am
 
 clean: clean-am
 
-distclean-am:  distclean-generic clean-am
+distclean-am:  distclean-noinstLTLIBRARIES distclean-compile \
+		distclean-libtool distclean-tags distclean-depend \
+		distclean-generic clean-am
 	-rm -f libtool
 
 distclean: distclean-am
 
-maintainer-clean-am:  maintainer-clean-generic distclean-am
+maintainer-clean-am:  maintainer-clean-noinstLTLIBRARIES \
+		maintainer-clean-compile maintainer-clean-libtool \
+		maintainer-clean-tags maintainer-clean-depend \
+		maintainer-clean-generic distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
 maintainer-clean: maintainer-clean-am
 
-.PHONY: tags distdir info-am info dvi-am dvi check check-am \
+.PHONY: mostlyclean-noinstLTLIBRARIES distclean-noinstLTLIBRARIES \
+clean-noinstLTLIBRARIES maintainer-clean-noinstLTLIBRARIES \
+mostlyclean-compile distclean-compile clean-compile \
+maintainer-clean-compile mostlyclean-libtool distclean-libtool \
+clean-libtool maintainer-clean-libtool \
+uninstall-libSoWinViewersincHEADERS install-libSoWinViewersincHEADERS \
+tags mostlyclean-tags distclean-tags clean-tags maintainer-clean-tags \
+mostlyclean-depend distclean-depend clean-depend \
+maintainer-clean-depend distdir info-am info dvi-am dvi check check-am \
 installcheck-am installcheck install-exec-am install-exec \
 install-data-am install-data install-am install uninstall-am uninstall \
 all-redirect all-am all install-strip installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
+
+############################################################################
+# A few autogenerated source files... will be generated from base dir, but
+# since you can start a build from the local directory...:
+
+SoWinViewer.h: $(top_srcdir)/src/Inventor/Win/common/SoGuiViewer.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Win/viewers/SoWinViewer.h )
+
+SoWinViewer.cpp: $(top_srcdir)/src/Inventor/Win/common/SoGuiViewer.cpp.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Win/viewers/SoWinViewer.cpp )
+
+SoAnyFullViewer.h: \
+  $(top_srcdir)/src/Inventor/Win/common/SoAnyFullViewer.h.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoAnyFullViewer.h )
+
+SoAnyFullViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Win/common/SoAnyFullViewer.cpp.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoAnyFullViewer.cpp )
+
+SoAnyExaminerViewer.h: \
+  $(top_srcdir)/src/Inventor/Win/common/SoAnyExaminerViewer.h.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoAnyExaminerViewer.h )
+
+SoAnyExaminerViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Win/common/SoAnyExaminerViewer.cpp.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoAnyExaminerViewer.cpp )
+
+SoAnyPlaneViewer.h: \
+  $(top_srcdir)/src/Inventor/Win/common/SoAnyPlaneViewer.h.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoAnyPlaneViewer.h )
+
+SoAnyPlaneViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Win/common/SoAnyPlaneViewer.cpp.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Win/viewers/SoAnyPlaneViewer.cpp )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
