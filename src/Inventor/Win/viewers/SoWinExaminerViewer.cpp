@@ -618,7 +618,11 @@ SoWinExaminerViewer::setCursorRepresentation(
 
 // *************************************************************************
 
+/*!
+  \internal
 
+  Create aditional preference dialog items.
+*/
 void
 SoWinExaminerViewer::createPrefSheet(
   void )
@@ -628,6 +632,8 @@ SoWinExaminerViewer::createPrefSheet(
   this->prefsheet->size( );
 } // createPrefSheet()
 
+/*!
+*/
 void
 SoWinExaminerViewer::setAnimationEnabled(
   const SbBool enable )
@@ -635,6 +641,8 @@ SoWinExaminerViewer::setAnimationEnabled(
   common->setAnimationEnabled( enable );
 } // setAnimationEnabled()
 
+/*!
+*/
 SbBool
 SoWinExaminerViewer::isAnimationEnabled(
   void ) const
@@ -642,6 +650,8 @@ SoWinExaminerViewer::isAnimationEnabled(
   return common->isAnimationEnabled( );
 } // isAnimationEnabled()
 
+/*!
+*/
 void
 SoWinExaminerViewer::stopAnimating(
   void )
@@ -649,6 +659,8 @@ SoWinExaminerViewer::stopAnimating(
   common->stopAnimating( );
 } // stopAnimating()
 
+/*!
+*/
 SbBool
 SoWinExaminerViewer::isAnimating(
   void ) const
@@ -656,6 +668,8 @@ SoWinExaminerViewer::isAnimating(
   return common->isAnimating( );
 } // isAnimating()
 
+/*!
+*/
 void
 SoWinExaminerViewer::setFeedbackVisibility(
   const SbBool enable )
@@ -663,6 +677,8 @@ SoWinExaminerViewer::setFeedbackVisibility(
   common->setFeedbackVisibility( enable );
 } // setFeedbackVisibility()
 
+/*!
+*/
 SbBool
 SoWinExaminerViewer::isFeedbackVisible(
   void ) const
@@ -670,6 +686,8 @@ SoWinExaminerViewer::isFeedbackVisible(
   return common->isFeedbackVisible( );
 } // isFeedbackVisible()
 
+/*!
+*/
 void
 SoWinExaminerViewer::setFeedbackSize(
    const int size )
@@ -677,6 +695,8 @@ SoWinExaminerViewer::setFeedbackSize(
   common->setFeedbackSize( size );
 } // setFeedbackSize()
 
+/*!
+*/
 int
 SoWinExaminerViewer::getFeedbackSize(
   void ) const
@@ -688,7 +708,6 @@ SoWinExaminerViewer::getFeedbackSize(
 
 /*!
 */
-
 void
 SoWinExaminerViewer::afterRealizeHook( // virtual
   void )
@@ -697,6 +716,8 @@ SoWinExaminerViewer::afterRealizeHook( // virtual
   inherited::afterRealizeHook( );
 } // afterRealizeHook()
 
+/*!
+*/
 void
 SoWinExaminerViewerP::cameratoggleClicked( void ) // virtual
 {

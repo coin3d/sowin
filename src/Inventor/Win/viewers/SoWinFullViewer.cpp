@@ -152,7 +152,7 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   PRIVATE( this )->createAppPushButtonCB = NULL;
   PRIVATE( this )->createAppPushButtonData = NULL;
 
-  this->zoomrange = SbVec2f( 1.0f, 140.0f ); // FIXME: make init function	
+  this->zoomrange = SbVec2f( 1.0f, 140.0f );
 	
   if ( build ) {
 
@@ -171,8 +171,7 @@ SoWinFullViewer::~SoWinFullViewer( void )
 {
   if ( PRIVATE( this )->msgHook )
     UnhookWindowsHookEx( PRIVATE( this )->msgHook );
-
-  // FIXME: remember to dealocate all resources
+  
   int i;
 
   for ( i = this->viewerButtonList->getLength( ); i >= 0; i-- ) {
@@ -213,7 +212,7 @@ SoWinFullViewer::setDecoration( SbBool enable )
 
   // reposition all widgets
   RECT rect;
-  Win32::GetClientRect( this->viewerWidget, & rect );
+  Win32::GetClientRect( this->getParentWidget( ), & rect );
   PRIVATE( this )->layoutWidgets( rect.right, rect.bottom );
   if ( enable ) {
     rect.right -= DECORATION_SIZE * 2;
@@ -809,15 +808,15 @@ SoWinFullViewer::setRightWheelString( const char * name )
 void
 SoWinFullViewer::openViewerHelpCard( void )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  // virtual; do nothing.
 }
 
 void
 SoWinFullViewer::afterRealizeHook( void )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  inherited::afterRealizeHook( );
+  // FIXME: nothing to do.
+  // Remove ? mariusbu 20010823.
 }
 
 SbBool

@@ -148,7 +148,10 @@ SoWinPlaneViewer::SoWinPlaneViewer(
 // ************************************************************************
 
 /*!
-  FIXME: write doc
+  \internal
+
+  This contains the real constructor code (the two constructors are only
+  entry points for this method).
 */
 
 void
