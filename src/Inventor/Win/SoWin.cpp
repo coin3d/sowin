@@ -372,8 +372,10 @@ SoWin::eventHandler( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
       break;
 
     case WM_DESTROY:
-      retval = SoWinP::onDestroy( window, message, wparam, lparam );
-      handled = TRUE;      
+      if ( ! SoWinP::parentEventHandler ) {
+        retval = SoWinP::onDestroy( window, message, wparam, lparam );
+        handled = TRUE;
+      }
       break;
             
     case WM_QUIT:
