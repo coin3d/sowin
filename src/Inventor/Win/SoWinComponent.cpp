@@ -20,7 +20,6 @@
 #include <assert.h>
 #include <string.h>
 #include <windows.h>
-#include <GL/gl.h>
 
 #include <Inventor/misc/SoBasic.h>
 #include <Inventor/SoLists.h>

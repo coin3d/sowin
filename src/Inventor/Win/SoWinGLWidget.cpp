@@ -23,8 +23,11 @@
 */
 // FIXME: proper class documentation. 20010925 mortene.
 
-#include <windows.h>
-#include <GL/gl.h>
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
+#include <Inventor/@Gui@/common/gl.h>
 
 #include <Inventor/SbVec2s.h>
 #include <Inventor/Win/SoWin.h>
