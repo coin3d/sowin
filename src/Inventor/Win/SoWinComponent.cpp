@@ -445,7 +445,7 @@ SoWinComponent::buildFormWidget( HWND parent )
   WNDCLASS windowclass;
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
-	LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
+ LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
   HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
   HWND widget;
 

@@ -35,66 +35,65 @@ class SOWIN_DLL_API SoWinBitmapButton {
 
 public:
   SoWinBitmapButton( HWND parent,
-		                 int x,
-		                 int y,
-		                 int width = 30,
-		                 int height = 30,
-		                 int depth = 0,
-		                 const char * name = NULL,
-										 void * bits = NULL );
-	SoWinBitmapButton( HWND button );
+                     int x,
+                     int y,
+                     int width = 30,
+                     int height = 30,
+                     int depth = 0,
+                     const char * name = NULL,
+                     void * bits = NULL );
+  SoWinBitmapButton( HWND button );
   ~SoWinBitmapButton( void );
 
-	void setId( long id );
-	long getId( void );
-	
+  void setId( long id );
+  long getId( void );
+
   void setState( SbBool pushed );
   SbBool getState( void ) const;
 
   void setEnabled( SbBool enable );
   SbBool isEnabled( void ) const;
 
-	void addBitmap( HBITMAP hbmp );
-	void addBitmap( int width, int height, int bpp, void * src );
-	void addBitmap( char ** xpm );
-	HBITMAP getBitmap( int index );
-	void setBitmap( int index );
-	
+  void addBitmap( HBITMAP hbmp );
+  void addBitmap( int width, int height, int bpp, void * src );
+  void addBitmap( char ** xpm );
+  HBITMAP getBitmap( int index );
+  void setBitmap( int index );
+
   HWND getWidget( void );
   SIZE sizeHint( void ) const;
-	
+
   int width( void );
   int height( void );
   void move( int x, int y );
-	void move( int x, int y, int width, int height );
+  void move( int x, int y, int width, int height );
   void size( int width, int height );
 
-	void show( void );
-	void hide( void );
-	
+  void show( void );
+  void hide( void );
+
   void registerCallback( bitmapButtonCB * func );
-	void registerViewer( SoWinFullViewer * viewer );
-	
+  void registerViewer( SoWinFullViewer * viewer );
+
 protected:
 
 private:
-  
+
   void constructor( void );
-	void destructor( void );
+  void destructor( void );
   HWND buildWidget( HWND parent, RECT rect );
   HBITMAP createDIB( int width, int height, int bpp, void ** bits );
-	HBITMAP parseXpm( char ** xpm, int dibDepth = 24 );
-	int axtoi( char * str );
-	
+  HBITMAP parseXpm( char ** xpm, int dibDepth = 24 );
+  int axtoi( char * str );
+
   HWND buttonWindow;
-	SbPList * bitmapList;
+  SbPList * bitmapList;
   int depth;
 
   bitmapButtonCB * viewerCB;
-	SoWinFullViewer * viewer; // owner object pointer
+  SoWinFullViewer * viewer; // owner object pointer
 }; // class SoWinBitmapButton
 
 // *************************************************************************
 
 #endif // ! SOWIN_BITMAPBUTTON_H
-

@@ -131,7 +131,7 @@ SoWin::init( int argc,
     SoWinP::className = strcpy( new char [ strlen( className ) + 1 ], className );
 
   SoWin::registerWindowClass( className );
-	
+ 
   SIZE size = { 500, 500 };
   HWND toplevel = SoWin::createWindow( ( char * ) appName, ( char * ) className, size, NULL );
   SoWinP::useParentEventHandler = FALSE;
@@ -215,8 +215,8 @@ SoWin::hide( HWND const widget )
 void
 SoWin::setWidgetSize( HWND widget, const SbVec2s size )
 {
-	UINT flags = SWP_NOMOVE | SWP_NOZORDER;
-	SetWindowPos( widget, NULL, 0, 0, size[0], size[1], flags);
+ UINT flags = SWP_NOMOVE | SWP_NOZORDER;
+ SetWindowPos( widget, NULL, 0, 0, size[0], size[1], flags);
 } 
 
 SbVec2s
@@ -255,8 +255,8 @@ SoWin::createWindow( char * title, char * className, SIZE size, HWND parent, HME
   exstyle = NULL;
 
   HWND widget = CreateWindowEx( exstyle,
-		                            className,
-	                              title,
+                              className,
+                               title,
                                 style,
                                 CW_USEDEFAULT,
                                 CW_USEDEFAULT,
@@ -333,7 +333,7 @@ SoWin::registerWindowClass( const char * const className )
   WNDCLASS windowclass;
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
-	LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
+ LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
   HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
 
   windowclass.lpszClassName = className;

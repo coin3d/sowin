@@ -36,7 +36,7 @@ enum GLModes {
   SO_GL_OVERLAY  = 0x08, SO_GLX_OVERLAY  = SO_GL_OVERLAY,
   SO_GL_STEREO   = 0x10, SO_GLX_STEREO   = SO_GL_STEREO,
   SO_GL_DEFAULT_MODE =
-    ( SO_GL_RGB | SO_GL_DOUBLE | SO_GL_ZBUFFER )
+  ( SO_GL_RGB | SO_GL_DOUBLE | SO_GL_ZBUFFER )
 };
 
 // *************************************************************************
@@ -46,7 +46,7 @@ class SOWIN_DLL_API SoWinGLWidget : public SoWinComponent {
   friend class SoWinGLWidgetP;
 
 public:
-  
+
   HWND getNormalWindow( void );
   HWND getOverlayWindow( void );
 
@@ -60,23 +60,23 @@ public:
   HGLRC getOverlayContext( void );
 
   void setStealFocus( SbBool doStealFocus );
-  
+
   virtual void setNormalVisual( PIXELFORMATDESCRIPTOR * vis );
   PIXELFORMATDESCRIPTOR * getNormalVisual( void );
 
   virtual void setOverlayVisual( PIXELFORMATDESCRIPTOR * vis );
   PIXELFORMATDESCRIPTOR * getOverlayVisual( void );
-  
+
   virtual void setPixelFormat( int format );
   int getPixelFormat( void );
 
   void setDoubleBuffer( SbBool set );
   SbBool isDoubleBuffer( void );
-  
+
   void setBorder( SbBool set );
   int getBorderSize( void );
   SbBool isBorder( void ) const;
-  
+
   void setDrawToFrontBufferEnable( SbBool enable );
   SbBool isDrawToFrontBufferEnable( void ) const;
 
@@ -98,7 +98,7 @@ public:
                              LPARAM lparam );
 
 protected:
-  
+
   SoWinGLWidget( HWND parent = NULL,
                  const char * name = NULL,
                  SbBool embed = TRUE,
@@ -107,7 +107,7 @@ protected:
 
   ~SoWinGLWidget( void );
 
-  
+
   static LRESULT CALLBACK glWidgetProc( HWND window,
                                         UINT message,
                                         WPARAM wparam,
@@ -118,7 +118,7 @@ protected:
                                          UINT message,
                                          WPARAM wparam,
                                          LPARAM lparam );
-  
+
   virtual void processEvent( MSG * msg );
   virtual void redraw( void ) = 0;
   virtual void redrawOverlay( void );
@@ -137,17 +137,17 @@ protected:
   void setGlxSize( SbVec2s newSize ) { this->setGLSize( newSize ); }
   const SbVec2s getGlxSize( void ) const { return this->getGLSize( ); }
   float getGlxAspectRatio( void ) const { return this->getGLAspectRatio( ); }
-  
+
   static LRESULT eventHandler( HWND hwnd,
                                UINT message,
                                WPARAM wParam,
                                LPARAM lParam );
-  
+
   void setStereoBuffer( SbBool set );
   SbBool isStereoBuffer( void );
   SbBool isRGBMode( void );
 
-  int	getDisplayListShareGroup( HGLRC ctx );
+  int getDisplayListShareGroup( HGLRC ctx );
 
   HWND buildWidget( HWND parent );
   HWND getManagerWidget( void );

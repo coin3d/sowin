@@ -36,7 +36,7 @@ typedef void RedrawAppPushButtonCB( LPDRAWITEMSTRUCT lpdis, void * userData );
 typedef void CreateAppPushButtonCB( LPMEASUREITEMSTRUCT lpmis, void * userData );
 
 class SOWIN_DLL_API SoWinFullViewer : public SoWinViewer {
-  
+
   SOWIN_OBJECT_ABSTRACT_HEADER( SoWinFullViewer, SoWinViewer );
 
   friend class SoAnyFullViewer;
@@ -47,28 +47,28 @@ class SOWIN_DLL_API SoWinFullViewer : public SoWinViewer {
 public:
 
   enum BuildFlag {
-    BUILD_NONE          = 0x00, 
-    BUILD_DECORATION    = 0x01, 
-    BUILD_POPUP         = 0x02, 
-    BUILD_ALL           = 0xff, 
+    BUILD_NONE          = 0x00,
+    BUILD_DECORATION    = 0x01,
+    BUILD_POPUP         = 0x02,
+    BUILD_ALL           = 0xff,
   };
 
-	enum ButtonId {
-		VIEWERBUTTON_PICK,
-		VIEWERBUTTON_VIEW,
-		VIEWERBUTTON_HELP,
-		VIEWERBUTTON_HOME,
-		VIEWERBUTTON_SET_HOME,
-		VIEWERBUTTON_VIEW_ALL,
-		VIEWERBUTTON_SEEK
-	};
-    
+  enum ButtonId {
+    VIEWERBUTTON_PICK,
+    VIEWERBUTTON_VIEW,
+    VIEWERBUTTON_HELP,
+    VIEWERBUTTON_HOME,
+    VIEWERBUTTON_SET_HOME,
+    VIEWERBUTTON_VIEW_ALL,
+    VIEWERBUTTON_SEEK
+  };
+
   void setDecoration( SbBool enable );
   SbBool isDecoration( void );
 
   void setPopupMenuEnabled( SbBool enable );
   SbBool isPopupMenuEnabled( void );
-	
+
   static void setDoButtonBar( SbBool enable );
   static SbBool isDoButtonBar( void );
 
@@ -81,28 +81,28 @@ public:
   void addAppPushButtonCallback( AppPushButtonCB * callback,
                                  void * data = NULL );
   void addRedrawAppPushButtonCallback( RedrawAppPushButtonCB * callback,
-                                   void * data = NULL);
+                                       void * data = NULL);
   void addCreateAppPushButtonCallback( CreateAppPushButtonCB * callback,
-                                   void * data = NULL);
+                                       void * data = NULL);
 
   HWND getRenderAreaWidget( void );
-    
+
   virtual void setViewing( SbBool enable );
   virtual void setCamera( SoCamera * newCamera );
   virtual void hide( void );
 
 protected:
-  
+
   SoWinFullViewer( HWND parent,
-                   const char * name, 
-                   SbBool embedded, 
+                   const char * name,
+                   SbBool embedded,
                    BuildFlag flag,
-                   SoWinViewer::Type type, 
+                   SoWinViewer::Type type,
                    SbBool buildNow);
 
   ~SoWinFullViewer( void );
 
-  HWND buildWidget( HWND parent );  
+  HWND buildWidget( HWND parent );
   virtual void buildDecoration( HWND parent );
   virtual HWND buildLeftWheel( HWND parent );
   virtual HWND buildBottomWheel( HWND parent );
@@ -112,11 +112,11 @@ protected:
   virtual void buildPopupMenu( void );
   virtual void setPopupMenuString( const char * title );
   virtual void openPopupMenu( const SbVec2s position );
-  virtual void destroyPopupMenu( void );  
+  virtual void destroyPopupMenu( void );
   virtual int displayPopupMenu( int x, int y, HWND owner );
-    
+
   void showDecorationWidgets( SbBool enable );
-  
+
   void setPrefSheetString( const char * name );
   virtual void createPrefSheet( void );
 
@@ -144,65 +144,51 @@ protected:
   void setBottomWheelString( const char * name );
   void setLeftWheelString( const char * name );
   void setRightWheelString( const char * name );
-  
+
   virtual void openViewerHelpCard( void );
   virtual void afterRealizeHook( void );
-  
+
   void setCameraZoom( float val );
   float getCameraZoom( void );
-  
+
   virtual void selectedPrefs( void );
 
-  virtual SbBool processSoEvent( const SoEvent * const event );  
+  virtual SbBool processSoEvent( const SoEvent * const event );
 
   static LRESULT CALLBACK glWidgetProc( HWND window, UINT message,
-    WPARAM wparam, LPARAM lparam );
-  
+                                        WPARAM wparam, LPARAM lparam );
+
   static LRESULT CALLBACK vwrWidgetProc( HWND window, UINT message,
-    WPARAM wparam, LPARAM lparam );
+                                         WPARAM wparam, LPARAM lparam );
 
-	virtual LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  virtual LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   virtual LRESULT onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-	virtual LRESULT onDrawItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-	virtual LRESULT onMeasureItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  virtual LRESULT onDrawItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  virtual LRESULT onMeasureItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 
- 	void seekbuttonClicked( void );
-  
+  void seekbuttonClicked( void );
+
   SoFieldSensor * zoomSensor;
-    
+
   SoWinThumbWheel * rightWheel;
   SoWinThumbWheel * bottomWheel;
   SoWinThumbWheel * leftWheel;
 
   SbVec2f zoomrange;
   SoWinViewerPrefSheet * prefsheet;
-  
-	SbPList * viewerButtonList;
-	SbPList * appButtonList;
+
+  SbPList * viewerButtonList;
+  SbPList * appButtonList;
 
   HWND viewerWidget;
   HWND renderAreaWidget;
-  
+
 private:
 
   SoWinFullViewerP * pimpl;
   SoAnyFullViewer * const common;
   SoAnyPopupMenu * prefmenu;
-  
+
 };
 
 #endif  // SOWIN_FULLVIEWER_H
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -58,11 +58,11 @@ public:
 
   virtual void popUp( HWND inside, int x, int y );
 
-	virtual int getSelectedItem( void );
+  virtual int getSelectedItem( void );
   virtual void itemActivation( int itemid );
 
   void setNotify( SbBool enable );
-  
+
 protected:
   virtual void _setMenuItemMarked( int itemid, SbBool marked );
   MenuRecord * getMenuRecord( int menuid );

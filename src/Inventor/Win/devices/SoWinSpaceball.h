@@ -40,27 +40,27 @@ public:
 
   SoWinSpaceball( UINT mask = ALL_EVENTS );
   ~SoWinSpaceball( void );
-    
+
   virtual void enable( HWND, SoWinEventHandler * , void *, HWND = NULL );
   virtual void disable( HWND, SoWinEventHandler * , void * );
 
   virtual const SoEvent * translateEvent( MSG * msg );
-  
+
   void setRotationScaleFactor( float factor );
   float getRotationScaleFactor( void ) const;
   void setTranslationScaleFactor( float factor );
   float getTranslationScaleFactor( void ) const;
 
   static SbBool exists( void );
- 
+
   void setFocusToWindow(SbBool flag);
   SbBool isFocusToWindow( void ) const;
-   
+
 private:
   UINT eventMask;
   SoMotion3Event * motionEvent;
   SoSpaceballButtonEvent * buttonEvent;
- 
+
   HWND parentWidget;
 
   float rotScale;
@@ -70,8 +70,8 @@ private:
   SoSpaceballButtonEvent * translateButtonEvent( MSG * buttonEvent,
                                                  SoButtonEvent::State whichState );
   SoMotion3Event * translateMotionEventMagellan( MSG * motionEvent );
-	
-  //struct _MagellanControl_ *magellanHandle; 
+
+  //struct _MagellanControl_ *magellanHandle;
 };
 
 #define SO_WIN_ALL_SPACEBALL_EVENTS SoWinSpaceball::ALL_EVENTS

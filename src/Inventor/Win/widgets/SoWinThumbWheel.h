@@ -38,19 +38,19 @@ class SOWIN_DLL_API SoWinThumbWheel {
 
 public:
   enum Orientation {
-		Horizontal,
-		Vertical
-	};
+    Horizontal,
+    Vertical
+  };
   enum boundaryHandling {
     CLAMP,
     MODULATE,
     ACCUMULATE
   };
   enum State {
-		Idle,
-		Dragging,
-		Disabled
-	};
+    Idle,
+    Dragging,
+    Disabled
+  };
 
   SoWinThumbWheel( HWND parent = 0, long id = -1, int x = 0, int y = 0, char * name = 0 );
   SoWinThumbWheel( Orientation, HWND parent = 0, long id = -1, int x = 0, int y = 0, char * name = 0 );
@@ -64,13 +64,13 @@ public:
 
   void setValue( float value );
   float value( void ) const;
-	float tmpValue( void ) const;
+  float tmpValue( void ) const;
 
   void setEnabled( bool enable );
   bool isEnabled( void ) const;
 
-	void setLabelText( char * text );
-	void setLabelOffset( int x, int y );
+  void setLabelText( char * text );
+  void setLabelOffset( int x, int y );
   SIZE getLabelSize( void );
 
   void setRangeBoundaryHandling( boundaryHandling handling );
@@ -82,12 +82,12 @@ public:
   int height( void );
   void move( int x, int y );
   void size( int width, int height );
-	void move( int x, int y, int width, int height );
+  void move( int x, int y, int width, int height );
   void registerCallback( thumbWheelCB * func );
-	void registerViewer( SoWinFullViewer * viewer );
+  void registerViewer( SoWinFullViewer * viewer );
 
-	void show( void );
-	void hide( void );
+  void show( void );
+  void hide( void );
 
 protected:
 
@@ -135,7 +135,7 @@ private:
   void constructor( Orientation );
   HWND buildWidget( HWND parent, RECT rect, char * name );
   void initWheel( int diameter, int width );
-	HWND createLabel( HWND parent, int x, int y, char * text );
+  HWND createLabel( HWND parent, int x, int y, char * text );
   HBITMAP createDIB( int width, int height, int bpp, void ** bits );
   void blitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int height ) const;
   SIZE getTextSize( HWND window, char * text );
@@ -151,12 +151,12 @@ private:
   int currentPixmap;
 
   HWND wheelWindow;
-	HWND labelWindow;
+  HWND labelWindow;
 
-	POINT labelOffset;
+  POINT labelOffset;
 
   thumbWheelCB * viewerCB;
-	SoWinFullViewer * viewer; // owner object pointer
+  SoWinFullViewer * viewer; // owner object pointer
 }; // class SoWinThumbWheel
 
 // *************************************************************************

@@ -12,7 +12,7 @@ setUserData(
   HWND window,
   LONG data)
 {
-	SetWindowLong(window, GWL_USERDATA, data);
+ SetWindowLong(window, GWL_USERDATA, data);
 }
 
 void
@@ -21,8 +21,8 @@ sizeWindow(
   int width,
   int height)
 {
-	UINT flags = SWP_NOMOVE | SWP_NOZORDER;
-	SetWindowPos(window, NULL, 0, 0, width, height, flags);
+ UINT flags = SWP_NOMOVE | SWP_NOZORDER;
+ SetWindowPos(window, NULL, 0, 0, width, height, flags);
 }
 
 LRESULT CALLBACK
@@ -32,47 +32,47 @@ mainWindowProc(
   WPARAM wparam,
   LPARAM lparam)
 {
-	
-	if ( message == WM_DESTROY ) {
-		PostQuitMessage( 0 );
-		return 0;
-	}
+ 
+ if ( message == WM_DESTROY ) {
+  PostQuitMessage( 0 );
+  return 0;
+ }
   
   // Remove this if U want free floating viewers.
-	if ( message == WM_SIZE ) {
+ if ( message == WM_SIZE ) {
     HWND * win = (HWND *)GetWindowLong(window, GWL_USERDATA);
-		if (win) {
-			MoveWindow(
+  if (win) {
+   MoveWindow(
         win[1],
         0,
         0,
         LOWORD(lparam) / 2,
         HIWORD(lparam) / 2,
         TRUE);
-			MoveWindow(
+   MoveWindow(
         win[2],
         LOWORD(lparam) / 2,
         0,
         LOWORD(lparam) / 2,
         HIWORD(lparam) / 2,
         TRUE);
-			MoveWindow(
+   MoveWindow(
         win[3],
         0,
         HIWORD(lparam) / 2,
         LOWORD(lparam) / 2,
         HIWORD(lparam) / 2,
         TRUE);
-			MoveWindow(
+   MoveWindow(
         win[4],
         LOWORD(lparam) / 2,
         HIWORD(lparam) / 2,
         LOWORD(lparam) / 2,
         HIWORD(lparam) / 2,
         TRUE);
-		}
-	}
-	return DefWindowProc(window, message, wparam, lparam);
+  }
+ }
+ return DefWindowProc(window, message, wparam, lparam);
 }
 
 LRESULT CALLBACK
@@ -86,7 +86,7 @@ viewerWindowProc(
       (SoWinFullViewer *)GetWindowLong(window, GWL_USERDATA);
 
   if (message == WM_SIZE) {
-		if (v) v->setSize(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
+  if (v) v->setSize(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
   }
 
   if (message == WM_DESTROY) {
@@ -99,19 +99,19 @@ viewerWindowProc(
     }
   }
   
-	return DefWindowProc(window, message, wparam, lparam);
+ return DefWindowProc(window, message, wparam, lparam);
 }
 
 HWND
 createWindow(
-	HINSTANCE instance,
-	HWND parent,
-	LPSTR wndclassname,
-	UINT style,
-	SbVec2s pos,
-	SbVec2s size,
-	WNDPROC proc
-	)
+ HINSTANCE instance,
+ HWND parent,
+ LPSTR wndclassname,
+ UINT style,
+ SbVec2s pos,
+ SbVec2s size,
+ WNDPROC proc
+ )
 {
   WNDCLASS windowclass;
 
@@ -161,48 +161,48 @@ WinMain(
   // Uncomment the aditional styles if U want free floating viewers
 
   win[0] = createWindow(hInstance,
-						NULL,
-						"MainWindow",
-						WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-						SbVec2s(CW_USEDEFAULT,CW_USEDEFAULT),
-						SbVec2s(600,600),
-						mainWindowProc);
+      NULL,
+      "MainWindow",
+      WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+      SbVec2s(CW_USEDEFAULT,CW_USEDEFAULT),
+      SbVec2s(600,600),
+      mainWindowProc);
 
   win[1] = createWindow(hInstance,
-						win[0],
-						"PlaneWindowA",
-						WS_CHILD|WS_VISIBLE,
+      win[0],
+      "PlaneWindowA",
+      WS_CHILD|WS_VISIBLE,
             // |WS_OVERLAPPEDWINDOW|WS_CLIPSIBLINGS,
-						SbVec2s(0,0),
-						SbVec2s(300,300),
-						viewerWindowProc);
+      SbVec2s(0,0),
+      SbVec2s(300,300),
+      viewerWindowProc);
 
   win[2] = createWindow(hInstance,
-						win[0],
-						"ExaminerWindow",
-						WS_CHILD|WS_VISIBLE,
+      win[0],
+      "ExaminerWindow",
+      WS_CHILD|WS_VISIBLE,
             // |WS_OVERLAPPEDWINDOW|WS_CLIPSIBLINGS,
-						SbVec2s(300,0),
-						SbVec2s(300,300),
-						viewerWindowProc);
+      SbVec2s(300,0),
+      SbVec2s(300,300),
+      viewerWindowProc);
 
   win[3] = createWindow(hInstance,
-						win[0],
-						"PlaneWindowB",
-						WS_CHILD|WS_VISIBLE,
+      win[0],
+      "PlaneWindowB",
+      WS_CHILD|WS_VISIBLE,
             // |WS_OVERLAPPEDWINDOW|WS_CLIPSIBLINGS,
-						SbVec2s(0,300),
-						SbVec2s(300,300),
-						viewerWindowProc);
+      SbVec2s(0,300),
+      SbVec2s(300,300),
+      viewerWindowProc);
 
   win[4] = createWindow(hInstance,
-						win[0],
-						"PlaneWindowC",
-						WS_CHILD|WS_VISIBLE,
+      win[0],
+      "PlaneWindowC",
+      WS_CHILD|WS_VISIBLE,
             // |WS_OVERLAPPEDWINDOW|WS_CLIPSIBLINGS,
-						SbVec2s(300,300),
-						SbVec2s(300,300),
-						viewerWindowProc);
+      SbVec2s(300,300),
+      SbVec2s(300,300),
+      viewerWindowProc);
 
   setUserData(win[0], (LONG)win);
 

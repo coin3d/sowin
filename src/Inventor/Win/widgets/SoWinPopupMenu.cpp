@@ -220,12 +220,12 @@ SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
   if ( rec == NULL )
     return;
   
-	if ( enabled )
-		rec->flags |= ITEM_ENABLED;
-	else
-		rec->flags &= ~ITEM_ENABLED;
+ if ( enabled )
+  rec->flags |= ITEM_ENABLED;
+ else
+  rec->flags &= ~ITEM_ENABLED;
 
-	EnableMenuItem( rec->parent, rec->itemid, MF_BYCOMMAND | ( enabled ? MF_ENABLED : MF_GRAYED ) );
+ EnableMenuItem( rec->parent, rec->itemid, MF_BYCOMMAND | ( enabled ? MF_ENABLED : MF_GRAYED ) );
 } // setMenuItemEnabled()
 
 SbBool
@@ -243,8 +243,8 @@ SoWinPopupMenu::getMenuItemEnabled( int itemid )
   //memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
   //GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
   //return ( menuiteminfo.fState & MFS_ENABLED ) ? TRUE : FALSE;
-	
-	return ( rec->flags & ITEM_ENABLED ? TRUE : FALSE );
+ 
+ return ( rec->flags & ITEM_ENABLED ? TRUE : FALSE );
 } // getMenuItemEnabled()
 
 void
@@ -353,7 +353,7 @@ SoWinPopupMenu::addSeparator( int menuid, int pos )
     return;
   }
   ItemRecord * rec = createItemRecord( "separator" );
-	
+ 
   InsertMenu( menu->menu, pos, MF_BYPOSITION | MF_SEPARATOR, pos, NULL );
   rec->flags |= ITEM_SEPARATOR;
   this->items->append( rec );
@@ -434,13 +434,13 @@ SoWinPopupMenu::popUp( HWND inside, int x, int y )
 int
 SoWinPopupMenu::getSelectedItem( void )
 {
-	return ( this->selectedItem );
+ return ( this->selectedItem );
 } // getSelectedItem()
 
 void
 SoWinPopupMenu::setNotify( SbBool enable )
 {
-	this->notify = enable;
+ this->notify = enable;
 } // setNotify()
 
 // *************************************************************************
@@ -461,7 +461,7 @@ SoWinPopupMenu::getItemRecord( int itemid )
 {
   const int numItems = this->items->getLength( );
   int i;
-	
+ 
   for ( i = 0; i < numItems; i++ )
     if ( ( ( ItemRecord * ) ( * this->items)[i] )->itemid == itemid )
       return ( ItemRecord * ) ( * this->items)[i];

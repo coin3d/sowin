@@ -329,12 +329,12 @@ SoWinPlaneViewer::onCommand( // virtual
   WPARAM wparam,
   LPARAM lparam )
 {
-	int i;
-	short nc = HIWORD( wparam );// notification code
-	short id = LOWORD( wparam );// item, control, or accelerator identifier
-	HWND hwnd = ( HWND ) lparam;// control handle
+ int i;
+ short nc = HIWORD( wparam );// notification code
+ short id = LOWORD( wparam );// item, control, or accelerator identifier
+ HWND hwnd = ( HWND ) lparam;// control handle
 
-	switch ( id ) {
+ switch ( id ) {
 
     case VIEWERBUTTON_CAMERA:
       PRIVATE( this )->cameratoggleClicked( );
@@ -450,32 +450,32 @@ SoWinPlaneViewer::buildViewerButtonsEx( // virtual
   int y,
   int size )
 {
-	SoWinBitmapButton * button;
+ SoWinBitmapButton * button;
 
-	button = new SoWinBitmapButton( parent, x, y, size, size, 24, "x", NULL );
-	button->addBitmap( x_xpm );
-	button->setBitmap( 0 );
-	button->setId( VIEWERBUTTON_X );
-	this->viewerButtonList->append( button );
+ button = new SoWinBitmapButton( parent, x, y, size, size, 24, "x", NULL );
+ button->addBitmap( x_xpm );
+ button->setBitmap( 0 );
+ button->setId( VIEWERBUTTON_X );
+ this->viewerButtonList->append( button );
   
-	button = new SoWinBitmapButton( parent, x, y, size, size, 24, "y", NULL );
-	button->addBitmap( y_xpm );
-	button->setBitmap( 0 );
-	button->setId( VIEWERBUTTON_Y );
-	this->viewerButtonList->append( button );
+ button = new SoWinBitmapButton( parent, x, y, size, size, 24, "y", NULL );
+ button->addBitmap( y_xpm );
+ button->setBitmap( 0 );
+ button->setId( VIEWERBUTTON_Y );
+ this->viewerButtonList->append( button );
 
   button = new SoWinBitmapButton( parent, x, y, size, size, 24, "z", NULL );
-	button->addBitmap( z_xpm );
-	button->setBitmap( 0 );
-	button->setId( VIEWERBUTTON_Z );
-	this->viewerButtonList->append( button );
+ button->addBitmap( z_xpm );
+ button->setBitmap( 0 );
+ button->setId( VIEWERBUTTON_Z );
+ this->viewerButtonList->append( button );
   
-	button = new SoWinBitmapButton( parent, x, y, size, size, 24, "perspective", NULL );
-	button->addBitmap( perspective_xpm );
-	button->addBitmap( ortho_xpm );
-	button->setBitmap( 0 );
-	button->setId( VIEWERBUTTON_CAMERA );
-	this->viewerButtonList->append( button );
+ button = new SoWinBitmapButton( parent, x, y, size, size, 24, "perspective", NULL );
+ button->addBitmap( perspective_xpm );
+ button->addBitmap( ortho_xpm );
+ button->setBitmap( 0 );
+ button->setId( VIEWERBUTTON_CAMERA );
+ this->viewerButtonList->append( button );
     
 }
 

@@ -245,7 +245,7 @@ void SoWinViewerPrefSheet::createMainWidget( HWND parent )
 {
   WNDCLASS windowclass;
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
-	LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );  
+ LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );  
   HMENU menu = NULL;
   HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
   LPSTR wndclassname = ( LPSTR ) this->className;
@@ -418,103 +418,103 @@ HWND SoWinViewerPrefSheet::createLabelWidget( HWND parent, const char * text, in
 {
   assert( IsWindow( parent ) );
   SIZE textSize = this->getTextSize( parent, text ); // FIXME: assumes the same font as parent
-	HWND hwnd = CreateWindowEx( NULL,
+ HWND hwnd = CreateWindowEx( NULL,
                               "STATIC",
-		                          ( text ? text : "" ),
-		                          WS_VISIBLE | WS_CHILD | SS_LEFT,
-		                          x, y,
-		                          textSize.cx, textSize.cy,
-		                          parent,
-		                          NULL,
-		                          SoWin::getInstance( ),
-		                          NULL );
-	assert( IsWindow( hwnd ) );
-	return hwnd;  
+                            ( text ? text : "" ),
+                            WS_VISIBLE | WS_CHILD | SS_LEFT,
+                            x, y,
+                            textSize.cx, textSize.cy,
+                            parent,
+                            NULL,
+                            SoWin::getInstance( ),
+                            NULL );
+ assert( IsWindow( hwnd ) );
+ return hwnd;  
 }
 
 HWND SoWinViewerPrefSheet::createEditWidget( HWND parent, long id, int width, int x, int y )
 {
   assert( IsWindow( parent ) );
-	HWND hwnd = CreateWindowEx( WS_EX_CLIENTEDGE,
+ HWND hwnd = CreateWindowEx( WS_EX_CLIENTEDGE,
                               "EDIT",
-		                          "",
+                            "",
                               WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL,
-		                          x, y,
-		                          width, this->getFontHeight( parent ) + 4,
-		                          parent,
-		                          NULL,
-		                          SoWin::getInstance( ),
-		                          NULL );
-	assert( IsWindow( hwnd ) );
+                            x, y,
+                            width, this->getFontHeight( parent ) + 4,
+                            parent,
+                            NULL,
+                            SoWin::getInstance( ),
+                            NULL );
+ assert( IsWindow( hwnd ) );
   SetWindowLong( hwnd, GWL_ID, id ); 
-	return hwnd;  
+ return hwnd;  
 }
 
 HWND SoWinViewerPrefSheet::createRadioWidget( HWND parent, long id, const char * text, int x, int y )
 {
   assert( IsWindow( parent ) );
   SIZE textSize = this->getTextSize( parent, text ); // FIXME: assumes the same font as parent  
-	HWND hwnd = CreateWindowEx( NULL,
+ HWND hwnd = CreateWindowEx( NULL,
                               "BUTTON",
-		                          ( text ? text : "" ),
+                            ( text ? text : "" ),
                               WS_VISIBLE | WS_CHILD | BS_RADIOBUTTON | BS_LEFT,
-		                          x, y,
-		                          30 + textSize.cx, textSize.cy,
-		                          parent,
-		                          NULL,
-		                          SoWin::getInstance( ),
-		                          NULL );
-	assert( IsWindow( hwnd ) );
+                            x, y,
+                            30 + textSize.cx, textSize.cy,
+                            parent,
+                            NULL,
+                            SoWin::getInstance( ),
+                            NULL );
+ assert( IsWindow( hwnd ) );
   SetWindowLong( hwnd, GWL_ID, id );
-	return hwnd;  
+ return hwnd;  
 }
 
 HWND SoWinViewerPrefSheet::createSliderWidget( HWND parent, long id, int width, int x, int y )
 {
   assert( IsWindow( parent ) );
-	HWND hwnd = CreateWindowEx( NULL, //WS_EX_CLIENTEDGE
+ HWND hwnd = CreateWindowEx( NULL, //WS_EX_CLIENTEDGE
                               "SCROLLBAR",
                               "",
                               WS_CHILD | WS_VISIBLE | SBS_HORZ,
-		                          x, y,
+                            x, y,
                               width, this->getFontHeight( parent ) + 2,
                               parent,
                               NULL,
                               SoWin::getInstance( ),
                               NULL );
-	assert( IsWindow( hwnd ) );
+ assert( IsWindow( hwnd ) );
   SetWindowLong( hwnd, GWL_ID, id );
-	return hwnd;  
+ return hwnd;  
 }
 
 HWND SoWinViewerPrefSheet::createCheckWidget( HWND parent, long id, const char * text, int x, int y )
 {
   assert( IsWindow( parent ) );
   SIZE textSize = this->getTextSize( parent, text ); // FIXME: assumes the same font as parent  
-	HWND hwnd = CreateWindowEx( NULL,
+ HWND hwnd = CreateWindowEx( NULL,
                               "BUTTON",
-		                          ( text ? text : "" ),
+                            ( text ? text : "" ),
                               WS_VISIBLE | WS_CHILD | BS_CHECKBOX | BS_LEFT,
-		                          x, y,
-		                          30 + textSize.cx, textSize.cy,
-		                          parent,
-		                          NULL,
-		                          SoWin::getInstance( ),
-		                          NULL );
-	assert( IsWindow( hwnd ) );
+                            x, y,
+                            30 + textSize.cx, textSize.cy,
+                            parent,
+                            NULL,
+                            SoWin::getInstance( ),
+                            NULL );
+ assert( IsWindow( hwnd ) );
   SetWindowLong( hwnd, GWL_ID, id );
-	return hwnd;  
+ return hwnd;  
 }
 
 SIZE SoWinViewerPrefSheet::getTextSize( HWND window, const char * text )
 {
   assert( IsWindow( window ) );
   
-	int len = strlen( text );
-	HDC hdc = GetDC( window );
+ int len = strlen( text );
+ HDC hdc = GetDC( window );
 
-	SIZE size;
-	GetTextExtentPoint( hdc, text, len, & size );
+ SIZE size;
+ GetTextExtentPoint( hdc, text, len, & size );
 
   return size;
 }
@@ -528,69 +528,69 @@ int SoWinViewerPrefSheet::getFontHeight( HWND window )
 
 void SoWinViewerPrefSheet::setSliderValue( HWND slider, int value )
 {
-	SCROLLINFO scrollInfo;
-	ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
-	scrollInfo.cbSize = sizeof( SCROLLINFO );
-	scrollInfo.fMask = SIF_POS;
-	scrollInfo.nPos = value;
-	
-	SetScrollInfo( slider,
-		SB_CTL,
+ SCROLLINFO scrollInfo;
+ ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
+ scrollInfo.cbSize = sizeof( SCROLLINFO );
+ scrollInfo.fMask = SIF_POS;
+ scrollInfo.nPos = value;
+ 
+ SetScrollInfo( slider,
+  SB_CTL,
     /*( this->orient == Horizontal ) SB_HORZ : SB_VERT )*/
     //SB_HORZ,
-		& scrollInfo,
+  & scrollInfo,
     TRUE ); // FIXME: redraw needed?
 }
 
 int SoWinViewerPrefSheet::getSliderValue( HWND slider )
 {
-	SCROLLINFO scrollInfo;
-	ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
-	scrollInfo.cbSize = sizeof( SCROLLINFO );
-	scrollInfo.fMask = SIF_POS;
+ SCROLLINFO scrollInfo;
+ ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
+ scrollInfo.cbSize = sizeof( SCROLLINFO );
+ scrollInfo.fMask = SIF_POS;
 
-	GetScrollInfo( slider,
-		SB_CTL,
+ GetScrollInfo( slider,
+  SB_CTL,
     /*( this->orient == Horizontal ) SB_HORZ : SB_VERT )*/
     //SB_HORZ,
-		& scrollInfo );
+  & scrollInfo );
 
-	return ( scrollInfo.nPos );
+ return ( scrollInfo.nPos );
 }
 
 void SoWinViewerPrefSheet::setSliderRange( HWND slider, int min, int max )
 {
-	SCROLLINFO scrollInfo;
-	ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
-	scrollInfo.cbSize = sizeof( SCROLLINFO );
-	scrollInfo.fMask = SIF_RANGE | SIF_PAGE;
-	scrollInfo.nMin = min;
-	scrollInfo.nMax = max;
+ SCROLLINFO scrollInfo;
+ ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
+ scrollInfo.cbSize = sizeof( SCROLLINFO );
+ scrollInfo.fMask = SIF_RANGE | SIF_PAGE;
+ scrollInfo.nMin = min;
+ scrollInfo.nMax = max;
   scrollInfo.nPage = 1;//( ( max - min + 1 ) + min );
-	
-	SetScrollInfo( slider, SB_CTL, & scrollInfo, TRUE );
+ 
+ SetScrollInfo( slider, SB_CTL, & scrollInfo, TRUE );
 }
 
 SIZE SoWinViewerPrefSheet::getSliderRange( HWND slider )
 {
-	SCROLLINFO scrollInfo;
-	ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
-	scrollInfo.cbSize = sizeof( SCROLLINFO );
-	scrollInfo.fMask = SIF_RANGE;
+ SCROLLINFO scrollInfo;
+ ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
+ scrollInfo.cbSize = sizeof( SCROLLINFO );
+ scrollInfo.fMask = SIF_RANGE;
 
-	GetScrollInfo( slider,
-		SB_CTL,
+ GetScrollInfo( slider,
+  SB_CTL,
     /*( this->orient == Horizontal ) SB_HORZ : SB_VERT ),*/
     //SB_HORZ,
-		& scrollInfo );
+  & scrollInfo );
 
   SIZE range = { scrollInfo.nMin, scrollInfo.nMax }; 
-	return range;
+ return range;
 }
 
 void SoWinViewerPrefSheet::setChecked( HWND hwnd, BOOL check )
 {  
-	SendMessage( hwnd, BM_SETCHECK, ( WPARAM ) ( check ? BST_CHECKED : BST_UNCHECKED ), 0 );
+ SendMessage( hwnd, BM_SETCHECK, ( WPARAM ) ( check ? BST_CHECKED : BST_UNCHECKED ), 0 );
 }
 
 void SoWinViewerPrefSheet::setEnabled( HWND hwnd, BOOL enable )

@@ -470,9 +470,9 @@ SoWinGLWidget::glWidgetProc( HWND window,
         PRIVATE( object )->haveFocus = FALSE;
         return 0;
 
-			case WM_SETCURSOR:
-				SetCursor( object->getCursor( ) );
-				return 0;
+   case WM_SETCURSOR:
+    SetCursor( object->getCursor( ) );
+    return 0;
  
       }
   }
@@ -774,9 +774,9 @@ SoWinGLWidgetP::buildNormalGLWidget( void )
   windowclass.cbWndExtra = 4;
 
   RegisterClass( & windowclass );
-	
-	this->currentCursor = LoadCursor( SoWin::getInstance( ), IDC_ARROW );
-	
+ 
+ this->currentCursor = LoadCursor( SoWin::getInstance( ), IDC_ARROW );
+ 
   RECT rect;
   GetClientRect( this->managerWidget, & rect );
 
@@ -861,7 +861,7 @@ SoWinGLWidgetP::createGLContext( HWND window )
   }
 
   SoWinGLWidget * share = ( SoWinGLWidget * )
-		SoAny::si( )->getSharedGLContext( NULL, NULL );
+  SoAny::si( )->getSharedGLContext( NULL, NULL );
   
   this->ctxNormal = wglCreateContext( this->hdcNormal );
   if ( ! this->ctxNormal ) {
@@ -879,10 +879,10 @@ SoWinGLWidgetP::createGLContext( HWND window )
     // FIXME: set overlay plane. mariusbu 20010801.
   }
 
-	if ( share != NULL )
+ if ( share != NULL )
     wglShareLists( PRIVATE( share )->ctxNormal, this->ctxNormal );
 
-	SoAny::si( )->registerGLContext( ( void * ) this->owner, NULL, NULL );
+ SoAny::si( )->registerGLContext( ( void * ) this->owner, NULL, NULL );
 
   ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
 
@@ -933,11 +933,11 @@ label:
 
 LRESULT
 SoWinGLWidgetP::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{	
+{ 
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo( "SoWinGLWidget::onSize", "called" );
 #endif // SOWIN_DEBUG
-	
+ 
   BOOL ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
   assert( ok );
 
@@ -980,7 +980,7 @@ LRESULT
 SoWinGLWidgetP::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   SoAny::si( )->unregisterGLContext( ( void * ) this->owner );
-	
+ 
   wglDeleteContext( this->ctxNormal );
   ReleaseDC( window, this->hdcNormal );
 
