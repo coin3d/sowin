@@ -28,6 +28,7 @@
 
 #include <sowindefs.h> // SOWIN_STUB
 #include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/devices/SoWinDevice.h>
 #include <Inventor/Win/SoWinComponent.h>
 
 // *************************************************************************
@@ -46,6 +47,13 @@ SbList< MessageHook * > * SoWin::messageHookList = NULL;    //hook
 
 // *************************************************************************
 
+void
+SoWinObject::init(void)
+{
+  SoWinObject::initClass();
+  SoWinDevice::initClasses();
+  SoWinComponent::initClasses();
+}
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -86,10 +94,9 @@ SoWin::init( HWND const topLevelWidget )
   SoDB::init( );
   SoNodeKit::init( );
   SoInteraction::init( );
+  SoWinObject::init();
 
   SoDebugError::setHandlerCallback( SoWin::errorHandlerCB, NULL );    // initialize error handeling
-
-  SoWinObject::init();
 
   SoDB::getSensorManager( )->setChangedCallback( SoWin::sensorQueueChanged, NULL );
   if(topLevelWidget)
