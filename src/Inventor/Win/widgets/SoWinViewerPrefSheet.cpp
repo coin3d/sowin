@@ -41,13 +41,14 @@ void SoWinViewerPrefSheet::create( HWND parent )
 {
   this->createMainWidget( parent );
 
+  int x = 10;
   int y = 10;
   this->lineHeight = this->getFontHeight( this->mainWidget ) + 10;
     
-  y = this->createSeekWidgets( this->mainWidget, 0, y );
-  y = this->createZoomWidgets( this->mainWidget, 0, y );
-  y = this->createClippingWidgets( this->mainWidget, 0, y );
-  y = this->createSpinnWidgets( this->mainWidget, 0, y );
+  y = this->createSeekWidgets( this->mainWidget, x, y );
+  y = this->createZoomWidgets( this->mainWidget, x, y );
+  y = this->createClippingWidgets( this->mainWidget, x, y );
+  y = this->createSpinnWidgets( this->mainWidget, x, y );
 
   y += 10;
   
@@ -79,6 +80,11 @@ void SoWinViewerPrefSheet::destroy( void )
 void SoWinViewerPrefSheet::show( SbBool show )
 {
   ShowWindow( this->mainWidget, ( show ? SW_SHOW : SW_HIDE ) );
+}
+
+HWND SoWinViewerPrefSheet::getWidget( void )
+{
+  return this->mainWidget;
 }
 
 void SoWinViewerPrefSheet::setTitle( const char * title )
@@ -119,7 +125,7 @@ void SoWinViewerPrefSheet::createMainWidget( HWND parent )
 
   RegisterClass( & windowclass );
 
-  DWORD style = WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE; // WS_OVERLAPETWINDOW
+  DWORD style = WS_OVERLAPPED | WS_SYSMENU | WS_VISIBLE;// | WS_OVERLAPPEDWINDOW;
 
   this->mainWidget = CreateWindowEx( NULL,//WS_EX_TOPMOST,
                                      wndclassname,
@@ -147,23 +153,23 @@ int SoWinViewerPrefSheet::createSeekWidgets( HWND parent, int x, int y )
 {
   assert( IsWindow( parent ) );
   
-  this->seekWidgets[0] = this->createLabelWidget( parent, "Seek animation time:", 10, y );
-  this->seekWidgets[1] = this->createEditWidget( parent, 64, 185, y );
-  this->seekWidgets[2] = this->createLabelWidget( parent, "seconds", 255, y );
+  this->seekWidgets[0] = this->createLabelWidget( parent, "Seek animation time:", x, y );
+  this->seekWidgets[1] = this->createEditWidget( parent, 64, x + 175, y );
+  this->seekWidgets[2] = this->createLabelWidget( parent, "seconds", x + 245, y );
   y += this->lineHeight;
   
-  this->seekWidgets[3] = this->createLabelWidget( parent, "Seek to:", 10, y );
-  this->seekWidgets[4] = this->createRadioWidget( parent, "point", 100, y );
-  this->seekWidgets[5] = this->createRadioWidget( parent, "object", 200, y );
+  this->seekWidgets[3] = this->createLabelWidget( parent, "Seek to:", x, y );
+  this->seekWidgets[4] = this->createRadioWidget( parent, "point", x + 90, y );
+  this->seekWidgets[5] = this->createRadioWidget( parent, "object", x + 190, y );
   y += this->lineHeight;
 
-  this->seekWidgets[6] = this->createLabelWidget( parent, "Seek distance:", 10, y );
-  this->seekDistWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, parent, 150, y );
-  this->seekWidgets[7] = this->createEditWidget( parent, 64, 280, y );
+  this->seekWidgets[6] = this->createLabelWidget( parent, "Seek distance:", x, y );
+  this->seekDistWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, parent, x + 140, y );
+  this->seekWidgets[7] = this->createEditWidget( parent, 64, x + 270, y );
   y += this->lineHeight;
 
-  this->seekWidgets[8] = this->createRadioWidget( parent, "percentage", 10, y );
-  this->seekWidgets[9] = this->createRadioWidget( parent, "absolute", 110, y );
+  this->seekWidgets[8] = this->createRadioWidget( parent, "percentage", x, y );
+  this->seekWidgets[9] = this->createRadioWidget( parent, "absolute", x + 100, y );
   y += this->lineHeight;
   
   return y;
@@ -182,15 +188,15 @@ int SoWinViewerPrefSheet::createZoomWidgets( HWND parent, int x, int y )
 {
   assert( IsWindow( parent ) );
 
-  this->zoomWidgets[0] = this->createLabelWidget( parent, "Camera zoom:", 10, y );
-  this->zoomWidgets[1] = this->createSliderWidget( parent, 118, 150, y );
-  this->zoomWidgets[2] = this->createEditWidget( parent, 64, 280, y );
+  this->zoomWidgets[0] = this->createLabelWidget( parent, "Camera zoom:", x, y );
+  this->zoomWidgets[1] = this->createSliderWidget( parent, 118, x + 140, y );
+  this->zoomWidgets[2] = this->createEditWidget( parent, 64, x + 270, y );
   y += this->lineHeight;
 
-  this->zoomWidgets[3] = this->createLabelWidget( parent, "Zoom slider ranges from:", 10, y );
-  this->zoomWidgets[4] = this->createEditWidget( parent, 64, 185, y );
-  this->zoomWidgets[5] = this->createLabelWidget( parent, "to:", 255, y );
-  this->zoomWidgets[6] = this->createEditWidget( parent, 64, 280, y );
+  this->zoomWidgets[3] = this->createLabelWidget( parent, "Zoom slider ranges from:", x, y );
+  this->zoomWidgets[4] = this->createEditWidget( parent, 64, x + 175, y );
+  this->zoomWidgets[5] = this->createLabelWidget( parent, "to:", x + 245, y );
+  this->zoomWidgets[6] = this->createEditWidget( parent, 64, x + 270, y );
   y += this->lineHeight;
     
   return y;
@@ -207,17 +213,17 @@ int SoWinViewerPrefSheet::createClippingWidgets( HWND parent, int x, int y )
 {
   assert( IsWindow( parent ) );
 
-  this->clippingWidgets[0] = this->createCheckWidget( parent, "Auto clipping planes", 10, y );
+  this->clippingWidgets[0] = this->createCheckWidget( parent, "Auto clipping planes", x, y );
   y += this->lineHeight;
 
-  this->clippingWidgets[1] = this->createLabelWidget( parent, "Near plane:", 10, y );
-  this->nearPlaneWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, parent, 150, y );
-  this->clippingWidgets[2] = this->createEditWidget( parent, 64, 280, y );
+  this->clippingWidgets[1] = this->createLabelWidget( parent, "Near plane:", x, y );
+  this->nearPlaneWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, parent, x + 140, y );
+  this->clippingWidgets[2] = this->createEditWidget( parent, 64, x + 270, y );
   y += this->lineHeight;
   
-  this->clippingWidgets[3] = this->createLabelWidget( parent, "Far plane:", 10, y );
-  this->farPlaneWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, parent, 150, y );
-  this->clippingWidgets[4] = this->createEditWidget( parent, 64, 280, y );
+  this->clippingWidgets[3] = this->createLabelWidget( parent, "Far plane:", x, y );
+  this->farPlaneWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, parent, x + 140, y );
+  this->clippingWidgets[4] = this->createEditWidget( parent, 64, x + 270, y );
   y += this->lineHeight;
   
   return y;
@@ -236,15 +242,15 @@ int SoWinViewerPrefSheet::createSpinnWidgets( HWND parent, int x, int y )
 {
   assert( IsWindow( parent ) );
 
-  this->spinnWidgets[0] = this->createCheckWidget( parent, "Enable spinn animation", 10, y );
+  this->spinnWidgets[0] = this->createCheckWidget( parent, "Enable spinn animation", x, y );
   y += this->lineHeight;
 
-  this->spinnWidgets[1] = this->createCheckWidget( parent, "Show point of rotation axes", 10, y );
+  this->spinnWidgets[1] = this->createCheckWidget( parent, "Show point of rotation axes", x, y );
   y += this->lineHeight;
   
-  this->spinnWidgets[2] = this->createLabelWidget( parent, "Axes size:", 10, y );
-  this->axesSizeWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, parent, 150, y );
-  this->spinnWidgets[3] = this->createEditWidget( parent, 64, 280, y );
+  this->spinnWidgets[2] = this->createLabelWidget( parent, "Axes size:", x, y );
+  this->axesSizeWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal, parent, x + 140, y );
+  this->spinnWidgets[3] = this->createEditWidget( parent, 64, x + 270, y );
   y += this->lineHeight;
   
   

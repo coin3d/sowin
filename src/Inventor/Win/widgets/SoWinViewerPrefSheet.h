@@ -30,6 +30,7 @@ public:
   void create( HWND parent = NULL );
   void destroy( void );
   void show( SbBool show );
+  HWND getWidget( void );
   void setTitle( const char * title );
   
 protected:
