@@ -308,12 +308,7 @@ SoWinComponent::getBaseWidget( void ) const
   // FIXME: this method should return the root in the
   // parent-children tree. Is this correct ? mariusbu 20010718.
 
-  HWND hwnd = PRIVATE( this )->widget;
- 
-  while( IsWindow( GetParent( hwnd ) ) )
-    hwnd = GetParent( hwnd );
-
-  return hwnd;
+  return this->getWidget( );
 }
 
 SbBool
@@ -326,8 +321,17 @@ HWND
 SoWinComponent::getShellWidget( void ) const
 {
   // FIXME: is this correct for this method ? mariusbu 20010718.
+  
+  LONG style;
+  HWND hwnd = PRIVATE( this )->widget;
+ 
+  while( IsWindow( GetParent( hwnd ) ) ) {
+    style = GetWindowLong( hwnd, GWL_STYLE );
+    if ( style & WS_CAPTION ) break;
+    hwnd = GetParent( hwnd );
+  }
 
-  return this->getBaseWidget( );
+  return hwnd;
 }
 
 HWND
@@ -339,7 +343,7 @@ SoWinComponent::getParentWidget( void ) const
 void
 SoWinComponent::setSize( const SbVec2s size )
 {
-  UINT flags = SWP_NOMOVE | SWP_NOZORDER;
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER;// redraw
   SetWindowPos( this->getShellWidget( ), NULL, 0, 0, size[0], size[1], flags );
 }
 
