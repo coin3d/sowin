@@ -14,6 +14,9 @@ BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
 
 CLEANFILES = \
+	sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.dll \
+	sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.pdb \
+	sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.exp \
 	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
 DISTCLEANFILES = \
@@ -166,18 +169,22 @@ uninstall-local: uninstall-SoWinincHEADERS uninstall-nodist_SoWinincHEADERS
 	for ext in dll pdb lib; do \
 	  file="$(DESTDIR)$(bindir)/$$basename.$$ext"; \
 	  if test -f "$$file"; then \
-	    echo " rm -f" "$$file"; \
-	    echo rm -f "$$file"; \
+	    echo " rm -f $$file"; \
+	    rm -f "$$file"; \
 	  fi \
 	done; \
 	baseincdir="$(DESTDIR)$(includedir)/Inventor/Win"; \
 	for dir in \
 	  "$$baseincdir/devices" \
+	  "$$baseincdir/editors" \
+	  "$$baseincdir/engines" \
+	  "$$baseincdir/nodes" \
 	  "$$baseincdir/viewers" \
+	  "$$baseincdir/widgets" \
 	  "$$baseincdir"; do \
 	  if test -d "$$dir"; then \
-	    echo " rmdir" "$$dir"; \
-	    rmdir "$$dir" &>/dev/null; \
+	    echo " rmdir $$dir"; \
+	    rmdir "$$dir" || exit 1; \
 	  fi \
 	done; \
 	:
