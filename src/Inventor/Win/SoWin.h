@@ -35,6 +35,7 @@
 struct MessageHook
 {
   HWND hWnd;
+  HWND hParent;
   UINT message;
 };
 
@@ -197,7 +198,6 @@ private:
   static HWND mainWidget;
   static char * appName;
   static char * className;
-  static SbBool fullScreen;
   static SbList< MessageHook * > * messageHookList;
 
 }; // class SoWin

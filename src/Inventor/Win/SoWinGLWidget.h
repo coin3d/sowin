@@ -156,13 +156,16 @@ protected:
   void glSwapBuffers( void );
   void glFlushBuffer( void );
 
+  void setWindowPosition( POINT position );
+  
   UINT colorMap; // set when color index is used
   UINT overlayColorMap; // set when overlay is used
 
   SbBool waitForExpose;
   SbBool drawToFrontBuffer;
-
-  void setWindowPosition( POINT position );;
+  
+  HWND parent;
+  HWND toplevel;
 
 private:
   void buildNormalGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
@@ -217,9 +220,6 @@ private:
   HPALETTE palOverlay;
   HPALETTE palSingle;
   HPALETTE palDouble;
-
-  HWND parent;
-  HWND toplevel;
 
   // Process WM_SETFOCUS/WM_KILLFOCUS ( see glxWindowProc ).
   BOOL haveFocus;

@@ -78,22 +78,36 @@ SoWinFullViewer::setDecoration( SbBool enable )
   // FIXME: Hack - force resize
   // ( all positioning of widgets is done in onSize )
 
-  MoveWindow( this->viewerWidget,
-    1,
-    1,
-    width - 1,
-    height - 1,
-    FALSE );
+  if ( IsWindow( this->parent ) ) {
+    MoveWindow( this->viewerWidget,
+      1,
+      1,
+      width - 1,
+      height - 1,
+      FALSE );
     
-  MoveWindow( this->viewerWidget,
-    0,
-    0,
-    width,
-    height,
-    FALSE );
-
-  // redraw all widgets ( and erase background )
-  InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
+    MoveWindow( this->viewerWidget,
+      0,
+      0,
+      width,
+      height,
+      FALSE );
+  }
+  else {
+    MoveWindow( this->viewerWidget,
+      rect.left + 1,
+      rect.top + 1,
+      width - 1,
+      height - 1,
+      FALSE );
+    
+    MoveWindow( this->viewerWidget,
+      rect.left,
+      rect.top,
+      width,
+      height,
+      FALSE );
+  }
 }
 
 SbBool
@@ -136,9 +150,9 @@ SoWinFullViewer::setPopupMenuEnabled( SbBool enable )
 #if SOWIN_DEBUG
   if ( (enable && this->isPopupMenuEnabled()) ||
        (!enable && !this->isPopupMenuEnabled()) ) {
-    SoDebugError::postWarning("SoWinFullViewer::setPopupMenuEnabled",
-                              "popup menu already turned %s",
-                              enable ? "on" : "off");
+    SoDebugError::postWarning( "SoWinFullViewer::setPopupMenuEnabled",
+                               "popup menu already turned %s",
+                               enable ? "on" : "off" );
     return;
   }
 #endif // SOWIN_DEBUG
@@ -482,12 +496,13 @@ SoWinFullViewer::getButtonWidget( void ) const
 HWND
 SoWinFullViewer::buildWidget( HWND parent )
 {
-  assert( IsWindow( parent ) );
+  //assert( IsWindow( parent ) );
 
   WNDCLASS windowclass;
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
   HMENU menu = NULL;
+  HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
   LPSTR wndclassname = "SoWinFullViewer_widget";
 
   windowclass.lpszClassName = wndclassname;
@@ -497,7 +512,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( NULL, icon );
   windowclass.hCursor = NULL;
-  windowclass.hbrBackground = NULL;
+  windowclass.hbrBackground = ( IsWindow( this->parent ) ? NULL : brush );
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;
 
@@ -531,18 +546,17 @@ SoWinFullViewer::buildWidget( HWND parent )
   this->renderAreaWidget = inherited::buildWidget( this->viewerWidget );
   assert( IsWindow( this->renderAreaWidget ) );
 
-	MoveWindow( SoWin::getTopLevelWidget( ), 0, 0, 500, 420, FALSE ); // FIXME: make default values
-
   if ( this->menuenabled )
     this->buildPopupMenu( );
-
-  ShowWindow( this->viewerWidget, SW_SHOW );
-  ShowWindow( this->renderAreaWidget, SW_SHOW );
-
-  SoWin::addMessageHook( this->viewerWidget, WM_SIZE );
+  
+  if( parent == SoWin::getTopLevelWidget( ) )
+    SoWin::addMessageHook( this->viewerWidget, WM_SIZE );
 
 	if ( this->decorations )
 			this->buildDecoration( this->viewerWidget );
+  
+  ShowWindow( this->viewerWidget, SW_SHOW );
+  ShowWindow( this->renderAreaWidget, SW_SHOW );
 
   return this->viewerWidget;
 }
@@ -1155,10 +1169,12 @@ SoWinFullViewer::mgrWindowProc( HWND window,
 			case WM_RBUTTONUP:
 				ReleaseCapture( );
 				return 0;
-                
+
+        /*
       case WM_SETCURSOR:
         SetCursor( LoadCursor( SoWin::getInstance( ), IDC_ARROW ) );
         return 0;
+        */
 				
 			case WM_COMMAND:
 			  return object->onCommand( window, message, wparam, lparam );
@@ -1178,6 +1194,11 @@ LRESULT
 SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
 	if ( ! this->isViewing( ) ) this->setViewing( TRUE );
+  
+  MoveWindow(
+    ( IsWindow( this->parent ) ? this->parent : this->viewerWidget ),
+    0, 0, 500, 420, TRUE ); // FIXME: make default values
+  
   return 0;
 }
 
@@ -1187,17 +1208,18 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 	int i, x, y, width, height, bottom, right, top;
 	int numViewerButtons = this->viewerButtonList->getLength( );
 	int	numAppButtons = this->appButtonList->getLength( );
+  BOOL repaint = ( IsWindow( this->parent ) ? FALSE : TRUE );
   
 	// RenderArea
 	assert( IsWindow( this->renderAreaWidget ) );
 	
 	if ( /*this->isFullScreen( ) ||*/ ! this->isDecoration( ) ) {
-		MoveWindow( this->renderAreaWidget, 0, 0, LOWORD( lparam ), HIWORD( lparam ), FALSE );
+		MoveWindow( this->renderAreaWidget, 0, 0, LOWORD( lparam ), HIWORD( lparam ), repaint );
 		return 0; 
 	}
 	else {
 		MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
-			LOWORD( lparam ) - ( 2 * DECORATION_SIZE ), HIWORD( lparam ) - DECORATION_SIZE, FALSE );
+			LOWORD( lparam ) - ( 2 * DECORATION_SIZE ), HIWORD( lparam ) - DECORATION_SIZE, repaint );
 	}
 	
   // Viewer buttons
@@ -1207,12 +1229,13 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 	// App buttons
 	for( i = 0; i < numAppButtons; i++ )
 		MoveWindow( APPBUTTON( i ),	0, ( DECORATION_SIZE * ( i + numViewerButtons ) ),
-			DECORATION_SIZE, DECORATION_SIZE, TRUE );
+			DECORATION_SIZE, DECORATION_SIZE, repaint );
 
 	// Wheels
 	
 	bottom = ( HIWORD( lparam ) - ( DECORATION_SIZE + DECORATION_BUFFER ) );
-	right = ( LOWORD( lparam ) - ( rightWheel->getLabelSize( ).cx + 8 ) );
+	right = ( LOWORD( lparam ) - (
+    ( this->rightWheel ? this->rightWheel->getLabelSize( ).cx : 0 ) + 8 ) );
   //( DECORATION_SIZE + DECORATION_BUFFER ) );
 	
 	// Left wheel

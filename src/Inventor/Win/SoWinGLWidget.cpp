@@ -261,7 +261,7 @@ SoWinGLWidget::isQuadBufferStereo( void ) const
 {
   // FIXME: do proper implementation. 20001123 mortene.
   // FIXME: function not implemented
-  SOWIN_STUB();
+  // SOWIN_STUB();
   return FALSE;
 }
 
@@ -458,7 +458,8 @@ SoWinGLWidget::buildWidget( HWND parent )
 
   this->waitForExpose = TRUE;
 
-  SoWin::addMessageHook( this->managerWidget, WM_SIZE );
+  if ( IsWindow( this->parent ) )
+    SoWin::addMessageHook( this->managerWidget, WM_SIZE );
   return this->managerWidget;
 }
 
@@ -705,7 +706,7 @@ SoWinGLWidget::glWindowProc( HWND window,
     object->processEvent( & msg );
     
     // Steal focus from other windows - get keystrokes
-    if( ! object->haveFocus ) {
+    if( ( ! object->haveFocus ) && ( GetCapture( ) == object->parent ) ) {
       object->haveFocus = ( BOOL ) SetFocus( window );
     }
     
@@ -794,7 +795,9 @@ SoWinGLWidget::createGLContext( HWND window )
   HGLRC hrc = wglCreateContext( hdc );
   //wglCreateLayerContext( )
 
-	if ( share != NULL ) share->ctxNormal = hrc;
+	if ( share != NULL ) {
+    wglShareLists( share->ctxNormal, hrc );
+  }
 
 	SoAny::si( )->registerGLContext( ( void * ) this, NULL, NULL );
 

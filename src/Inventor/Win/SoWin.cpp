@@ -37,7 +37,6 @@ HINSTANCE SoWin::Instance = NULL;
 HWND SoWin::mainWidget = NULL;
 char * SoWin::appName = NULL;
 char * SoWin::className = NULL;
-SbBool SoWin::fullScreen = FALSE;
 int SoWin::timerSensorId = 0;
 SbBool SoWin::timerSensorActive = FALSE;
 int SoWin::delaySensorId = 0;
@@ -208,14 +207,8 @@ SoWin::createWindow( char * title, char * className, RECT rect, HWND parent, HME
   DWORD style, exstyle;
   LPVOID params = NULL;
 
-  if( SoWin::fullScreen ) {
-    style = WS_POPUP;
-    exstyle = WS_EX_TOPMOST;
-  }
-  else {
-    style = WS_OVERLAPPEDWINDOW;
-    exstyle = NULL;
-  }
+  style = WS_OVERLAPPEDWINDOW;
+  exstyle = NULL;
 
   SoWin::mainWidget = CreateWindowEx( exstyle,
 		                                  className,
@@ -702,8 +695,27 @@ SoWin::onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 
   return 0;
 }
+/*
+  SetWindowsHookEx( WH_CALLWNDPROC, this->callWndProc, SoWin::getInstance( ), 0 );
+  
+LRESULT CALLBACK 
+SoWin::callWndProc( int code, WPARAM wparam , LPARAM lparam )
+{
+  CWPSTRUCT * cwp = ( CWPSTRUCT * ) lparam;
 
-
+  if ( code == HC_ACTION ) {// process message
+    if ( cwp->hwnd == this->parent ) {// intercept message to parent
+      if ( cwp->message == WM_SIZE ) {
+        MoveWindow( this->viewerWidget, 0, 0, LOWORD( cwp->lParam ), HIWORD( cwp->lParam ), FALSE );
+        // FIXME: get position
+      }
+    }
+  }
+  
+  if ( code < 0 )
+  CallNextHookEx( );
+}
+*/
 
 
 

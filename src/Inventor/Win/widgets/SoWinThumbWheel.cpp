@@ -382,6 +382,7 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect, char * name )
   WNDCLASS windowclass;
   HMENU menu = NULL;
   HWND widget = NULL;
+  //HBRUSH brush = ( HBRUSH ) GetSysColorBrush( COLOR_BTNFACE );
   LPSTR wndclassname = "SoWinThumbWheel_wheelWidget";
 
   windowclass.lpszClassName = wndclassname;
@@ -391,7 +392,7 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect, char * name )
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = NULL;
   windowclass.hCursor = NULL;
-  windowclass.hbrBackground = NULL;
+  windowclass.hbrBackground = NULL;//brush
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;
 

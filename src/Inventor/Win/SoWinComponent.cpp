@@ -81,7 +81,8 @@ SoWinComponent::SoWinComponent( const HWND parent,
 
   if ( name ) this->widgetName = name;
   
-  if ( ( parent == ( HWND ) NULL ) || ! embed ) {
+  if ( ! IsWindow( parent ) || ! embed ) {
+    this->parent = NULL;
     this->embedded = FALSE;
     this->widget = this->buildFormWidget( parent );
   } 
