@@ -351,6 +351,21 @@ SoWinGLWidget::getPixelFormat(void)
   return GetPixelFormat(PRIVATE(this)->hdcNormal);
 }
 
+// FIXME: make doc in SoQtGLWidget valid for this also. 20011116 mortene.
+void
+SoWinGLWidget::setOverlayPlanes(const SbBool onoff)
+{
+  SOWIN_STUB();
+}
+
+// FIXME: make doc in SoQtGLWidget valid for this also. 20011116 mortene.
+SbBool
+SoWinGLWidget::isOverlayPlanes(void) const
+{
+  SOWIN_STUB();
+  return FALSE;
+}
+
 /*!
   Switch between single and double buffer mode for the OpenGL canvas.
   The default is to use a single buffer canvas.
