@@ -23,8 +23,9 @@
 #include <Inventor/SbLinear.h>
 #include <Inventor/SbString.h>
 #include <Inventor/SoLists.h>
-
 #include <Inventor/Win/SoWinObject.h>
+
+#include <wtypes.h>
 
 class SoWinComponent;
 
