@@ -65,7 +65,7 @@ SoWinGLWidget::SoWinGLWidget(HWND const parent,
   PRIVATE(this)->hdcNormal = NULL;
   PRIVATE(this)->hdcOverlay = NULL;
 
-  PRIVATE(this)->glModes = glModes;
+  PRIVATE(this)->glModes = glmodes;
 
   PRIVATE(this)->haveFocus = FALSE;
   PRIVATE(this)->stealFocus = FALSE;
