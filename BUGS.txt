@@ -460,3 +460,46 @@ int main(int argc, char **argv)
 
     20040607 mortene.
 
+=====================================================================
+
+020 Assert crash when using non-NULL value for "name" argument to
+    SoWinExaminerViewer constructor.
+
+    The Win32 API call GetWindowLong() will somehow fail when running
+    the below test example, which is caught by an assert in the
+    Win32API.cpp wrapper around that call.
+
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+
+#include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/viewers/SoWinExaminerViewer.h>
+#include <Inventor/nodes/SoCube.h>
+#include <Inventor/nodes/SoSeparator.h>
+
+int main(int argc, char ** argv)
+{
+    HWND mainwin = SoWin::init(argc, argv, argv[0]);
+
+    SoSeparator * root = new SoSeparator;
+    root->ref();
+    root->addChild( new SoCube );
+
+    // passing no name or NULL works
+    SoWinExaminerViewer * area = new SoWinExaminerViewer(mainwin, "Test name");
+    area->setSceneGraph(root);
+    area->show();
+
+    SoWin::show(mainwin);
+    SoWin::mainLoop();
+
+    delete area;
+    root->unref();
+
+    return 0;
+}
+    
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+
+    20040806 mortene, reported by Gerhard Reitmayr.
+
+=====================================================================
