@@ -507,10 +507,8 @@ SoWinGLWidget::glScheduleRedraw(void)
 //
 
 LRESULT CALLBACK
-SoWinGLWidget::mgrWidgetProc(HWND window,
-                              UINT message,
-                              WPARAM wparam,
-                              LPARAM lparam)
+SoWinGLWidget::mgrWidgetProc(HWND window, UINT message,
+                             WPARAM wparam, LPARAM lparam)
 {
   // does nothing
   return DefWindowProc(window, message, wparam, lparam);
@@ -522,9 +520,7 @@ SoWinGLWidget::glWidgetProc(HWND window, UINT message,
 {
   if (message == WM_CREATE) {
     CREATESTRUCT * createstruct = (CREATESTRUCT *) lparam;
-		
     (void) Win32::SetWindowLong(window, GWL_USERDATA, (LONG) (createstruct->lpCreateParams));
-		
     SoWinGLWidget * object = (SoWinGLWidget *)(createstruct->lpCreateParams);
     return PRIVATE(object)->onCreate(window, message, wparam, lparam);
   }
@@ -762,7 +758,7 @@ SoWinGLWidget::getDisplayListShareGroup(HGLRC ctx)
   return 0; // FIXME: nothing done yet!
 }
 
-// Build managerWidget.  Used only to draw borders and handle resize.
+// Build managerWidget.  Used only to draw borders.
 HWND
 SoWinGLWidget::buildWidget(HWND parent)
 {
@@ -771,9 +767,7 @@ SoWinGLWidget::buildWidget(HWND parent)
   HMENU menu = NULL;
 
   if (! SoWinGLWidgetP::managerWndClassAtom) {
-
     WNDCLASS windowclass;
-
     windowclass.lpszClassName = "Manager Widget";
     windowclass.hInstance = SoWin::getInstance();
     windowclass.lpfnWndProc = SoWinGLWidget::mgrWidgetProc;
@@ -781,42 +775,31 @@ SoWinGLWidget::buildWidget(HWND parent)
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
-    windowclass.hbrBackground =(HBRUSH) GetSysColorBrush(COLOR_3DSHADOW);//NULL;
+    windowclass.hbrBackground = GetSysColorBrush(COLOR_3DSHADOW);
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = 4;
 
     SoWinGLWidgetP::managerWndClassAtom = Win32::RegisterClass(&windowclass);
-
   }
 
   RECT rect;
   assert(IsWindow(parent) && "buildWidget() argument erroneous");
   Win32::GetClientRect(parent, & rect);
 
-  HWND managerwidget = CreateWindow("Manager Widget",
-                                     this->getTitle(),
-                                     WS_VISIBLE |
-                                     WS_CLIPSIBLINGS |
-                                     WS_CLIPCHILDREN |
-                                     WS_CHILD,
-                                     rect.left,
-                                     rect.top,
-                                     rect.right,
-                                     rect.bottom,
-                                     parent,
-                                     menu,
-                                     SoWin::getInstance(),
-                                     this);
-
-  if (!IsWindow(managerwidget)) {
-    DWORD dummy;
-    SbString err = Win32::getWin32Err(dummy);
-    SbString s = "Could not create a manager widget, as ";
-    s += "CreateWindow() failed with error message: ";
-    s += err;
-    SoDebugError::postWarning("SoWinGLWidget::buildWidget", s.getString());
-    assert(FALSE && "creation of managerwidget failed");
-  }
+  HWND managerwidget = Win32::CreateWindow_("Manager Widget",
+                                            this->getTitle(),
+                                            WS_VISIBLE |
+                                            WS_CLIPSIBLINGS |
+                                            WS_CLIPCHILDREN |
+                                            WS_CHILD,
+                                            rect.left,
+                                            rect.top,
+                                            rect.right,
+                                            rect.bottom,
+                                            parent,
+                                            menu,
+                                            SoWin::getInstance(),
+                                            this);
 
   PRIVATE(this)->managerWidget = managerwidget;
 
@@ -827,7 +810,6 @@ SoWinGLWidget::buildWidget(HWND parent)
   }
 
   PRIVATE(this)->buildNormalGLWidget(managerwidget);
-
   this->waitForExpose = TRUE;
 
   this->setFocusProxy(this->getNormalWidget());
@@ -990,30 +972,19 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
   rect.right -= 2 * this->bordersize;
   rect.bottom -= 2 * this->bordersize;
 
-  HWND normalwidget = CreateWindowEx(NULL,
-                                     wndclassname,
-                                     wndclassname,
-                                     WS_VISIBLE |
-                                     WS_CLIPSIBLINGS |
-                                     WS_CLIPCHILDREN |
-                                     WS_CHILD,
-                                     rect.left, rect.top,
-                                     rect.right, rect.bottom,
-                                     manager,
-                                     NULL,
-                                     SoWin::getInstance(),
-                                     this->owner);
-
-  if (!IsWindow(normalwidget)) {
-    DWORD dummy;
-    SbString err = Win32::getWin32Err(dummy);
-    SbString s = "Could not create a gl normalwidget, as ";
-    s += "CreateWindowEx() failed with error message: ";
-    s += err;
-    SoDebugError::postWarning("SoWinGLWidget::buildNormalGLWidget",
-                              s.getString());
-    assert(FALSE && "creation of gl normalwidget failed");
-  }
+  HWND normalwidget = Win32::CreateWindowEx_(NULL,
+                                             wndclassname,
+                                             wndclassname,
+                                             WS_VISIBLE |
+                                             WS_CLIPSIBLINGS |
+                                             WS_CLIPCHILDREN |
+                                             WS_CHILD,
+                                             rect.left, rect.top,
+                                             rect.right, rect.bottom,
+                                             manager,
+                                             NULL,
+                                             SoWin::getInstance(),
+                                             this->owner);
 
   this->normalWidget = normalwidget;
   this->owner->setGLSize(SbVec2s(rect.right - rect.left,

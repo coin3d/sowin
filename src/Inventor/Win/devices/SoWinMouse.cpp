@@ -119,8 +119,10 @@ SoWinMouse::translateEvent(MSG * msg)
 
   } // switch (event->type)
 
-  long msec = GetTickCount();
-  if (soevent) soevent->setTime(SbTime((msec / 1000), (msec % 1000) * 1000));
+  if (soevent) {
+    long msec = GetTickCount();
+    soevent->setTime(SbTime((msec / 1000), (msec % 1000) * 1000));
+  }
 
   return (SoEvent *) soevent;
 } // translateEvent()

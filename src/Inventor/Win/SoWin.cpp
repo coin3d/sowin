@@ -332,26 +332,23 @@ SoWin::createSimpleErrorDialog(HWND const widget,
 HWND
 SoWin::createWindow(char * title, char * className, SIZE size, HWND parent, HMENU menu)
 {
-  DWORD style, exstyle;
-  LPVOID params = NULL;
+  DWORD style = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
+  DWORD exstyle = NULL;
 
-  style = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
-  exstyle = NULL;
-
-  HWND widget = CreateWindowEx(exstyle,
-                                className,
-                                title,
-                                style,
-                                CW_USEDEFAULT,
-                                CW_USEDEFAULT,
-                                size.cx,
-                                size.cy,
-                                parent,
-                                menu,
-                                SoWin::getInstance(),
-                                params);
+  HWND widget = Win32::CreateWindowEx_(exstyle,
+                                       className,
+                                       title,
+                                       style,
+                                       CW_USEDEFAULT,
+                                       CW_USEDEFAULT,
+                                       size.cx,
+                                       size.cy,
+                                       parent,
+                                       menu,
+                                       SoWin::getInstance(),
+                                       NULL);
   return widget;
-} // createWindow()
+}
 
 /*!
  */

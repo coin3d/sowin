@@ -74,7 +74,7 @@ public:
         SoWinComponentP::sowincomplist = NULL;
 
         // FIXME: only unregister classname when all component windows
-        // have been destroyed.  CreateWindow get the default "Win
+        // have been destroyed.  CreateWindow() get the default "Win
         // Component" name, even when created by viewers like
         // SoWinExaminerViewer. Is this a bug? In that case fix this
         // too!
@@ -132,9 +132,8 @@ public:
           break;
         }
       }
-      return CallNextHookEx(SoWinComponentP::hookhandle, code, wparam, lparam);
     }
-    return 0;
+    return CallNextHookEx(SoWinComponentP::hookhandle, code, wparam, lparam);
   }
 
   static HHOOK hookhandle; // for (global) system message queue interception
@@ -185,10 +184,10 @@ LRESULT CALLBACK
 SoWinComponentP::eventHandler(HWND window, UINT message,
                               WPARAM wparam, LPARAM lparam)
 {
-  SoWinComponent * component = SoWinComponent::getComponent(window);
+  SoWinComponent * component = (SoWinComponent *)
+    Win32::GetWindowLong(window, GWL_USERDATA);
 
   if (component) {
-
     switch (message) {
 
     case WM_SIZE:
@@ -281,8 +280,12 @@ SoWinComponent::SoWinComponent(const HWND parent,
   SoAny::si()->addInternalFatalErrorHandler(SoWinComponentP::fatalerrorHandler,
                                             PRIVATE(this));
 
-  if (IsWindow(parent) && embed) { PRIVATE(this)->parent = parent; }
-  else { PRIVATE(this)->parent = this->buildFormWidget(parent); }
+  if (IsWindow(parent) && embed) {
+    PRIVATE(this)->parent = parent;
+  }
+  else {
+    PRIVATE(this)->parent = this->buildFormWidget(parent);
+  }
 
   if (SoWinComponentP::hookhandle == NULL) {
     SoWinComponentP::hookhandle =
@@ -711,7 +714,9 @@ SoWinComponent::getComponent(HWND const widget)
 {
   for (int i = 0; i < SoWinComponentP::sowincomplist->getLength(); i++) {
     SoWinComponent * c = (SoWinComponent *) SoWinComponentP::sowincomplist->get(i);
-    if (c->getParentWidget() == widget) return c;
+    if (c->getParentWidget() == widget) {
+      return c;
+    }
   }
   return NULL;
 }
@@ -797,22 +802,24 @@ SoWinComponent::buildFormWidget(HWND parent)
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = 4;
 
-    SoWinComponentP::wndClassAtom = Win32::RegisterClass(& windowclass);
+    SoWinComponentP::wndClassAtom = Win32::RegisterClass(&windowclass);
   }
 
-  HWND parentwidget = CreateWindow("Component Widget",
-                                   this->getTitle(),
-                                   WS_OVERLAPPEDWINDOW |
-                                   WS_VISIBLE |
-                                   WS_CLIPSIBLINGS |
-                                   WS_CLIPCHILDREN,
-                                   CW_USEDEFAULT,
-                                   CW_USEDEFAULT,
-                                   500, 500,
-                                   parent,
-                                   NULL,
-                                   SoWin::getInstance(),
-                                   this);
+  HWND parentwidget = Win32::CreateWindow_("Component Widget",
+                                           this->getTitle(),
+                                           WS_OVERLAPPEDWINDOW |
+                                           WS_VISIBLE |
+                                           WS_CLIPSIBLINGS |
+                                           WS_CLIPCHILDREN,
+                                           CW_USEDEFAULT,
+                                           CW_USEDEFAULT,
+                                           500, 500,
+                                           parent,
+                                           NULL,
+                                           SoWin::getInstance(),
+                                           NULL);
+
+  (void)Win32::SetWindowLong(parentwidget, GWL_USERDATA, (LONG)this);
 
   assert(IsWindow(parentwidget));
   return parentwidget;
