@@ -557,7 +557,7 @@ void
 SoWinComponent::setSize(const SbVec2s size)
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER; // do redraw
-  Win32::SetWindowPos(this->getWidget(), NULL, 0, 0,
+  Win32::SetWindowPos(this->getParentWidget(), NULL, 0, 0,
                       size[0], size[1], flags);
 } // setSize()
 
@@ -570,7 +570,7 @@ SbVec2s
 SoWinComponent::getSize(void) const
 {
   RECT rect;
-  Win32::GetWindowRect(this->getWidget(), & rect);
+  Win32::GetWindowRect(this->getParentWidget(), & rect);
   return SbVec2s(rect.right - rect.left, rect.bottom - rect.top);
 } // getSize()
 
