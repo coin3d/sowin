@@ -86,6 +86,17 @@ inline int _not_null( const void * arg ) { return (arg != NULL) ? 1 : 0; }
     } \
   } while (0)
 
+#define SO@GUI@_OBSOLETED() \
+  do { \
+    (void)_cprintf("OBSOLETED: functionality not supported (any more)"); \
+    if ( _not_null(SO@GUI@_STUB_FILE)) { \
+      (void)_cprintf(" at %s", SO@GUI@_STUB_FILE); \
+      if (SO@GUI@_STUB_LINE > 0) (void)_cprintf(":line %u", SO@GUI@_STUB_LINE); \
+      if (SO@GUI@_STUB_FUNC) (void)_cprintf(":[%s]", SO@GUI@_STUB_FUNC); \
+    } \
+    (void)_cprintf("\n"); \
+  } while (0)
+
 #else /* !SO@GUI@_DEBUG */
 
 #define SO@GUI@_STUB() do { } while (0)
