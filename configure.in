@@ -332,13 +332,9 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
 
 SIM_EXPAND_DIR_VARS
 
-# Functions from the gdi32.lib library is used.
-LIBS="$LIBS -lgdi32"
-SOWIN_EXTRA_LIBS="$SOWIN_EXTRA_LIBS -lgdi32"
-
-# Functions from the user32.lib library is used.
-LIBS="$LIBS -luser32"
-SOWIN_EXTRA_LIBS="$SOWIN_EXTRA_LIBS -luser32"
+# Functions from the gdi32.lib and user32.lib libraries are used.
+LIBS="$LIBS -lgdi32 -luser32"
+SOWIN_EXTRA_LIBS="$SOWIN_EXTRA_LIBS -lgdi32 -luser32"
 
 # **************************************************************************
 
