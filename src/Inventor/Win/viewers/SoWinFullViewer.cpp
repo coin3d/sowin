@@ -312,8 +312,8 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 
 SoWinFullViewer::~SoWinFullViewer( void )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+	// FIXME: remember to dealocate resources
+	free( leftWheelStr );
 }
 
 void
@@ -441,12 +441,14 @@ SoWinFullViewer::buildDecoration( HWND parent )
 HWND
 SoWinFullViewer::buildLeftWheel( HWND parent )
 {
+	this->setLeftWheelString( "RotX" );
   this->leftWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
                                          parent,
                                          5,
                                          250,
                                          this->leftWheelStr );
   this->leftWheel->registerCallback( this->leftWheelCB );
+	this->leftWheel->registerViewer( this );
 
   return NULL;
 }
@@ -523,8 +525,16 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
 {
   short x, y;
   position.getValue( x, y );
-  _cprintf( "openPopupMenu\n" );
-  this->displayPopupMenu( x, y, /*this->viewerWidget*/this->renderAreaWidget );
+
+  // Get the right coords
+  RECT clientRect;
+  POINT point;
+  GetClientRect( this->renderAreaWidget, & clientRect );
+  point.y = clientRect.bottom - y;
+  point.x = x;
+  ClientToScreen( this->renderAreaWidget, & point );
+
+  this->displayPopupMenu( point.x, point.y, this->viewerWidget );
 }
 
 void
@@ -537,11 +547,6 @@ SoWinFullViewer::destroyPopupMenu( void )
 int
 SoWinFullViewer::displayPopupMenu( int x, int y, HWND owner )
 {
-  // Flip y coord
-  RECT rect;
-  GetWindowRect( owner, & rect );
-  y = rect.bottom - y;
-
   //this->popupPreCallback( );
   assert( this->prefmenu != NULL );
   this->prefmenu->popUp( owner, x, y );
@@ -640,130 +645,115 @@ SoWinFullViewer::createStereoPrefSheetGuts( HWND parent )
 float
 SoWinFullViewer::getLeftWheelValue( void ) const
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
-  return 0;
+  return this->leftWheelVal;
 }
 
 void
 SoWinFullViewer::setLeftWheelValue( const float value )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  this->leftWheelVal = value;
 }
 
 float
 SoWinFullViewer::getRightWheelValue( void ) const
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
-  return 0;
+  return this->rightWheelVal;
 }
 
 void
 SoWinFullViewer::setRightWheelValue( const float value )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  this->rightWheelVal = value;
 }
 
 float
 SoWinFullViewer::getBottomWheelValue( void ) const
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
-  return 0;
+  return this->bottomWheelVal;
 }
 
 void
 SoWinFullViewer::setBottomWheelValue( const float value )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
-}
-
-void
-SoWinFullViewer::rightWheelMotion( float )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB();
-}
-
-void
-SoWinFullViewer::bottomWheelMotion( float )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB();
-}
-
-void
-SoWinFullViewer::leftWheelMotion( float )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  this->bottomWheelVal = value;
 }
 
 void
 SoWinFullViewer::rightWheelStart( void )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+	this->interactiveCountInc();
 }
 
 void
-SoWinFullViewer::bottomWheelStart( void )
+SoWinFullViewer::rightWheelMotion( float value )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
-}
-
-void
-SoWinFullViewer::leftWheelStart( void )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  this->rightWheelVal = value;
 }
 
 void
 SoWinFullViewer::rightWheelFinish( void )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  this->interactiveCountDec();
+}
+
+void
+SoWinFullViewer::bottomWheelStart( void )
+{
+	this->interactiveCountInc();
+}
+
+void
+SoWinFullViewer::bottomWheelMotion( float value )
+{
+  this->bottomWheelVal = value;
 }
 
 void
 SoWinFullViewer::bottomWheelFinish( void )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  this->interactiveCountDec();
+}
+
+void
+SoWinFullViewer::leftWheelStart( void )
+{
+	this->interactiveCountInc();
+}
+
+void
+SoWinFullViewer::leftWheelMotion( float value )
+{
+	this->leftWheelVal = value;
 }
 
 void
 SoWinFullViewer::leftWheelFinish( void )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+	this->interactiveCountDec();
 }
 
 void
 SoWinFullViewer::setBottomWheelString( const char * name )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+	if ( this->bottomWheelStr ) free( this->bottomWheelStr );
+	this->bottomWheelStr = ( char * ) malloc( strlen( name ) + 1 );
+	memcpy( this->bottomWheelStr, name, strlen( name ) + 1 );
 }
 
 void
 SoWinFullViewer::setLeftWheelString( const char * name )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+	if ( this->leftWheelStr ) free( this->leftWheelStr );
+	this->leftWheelStr = ( char * ) malloc( strlen( name ) + 1 );
+	memcpy( this->leftWheelStr, name, strlen( name ) + 1 );
 }
 
 void
 SoWinFullViewer::setRightWheelString( const char * name )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+	if ( this->rightWheelStr ) free( this->rightWheelStr );
+	this->rightWheelStr = ( char * ) malloc( strlen( name ) + 1 );
+	memcpy( this->rightWheelStr, name, strlen( name ) + 1 );
 }
 
 void
@@ -882,8 +872,19 @@ SoWinFullViewer::bottomWheelCB( SoWinFullViewer * viewer, void ** data )
 void
 SoWinFullViewer::leftWheelCB( SoWinFullViewer * viewer, void ** data )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  // FIXME: not pretty
+	
+	if ( data == NULL ) {
+		viewer->leftWheelStart( );
+		return;
+	}
+	
+	if ( ( int ) data == -1 ) {
+		viewer->leftWheelFinish( );
+		return;
+	}
+
+	viewer->leftWheelMotion( ** ( float ** ) data );
 }
 
 LRESULT CALLBACK

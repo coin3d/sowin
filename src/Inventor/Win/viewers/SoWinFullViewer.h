@@ -235,7 +235,7 @@ private:
   HWND appButtonForm;
   SbPList * appButtonList;
 
-  //SoWinStereoDialog * stereoDialogBox ;
+  //SoWinStereoDialog * stereoDialogBox ; // FIXME: not implemented yet
     
   SbVec2f zoomSldRange;
 

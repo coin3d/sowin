@@ -58,6 +58,10 @@ SoWinThumbWheel::SoWinThumbWheel( Orientation orientation,
 
   this->constructor( orientation );
   this->buildWidget( parent, rect );
+
+	this->viewer = NULL;
+	this->viewerCB = NULL;
+	
 } // SoWinThumbWheel()
 
 
@@ -190,43 +194,71 @@ SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lpara
 LRESULT CALLBACK
 SoWinThumbWheel::onLButtonDown( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  SetCapture( window );
   if ( this->state != SoWinThumbWheel::Idle )
     return 0;
-
+	
   RECT wheel;
   if ( this->orient == Vertical ) {
     wheel.left =  SHADEBORDERWIDTH + 3;
     wheel.top = SHADEBORDERWIDTH + 6;
     wheel.right = this->width( ) - SHADEBORDERWIDTH - 3;
     wheel.bottom = this->height( ) - SHADEBORDERWIDTH - 6;
-  } else {
+  }
+	else {
     wheel.left = SHADEBORDERWIDTH + 6;
     wheel.top = SHADEBORDERWIDTH + 3;
     wheel.right = this->width( ) - SHADEBORDERWIDTH - 6;
     wheel.bottom = this->height( ) - SHADEBORDERWIDTH - 3;
   }
 
-  POINT pt = { LOWORD(lparam) , HIWORD(lparam) };
-  if ( ! PtInRect( & wheel, pt ) )
-    return 0;
+	short x =  LOWORD( lparam );
+	short y =  HIWORD( lparam );	
+	POINT point = { x, y };
+	
+  if ( ! PtInRect( & wheel, point ) )
+		return 0;
+
+	SetCapture( window );
 
   this->state = SoWinThumbWheel::Dragging;
-
-  int yPos = HIWORD(lparam);
-  int xPos = LOWORD(lparam);
-
   if ( this->orient == SoWinThumbWheel::Vertical )
-    this->mouseDownPos = yPos - SHADEBORDERWIDTH - 6;
+    this->mouseDownPos = y;// - SHADEBORDERWIDTH - 6;
   else
-    this->mouseDownPos = xPos - SHADEBORDERWIDTH - 6;
+    this->mouseDownPos = x;// - SHADEBORDERWIDTH - 6;
 
   this->mouseLastPos = this->mouseDownPos;
-
-  //if( this->viewerCB )
-  this->viewerCB( NULL, NULL );
+	
+	assert( this->viewerCB != NULL );
+	this->viewerCB( this->viewer, NULL ); // let CB know we want xxxWheelStart()
 
   return 0;
+}
+
+LRESULT CALLBACK
+SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+{
+  if ( this->state != SoWinThumbWheel::Dragging )
+    return 0;
+
+	short x =  LOWORD( lparam );
+	short y =  HIWORD( lparam );
+	
+  if ( this->orient == SoWinThumbWheel::Vertical )
+    this->mouseLastPos = y;// - SHADEBORDERWIDTH - 6;
+  else
+    this->mouseLastPos = x;// - SHADEBORDERWIDTH - 6;
+	
+  this->tempWheelValue = this->wheel->calculateValue( this->wheelValue,
+                                                      this->mouseDownPos,
+                                                      this->mouseLastPos - this->mouseDownPos );
+
+  InvalidateRect( this->windowHandle, NULL, FALSE );
+	
+  float * value = & this->tempWheelValue;
+	assert( this->viewerCB != NULL );
+  this->viewerCB( this->viewer, ( void ** ) & value );
+
+	return 0;
 }
 
 LRESULT CALLBACK
@@ -239,35 +271,9 @@ SoWinThumbWheel::onLButtonUp( HWND window, UINT message, WPARAM wparam, LPARAM l
   this->wheelValue = this->tempWheelValue;
   this->mouseLastPos = this->mouseDownPos;
   this->state = SoWinThumbWheel::Idle;
-
-  //if( this->viewerCB )
-  this->viewerCB( NULL, NULL );
-
-  return 0;
-}
-
-LRESULT CALLBACK
-SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
-  if ( this->state != SoWinThumbWheel::Dragging )
-    return 0;
-
-  int yPos = HIWORD(lparam);
-  int xPos = LOWORD(lparam);
-
-  if ( this->orient == SoWinThumbWheel::Vertical )
-    this->mouseLastPos = yPos - SHADEBORDERWIDTH - 6;
-  else
-    this->mouseLastPos = xPos - SHADEBORDERWIDTH - 6;
- 
-  this->tempWheelValue = this->wheel->calculateValue( this->wheelValue,
-                                                      this->mouseDownPos,
-                                                      this->mouseLastPos - this->mouseDownPos );
-
-  InvalidateRect( this->windowHandle, NULL, FALSE );
-
-  //if( this->viewerCB )
-  this->viewerCB( NULL, NULL );   // change last parameter to data
+	
+	assert( this->viewerCB != NULL );
+	this->viewerCB( this->viewer, ( void ** ) -1 ); // let CB know we want xxxWheelFinish()
 
   return 0;
 }
@@ -301,7 +307,6 @@ SoWinThumbWheel::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lp
 
       case WM_PAINT:
         return object->onPaint( window, message, wparam, lparam );
-        //break;
 
       case WM_LBUTTONDOWN:
         return object->onLButtonDown( window, message, wparam, lparam );
@@ -346,6 +351,12 @@ SoWinThumbWheel::registerCallback( thumbWheelCB * func )
 }
 
 void
+SoWinThumbWheel::registerViewer( SoWinFullViewer * viewer )
+{
+	this->viewer = viewer;
+}
+
+void
 SoWinThumbWheel::constructor( Orientation orientation )
 {
   this->orient = orientation;
@@ -387,7 +398,7 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect )
                                     WS_CLIPCHILDREN|
                                     WS_CLIPSIBLINGS|
                                     WS_CHILD,//|
-                                    //WS_DLGFRAME,WS_BORDER,
+                                    //WS_DLGFRAME,//WS_BORDER,
                                     rect.left,
                                     rect.top,
                                     rect.right,
@@ -397,19 +408,6 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect )
                                     SoWin::getInstance( ),
                                     this );
 
-  /*
-    this->windowHandle = CreateWindow( "BUTTON",
-    "wheel",
-    BS_BITMAP|WS_CHILD,
-    rect.left,
-    rect.top,
-    rect.right,
-    rect.bottom,
-    parent,
-    NULL,
-    SoWin::getInstance( ),
-    this );
-  */
   assert( IsWindow( this->windowHandle ) );
   ShowWindow( this->windowHandle, SW_SHOW );
 
@@ -478,6 +476,13 @@ SoWinThumbWheel::setValue( float value )
   this->mouseDownPos = this->mouseLastPos;
   UpdateWindow( this->windowHandle );
 } // setValue()
+
+float
+SoWinThumbWheel::value( void ) const
+{
+  // FIXME: tempWheelValue ?
+  return this->wheelValue;
+}
 
 // *************************************************************************
 

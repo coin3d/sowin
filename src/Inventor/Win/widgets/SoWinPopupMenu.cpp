@@ -290,7 +290,7 @@ SoWinPopupMenu::addMenu( int menuid, int submenuid, int pos )
   MENUITEMINFO menuiteminfo;
   memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
   menuiteminfo.cbSize = sizeof( menuiteminfo );
-  menuiteminfo.fMask = MIIM_SUBMENU|MIIM_TYPE;
+  menuiteminfo.fMask = MIIM_SUBMENU | MIIM_TYPE;
   menuiteminfo.fType = MFT_STRING;
   menuiteminfo.hSubMenu = sub->menu;
   menuiteminfo.dwTypeData = sub->title;
@@ -298,10 +298,8 @@ SoWinPopupMenu::addMenu( int menuid, int submenuid, int pos )
 
   if ( pos == -1 )
     InsertMenuItem( super->menu, sub->menuid, FALSE, & menuiteminfo );
-  //super->menu->insertItem( QString( sub->title ), sub->menu, sub->menuid );
   else
     InsertMenuItem( super->menu, pos, TRUE, & menuiteminfo );
-  //super->menu->insertItem( QString( sub->title ), sub->menu, sub->menuid, pos );
   sub->parent = super->menu;
 } // addMenu()
 
@@ -404,7 +402,7 @@ SoWinPopupMenu::popUp( HWND inside, int x, int y )
   this->selectedItem = TrackPopupMenu( rec->menu,
                                        TPM_LEFTALIGN |
                                        TPM_TOPALIGN |
-                                       TPM_LEFTBUTTON |
+                                       TPM_RIGHTBUTTON |
                                        //TPM_NONOTIFY |
                                        TPM_RETURNCMD,
                                        x,

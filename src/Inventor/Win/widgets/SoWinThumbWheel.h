@@ -45,10 +45,10 @@ public:
 
   SoWinThumbWheel( HWND parent = 0, int x = 0, int y = 0, const char * name = 0 );
   SoWinThumbWheel( Orientation, HWND parent = 0, int x = 0, int y = 0, const char * name = 0 );
-  ~SoWinThumbWheel(void);
+  ~SoWinThumbWheel( void );
 
   void setOrientation( Orientation );
-  Orientation orientation(void) const;
+  Orientation orientation( void ) const;
 
   void setValue( float value );
   float value( void ) const;
@@ -65,6 +65,7 @@ public:
   int height( void );
   void move( int x, int y );
   void registerCallback( thumbWheelCB * func );
+	void registerViewer( SoWinFullViewer * viewer );
 
 protected:
 
@@ -128,9 +129,9 @@ private:
   int currentPixmap;
 
   HWND windowHandle;
-  RECT rect;
 
   thumbWheelCB * viewerCB;
+	SoWinFullViewer * viewer; // owner object pointer
 }; // class SoWinThumbWheel
 
 // *************************************************************************
