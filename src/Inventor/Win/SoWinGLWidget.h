@@ -128,6 +128,7 @@ protected:
   virtual void sizeChanged( const SbVec2s newSize );
   virtual void widgetChanged( HWND newWidget );
   virtual SbBool glScheduleRedraw( void );
+  virtual void validate( HWND hwnd );
 
   void setGLSize( SbVec2s newSize );
   SbVec2s getGLSize( void ) const;

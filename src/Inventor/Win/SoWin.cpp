@@ -483,8 +483,6 @@ LRESULT
 SoWinP::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   EnumChildWindows( window, SoWinP::sizeChildProc, lparam );  
-	InvalidateRect( window, NULL, TRUE );
-	
   return 0;
 }
 

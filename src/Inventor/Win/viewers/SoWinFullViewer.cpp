@@ -79,6 +79,7 @@ public:
 	void viewallbuttonClicked( void );
 
   int layoutWidgets( int cx, int cy );
+  //void setRegion( void );
 
 	// App button callbacks
   AppPushButtonCB * appPushButtonCB;
@@ -806,7 +807,18 @@ SoWinFullViewer::afterRealizeHook( void )
   // FIXME: function not implemented
   SOWIN_STUB();
 }
-
+/*
+void
+SoWinFullViewer::validate( HWND hwnd ) // virtual
+{
+  RECT rect;
+  GetClientRect( this->renderAreaWidget, & rect );
+  rect.left += 30;
+  rect.right += 30;
+  ValidateRect( hwnd, & rect );
+  // FIXME: validate decoration widgets
+}
+*/
 SbBool
 SoWinFullViewer::processSoEvent( const SoEvent * const event )
 {
@@ -860,7 +872,7 @@ SoWinFullViewer::vwrWidgetProc(
     POINT point = { LOWORD( lparam ), HIWORD( lparam ) };
 
     switch ( message )
-		{
+    {
 
       case WM_SIZE:
         return object->onSize( window, message, wparam, lparam );
@@ -893,6 +905,7 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
   PRIVATE( this )->layoutWidgets( LOWORD( lparam ), HIWORD( lparam ) );
 
   InvalidateRect( window, NULL, TRUE );
+  this->validate( window );// FIXME validate buttons and thumbwheel too
 
   return 0;
 }
@@ -1030,7 +1043,22 @@ SoWinFullViewer::seekbuttonClicked( void )
 //  (private)
 //
 //
+/*
+void
+SoWinFullViewerP::setRegion( void )
+{
+  RECT rect;
+  GetWindowRect( this->owner->getShellWidget( ), & rect );
+  HRGN rgnA = CreateRectRgnIndirect( & rect );// this win
+  GetWindowRect( this->owner->getGLWidget( ), & rect );
+  HRGN rgnB = CreateRectRgnIndirect( & rect );// gl win
 
+  HRGN rgnC;
+  
+  CombineRgn( rgnC, rgnA, rgnB, RGN_XOR );
+  SetWindowRgn( this->owner->getShellWidget( ), rgnC, TRUE );
+}
+*/
 void
 SoWinFullViewerP::leftWheelCB( SoWinFullViewer * viewer, void ** data )
 {

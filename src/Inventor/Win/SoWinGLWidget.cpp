@@ -533,9 +533,12 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )
 
   PRIVATE( this )->glSize = newSize;
 
-  UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
-  SetWindowPos( this->getNormalWidget( ), NULL, 0, 0, newSize[0], newSize[1], flags );
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW; // FIXME: test. mariusbu 20010801.
+  SetWindowPos( PRIVATE( this )->normalWidget, NULL, 0, 0, newSize[0], newSize[1], flags );
 
+  //HWND parent = GetParent( PRIVATE( this )->managerWidget );
+  this->validate( this->getShellWidget( ) );
+ 
   this->sizeChanged( newSize );
 }
 
@@ -671,6 +674,7 @@ SoWinGLWidget::getGLWidget( void )
 SbBool
 SoWinGLWidget::makeNormalCurrent( void )
 {
+  // FIXME: wglRealizeLayerPalette() ? mariusbu 20010801
   return ( wglMakeCurrent( ( HDC ) PRIVATE( this )->hdcNormal, PRIVATE( this )->ctxNormal ) );
 }
 
@@ -705,15 +709,13 @@ SoWinGLWidget::glUnlockNormal( void )
 void
 SoWinGLWidget::glLockOverlay( void )
 {
-  // FIXME: not implemented
-  // FIXME: overlay not supported. mariusbu 20010719.
+  wglMakeCurrent( PRIVATE( this )->hdcOverlay, PRIVATE( this )->ctxOverlay ); 
 }
 
 void
 SoWinGLWidget::glUnlockOverlay( void )
 {
-  // FIXME: not implemented
-  // FIXME: overlay not supported. mariusbu 20010719.  
+  wglMakeCurrent( PRIVATE( this )->hdcOverlay, NULL );
 }
 
 void
@@ -727,6 +729,28 @@ void
 SoWinGLWidget::glFlushBuffer( void )
 {
   glFlush( );
+}
+
+void
+SoWinGLWidget::validate( HWND hwnd )
+{
+  // There is no need for any other widgets to
+  // update this area.
+  
+  POINT pt = { 0, 0 };
+
+  ClientToScreen( PRIVATE( this )->normalWidget, & pt );
+  ScreenToClient( hwnd, & pt );
+
+  RECT rect;
+  GetClientRect( PRIVATE( this )->normalWidget, & rect );
+
+  rect.left += pt.x;
+  rect.top += pt.y;
+  rect.right += pt.x;
+  rect.bottom += pt.y;
+  
+  ValidateRect( hwnd, & rect );
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -804,10 +828,16 @@ SoWinGLWidgetP::createGLContext( HWND window )
   BOOL ok;
   
   wglMakeCurrent( NULL, NULL );
-  wglDeleteContext( this->ctxNormal );
-  DeleteDC( this->hdcNormal );
 
-  HDC hdc = GetDC( window );
+  if ( this->ctxNormal )
+    wglDeleteContext( this->ctxNormal );
+  if ( this->ctxOverlay )
+    wglDeleteContext( this->ctxOverlay );
+
+  DeleteDC( this->hdcNormal );
+  
+  this->hdcNormal = GetDC( window );
+  this->hdcOverlay = this->hdcNormal;
   
   memset( & this->pfdNormal, 0, sizeof( PIXELFORMATDESCRIPTOR ) );
   this->pfdNormal.nSize = sizeof( PIXELFORMATDESCRIPTOR );
@@ -823,31 +853,29 @@ SoWinGLWidgetP::createGLContext( HWND window )
   this->pfdNormal.cColorBits = 32;    
   this->pfdNormal.cDepthBits = 32;
   
-  pixelFormat = ChoosePixelFormat( hdc, & this->pfdNormal );
-  ok = SetPixelFormat( hdc, pixelFormat, & this->pfdNormal );
+  pixelFormat = ChoosePixelFormat( this->hdcNormal, & this->pfdNormal );
+  ok = SetPixelFormat( this->hdcNormal, pixelFormat, & this->pfdNormal );
 
   assert( ok );
-  //if ( ! ok ) return FALSE;
 
   SoWinGLWidget * share = ( SoWinGLWidget * )
 		SoAny::si( )->getSharedGLContext( NULL, NULL );
-
-  HGLRC hrc = wglCreateContext( hdc );
-  // FIXME: implement overlay layer support. mariusbu 20010719.
-  //wglCreateLayerContext( )
+  
+  this->ctxNormal = wglCreateContext( this->hdcNormal );
+  
+  // create overlay
+  if ( this->glModes & SO_GL_OVERLAY ) {
+    this->ctxOverlay = wglCreateLayerContext( this->hdcOverlay, 1 );
+    // FIXME: set overlay plane. mariusbu 20010801.
+  }
 
 	if ( share != NULL )
-    wglShareLists( PRIVATE( share )->ctxNormal, hrc );
+    wglShareLists( PRIVATE( share )->ctxNormal, this->ctxNormal );
 
 	SoAny::si( )->registerGLContext( ( void * ) this->owner, NULL, NULL );
 
-  ok = wglMakeCurrent( hdc, hrc );
-  
+  ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
   assert( ok );
-  //if ( ! ok ) return FALSE;
-
-  this->hdcNormal = hdc;
-  this->ctxNormal = hrc;
 
   wglMakeCurrent( NULL, NULL );
 
