@@ -77,6 +77,10 @@ EXTRA_DIST = \
 	src/Inventor/Win/common/SoGuiRenderArea.cpp.in \
 	src/Inventor/Win/common/SoGuiViewer.h.in \
 	src/Inventor/Win/common/SoGuiViewer.cpp.in \
+	src/Inventor/Win/common/SoGuiConstrainedViewer.h.in \
+	src/Inventor/Win/common/SoGuiConstrainedViewer.cpp.in \
+	src/Inventor/Win/common/SoGuiFlyViewer.h.in \
+	src/Inventor/Win/common/SoGuiFlyViewer.cpp.in \
 	src/Inventor/Win/common/SoAnyFullViewer.h.in \
 	src/Inventor/Win/common/SoAnyFullViewer.cpp.in \
 	src/Inventor/Win/common/SoAnyExaminerViewer.h.in \
