@@ -78,6 +78,7 @@ public:
         
         if ( SoWinComponentP::wndClassAtom ) { // if wndclass is registered
           Win32::UnregisterClass( "Component Widget", SoWin::getInstance( ) );
+          SoWinComponentP::wndClassAtom = NULL;
         }
       }
     }
