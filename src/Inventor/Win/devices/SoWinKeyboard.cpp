@@ -401,15 +401,17 @@ SoWinKeyboard::disable(HWND widget, SoWinEventHandler * callbackproc, void * dat
 const SoEvent *
 SoWinKeyboard::translateEvent(MSG * msg)
 {
-  if ((msg->message != WM_KEYDOWN) && (msg->message != WM_KEYUP)) {
+  if ((msg->message != WM_KEYDOWN) && (msg->message != WM_KEYUP) &&
+      (msg->message != WM_SYSKEYDOWN) && (msg->message != WM_SYSKEYUP)) {
     return NULL;
   }
 
   // FIXME: looks like we ignore the value of the eventmask? 20020625 mortene.
 
-  SoButtonEvent::State state =
-    (msg->message == WM_KEYDOWN) ? SoButtonEvent::DOWN : SoButtonEvent::UP;
-
+  SoButtonEvent::State state = 
+    ((msg->message == WM_KEYDOWN) || (msg->message == WM_SYSKEYDOWN)) ? 
+      SoButtonEvent::DOWN : SoButtonEvent::UP;
+  
   PRIVATE(this)->kbdevent->setState(state);
 
   // FIXME: wrong -- should be the time the event actually
