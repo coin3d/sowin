@@ -628,14 +628,16 @@ SoWinFullViewer::buildViewerButtonsEx( HWND parent, int x, int y, int size )
 void
 SoWinFullViewer::buildPopupMenu( void )
 {
-  this->prefmenu = common->setupStandardPopupMenu( );
+  this->prefmenu = this->common->setupStandardPopupMenu( );
 }
 
+/*!
+  Set a title on the popup menu.
+ */
 void
 SoWinFullViewer::setPopupMenuString( const char * name )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+  this->common->setPopupMenuString( name );
 }
 
 void
