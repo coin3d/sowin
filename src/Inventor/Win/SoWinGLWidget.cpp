@@ -583,6 +583,7 @@ SoWinGLWidgetP::SoWinGLWidgetP(SoWinGLWidget * o)
   this->havefocus = FALSE;
   this->accumulationenabled = FALSE;
   this->stencilenabled = FALSE;
+  this->alphachannelenabled = FALSE;
 }
 
 // Destructor.
@@ -862,11 +863,30 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   if (want_stereo && has_stereo) { weight += STEREO_PRESENT; }
   // otherwise ignore -- no need to punish stereo mode if we requested mono
 
-  // We reward extra weight points to formats with accumulation bits
-  // or stencil bits if they are actually requested. We *punish*
+  // We reward extra weight points to formats with accumulation bits,
+  // stencil bits or alpha bits if they are actually requested. We *punish*
   // formats with them if they are *not* requested.
-  weight += (PER_ACCUMULATION_BIT * pfd->cAccumBits) * (want_accum ? 1.0 : -1.0);
-  weight += (PER_STENCIL_BIT * pfd->cStencilBits) * (want_stencil ? 1.0 : -1.0);
+  if (want_accum) {
+    // FIXME: What is the proper punishment for a missing accumulation buffer? 20031215 handegar
+    if (pfd->cAccumBits == 0) weight -= MAX_IMPORTANCE / 3;
+    else weight += PER_ACCUMULATION_BIT * pfd->cStencilBits;      
+  }
+  else weight -= PER_ACCUMULATION_BIT * pfd->cStencilBits;      
+
+  if (want_stencil) {
+    // FIXME: What is the proper punishment for a missing stencil? 20031215 handegar
+    if (pfd->cStencilBits == 0) weight -= MAX_IMPORTANCE / 3;
+    else weight += PER_STENCIL_BIT * pfd->cStencilBits;      
+  }
+  else weight -= PER_STENCIL_BIT * pfd->cStencilBits;      
+
+  if (want_alphachannel) {
+    // FIXME: What is the proper punishment for a missing alpha channel? 20031215 handegar
+    if (pfd->cAlphaBits == 0) weight -= MAX_IMPORTANCE / 4;
+    else weight += PER_ALPHA_BIT * pfd->cAlphaBits;      
+  }
+  else weight -= PER_ALPHA_BIT * pfd->cAlphaBits;      
+
   // The rationale behind punishing unwanted accum and stencil buffers
   // is that extra accumulation and stencil planes can potentially
   // take up a lot of memory, so we don't want just random selection
@@ -883,9 +903,6 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
     weight += OVERLAYS_AVAILABLE / 10 *
       ((pfd->dwFlags & PFD_SWAP_LAYER_BUFFERS) ? 1 : 0);
   }
-
-  if (want_alphachannel) 
-    weight += pfd->cAlphaBits * PER_ALPHA_BIT;
 
   const SbBool hw_accel = ((pfd->dwFlags & PFD_GENERIC_FORMAT) == 0);
   // Note: there are two types of possible "non-generic"
