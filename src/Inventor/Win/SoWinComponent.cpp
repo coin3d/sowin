@@ -903,19 +903,17 @@ SoWinComponent::openHelpCard(const char * name)
 void 
 SoWinComponent::setComponentCursor(const SoWinCursor & cursor)
 {
-  PRIVATE(this)->cursor = cursor;
-  SOWIN_STUB();
+  SoWinComponent::setWidgetCursor(this->getWidget(), cursor);
 }
 
 /*!
-  Returns the current cursor for this component.
+  Set cursor for a native widget in the underlying toolkit.
 */
-const SoWinCursor &
-SoWinComponent::getComponentCursor(void) const
+void
+SoWinComponent::setWidgetCursor(HWND w, const SoWinCursor & cursor)
 {
-  return PRIVATE(this)->cursor;
+  SOWIN_STUB();
 }
-
 
 ///////////////////////////////////////////////////////////////////
 //
