@@ -4610,6 +4610,10 @@ echo "$as_me: WARNING: --enable-warnings only has effect when using GNU gcc or g
   fi
 fi
 
+# This is at least used to allow static compilation on Cygwin + MSWindows
+# without hitting the SOWIN_DLL / SOWIN_NOT_DLL safety check.
+CPPFLAGS="$CPPFLAGS -DSOWIN_INTERNAL"
+
 sim_ac_static_defaults=true;
 # Check whether --enable-static-defaults or --disable-static-defaults was given.
 if test "${enable_static_defaults+set}" = set; then
@@ -4632,7 +4636,7 @@ fi
 fi
 
 # **************************************************************************
-# Variable substitutions for using libSoQt in the generic code.
+# Variable substitutions for using libSoWin in the generic code.
 
 GUI=WIN
 Gui=Win
@@ -4679,7 +4683,7 @@ if $sim_ac_coin_desired; then
 
   # Extract the first word of "coin-config", so it can be a program name with args.
 set dummy coin-config; ac_word=$2
-echo "$as_me:4682: checking for $ac_word" >&5
+echo "$as_me:4686: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
 if test "${ac_cv_path_sim_ac_coin_configcmd+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -4696,7 +4700,7 @@ for ac_dir in $ac_dummy; do
   test -z "$ac_dir" && ac_dir=.
   if $as_executable_p "$ac_dir/$ac_word"; then
    ac_cv_path_sim_ac_coin_configcmd="$ac_dir/$ac_word"
-   echo "$as_me:4699: found $ac_dir/$ac_word" >&5
+   echo "$as_me:4703: found $ac_dir/$ac_word" >&5
    break
 fi
 done
@@ -4708,10 +4712,10 @@ fi
 sim_ac_coin_configcmd=$ac_cv_path_sim_ac_coin_configcmd
 
 if test -n "$sim_ac_coin_configcmd"; then
-  echo "$as_me:4711: result: $sim_ac_coin_configcmd" >&5
+  echo "$as_me:4715: result: $sim_ac_coin_configcmd" >&5
 echo "${ECHO_T}$sim_ac_coin_configcmd" >&6
 else
-  echo "$as_me:4714: result: no" >&5
+  echo "$as_me:4718: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
@@ -4724,7 +4728,7 @@ fi
     sim_ac_coin_libs=`$sim_ac_coin_configcmd --libs`
     sim_ac_coin_datadir=`$sim_ac_coin_configcmd --datadir`
     sim_ac_coin_version=`$sim_ac_coin_configcmd --version`
-    echo "$as_me:4727: checking whether libCoin is available" >&5
+    echo "$as_me:4731: checking whether libCoin is available" >&5
 echo $ECHO_N "checking whether libCoin is available... $ECHO_C" >&6
 if test "${sim_cv_coin_avail+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -4742,7 +4746,7 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
       cat >conftest.$ac_ext <<_ACEOF
-#line 4745 "configure"
+#line 4749 "configure"
 #include "confdefs.h"
 #include <Inventor/SoDB.h>
 #ifdef F77_DUMMY_MAIN
@@ -4760,16 +4764,16 @@ SoDB::init();
 }
 _ACEOF
 rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:4763: \"$ac_link\"") >&5
+if { (eval echo "$as_me:4767: \"$ac_link\"") >&5
   (eval $ac_link) 2>&5
   ac_status=$?
-  echo "$as_me:4766: \$? = $ac_status" >&5
+  echo "$as_me:4770: \$? = $ac_status" >&5
   (exit $ac_status); } &&
          { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:4769: \"$ac_try\"") >&5
+  { (eval echo "$as_me:4773: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
-  echo "$as_me:4772: \$? = $ac_status" >&5
+  echo "$as_me:4776: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   sim_cv_coin_avail=true
 else
@@ -4789,12 +4793,12 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
       LIBS=$sim_ac_save_libs
 
 fi
-echo "$as_me:4792: result: $sim_cv_coin_avail" >&5
+echo "$as_me:4796: result: $sim_cv_coin_avail" >&5
 echo "${ECHO_T}$sim_cv_coin_avail" >&6
     sim_ac_coin_avail=$sim_cv_coin_avail
   else
     locations=`IFS=:; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
-    { echo "$as_me:4797: WARNING: cannot find 'coin-config' at any of these locations:
+    { echo "$as_me:4801: WARNING: cannot find 'coin-config' at any of these locations:
 $locations" >&5
 echo "$as_me: WARNING: cannot find 'coin-config' at any of these locations:
 $locations" >&2;}
@@ -4811,7 +4815,7 @@ if $sim_ac_coin_avail; then
   SOWIN_EXTRA_LIBS="$sim_ac_coin_libs $SOWIN_EXTRA_LIBS"
 
 else
-  { { echo "$as_me:4814: error: couldn't compile and link against Coin" >&5
+  { { echo "$as_me:4818: error: couldn't compile and link against Coin" >&5
 echo "$as_me: error: couldn't compile and link against Coin" >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -4819,13 +4823,13 @@ fi
 # **************************************************************************
 # misc implementation-dependent Open Inventor features
 
-echo "$as_me:4822: checking if the Open Inventor SoPolygonOffset node is available" >&5
+echo "$as_me:4826: checking if the Open Inventor SoPolygonOffset node is available" >&5
 echo $ECHO_N "checking if the Open Inventor SoPolygonOffset node is available... $ECHO_C" >&6
 if test "${sim_cv_have_oiv_sopolygonoffset_node+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cat >conftest.$ac_ext <<_ACEOF
-#line 4828 "configure"
+#line 4832 "configure"
 #include "confdefs.h"
 #include <Inventor/nodes/SoPolygonOffset.h>
 #ifdef F77_DUMMY_MAIN
@@ -4843,16 +4847,16 @@ SoPolygonOffset * p = new SoPolygonOffset;
 }
 _ACEOF
 rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:4846: \"$ac_link\"") >&5
+if { (eval echo "$as_me:4850: \"$ac_link\"") >&5
   (eval $ac_link) 2>&5
   ac_status=$?
-  echo "$as_me:4849: \$? = $ac_status" >&5
+  echo "$as_me:4853: \$? = $ac_status" >&5
   (exit $ac_status); } &&
          { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:4852: \"$ac_try\"") >&5
+  { (eval echo "$as_me:4856: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
-  echo "$as_me:4855: \$? = $ac_status" >&5
+  echo "$as_me:4859: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   sim_cv_have_oiv_sopolygonoffset_node=true
 else
@@ -4862,7 +4866,7 @@ sim_cv_have_oiv_sopolygonoffset_node=false
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 fi
-echo "$as_me:4865: result: $sim_cv_have_oiv_sopolygonoffset_node" >&5
+echo "$as_me:4869: result: $sim_cv_have_oiv_sopolygonoffset_node" >&5
 echo "${ECHO_T}$sim_cv_have_oiv_sopolygonoffset_node" >&6
 
 if $sim_cv_have_oiv_sopolygonoffset_node; then
@@ -4875,13 +4879,13 @@ else
   :
 fi
 
-echo "$as_me:4878: checking for SoKeyboardEvent::DELETE enum" >&5
+echo "$as_me:4882: checking for SoKeyboardEvent::DELETE enum" >&5
 echo $ECHO_N "checking for SoKeyboardEvent::DELETE enum... $ECHO_C" >&6
 if test "${sim_cv_have_oiv_have_sokeyboardevent_delete+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cat >conftest.$ac_ext <<_ACEOF
-#line 4884 "configure"
+#line 4888 "configure"
 #include "confdefs.h"
 #include <Inventor/events/SoKeyboardEvent.h>
 #ifdef F77_DUMMY_MAIN
@@ -4901,16 +4905,16 @@ main ()
 }
 _ACEOF
 rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:4904: \"$ac_link\"") >&5
+if { (eval echo "$as_me:4908: \"$ac_link\"") >&5
   (eval $ac_link) 2>&5
   ac_status=$?
-  echo "$as_me:4907: \$? = $ac_status" >&5
+  echo "$as_me:4911: \$? = $ac_status" >&5
   (exit $ac_status); } &&
          { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:4910: \"$ac_try\"") >&5
+  { (eval echo "$as_me:4914: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
-  echo "$as_me:4913: \$? = $ac_status" >&5
+  echo "$as_me:4917: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   sim_cv_have_oiv_have_sokeyboardevent_delete=true
 else
@@ -4920,7 +4924,7 @@ sim_cv_have_oiv_have_sokeyboardevent_delete=false
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 fi
-echo "$as_me:4923: result: $sim_cv_have_oiv_have_sokeyboardevent_delete" >&5
+echo "$as_me:4927: result: $sim_cv_have_oiv_have_sokeyboardevent_delete" >&5
 echo "${ECHO_T}$sim_cv_have_oiv_have_sokeyboardevent_delete" >&6
 
 if $sim_cv_have_oiv_have_sokeyboardevent_delete; then
@@ -4933,13 +4937,13 @@ else
   :
 fi
 
-echo "$as_me:4936: checking for SoMouseButtonEvent::BUTTON5 enum" >&5
+echo "$as_me:4940: checking for SoMouseButtonEvent::BUTTON5 enum" >&5
 echo $ECHO_N "checking for SoMouseButtonEvent::BUTTON5 enum... $ECHO_C" >&6
 if test "${sim_cv_have_oiv_have_somousebuttonevent_button5+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cat >conftest.$ac_ext <<_ACEOF
-#line 4942 "configure"
+#line 4946 "configure"
 #include "confdefs.h"
 #include <Inventor/events/SoMouseButtonEvent.h>
 #ifdef F77_DUMMY_MAIN
@@ -4959,16 +4963,16 @@ main ()
 }
 _ACEOF
 rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:4962: \"$ac_link\"") >&5
+if { (eval echo "$as_me:4966: \"$ac_link\"") >&5
   (eval $ac_link) 2>&5
   ac_status=$?
-  echo "$as_me:4965: \$? = $ac_status" >&5
+  echo "$as_me:4969: \$? = $ac_status" >&5
   (exit $ac_status); } &&
          { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:4968: \"$ac_try\"") >&5
+  { (eval echo "$as_me:4972: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
-  echo "$as_me:4971: \$? = $ac_status" >&5
+  echo "$as_me:4975: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   sim_cv_have_oiv_have_somousebuttonevent_button5=true
 else
@@ -4978,7 +4982,7 @@ sim_cv_have_oiv_have_somousebuttonevent_button5=false
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 fi
-echo "$as_me:4981: result: $sim_cv_have_oiv_have_somousebuttonevent_button5" >&5
+echo "$as_me:4985: result: $sim_cv_have_oiv_have_somousebuttonevent_button5" >&5
 echo "${ECHO_T}$sim_cv_have_oiv_have_somousebuttonevent_button5" >&6
 
 if $sim_cv_have_oiv_have_somousebuttonevent_button5; then
@@ -4991,13 +4995,13 @@ else
   :
 fi
 
-echo "$as_me:4994: checking for SoCamera::setStereoMode() function" >&5
+echo "$as_me:4998: checking for SoCamera::setStereoMode() function" >&5
 echo $ECHO_N "checking for SoCamera::setStereoMode() function... $ECHO_C" >&6
 if test "${sim_cv_have_oiv_have_socamera_setstereomode+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cat >conftest.$ac_ext <<_ACEOF
-#line 5000 "configure"
+#line 5004 "configure"
 #include "confdefs.h"
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #ifdef F77_DUMMY_MAIN
@@ -5018,16 +5022,16 @@ main ()
 }
 _ACEOF
 rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:5021: \"$ac_link\"") >&5
+if { (eval echo "$as_me:5025: \"$ac_link\"") >&5
   (eval $ac_link) 2>&5
   ac_status=$?
-  echo "$as_me:5024: \$? = $ac_status" >&5
+  echo "$as_me:5028: \$? = $ac_status" >&5
   (exit $ac_status); } &&
          { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:5027: \"$ac_try\"") >&5
+  { (eval echo "$as_me:5031: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
-  echo "$as_me:5030: \$? = $ac_status" >&5
+  echo "$as_me:5034: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   sim_cv_have_oiv_have_socamera_setstereomode=true
 else
@@ -5037,7 +5041,7 @@ sim_cv_have_oiv_have_socamera_setstereomode=false
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 fi
-echo "$as_me:5040: result: $sim_cv_have_oiv_have_socamera_setstereomode" >&5
+echo "$as_me:5044: result: $sim_cv_have_oiv_have_socamera_setstereomode" >&5
 echo "${ECHO_T}$sim_cv_have_oiv_have_socamera_setstereomode" >&6
 
 if $sim_cv_have_oiv_have_socamera_setstereomode; then
@@ -5112,7 +5116,7 @@ if test "${with_html+set}" = set; then
   case $withval in
     yes | true) want_html=true ;;
     no | false) want_html=false ;;
-    *) { { echo "$as_me:5115: error: bad value \"$withval\" for --with-html" >&5
+    *) { { echo "$as_me:5119: error: bad value \"$withval\" for --with-html" >&5
 echo "$as_me: error: bad value \"$withval\" for --with-html" >&2;}
    { (exit 1); exit 1; }; } ;;
   esac
@@ -5126,7 +5130,7 @@ if test "${with_man+set}" = set; then
   case $withval in
     yes | true) want_man=true ;;
     no | false) want_man=false ;;
-    *) { { echo "$as_me:5129: error: bad value \"$withval\" for --with-man" >&5
+    *) { { echo "$as_me:5133: error: bad value \"$withval\" for --with-man" >&5
 echo "$as_me: error: bad value \"$withval\" for --with-man" >&2;}
    { (exit 1); exit 1; }; } ;;
   esac
@@ -5166,7 +5170,7 @@ if test x"$with_doxygen" != xno; then
 
   # Extract the first word of "doxygen", so it can be a program name with args.
 set dummy doxygen; ac_word=$2
-echo "$as_me:5169: checking for $ac_word" >&5
+echo "$as_me:5173: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
 if test "${ac_cv_path_sim_ac_doxygen_exe+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -5183,7 +5187,7 @@ for ac_dir in $ac_dummy; do
   test -z "$ac_dir" && ac_dir=.
   if $as_executable_p "$ac_dir/$ac_word"; then
    ac_cv_path_sim_ac_doxygen_exe="$ac_dir/$ac_word"
-   echo "$as_me:5186: found $ac_dir/$ac_word" >&5
+   echo "$as_me:5190: found $ac_dir/$ac_word" >&5
    break
 fi
 done
@@ -5195,10 +5199,10 @@ fi
 sim_ac_doxygen_exe=$ac_cv_path_sim_ac_doxygen_exe
 
 if test -n "$sim_ac_doxygen_exe"; then
-  echo "$as_me:5198: result: $sim_ac_doxygen_exe" >&5
+  echo "$as_me:5202: result: $sim_ac_doxygen_exe" >&5
 echo "${ECHO_T}$sim_ac_doxygen_exe" >&6
 else
-  echo "$as_me:5201: result: no" >&5
+  echo "$as_me:5205: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
@@ -5703,7 +5707,7 @@ DEFS=-DHAVE_CONFIG_H
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
 ac_clean_files="$ac_clean_files $CONFIG_STATUS"
-{ echo "$as_me:5706: creating $CONFIG_STATUS" >&5
+{ echo "$as_me:5710: creating $CONFIG_STATUS" >&5
 echo "$as_me: creating $CONFIG_STATUS" >&6;}
 cat >$CONFIG_STATUS <<_ACEOF
 #! $SHELL
@@ -5879,7 +5883,7 @@ cat >>$CONFIG_STATUS <<\EOF
     echo "$ac_cs_version"; exit 0 ;;
   --he | --h)
     # Conflict between --help and --header
-    { { echo "$as_me:5882: error: ambiguous option: $1
+    { { echo "$as_me:5886: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -5898,7 +5902,7 @@ Try \`$0 --help' for more information." >&2;}
     ac_need_defaults=false;;
 
   # This is an error.
-  -*) { { echo "$as_me:5901: error: unrecognized option: $1
+  -*) { { echo "$as_me:5905: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -5963,7 +5967,7 @@ do
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "default-2" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-2" ;;
   "src/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS src/config.h" ;;
-  *) { { echo "$as_me:5966: error: invalid argument: $ac_config_target" >&5
+  *) { { echo "$as_me:5970: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
    { (exit 1); exit 1; }; };;
   esac
@@ -6250,7 +6254,7 @@ done; }
   esac
 
   if test x"$ac_file" != x-; then
-    { echo "$as_me:6253: creating $ac_file" >&5
+    { echo "$as_me:6257: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
     rm -f "$ac_file"
   fi
@@ -6268,7 +6272,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:6271: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:6275: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -6281,7 +6285,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:6284: error: cannot find input file: $f" >&5
+           { { echo "$as_me:6288: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -6342,7 +6346,7 @@ for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   * )   ac_file_in=$ac_file.in ;;
   esac
 
-  test x"$ac_file" != x- && { echo "$as_me:6345: creating $ac_file" >&5
+  test x"$ac_file" != x- && { echo "$as_me:6349: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
 
   # First look for the input files in the build tree, otherwise in the
@@ -6353,7 +6357,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:6356: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:6360: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -6366,7 +6370,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:6369: error: cannot find input file: $f" >&5
+           { { echo "$as_me:6373: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -6483,7 +6487,7 @@ cat >>$CONFIG_STATUS <<\EOF
   rm -f $tmp/in
   if test x"$ac_file" != x-; then
     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
-      { echo "$as_me:6486: $ac_file is unchanged" >&5
+      { echo "$as_me:6490: $ac_file is unchanged" >&5
 echo "$as_me: $ac_file is unchanged" >&6;}
     else
       ac_dir=`$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
