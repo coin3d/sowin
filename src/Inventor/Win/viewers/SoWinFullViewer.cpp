@@ -859,8 +859,10 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
               FALSE );
 
   // left trim
+#if 0 // TMP DISABLED: leftWheel is not built, so it is NULL here. 20010328 mortene.  
   this->leftWheel->move( renderAreaOffset.left - this->leftWheel->width( ) - 2,
                          HIWORD( lparam ) + renderAreaOffset.bottom - this->leftWheel->height( ) + 1 );
+#endif // TMP DISABLED
   // FIXME: function not implemented
   return 0;
 }
