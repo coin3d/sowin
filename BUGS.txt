@@ -31,6 +31,10 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
 
     20020624 mortene.
 
+    Update 20021220 mortene: pederb fixed this? I'm not seeing it on
+    ask.trh.sim.no, at least. Will try on my home machine too, before
+    removing this bug item.
+
 =====================================================================
 
 003 SoWin never stops processing the Coin/Inventor sensor queues.
