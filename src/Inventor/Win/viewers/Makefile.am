@@ -103,15 +103,15 @@ viewers.lst: Makefile $(viewers_lst_OBJECTS)
 ############################################################################
 # headers
 
-libSoWinViewersincdir = $(includedir)/Inventor/Win/viewers
-libSoWinViewersinc_HEADERS = \
+SoWinViewersincdir = $(includedir)/Inventor/Win/viewers
+SoWinViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinFullViewer.h \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinExaminerViewer.h \
 	$(top_srcdir)/src/Inventor/Win/viewers/SoWinPlaneViewer.h
-nodist_libSoWinViewersinc_HEADERS = \
+nodist_SoWinViewersinc_HEADERS = \
 	$(top_builddir)/src/Inventor/Win/viewers/SoWinViewer.h
 
-install-libSoWinViewersincHEADERS: $(SoWinViewersinc_HEADERS)
+install-SoWinViewersincHEADERS: $(SoWinViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(SoWinViewersincdir)
 	@list='$(SoWinViewersinc_HEADERS)'; for p in $$list; do \
@@ -124,7 +124,7 @@ install-libSoWinViewersincHEADERS: $(SoWinViewersinc_HEADERS)
 	  fi \
 	done
 
-install-nodist_libSoWinViewersincHEADERS: $(nodist_SoWinViewersinc_HEADERS)
+install-nodist_SoWinViewersincHEADERS: $(nodist_SoWinViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(SoWinViewersincdir)
 	@list='$(nodist_SoWinViewersinc_HEADERS)'; for p in $$list; do \
