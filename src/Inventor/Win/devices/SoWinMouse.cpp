@@ -106,6 +106,7 @@ SoWinMouse::translateEvent(MSG * msg)
   case WM_LBUTTONDOWN:
   case WM_MBUTTONDOWN:
   case WM_RBUTTONDOWN:
+  case WM_MOUSEWHEEL:
     if (! (PRIVATE(this)->eventmask & SoWinMouse::BUTTON_PRESS)) break;
     state = SoButtonEvent::DOWN;
     soevent = PRIVATE(this)->makeButtonEvent(msg, state);
@@ -162,8 +163,8 @@ SoWinMouseP::makeLocationEvent(MSG * msg)
   else {
     prevPos = msg->pt;
   }
-  
-  if (this->locationevent == NULL) 
+
+  if (this->locationevent == NULL)
     this->locationevent = new SoLocation2Event;
 
   PUBLIC(this)->setEventPosition(this->locationevent, msg->pt.x, msg->pt.y);
@@ -201,7 +202,7 @@ SoWinMouseP::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
     break;
 
   case WM_MOUSEWHEEL:
-    if (HIWORD(msg->wParam) < 0) {  // HIWORD(wParam) == deltaZ
+    if (((int16_t)HIWORD(msg->wParam)) < 0) {  // HIWORD(wParam) == deltaZ
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
     }
     else {
@@ -219,7 +220,7 @@ SoWinMouseP::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
   this->buttonevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
   this->buttonevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
   this->buttonevent->setAltDown((SoWinDeviceP::modifierKeys & MK_ALT) ? TRUE : FALSE);
-  
+
   return this->buttonevent;
 }
 
