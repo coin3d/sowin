@@ -392,6 +392,7 @@ WinNativePopupMenu::popUp(HWND inside, int x, int y)
   Win32::ClientToScreen(inside, &point);
 
   MenuRecord * menurec = this->getMenuRecord(0);
+  // Note: the Win32 API TrackPopupMenu() is modal.
   this->selectedItem = TrackPopupMenu(menurec->menu,
                                       TPM_LEFTALIGN |
                                       TPM_TOPALIGN |
@@ -403,15 +404,11 @@ WinNativePopupMenu::popUp(HWND inside, int x, int y)
                                       0,
                                       inside,
                                       NULL);
-  
-  if (this->selectedItem == 0)
-    return;
-  
-  this->invokeMenuSelection(this->selectedItem);
 
-  ItemRecord * itemrec = this->getItemRecord(this->selectedItem);
-  assert(itemrec != NULL);
-} // popUp()
+  if (this->selectedItem != 0) { // 0 == no item selected (user aborted)
+    this->invokeMenuSelection(this->selectedItem);
+  }
+}
 
 int
 WinNativePopupMenu::getSelectedItem(void)
@@ -476,13 +473,5 @@ WinNativePopupMenu::createItemRecord(const char * name)
   rec->parent = NULL;
   return rec;
 } // create()
-
-// *************************************************************************
-
-void
-WinNativePopupMenu::itemActivation(int itemid)
-{
-  inherited::invokeMenuSelection(itemid);
-} // menuSelection()
 
 // *************************************************************************

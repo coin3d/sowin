@@ -59,7 +59,6 @@ public:
   virtual void popUp(HWND inside, int x, int y);
 
   virtual int getSelectedItem(void);
-  virtual void itemActivation(int itemid);
 
   void setNotify(SbBool enable);
 
