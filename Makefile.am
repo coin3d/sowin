@@ -57,7 +57,8 @@ endif
 
 EXTRA_DIST = \
 	LICENSE.GPL \
-	bootstrap \
+	docs/ChangeLog.v1.0.0 \
+	docs/announcement-1_1_0.txt \
 	packaging/windows/Makefile.in \
 	packaging/windows/bfheader.nsi.in \
 	packaging/windows/footer.nsi.in \
