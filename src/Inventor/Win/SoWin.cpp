@@ -482,7 +482,7 @@ SoWinP::sensorQueueChanged( void * cbdata )
 LRESULT
 SoWinP::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  EnumChildWindows( window, SoWinP::sizeChildProc, lparam );  
+  EnumChildWindows( window, SoWinP::sizeChildProc, lparam );
   return 0;
 }
 

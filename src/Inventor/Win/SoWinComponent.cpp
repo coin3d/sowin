@@ -156,17 +156,12 @@ SoWinComponent::SoWinComponent( const HWND parent,
   PRIVATE( this )->visibilitychangeCBs = new SbPList;
  
   if ( name ) PRIVATE( this )->widgetname = name;
-
-  PRIVATE( this )->widget = NULL;
+  
   PRIVATE( this )->embedded = embed;
-    
-  if ( IsWindow( parent ) && embed ) {
-    PRIVATE( this )->parent = parent;
-  } 
-  else {
-    PRIVATE( this )->parent = this->buildFormWidget( parent );
-    this->setTitle( name );
-  }
+  PRIVATE( this )->parent = parent;
+
+  PRIVATE( this )->widget = this->buildFormWidget( parent );
+  this->setTitle( name );
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -203,7 +198,9 @@ SoWinComponent::hide( void )
 void
 SoWinComponent::goFullScreen( const SbBool enable )
 {
-  HWND hwnd = this->getShellWidget( );
+  HWND hwnd = this->getWidget( );
+  while( IsWindow( GetParent( hwnd ) ) )
+    hwnd = GetParent( hwnd );
 
   SoWinComponentP::fullscreenData * data = NULL;
 
@@ -274,7 +271,10 @@ SbBool
 SoWinComponent::isFullScreen( void ) const
 {
   // Check fullscreen list for shell widget
-  HWND hwnd = this->getShellWidget( );
+  HWND hwnd = this->getWidget( );
+  while( IsWindow( GetParent( hwnd ) ) )
+    hwnd = GetParent( hwnd );
+    
   SoWinComponentP::fullscreenData * d = NULL;
   for ( int i = 0; i < SoWinComponentP::sowinfullscreenlist->getLength( ); i++ ) {
     d = ( SoWinComponentP::fullscreenData * ) SoWinComponentP::sowinfullscreenlist->get( i );
@@ -321,16 +321,18 @@ HWND
 SoWinComponent::getShellWidget( void ) const
 {
   // FIXME: is this correct for this method ? mariusbu 20010718.
-  
-  LONG style;
-  HWND hwnd = PRIVATE( this )->widget;
- 
-  while( IsWindow( GetParent( hwnd ) ) ) {
-    style = GetWindowLong( hwnd, GWL_STYLE );
-    if ( style & WS_CAPTION ) break;
-    hwnd = GetParent( hwnd );
-  }
 
+  LONG style;
+  HWND hwnd;
+  HWND parent = PRIVATE( this )->widget;
+  
+  do {
+    hwnd = parent;
+    style = GetWindowLong( hwnd, GWL_STYLE );
+    if ( style & WS_OVERLAPPEDWINDOW ) break;
+    parent = GetParent( hwnd );
+  } while( IsWindow( parent ) );
+  
   return hwnd;
 }
 
@@ -437,6 +439,8 @@ SoWinComponent::unregisterWidget( HWND widget )
 HWND
 SoWinComponent::buildFormWidget( HWND parent )
 {
+  PRIVATE( this )->parent = parent;
+  
   WNDCLASS windowclass;
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
@@ -457,14 +461,29 @@ SoWinComponent::buildFormWidget( HWND parent )
 
   RegisterClass( & windowclass );
 
+  RECT rect;
+  LONG style;
+  
+  if ( IsWindow( parent ) && PRIVATE( this )->embedded ) {
+    GetClientRect( parent, & rect );
+    style = WS_CHILD | WS_VISIBLE;// | WS_BORDER;
+  }
+  else {
+    rect.left = CW_USEDEFAULT;
+    rect.top = CW_USEDEFAULT;
+    rect.right = 500;
+    rect.bottom = 500;
+    style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+  }
+
   // When this method is called, the component is *not* embedded. mariusbu 20010727.
   widget = CreateWindow( ( char * ) this->getDefaultWidgetName( ),
                          ( char * ) this->getTitle( ),
-                         WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-		                     CW_USEDEFAULT,
-                         CW_USEDEFAULT,
-                         500,
-                         500,
+                         style,
+                         rect.left,
+                         rect.top,
+                         rect.right,
+                         rect.bottom,
                          parent,
                          NULL,
                          SoWin::getInstance( ),

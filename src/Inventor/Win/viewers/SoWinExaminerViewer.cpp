@@ -175,7 +175,7 @@ SoWinExaminerViewerP::constructor(
   this->owner->setBottomWheelString( "Roty" );
 
   if ( build ) {
-    HWND widget = this->owner->buildWidget( this->owner->getParentWidget( ) );
+    HWND widget = this->owner->buildWidget( this->owner->getWidget( ) );
     this->owner->setBaseWidget( widget );
   }
   this->owner->setSize( SbVec2s( 500, 420 ) );

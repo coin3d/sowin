@@ -533,11 +533,10 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )
 
   PRIVATE( this )->glSize = newSize;
 
-  UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW; // FIXME: test. mariusbu 20010801.
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
   SetWindowPos( PRIVATE( this )->normalWidget, NULL, 0, 0, newSize[0], newSize[1], flags );
-
-  //HWND parent = GetParent( PRIVATE( this )->managerWidget );
-  this->validate( this->getShellWidget( ) );
+  
+  this->validate( this->getShellWidget( ) ); // FIXME: does this do any good ? mariusbu 20010801
  
   this->sizeChanged( newSize );
 }
@@ -742,13 +741,12 @@ SoWinGLWidget::validate( HWND hwnd )
   ClientToScreen( PRIVATE( this )->normalWidget, & pt );
   ScreenToClient( hwnd, & pt );
 
-  RECT rect;
-  GetClientRect( PRIVATE( this )->normalWidget, & rect );
-
-  rect.left += pt.x;
-  rect.top += pt.y;
-  rect.right += pt.x;
-  rect.bottom += pt.y;
+  RECT rect = {
+    pt.x,
+    pt.y,
+    PRIVATE( this )->glSize[0] + pt.x,
+    PRIVATE( this )->glSize[1] + pt.y
+  };
   
   ValidateRect( hwnd, & rect );
 }

@@ -153,7 +153,7 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
     
     this->setClassName( "SoWinFullViewer" );
     
-    HWND window = this->buildWidget( this->getParentWidget( ) );
+    HWND window = this->buildWidget( this->getWidget( ) );
     this->setBaseWidget( window );
     
   }
@@ -1043,22 +1043,7 @@ SoWinFullViewer::seekbuttonClicked( void )
 //  (private)
 //
 //
-/*
-void
-SoWinFullViewerP::setRegion( void )
-{
-  RECT rect;
-  GetWindowRect( this->owner->getShellWidget( ), & rect );
-  HRGN rgnA = CreateRectRgnIndirect( & rect );// this win
-  GetWindowRect( this->owner->getGLWidget( ), & rect );
-  HRGN rgnB = CreateRectRgnIndirect( & rect );// gl win
 
-  HRGN rgnC;
-  
-  CombineRgn( rgnC, rgnA, rgnB, RGN_XOR );
-  SetWindowRgn( this->owner->getShellWidget( ), rgnC, TRUE );
-}
-*/
 void
 SoWinFullViewerP::leftWheelCB( SoWinFullViewer * viewer, void ** data )
 {
