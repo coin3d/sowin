@@ -17,6 +17,11 @@ SIM_AC_SETUP_MSVC_IFELSE([],
   esac
 ])
 
+# FIXME: the following explanation is available from the Coin/HACKING
+# document, so we could basically scrap this -- but check the HACKING
+# document first to see that it's "generic" enough, and refer to it
+# from about here. 20010927 mortene.
+
 # **************************************************************************
 # *******  MAKING RELEASES  ************************************************
 # **************************************************************************
@@ -311,7 +316,11 @@ AC_SUBST(SUFFIX)
 
 # **************************************************************************
 # Search for and set up stuff we depend on.
+
+AC_CHECK_HEADERS([GL/gl.h OpenGL/gl.h GL/glu.h OpenGL/glu.h])
+
 # check for Coin library and its dependencies
+
 SIM_AC_HAVE_COIN_IFELSE([
   CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
