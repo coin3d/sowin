@@ -660,7 +660,7 @@ SoWin::onAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 LRESULT
 SoWin::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  // On resizing the mainWidget, resize all child windows too
+	// On resizing the mainWidget, resize all child windows too
  
   if ( messageHookList ) {
     int length = messageHookList->getLength( );
@@ -672,9 +672,12 @@ SoWin::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
                     0,
                     LOWORD( lparam ),
                     HIWORD( lparam ),
-                    TRUE );
+                    FALSE );
       }
   }
+	
+	InvalidateRect( window, NULL, TRUE );
+	
   return 0;
 }
 

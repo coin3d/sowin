@@ -1066,8 +1066,8 @@ SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lpar
 LRESULT
 SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  assert( this->renderAreaWidget != NULL );
-
+	assert( this->renderAreaWidget != NULL );
+	
 	// If we are in fullscreen, we only see the renderarea
 	if ( this->isFullScreen() ) {
 			MoveWindow( this->renderAreaWidget,
@@ -1084,7 +1084,7 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
               LOWORD( lparam ) + this->renderAreaOffset.right,
               HIWORD( lparam ) + this->renderAreaOffset.bottom,
               FALSE );
-
+	
 	// FIXME: handle size too!
 
   // Left wheel
