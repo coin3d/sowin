@@ -102,9 +102,14 @@ public:
   callWndProc(int code, WPARAM wparam, LPARAM lparam)
   {
     CWPSTRUCT * msg = (CWPSTRUCT *) lparam;
-    SoWinComponent * component = SoWinComponent::getComponent(msg->hwnd);
 
-    if (component) {
+    void * comp;
+    SbBool found =
+      SoWinComponentP::embeddedparents->find((unsigned long)msg->hwnd, comp);
+
+    if (found) {
+      SoWinComponent * component = (SoWinComponent *)comp;
+
       // as per the API doc on CallWndProc(): only process msg if code>=0
       if (code >= 0) {
 
@@ -145,6 +150,7 @@ public:
   SoWinComponentCB * closeCB;
   void * closeCBdata;
   SbPList * visibilitychangeCBs;
+  static SbDict * embeddedparents;
 
   // This is the atom returned when the component
   // window class is registered.
@@ -179,6 +185,7 @@ ATOM SoWinComponentP::wndClassAtom = NULL;
 SbPList * SoWinComponentP::sowincomplist = NULL;
 SbDict * SoWinComponentP::cursordict = NULL;
 HHOOK SoWinComponentP::hookhandle = NULL;
+SbDict * SoWinComponentP::embeddedparents = NULL;
 
 LRESULT CALLBACK
 SoWinComponentP::eventHandler(HWND window, UINT message,
@@ -280,8 +287,13 @@ SoWinComponent::SoWinComponent(const HWND parent,
   SoAny::si()->addInternalFatalErrorHandler(SoWinComponentP::fatalerrorHandler,
                                             PRIVATE(this));
 
+  if (SoWinComponentP::embeddedparents == NULL) {
+    SoWinComponentP::embeddedparents = new SbDict;
+  }
+
   if (IsWindow(parent) && embed) {
     PRIVATE(this)->parent = parent;
+    SoWinComponentP::embeddedparents->enter((unsigned long)parent, this);
   }
   else {
     PRIVATE(this)->parent = this->buildFormWidget(parent);
@@ -315,15 +327,21 @@ SoWinComponent::~SoWinComponent(void)
   }
   delete PRIVATE(this)->visibilitychangeCBs;
 
+  (void)SoWinComponentP::embeddedparents->remove((unsigned long)this->getParentWidget());
+
   int idx = SoWinComponentP::sowincomplist->find((void *)this);
   assert(idx != -1);
   SoWinComponentP::sowincomplist->remove(idx);
 
   // Clean up static data if this was the last component.
   if (SoWinComponentP::sowincomplist->getLength() == 0) {
+    // Global MSG hook.
     assert(SoWinComponentP::hookhandle != NULL);
     Win32::UnhookWindowsHookEx(SoWinComponentP::hookhandle);
     SoWinComponentP::hookhandle = NULL;
+    // Parent HWND -> SoWinComponent dict.
+    delete SoWinComponentP::embeddedparents;
+    SoWinComponentP::embeddedparents = NULL;
   }
 
   PRIVATE(this)->cleanupWin32References();
@@ -714,7 +732,7 @@ SoWinComponent::getComponent(HWND const widget)
 {
   for (int i = 0; i < SoWinComponentP::sowincomplist->getLength(); i++) {
     SoWinComponent * c = (SoWinComponent *) SoWinComponentP::sowincomplist->get(i);
-    if (c->getParentWidget() == widget) {
+    if (c->getWidget() == widget) {
       return c;
     }
   }

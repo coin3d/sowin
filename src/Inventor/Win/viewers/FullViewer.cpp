@@ -83,7 +83,7 @@ public:
   CreateAppPushButtonCB * createAppPushButtonCB;
   void * createAppPushButtonData;
 
-  //WNDPROC parentEventHandler;
+  static SbDict * parentHWNDmappings;
 
   SbBool menuenabled;
   SbBool decorations;
@@ -101,6 +101,7 @@ SbBool SoWinFullViewerP::doButtonBar = TRUE;
 SbBool SoWinFullViewerP::doneButtonBar = FALSE;
 HHOOK SoWinFullViewerP::hookhandle = NULL;
 int SoWinFullViewerP::nrinstances = 0;
+SbDict * SoWinFullViewerP::parentHWNDmappings = NULL;
 
 #define PRIVATE(o) (o->pimpl)
 
@@ -111,22 +112,28 @@ int SoWinFullViewerP::nrinstances = 0;
 //
 
 SoWinFullViewer::SoWinFullViewer(HWND parent,
-                                  const char * name,
-                                  SbBool embedded,
-                                  BuildFlag flag,
-                                  SoWinViewer::Type type,
-                                  SbBool build) :
+                                 const char * name,
+                                 SbBool embedded,
+                                 BuildFlag flag,
+                                 SoWinViewer::Type type,
+                                 SbBool build) :
   inherited(parent, name, embedded, type, FALSE)
 {
   this->pimpl = new SoWinFullViewerP(this);
   SoWinFullViewerP::nrinstances++;
 
   if (SoWinFullViewerP::nrinstances == 1) {
+    if (SoWinFullViewerP::parentHWNDmappings == NULL) {
+      SoWinFullViewerP::parentHWNDmappings = new SbDict;
+    }
+
     SoWinFullViewerP::hookhandle =
       Win32::SetWindowsHookEx(WH_CALLWNDPROC,
                               (HOOKPROC)SoWinFullViewerP::callWndProc,
                               NULL, GetCurrentThreadId());
   }
+
+  SoWinFullViewerP::parentHWNDmappings->enter((unsigned long)parent, this);
 
   this->viewerWidget = NULL;
   this->renderAreaWidget = NULL;
@@ -155,10 +162,8 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
   this->zoomrange = SbVec2f(1.0f, 140.0f);
 	
   if (build) {
-
     this->setClassName("SoWinFullViewer");
     this->setBaseWidget(this->buildWidget(this->getParentWidget()));
-      
   }
 
   this->setSize(SbVec2s(500, 420));
@@ -169,11 +174,17 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
 
 SoWinFullViewer::~SoWinFullViewer(void)
 {
+  (void)SoWinFullViewerP::parentHWNDmappings->remove((unsigned long)this->getParentWidget());
+
   SoWinFullViewerP::nrinstances--;
 
   if (SoWinFullViewerP::nrinstances == 0) {
     assert(SoWinFullViewerP::hookhandle != NULL);
     Win32::UnhookWindowsHookEx(SoWinFullViewerP::hookhandle);
+
+    // Parent HWND -> SoWinFullViewer dict.
+    delete SoWinFullViewerP::parentHWNDmappings;
+    SoWinFullViewerP::parentHWNDmappings = NULL;
   }
   
   int i;
@@ -1152,10 +1163,13 @@ LRESULT CALLBACK
 SoWinFullViewerP::callWndProc(int code, WPARAM wparam, LPARAM lparam)
 {
   CWPSTRUCT * msg = (CWPSTRUCT *)lparam;
-  SoWinComponent * component = SoWinComponent::getComponent(msg->hwnd);
-  SoType fullvt = SoWinFullViewer::getClassTypeId();
-  if (component && component->getTypeId().isDerivedFrom(fullvt)) {
-    SoWinFullViewer * object = (SoWinFullViewer *)component;
+
+  void * comp;
+  SbBool found =
+    SoWinFullViewerP::parentHWNDmappings->find((unsigned long)msg->hwnd, comp);
+
+  if (found) {
+    SoWinFullViewer * object = (SoWinFullViewer *)comp;
 
     // According to MSVC++ Win32 API doc on CallWndProc(), if code<0
     // we should not do any processing -- just pass message along to

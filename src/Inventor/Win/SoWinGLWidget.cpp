@@ -520,12 +520,12 @@ SoWinGLWidget::glWidgetProc(HWND window, UINT message,
 {
   if (message == WM_CREATE) {
     CREATESTRUCT * createstruct = (CREATESTRUCT *) lparam;
-    (void) Win32::SetWindowLong(window, GWL_USERDATA, (LONG) (createstruct->lpCreateParams));
     SoWinGLWidget * object = (SoWinGLWidget *)(createstruct->lpCreateParams);
+    (void)Win32::SetWindowLong(window, GWL_USERDATA, (LONG)object);
     return PRIVATE(object)->onCreate(window, message, wparam, lparam);
   }
 
-  SoWinGLWidget * object = (SoWinGLWidget *) Win32::GetWindowLong(window, GWL_USERDATA);
+  SoWinGLWidget * object = (SoWinGLWidget *)Win32::GetWindowLong(window, GWL_USERDATA);
 
   if (object && window == object->getNormalWidget()) {
 
