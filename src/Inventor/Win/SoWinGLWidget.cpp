@@ -316,6 +316,9 @@ SoWinGLWidget::setDoubleBuffer(SbBool set)
 SbBool
 SoWinGLWidget::isDoubleBuffer(void) const
 {
+  // FIXME: this is not good enough -- should check the _actual_
+  // pixelformat we get from ChoosePixelFormat() in
+  // createGLContext(). 20020719 mortene.
   return (PRIVATE(this)->glModes & SO_GL_DOUBLE ? TRUE : FALSE);
 }
 
@@ -396,6 +399,9 @@ SoWinGLWidget::getStencilBuffer(void) const
 SbBool
 SoWinGLWidget::isQuadBufferStereo(void) const
 {
+  // FIXME: this is not good enough -- should check the _actual_
+  // pixelformat we get from ChoosePixelFormat() in
+  // createGLContext(). 20020719 mortene.
   return (PRIVATE(this)->glModes & SO_GL_STEREO ? TRUE : FALSE);
 }
 
@@ -832,9 +838,9 @@ void
 SoWinGLWidgetP::listAvailablePixelFormats(HDC hdc)
 {
   PIXELFORMATDESCRIPTOR desc;
-  int format = 1, maxformat = 1;
+  int format = 1, maxformat = -1;
 
-  while (format >= maxformat) {
+  do {
     maxformat = DescribePixelFormat(hdc, format,
                                     sizeof(PIXELFORMATDESCRIPTOR), &desc);
     if (maxformat == 0) {
@@ -878,28 +884,31 @@ SoWinGLWidgetP::listAvailablePixelFormats(HDC hdc)
 
     SoDebugError::postInfo("SoWinGLWidgetP::listAvailablePixelFormats",
                            "\npixelformat %d:\n"
-                           "  dwFlags==%s\n"
+                           "  dwFlags==%s (0x%x)\n"
                            "  iPixelType==%s\n"
                            "  cColorBits==%d\n"
                            "  [cRedBits, cGreenBits, cBlueBits, cAlphaBits]==[%d, %d, %d, %d]\n"
                            "  [cRedShift, cGreenShift, cBlueShift, cAlphaShift]==[%d, %d, %d, %d]\n"
-                           "  [cAccumBits, cAccumRedBits, cAccumGreenBits, cAccumBlueBits, cAccumAlphaBits]==[%d, %d, %d, %d, %d]\n"
-                           "  cDepthBits==%d, cStencilBits==%d, cAuxBuffers==%d\n"
-                           "  overlayplanes==%d, underlayplanes==%d\n"
+                           "  cAccumBits==%d\n"
+                           "  [cAccumRedBits, cAccumGreenBits, cAccumBlueBits, cAccumAlphaBits]==[%d, %d, %d, %d]\n"
+                           "  cDepthBits==%d\n"
+                           "  cStencilBits==%d\n"
+                           "  cAuxBuffers==%d\n"
+                           "  overlayplanes==%d, underlayplanes==%d  (0x%x)\n"
                            "  transparent color or index == 0x%x\n"
                            , format
-                           , dwFlagsStr.getString()
+                           , dwFlagsStr.getString(), desc.dwFlags
                            , iPixelType.getString()
                            , desc.cColorBits
                            , desc.cRedBits, desc.cGreenBits, desc.cBlueBits, desc.cAlphaBits
                            , desc.cRedShift, desc.cGreenShift, desc.cBlueShift, desc.cAlphaShift
                            , desc.cAccumBits, desc.cAccumRedBits, desc.cAccumGreenBits, desc.cAccumBlueBits, desc.cAccumAlphaBits
                            , desc.cDepthBits, desc.cStencilBits, desc.cAuxBuffers
-                           , desc.bReserved & 0x7, (desc.bReserved & (0xff - 0x7)) >> 3
+                           , desc.bReserved & 0x7, (desc.bReserved & (0xff - 0x7)) >> 3, desc.bReserved
                            , desc.dwVisibleMask
                            );
     format++;
-  }
+  } while (format <= maxformat);
 }
 
 BOOL
@@ -925,8 +934,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
   (void)memset(&this->pfdNormal, 0, sizeof(PIXELFORMATDESCRIPTOR));
   this->pfdNormal.nSize = sizeof(PIXELFORMATDESCRIPTOR);
   this->pfdNormal.nVersion = 1;
-  this->pfdNormal.dwFlags =
-    PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_SWAP_LAYER_BUFFERS |
+  this->pfdNormal.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL |
     (this->glModes & SO_GL_STEREO ? PFD_STEREO : 0) |
     (this->glModes & SO_GL_DOUBLE ? PFD_DOUBLEBUFFER : 0);
   this->pfdNormal.iPixelType = PFD_TYPE_RGBA;
