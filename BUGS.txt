@@ -524,3 +524,28 @@ int main(int argc, char ** argv)
 
 =====================================================================
 
+022 SoReadError messages not caught by the message handler?
+
+    According to pederb, the internal SoWin message handler only
+    catches SoDebugError messages, and not SoReadError -- which it
+    should.
+
+    Investigate and fix. Medium priority.
+
+    20040923 mortene.
+
+=====================================================================
+
+023 The message handler should direct error messages to a more
+    flexible handler than a modal dialog.
+
+    According to larsa, TGS's InventorWin has a "proper" message
+    handler console, with scroll bars etc. We should strive to be at
+    least as good. :-)
+
+    (Using a modal error handler dialog box can be really frustrating
+    when a lot of debug messages are thrown out.)
+
+    20040923 mortene.
+
+=====================================================================
