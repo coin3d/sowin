@@ -45,7 +45,7 @@ bin_SCRIPTS = so@gui@-config
 m4datadir = $(datadir)/aclocal
 # Don't replace "win" with "@gui@" here, is it will pøkk up
 # for ``make dist''.
-dist_m4data_DATA = sowin.m4
+dist_m4data_DATA = cfg/m4/sowin.m4
 
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = so@gui@-@CONFIG@.cfg
@@ -56,7 +56,8 @@ EXTRA_DIST = \
 	LICENSE.LGPL \
 	HACKING \
 	build/so@gui@.doxygen.in \
-	cfg/doxy4win.pl \
+	cfg/m4/doxy4win.pl \
+	cfg/m4/sowin.m4 \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \
 	$(SoGuiCommonDistFiles)
