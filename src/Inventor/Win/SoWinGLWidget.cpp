@@ -69,7 +69,6 @@ SoWinGLWidget::SoWinGLWidget(HWND const parent,
   PRIVATE(this)->overlayWidget = NULL;
 
   PRIVATE(this)->drawToFrontBuffer = FALSE;
-  PRIVATE(this)->stealFocus = TRUE;
 
   PRIVATE(this)->ctxNormal = NULL;
   PRIVATE(this)->ctxOverlay = NULL;

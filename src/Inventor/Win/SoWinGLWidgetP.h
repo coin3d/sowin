@@ -86,7 +86,6 @@ public:
   SbBool drawToFrontBuffer;
   SbBool glRealized;
   SbBool havefocus;
-  SbBool stealFocus;
 
   int glModes;
   SbBool accumulationenabled, stencilenabled, alphachannelenabled;
