@@ -189,9 +189,6 @@ AC_SUBST([COMPONENTHEADER], [])
 
 # **************************************************************************
 
-sim_ac_perl_exe=false
-# FIXME
-
 # path_tag is used to identify paths in docs/coin.doxygen that needs to be
 # transformed using cygpath under cygwin.
 
@@ -209,13 +206,6 @@ case $host in
   ;;
 esac
    
-sim_ac_windows_packagable=true
-if test x"$sim_ac_perl_exe" = xfalse || test x"$sim_ac_makensis_exe" = xfalse; then
-  sim_ac_windows_packageable=false
-fi
- 
-AM_CONDITIONAL([WIN_PACKAGEABLE], $sim_ac_windows_packageable)
-
 # **************************************************************************
 # it is important that $CONFIG is set up before the Coin detection is run...
 

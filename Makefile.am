@@ -82,7 +82,6 @@ install-data-local: built-sources
 # misc rules for automatic Microsoft Windows packaging.
 # main: `windows-packages'
 
-if WIN_PACKAGEABLE
 windows-files:
 	@if test -d windows; then :; else \
 	  echo " mkdir windows"; \
@@ -96,6 +95,5 @@ windows-files:
 
 windows-packages: windows-files
 	@( cd windows; $(MAKE) VERSION=$(VERSION) )
-endif
 
 # EOF ######################################################################

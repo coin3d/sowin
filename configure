@@ -9475,9 +9475,6 @@ EVENT="MSG *"
 
 # **************************************************************************
 
-sim_ac_perl_exe=false
-# FIXME
-
 # path_tag is used to identify paths in docs/coin.doxygen that needs to be
 # transformed using cygpath under cygwin.
 
@@ -9533,21 +9530,6 @@ fi
 
   ;;
 esac
-
-sim_ac_windows_packagable=true
-if test x"$sim_ac_perl_exe" = xfalse || test x"$sim_ac_makensis_exe" = xfalse; then
-  sim_ac_windows_packageable=false
-fi
-
-
-
-if $sim_ac_windows_packageable; then
-  WIN_PACKAGEABLE_TRUE=
-  WIN_PACKAGEABLE_FALSE='#'
-else
-  WIN_PACKAGEABLE_TRUE='#'
-  WIN_PACKAGEABLE_FALSE=
-fi
 
 # **************************************************************************
 # it is important that $CONFIG is set up before the Coin detection is run...
@@ -11582,8 +11564,6 @@ s,@EVENT@,$EVENT,;t t
 s,@COMPONENTHEADER@,$COMPONENTHEADER,;t t
 s,@path_tag@,$path_tag,;t t
 s,@sim_ac_makensis_exe@,$sim_ac_makensis_exe,;t t
-s,@WIN_PACKAGEABLE_TRUE@,$WIN_PACKAGEABLE_TRUE,;t t
-s,@WIN_PACKAGEABLE_FALSE@,$WIN_PACKAGEABLE_FALSE,;t t
 s,@CONFIG@,$CONFIG,;t t
 s,@SUFFIX@,$SUFFIX,;t t
 s,@MAC_FRAMEWORK_TRUE@,$MAC_FRAMEWORK_TRUE,;t t
