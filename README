@@ -1,3 +1,8 @@
+Note: please also read the README.WIN32 file at the root of the Coin/
+sourcecode archive, as most of what is explained there is also valid
+for configuring and building the SoWin library.
+
+=========================================================================
 
 SoWin DLL
 =========
@@ -6,6 +11,7 @@ SoWin DLL
   you define SOWIN_DLL for your project.  Things might seems to work without
   it for a while, but eventually you will get strange exceptions and heap
   errors.
+
 
 SoWin C Library Linkage
 =======================
@@ -26,5 +32,3 @@ SoWin C Library Linkage
     multithread-static-debug   [ /mtd | mtd | libcmtd ]
     multithread-dynamic        [ /md  | md  | msvcrt  ]
     multithread-dynamic-debug  [ /mdd | mdd | msvcrtd ]
-
-
