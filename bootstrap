@@ -18,7 +18,7 @@ if test ! -f ./$me; then
 fi
 
 AUTOCONF_VER=2.5[0234567]
-AUTOMAKE_VER=1.5     # Automake from CVS
+AUTOMAKE_VER=1.5
 LIBTOOL_VER=1.4.2
 
 GUI=Win

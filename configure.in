@@ -285,8 +285,28 @@ AC_SUBST(COMPONENTHEADER)
 
 if $sim_ac_build_library; then
 # **************************************************************************
-# Search for and set up stuff we depend on.
+# it is important that $CONFIG is set up before the Coin detection is run...
 
+AC_ARG_WITH(
+  [alternate],
+  [AC_HELP_STRING([--with-alternate=string],
+                  [specify name of alternate configuration])],
+  [CONFIG=$withval],
+  [CONFIG=default])
+
+AC_SUBST(CONFIG)
+
+AC_ARG_WITH(
+  [suffix],
+  [AC_HELP_STRING([--with-suffix=string],
+                  [specify library name suffix (e.g. "d" for debug)])],
+  [SUFFIX=$withval],
+  [SUFFIX=])
+
+AC_SUBST(SUFFIX)
+
+# **************************************************************************
+# Search for and set up stuff we depend on.
 # check for Coin library and its dependencies
 SIM_AC_HAVE_COIN_IFELSE([
   CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
@@ -334,28 +354,6 @@ LIBS="$LIBS -lgdi32 -luser32"
 SOWIN_EXTRA_LIBS="$SOWIN_EXTRA_LIBS -lgdi32 -luser32"
 
 # **************************************************************************
-
-AC_ARG_WITH(
-  [alternate],
-  [AC_HELP_STRING([--with-alternate=string],
-                  [specify name of alternate configuration])],
-  [CONFIG=$withval],
-  [CONFIG=default])
-
-AC_SUBST(CONFIG)
-
-AC_ARG_WITH(
-  [suffix],
-  [AC_HELP_STRING([--with-suffix=string],
-                  [specify library name suffix (e.g. "d" for debug)])],
-  [SUFFIX=$withval],
-  [SUFFIX=])
-
-AC_SUBST(SUFFIX)
-
-INSTALL_HEADER="\
-INSTALL='\$(INSTALL_DATA)' \$(SHELL) \$(top_srcdir)/cfg/install-header"
-AC_SUBST(INSTALL_HEADER)
 
 fi
 
