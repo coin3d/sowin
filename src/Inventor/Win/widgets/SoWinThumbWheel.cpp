@@ -39,6 +39,8 @@ SoWinThumbWheel::SoWinThumbWheel( HWND parent,
   RECT rect = { x, y, x + this->sizeHint( ).cx, y + this->sizeHint( ).cy };
   this->constructor( SoWinThumbWheel::Vertical );
   this->buildWidget( parent, rect, name );
+
+  this->move( x, y );
 } // SoWinThumbWheel( )
 
 SoWinThumbWheel::SoWinThumbWheel( Orientation orientation,
@@ -57,9 +59,7 @@ SoWinThumbWheel::SoWinThumbWheel( Orientation orientation,
   this->constructor( orientation );
   this->buildWidget( parent, rect, name );
 
-	this->viewer = NULL;
-	this->viewerCB = NULL;
-	
+	this->move( x, y );
 } // SoWinThumbWheel()
 
 
@@ -174,8 +174,8 @@ SoWinThumbWheel::onLButtonDown( HWND window, UINT message, WPARAM wparam, LPARAM
 
   this->mouseLastPos = this->mouseDownPos;
 	
-	assert( this->viewerCB != NULL );
-	this->viewerCB( this->viewer, NULL ); // let CB know we want xxxWheelStart()
+  if ( ( this->viewerCB != NULL ) && ( this->viewer != NULL ) )
+    this->viewerCB( this->viewer, NULL ); // let CB know we want xxxWheelStart()
 
   return 0;
 }
@@ -201,8 +201,8 @@ SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM wparam, LPARAM l
   InvalidateRect( this->wheelWindow, NULL, FALSE );
 	
   float * value = & this->tempWheelValue;
-	assert( this->viewerCB != NULL );
-  this->viewerCB( this->viewer, ( void ** ) & value );
+	if ( ( this->viewerCB != NULL ) && ( this->viewer != NULL ) )
+    this->viewerCB( this->viewer, ( void ** ) & value );
 
 	return 0;
 }
@@ -217,9 +217,9 @@ SoWinThumbWheel::onLButtonUp( HWND window, UINT message, WPARAM wparam, LPARAM l
   this->wheelValue = this->tempWheelValue;
   this->mouseLastPos = this->mouseDownPos;
   this->state = SoWinThumbWheel::Idle;
-	
-	assert( this->viewerCB != NULL );
-	this->viewerCB( this->viewer, ( void ** ) -1 ); // let CB know we want xxxWheelFinish()
+
+	if ( ( this->viewerCB != NULL ) && ( this->viewer != NULL ) )  
+    this->viewerCB( this->viewer, ( void ** ) -1 ); // let CB know we want xxxWheelFinish()
 
   return 0;
 }
@@ -305,34 +305,38 @@ void
 SoWinThumbWheel::move( int x, int y, int width, int height )
 {
 	// Wheel
-
+  
   MoveWindow( this->wheelWindow, x, y, width, height, TRUE );
 
 	// Label
 
-	char windowText[80]; // FIXME: use GetWindowTextLength
-	int len = GetWindowText( this->labelWindow, windowText, 80 );
+  if ( IsWindow( this->labelWindow ) ) {
 
-	HDC hdc = GetDC( this->labelWindow );
+    char windowText[80]; // FIXME: use GetWindowTextLength
+    int len = GetWindowText( this->labelWindow, windowText, 80 );
 
-	SIZE textSize;
-	GetTextExtentPoint( hdc, windowText, len, & textSize );
+    HDC hdc = GetDC( this->labelWindow );
+
+    SIZE textSize;
+    GetTextExtentPoint( hdc, windowText, len, & textSize );
 	
-	// FIXME: compute correct position
-	if ( this->orient == SoWinThumbWheel::Vertical )
-		MoveWindow( this->labelWindow,
-			          x + labelOffset.x,
-			          y + this->height( ) + labelOffset.y,
-			          textSize.cx + 2,
-			          textSize.cy + 2,
-			          TRUE );
-	else
-		MoveWindow( this->labelWindow,
-			          x - textSize.cx + labelOffset.x,
-			          y + labelOffset.y,
-			          textSize.cx + 2,
-			          textSize.cy + 2,
-			          TRUE );
+    // FIXME: compute correct position
+    if ( this->orient == SoWinThumbWheel::Vertical )
+      MoveWindow( this->labelWindow,
+        x + labelOffset.x,
+        y + this->height( ) + labelOffset.y,
+        textSize.cx + 2,
+        textSize.cy + 2,
+        TRUE );
+    else
+      MoveWindow( this->labelWindow,
+        x - textSize.cx + labelOffset.x,
+        y + labelOffset.y,
+        textSize.cx + 2,
+        textSize.cy + 2,
+        TRUE );
+    
+  }
 }
 
 void
@@ -374,6 +378,9 @@ SoWinThumbWheel::constructor( Orientation orientation )
   this->pixmaps = NULL;
   this->numPixmaps = 0;
   this->currentPixmap = -1;
+  this->viewer = NULL;
+  this->viewerCB = NULL;
+  this->labelWindow = NULL;
 } // constructor()
 
 HWND
@@ -418,7 +425,8 @@ SoWinThumbWheel::buildWidget( HWND parent, RECT rect, char * name )
 
   assert( IsWindow( this->wheelWindow ) );
 
-	this->labelWindow = createLabel( parent, rect.right, rect.bottom, name );
+  if ( name )
+    this->labelWindow = createLabel( parent, rect.right, rect.bottom, name );
 	this->setLabelOffset( 0, 0 );
 	
   return this->wheelWindow;
@@ -502,7 +510,18 @@ SoWinThumbWheel::tmpValue( void ) const
 void
 SoWinThumbWheel::setLabelText( char * text )
 {
-	SetWindowText( this->labelWindow, text );
+  assert( IsWindow( this->wheelWindow ) );
+  
+  if ( IsWindow( this->labelWindow ) )
+    SetWindowText( this->labelWindow, text );
+  else {
+    RECT rect;
+    HWND parent = GetParent( this->wheelWindow );
+    GetWindowRect( this->wheelWindow, & rect );
+    this->labelWindow = createLabel( parent, rect.right + this->labelOffset.x,
+      rect.bottom + labelOffset.y, text );
+  }
+    
 	/*
 	RECT rect;
 	GetWindowRect( this->labelWindow, & rect );
@@ -579,7 +598,7 @@ HWND
 SoWinThumbWheel::createLabel( HWND parent, int x, int y, char * text )
 {
 	HWND hwnd = CreateWindow( "STATIC",
-		                        ( text ? text : "" ),
+		                        ( text ? text : " " ),
 		                        WS_VISIBLE | WS_CHILD | SS_CENTER,
 		                        x, y,
 		                        strlen( text ) * 8, 14, // SIZE

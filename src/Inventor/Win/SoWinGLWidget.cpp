@@ -620,19 +620,20 @@ SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // FIXME: pfd
     rect.bottom = SoWin_DefaultHeight;
   }
 
-  HWND normalwidget = CreateWindow( wndclassname,
-                                    wndclassname,
-                                    WS_CLIPCHILDREN |
-                                    WS_CLIPSIBLINGS |
-                                    WS_CHILD,
-                                    0,
-                                    0,
-                                    rect.right,
-                                    rect.bottom,
-                                    this->managerWidget,
-                                    menu,
-                                    SoWin::getInstance( ),
-                                    this );
+  HWND normalwidget = CreateWindowEx( NULL, // WS_EX_ACCEPTFILES
+                                      wndclassname,
+                                      wndclassname,
+                                      WS_CLIPCHILDREN |
+                                      WS_CLIPSIBLINGS |
+                                      WS_CHILD,
+                                      0,
+                                      0,
+                                      rect.right,
+                                      rect.bottom,
+                                      this->managerWidget,
+                                      menu,
+                                      SoWin::getInstance( ),
+                                      this );
 
   assert( IsWindow( normalwidget ) );
 
@@ -746,6 +747,11 @@ SoWinGLWidget::glWindowProc( HWND window,
 			case WM_SETCURSOR:
 				SetCursor( object->getCursor( ) );
 				return 0;
+        /*
+      case WM_DROPFILES:
+        object->onDropFiles( window, message, wparam, lparam );
+        // DragQueryFile
+        */
       }
   }
   return DefWindowProc( window, message, wparam, lparam );

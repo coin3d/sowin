@@ -82,7 +82,7 @@ SoWin::init( int argc,
 
   SoWin::registerWindowClass( className );
 	
-  RECT rect = { 0, 0, SoWin_DefaultWidth, SoWin_DefaultHeight };
+  RECT rect = { CW_USEDEFAULT, CW_USEDEFAULT, SoWin_DefaultWidth, SoWin_DefaultHeight };
 
   HWND toplevel = SoWin::createWindow( ( char * ) appName, ( char * ) className, rect, NULL );
   SoWin::init( toplevel );
