@@ -18,3 +18,28 @@
     20020618 mortene.
 
 =====================================================================
+
+002 Fullscreen mode does no longer work.
+
+    (I'm seeing this on my home machine, at least.)
+
+    20020624 mortene.
+
+=====================================================================
+
+003 The FPS-indicator is FUBAR.
+
+    (I'm seeing this on my home machine, at least.)
+
+    20020624 mortene.
+
+=====================================================================
+
+004 The trailing information fields of the 'glinfo' debugging window
+    is completely false.
+
+    (I'm seeing this on my home machine, at least.)
+
+    20020624 mortene.
+
+=====================================================================
