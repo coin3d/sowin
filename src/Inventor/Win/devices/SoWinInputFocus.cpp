@@ -17,45 +17,31 @@
  *
  **************************************************************************/
 
-/*!
-  \class SoWinInputFocus SoWinInputFocus.h Inventor/Win/devices/SoWinInputFocus.h
-  \brief The SoWinInputFocus class ...
-  \ingroup qtdevices
-
-  FIXME: write class doc
-*/
-
 #include <sowindefs.h>
 #include <Inventor/Win/devices/SoWinInputFocus.h>
+#include <Inventor/Win/devices/SoGuiInputFocusP.h>
 
 // *************************************************************************
 
-SOWIN_OBJECT_SOURCE(SoWinInputFocus);
+class SoWinInputFocusP : public SoGuiInputFocusP {
+public:
+  SoWinInputFocusP(SoWinInputFocus * p) : SoGuiInputFocusP(p) { }
+};
 
 // *************************************************************************
-
-/*!
-  Constructor.
-*/
 
 SoWinInputFocus::SoWinInputFocus(int mask)
 {
+  PRIVATE(this) = new SoWinInputFocusP(this);
   this->eventmask = mask;
-} // SoWinInputFocus()
+}
 
-/*!
-  Destructor.
-*/
-
-SoWinInputFocus::~SoWinInputFocus(void)
+SoWinInputFocus::~SoWinInputFocus()
 {
-} // ~SoWinInputFocus()
+  delete PRIVATE(this);
+}
 
 // *************************************************************************
-
-/*!
-  FIXME: write function documentation
-*/
 
 void
 SoWinInputFocus::enable(HWND, // widget,
@@ -63,11 +49,7 @@ SoWinInputFocus::enable(HWND, // widget,
                         void *)
 {
   SOWIN_STUB();
-} // enable()
-
-/*!
-  FIXME: write function documentation
-*/
+}
 
 void
 SoWinInputFocus::disable(HWND, // widget,
@@ -75,13 +57,9 @@ SoWinInputFocus::disable(HWND, // widget,
                          void *) // closure)
 {
   SOWIN_STUB();
-} // disable()
+}
 
 // *************************************************************************
-
-/*!
-  FIXME: write function documentation
-*/
 
 const SoEvent *
 SoWinInputFocus::translateEvent(MSG *) // event)
@@ -92,6 +70,6 @@ SoWinInputFocus::translateEvent(MSG *) // event)
   */
   SOWIN_STUB();
   return NULL;
-} // translateEvent()
+}
 
 // *************************************************************************
