@@ -34,7 +34,7 @@ LRESULT CALLBACK mainWindowProc(HWND window, UINT message, WPARAM wparam, LPARAM
 LRESULT CALLBACK planeWindowProc(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	if (message == WM_SIZE) {
-		if (pv) pv->setSize(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
+		if (pv) setWindowSize(pv->getWidget(), LOWORD(lparam), HIWORD(lparam));
 		return 0;
 	}
 	return DefWindowProc(window, message, wparam, lparam);
@@ -43,7 +43,7 @@ LRESULT CALLBACK planeWindowProc(HWND window, UINT message, WPARAM wparam, LPARA
 LRESULT CALLBACK examinerWindowProc(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	if (message == WM_SIZE) {
-		if (ev) ev->setSize(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
+		if (ev) setWindowSize(ev->getWidget(), LOWORD(lparam), HIWORD(lparam));
 		return 0;
 	}
 	return DefWindowProc(window, message, wparam, lparam);
