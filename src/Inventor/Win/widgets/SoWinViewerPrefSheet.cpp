@@ -75,16 +75,7 @@ void SoWinViewerPrefSheet::size( void )
               ( rect.bottom - rect.top ) + ( ( this->y + 10 )  - height ),
               TRUE );
 }
-/*
-void SoWinViewerPrefSheet::init( SoWinFullViewer * viewer )
-{
-  this->viewer = viewer;
-  this->initSeekWidgets( viewer );
-  this->initZoomWidgets( viewer );
-  this->initClippingWidgets( viewer );
-  this->initSpinWidgets( viewer );
-}
-*/
+
 void SoWinViewerPrefSheet::destroy( void )
 {
   if ( IsWindow (this->mainWidget ) )
@@ -444,7 +435,7 @@ HWND SoWinViewerPrefSheet::createEditWidget( HWND parent, long id, int width, in
 	HWND hwnd = CreateWindowEx( WS_EX_CLIENTEDGE,
                               "EDIT",
 		                          "",
-                              WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL,// | ES_NUMBER,
+                              WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL,
 		                          x, y,
 		                          width, this->getFontHeight( parent ) + 4,
 		                          parent,
@@ -509,6 +500,7 @@ HWND SoWinViewerPrefSheet::createCheckWidget( HWND parent, long id, const char *
 		                          NULL );
 	assert( IsWindow( hwnd ) );
   SetWindowLong( hwnd, GWL_ID, id );
+  SendMessage( hwnd, SBM_ENABLE_ARROWS, ( WPARAM ) ESB_ENABLE_BOTH, 0 );
 	return hwnd;  
 }
 
@@ -569,9 +561,10 @@ void SoWinViewerPrefSheet::setSliderRange( HWND slider, int min, int max )
 	SCROLLINFO scrollInfo;
 	ZeroMemory( & scrollInfo, sizeof( SCROLLINFO ) );
 	scrollInfo.cbSize = sizeof( SCROLLINFO );
-	scrollInfo.fMask = SIF_RANGE;
+	scrollInfo.fMask = SIF_RANGE | SIF_PAGE;
 	scrollInfo.nMin = min;
 	scrollInfo.nMax = max;
+  scrollInfo.nPage = 1;//( ( max - min + 1 ) + min );
 	
 	SetScrollInfo( slider, SB_CTL, & scrollInfo, TRUE );
 }
@@ -741,6 +734,10 @@ LRESULT SoWinViewerPrefSheet::onCommand( HWND window, UINT message, WPARAM wpara
     case ZOOM_RANGE_FROM_EDIT:
       if ( nc == EN_CHANGE ) {
         float value =  this->getEditValue( ctrl );
+        if ( value < 0.0 ) {
+          this->setEditValue( ctrl, 0.0 );
+          break;
+        }
         this->zoomViewer->zoomrange[0] = value;
         if ( zoomViewer->getCameraZoom( ) < value )
           this->setEditValue( this->zoomWidgets[2], value ); // will cause new message        
@@ -753,6 +750,10 @@ LRESULT SoWinViewerPrefSheet::onCommand( HWND window, UINT message, WPARAM wpara
     case ZOOM_RANGE_TO_EDIT:
       if ( nc == EN_CHANGE ) {
         float value =  this->getEditValue( ctrl );
+        if ( value >= 180.0 ) {
+          this->setEditValue( ctrl, 179.999 );
+          break;
+        }
         this->zoomViewer->zoomrange[1] = value;
         if ( zoomViewer->getCameraZoom( ) > value )
           this->setEditValue( this->zoomWidgets[2], value ); // will cause new message
@@ -861,8 +862,24 @@ LRESULT SoWinViewerPrefSheet::onScroll( HWND window, UINT message, WPARAM wparam
   short pos = ( short ) HIWORD( wparam ); 
   HWND scrollBar = ( HWND ) lparam;
 
-  if ( ( scrollCode == SB_THUMBPOSITION ) || ( scrollCode == SB_THUMBTRACK ) )
-    this->setEditValue( this->zoomWidgets[2], ( float ) pos );
+  switch ( scrollCode ) {
+    case SB_PAGELEFT:
+    case SB_LINELEFT:
+      pos = ( short ) this->getSliderValue( scrollBar );
+      this->setEditValue( this->zoomWidgets[2], ( float ) pos - 1 );
+      return 0;
+
+    case SB_PAGERIGHT:
+    case SB_LINERIGHT:
+      pos = ( short ) this->getSliderValue( scrollBar );
+      this->setEditValue( this->zoomWidgets[2], ( float ) pos + 1 );
+      return 0;
+
+    case SB_THUMBPOSITION:
+    case SB_THUMBTRACK:
+      this->setEditValue( this->zoomWidgets[2], ( float ) pos );
+      return 0;
+  }
   
   return 0;
 }
