@@ -70,7 +70,7 @@ public:
   void viewallbuttonClicked(void);
   
   int layoutWidgets(int cx, int cy);
-  static LRESULT CALLBACK callWndProc(int code, WPARAM wparam, LPARAM lparam);
+  static LRESULT CALLBACK systemEventHook(int code, WPARAM wparam, LPARAM lparam);
 
   static HHOOK hookhandle;
   static int nrinstances;
@@ -129,11 +129,9 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
 
     SoWinFullViewerP::hookhandle =
       Win32::SetWindowsHookEx(WH_CALLWNDPROC,
-                              (HOOKPROC)SoWinFullViewerP::callWndProc,
+                              (HOOKPROC)SoWinFullViewerP::systemEventHook,
                               NULL, GetCurrentThreadId());
   }
-
-  SoWinFullViewerP::parentHWNDmappings->enter((unsigned long)parent, this);
 
   this->viewerWidget = NULL;
   this->renderAreaWidget = NULL;
@@ -451,13 +449,15 @@ SoWinFullViewer::buildWidget(HWND parent)
 
   assert(IsWindow(parent));
   
+  SoWinFullViewerP::parentHWNDmappings->enter((unsigned long)parent, this);
+
   this->viewerWidget = parent;
   this->renderAreaWidget = inherited::buildWidget(parent);
   assert(IsWindow(this->renderAreaWidget));
 
   // Change default cursor from pointer arrow, to *no* default
   // cursor. This must be done for the SetCursor()-call in
-  // SoWinFullViewerP::callWndProc() to work even when the canvas has
+  // SoWinFullViewerP::systemEventHook() to work even when the canvas has
   // not grabbed the mouse.
   SetClassLong(this->getGLWidget(), GCL_HCURSOR, NULL);
   
@@ -1160,7 +1160,7 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
 }
 
 LRESULT CALLBACK
-SoWinFullViewerP::callWndProc(int code, WPARAM wparam, LPARAM lparam)
+SoWinFullViewerP::systemEventHook(int code, WPARAM wparam, LPARAM lparam)
 {
   CWPSTRUCT * msg = (CWPSTRUCT *)lparam;
 
