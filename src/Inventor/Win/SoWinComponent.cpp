@@ -37,7 +37,67 @@
 
 // *************************************************************************
 
-SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinComponent);
+SOWIN_OBJECT_ABSTRACT_SOURCE( SoWinComponent );
+
+// *************************************************************************
+
+// The private data for the SoWinComponent.
+
+class SoWinComponentP {
+public:
+  // Constructor.
+  SoWinComponentP( SoWinComponent * o ) {
+    this->owner = o;
+
+    if ( ! SoWinComponentP::sowincomplist )
+      SoWinComponentP::sowincomplist = new SbPList;
+    SoWinComponentP::sowincomplist->append( ( void * ) this->owner );
+  }
+
+  // Destructor.
+  ~SoWinComponentP( ) {
+    if ( SoWinComponentP::sowincomplist->getLength( ) == 0 ) {
+      delete SoWinComponentP::sowincomplist;
+      SoWinComponentP::sowincomplist = NULL;
+    }
+  }
+  
+  static LRESULT CALLBACK eventHandler( HWND window,UINT message, WPARAM wparam, LPARAM lparam );
+  LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  LRESULT onClose( HWND window, UINT message, WPARAM wparam, LPARAM lparam );  
+  LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+
+  // Variables.
+
+  HWND parent;
+  HWND widget;
+  SbBool embedded, shelled;
+  SbString classname, widgetname, title;
+  SoWinComponentCB * closeCB;
+  void * closeCBdata;
+  SbPList * visibilitychangeCBs;
+  SbVec2s storesize;
+  SbBool fullscreen;
+
+  SbVec2s size;
+  SbVec2s pos;
+
+  LONG style;
+  LONG exstyle;
+
+  // List of all SoWinComponent instances. Needed for the
+  // SoWinComponent::getComponent() function.
+  static SbPList * sowincomplist;
+
+private:
+  SoWinComponent * owner;
+};
+
+SbPList * SoWinComponentP::sowincomplist = NULL;
+
+#define PRIVATE( o ) ( o->pimpl )
+
+// *************************************************************************
 
 void
 SoWinComponent::initClasses( void )
@@ -52,12 +112,6 @@ SoWinComponent::initClasses( void )
 
 // *************************************************************************
 
-// static variables
-SbPList * SoWinComponent::widgets = NULL;
-SbPList * SoWinComponent::components = NULL;
-
-// *************************************************************************
-
 ///////////////////////////////////////////////////////////////////
 //
 //  Constructor/Destructor
@@ -68,34 +122,26 @@ SoWinComponent::SoWinComponent( const HWND parent,
                                 const char * const name,
                                 const SbBool embed )
 {
-  this->constructorParent = parent;
+  this->pimpl = new SoWinComponentP( this );
+  this->realized = FALSE;
+  
+  PRIVATE( this )->parent = parent;
+  PRIVATE( this )->closeCB = NULL;
+  PRIVATE( this )->closeCBdata = NULL;
+  PRIVATE( this )->fullscreen = FALSE;
+  PRIVATE( this )->size = SbVec2s( -1, -1 );
 
-  this->closeCB = NULL;
-  this->closeCBData = NULL;
-  this->firstRealize = TRUE;
-  this->fullScreen = FALSE;
-  this->size = SbVec2s( -1, -1 );
-
-  if ( ! SoWinComponent::components )
-		SoWinComponent::components = new SbPList;
-
-	SoWinComponent::components->append( this );
-
-  if ( name ) this->widgetName = name;
+  if ( name ) PRIVATE( this )->widgetname = name;
   
   if ( ! IsWindow( parent ) || ! embed ) {
-    this->parent = NULL;
-    this->embedded = FALSE;
-    this->widget = this->buildFormWidget( parent );
+    PRIVATE( this )->parent = NULL;
+    PRIVATE( this )->embedded = FALSE;
+    PRIVATE( this )->widget = this->buildFormWidget( parent );
   } 
   else {
-    this->parent = parent;
-    this->embedded = TRUE;
+    PRIVATE( this )->parent = parent;
+    PRIVATE( this )->embedded = TRUE;
   }
-  /*if ( parent ) {
-        if ( parent == SoWin::getTopLevelWidget( ) )
-        this->embedded = FALSE;
-  }*/
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -106,42 +152,41 @@ SoWinComponent::SoWinComponent( const HWND parent,
 SoWinComponent::~SoWinComponent( void )
 {
   UnregisterClass( this->getWidgetName( ), SoWin::getInstance( ) );
+  delete pimpl;
 }
 
 void
 SoWinComponent::show( void )
 {
-  ShowWindow( this->widget, SW_SHOW );
+  ShowWindow( PRIVATE( this )->widget, SW_SHOW );
 }
 
 void
 SoWinComponent::hide( void )
 {
-  ShowWindow( this->widget, SW_HIDE );
+  ShowWindow( PRIVATE( this )->widget, SW_HIDE );
 }
 
 void
 SoWinComponent::goFullScreen( const SbBool enable )
 {
-  // FIXME: save window position and size
-  
   HWND hwnd;
   
-  if ( this->embedded )
-    hwnd = this->parent;
+  if ( PRIVATE( this )->embedded )
+    hwnd = PRIVATE( this )->parent;
   else
-    hwnd = this->widget;
+    hwnd = PRIVATE( this )->widget;
 
   if ( enable ) {
     RECT rect;
     GetWindowRect( hwnd, & rect );
-    this->pos.setValue( rect.left, rect.top );
-    this->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
+    PRIVATE( this )->pos.setValue( rect.left, rect.top );
+    PRIVATE( this )->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
     
-    this->fullScreen = TRUE;
+    PRIVATE( this )->fullscreen = TRUE;
 
-    this->style = SetWindowLong( hwnd, GWL_STYLE, WS_POPUP );
-    this->exstyle = SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
+    PRIVATE( this )->style = SetWindowLong( hwnd, GWL_STYLE, WS_POPUP );
+    PRIVATE( this )->exstyle = SetWindowLong( hwnd, GWL_EXSTYLE, WS_EX_TOPMOST );
 
     MoveWindow( hwnd,
                 0,
@@ -153,33 +198,38 @@ SoWinComponent::goFullScreen( const SbBool enable )
     ShowWindow( hwnd, SW_SHOW ); // FIXME: why ? mariusbu 20010718.
   }
   else {
-    this->fullScreen = FALSE;
+    PRIVATE( this )->fullscreen = FALSE;
 
-    SetWindowLong( hwnd, GWL_STYLE, this->style );
-    SetWindowLong( hwnd, GWL_EXSTYLE, this->exstyle );
+    SetWindowLong( hwnd, GWL_STYLE, PRIVATE( this )->style );
+    SetWindowLong( hwnd, GWL_EXSTYLE, PRIVATE( this )->exstyle );
 
     ShowWindow( hwnd, SW_SHOW ); // FIXME: why ? mariusbu 20010718.
     
-    MoveWindow( hwnd, this->pos[0], this->pos[1], this->size[0], this->size[1], TRUE );
+    MoveWindow( hwnd,
+                PRIVATE( this )->pos[0],
+                PRIVATE( this )->pos[1],
+                PRIVATE( this )->size[0],
+                PRIVATE( this )->size[1],
+                TRUE );
   }
 }
 
 SbBool
 SoWinComponent::isFullScreen( void ) const
 {
-  return this->fullScreen;
+  return PRIVATE( this )->fullscreen;
 }
 
 SbBool
 SoWinComponent::isVisible( void )
 {
-  return IsWindowVisible( this->widget );
+  return IsWindowVisible( PRIVATE( this )->widget );
 }
 
 HWND
 SoWinComponent::getWidget( void ) const
 {
-  return this->widget;
+  return PRIVATE( this )->widget;
 }
 
 HWND
@@ -194,27 +244,26 @@ SoWinComponent::getBaseWidget( void ) const
   // FIXME: this method should return the root in the
   // parent-children tree. Is this correct for this method ?
   // mariusbu 20010718.
+
+  return PRIVATE( this )->widget;
   
   HWND parent = NULL;
   HWND ancestor = NULL;
 
-  parent = GetParent( this->widget );
+  parent = GetParent( PRIVATE( this )->widget );
 
-  while ( parent )
-    {
-      ancestor = parent;
-      parent = GetParent( ancestor );
-    }
+  while ( parent ) {
+    ancestor = parent;
+    parent = GetParent( ancestor );
+  }
 
   return ancestor;
-
-  // return this->widget;
 }
 
 SbBool
 SoWinComponent::isTopLevelShell( void ) const
 {
-  return ( this->embedded ? FALSE : TRUE );
+  return ( PRIVATE( this )->embedded ? FALSE : TRUE );
 }
 
 HWND
@@ -227,15 +276,16 @@ SoWinComponent::getShellWidget( void ) const
 HWND
 SoWinComponent::getParentWidget( void ) const
 {
-  return this->parent;
+  return PRIVATE( this )->parent;
 }
 
 void
 SoWinComponent::setSize( const SbVec2s size )
 {
-  this->size = size;
+  PRIVATE( this )->size = size;
 
-  HWND hwnd = ( IsWindow( this->parent ) ? this->parent : this->widget );
+  HWND hwnd = ( IsWindow( PRIVATE( this )->parent ) ?
+    PRIVATE( this )->parent : PRIVATE( this )->widget );
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
   SetWindowPos( hwnd, NULL, 0, 0, size[0], size[1], flags );
 }
@@ -243,77 +293,57 @@ SoWinComponent::setSize( const SbVec2s size )
 SbVec2s
 SoWinComponent::getSize( void )
 {
-  return this->size;
+  return PRIVATE( this )->size;
 }
 
 const char *
 SoWinComponent::getWidgetName( void ) const
 {
-  return this->widgetName.getString( );
+  return PRIVATE( this )->widgetname.getString( );
 }
 
 const char *
 SoWinComponent::getClassName( void ) const
 {
-  return this->widgetClass.getString( );
+  return PRIVATE( this )->classname.getString( );
 }
 
 void
 SoWinComponent::setTitle( const char * const title )
 {
-  if ( title ) this->title = title;
-  else this->title = "";
+  if ( title ) PRIVATE( this )->title = title;
+  else PRIVATE( this )->title = "";
 
-  if ( this->parent ) {
-    SetWindowText( this->parent , ( LPCTSTR ) this->title.getString( ) );
+  if ( IsWindow( PRIVATE( this )->parent ) ) {
+    SetWindowText( PRIVATE( this )->parent , ( LPCTSTR ) PRIVATE( this )->title.getString( ) );
   } 
   else {
-    SetWindowText( this->widget, ( LPCTSTR ) this->title.getString( ) );
+    SetWindowText( PRIVATE( this )->widget, ( LPCTSTR ) PRIVATE( this )->title.getString( ) );
   }
 }
 
 const char *
 SoWinComponent::getTitle( void ) const
 {
-  return this->title.getLength( ) ?
-    this->title.getString( ) : this->getDefaultTitle( );
-}
-
-void
-SoWinComponent::setIconTitle( const char * const title )
-{
-  if (title) this->iconTitle = title;
-  else this->iconTitle = "";
-}
-
-const char *
-SoWinComponent::getIconTitle( void ) const
-{
-  return this->iconTitle.getLength( ) ? 
-    this->iconTitle.getString( ) : this->getDefaultIconTitle( );
+  return PRIVATE( this )->title.getLength( ) ?
+    PRIVATE( this )->title.getString( ) : this->getDefaultTitle( );
 }
 
 void
 SoWinComponent::setWindowCloseCallback( SoWinComponentCB * func, void * data )
 {
-  this->closeCB = func;
-  this->closeCBData = data; 
+  PRIVATE( this )->closeCB = func;
+  PRIVATE( this )->closeCBdata = data; 
 }
 
 SoWinComponent *
 SoWinComponent::getComponent( HWND const widget )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
-  return NULL;
-
-  /* This code is lifted from SoQt. Not working ( methinks )! mariusbu 20010718   
   for ( int i = 0; i < SoWinComponentP::sowincomplist->getLength( ); i++ ) {
     SoWinComponent * c = ( SoWinComponent * ) ( * SoWinComponentP::sowincomplist )[i];
-    if ( c->getWidget( ) == this->widget ) return c;
+    if ( c->getWidget( ) == widget ) return c;
   }
   return NULL;
-  */
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -325,30 +355,30 @@ void
 SoWinComponent::setBaseWidget( HWND widget )
 {
   assert( IsWindow( widget ) );
-  this->widget = widget;
+  PRIVATE( this )->widget = widget;
 }
 
 void
 SoWinComponent::setClassName( const char * const name )
 {
-  if ( name ) this->widgetClass = name;
-  else this->widgetClass = "";
+  if ( name )
+    PRIVATE( this )->classname = name;
+  else
+    PRIVATE( this )->classname = "";
 }
-
+/*
 void
 SoWinComponent::registerWidget( HWND widget )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
+  SoWinComponent::widgets->append( widget );
 }
 
 void
 SoWinComponent::unregisterWidget( HWND widget )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
+  SoWinComponent::widgets->removeItem( widget );
 }
-
+*/
 HWND
 SoWinComponent::buildFormWidget( HWND parent )
 {
@@ -362,7 +392,7 @@ SoWinComponent::buildFormWidget( HWND parent )
 
   windowclass.lpszClassName = ( char * ) this->getDefaultWidgetName( ); // FIXME: virtual function
   windowclass.hInstance = SoWin::getInstance( );
-  windowclass.lpfnWndProc = SoWinComponent::windowProc;
+  windowclass.lpfnWndProc = SoWinComponentP::eventHandler;
   windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon( SoWin::getInstance( ), icon );
@@ -378,19 +408,19 @@ SoWinComponent::buildFormWidget( HWND parent )
     GetClientRect( parent, & rect );
   }
   else {
-    rect.right = SoWin_DefaultWidth;
-    rect.bottom = SoWin_DefaultHeight;
+    rect.right = 500;
+    rect.bottom = 500;
   }
 
   // FIXME: can this widget ever be toplevel ( not embedded ) ?
   // If so, make the window WS_VISIBLE and use CX_DEFAULTCOORD. mariusbu 20010718.
 
-  this->style = WS_OVERLAPPEDWINDOW;
-  this->exstyle = NULL;
+  PRIVATE( this )->style = WS_OVERLAPPEDWINDOW;
+  PRIVATE( this )->exstyle = NULL;
 
   widget = CreateWindow( ( char * ) this->getDefaultWidgetName( ),
                          ( char * ) this->getTitle( ),
-	                       this->style,
+	                       PRIVATE( this )->style,
 		                     0, // GetClientRect gives rect.top == rect.left == 0
                          0,
                          rect.right,
@@ -398,7 +428,7 @@ SoWinComponent::buildFormWidget( HWND parent )
                          parent,
                          menu,
                          SoWin::getInstance( ),
-                         this );
+                         PRIVATE( this ) );
 
   return widget;
 }
@@ -415,13 +445,6 @@ SoWinComponent::getDefaultTitle( void ) const
 {
   static const char defaultTitle[] = "Win Component";
   return defaultTitle;
-}
-
-const char *
-SoWinComponent::getDefaultIconTitle( void ) const
-{
-  static const char defaultIconTitle[] = "Win Component";
-  return defaultIconTitle;
 }
 
 void
@@ -455,23 +478,11 @@ SoWinComponent::removeVisibilityChangeCallback( SoWinComponentVisibilityCB * fun
 void
 SoWinComponent::openHelpCard( const char * name )
 {
-  MessageBox( this->widget,
+  MessageBox( PRIVATE( this )->widget,
     "The help functionality has not been implemented.",
     "SoWin", MB_ICONEXCLAMATION | MB_OK );  
   // FIXME: function not implemented
   SOWIN_STUB( );
-}
-
-void
-SoWinComponent::setResize( SbBool set )
-{
-  this->resizeBaseWidget = set;
-}
-
-SbBool
-SoWinComponent::getResize( void )
-{
-  return this->resizeBaseWidget;
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -480,7 +491,7 @@ SoWinComponent::getResize( void )
 //
 
 LRESULT CALLBACK
-SoWinComponent::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinComponentP::eventHandler( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   if ( message == WM_CREATE )
   {
@@ -490,7 +501,8 @@ SoWinComponent::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lpa
     return 0;
   }
 
-  SoWinComponent * object = ( SoWinComponent * ) GetWindowLong( window, 0 );
+  SoWinComponentP * object = ( SoWinComponentP * ) GetWindowLong( window, 0 );
+  
   if ( object ) {
     switch ( message )
       {
@@ -510,22 +522,22 @@ SoWinComponent::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lpa
 }
 
 LRESULT
-SoWinComponent::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinComponentP::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   this->size = SbVec2s( HIWORD(lparam), LOWORD(lparam) );
   return 0;
 }
 
 LRESULT
-SoWinComponent::onClose( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinComponentP::onClose( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  this->windowCloseAction( );
-  if ( this->closeCB ) this->closeCB( this->closeCBData, this );
+  this->owner->windowCloseAction( );
+  if ( this->closeCB ) this->closeCB( this->closeCBdata, owner );
   return 0;
 }
 
 LRESULT
-SoWinComponent::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
+SoWinComponentP::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   PostQuitMessage( 0 );
   return 0;

@@ -28,22 +28,23 @@
 
 class SoWinGLArea;
 
-enum GLModes {        // remove the GLX ones?
+enum GLModes {
   SO_GL_RGB      = 0x01, SO_GLX_RGB      = SO_GL_RGB,
   SO_GL_DOUBLE   = 0x02, SO_GLX_DOUBLE   = SO_GL_DOUBLE,
   SO_GL_ZBUFFER  = 0x04, SO_GLX_ZBUFFER  = SO_GL_ZBUFFER,
   SO_GL_OVERLAY  = 0x08, SO_GLX_OVERLAY  = SO_GL_OVERLAY,
   SO_GL_STEREO   = 0x10, SO_GLX_STEREO   = SO_GL_STEREO,
   SO_GL_DEFAULT_MODE =
-    (SO_GL_RGB | SO_GL_DOUBLE | SO_GL_ZBUFFER)
+    ( SO_GL_RGB | SO_GL_DOUBLE | SO_GL_ZBUFFER )
 };
 
 // *************************************************************************
 
 class SOWIN_DLL_API SoWinGLWidget : public SoWinComponent {
-  SOWIN_OBJECT_ABSTRACT_HEADER(SoWinGLWidget, SoWinComponent);
+  SOWIN_OBJECT_ABSTRACT_HEADER( SoWinGLWidget, SoWinComponent );
 
 public:
+  
   HWND getNormalWindow( void );
   HWND getOverlayWindow( void );
 
@@ -57,43 +58,50 @@ public:
   HGLRC getOverlayContext( void );
 
   void setStealFocus( SbBool doStealFocus );
-
-  virtual void setNormalVisual( PIXELFORMATDESCRIPTOR *vis );
+  
+  virtual void setNormalVisual( PIXELFORMATDESCRIPTOR * vis );
   PIXELFORMATDESCRIPTOR * getNormalVisual( void );
 
-  virtual void setOverlayVisual( PIXELFORMATDESCRIPTOR *vis );    // no effect
+  virtual void setOverlayVisual( PIXELFORMATDESCRIPTOR * vis );
   PIXELFORMATDESCRIPTOR * getOverlayVisual( void );
-
+  
   virtual void setPixelFormat( int format );
   int getPixelFormat( void );
 
   void setDoubleBuffer( SbBool set );
   SbBool isDoubleBuffer( void );
-
-  void setBorder( SbBool set );   // show/hide 3 pixel border ( default = disabled )
+  
+  void setBorder( SbBool set );
   int getBorderSize( void );
   SbBool isBorder( void ) const;
-
+  
   void setDrawToFrontBufferEnable( SbBool enable );
   SbBool isDrawToFrontBufferEnable( void ) const;
 
-  void setQuadBufferStereo(const SbBool enable);
-  SbBool isQuadBufferStereo(void) const;
+  void setQuadBufferStereo( const SbBool enable );
+  SbBool isQuadBufferStereo( void ) const;
 
   void setCursor( HCURSOR newCursor );
   HCURSOR getCursor( void );
 
-  SbBool hasOverlayGLArea(void) const;
-  SbBool hasNormalGLArea(void) const;
+  SbBool hasOverlayGLArea( void ) const;
+  SbBool hasNormalGLArea( void ) const;
 
-  void processExternalEvent( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+  // FIXME: implemented in SoQt. mariusbu 20010719.
+  //unsigned long getOverlayTransparentPixel( void );
+
+  void processExternalEvent( HWND window,
+                             UINT message,
+                             WPARAM wparam,
+                             LPARAM lparam );
 
 protected:
+  
   SoWinGLWidget( HWND parent = NULL,
                  const char * name = NULL,
                  SbBool embed = TRUE,
-                 int glModes = SO_GLX_RGB | SO_GL_DOUBLE, //SO_GLX_RGB
-                 SbBool build = TRUE);
+                 int glModes = SO_GL_RGB,
+                 SbBool build = TRUE );
 
   virtual ~SoWinGLWidget( void );
 
@@ -114,13 +122,12 @@ protected:
   void setGlxSize( SbVec2s newSize ) { this->setGLSize( newSize ); }
   const SbVec2s getGlxSize( void ) const { return this->getGLSize( ); }
   float getGlxAspectRatio( void ) const { return this->getGLAspectRatio( ); }
-
-  //static void eventHandler( HWND, SoWinGLWidget *, MSG *, BOOL * );
+  
   static LRESULT eventHandler( HWND hwnd,
                                UINT message,
                                WPARAM wParam,
                                LPARAM lParam );
-
+  
   void setStereoBuffer( SbBool set );
   SbBool isStereoBuffer( void );
   SbBool isRGBMode( void );
@@ -129,21 +136,14 @@ protected:
 
   HWND buildWidget( HWND parent );
   HWND getManagerWidget( void );
-  HWND getGlxMgrWidget( void );
   HWND getGLWidget( void );
 
   void setOverlayRender( const SbBool enable );
   SbBool isOverlayRender(void) const;
 
   SbBool makeNormalCurrent( void );
-
   SbBool swapNormalBuffers( void );
   SbBool swapOverlayBuffers( void );
-
-  DWORD getThreadId( void );
-  void setThreadId(DWORD id);
-
-  void changeCursor( HCURSOR newCursor );
 
   void glLockNormal( void );
   void glUnlockNormal( void );
@@ -154,31 +154,27 @@ protected:
   void glSwapBuffers( void );
   void glFlushBuffer( void );
 
-  void setWindowPosition( POINT position );
-  
-  UINT colorMap; // set when color index is used
-  UINT overlayColorMap; // set when overlay is used
-
   SbBool waitForExpose;
   SbBool drawToFrontBuffer;
   
   HWND parent;
   HWND toplevel;
-  
-  // Callback for SoWinGL "gl widget" window
+
+private:  
+
   static LRESULT CALLBACK glWindowProc( HWND window,
                                         UINT message,
                                         WPARAM wparam,
                                         LPARAM lparam );
-private:
-  // Callback for SoWinGL "manager widget" window
+
+
   static LRESULT CALLBACK managerWindowProc( HWND window,
                                              UINT message,
                                              WPARAM wparam,
                                              LPARAM lparam );
 
-  void buildNormalGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
-  void buildOverlayGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
+  void buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd = NULL );
+  void buildOverlayGLWidget( PIXELFORMATDESCRIPTOR * pfd = NULL );
   BOOL createGLContext( HWND window );
 
   LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
@@ -187,56 +183,28 @@ private:
   LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 
   HWND managerWidget;
-  HWND doubleBufferWidget;
-  HWND singleBufferWidget;
+  HWND normalWidget;
   HWND overlayWidget;
 
   HGLRC ctxNormal;
   HGLRC ctxOverlay;
-  HGLRC ctxSingle;
-  HGLRC ctxDouble;
 
   HDC hdcNormal;
   HDC hdcOverlay;
-  HDC hdcSingle;
-  HDC hdcDouble;
 
   SbVec2s glSize;
   SbBool enableDrawToFrontBuffer;
 
-  PIXELFORMATDESCRIPTOR pfd;
-  int nPixelFormat;
-
   PIXELFORMATDESCRIPTOR pfdNormal;
   PIXELFORMATDESCRIPTOR pfdOverlay;
-  PIXELFORMATDESCRIPTOR pfdSingle;
-  PIXELFORMATDESCRIPTOR pfdDouble;
 
-  // For 8bpp mode
-  HPALETTE palNormal;
-  HPALETTE palOverlay;
-  HPALETTE palSingle;
-  HPALETTE palDouble;
-
-  // Process WM_SETFOCUS/WM_KILLFOCUS ( see glxWindowProc ).
   BOOL haveFocus;
-  BOOL stealFocus; // "focus follows pointer".
-  UINT mouseCaptured; // Guarantees you will also get the corresponding button up event.
-
-  // Process WM_SETCURSOR ( see glxWindowProc ).
+  BOOL stealFocus;
+  BOOL haveBorder;
   HCURSOR currentCursor;
 
-  //  Default cursor ( globally for the class ).
-  static HCURSOR defaultCursor;
-
-  DWORD dwThreadId;
-
-  int *attribList;
   int glModes;
   int borderSize;
-
-  SbBool windowResized;
-  POINT windowPosition;
 
 }; // class SoWinGLWidget
 

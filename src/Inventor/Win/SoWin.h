@@ -33,20 +33,19 @@
 #include <Inventor/Win/devices/SoWinDevice.h>
 
 class SoSensor;
-
-// default values when creating window ( !embed )
-const int SoWin_DefaultWidth = 500;
-const int SoWin_DefaultHeight = 500;
+class SoWinP;
 
 // *************************************************************************
 
 class SOWIN_DLL_API SoWin
 {
-
+  friend class SoWinP;
+  
 public:
+  
   static HWND init( const char * const appName,
                     const char * const className = "SoWin" );
-  static HWND init( int argc, char ** argv,           // FIXME: coin spesific
+  static HWND init( int argc, char ** argv,
                     const char * const appName,
                     const char * const className = "SoWin" );
   static void init( HWND const topLevelWidget );
@@ -54,11 +53,10 @@ public:
 
   static void mainLoop( void );
   static void exitMainLoop( void );
-  static void doIdleTasks( void );
   static BOOL dispatchEvent( MSG * msg );
 
   static void show( HWND const widget );
-  static void hide( HWND const widget);
+  static void hide( HWND const widget );
 
   static void setWidgetSize( HWND widget, const SbVec2s size );
   static SbVec2s getWidgetSize( HWND widget );
@@ -68,127 +66,32 @@ public:
                                        const char * const dialogTitle,
                                        const char * const errorStr1,
                                        const char * const errorStr2 = NULL );
-	
-  // Not implemented (not critical)
-  static void terminate( long terminateSyncTime = 100 );
-  static SbBool PreTranslateMessage( MSG * msg );
+  
   static SbBool nextEvent( int appContext, MSG * msg );
-  static int getAppContext( void );
-  static int * getDisplay( void );
+  
   static HWND getShellWidget( HWND widget );
-  static void	getPopupArgs( int * display, int screen, char ** args, int * n );
-  static void	addColormapToShell( HWND widget, HWND shell );
-  static LRESULT isInventorMessage( HWND hwnd,
-                                    UINT message,
-                                    WPARAM wParam,
-                                    LPARAM lParam );
-  char * encodeString( char * string );
-  char * decodeString( char * wstring );
-
-  static UINT wmTimerMsg;
-  static UINT wmWorkMsg;
 
   static void setInstance( HINSTANCE instance );
   static HINSTANCE getInstance( void );
-
-  // "SoWININTERNAL public"
   static void errorHandlerCB( const SoError * error, void * data );
-  //
-  static void addExtensionEventHandler( HWND window,
-                                        int extensionEventType,
-                                        SoWinEventHandler * callbackproc,
-                                        void * data );
-  static void removeExtensionEventHandler( HWND window,
-                                           int extensionEventType,
-                                           SoWinEventHandler * callbackproc, 
-                                           void * data );
-  static ATOM registerClass( WNDCLASS * wndClass, char * className );
-  static SbBool getClassInfo( HINSTANCE dll,
-                              const char * name,
-                              char * className,
-                              WNDCLASS * classInfo );
-  static void unregisterProcessClasses( void );
-
-  static HINSTANCE getResDllHandle( void );
-  static void setPrevInstance( HINSTANCE instance );
-  static void setCmdLine( LPSTR cmdLine );
-  static void setCmdShow( int cmdShow );
-  static SoWinEventHandler * getEventHandler( void );
-  static void forwardQueryPalette( HWND window ) ;
-  static void forwardPaletteChanged( HWND window ) ;
-  static SbBool handleCtl3DMessage( void );
-  static void setHandleCtl3DMessage( SbBool n );
-  static void Ctl3dColorChange( void );
-  //
 
 protected:
+  
+  static void doIdleTasks( void );
+    
   static void registerWindowClass( const char * const className );
   static void unRegisterWindowClass( const char * const className );
+
   static HWND createWindow( char * title,
                             char * className,
                             SIZE size,
-                            HWND parent = (HWND) NULL,
-                            HMENU menu = (HMENU) NULL );
+                            HWND parent = ( HWND ) NULL,
+                            HMENU menu = ( HMENU ) NULL );
 
-  static LRESULT CALLBACK windowProc( HWND window,
-                                      UINT message,
-                                      WPARAM wparam,
-                                      LPARAM lparam );
-
-    
-  static BOOL CALLBACK sizeChildProc( HWND window, LPARAM lparam );
-
-  /*
-    static FARPROC m_procCtl3dColorChange;
-    static HINSTANCE m_hCtl3d;
-    static void	getExtensionEventHandler(
-    MSG * msg, 
-    HWND &w, 
-    LRESULT CALLBACK &proc, 
-    void * &clientData);
-  */
-private:
-  
-  static void sensorQueueChanged( void * cbdata );
-
-  static int timerSensorId;
-  static SbBool timerSensorActive;
-  static void CALLBACK timerSensorCB( HWND window,
-                                      UINT message,
-                                      UINT idevent,
-                                      DWORD dwtime );
-
-  static int delaySensorId;
-  static SbBool delaySensorActive;
-  static void CALLBACK delaySensorCB( HWND window,
-                                      UINT message,
-                                      UINT idevent,
-                                      DWORD dwtime );
-
-  static int idleSensorId;
-  static SbBool idleSensorActive;
-  static void CALLBACK idleSensorCB( HWND window,
-                                     UINT message,
-                                     UINT idevent,
-                                     DWORD dwtime );
-  
-  static LRESULT onSize( HWND window,
-                         UINT message,
-                         WPARAM wparam,
-                         LPARAM lparam );
-  static LRESULT onDestroy( HWND window,
-                            UINT message,
-                            WPARAM wparam,
-                            LPARAM lparam );
-  static LRESULT onQuit( HWND window,
-                         UINT message,
-                         WPARAM wparam,
-                         LPARAM lparam );
-
-  static HINSTANCE Instance;
-  static HWND mainWidget;
-  static char * appName;
-  static char * className;
+  static LRESULT CALLBACK eventHandler( HWND window,
+                                        UINT message,
+                                        WPARAM wparam,
+                                        LPARAM lparam );
 
 }; // class SoWin
 

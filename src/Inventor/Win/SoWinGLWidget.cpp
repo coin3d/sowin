@@ -49,27 +49,22 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
     waitForExpose( TRUE )
 {
   this->managerWidget = NULL;
-  this->doubleBufferWidget = NULL;
-  this->singleBufferWidget = NULL;
+  this->normalWidget = NULL;
   this->overlayWidget = NULL;
 
   this->enableDrawToFrontBuffer = FALSE;
 
   this->ctxNormal = NULL;
   this->ctxOverlay = NULL;
-  this->ctxSingle = NULL;
-  this->ctxDouble = NULL;
 
   this->hdcNormal = NULL;
   this->hdcOverlay = NULL;
-  this->hdcSingle = NULL;
-  this->hdcDouble = NULL;
 
-  this->attribList = NULL;
   this->glModes = glModes;
   this->borderSize = 3;
+  this->haveBorder = FALSE;
+  this->currentCursor = NULL;
 
-  this->windowResized = FALSE;
   this->haveFocus = FALSE;
   this->stealFocus = FALSE;
 
@@ -83,7 +78,8 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
 
 SoWinGLWidget::~SoWinGLWidget( void )
 {
-
+  UnregisterClass( "SoWinGLWidget_glwidget", SoWin::getInstance( ) );
+  UnregisterClass( "SoWinGLWidget_managerwidget", SoWin::getInstance( ) );
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -94,18 +90,14 @@ SoWinGLWidget::~SoWinGLWidget( void )
 HWND
 SoWinGLWidget::getNormalWindow( void )
 {
-  if ( this->isDoubleBuffer( ) ) {
-    return this->doubleBufferWidget;
-  }
-  else {
-    return this->singleBufferWidget;
-  }
+  return this->normalWidget;
 }
 
 HWND
 SoWinGLWidget::getOverlayWindow( void )
 {
-  return this->overlayWidget; // FIXME: overlay not supported
+  // FIXME: overlay not supported. mariusbu 20010719.
+  return this->overlayWidget;
 }
 
 HWND
@@ -117,7 +109,7 @@ SoWinGLWidget::getNormalWidget( void )
 HWND
 SoWinGLWidget::getOverlayWidget( void )
 {
-  return this->getOverlayWindow( ); // FIXME: overlay not supported
+  return this->getOverlayWindow( );
 }
 
 HDC
@@ -131,7 +123,7 @@ HDC
 SoWinGLWidget::getOverlayDC( void )
 {
   assert( this->hdcOverlay != NULL );
-  return this->hdcOverlay; // FIXME: overlay not supported
+  return this->hdcOverlay;
 }
 
 HGLRC
@@ -144,7 +136,7 @@ SoWinGLWidget::getNormalContext( void )
 HGLRC
 SoWinGLWidget::getOverlayContext( void )
 {
-  return this->ctxOverlay; // FIXME: overlay not supported
+  return this->ctxOverlay;
 }
 
 void
@@ -157,7 +149,12 @@ void
 SoWinGLWidget::setNormalVisual( PIXELFORMATDESCRIPTOR * vis )
 {
   assert( vis != NULL );
+  assert( this->hdcNormal != NULL );
+
   memcpy( ( & this->pfdNormal ), vis, sizeof( PIXELFORMATDESCRIPTOR ) );
+
+  int format = ChoosePixelFormat( this->hdcNormal, vis );
+  this->setPixelFormat( format );
 }
 
 PIXELFORMATDESCRIPTOR *
@@ -169,10 +166,14 @@ SoWinGLWidget::getNormalVisual( void )
 void
 SoWinGLWidget::setOverlayVisual( PIXELFORMATDESCRIPTOR * vis )
 {
-  // Note: setOverlayVisual( ) has no effect on Win32
-
+  // FIXME: overlay not supported. mariusbu 20010719.
   assert( vis != NULL );
+  //assert( this->hdcNormal != NULL );
+  
   memcpy( ( & this->pfdOverlay ), vis, sizeof( PIXELFORMATDESCRIPTOR ) );
+  
+  //int format = ChoosePixelFormat( this->hdcOverlay, vis );
+  //this->setPixelFormat( format );
 }
 
 PIXELFORMATDESCRIPTOR *
@@ -184,15 +185,14 @@ SoWinGLWidget::getOverlayVisual( void )
 void
 SoWinGLWidget::setPixelFormat( int format )
 {
-  this->nPixelFormat = format;
-  //BOOL ok = SetPixelFormat( this->hdcNormal, this->nPixelFormat, & pfdNormal )
-  //assert( ok );
+  BOOL ok = SetPixelFormat( this->hdcNormal, format, & pfdNormal );
+  assert( ok );
 }
 
 int
 SoWinGLWidget::getPixelFormat( void )
 {
-  return this->nPixelFormat;
+  return GetPixelFormat( this->hdcNormal );
 }
 
 void
@@ -215,8 +215,8 @@ SoWinGLWidget::isDoubleBuffer( void )
 void
 SoWinGLWidget::setBorder( SbBool set )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
+  this->haveBorder = TRUE;
+  // FIXME: SetWindowLong() or paint border? mariusbu 20010719.
 }
 
 int
@@ -228,7 +228,7 @@ SoWinGLWidget::getBorderSize( void )
 SbBool
 SoWinGLWidget::isBorder( void ) const
 {
-  return ( this->borderSize != 0 );
+  return this->haveBorder;
 }
 
 void
@@ -333,7 +333,7 @@ SoWinGLWidget::initOverlayGraphic( void )
 }
 
 void
-SoWinGLWidget::sizeChanged( const SbVec2s newSize ) // virtual,
+SoWinGLWidget::sizeChanged( const SbVec2s newSize )
 {
   // virtual - does nothing
 }
@@ -341,14 +341,14 @@ SoWinGLWidget::sizeChanged( const SbVec2s newSize ) // virtual,
 void
 SoWinGLWidget::widgetChanged( HWND newWidget )
 {
-  // virtual - does nothing
+  // virtual
   // called whenever the widget is changed (i.e. at initialization
   // or after switching from single->double buffer)
   this->createGLContext( this->getNormalWidget( ) );
 }
 
 void
-SoWinGLWidget::setGLSize( SbVec2s newSize )  // Coin spesific
+SoWinGLWidget::setGLSize( SbVec2s newSize )
 {
   short width, height;
   newSize.getValue( width, height );
@@ -373,7 +373,7 @@ SoWinGLWidget::getGLAspectRatio( void ) const
   return ( float ) this->glSize[0] / ( float ) this->glSize[1];
 }
 
-LRESULT
+LRESULT // FIXME: used by SoWinRenderArea
 SoWinGLWidget::eventHandler( HWND hwnd,
                              UINT message,
                              WPARAM wParam,
@@ -412,7 +412,7 @@ HWND
 SoWinGLWidget::buildWidget( HWND parent )
 {
   // Build managerWidget
-  // Used only to draw borders
+  // Used only to draw borders and handle resize
 
   WNDCLASS windowclass;
   HMENU menu = NULL;
@@ -437,37 +437,35 @@ SoWinGLWidget::buildWidget( HWND parent )
     GetClientRect( parent, & rect );
   }
   else {
-    rect.right = SoWin_DefaultWidth;
-    rect.bottom = SoWin_DefaultHeight;
+    rect.left = 0;
+    rect.top = 0;
+    rect.right = 500;
+    rect.bottom = 500;
   }
-
-  this->windowPosition.x = 0;
-  this->windowPosition.y = 0;
 
   HWND managerwidget = CreateWindow( wndclassname,
-                                      wndclassname,
-                                      WS_CLIPCHILDREN |
-                                      WS_CLIPSIBLINGS |
-                                      WS_CHILD,
-                                      this->windowPosition.x,
-                                      this->windowPosition.y,
-                                      rect.right,
-                                      rect.bottom,
-                                      parent,
-                                      menu,
-                                      SoWin::getInstance( ),
-                                      this );
+                                     wndclassname,
+                                     WS_CLIPCHILDREN |
+                                     WS_CLIPSIBLINGS |
+                                     WS_CHILD,
+                                     rect.left,
+                                     rect.top,
+                                     rect.right,
+                                     rect.bottom,
+                                     parent,
+                                     menu,
+                                     SoWin::getInstance( ),
+                                     this );
 
   assert( IsWindow( managerwidget ) );
-  
-  this->managerWidget = managerwidget; // FIXME: make param in build*GLWidget
 
-  if ( this->glModes & SO_GL_OVERLAY ) {
-    this->buildOverlayGLWidget( & this->pfd ); // FIXME: overlay not supported
-  }
-  else {
-    this->buildNormalGLWidget( & this->pfd );
-  }
+  // FIXME: make param in build*GLWidget  
+  this->managerWidget = managerwidget;
+
+  if ( this->glModes & SO_GL_OVERLAY )
+    this->buildOverlayGLWidget( & this->pfdOverlay );
+
+  this->buildNormalGLWidget( & this->pfdNormal );
 
   this->waitForExpose = TRUE;
   
@@ -479,13 +477,13 @@ SoWinGLWidget::getManagerWidget( void )
 {
   return this->managerWidget;
 }
-
+/*
 HWND
 SoWinGLWidget::getGlxMgrWidget( void )
 {
   return this->getManagerWidget( );
 }
-
+*/
 HWND
 SoWinGLWidget::getGLWidget( void )
 {
@@ -504,36 +502,13 @@ SoWinGLWidget::swapNormalBuffers( void )
   if ( ! ( this->glModes & SO_GL_DOUBLE ) )
     return FALSE;
   
-  if ( this->overlayWidget ) {
-    return ( wglSwapLayerBuffers( ( HDC ) this->hdcNormal, WGL_SWAP_MAIN_PLANE ) );
-  }
-  else {
-    return ( SwapBuffers( ( HDC ) this->hdcNormal ) );
-  }
+  return ( SwapBuffers( ( HDC ) this->hdcNormal ) );
 }
 
 SbBool
 SoWinGLWidget::swapOverlayBuffers( void )
 {
   return ( wglSwapLayerBuffers( ( HDC ) this->hdcOverlay, WGL_SWAP_OVERLAY1 ) );
-}
-
-DWORD
-SoWinGLWidget::getThreadId( void )
-{
-  return this->dwThreadId;
-}
-
-void
-SoWinGLWidget::setThreadId( DWORD id )
-{
-  this->dwThreadId = id;
-}
-
-void
-SoWinGLWidget::changeCursor( HCURSOR newCursor )
-{
-  this->setCursor( newCursor );
 }
 
 void
@@ -546,26 +521,26 @@ SoWinGLWidget::glLockNormal( void )
 void
 SoWinGLWidget::glUnlockNormal( void )
 {
-  // FIXME: does nothing
-  //wglMakeCurrent( this->hdcNormal, NULL );
+  wglMakeCurrent( this->hdcNormal, NULL );
 }
 
 void
 SoWinGLWidget::glLockOverlay( void )
 {
   // FIXME: not implemented
+  // FIXME: overlay not supported. mariusbu 20010719.
 }
 
 void
 SoWinGLWidget::glUnlockOverlay( void )
 {
   // FIXME: not implemented
+  // FIXME: overlay not supported. mariusbu 20010719.  
 }
 
 void
 SoWinGLWidget::glSwapBuffers( void )
 {
-  //assert( this->isDoubleBuffer( ) );
   assert( this->hdcNormal != NULL );
   SwapBuffers( this->hdcNormal );
 }
@@ -575,25 +550,15 @@ SoWinGLWidget::glFlushBuffer( void )
 {
   glFlush( );
 }
-
 /*
-float
-SoWinGLWidget::getGLAspectRatio( void )
-{
-  short width, height;
-  this->glSize.getValue( width, height );
-  return ( ( float ) width / ( float ) height );
-}
-*/
-
 void
 SoWinGLWidget::setWindowPosition( POINT position )
 {
-  this->windowPosition.x = position.x;
-  this->windowPosition.y = position.y;
-  //SetWindowPos( ...
+  UINT flags = SWP_NOSIZE | SWP_NOZORDER | SWP_NOREDRAW;
+  SetWindowPos( this->getNormalWidget( ),
+    NULL, position.x, position.y, 0, 0, flags );
 }
-
+*/
 ///////////////////////////////////////////////////////////////////
 //
 //  (private)
@@ -613,7 +578,7 @@ SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // FIXME: pfd
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = NULL;
   windowclass.hCursor =  NULL;
-  windowclass.hbrBackground = NULL;//( HBRUSH ) GetStockObject( BLACK_BRUSH );
+  windowclass.hbrBackground = NULL;
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;
 
@@ -626,18 +591,27 @@ SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // FIXME: pfd
     GetClientRect( parent, & rect );
   }
   else {
-    rect.right = SoWin_DefaultWidth;
-    rect.bottom = SoWin_DefaultHeight;
+    rect.left = 0;
+    rect.top = 0;
+    rect.right = 500;
+    rect.bottom = 500;
   }
 
-  HWND normalwidget = CreateWindowEx( NULL, // WS_EX_ACCEPTFILES
+  if ( this->haveBorder ) {
+    rect.left += this->borderSize;
+    rect.top += this->borderSize;
+    rect.right -= this->borderSize;
+    rect.bottom -= this->borderSize;
+  }
+
+  HWND normalwidget = CreateWindowEx( NULL,
                                       wndclassname,
                                       wndclassname,
                                       WS_CLIPCHILDREN |
                                       WS_CLIPSIBLINGS |
                                       WS_CHILD,
-                                      0,
-                                      0,
+                                      rect.left,
+                                      rect.top,
                                       rect.right,
                                       rect.bottom,
                                       this->managerWidget,
@@ -647,14 +621,9 @@ SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // FIXME: pfd
 
   assert( IsWindow( normalwidget ) );
 
-  this->firstRealize = TRUE;
+  this->realized = FALSE;
+  this->normalWidget = normalwidget;
 
-  if ( this->glModes & SO_GL_DOUBLE ) {// ( vis->dwFlags & PFD_DOUBLEBUFFER )
-    this->doubleBufferWidget = normalwidget;
-  }
-  //else {
-    this->singleBufferWidget = normalwidget;
-    //}
   ShowWindow( normalwidget, SW_SHOW );
 }
 
@@ -662,6 +631,7 @@ void
 SoWinGLWidget::buildOverlayGLWidget( PIXELFORMATDESCRIPTOR * pfd )
 {
   // FIXME: function not implemented
+  // FIXME: overlay not supported. mariusbu 20010719.
   SOWIN_STUB( );
 }
 
@@ -703,7 +673,7 @@ SoWinGLWidget::glWindowProc( HWND window,
     SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
 
     SoWinGLWidget * object = ( SoWinGLWidget * )( createstruct->lpCreateParams );
-    return object->onCreate( window, message, wparam, lparam ); // won't work
+    return object->onCreate( window, message, wparam, lparam );
   }
 
   SoWinGLWidget * object = ( SoWinGLWidget * ) GetWindowLong( window, 0 );
@@ -733,7 +703,7 @@ SoWinGLWidget::glWindowProc( HWND window,
         return object->onSize( window, message, wparam, lparam );
 
       case WM_PAINT:
-        object->waitForExpose = FALSE; // flips flag on first expose
+        object->waitForExpose = FALSE; // flip flag on first expose
         return object->onPaint( window, message, wparam, lparam );
 
       case WM_DESTROY:
@@ -758,11 +728,7 @@ SoWinGLWidget::glWindowProc( HWND window,
 			case WM_SETCURSOR:
 				SetCursor( object->getCursor( ) );
 				return 0;
-        /*
-      case WM_DROPFILES:
-        object->onDropFiles( window, message, wparam, lparam );
-        // DragQueryFile
-        return 0;*/
+ 
       }
   }
   return DefWindowProc( window, message, wparam, lparam );
@@ -771,7 +737,7 @@ SoWinGLWidget::glWindowProc( HWND window,
 BOOL
 SoWinGLWidget::createGLContext( HWND window )
 {
-  int nPixelFormat;
+  int pixelFormat;
   BOOL ok;
   
   wglMakeCurrent( NULL, NULL );
@@ -779,44 +745,33 @@ SoWinGLWidget::createGLContext( HWND window )
   DeleteDC( this->hdcNormal );
 
   HDC hdc = GetDC( window );
-
-  static PIXELFORMATDESCRIPTOR pfd =  // FIXME: no palette or singlebuffer support
-  {
-    sizeof(PIXELFORMATDESCRIPTOR), // size of this pfd
-    1,                             // version number
-    PFD_DRAW_TO_WINDOW |           // support window
-    PFD_SUPPORT_OPENGL |           // support OpenGL
-    PFD_TYPE_RGBA |                 // RGBA type
-    PFD_SWAP_LAYER_BUFFERS |
-    PFD_DOUBLEBUFFER,              // double buffer
-    32,                            // 32-bit colour depth
-    0, 0, 0, 0, 0, 0,              // colour bits ignored
-    0,                             // no alpha buffer
-    0,				   // shift bit ignored
-    0,				   // on accumulation buffer
-    0, 0, 0, 0,			   // accum bits ignored
-    32,				   // 32-bits z-buffer
-    0,				   // no stencil buffer
-    0,				   // no auxiliary buffer
-    PFD_MAIN_PLANE,		   // main layer
-    0,				   // reserved
-    0, 0, 0			   // layer masks ignored
-  };
-
-  nPixelFormat = ChoosePixelFormat( hdc, & pfd );
-
-  ok = SetPixelFormat( hdc, nPixelFormat, & pfd );
+  
+  memset( & this->pfdNormal, 0, sizeof( PIXELFORMATDESCRIPTOR ) );
+  this->pfdNormal.nSize = sizeof( PIXELFORMATDESCRIPTOR );
+  this->pfdNormal.nVersion = 1;
+  this->pfdNormal.dwFlags = PFD_DRAW_TO_WINDOW |
+                            PFD_SUPPORT_OPENGL |
+                            PFD_SWAP_LAYER_BUFFERS |
+                            // PFD_STEREO |
+                            ( this->glModes & SO_GL_DOUBLE ?
+                            PFD_DOUBLEBUFFER : 0 );
+  this->pfdNormal.iPixelType = PFD_TYPE_RGBA; // PFD_TYPE_COLORINDEX
+  this->pfdNormal.cColorBits = 32;    
+  this->pfdNormal.cDepthBits = 32;
+  
+  pixelFormat = ChoosePixelFormat( hdc, & this->pfdNormal );
+  ok = SetPixelFormat( hdc, pixelFormat, & this->pfdNormal );
   assert( ok );
 
   SoWinGLWidget * share = ( SoWinGLWidget * )
 		SoAny::si( )->getSharedGLContext( NULL, NULL );
 
   HGLRC hrc = wglCreateContext( hdc );
+  // FIXME: implement overlay layer support. mariusbu 20010719.
   //wglCreateLayerContext( )
 
-	if ( share != NULL ) {
+	if ( share != NULL )
     wglShareLists( share->ctxNormal, hrc );
-  }
 
 	SoAny::si( )->registerGLContext( ( void * ) this, NULL, NULL );
 
@@ -825,23 +780,8 @@ SoWinGLWidget::createGLContext( HWND window )
 
   this->hdcNormal = hdc;
   this->ctxNormal = hrc;
-  this->nPixelFormat = nPixelFormat;
 
   wglMakeCurrent( NULL, NULL );
-
-  memcpy( ( void * ) ( & this->pfdNormal ), & pfd, sizeof( PIXELFORMATDESCRIPTOR ) );
-  if( this->glModes & SO_GL_DOUBLE ) {
-    pfd.dwFlags |= PFD_DOUBLEBUFFER;
-    memcpy( & this->pfdDouble, & pfd, sizeof( PIXELFORMATDESCRIPTOR ) );
-    this->hdcDouble = this->hdcNormal;
-    this->ctxDouble = this->ctxNormal;
-  }
-  else {
-    pfd.dwFlags &= ~PFD_DOUBLEBUFFER;
-    memcpy( & this->pfdSingle, & pfd, sizeof( PIXELFORMATDESCRIPTOR ) );
-    this->hdcSingle = this->hdcNormal;
-    this->ctxSingle = this->ctxNormal;
-  }
 
   return TRUE;
 }
@@ -853,8 +793,6 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo( "SoWinGLWidget::onCreate", "called" );
 #endif // SOWIN_DEBUG
-	
-  //CREATESTRUCT * cs = ( CREATESTRUCT * ) lparam;
   this->createGLContext( window );
   SetFocus( window );
   return 0;
@@ -890,8 +828,8 @@ SoWinGLWidget::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam 
 
   wglMakeCurrent( this->hdcNormal, this->ctxNormal );
 
-  if ( this->firstRealize ) {
-    this->firstRealize = FALSE;
+  if ( ! this->realized ) {
+    this->realized = TRUE;
     this->initGraphic( );
   }
   if ( ! this->glScheduleRedraw( ) ) {

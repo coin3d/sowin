@@ -27,6 +27,7 @@
 #include <wtypes.h>
 
 class SoWinComponent;
+class SoWinComponentP;
 
 typedef void SoWinComponentCB( void * user, SoWinComponent * component );
 typedef void SoWinComponentVisibilityCB( void * user, SbBool visible );
@@ -35,7 +36,7 @@ typedef void SoWinComponentVisibilityCB( void * user, SbBool visible );
 
 class SOWIN_DLL_API SoWinComponent : SoWinObject {
   SOWIN_OBJECT_ABSTRACT_HEADER( SoWinComponent, SoWinObject );
-
+  friend class SoWinComponentP;
 public:
   virtual ~SoWinComponent( void );
 
@@ -59,8 +60,8 @@ public:
   void setTitle( const char * const title );
   const char * getTitle( void ) const;
   
-  void setIconTitle( const char * const title );
-  const char * getIconTitle( void ) const;
+  void setIconTitle( const char * const title ) { this->setTitle( title ); };
+  const char * getIconTitle( void ) const { return this->getTitle( ); };
 
   void setWindowCloseCallback( SoWinComponentCB * func, void * data = NULL );
 
@@ -79,15 +80,15 @@ protected:
 
   void setBaseWidget( HWND widget );
   void setClassName( const char * const name );
-
+  /*
   void registerWidget( HWND widget );
   void unregisterWidget( HWND widget );
-
+  */
   HWND buildFormWidget( HWND parent );
 
   virtual const char * getDefaultWidgetName( void ) const;
   virtual const char * getDefaultTitle( void ) const;
-  virtual const char * getDefaultIconTitle( void ) const;
+  virtual const char * getDefaultIconTitle( void ) const { return this->getDefaultTitle( ); };
 
   virtual void windowCloseAction( void );
   virtual void afterRealizeHook( void );
@@ -100,36 +101,31 @@ protected:
   void setResize( SbBool set );
   SbBool getResize( void );
 
-  SbBool firstRealize;  
-  HWND parent;
-  HWND widget;
+  SbBool realized;
+  //HWND parent;
+  //HWND componentWidget;
   
 private:
 
-  static LRESULT CALLBACK windowProc( HWND window,UINT message, WPARAM wparam, LPARAM lparam );
-
-  LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-  LRESULT onClose( HWND window, UINT message, WPARAM wparam, LPARAM lparam );  
-  LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-
+  SoWinComponentP * pimpl;
+  /*
   HWND constructorParent;
-  LONG style; // windowstyle
-  LONG exstyle; // extended windowstyle
+  LONG style;
+  LONG exstyle;
   SbBool fullScreen;  
   SbString widgetName;
   SbString widgetClass;
   SbString title;
-  SbString iconTitle;
   SbVec2s size;
   SbVec2s pos;
   SbBool embedded;
-  SbBool resizeBaseWidget;
 
   static SbPList * widgets;
   static SbPList * components;
 
   SoWinComponentCB * closeCB;
   void * closeCBData;
+  */
 }; // class SoWinComponent
 
 // *************************************************************************
