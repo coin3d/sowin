@@ -589,8 +589,8 @@ SoWin::sensorQueueChanged( void * cbdata )
     if ( interval.getValue( ) < 0.0 ) interval.setValue( 0.0 );
     if ( SoWin::timerSensorActive ) KillTimer( NULL, SoWin::timerSensorId );
     
-    SoWin::timerSensorId = SetTimer( NULL,
-                                     0,
+    SoWin::timerSensorId = SetTimer( SoWin::mainWidget,//NULL,
+                                     1,//0,
                                      interval.getMsecValue( ),
                                      SoWin::timerSensorCB );
 
@@ -604,8 +604,8 @@ SoWin::sensorQueueChanged( void * cbdata )
   if ( sensormanager->isDelaySensorPending( ) ) {
         
     if ( ! SoWin::idleSensorActive ) {
-      SoWin::idleSensorId = SetTimer( NULL,
-                                      0,
+      SoWin::idleSensorId = SetTimer( SoWin::mainWidget,//NULL,
+                                      2,//0,
                                       0,
                                       SoWin::idleSensorCB );
       SoWin::idleSensorActive = TRUE;
@@ -613,8 +613,8 @@ SoWin::sensorQueueChanged( void * cbdata )
 
     if ( ! SoWin::delaySensorActive ) {
       unsigned long timeout = SoDB::getDelaySensorTimeout( ).getMsecValue( );
-      SoWin::delaySensorId = SetTimer( NULL,
-                                       0,
+      SoWin::delaySensorId = SetTimer( SoWin::mainWidget,//NULL,
+                                       2,//0,
                                        timeout,
                                        SoWin::delaySensorCB );
       SoWin::delaySensorActive = TRUE;
