@@ -268,7 +268,7 @@ SoWinGLWidget::setNormalVisual( PIXELFORMATDESCRIPTOR * vis )
   (void)memcpy( ( & PRIVATE( this )->pfdNormal ), vis,
                 sizeof( PIXELFORMATDESCRIPTOR ) );
 
-  int format = ChoosePixelFormat( PRIVATE( this )->hdcNormal, vis );
+  int format = SoWinGLWidgetP::ChoosePixelFormat( PRIVATE( this )->hdcNormal, vis );
   if (format == 0) { return; }
   this->setPixelFormat( format );
   // FIXME: I think we're supposed to use this explicitly set
@@ -296,8 +296,13 @@ SoWinGLWidget::setOverlayVisual( PIXELFORMATDESCRIPTOR * vis )
   (void)memcpy( ( & PRIVATE( this )->pfdOverlay ), vis,
                 sizeof( PIXELFORMATDESCRIPTOR ) );
   
-  int format = ChoosePixelFormat( PRIVATE( this )->hdcOverlay, vis );
+  int format = SoWinGLWidgetP::ChoosePixelFormat( PRIVATE( this )->hdcOverlay, vis );
+  if (format == 0) { return; }
   this->setPixelFormat( format );
+  // FIXME: I think we're supposed to use this explicitly set
+  // pixelformat for constructing the overlay OpenGL context
+  // device. This is not done (overlays aren't supported yet
+  // either). 20010924 mortene.
 } // setOverlayVisual()
 
 /*!
@@ -313,8 +318,21 @@ SoWinGLWidget::getOverlayVisual( void )
 void
 SoWinGLWidget::setPixelFormat( int format )
 {
-  BOOL ok = SetPixelFormat( PRIVATE( this )->hdcNormal, format, & PRIVATE( this )->pfdNormal );
-  assert( ok );
+  BOOL ok = SetPixelFormat( PRIVATE( this )->hdcNormal, format,
+                            &PRIVATE( this )->pfdNormal );
+  if (!ok) {
+    DWORD dummy;
+    SbString err = Win32::getWin32Err(dummy);
+    SbString s = "SetPixelFormat(";
+    s.addIntString(format);
+    s += ") failed with error message ";
+    s += err;
+    SoDebugError::postWarning("SoWinGLWidget::setPixelFormat", s.getString());
+  }
+
+  // FIXME: I think we're supposed to use this explicitly set
+  // pixelformat for constructing the OpenGL context device. Looks
+  // like this is not done. 20010924 mortene.
 } // setPixelFormat()
 
 /*!
@@ -616,9 +634,9 @@ SoWinGLWidget::processEvent( MSG * msg )
 void
 SoWinGLWidget::initGraphic( void )
 {
-  glLockNormal( );
+  this->glLockNormal( );
   glEnable( GL_DEPTH_TEST );
-  glUnlockNormal( );
+  this->glUnlockNormal( );
 } // initGraphic()
 
 /*!
@@ -766,12 +784,10 @@ SoWinGLWidget::getDisplayListShareGroup( HGLRC ctx )
   return 0; // FIXME: nothing done yet!
 }
 
+// Build managerWidget.  Used only to draw borders and handle resize.
 HWND
 SoWinGLWidget::buildWidget( HWND parent )
 {
-  // Build managerWidget
-  // Used only to draw borders and handle resize
-
   SoWinGLWidgetP::widgetCounter++;
 
   HMENU menu = NULL;
@@ -796,7 +812,7 @@ SoWinGLWidget::buildWidget( HWND parent )
   }
 
   RECT rect;
-	assert ( IsWindow( parent ) );
+  assert ( IsWindow( parent ) && "buildWidget() argument erroneous" );
   Win32::GetClientRect( parent, & rect );
 
   HWND managerwidget = CreateWindow( "Manager Widget",
@@ -1021,10 +1037,9 @@ SoWinGLWidgetP::buildOverlayGLWidget( HWND manager )
 BOOL
 SoWinGLWidgetP::createGLContext( HWND window )
 {
-  int pixelFormat;
   BOOL ok;
 
-	assert( IsWindow( window ) );
+  assert( IsWindow( window ) );
 
   // All contexts were destroyed or released in onDestroy()
   
@@ -1046,8 +1061,10 @@ SoWinGLWidgetP::createGLContext( HWND window )
   this->pfdNormal.cColorBits = 32;    
   this->pfdNormal.cDepthBits = 32;
   
-  pixelFormat = ChoosePixelFormat( this->hdcNormal, & this->pfdNormal );
-  ok = SetPixelFormat( this->hdcNormal, pixelFormat, & this->pfdNormal );
+  int pixelformat = SoWinGLWidgetP::ChoosePixelFormat( this->hdcNormal,
+                                                       & this->pfdNormal );
+  if (pixelformat == 0) { return FALSE; }
+  ok = SetPixelFormat( this->hdcNormal, pixelformat, & this->pfdNormal );
 
   if ( ! ok ) {
     #if SOWIN_DEBUG && 1
