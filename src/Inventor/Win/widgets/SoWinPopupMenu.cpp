@@ -105,13 +105,8 @@ SoWinPopupMenu::newMenu( const char * name, int menuid )
     id = 1;
     while ( this->getMenuRecord( id ) != NULL ) id++;
   } else {
-    if ( this->getMenuRecord( id ) != NULL ) {
-#if SOWIN_DEBUG
-      SoDebugError::postInfo( "SoWinPopupMenu::NewMenu",
-                              "requested menuid already taken" );
-#endif // SOWIN_DEBUG
-      return -1;
-    }
+    assert( this->getMenuRecord( id ) == NULL &&
+            "requested menuid already taken" );
   }
   // id contains ok ID
   MenuRecord * rec = createMenuRecord( name );
@@ -125,9 +120,11 @@ SoWinPopupMenu::getMenu( const char * name )
 {
   const int numMenus = this->menus->getLength();
   int i;
-  for ( i = 0; i < numMenus; i++ )
-    if ( strcmp( ( ( MenuRecord * ) ( * this->menus )[i] )->name, name ) == 0 )
+  for ( i = 0; i < numMenus; i++ ) {
+    if ( strcmp( ( ( MenuRecord * ) ( * this->menus )[i] )->name, name ) == 0 ) {
       return ( ( MenuRecord * ) ( * this->menus )[i] )->menuid;
+    }
+  }
   return -1;
 } // getMenu()
 
@@ -135,11 +132,7 @@ void
 SoWinPopupMenu::setMenuTitle( int menuid, const char * title )
 {
   MenuRecord * rec = this->getMenuRecord( menuid );
-  if ( rec == NULL ) {
-    SoDebugError::postWarning( "SoWinPopupMenu::setMenuTitle",
-                               "no such menu (%d.title = \"%s\")", menuid, title );
-    return;
-  }
+  assert( rec != NULL && "no such menu" );
   delete [] rec->title;
   rec->title = strcpy( new char [strlen(title)+1], title );
 
@@ -152,8 +145,7 @@ const char *
 SoWinPopupMenu::getMenuTitle( int menuid )
 {
   MenuRecord * rec = this->getMenuRecord( menuid );
-  if ( rec == NULL )
-    return NULL;
+  assert( rec != NULL && "no such menu" );
   return rec->title;
 } // getMenuTitle()
 
@@ -196,8 +188,7 @@ void
 SoWinPopupMenu::setMenuItemTitle( int itemid, const char * title )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-  if ( rec == NULL )
-    return;
+  assert( rec != NULL && "no such menu" );
   delete [] rec->title;
   rec->title = strcpy( new char [strlen(title)+1], title );
 
@@ -209,7 +200,7 @@ const char *
 SoWinPopupMenu::getMenuItemTitle( int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-  if ( rec == NULL ) return NULL;
+  assert( rec != NULL && "no such menu" );
   return rec->title;
 } // getMenuItemTitle()
 
@@ -217,9 +208,16 @@ void
 SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-  if ( rec == NULL )
-    return;
+  assert( rec != NULL && "no such menu" );
   
+#if 1 // old code
+  if ( enabled )
+    rec->flags |= ITEM_ENABLED;
+  else
+    rec->flags &= ~ITEM_ENABLED;
+
+ Win32::EnableMenuItem( rec->parent, rec->itemid, MF_BYCOMMAND | ( enabled ? MF_ENABLED : MF_GRAYED ) );
+#else // new code, but FIXME: it's crashing. 20010810 mortene.
   MENUITEMINFO info;
   
   info.cbSize = sizeof( MENUITEMINFO );
@@ -235,6 +233,7 @@ SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
   }
   
   Win32::SetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
+#endif
 } // setMenuItemEnabled()
 
 SbBool
@@ -242,7 +241,7 @@ SoWinPopupMenu::getMenuItemEnabled( int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
 
-  assert( rec != NULL );
+  assert( rec != NULL && "no such menu" );
   assert( IsMenu( rec->parent ) );
 
   //MENUITEMINFO  menuiteminfo;
@@ -258,7 +257,7 @@ SoWinPopupMenu::_setMenuItemMarked( int itemid, SbBool marked )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
 
-  assert( rec != NULL );
+  assert( rec != NULL && "no such menu" );
   assert( IsMenu( rec->parent ) );
 
   rec->flags |= ITEM_TOGGLE;
@@ -285,7 +284,7 @@ SbBool
 SoWinPopupMenu::getMenuItemMarked( int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-  assert( rec != NULL );
+  assert( rec != NULL && "no such menu" );
   assert( rec->parent != NULL );
   
   MENUITEMINFO info;
@@ -305,13 +304,7 @@ SoWinPopupMenu::addMenu( int menuid, int submenuid, int pos )
 {
   MenuRecord * super = this->getMenuRecord( menuid );
   MenuRecord * sub = this->getMenuRecord( submenuid );
-  if ( super == NULL || sub == NULL ) {
-#if SOWIN_DEBUG
-    SoDebugError::postInfo( "SoWinPopupMenu::addMenu",
-                            "no such menu (super = 0x%08x, sub = 0x%08x)", super, sub );
-#endif // SOWIN_DEBUG
-    return;
-  }
+  assert( super != NULL && sub != NULL && "no such menu" );
 
   MENUITEMINFO menuiteminfo;
   memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
@@ -334,13 +327,7 @@ SoWinPopupMenu::addMenuItem( int menuid, int itemid, int pos )
 {
   MenuRecord * menu = this->getMenuRecord( menuid );
   ItemRecord * item = this->getItemRecord( itemid );
-  if ( menu == NULL || item == NULL ) {
-#if SOWIN_DEBUG
-    SoDebugError::postInfo( "SoWinPopupMenu::addMenuItem",
-                            "no such item (menu = 0x%08x, item = 0x%08x)", menu, item );
-#endif // SOWIN_DEBUG
-    return;
-  }
+  assert( menu != NULL && item != NULL && "no such menu" );
   
   Win32::InsertMenu( menu->menu, pos, MF_BYPOSITION | MF_STRING, item->itemid, item->title );
 
@@ -353,11 +340,7 @@ void
 SoWinPopupMenu::addSeparator( int menuid, int pos )
 {
   MenuRecord * menu = this->getMenuRecord( menuid );
-  if ( menu == NULL ) {
-    SoDebugError::postWarning( "SoWinPopupMenu::addSeparator",
-                               "no such menu (%d)", menuid );
-    return;
-  }
+  assert( menu != NULL && "no such menu" );
   ItemRecord * rec = createItemRecord( "separator" );
  
   Win32::InsertMenu( menu->menu, pos, MF_BYPOSITION | MF_SEPARATOR, pos, NULL );
@@ -369,12 +352,9 @@ void
 SoWinPopupMenu::removeMenu( int menuid )
 {
   MenuRecord * rec = this->getMenuRecord( menuid );
-  if ( rec == NULL ) {
-#if SOWIN_DEBUG
-    SoDebugError::postInfo( "SoWinPopupMenu::removeMenu", "no such menu" );
-#endif // SOWIN_DEBUG
-    return;
-  }
+  assert( rec != NULL && "no such menu" );
+
+  // FIXME: just assumes root-menu has id==0. Bad. 20010810 mortene.
   if ( rec->menuid == 0 ) {
 #if SOWIN_DEBUG
     SoDebugError::postInfo( "SoWinPopupMenu::removeMenu", "can't remove root" );
@@ -395,12 +375,7 @@ void
 SoWinPopupMenu::removeMenuItem( int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-  if ( rec == NULL ) {
-#if SOWIN_DEBUG
-    SoDebugError::postInfo( "SoWinPopupMenu::removeMenuItem", "no such item" );
-#endif // SOWIN_DEBUG
-    return;
-  }
+  assert( rec != NULL && "no such menu" );
   if ( rec->parent == NULL ) {
 #if SOWIN_DEBUG
     SoDebugError::postInfo( "SoWinPopupMenu::removeMenuItem", "item not attached" );
