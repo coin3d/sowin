@@ -165,6 +165,17 @@ build-docs/html/index.html: $(Project)-$(VERSION)
 	$(MAKE)
 	cd build-docs/; \
 	$(MAKE) install
+	if test -d "$(top_srcdir)/docs/images"; then \
+	  mkdir -p build-docs/html/images; \
+	  cp -R "$(top_srcdir)/docs/images/SoLibs" build-docs/html/images; \
+	  for file in `find "build-docs/html" -name "*.html"`; do \
+	    sed -i -e 's%http://doc.coin3d.org/images/%images/%g' $$file; \
+	  done; \
+	fi
+	-if test -d "$(top_srcdir)/docs/images"; then \
+	  cd "build-docs/html"; \
+	  hhc index.hhp; \
+	fi
 
 docs: build-docs/html/index.html
 
