@@ -128,7 +128,7 @@ SoWinComponentP::systemEventFilter(int code, WPARAM wparam, LPARAM lparam)
   return CallNextHookEx(SoWinComponentP::hookhandle, code, wparam, lparam);
 }
 
-ATOM SoWinComponentP::wndClassAtom = NULL;
+ATOM SoWinComponentP::wndClassAtom = 0;
 SbDict * SoWinComponentP::cursordict = NULL;
 HHOOK SoWinComponentP::hookhandle = NULL;
 SbDict * SoWinComponentP::embeddedparents = NULL;
@@ -747,7 +747,7 @@ void
 SoWinComponent::addVisibilityChangeCallback(SoWinComponentVisibilityCB * func, void * user)
 {
   void ** combo = new void * [2];
-  combo[0] = func;
+  combo[0] = (void*)func;
   combo[1] = user;
   PRIVATE(this)->visibilitychangeCBs->append(combo);
   //FIXME: the functions are never called. mariusbu 20010824.

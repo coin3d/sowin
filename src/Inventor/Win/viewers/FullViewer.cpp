@@ -375,7 +375,7 @@ SoWinFullViewer::buildWidget(HWND parent)
   // cursor. This must be done for the SetCursor()-call in
   // SoWinFullViewerP::systemEventHook() to work even when the canvas has
   // not grabbed the mouse.
-  SetClassLong(this->getGLWidget(), GCL_HCURSOR, NULL);
+  SetClassLong(this->getGLWidget(), GCL_HCURSOR, 0);
   
   if (PRIVATE(this)->menuenabled) { this->buildPopupMenu(); }
   if (PRIVATE(this)->decorations) { this->buildDecoration(parent); }
@@ -722,8 +722,8 @@ SoWinFullViewerP::rightWheelCB(SoWinThumbWheel::Interaction type, float val,
 void
 SoWinFullViewerP::interactbuttonClicked(void)
 {
-  this->viewerButton(SoWinFullViewerP::ButtonId::VIEWERBUTTON_PICK)->setState(TRUE);
-  this->viewerButton(SoWinFullViewerP::ButtonId::VIEWERBUTTON_VIEW)->setState(FALSE);
+  this->viewerButton(SoWinFullViewerP::VIEWERBUTTON_PICK)->setState(TRUE);
+  this->viewerButton(SoWinFullViewerP::VIEWERBUTTON_VIEW)->setState(FALSE);
   if (PUBLIC(this)->isViewing())
     PUBLIC(this)->setViewing(FALSE);
 }
@@ -731,8 +731,8 @@ SoWinFullViewerP::interactbuttonClicked(void)
 void
 SoWinFullViewerP::viewbuttonClicked(void)
 {
-  this->viewerButton(SoWinFullViewerP::ButtonId::VIEWERBUTTON_VIEW)->setState(TRUE);
-  this->viewerButton(SoWinFullViewerP::ButtonId::VIEWERBUTTON_PICK)->setState(FALSE);
+  this->viewerButton(SoWinFullViewerP::VIEWERBUTTON_VIEW)->setState(TRUE);
+  this->viewerButton(SoWinFullViewerP::VIEWERBUTTON_PICK)->setState(FALSE);
   if (! PUBLIC(this)->isViewing())
     PUBLIC(this)->setViewing(TRUE);
 }
@@ -971,7 +971,7 @@ SoWinFullViewerP::~SoWinFullViewerP()
   int i;
 
   for (i = PUBLIC(this)->viewerButtonList->getLength(); i >= 0; i--) {
-    delete PUBLIC(this)->viewerButtonList->get(i);
+    delete (SoWinBitmapButton *)PUBLIC(this)->viewerButtonList->get(i);
     PUBLIC(this)->viewerButtonList->remove(i);
   }
 

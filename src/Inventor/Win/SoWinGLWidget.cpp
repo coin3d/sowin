@@ -56,8 +56,8 @@ SoWinGLWidgetP::~SoWinGLWidgetP()
 {
 }
 
-ATOM SoWinGLWidgetP::managerWndClassAtom = NULL;
-ATOM SoWinGLWidgetP::glWndClassAtom = NULL;
+ATOM SoWinGLWidgetP::managerWndClassAtom = 0;
+ATOM SoWinGLWidgetP::glWndClassAtom = 0;
 int SoWinGLWidgetP::widgetCounter = 0;
 
 ///////////////////////////////////////////////////////////////////
@@ -115,9 +115,9 @@ SoWinGLWidget::~SoWinGLWidget()
   SoWinGLWidgetP::widgetCounter--;
   if (SoWinGLWidgetP::widgetCounter <= 0) {
     Win32::UnregisterClass("Manager Widget", SoWin::getInstance());
-    SoWinGLWidgetP::managerWndClassAtom = NULL;
+    SoWinGLWidgetP::managerWndClassAtom = 0;
     Win32::UnregisterClass("GL Widget", SoWin::getInstance());
-    SoWinGLWidgetP::glWndClassAtom = NULL;
+    SoWinGLWidgetP::glWndClassAtom = 0;
   }
   delete this->pimpl;
 }
@@ -598,7 +598,7 @@ SoWinGLWidget::buildWidget(HWND parent)
     windowclass.lpszClassName = "Manager Widget";
     windowclass.hInstance = SoWin::getInstance();
     windowclass.lpfnWndProc = SoWinGLWidgetP::mgrWidgetProc;
-    windowclass.style = NULL;
+    windowclass.style = 0;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
@@ -790,7 +790,7 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
   rect.right -= 2 * this->bordersize;
   rect.bottom -= 2 * this->bordersize;
 
-  HWND normalwidget = Win32::CreateWindowEx_(NULL,
+  HWND normalwidget = Win32::CreateWindowEx_(0,
                                              wndclassname,
                                              wndclassname,
                                              WS_VISIBLE |
@@ -1030,7 +1030,7 @@ SoWinGLWidgetP::dumpPixelFormat(HDC hdc, int format)
   };
 
   SbString dwFlagsStr("");
-  for (int i=0; i < (sizeof(dwFlags) / sizeof(dwFlags[0])); i++) {
+  for (int i=0; i < (int)(sizeof(dwFlags) / sizeof(dwFlags[0])); i++) {
     if (dwFlags[i].flag & desc.dwFlags) {
       if (dwFlagsStr.getLength() > 0) { dwFlagsStr += '|'; }
       dwFlagsStr += dwFlags[i].name;
