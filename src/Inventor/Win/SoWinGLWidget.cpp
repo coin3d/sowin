@@ -617,7 +617,7 @@ SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // FIXME: pfd
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = NULL;
   windowclass.hCursor =  NULL;
-  windowclass.hbrBackground = /*NULL;*/( HBRUSH ) GetStockObject( BLACK_BRUSH );
+  windowclass.hbrBackground = NULL;//( HBRUSH ) GetStockObject( BLACK_BRUSH );
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;
 
