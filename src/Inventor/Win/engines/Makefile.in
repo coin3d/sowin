@@ -46,7 +46,7 @@ oldincludedir = /usr/include
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
-top_builddir = ../..
+top_builddir = ../../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -490,32 +490,105 @@ SoQt_ExtraBuiltMetaFiles = \
   $(top_builddir)/src/Inventor/Qt/widgets/moc_SoQtGLArea.cpp
 
 
-SUBDIRS = @Gui@
+@BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = engines.lst
+@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoWinEngines.la
+
+DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+LIBS = 
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
 
 
 CLEANFILES = \
-	$(SoGui_src_Inventor_BuiltFiles) \
-	$(SoGui_src_Inventor_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_engines_BuiltMetaFiles)
 
-subdir = src/Inventor
+
+DISTCLEANFILES = \
+	$(SoGui_src_Inventor_Gui_engines_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_engines_BuiltMetaFiles)
+
+
+
+############################################################################
+libSoWinEngines_la_SOURCES = 
+
+nodist_libSoWinEngines_la_SOURCES = \
+	$(SoGui_src_Inventor_Gui_engines_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_engines_BuiltMetaFiles)
+
+
+
+############################################################################
+engines_lst_SOURCES = 
+
+nodist_engines_lst_SOURCES = \
+	$(SoGui_src_Inventor_Gui_engines_BuiltFiles)
+
+
+
+############################################################################
+# Headers are kept private.
+SoWinEnginesincdir = $(includedir)/Inventor/@Gui@/engines
+
+SoWinEnginesinc_HEADERS = 
+subdir = src/Inventor/Win/engines
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
-DIST_SOURCES =
+LIBRARIES = $(noinst_LIBRARIES)
 
-RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
-	uninstall-info-recursive all-recursive install-data-recursive \
-	install-exec-recursive installdirs-recursive install-recursive \
-	uninstall-recursive check-recursive installcheck-recursive
-DIST_COMMON = Makefile.am Makefile.in
-DIST_SUBDIRS = $(SUBDIRS)
+engines_lst_AR = $(AR) cru
+engines_lst_LIBADD =
+am_engines_lst_OBJECTS =
+nodist_engines_lst_OBJECTS = Engines.$(OBJEXT) RadioGroup.$(OBJEXT) \
+	Format.$(OBJEXT)
+engines_lst_OBJECTS = $(am_engines_lst_OBJECTS) \
+	$(nodist_engines_lst_OBJECTS)
+LTLIBRARIES = $(noinst_LTLIBRARIES)
+
+libSoWinEngines_la_LDFLAGS =
+libSoWinEngines_la_LIBADD =
+am_libSoWinEngines_la_OBJECTS =
+nodist_libSoWinEngines_la_OBJECTS = Engines.lo RadioGroup.lo Format.lo
+libSoWinEngines_la_OBJECTS = $(am_libSoWinEngines_la_OBJECTS) \
+	$(nodist_libSoWinEngines_la_OBJECTS)
+
+DEFS = @DEFS@
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/Engines.Plo $(DEPDIR)/Engines.Po \
+@AMDEP_TRUE@	$(DEPDIR)/Format.Plo $(DEPDIR)/Format.Po \
+@AMDEP_TRUE@	$(DEPDIR)/RadioGroup.Plo $(DEPDIR)/RadioGroup.Po
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS)
+CXXLD = $(CXX)
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+CXXFLAGS = @CXXFLAGS@
+CFLAGS = @CFLAGS@
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
+	$(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+DIST_SOURCES = $(engines_lst_SOURCES) $(libSoWinEngines_la_SOURCES)
+HEADERS = $(SoWinEnginesinc_HEADERS)
+
+DIST_COMMON = $(SoWinEnginesinc_HEADERS) Makefile.am Makefile.in
+SOURCES = $(engines_lst_SOURCES) $(nodist_engines_lst_SOURCES) $(libSoWinEngines_la_SOURCES) $(nodist_libSoWinEngines_la_SOURCES)
+
 all: $(BUILT_SOURCES)
-	$(MAKE) $(AM_MAKEFLAGS) all-recursive
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
+.SUFFIXES: .cpp .lo .o .obj
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -525,68 +598,137 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(srcdir)/Win/common/Makefile.common $(top_srcdir)/configure.ac $(ACLOCAL_M4)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(srcdir)/../common/Makefile.common $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/Inventor/Makefile
+	  $(AUTOMAKE) --gnu  src/Inventor/Win/engines/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+
+AR = ar
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+Engines.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
+RadioGroup.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+Format.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
+
+clean-noinstLTLIBRARIES:
+	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+Engines.lo: $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
+RadioGroup.lo: $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+Format.lo: $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
+libSoWinEngines.la: $(libSoWinEngines_la_OBJECTS) $(libSoWinEngines_la_DEPENDENCIES) 
+	$(CXXLINK)  $(libSoWinEngines_la_LDFLAGS) $(libSoWinEngines_la_OBJECTS) $(libSoWinEngines_la_LIBADD) $(LIBS)
+
+mostlyclean-compile:
+	-rm -f *.$(OBJEXT) core *.core
+
+distclean-compile:
+	-rm -f *.tab.c
+
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Engines.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Engines.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Format.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Format.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/RadioGroup.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/RadioGroup.Po@am__quote@
+
+distclean-depend:
+	-rm -rf $(DEPDIR)
+
+.cpp.o:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+
+.cpp.obj:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `( test -f $< || echo -n '$(srcdir)/'; echo -n $< ) | xargs cygpath -w`
+
+.cpp.lo:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+
+Engines.o: $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' object='Engines.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Engines.Po' tmpdepfile='$(DEPDIR)/Engines.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Engines.o `test -f $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
+
+Engines.obj: $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' object='Engines.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Engines.Po' tmpdepfile='$(DEPDIR)/Engines.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Engines.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp ) | xargs cygpath -w`
+
+Engines.lo: $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' object='Engines.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Engines.Plo' tmpdepfile='$(DEPDIR)/Engines.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Engines.lo `test -f $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
+
+RadioGroup.o: $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' object='RadioGroup.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/RadioGroup.Po' tmpdepfile='$(DEPDIR)/RadioGroup.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o RadioGroup.o `test -f $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+
+RadioGroup.obj: $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' object='RadioGroup.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/RadioGroup.Po' tmpdepfile='$(DEPDIR)/RadioGroup.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o RadioGroup.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp ) | xargs cygpath -w`
+
+RadioGroup.lo: $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' object='RadioGroup.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/RadioGroup.Plo' tmpdepfile='$(DEPDIR)/RadioGroup.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o RadioGroup.lo `test -f $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+
+Format.o: $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp' object='Format.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Format.Po' tmpdepfile='$(DEPDIR)/Format.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Format.o `test -f $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
+
+Format.obj: $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp' object='Format.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Format.Po' tmpdepfile='$(DEPDIR)/Format.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Format.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp ) | xargs cygpath -w`
+
+Format.lo: $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp' object='Format.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Format.Plo' tmpdepfile='$(DEPDIR)/Format.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Format.lo `test -f $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
+CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
+install-SoWinEnginesincHEADERS: $(SoWinEnginesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinEnginesincdir)
+	@list='$(SoWinEnginesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoWinEnginesincdir)/$$f"; \
+	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoWinEnginesincdir)/$$f; \
+	done
 
-# This directory's subdirectories are mostly independent; you can cd
-# into them and run `make' without going through this Makefile.
-# To change the values of `make' variables: instead of editing Makefiles,
-# (1) if the variable is set in `config.status', edit `config.status'
-#     (which will cause the Makefiles to be regenerated when you run `make');
-# (2) otherwise, pass the desired values on the `make' command line.
-$(RECURSIVE_TARGETS):
-	@set fnord $(MAKEFLAGS); amf=$$2; \
-	dot_seen=no; \
-	target=`echo $@ | sed s/-recursive//`; \
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  echo "Making $$target in $$subdir"; \
-	  if test "$$subdir" = "."; then \
-	    dot_seen=yes; \
-	    local_target="$$target-am"; \
-	  else \
-	    local_target="$$target"; \
-	  fi; \
-	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
-	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
-	done; \
-	if test "$$dot_seen" = "no"; then \
-	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
-	fi; test -z "$$fail"
-
-mostlyclean-recursive clean-recursive distclean-recursive \
-maintainer-clean-recursive:
-	@set fnord $(MAKEFLAGS); amf=$$2; \
-	dot_seen=no; \
-	case "$@" in \
-	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
-	  *) list='$(SUBDIRS)' ;; \
-	esac; \
-	rev=''; for subdir in $$list; do \
-	  if test "$$subdir" = "."; then :; else \
-	    rev="$$subdir $$rev"; \
-	  fi; \
-	done; \
-	rev="$$rev ."; \
-	target=`echo $@ | sed s/-recursive//`; \
-	for subdir in $$rev; do \
-	  echo "Making $$target in $$subdir"; \
-	  if test "$$subdir" = "."; then \
-	    local_target="$$target-am"; \
-	  else \
-	    local_target="$$target"; \
-	  fi; \
-	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
-	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
-	done && test -z "$$fail"
-tags-recursive:
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
+uninstall-SoWinEnginesincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(SoWinEnginesinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(SoWinEnginesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoWinEnginesincdir)/$$f; \
 	done
 
 tags: TAGS
@@ -600,15 +742,10 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	       END { for (i in files) print i; }'`; \
 	mkid -fID $$unique $(LISP)
 
-TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  if test "$$subdir" = .; then :; else \
-	    test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
-	  fi; \
-	done; \
 	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
@@ -628,7 +765,7 @@ distclean-tags:
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-top_distdir = ../..
+top_distdir = ../../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
@@ -647,34 +784,22 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	for subdir in $(SUBDIRS); do \
-	  if test "$$subdir" = .; then :; else \
-	    test -d $(distdir)/$$subdir \
-	    || mkdir $(distdir)/$$subdir \
-	    || exit 1; \
-	    (cd $$subdir && \
-	      $(MAKE) $(AM_MAKEFLAGS) \
-	        top_distdir="$(top_distdir)" \
-	        distdir=../$(distdir)/$$subdir \
-	        distdir) \
-	      || exit 1; \
-	  fi; \
-	done
 check-am: all-am
-check: check-recursive
-all-am: Makefile
-installdirs: installdirs-recursive
-installdirs-am:
+check: check-am
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
-install: install-recursive
-install-exec: install-exec-recursive
-install-data: install-data-recursive
-uninstall: uninstall-recursive
+installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(SoWinEnginesincdir)
+
+install: install-am
+install-exec: install-exec-am
+install-data: install-data-am
+uninstall: uninstall-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 
-installcheck: installcheck-recursive
+installcheck: installcheck-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
 	  `test -z '$(STRIP)' || \
@@ -686,64 +811,62 @@ clean-generic:
 
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
-clean: clean-recursive
+clean: clean-am
 
-clean-am: clean-generic clean-libtool mostlyclean-am
+clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
+	clean-noinstLTLIBRARIES mostlyclean-am
 
-distclean: distclean-recursive
+distclean: distclean-am
 
-distclean-am: clean-am distclean-generic distclean-libtool \
-	distclean-tags
+distclean-am: clean-am distclean-compile distclean-depend \
+	distclean-generic distclean-libtool distclean-tags
 
-dvi: dvi-recursive
+dvi: dvi-am
 
 dvi-am:
 
-info: info-recursive
+info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-SoWinEnginesincHEADERS
 
 install-exec-am:
 
-install-info: install-info-recursive
+install-info: install-info-am
 
 install-man:
 
 installcheck-am:
 
-maintainer-clean: maintainer-clean-recursive
+maintainer-clean: maintainer-clean-am
 
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
-mostlyclean: mostlyclean-recursive
+mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-generic mostlyclean-libtool
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-SoWinEnginesincHEADERS uninstall-info-am
 
-uninstall-info: uninstall-info-recursive
-
-.PHONY: $(RECURSIVE_TARGETS) GTAGS all all-am check check-am clean \
-	clean-generic clean-libtool clean-recursive distclean \
-	distclean-generic distclean-libtool distclean-recursive \
-	distclean-tags distdir dvi dvi-am dvi-recursive info info-am \
-	info-recursive install install-am install-data install-data-am \
-	install-data-recursive install-exec install-exec-am \
-	install-exec-recursive install-info install-info-am \
-	install-info-recursive install-man install-recursive \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am installdirs-recursive maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
-	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
-	tags tags-recursive uninstall uninstall-am uninstall-info-am \
-	uninstall-info-recursive uninstall-recursive
+.PHONY: GTAGS all all-am check check-am clean clean-generic \
+	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
+	distclean distclean-compile distclean-depend distclean-generic \
+	distclean-libtool distclean-tags distdir dvi dvi-am info \
+	info-am install install-SoWinEnginesincHEADERS install-am \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-info-am install-man install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool tags uninstall \
+	uninstall-SoWinEnginesincHEADERS uninstall-am uninstall-info-am
 
 
 ############################################################################
@@ -1125,6 +1248,14 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
 @BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h`"; \
 @BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h` )
+
+############################################################################
+#	$(SoGui_src_Inventor_Gui_engines_BuiltMetaFiles)
+
+engines.lst: Makefile $(engines_lst_OBJECTS)
+	@echo "Linking engines.lst..."; \
+	rm -f $@; \
+	for i in $(engines_lst_OBJECTS); do echo $$i >>$@; done
 
 ############################################################################
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

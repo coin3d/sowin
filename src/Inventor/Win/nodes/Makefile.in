@@ -46,7 +46,7 @@ oldincludedir = /usr/include
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
-top_builddir = ../..
+top_builddir = ../../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -490,32 +490,127 @@ SoQt_ExtraBuiltMetaFiles = \
   $(top_builddir)/src/Inventor/Qt/widgets/moc_SoQtGLArea.cpp
 
 
-SUBDIRS = @Gui@
+@BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = nodes.lst
+@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoWinNodes.la
+
+DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+LIBS = 
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
 
 
 CLEANFILES = \
-	$(SoGui_src_Inventor_BuiltFiles) \
-	$(SoGui_src_Inventor_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_nodes_BuiltMetaFiles)
 
-subdir = src/Inventor
+
+DISTCLEANFILES = \
+	$(SoGui_src_Inventor_Gui_nodes_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_nodes_BuiltMetaFiles)
+
+
+
+############################################################################
+libSoWinNodes_la_SOURCES = 
+
+nodist_libSoWinNodes_la_SOURCES = \
+	$(SoGui_src_Inventor_Gui_nodes_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_nodes_BuiltMetaFiles)
+
+
+
+############################################################################
+nodes_lst_SOURCES = 
+
+nodist_nodes_lst_SOURCES = \
+	$(SoGui_src_Inventor_Gui_nodes_BuiltFiles)
+
+
+
+############################################################################
+# Headers are kept private.
+SoWinNodesincdir = $(includedir)/Inventor/@Gui@/nodes
+
+SoWinNodesinc_HEADERS = 
+subdir = src/Inventor/Win/nodes
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
-DIST_SOURCES =
+LIBRARIES = $(noinst_LIBRARIES)
 
-RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
-	uninstall-info-recursive all-recursive install-data-recursive \
-	install-exec-recursive installdirs-recursive install-recursive \
-	uninstall-recursive check-recursive installcheck-recursive
-DIST_COMMON = Makefile.am Makefile.in
-DIST_SUBDIRS = $(SUBDIRS)
+nodes_lst_AR = $(AR) cru
+nodes_lst_LIBADD =
+am_nodes_lst_OBJECTS =
+nodist_nodes_lst_OBJECTS = Nodes.$(OBJEXT) SceneTexture2.$(OBJEXT) \
+	ViewportFix.$(OBJEXT) Pane.$(OBJEXT) Position.$(OBJEXT) \
+	Translation.$(OBJEXT) Frame.$(OBJEXT) Image.$(OBJEXT) \
+	Label.$(OBJEXT) ToggleButton.$(OBJEXT) RadioButton.$(OBJEXT) \
+	ClickCounter.$(OBJEXT) Slider1.$(OBJEXT) Slider2.$(OBJEXT) \
+	ColorEditor.$(OBJEXT) MaterialEditor.$(OBJEXT)
+nodes_lst_OBJECTS = $(am_nodes_lst_OBJECTS) $(nodist_nodes_lst_OBJECTS)
+LTLIBRARIES = $(noinst_LTLIBRARIES)
+
+libSoWinNodes_la_LDFLAGS =
+libSoWinNodes_la_LIBADD =
+am_libSoWinNodes_la_OBJECTS =
+nodist_libSoWinNodes_la_OBJECTS = Nodes.lo SceneTexture2.lo \
+	ViewportFix.lo Pane.lo Position.lo Translation.lo Frame.lo \
+	Image.lo Label.lo ToggleButton.lo RadioButton.lo \
+	ClickCounter.lo Slider1.lo Slider2.lo ColorEditor.lo \
+	MaterialEditor.lo
+libSoWinNodes_la_OBJECTS = $(am_libSoWinNodes_la_OBJECTS) \
+	$(nodist_libSoWinNodes_la_OBJECTS)
+
+DEFS = @DEFS@
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/ClickCounter.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/ClickCounter.Po $(DEPDIR)/ColorEditor.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/ColorEditor.Po $(DEPDIR)/Frame.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Frame.Po $(DEPDIR)/Image.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Image.Po $(DEPDIR)/Label.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Label.Po $(DEPDIR)/MaterialEditor.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/MaterialEditor.Po $(DEPDIR)/Nodes.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Nodes.Po $(DEPDIR)/Pane.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Pane.Po $(DEPDIR)/Position.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Position.Po $(DEPDIR)/RadioButton.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/RadioButton.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SceneTexture2.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SceneTexture2.Po $(DEPDIR)/Slider1.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Slider1.Po $(DEPDIR)/Slider2.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Slider2.Po $(DEPDIR)/ToggleButton.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/ToggleButton.Po $(DEPDIR)/Translation.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Translation.Po $(DEPDIR)/ViewportFix.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/ViewportFix.Po
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS)
+CXXLD = $(CXX)
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+CXXFLAGS = @CXXFLAGS@
+CFLAGS = @CFLAGS@
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
+	$(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+DIST_SOURCES = $(nodes_lst_SOURCES) $(libSoWinNodes_la_SOURCES)
+HEADERS = $(SoWinNodesinc_HEADERS)
+
+DIST_COMMON = $(SoWinNodesinc_HEADERS) Makefile.am Makefile.in
+SOURCES = $(nodes_lst_SOURCES) $(nodist_nodes_lst_SOURCES) $(libSoWinNodes_la_SOURCES) $(nodist_libSoWinNodes_la_SOURCES)
+
 all: $(BUILT_SOURCES)
-	$(MAKE) $(AM_MAKEFLAGS) all-recursive
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
+.SUFFIXES: .cpp .lo .o .obj
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -525,68 +620,434 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(srcdir)/Win/common/Makefile.common $(top_srcdir)/configure.ac $(ACLOCAL_M4)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(srcdir)/../common/Makefile.common $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/Inventor/Makefile
+	  $(AUTOMAKE) --gnu  src/Inventor/Win/nodes/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+
+AR = ar
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+Nodes.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
+SceneTexture2.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
+ViewportFix.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
+Pane.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
+Position.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
+Translation.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
+Frame.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
+Image.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+Label.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
+ToggleButton.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
+RadioButton.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
+ClickCounter.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
+Slider1.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
+Slider2.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+ColorEditor.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
+MaterialEditor.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
+
+clean-noinstLTLIBRARIES:
+	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+Nodes.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
+SceneTexture2.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
+ViewportFix.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
+Pane.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
+Position.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
+Translation.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
+Frame.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
+Image.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+Label.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
+ToggleButton.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
+RadioButton.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
+ClickCounter.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
+Slider1.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
+Slider2.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+ColorEditor.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
+MaterialEditor.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
+libSoWinNodes.la: $(libSoWinNodes_la_OBJECTS) $(libSoWinNodes_la_DEPENDENCIES) 
+	$(CXXLINK)  $(libSoWinNodes_la_LDFLAGS) $(libSoWinNodes_la_OBJECTS) $(libSoWinNodes_la_LIBADD) $(LIBS)
+
+mostlyclean-compile:
+	-rm -f *.$(OBJEXT) core *.core
+
+distclean-compile:
+	-rm -f *.tab.c
+
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ClickCounter.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ClickCounter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ColorEditor.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ColorEditor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Frame.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Frame.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Image.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Image.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Label.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Label.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/MaterialEditor.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/MaterialEditor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Nodes.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Nodes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Pane.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Pane.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Position.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Position.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/RadioButton.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/RadioButton.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SceneTexture2.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SceneTexture2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Slider1.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Slider1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Slider2.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Slider2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ToggleButton.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ToggleButton.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Translation.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Translation.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ViewportFix.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ViewportFix.Po@am__quote@
+
+distclean-depend:
+	-rm -rf $(DEPDIR)
+
+.cpp.o:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+
+.cpp.obj:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `( test -f $< || echo -n '$(srcdir)/'; echo -n $< ) | xargs cygpath -w`
+
+.cpp.lo:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+
+Nodes.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp' object='Nodes.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Nodes.Po' tmpdepfile='$(DEPDIR)/Nodes.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Nodes.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
+
+Nodes.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp' object='Nodes.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Nodes.Po' tmpdepfile='$(DEPDIR)/Nodes.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Nodes.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp ) | xargs cygpath -w`
+
+Nodes.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp' object='Nodes.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Nodes.Plo' tmpdepfile='$(DEPDIR)/Nodes.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Nodes.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
+
+SceneTexture2.o: $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' object='SceneTexture2.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SceneTexture2.Po' tmpdepfile='$(DEPDIR)/SceneTexture2.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SceneTexture2.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
+
+SceneTexture2.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' object='SceneTexture2.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SceneTexture2.Po' tmpdepfile='$(DEPDIR)/SceneTexture2.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SceneTexture2.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp ) | xargs cygpath -w`
+
+SceneTexture2.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' object='SceneTexture2.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SceneTexture2.Plo' tmpdepfile='$(DEPDIR)/SceneTexture2.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SceneTexture2.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
+
+ViewportFix.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp' object='ViewportFix.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ViewportFix.Po' tmpdepfile='$(DEPDIR)/ViewportFix.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ViewportFix.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
+
+ViewportFix.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp' object='ViewportFix.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ViewportFix.Po' tmpdepfile='$(DEPDIR)/ViewportFix.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ViewportFix.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp ) | xargs cygpath -w`
+
+ViewportFix.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp' object='ViewportFix.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ViewportFix.Plo' tmpdepfile='$(DEPDIR)/ViewportFix.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ViewportFix.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
+
+Pane.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp' object='Pane.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Pane.Po' tmpdepfile='$(DEPDIR)/Pane.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Pane.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
+
+Pane.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp' object='Pane.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Pane.Po' tmpdepfile='$(DEPDIR)/Pane.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Pane.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp ) | xargs cygpath -w`
+
+Pane.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp' object='Pane.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Pane.Plo' tmpdepfile='$(DEPDIR)/Pane.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Pane.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
+
+Position.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp' object='Position.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Position.Po' tmpdepfile='$(DEPDIR)/Position.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Position.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
+
+Position.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp' object='Position.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Position.Po' tmpdepfile='$(DEPDIR)/Position.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Position.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp ) | xargs cygpath -w`
+
+Position.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp' object='Position.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Position.Plo' tmpdepfile='$(DEPDIR)/Position.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Position.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
+
+Translation.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp' object='Translation.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Translation.Po' tmpdepfile='$(DEPDIR)/Translation.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Translation.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
+
+Translation.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp' object='Translation.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Translation.Po' tmpdepfile='$(DEPDIR)/Translation.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Translation.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp ) | xargs cygpath -w`
+
+Translation.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp' object='Translation.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Translation.Plo' tmpdepfile='$(DEPDIR)/Translation.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Translation.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
+
+Frame.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp' object='Frame.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Frame.Po' tmpdepfile='$(DEPDIR)/Frame.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Frame.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
+
+Frame.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp' object='Frame.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Frame.Po' tmpdepfile='$(DEPDIR)/Frame.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Frame.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp ) | xargs cygpath -w`
+
+Frame.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp' object='Frame.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Frame.Plo' tmpdepfile='$(DEPDIR)/Frame.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Frame.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
+
+Image.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' object='Image.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Image.Po' tmpdepfile='$(DEPDIR)/Image.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Image.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+
+Image.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' object='Image.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Image.Po' tmpdepfile='$(DEPDIR)/Image.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Image.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp ) | xargs cygpath -w`
+
+Image.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' object='Image.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Image.Plo' tmpdepfile='$(DEPDIR)/Image.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Image.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+
+Label.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' object='Label.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Label.Po' tmpdepfile='$(DEPDIR)/Label.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Label.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
+
+Label.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' object='Label.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Label.Po' tmpdepfile='$(DEPDIR)/Label.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Label.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp ) | xargs cygpath -w`
+
+Label.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' object='Label.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Label.Plo' tmpdepfile='$(DEPDIR)/Label.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Label.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
+
+ToggleButton.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp' object='ToggleButton.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ToggleButton.Po' tmpdepfile='$(DEPDIR)/ToggleButton.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ToggleButton.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
+
+ToggleButton.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp' object='ToggleButton.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ToggleButton.Po' tmpdepfile='$(DEPDIR)/ToggleButton.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ToggleButton.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp ) | xargs cygpath -w`
+
+ToggleButton.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp' object='ToggleButton.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ToggleButton.Plo' tmpdepfile='$(DEPDIR)/ToggleButton.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ToggleButton.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
+
+RadioButton.o: $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp' object='RadioButton.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/RadioButton.Po' tmpdepfile='$(DEPDIR)/RadioButton.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o RadioButton.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
+
+RadioButton.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp' object='RadioButton.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/RadioButton.Po' tmpdepfile='$(DEPDIR)/RadioButton.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o RadioButton.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp ) | xargs cygpath -w`
+
+RadioButton.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp' object='RadioButton.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/RadioButton.Plo' tmpdepfile='$(DEPDIR)/RadioButton.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o RadioButton.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
+
+ClickCounter.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp' object='ClickCounter.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ClickCounter.Po' tmpdepfile='$(DEPDIR)/ClickCounter.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ClickCounter.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
+
+ClickCounter.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp' object='ClickCounter.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ClickCounter.Po' tmpdepfile='$(DEPDIR)/ClickCounter.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ClickCounter.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp ) | xargs cygpath -w`
+
+ClickCounter.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp' object='ClickCounter.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ClickCounter.Plo' tmpdepfile='$(DEPDIR)/ClickCounter.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ClickCounter.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
+
+Slider1.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp' object='Slider1.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Slider1.Po' tmpdepfile='$(DEPDIR)/Slider1.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Slider1.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
+
+Slider1.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp' object='Slider1.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Slider1.Po' tmpdepfile='$(DEPDIR)/Slider1.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Slider1.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp ) | xargs cygpath -w`
+
+Slider1.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp' object='Slider1.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Slider1.Plo' tmpdepfile='$(DEPDIR)/Slider1.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Slider1.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
+
+Slider2.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' object='Slider2.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Slider2.Po' tmpdepfile='$(DEPDIR)/Slider2.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Slider2.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+
+Slider2.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' object='Slider2.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Slider2.Po' tmpdepfile='$(DEPDIR)/Slider2.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Slider2.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp ) | xargs cygpath -w`
+
+Slider2.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' object='Slider2.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Slider2.Plo' tmpdepfile='$(DEPDIR)/Slider2.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Slider2.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+
+ColorEditor.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' object='ColorEditor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ColorEditor.Po' tmpdepfile='$(DEPDIR)/ColorEditor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ColorEditor.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
+
+ColorEditor.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' object='ColorEditor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ColorEditor.Po' tmpdepfile='$(DEPDIR)/ColorEditor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ColorEditor.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp ) | xargs cygpath -w`
+
+ColorEditor.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' object='ColorEditor.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ColorEditor.Plo' tmpdepfile='$(DEPDIR)/ColorEditor.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ColorEditor.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
+
+MaterialEditor.o: $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp' object='MaterialEditor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/MaterialEditor.Po' tmpdepfile='$(DEPDIR)/MaterialEditor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o MaterialEditor.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
+
+MaterialEditor.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp' object='MaterialEditor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/MaterialEditor.Po' tmpdepfile='$(DEPDIR)/MaterialEditor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o MaterialEditor.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp ) | xargs cygpath -w`
+
+MaterialEditor.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp' object='MaterialEditor.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/MaterialEditor.Plo' tmpdepfile='$(DEPDIR)/MaterialEditor.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o MaterialEditor.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
+CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
+install-SoWinNodesincHEADERS: $(SoWinNodesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoWinNodesincdir)
+	@list='$(SoWinNodesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoWinNodesincdir)/$$f"; \
+	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoWinNodesincdir)/$$f; \
+	done
 
-# This directory's subdirectories are mostly independent; you can cd
-# into them and run `make' without going through this Makefile.
-# To change the values of `make' variables: instead of editing Makefiles,
-# (1) if the variable is set in `config.status', edit `config.status'
-#     (which will cause the Makefiles to be regenerated when you run `make');
-# (2) otherwise, pass the desired values on the `make' command line.
-$(RECURSIVE_TARGETS):
-	@set fnord $(MAKEFLAGS); amf=$$2; \
-	dot_seen=no; \
-	target=`echo $@ | sed s/-recursive//`; \
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  echo "Making $$target in $$subdir"; \
-	  if test "$$subdir" = "."; then \
-	    dot_seen=yes; \
-	    local_target="$$target-am"; \
-	  else \
-	    local_target="$$target"; \
-	  fi; \
-	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
-	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
-	done; \
-	if test "$$dot_seen" = "no"; then \
-	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
-	fi; test -z "$$fail"
-
-mostlyclean-recursive clean-recursive distclean-recursive \
-maintainer-clean-recursive:
-	@set fnord $(MAKEFLAGS); amf=$$2; \
-	dot_seen=no; \
-	case "$@" in \
-	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
-	  *) list='$(SUBDIRS)' ;; \
-	esac; \
-	rev=''; for subdir in $$list; do \
-	  if test "$$subdir" = "."; then :; else \
-	    rev="$$subdir $$rev"; \
-	  fi; \
-	done; \
-	rev="$$rev ."; \
-	target=`echo $@ | sed s/-recursive//`; \
-	for subdir in $$rev; do \
-	  echo "Making $$target in $$subdir"; \
-	  if test "$$subdir" = "."; then \
-	    local_target="$$target-am"; \
-	  else \
-	    local_target="$$target"; \
-	  fi; \
-	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
-	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
-	done && test -z "$$fail"
-tags-recursive:
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
+uninstall-SoWinNodesincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(SoWinNodesinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(SoWinNodesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoWinNodesincdir)/$$f; \
 	done
 
 tags: TAGS
@@ -600,15 +1061,10 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	       END { for (i in files) print i; }'`; \
 	mkid -fID $$unique $(LISP)
 
-TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  if test "$$subdir" = .; then :; else \
-	    test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
-	  fi; \
-	done; \
 	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
@@ -628,7 +1084,7 @@ distclean-tags:
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-top_distdir = ../..
+top_distdir = ../../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
@@ -647,34 +1103,22 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	for subdir in $(SUBDIRS); do \
-	  if test "$$subdir" = .; then :; else \
-	    test -d $(distdir)/$$subdir \
-	    || mkdir $(distdir)/$$subdir \
-	    || exit 1; \
-	    (cd $$subdir && \
-	      $(MAKE) $(AM_MAKEFLAGS) \
-	        top_distdir="$(top_distdir)" \
-	        distdir=../$(distdir)/$$subdir \
-	        distdir) \
-	      || exit 1; \
-	  fi; \
-	done
 check-am: all-am
-check: check-recursive
-all-am: Makefile
-installdirs: installdirs-recursive
-installdirs-am:
+check: check-am
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
-install: install-recursive
-install-exec: install-exec-recursive
-install-data: install-data-recursive
-uninstall: uninstall-recursive
+installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(SoWinNodesincdir)
+
+install: install-am
+install-exec: install-exec-am
+install-data: install-data-am
+uninstall: uninstall-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 
-installcheck: installcheck-recursive
+installcheck: installcheck-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
 	  `test -z '$(STRIP)' || \
@@ -686,64 +1130,62 @@ clean-generic:
 
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
-clean: clean-recursive
+clean: clean-am
 
-clean-am: clean-generic clean-libtool mostlyclean-am
+clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
+	clean-noinstLTLIBRARIES mostlyclean-am
 
-distclean: distclean-recursive
+distclean: distclean-am
 
-distclean-am: clean-am distclean-generic distclean-libtool \
-	distclean-tags
+distclean-am: clean-am distclean-compile distclean-depend \
+	distclean-generic distclean-libtool distclean-tags
 
-dvi: dvi-recursive
+dvi: dvi-am
 
 dvi-am:
 
-info: info-recursive
+info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-SoWinNodesincHEADERS
 
 install-exec-am:
 
-install-info: install-info-recursive
+install-info: install-info-am
 
 install-man:
 
 installcheck-am:
 
-maintainer-clean: maintainer-clean-recursive
+maintainer-clean: maintainer-clean-am
 
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
-mostlyclean: mostlyclean-recursive
+mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-generic mostlyclean-libtool
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-SoWinNodesincHEADERS uninstall-info-am
 
-uninstall-info: uninstall-info-recursive
-
-.PHONY: $(RECURSIVE_TARGETS) GTAGS all all-am check check-am clean \
-	clean-generic clean-libtool clean-recursive distclean \
-	distclean-generic distclean-libtool distclean-recursive \
-	distclean-tags distdir dvi dvi-am dvi-recursive info info-am \
-	info-recursive install install-am install-data install-data-am \
-	install-data-recursive install-exec install-exec-am \
-	install-exec-recursive install-info install-info-am \
-	install-info-recursive install-man install-recursive \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am installdirs-recursive maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
-	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
-	tags tags-recursive uninstall uninstall-am uninstall-info-am \
-	uninstall-info-recursive uninstall-recursive
+.PHONY: GTAGS all all-am check check-am clean clean-generic \
+	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
+	distclean distclean-compile distclean-depend distclean-generic \
+	distclean-libtool distclean-tags distdir dvi dvi-am info \
+	info-am install install-SoWinNodesincHEADERS install-am \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-info-am install-man install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool tags uninstall \
+	uninstall-SoWinNodesincHEADERS uninstall-am uninstall-info-am
 
 
 ############################################################################
@@ -1125,6 +1567,14 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
 @BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h`"; \
 @BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h` )
+
+############################################################################
+#	$(SoGui_src_Inventor_Gui_nodes_BuiltMetaFiles)
+
+nodes.lst: Makefile $(nodes_lst_OBJECTS)
+	@echo "Linking nodes.lst..."; \
+	rm -f $@; \
+	for i in $(nodes_lst_OBJECTS); do echo $$i >>$@; done
 
 ############################################################################
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

@@ -5958,8 +5958,9 @@ else
     rhapsody* | darwin1.[012])
       allow_undefined_flag='-undefined suppress'
       ;;
-    *) # Darwin 1.3 on
-      allow_undefined_flag='-flat_namespace -undefined suppress'
+    *) # On Mac OS 10.1 and above, two-level namespace libraries are the
+       # default, where undefined symbols are not allowed.
+      allow_undefined_flag=''
       ;;
     esac
     # FIXME: Relying on posixy $() will cause problems for
@@ -7181,7 +7182,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7184 "configure"
+#line 7185 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -7279,7 +7280,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7282 "configure"
+#line 7283 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -8841,7 +8842,11 @@ else
 fi;
 
 if test x"$enable_warnings" = x"yes"; then
-  if test x"$GCC" = x"yes"; then
+
+  for sim_ac_try_warning_option in \
+    "-W" "-Wall" "-Wno-unused" "-Wno-multichar" "-Woverloaded-virtual"; do
+
+    if test x"$GCC" = x"yes"; then
 
 
 
@@ -8851,11 +8856,11 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-echo "$as_me:$LINENO: checking whether $CC accepts -W -Wall -Wno-unused" >&5
-echo $ECHO_N "checking whether $CC accepts -W -Wall -Wno-unused... $ECHO_C" >&6
+echo "$as_me:$LINENO: checking whether $CC accepts $sim_ac_try_warning_option" >&5
+echo $ECHO_N "checking whether $CC accepts $sim_ac_try_warning_option... $ECHO_C" >&6
 
 sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -W -Wall -Wno-unused"
+CPPFLAGS="$CPPFLAGS $sim_ac_try_warning_option"
 cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 #include "confdefs.h"
@@ -8896,9 +8901,9 @@ rm -f conftest.$ac_objext conftest.$ac_ext
 echo "$as_me:$LINENO: result: $sim_ac_accept_result" >&5
 echo "${ECHO_T}$sim_ac_accept_result" >&6
 CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in CFLAGS="$CFLAGS -W -Wall -Wno-unused" or .
+# This need to go last, in case CPPFLAGS is modified in CFLAGS="$CFLAGS $sim_ac_try_warning_option" or .
 if test $sim_ac_accept_result = yes; then
-  CFLAGS="$CFLAGS -W -Wall -Wno-unused"
+  CFLAGS="$CFLAGS $sim_ac_try_warning_option"
 else
   :
 fi
@@ -8910,77 +8915,9 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
+    fi
 
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-echo "$as_me:$LINENO: checking whether $CC accepts -Wno-multichar" >&5
-echo $ECHO_N "checking whether $CC accepts -Wno-multichar... $ECHO_C" >&6
-
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -Wno-multichar"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-#include "confdefs.h"
-
-#ifdef F77_DUMMY_MAIN
-#  ifdef __cplusplus
-     extern "C"
-#  endif
-   int F77_DUMMY_MAIN() { return 1; }
-#endif
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  sim_ac_accept_result=yes
-else
-  echo "$as_me: failed program was:" >&5
-cat conftest.$ac_ext >&5
-sim_ac_accept_result=no
-fi
-rm -f conftest.$ac_objext conftest.$ac_ext
-echo "$as_me:$LINENO: result: $sim_ac_accept_result" >&5
-echo "${ECHO_T}$sim_ac_accept_result" >&6
-CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in CFLAGS="$CFLAGS -Wno-multichar" or .
-if test $sim_ac_accept_result = yes; then
-  CFLAGS="$CFLAGS -Wno-multichar"
-else
-  :
-fi
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-
-  fi
-
-  if test x"$GXX" = x"yes"; then
+    if test x"$GXX" = x"yes"; then
 
 
 
@@ -8990,11 +8927,11 @@ ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
-echo "$as_me:$LINENO: checking whether $CXX accepts -W -Wall -Wno-unused" >&5
-echo $ECHO_N "checking whether $CXX accepts -W -Wall -Wno-unused... $ECHO_C" >&6
+echo "$as_me:$LINENO: checking whether $CXX accepts $sim_ac_try_warning_option" >&5
+echo $ECHO_N "checking whether $CXX accepts $sim_ac_try_warning_option... $ECHO_C" >&6
 
 sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -W -Wall -Wno-unused"
+CPPFLAGS="$CPPFLAGS $sim_ac_try_warning_option"
 cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 #include "confdefs.h"
@@ -9035,9 +8972,9 @@ rm -f conftest.$ac_objext conftest.$ac_ext
 echo "$as_me:$LINENO: result: $sim_ac_accept_result" >&5
 echo "${ECHO_T}$sim_ac_accept_result" >&6
 CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in CXXFLAGS="$CXXFLAGS -W -Wall -Wno-unused" or .
+# This need to go last, in case CPPFLAGS is modified in CXXFLAGS="$CXXFLAGS $sim_ac_try_warning_option" or .
 if test $sim_ac_accept_result = yes; then
-  CXXFLAGS="$CXXFLAGS -W -Wall -Wno-unused"
+  CXXFLAGS="$CXXFLAGS $sim_ac_try_warning_option"
 else
   :
 fi
@@ -9049,80 +8986,17 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
+    fi
 
-
-
-ac_ext=cc
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-echo "$as_me:$LINENO: checking whether $CXX accepts -Wno-multichar" >&5
-echo $ECHO_N "checking whether $CXX accepts -Wno-multichar... $ECHO_C" >&6
-
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -Wno-multichar"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-#include "confdefs.h"
-
-#ifdef F77_DUMMY_MAIN
-#  ifdef __cplusplus
-     extern "C"
-#  endif
-   int F77_DUMMY_MAIN() { return 1; }
-#endif
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  sim_ac_accept_result=yes
-else
-  echo "$as_me: failed program was:" >&5
-cat conftest.$ac_ext >&5
-sim_ac_accept_result=no
-fi
-rm -f conftest.$ac_objext conftest.$ac_ext
-echo "$as_me:$LINENO: result: $sim_ac_accept_result" >&5
-echo "${ECHO_T}$sim_ac_accept_result" >&6
-CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in CXXFLAGS="$CXXFLAGS -Wno-multichar" or .
-if test $sim_ac_accept_result = yes; then
-  CXXFLAGS="$CXXFLAGS -Wno-multichar"
-else
-  :
-fi
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-
-  fi
+  done
 
   case $host in
   *-*-irix*)
     ### Turn on all warnings ######################################
-    if test x"$CC" = xcc || test x"$CC" = xCC; then
+    # we try to catch settings like CC="CC -n32" too, even though the
+    # -n32 option belongs to C[XX]FLAGS
+    case $CC in
+    cc | "cc "* | CC | "CC "* )
 
 
 
@@ -9191,8 +9065,10 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-    fi
-    if test x"$CXX" = xCC; then
+      ;;
+    esac
+    case $CXX in
+    CC | "CC "* )
 
 
 
@@ -9261,7 +9137,8 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-    fi
+      ;;
+    esac
 
     ### Turn off specific (bogus) warnings ########################
 
@@ -9290,7 +9167,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
     sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,1110,1506,1169"
 
-    if test x"$CC" = xcc || test x"$CC" = xCC; then
+    case $CC in
+    cc | "cc "* | CC | "CC "* )
 
 
 
@@ -9359,8 +9237,9 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-    fi
-    if test x"$CXX" = xCC; then
+    esac
+    case $CXX in
+    CC | "CC "* )
 
 
 
@@ -9429,7 +9308,8 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-    fi
+      ;;
+    esac
   ;;
   esac
 fi
@@ -9646,19 +9526,19 @@ else
 fi
 
 if test x"$want_man" = x"yes"; then
-  if test x${sim_ac_configuration_settings+set} != xset; then
-  sim_ac_configuration_settings="manpage installation:$mandir"
-else
+  if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|manpage installation:$mandir"
+else
+  sim_ac_configuration_settings="manpage installation:$mandir"
 fi
 
 fi
 
 if test x"$want_html" = x"yes"; then
-  if test x${sim_ac_configuration_settings+set} != xset; then
-  sim_ac_configuration_settings="HTML installation:$htmldir"
-else
+  if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|HTML installation:$htmldir"
+else
+  sim_ac_configuration_settings="HTML installation:$htmldir"
 fi
 
 fi
@@ -10085,10 +9965,14 @@ else
 echo "${ECHO_T}no" >&6
 fi
 
-  if $sim_ac_coin_configcmd; then
+
+  if ! test "X$sim_ac_coin_configcmd" = "Xfalse"; then
     test -n "$CONFIG" &&
       $sim_ac_coin_configcmd --alternate=$CONFIG >/dev/null 2>/dev/null &&
       sim_ac_coin_configcmd="$sim_ac_coin_configcmd --alternate=$CONFIG"
+  fi
+
+  if $sim_ac_coin_configcmd; then
     sim_ac_coin_version=`$sim_ac_coin_configcmd --version`
     sim_ac_coin_cppflags=`$sim_ac_coin_configcmd --cppflags`
     sim_ac_coin_cflags=`$sim_ac_coin_configcmd --cflags 2>/dev/null`
@@ -10710,10 +10594,10 @@ if $BUILD_WITH_MSVC; then
   ## Ensure that if we link with Coin, we use the same C library as Coin
   if test x"$sim_ac_coin_msvcrt" != x"" &&
      test x"$sim_ac_msvcrt" != x"$sim_ac_coin_msvcrt"; then
-      if test x${sim_ac_configuration_warnings+set} != xset; then
-  sim_ac_configuration_warnings="You have built Coin with the $sim_ac_coin_msvcrt C library, while you try to build So$Gui with the $sim_ac_msvcrt C library.  This can cause mysterious crashes for you.  We recommend that you run So$Gui's configure script with the --with-msvcrt=$sim_ac_coin_msvcrt option."
-else
+      if test x"${sim_ac_configuration_warnings+set}" = x"set"; then
   sim_ac_configuration_warnings="$sim_ac_configuration_warnings|You have built Coin with the $sim_ac_coin_msvcrt C library, while you try to build So$Gui with the $sim_ac_msvcrt C library.  This can cause mysterious crashes for you.  We recommend that you run So$Gui's configure script with the --with-msvcrt=$sim_ac_coin_msvcrt option."
+else
+  sim_ac_configuration_warnings="You have built Coin with the $sim_ac_coin_msvcrt C library, while you try to build So$Gui with the $sim_ac_msvcrt C library.  This can cause mysterious crashes for you.  We recommend that you run So$Gui's configure script with the --with-msvcrt=$sim_ac_coin_msvcrt option."
 fi
 
   fi
@@ -10730,10 +10614,10 @@ fi
   debugfile="`pwd`/src/Inventor/Win/sowin${SOWIN_MAJOR_VERSION}${SUFFIX}.pdb"
   debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
   if $SOWIN_STATIC; then
-    if test x${sim_ac_configuration_settings+set} != xset; then
-  sim_ac_configuration_settings="SoWin build type:static .lib"
-else
+    if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|SoWin build type:static .lib"
+else
+  sim_ac_configuration_settings="SoWin build type:static .lib"
 fi
 
     LIBFLAGS="-LIB $LIBFLAGS"
@@ -10742,19 +10626,19 @@ fi
     LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
     case $enable_symbols in
     no | false)
-      if test x${sim_ac_configuration_settings+set} != xset; then
-  sim_ac_configuration_settings="SoWin build type:dynamic .dll, no symbols"
-else
+      if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|SoWin build type:dynamic .dll, no symbols"
+else
+  sim_ac_configuration_settings="SoWin build type:dynamic .dll, no symbols"
 fi
 
       LIBFLAGS="$LIBFLAGS /RELEASE"
       ;;
     *)
-      if test x${sim_ac_configuration_settings+set} != xset; then
-  sim_ac_configuration_settings="SoWin build type:dynamic .dll + .pdb"
-else
+      if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|SoWin build type:dynamic .dll + .pdb"
+else
+  sim_ac_configuration_settings="SoWin build type:dynamic .dll + .pdb"
 fi
 
       CFLAGS="/Fd$debugfile $CFLAGS"
@@ -10764,10 +10648,10 @@ fi
     esac
     LIBFLAGS="$LIBFLAGS /OUT:sowin$SOWIN_MAJOR_VERSION$SUFFIX.dll"
   fi
-  if test x${sim_ac_configuration_settings+set} != xset; then
-  sim_ac_configuration_settings="C library version:$sim_ac_msvcrt"
-else
+  if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|C library version:$sim_ac_msvcrt"
+else
+  sim_ac_configuration_settings="C library version:$sim_ac_msvcrt"
 fi
 
 
@@ -10800,10 +10684,10 @@ fi
 
 
 else
-  if test x${sim_ac_configuration_settings+set} != xset; then
-  sim_ac_configuration_settings="SoWin build type:build disabled"
-else
+  if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|SoWin build type:build disabled"
+else
+  sim_ac_configuration_settings="SoWin build type:build disabled"
 fi
 
 fi
@@ -10816,14 +10700,14 @@ SOWIN_DSP_INCS=
 SOWIN_DSP_DEFS=
 
 if $sim_ac_make_dsp; then
-  if test x${sim_ac_configuration_settings+set} != xset; then
-  sim_ac_configuration_settings="SoWin build type:msvc .dsp"
-else
+  if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|SoWin build type:msvc .dsp"
+else
+  sim_ac_configuration_settings="SoWin build type:msvc .dsp"
 fi
 
 
-  # -DHAVE_CONFIG_H is set up in $DEFS too late for use to use, and some
+  # -DHAVE_CONFIG_H is set up in $DEFS too late for us to use, and some
   # include directives are usually set up in the Makefile.am files
   for arg in -DHAVE_CONFIG_H -I$sowin_build_dir/src -I$sowin_build_dir/data -I$sowin_src_dir/src $CPPFLAGS $LDFLAGS $LIBS; do
     case $arg in
@@ -10858,7 +10742,7 @@ fi
     -DSOWIN_DEBUG* | -DNDEBUG )
       # Defines that vary between release/debug configurations can't be
       # set up dynamically in <lib>_DSP_DEFS - they must be static in the
-      # gendsp.sh script.  We therefore catche them here so we can ignore
+      # gendsp.sh script.  We therefore catch them here so we can ignore
       # checking for them below.
       ;;
     -D*=* | -D* )
@@ -10910,7 +10794,7 @@ fi
 # script -- not just from the Makefile -- as the data/configure script
 # depends on it. (data/configure is temporarily disabled, BTW, but anyway..)
 
-ac_config_files="$ac_config_files sowin-$CONFIG.cfg:src/Inventor/Win/common/sogui.cfg.in Makefile src/Makefile src/Inventor/Makefile src/Inventor/Win/Makefile src/Inventor/Win/devices/Makefile src/Inventor/Win/widgets/Makefile src/Inventor/Win/viewers/Makefile man/Makefile man/man1/Makefile man/man3/Makefile html/Makefile"
+ac_config_files="$ac_config_files sowin-$CONFIG.cfg:src/Inventor/Win/common/sogui.cfg.in Makefile src/Makefile src/Inventor/Makefile src/Inventor/Win/Makefile src/Inventor/Win/devices/Makefile src/Inventor/Win/editors/Makefile src/Inventor/Win/engines/Makefile src/Inventor/Win/nodes/Makefile src/Inventor/Win/widgets/Makefile src/Inventor/Win/viewers/Makefile man/Makefile man/man1/Makefile man/man3/Makefile html/Makefile"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -11399,6 +11283,9 @@ do
   "src/Inventor/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Inventor/Makefile" ;;
   "src/Inventor/Win/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Inventor/Win/Makefile" ;;
   "src/Inventor/Win/devices/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Inventor/Win/devices/Makefile" ;;
+  "src/Inventor/Win/editors/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Inventor/Win/editors/Makefile" ;;
+  "src/Inventor/Win/engines/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Inventor/Win/engines/Makefile" ;;
+  "src/Inventor/Win/nodes/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Inventor/Win/nodes/Makefile" ;;
   "src/Inventor/Win/widgets/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Inventor/Win/widgets/Makefile" ;;
   "src/Inventor/Win/viewers/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Inventor/Win/viewers/Makefile" ;;
   "man/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
@@ -12159,15 +12046,15 @@ fi
 
 
 if $sim_ac_build_library; then
-  if test x${sim_ac_configuration_settings+set} != xset; then
-  sim_ac_configuration_settings="Installation Prefix:$prefix"
-else
+  if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|Installation Prefix:$prefix"
+else
+  sim_ac_configuration_settings="Installation Prefix:$prefix"
 fi
 
 fi
 
-sim_ac_settings=$sim_ac_configuration_settings
+sim_ac_settings="$sim_ac_configuration_settings"
 sim_ac_num_settings=`echo "$sim_ac_settings" | tr -d -c "|" | wc -c`
 sim_ac_maxlength=0
 while test $sim_ac_num_settings -ge 0; do

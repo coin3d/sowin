@@ -175,6 +175,8 @@ SoGui_src_Inventor_Gui_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/So@Gui@ColorEditor.h \
+  $(top_builddir)/src/Inventor/@Gui@/So@Gui@MaterialEditor.h \
   $(SoGui_src_Inventor_Gui_common_BuiltFiles)
 
 
@@ -200,6 +202,57 @@ SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiSpaceballP.h
+
+
+SoGui_src_Inventor_Gui_editors_BuiltFiles = \
+  $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.h \
+  $(top_builddir)/src/Inventor/@Gui@/editors/ColorEditor.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.h \
+  $(top_builddir)/src/Inventor/@Gui@/editors/MaterialEditor.cpp
+
+
+SoGui_src_Inventor_Gui_nodes_BuiltFiles = \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiNodes.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSceneTexture2.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewportFix.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiPane.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiPosition.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiTranslation.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiFrame.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiImage.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiLabel.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiToggleButton.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiRadioButton.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiClickCounter.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider1.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider2.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiColorEditor.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiMaterialEditor.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
+
+
+SoGui_src_Inventor_Gui_engines_BuiltFiles = \
+  $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiEngines.h \
+  $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiRadioGroup.h \
+  $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiFormat.h \
+  $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
 
 
 SoGui_src_Inventor_Gui_viewers_BuiltFiles = \
@@ -238,6 +291,9 @@ SoGuiBuiltFiles = \
   $(SoGui_src_Inventor_BuiltFiles) \
   $(SoGui_src_Inventor_Gui_BuiltFiles) \
   $(SoGui_src_Inventor_Gui_devices_BuiltFiles) \
+  $(SoGui_src_Inventor_Gui_editors_BuiltFiles) \
+  $(SoGui_src_Inventor_Gui_engines_BuiltFiles) \
+  $(SoGui_src_Inventor_Gui_nodes_BuiltFiles) \
   $(SoGui_src_Inventor_Gui_viewers_BuiltFiles) \
   $(SoGui_src_Inventor_Gui_widgets_BuiltFiles) \
   $(SoGui_man_man1_BuiltFiles)
@@ -284,6 +340,9 @@ SoGuiBuiltMetaFiles = \
   $(SoGui_src_Inventor_BuiltMetaFiles) \
   $(SoGui_src_Inventor_Gui_BuiltMetaFiles) \
   $(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles) \
+  $(SoGui_src_Inventor_Gui_editors_BuiltMetaFiles) \
+  $(SoGui_src_Inventor_Gui_engines_BuiltMetaFiles) \
+  $(SoGui_src_Inventor_Gui_nodes_BuiltMetaFiles) \
   $(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles) \
   $(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
@@ -327,6 +386,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
+  src/Inventor/@Gui@/common/SoGuiColorEditor.h \
+  src/Inventor/@Gui@/common/SoGuiMaterialEditor.h \
   src/Inventor/@Gui@/common/SbGuiList.h \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
@@ -353,6 +414,48 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceball.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceballP.h.in \
+  src/Inventor/@Gui@/common/editors/ColorEditor.h.in \
+  src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in \
+  src/Inventor/@Gui@/common/editors/MaterialEditor.h.in \
+  src/Inventor/@Gui@/common/editors/MaterialEditor.cpp.in \
+  src/Inventor/@Gui@/common/engines/Engines.h.in \
+  src/Inventor/@Gui@/common/engines/Engines.cpp.in \
+  src/Inventor/@Gui@/common/engines/RadioGroup.h.in \
+  src/Inventor/@Gui@/common/engines/RadioGroup.cpp.in \
+  src/Inventor/@Gui@/common/engines/Format.h.in \
+  src/Inventor/@Gui@/common/engines/Format.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Nodes.h.in \
+  src/Inventor/@Gui@/common/nodes/Nodes.cpp.in \
+  src/Inventor/@Gui@/common/nodes/SceneTexture2.h.in \
+  src/Inventor/@Gui@/common/nodes/SceneTexture2.cpp.in \
+  src/Inventor/@Gui@/common/nodes/ViewportFix.h.in \
+  src/Inventor/@Gui@/common/nodes/ViewportFix.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Pane.h.in \
+  src/Inventor/@Gui@/common/nodes/Pane.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Position.h.in \
+  src/Inventor/@Gui@/common/nodes/Position.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Translation.h.in \
+  src/Inventor/@Gui@/common/nodes/Translation.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Frame.h.in \
+  src/Inventor/@Gui@/common/nodes/Frame.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Image.h.in \
+  src/Inventor/@Gui@/common/nodes/Image.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Label.h.in \
+  src/Inventor/@Gui@/common/nodes/Label.cpp.in \
+  src/Inventor/@Gui@/common/nodes/ToggleButton.h.in \
+  src/Inventor/@Gui@/common/nodes/ToggleButton.cpp.in \
+  src/Inventor/@Gui@/common/nodes/RadioButton.h.in \
+  src/Inventor/@Gui@/common/nodes/RadioButton.cpp.in \
+  src/Inventor/@Gui@/common/nodes/ClickCounter.h.in \
+  src/Inventor/@Gui@/common/nodes/ClickCounter.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Slider1.h.in \
+  src/Inventor/@Gui@/common/nodes/Slider1.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Slider2.h.in \
+  src/Inventor/@Gui@/common/nodes/Slider2.cpp.in \
+  src/Inventor/@Gui@/common/nodes/ColorEditor.h.in \
+  src/Inventor/@Gui@/common/nodes/ColorEditor.cpp.in \
+  src/Inventor/@Gui@/common/nodes/MaterialEditor.h.in \
+  src/Inventor/@Gui@/common/nodes/MaterialEditor.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.h.in \
   src/Inventor/@Gui@/common/viewers/SoGuiFlyViewer.cpp.in \
@@ -389,7 +492,7 @@ SoQt_ExtraBuiltMetaFiles = \
 
 
 ############################################################################
-SUBDIRS = devices viewers widgets
+SUBDIRS = devices editors engines nodes viewers widgets
 
 DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_builddir)/data -I$(top_srcdir)/src
 
@@ -431,6 +534,9 @@ nodist_libSoWin@SUFFIX@_la_SOURCES = \
 #	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 libSoWin@SUFFIX@_la_LIBADD = \
 	devices/libSoWinDevices.la \
+	editors/libSoWinEditors.la \
+	engines/libSoGuiEngines.la \
+	nodes/libSoGuiNodes.la \
 	viewers/libSoWinViewers.la \
 	widgets/libSoWinWidgets.la
 
@@ -459,6 +565,9 @@ nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 #	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \
+	editors/editors.lst \
+	engines/engines.lst \
+	nodes/nodes.lst \
 	viewers/viewers.lst \
 	widgets/widgets.lst
 
@@ -476,7 +585,9 @@ nodist_SoWininc_HEADERS = \
 	SoWinCursor.h \
 	SoWinComponent.h \
 	SoWinGLWidget.h \
-	SoWinRenderArea.h
+	SoWinRenderArea.h \
+	SoWinColorEditor.h \
+	SoWinMaterialEditor.h
 
 subdir = src/Inventor/Win
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -486,7 +597,8 @@ LIBRARIES = $(lib_LIBRARIES)
 
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_AR = $(AR) cru
 sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = \
-	devices/devices.lst viewers/viewers.lst widgets/widgets.lst
+	devices/devices.lst editors/editors.lst engines/engines.lst \
+	nodes/nodes.lst viewers/viewers.lst widgets/widgets.lst
 am_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoWin.$(OBJEXT) \
 	SoWinComponent.$(OBJEXT) SoWinGLWidget.$(OBJEXT) \
 	Win32API.$(OBJEXT)
@@ -500,7 +612,9 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = \
 LTLIBRARIES = $(lib_LTLIBRARIES)
 
 libSoWin@SUFFIX@_la_DEPENDENCIES = devices/libSoWinDevices.la \
-	viewers/libSoWinViewers.la widgets/libSoWinWidgets.la
+	editors/libSoWinEditors.la engines/libSoGuiEngines.la \
+	nodes/libSoGuiNodes.la viewers/libSoWinViewers.la \
+	widgets/libSoWinWidgets.la
 am_libSoWin@SUFFIX@_la_OBJECTS = SoWin.lo SoWinComponent.lo \
 	SoWinGLWidget.lo Win32API.lo
 nodist_libSoWin@SUFFIX@_la_OBJECTS = SoAny.lo So@Gui@Cursor.lo \
@@ -1079,8 +1193,10 @@ uninstall-info: uninstall-info-recursive
 ############################################################################
 
 $(top_builddir)/sogui.doxygen: $(top_srcdir)/src/Inventor/@Gui@/common/sogui.doxygen.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=sogui.doxygen:src/Inventor/@Gui@/common/sogui.doxygen.in )
-	@( cd $(top_builddir); $(top_srcdir)/cfg/m4/doxy4win.pl sogui.doxygen )
+	@cd $(top_builddir); \
+	$(SHELL) config.status --file=sogui.doxygen:src/Inventor/@Gui@/common/sogui.doxygen.in; \
+	$(top_srcdir)/cfg/m4/doxy4win.pl sogui.doxygen; \
+	rm -f sogui.doxygen.bak;
 
 $(top_builddir)/so@gui@-config: $(top_srcdir)/src/Inventor/@Gui@/common/sogui-config.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=so@gui@-config:src/Inventor/@Gui@/common/sogui-config.in && chmod +x so@gui@-config )
@@ -1150,6 +1266,12 @@ $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.h: $(top_srcdir)/src/Invent
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@RenderArea.cpp:src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in )
 
+$(top_builddir)/src/Inventor/@Gui@/So@Gui@ColorEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiColorEditor.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@ColorEditor.h:src/Inventor/@Gui@/common/SoGuiColorEditor.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/So@Gui@MaterialEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiMaterialEditor.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@MaterialEditor.h:src/Inventor/@Gui@/common/SoGuiMaterialEditor.h.in )
+
 $(top_builddir)/src/Inventor/@Gui@/common/gl.h: $(top_srcdir)/src/Inventor/@Gui@/common/gl.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); \
 	if test -d src/Inventor/@Gui@/common; then :; else \
@@ -1208,6 +1330,132 @@ $(top_builddir)/src/Inventor/@Gui@/devices/spwinput.h: $(top_srcdir)/src/Invento
 
 $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/spwinput_x11.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/spwinput_x11.cpp:src/Inventor/@Gui@/common/spwinput_x11.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/editors/ColorEditor.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@ColorEditor.h:src/Inventor/@Gui@/common/editors/ColorEditor.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/editors/ColorEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/ColorEditor.cpp:src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/editors/MaterialEditor.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.h:src/Inventor/@Gui@/common/editors/MaterialEditor.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/editors/MaterialEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/editors/MaterialEditor.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/MaterialEditor.cpp:src/Inventor/@Gui@/common/editors/MaterialEditor.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/engines/SoGuiEngines.h: $(top_srcdir)/src/Inventor/@Gui@/common/engines/Engines.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/SoGuiEngines.h:src/Inventor/@Gui@/common/engines/Engines.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/engines/Engines.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/Engines.cpp:src/Inventor/@Gui@/common/engines/Engines.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/engines/SoGuiRadioGroup.h: $(top_srcdir)/src/Inventor/@Gui@/common/engines/RadioGroup.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/SoGuiRadioGroup.h:src/Inventor/@Gui@/common/engines/RadioGroup.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/engines/RadioGroup.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/RadioGroup.cpp:src/Inventor/@Gui@/common/engines/RadioGroup.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/engines/SoGuiFormat.h: $(top_srcdir)/src/Inventor/@Gui@/common/engines/Format.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/SoGuiFormat.h:src/Inventor/@Gui@/common/engines/Format.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/engines/Format.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/Format.cpp:src/Inventor/@Gui@/common/engines/Format.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiNodes.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Nodes.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiNodes.h:src/Inventor/@Gui@/common/nodes/Nodes.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Nodes.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Nodes.cpp:src/Inventor/@Gui@/common/nodes/Nodes.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSceneTexture2.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/SceneTexture2.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiSceneTexture2.h:src/Inventor/@Gui@/common/nodes/SceneTexture2.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/SceneTexture2.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SceneTexture2.cpp:src/Inventor/@Gui@/common/nodes/SceneTexture2.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewportFix.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ViewportFix.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiViewportFix.h:src/Inventor/@Gui@/common/nodes/ViewportFix.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ViewportFix.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/ViewportFix.cpp:src/Inventor/@Gui@/common/nodes/ViewportFix.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiPane.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Pane.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiPane.h:src/Inventor/@Gui@/common/nodes/Pane.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Pane.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Pane.cpp:src/Inventor/@Gui@/common/nodes/Pane.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiPosition.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Position.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiPosition.h:src/Inventor/@Gui@/common/nodes/Position.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Position.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Position.cpp:src/Inventor/@Gui@/common/nodes/Position.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiTranslation.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Translation.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiTranslation.h:src/Inventor/@Gui@/common/nodes/Translation.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Translation.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Translation.cpp:src/Inventor/@Gui@/common/nodes/Translation.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiFrame.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Frame.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiFrame.h:src/Inventor/@Gui@/common/nodes/Frame.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Frame.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Frame.cpp:src/Inventor/@Gui@/common/nodes/Frame.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiImage.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Image.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiImage.h:src/Inventor/@Gui@/common/nodes/Image.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Image.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Image.cpp:src/Inventor/@Gui@/common/nodes/Image.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiLabel.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Label.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiLabel.h:src/Inventor/@Gui@/common/nodes/Label.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Label.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Label.cpp:src/Inventor/@Gui@/common/nodes/Label.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiToggleButton.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ToggleButton.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiToggleButton.h:src/Inventor/@Gui@/common/nodes/ToggleButton.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ToggleButton.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/ToggleButton.cpp:src/Inventor/@Gui@/common/nodes/ToggleButton.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiRadioButton.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/RadioButton.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiRadioButton.h:src/Inventor/@Gui@/common/nodes/RadioButton.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/RadioButton.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/RadioButton.cpp:src/Inventor/@Gui@/common/nodes/RadioButton.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiClickCounter.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ClickCounter.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiClickCounter.h:src/Inventor/@Gui@/common/nodes/ClickCounter.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ClickCounter.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/ClickCounter.cpp:src/Inventor/@Gui@/common/nodes/ClickCounter.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider1.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Slider1.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiSlider1.h:src/Inventor/@Gui@/common/nodes/Slider1.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Slider1.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Slider1.cpp:src/Inventor/@Gui@/common/nodes/Slider1.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider2.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Slider2.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiSlider2.h:src/Inventor/@Gui@/common/nodes/Slider2.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Slider2.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Slider2.cpp:src/Inventor/@Gui@/common/nodes/Slider2.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiColorEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ColorEditor.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiColorEditor.h:src/Inventor/@Gui@/common/nodes/ColorEditor.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ColorEditor.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/ColorEditor.cpp:src/Inventor/@Gui@/common/nodes/ColorEditor.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiMaterialEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/MaterialEditor.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiMaterialEditor.h:src/Inventor/@Gui@/common/nodes/MaterialEditor.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/MaterialEditor.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/MaterialEditor.cpp:src/Inventor/@Gui@/common/nodes/MaterialEditor.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.h: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoGuiViewer.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/So@Gui@Viewer.h:src/Inventor/@Gui@/common/viewers/SoGuiViewer.h.in )
