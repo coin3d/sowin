@@ -136,6 +136,7 @@ BUILT_SOURCES = \
 	SoWinObject.h \
 	SoWinCursors.cpp \
 	SoWinCursors.h \
+	SoWin.h \
 	SoWinComponent.h \
 	SoWinGLWidget.h \
 	SoWinRenderArea.h \
@@ -147,7 +148,6 @@ DISTCLEANFILES = \
 
 
 SoWinSources = \
-	SoWin.h \
 	SoWin.cpp \
 	SoWinComponent.cpp \
 	SoWinGLWidget.cpp \
@@ -198,14 +198,13 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 
 ############################################################################
 SoWinincdir = $(includedir)/Inventor/Win
-SoWininc_HEADERS = \
-	$(top_srcdir)/src/Inventor/Win/SoWin.h
 
-
+#SoWininc_HEADERS =
 nodist_SoWininc_HEADERS = \
 	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
 	$(top_builddir)/src/Inventor/Win/SoWinObject.h \
 	$(top_builddir)/src/Inventor/Win/SoWinCursors.h \
+	$(top_builddir)/src/Inventor/Win/SoWin.h \
 	$(top_builddir)/src/Inventor/Win/SoWinComponent.h \
 	$(top_builddir)/src/Inventor/Win/SoWinGLWidget.h \
 	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
@@ -278,14 +277,14 @@ DIST_SOURCES = $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES) \
 	$(libSoWin@SUFFIX@_la_SOURCES)
 DATA = $(noinst_DATA)
 
-HEADERS = $(SoWininc_HEADERS) $(nodist_SoWininc_HEADERS)
+HEADERS = $(nodist_SoWininc_HEADERS)
 
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-info-recursive all-recursive install-data-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
-DIST_COMMON = $(SoWininc_HEADERS) Makefile.am Makefile.in
+DIST_COMMON = Makefile.am Makefile.in
 DIST_SUBDIRS = $(SUBDIRS)
 SOURCES = $(sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES) $(nodist_sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_SOURCES) $(libSoWin@SUFFIX@_la_SOURCES) $(nodist_libSoWin@SUFFIX@_la_SOURCES)
 
@@ -406,14 +405,6 @@ distclean-depend:
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
 
-uninstall-SoWinincHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(SoWininc_HEADERS)'; for p in $$list; do \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(SoWinincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(SoWinincdir)/$$f; \
-	done
-
 uninstall-nodist_SoWinincHEADERS:
 	@$(NORMAL_UNINSTALL)
 	@list='$(nodist_SoWininc_HEADERS)'; for p in $$list; do \
@@ -520,7 +511,6 @@ top_distdir = ../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/src/Inventor/Win
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -554,7 +544,7 @@ check: check-recursive
 all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(DATA) $(HEADERS)
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs) $(DESTDIR)$(libdir) $(DESTDIR)$(libdir) $(DESTDIR)$(SoWinincdir) $(DESTDIR)$(SoWinincdir)
+	$(mkinstalldirs) $(DESTDIR)$(libdir) $(DESTDIR)$(libdir) $(DESTDIR)$(SoWinincdir)
 
 install: install-recursive
 install-exec: install-exec-recursive
@@ -598,7 +588,7 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-SoWinincHEADERS install-nodist_SoWinincHEADERS
+install-data-am: install-nodist_SoWinincHEADERS
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 
@@ -621,9 +611,8 @@ mostlyclean: mostlyclean-recursive
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-SoWinincHEADERS uninstall-info-am \
-	uninstall-libLIBRARIES uninstall-libLTLIBRARIES \
-	uninstall-nodist_SoWinincHEADERS
+uninstall-am: uninstall-info-am uninstall-libLIBRARIES \
+	uninstall-libLTLIBRARIES uninstall-nodist_SoWinincHEADERS
 
 uninstall-info: uninstall-info-recursive
 
@@ -632,21 +621,20 @@ uninstall-info: uninstall-info-recursive
 	clean-libtool clean-recursive distclean distclean-compile \
 	distclean-depend distclean-generic distclean-libtool \
 	distclean-recursive distclean-tags distdir dvi dvi-am \
-	dvi-recursive info info-am info-recursive install \
-	install-SoWinincHEADERS install-am install-data install-data-am \
-	install-data-recursive install-exec install-exec-am \
-	install-exec-recursive install-info install-info-am \
-	install-info-recursive install-libLIBRARIES \
-	install-libLTLIBRARIES install-man \
+	dvi-recursive info info-am info-recursive install install-am \
+	install-data install-data-am install-data-recursive \
+	install-exec install-exec-am install-exec-recursive \
+	install-info install-info-am install-info-recursive \
+	install-libLIBRARIES install-libLTLIBRARIES install-man \
 	install-nodist_SoWinincHEADERS install-recursive install-strip \
 	installcheck installcheck-am installdirs installdirs-am \
 	installdirs-recursive maintainer-clean maintainer-clean-generic \
 	maintainer-clean-recursive mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
-	tags tags-recursive uninstall uninstall-SoWinincHEADERS \
-	uninstall-am uninstall-info-am uninstall-info-recursive \
-	uninstall-libLIBRARIES uninstall-libLTLIBRARIES \
-	uninstall-nodist_SoWinincHEADERS uninstall-recursive
+	tags tags-recursive uninstall uninstall-am uninstall-info-am \
+	uninstall-info-recursive uninstall-libLIBRARIES \
+	uninstall-libLTLIBRARIES uninstall-nodist_SoWinincHEADERS \
+	uninstall-recursive
 
 
 install-SoWinincHEADERS: $(SoWininc_HEADERS)
@@ -696,6 +684,9 @@ SoWinCursors.h: $(srcdir)/common/SoGuiCursors.h.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
 
 SoWinCursors.cpp: $(srcdir)/common/SoGuiCursors.cpp.in
+	@( cd $(top_builddir); $(MAKE) built-sources )
+
+SoWin.h: $(srcdir)/common/SoGui.h.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
 
 SoWinComponent.h: $(srcdir)/common/SoGuiComponent.h.in

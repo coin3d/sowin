@@ -20,6 +20,7 @@ BUILT_SOURCES = \
 	SoWinObject.h \
 	SoWinCursors.cpp \
 	SoWinCursors.h \
+	SoWin.h \
 	SoWinComponent.h \
 	SoWinGLWidget.h \
 	SoWinRenderArea.h \
@@ -29,7 +30,6 @@ DISTCLEANFILES = \
 	$(BUILT_SOURCES)
 
 SoWinSources = \
-	SoWin.h \
 	SoWin.cpp \
 	SoWinComponent.cpp \
 	SoWinGLWidget.cpp \
@@ -72,13 +72,13 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 ############################################################################
 
 SoWinincdir = $(includedir)/Inventor/Win
-SoWininc_HEADERS = \
-	$(top_srcdir)/src/Inventor/Win/SoWin.h
+#SoWininc_HEADERS =
 
 nodist_SoWininc_HEADERS = \
 	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
 	$(top_builddir)/src/Inventor/Win/SoWinObject.h \
 	$(top_builddir)/src/Inventor/Win/SoWinCursors.h \
+	$(top_builddir)/src/Inventor/Win/SoWin.h \
 	$(top_builddir)/src/Inventor/Win/SoWinComponent.h \
 	$(top_builddir)/src/Inventor/Win/SoWinGLWidget.h \
 	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
@@ -130,6 +130,9 @@ SoWinCursors.h: $(srcdir)/common/SoGuiCursors.h.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
 
 SoWinCursors.cpp: $(srcdir)/common/SoGuiCursors.cpp.in
+	@( cd $(top_builddir); $(MAKE) built-sources )
+
+SoWin.h: $(srcdir)/common/SoGui.h.in
 	@( cd $(top_builddir); $(MAKE) built-sources )
 
 SoWinComponent.h: $(srcdir)/common/SoGuiComponent.h.in
