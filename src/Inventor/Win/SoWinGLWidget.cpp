@@ -642,6 +642,8 @@ SoWinGLWidget::buildWidget( HWND parent )
   PRIVATE( this )->buildNormalGLWidget( managerwidget );
 
   this->waitForExpose = TRUE;
+
+  this->setFocusProxy( this->getNormalWidget( ) );
   
   return managerwidget;
 }

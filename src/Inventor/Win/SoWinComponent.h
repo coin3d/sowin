@@ -74,7 +74,10 @@ public:
   const char * getClassName( void ) const;
   
   static void initClasses( void );
-
+  
+  HWND setFocusProxy( HWND widget );
+  HWND getFocusProxy( void );
+  
 protected:
 
   SoWinComponent( const HWND parent = NULL,

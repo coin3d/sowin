@@ -466,6 +466,24 @@ SoWinComponent::getComponent( HWND const widget )
   return NULL;
 }
 
+/**
+ * Set focus proxy. Returns previously set focus proxy.
+ */
+
+HWND
+SoWinComponent::setFocusProxy( HWND widget )
+{
+  HWND w = PRIVATE( this )->focusProxy;
+  PRIVATE( this )->focusProxy = widget;
+  return w;
+}
+
+HWND
+SoWinComponent::getFocusProxy( void )
+{
+  return PRIVATE( this )->focusProxy;
+}
+
 ///////////////////////////////////////////////////////////////////
 //
 //  (protected)
