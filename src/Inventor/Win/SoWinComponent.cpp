@@ -182,8 +182,7 @@ SoWinComponent::~SoWinComponent( void )
     BOOL r = DestroyWindow( PRIVATE( this )->widget );
     assert( r && "DestroyWindow() failed -- investigate" );
   }
-  BOOL r = UnregisterClass( this->getClassName( ), SoWin::getInstance( ) );
-  assert( r && "UnregisterClass() failed -- investigate" );
+  Win32::UnregisterClass( this->getClassName( ), SoWin::getInstance( ) );
   delete this->pimpl;
 }
 

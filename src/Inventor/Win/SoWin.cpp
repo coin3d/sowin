@@ -26,6 +26,7 @@
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/nodekits/SoNodeKit.h>
 
+#include <Inventor/Win/Win32API.h>
 #include <sowindefs.h> // SOWIN_STUB
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/devices/SoWinDevice.h>
@@ -360,8 +361,7 @@ SoWin::registerWindowClass( const char * const className )
 void
 SoWin::unRegisterWindowClass( const char * const className )
 {
-  BOOL r = UnregisterClass( className, SoWin::getInstance( ) );
-  assert( r && "UnregisterClass() failed -- investigate" );
+  Win32::UnregisterClass( className, SoWin::getInstance( ) );
 }
 
 LRESULT CALLBACK

@@ -124,3 +124,13 @@ Win32::SwapBuffers(HDC hdc  // device context whose buffers get swapped
   if (!r) { Win32::showLastErr(); }
   assert( r && "SwapBuffers() failed -- investigate");
 }
+
+void
+Win32::UnregisterClass(LPCTSTR lpClassName,  // address of class name string
+		       HINSTANCE hInstance   // handle of application instance
+		       )
+{
+  BOOL r = ::UnregisterClass(lpClassName, hInstance);
+  if (!r) { Win32::showLastErr(); }
+  assert( r && "UnregisterClass() failed -- investigate");
+}

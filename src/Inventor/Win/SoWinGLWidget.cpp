@@ -136,10 +136,8 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
 
 SoWinGLWidget::~SoWinGLWidget( void )
 {
-  BOOL r = UnregisterClass( "SoWinGLWidget_glwidget", SoWin::getInstance( ) );
-  assert( r && "UnregisterClass() failed -- investigate" );
-  r = UnregisterClass( "SoWinGLWidget_managerwidget", SoWin::getInstance( ) );
-  assert( r && "UnregisterClass() failed -- investigate" );
+  Win32::UnregisterClass( "SoWinGLWidget_glwidget", SoWin::getInstance( ) );
+  Win32::UnregisterClass( "SoWinGLWidget_managerwidget", SoWin::getInstance( ) );
   delete this->pimpl;
 }
 

@@ -376,8 +376,7 @@ void SoWinViewerPrefSheet::destroyMainWidget( void )
 {
   BOOL r = DestroyWindow( this->mainWidget );
   assert( r && "DestroyWindow() failed -- investigate" );
-  r = UnregisterClass( this->className, SoWin::getInstance( ) );
-  assert( r && "UnregisterClass() failed -- investigate" );
+  Win32::UnregisterClass( this->className, SoWin::getInstance( ) );
   this->mainWidget = NULL;
 }
 
