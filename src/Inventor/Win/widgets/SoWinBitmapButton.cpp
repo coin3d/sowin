@@ -40,24 +40,22 @@ public:
     this->owner = master;
     this->clickproc = NULL;
     this->clickprocdata = NULL;
-    this->buttonWindow = NULL;
-    this->depth = 0;
+    this->buttonwindow = NULL;
   }
 
   ~SoWinBitmapButtonP()
   {
-    const int len = this->bitmapList.getLength();
-    for (int i = 0; i < len; i++) { Win32::DeleteObject(this->bitmapList[i]); }
+    const int len = this->bitmaplist.getLength();
+    for (int i = 0; i < len; i++) { Win32::DeleteObject(this->bitmaplist[i]); }
   }
 
   HWND buildWidget(HWND parent, RECT rect);
   HBITMAP createDIB(int width, int height, int bpp, void ** bits);
-  HBITMAP parseXpm(const char ** xpm, int dibDepth = 24);
+  HBITMAP parseXpm(const char ** xpm, int dibdepth = 24);
   static int axtoi(const char * str);
 
-  HWND buttonWindow;
-  SbPList bitmapList;
-  int depth;
+  HWND buttonwindow;
+  SbPList bitmaplist;
 
   SoWinBitmapButton::ClickedProc * clickproc;
   void * clickprocdata;
@@ -89,8 +87,6 @@ SoWinBitmapButton::SoWinBitmapButton(HWND parent,
   RECT rect = { x, y, width, height };
   PRIVATE(this)->buildWidget(parent, rect);
 
-  PRIVATE(this)->depth = depth;
-
   if (bits != NULL) {
     this->addBitmap(width, height, depth, bits);
     this->setBitmap(0);
@@ -107,8 +103,6 @@ SoWinBitmapButton::SoWinBitmapButton(HWND parent,
 
   RECT rect = { 0, 0, 30, 30 };
   PRIVATE(this)->buildWidget(parent, rect);
-
-  PRIVATE(this)->depth = depth;
 
   if (bits != NULL) {
     this->addBitmap(rect.right - rect.left - 1,
@@ -127,58 +121,58 @@ SoWinBitmapButton::~SoWinBitmapButton(void)
 HWND
 SoWinBitmapButton::getWidget(void)
 {
-  return PRIVATE(this)->buttonWindow;
+  return PRIVATE(this)->buttonwindow;
 }
 
 int
 SoWinBitmapButton::width(void) const
 {
   RECT rect;
-  Win32::GetWindowRect(PRIVATE(this)->buttonWindow, & rect);
-  return (rect.right - rect.left); //this->sizeHint().cx;
+  Win32::GetWindowRect(PRIVATE(this)->buttonwindow, & rect);
+  return (rect.right - rect.left);
 }
 
 int
 SoWinBitmapButton::height(void) const
 {
   RECT rect;
-  Win32::GetWindowRect(PRIVATE(this)->buttonWindow, & rect);
-  return (rect.bottom - rect.top); //this->sizeHint().cy;
+  Win32::GetWindowRect(PRIVATE(this)->buttonwindow, & rect);
+  return (rect.bottom - rect.top);
 }
 
 void
 SoWinBitmapButton::move(int x, int y)
 {
-  assert(IsWindow(PRIVATE(this)->buttonWindow));
+  assert(IsWindow(PRIVATE(this)->buttonwindow));
   UINT flags = SWP_NOSIZE | SWP_NOZORDER;
-  Win32::SetWindowPos(PRIVATE(this)->buttonWindow, NULL, x, y, 0, 0, flags);
+  Win32::SetWindowPos(PRIVATE(this)->buttonwindow, NULL, x, y, 0, 0, flags);
 }
 
 void
 SoWinBitmapButton::move(int x, int y, int width, int height)
 {
-  assert(IsWindow(PRIVATE(this)->buttonWindow));
-  Win32::MoveWindow(PRIVATE(this)->buttonWindow, x, y, width, height, TRUE);
+  assert(IsWindow(PRIVATE(this)->buttonwindow));
+  Win32::MoveWindow(PRIVATE(this)->buttonwindow, x, y, width, height, TRUE);
 }
 
 void
 SoWinBitmapButton::resize(int width, int height)
 {
-  assert(IsWindow(PRIVATE(this)->buttonWindow));
-  UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
-  Win32::SetWindowPos(PRIVATE(this)->buttonWindow, NULL, 0, 0, width, height, flags);
+  assert(IsWindow(PRIVATE(this)->buttonwindow));
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER;
+  Win32::SetWindowPos(PRIVATE(this)->buttonwindow, NULL, 0, 0, width, height, flags);
 }
 
 void
 SoWinBitmapButton::show(void)
 {
-  (void)ShowWindow(PRIVATE(this)->buttonWindow, SW_SHOW);
+  (void)ShowWindow(PRIVATE(this)->buttonwindow, SW_SHOW);
 }
 
 void
 SoWinBitmapButton::hide(void)
 {
-  (void)ShowWindow(PRIVATE(this)->buttonWindow, SW_HIDE);
+  (void)ShowWindow(PRIVATE(this)->buttonwindow, SW_HIDE);
 }
 
 void
@@ -195,16 +189,22 @@ SoWinBitmapButtonP::button_proc(HWND hwnd, UINT msg,
   LONG l = Win32::GetWindowLong(hwnd, GWL_USERDATA);
   SoWinBitmapButtonP * that = (SoWinBitmapButtonP *)l;
 
-  // FIXME: this is a really ugly hack, as WM_LBUTTONUP is way
-  // insufficient for making sure an actual press was done. What
-  // should be done is to catch the WM_COMMAND message of the parent
-  // window. To do that we need to add an extra indirection of a
-  // parent window frame. 20030424 mortene.
+  if (that->clickproc) {
+    // Find out if the button was clicked.
+    SbBool clicked = (msg == WM_LBUTTONUP);
+    clicked = clicked && (GetCapture() == hwnd);
+    // FIXME: should also check that button is a) pressed and b)
+    // highlighted. (We would then at least match all tests done in
+    // Wine's BUTTON class before sending a WM_COMMAND message to it's
+    // parent.) 20030425 mortene.
+    if (clicked) {
+      POINT mousept = { LOWORD(lparam),  HIWORD(lparam) };
+      RECT rect;
+      Win32::GetClientRect(hwnd, &rect);
+      clicked = PtInRect(&rect, mousept);
+    }
 
-  switch (msg) {
-  case WM_LBUTTONUP:
-    if (that->clickproc) { that->clickproc(that->owner, that->clickprocdata); }
-    break;
+    if (clicked) { that->clickproc(that->owner, that->clickprocdata); }
   }
 
   return CallWindowProc(that->prevwndfunc, hwnd, msg, wparam, lparam);
@@ -215,7 +215,7 @@ SoWinBitmapButtonP::buildWidget(HWND parent, RECT rect)
 {
   assert(IsWindow(parent));
 
-  this->buttonWindow =
+  this->buttonwindow =
     Win32::CreateWindow_("BUTTON", // lpClassName
                          NULL, // lpWindowName
                          WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS |
@@ -228,43 +228,43 @@ SoWinBitmapButtonP::buildWidget(HWND parent, RECT rect)
                          NULL); // lpParam (window-creation data)
 
   this->prevwndfunc = (WNDPROC)
-    Win32::SetWindowLong(this->buttonWindow, GWL_WNDPROC,
+    Win32::SetWindowLong(this->buttonwindow, GWL_WNDPROC,
                          (LONG)SoWinBitmapButtonP::button_proc);
-  (void)Win32::SetWindowLong(this->buttonWindow, GWL_USERDATA, (LONG)this);
+  (void)Win32::SetWindowLong(this->buttonwindow, GWL_USERDATA, (LONG)this);
 
-  return this->buttonWindow;
+  return this->buttonwindow;
 }
 
 void
 SoWinBitmapButton::setEnabled(SbBool enable)
 {
-  Win32::EnableWindow(PRIVATE(this)->buttonWindow, enable);
+  Win32::EnableWindow(PRIVATE(this)->buttonwindow, enable);
 }
 
 SbBool
 SoWinBitmapButton::isEnabled(void) const
 {
-  return (! (Win32::GetWindowLong(PRIVATE(this)->buttonWindow, GWL_STYLE) & WS_DISABLED));
+  return (! (Win32::GetWindowLong(PRIVATE(this)->buttonwindow, GWL_STYLE) & WS_DISABLED));
 }
 
 void
 SoWinBitmapButton::setPressedState(SbBool enable)
 {
-  (void)SendMessage(PRIVATE(this)->buttonWindow, BM_SETSTATE,
+  (void)SendMessage(PRIVATE(this)->buttonwindow, BM_SETSTATE,
                     (WPARAM)enable, 0);
 }
 
 SbBool
 SoWinBitmapButton::getPressedState(void) const
 {
-  return (SendMessage(PRIVATE(this)->buttonWindow, BM_GETSTATE, 0, 0) &
+  return (SendMessage(PRIVATE(this)->buttonwindow, BM_GETSTATE, 0, 0) &
           BST_PUSHED);
 }
 
 void
 SoWinBitmapButton::addBitmap(HBITMAP hbmp)
 {
-  PRIVATE(this)->bitmapList.append(hbmp);
+  PRIVATE(this)->bitmaplist.append(hbmp);
 }
 
 void
@@ -278,28 +278,29 @@ SoWinBitmapButton::addBitmap(int width, int height, int bpp, void * src)
 }
 
 void
-SoWinBitmapButton::addBitmap(const char ** xpm)
+SoWinBitmapButton::addBitmap(const char ** xpm, int bpp)
 {
-  this->addBitmap(PRIVATE(this)->parseXpm(xpm, ((PRIVATE(this)->depth > 0) ? PRIVATE(this)->depth : 24)));
+  HBITMAP bm = PRIVATE(this)->parseXpm(xpm, bpp);
+  this->addBitmap(bm);
 }
 
 HBITMAP
 SoWinBitmapButton::getBitmap(int index) const
 {
-  return (HBITMAP) PRIVATE(this)->bitmapList[index];
+  return (HBITMAP) PRIVATE(this)->bitmaplist[index];
 }
 
 void
 SoWinBitmapButton::setBitmap(int index)
 {
-  assert(IsWindow(PRIVATE(this)->buttonWindow));
+  assert(IsWindow(PRIVATE(this)->buttonwindow));
 
-  (void)SendMessage(PRIVATE(this)->buttonWindow,
+  (void)SendMessage(PRIVATE(this)->buttonwindow,
                     BM_SETIMAGE,
                     (WPARAM) IMAGE_BITMAP,
                     (LPARAM) this->getBitmap(index));
 
-  Win32::InvalidateRect(PRIVATE(this)->buttonWindow, NULL, FALSE);
+  Win32::InvalidateRect(PRIVATE(this)->buttonwindow, NULL, FALSE);
 }
 
 HBITMAP

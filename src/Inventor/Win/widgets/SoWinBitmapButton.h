@@ -61,7 +61,7 @@ public:
 
   void addBitmap(HBITMAP hbmp);
   void addBitmap(int width, int height, int bpp, void * src);
-  void addBitmap(const char ** xpm);
+  void addBitmap(const char ** xpm, int bpp = 24);
   HBITMAP getBitmap(int index) const;
   void setBitmap(int index);
 
