@@ -363,11 +363,11 @@ SoWinFullViewer::buildWidget( HWND parent )
   DWORD style;
   if ( IsWindow( parent ) ) {
     GetClientRect( parent, & rect );
-    style = WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_BORDER | WS_CHILD;
+    style = /*WS_CLIPCHILDREN | WS_CLIPSIBLINGS |*/ WS_BORDER | WS_CHILD;
   } else {
     rect.right = SoWin_DefaultWidth;
     rect.bottom = SoWin_DefaultHeight;
-    style = WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_OVERLAPPEDWINDOW;
+    style = /*WS_CLIPCHILDREN | WS_CLIPSIBLINGS |*/ WS_OVERLAPPEDWINDOW;
   }
 
   this->viewerWidget = CreateWindow( wndclassname,
@@ -412,7 +412,14 @@ SoWinFullViewer::buildWidget( HWND parent )
 /*
 void SoWinFullViewer::buildLeftWheel( HWND parent )
 {
-    // FIXME: function not implemented
+  // FIXME: function not implemented
+
+  this->leftWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
+                                         parent,
+                                         5,
+                                         250,
+                                         this->leftWheelStr );
+  this->leftWheel->registerCallback( leftWheelCB );
 }
 */
 
@@ -433,9 +440,8 @@ SoWinFullViewer::buildLeftTrim( HWND parent )
                                          5,
                                          250,
                                          this->leftWheelStr );
+  this->leftWheel->registerCallback( leftWheelCB );
 
-
-  this->leftWheel->registerCallback( rightWheelCB );
   return NULL;
 }
 
@@ -516,8 +522,8 @@ SoWinFullViewer::displayPopupMenu( int x, int y, HWND owner )
 {
   // FIXME: function not implemented
   //this->popupPreCallback( );
-
-    //this->popupPostCallback( );
+  this->prefmenu->popUp( owner, x, y ); // FIXME: test. mariusbu 20010531.
+  //this->popupPostCallback( );
   return 0;
 }
 
@@ -898,6 +904,7 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
               FALSE );
 
   // left trim
+  this->buildLeftTrim( managerWidget );
 #if 0 // TMP DISABLED: leftWheel is not built, so it is NULL here. 20010328 mortene.  
   this->leftWheel->move( renderAreaOffset.left - this->leftWheel->width( ) - 2,
                          HIWORD( lparam ) + renderAreaOffset.bottom - this->leftWheel->height( ) + 1 );

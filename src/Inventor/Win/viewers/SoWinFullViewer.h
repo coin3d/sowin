@@ -306,7 +306,7 @@ private:
   PushAppButtonCB * customPushBtnCB ;
   RedrawAppButtonCB * customRedrawBtnCB ;
   void * customPushBtnData, * customRedrawBtnData ;
-
+  
   WNDPROC origBtnWndProc;
   WNDPROC origAppBtnWndProc;
   WNDPROC origTxtWndProc;
@@ -316,3 +316,9 @@ private:
 };
 
 #endif  // SOWIN_FULLVIEWER_H
+
+
+
+
+
+

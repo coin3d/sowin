@@ -116,15 +116,17 @@ SoWin::mainLoop( void )
 {
   MSG msg;
   while ( TRUE ) {
-    //WaitMessage( );
-    if ( GetMessage( & msg, NULL, 0, 0 ) ) {
-      TranslateMessage( & msg );
-      DispatchMessage( & msg );
-    } else break;
-    if ( SoWin::idleSensorActive )
-      SoWin::doIdleTasks( );
-    else
-      WaitMessage( );
+		if ( GetQueueStatus( QS_ALLINPUT ) != 0) { // if we have a message
+			if ( GetMessage( & msg, NULL, 0, 0 ) ) { // if msg != WM_QUIT
+				TranslateMessage( & msg );
+				DispatchMessage( & msg );
+			} else break; // msg == WM_QUIT
+		} else { // no messages waiting
+			if ( SoWin::idleSensorActive )
+				SoWin::doIdleTasks( );
+			else // !idleSensorActive
+				WaitMessage( );
+		}
   }
 }
 
@@ -531,7 +533,6 @@ SoWin::windowProc( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
             
     case WM_QUIT:
       return SoWin::onQuit( window, message, wparam, lparam );
-
     }
   return DefWindowProc( window, message, wparam, lparam );
 }
@@ -635,8 +636,7 @@ SoWin::onAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
     MessageHook * const * hookList = messageHookList->getArrayPtr( );
     for ( int i = 0; i < length; i++ )
       if ( hookList[i]->message == message ) {
-	//UpdateWindow( hookList[i]->hWnd );
-        MoveWindow( hookList[i]->hWnd,
+	MoveWindow( hookList[i]->hWnd,
                     0,
                     0,
                     LOWORD( lparam ),
