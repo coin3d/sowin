@@ -52,6 +52,10 @@ AC_DEFINE_UNQUOTED(SOWIN_MINOR_VERSION, $SOWIN_MINOR_VERSION,
   [Define to the minor version of SoWin])
 AC_DEFINE_UNQUOTED(SOWIN_MICRO_VERSION, $SOWIN_MICRO_VERSION,
   [Define to the micro version of SoWin])
+if test x"$SOWIN_BETA_VERSION" = x""; then :; else
+  AC_DEFINE_UNQUOTED([SOWIN_BETA_VERSION], [$SOWIN_BETA_VERSION],
+    [define this to the SoWin beta version letter])
+fi
 AC_DEFINE_UNQUOTED(SOWIN_VERSION, "$SOWIN_VERSION",
   [Version string for SoWin])
 
