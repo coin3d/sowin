@@ -116,6 +116,7 @@ gui = @gui@
 install_sh = @install_sh@
 path_tag = @path_tag@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
+sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
 sowin_configure_date = @sowin_configure_date@
 sowin_dox_build_dir = @sowin_dox_build_dir@
 sowin_dox_src_dir = @sowin_dox_src_dir@

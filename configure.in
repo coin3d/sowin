@@ -396,6 +396,10 @@ if $want_man; then
   SOWIN_DOC_MAN=YES
 fi
 
+if $want_html || $want_man; then
+  SIM_AC_DOXYGEN_TOOL
+fi
+
 AC_SUBST(SOWIN_DOC_HTML)
 AC_SUBST(SOWIN_DOC_MAN)
 
