@@ -57,7 +57,7 @@ SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinComponent);
 SoWinComponentP::SoWinComponentP(SoWinComponent * o)
   : SoGuiComponentP(o)
 {
-  this->cursor = NULL;
+  this->hascursor = FALSE;
   this->parent = NULL;
 }
 
@@ -104,9 +104,9 @@ SoWinComponentP::commonEventHandler(UINT message, WPARAM wparam, LPARAM lparam)
   case WM_SETCURSOR:
     // this->cursor can be NULL when the virtual
     // setComponentCursor() method is overridden in subclasses.
-    if (this->cursor) {
+    if (this->hascursor) {
       SoWinComponent::setWidgetCursor(PUBLIC(this)->getWidget(),
-                                      *(this->cursor));
+                                      this->currcursor);
     }
     break;
   }
@@ -857,7 +857,7 @@ SoWinComponentP::getNativeCursor(const SoWinCursor::CustomCursor * cc)
 void
 SoWinComponent::setComponentCursor(const SoWinCursor & cursor)
 {
-  PRIVATE(this)->cursor = &cursor;
+  PRIVATE(this)->currcursor = cursor;
   SoWinComponent::setWidgetCursor(this->getWidget(), cursor);
 }
 
