@@ -310,11 +310,7 @@ SoWin::init(HWND toplevelwidget)
   }
 }
 
-/*!
-  This is the event dispatch loop. It doesn't return until
-  \a PostQuitMessage() is called (which is also done automatically by
-  Windows whenever the user closes an application's main widget).
-*/
+// documented in common/SoGuiCommon.cpp.in
 void
 SoWin::mainLoop(void)
 {
@@ -338,11 +334,7 @@ SoWin::mainLoop(void)
   SoWin::done();
 }
 
-/*!
-  This function will make the main event loop finish looping.
-
-  NOTE: exitMainLoop() is not part of the original SGI InventorXt API.
-*/
+// documented in common/SoGuiCommon.cpp.in
 void
 SoWin::exitMainLoop(void)
 {
@@ -359,8 +351,8 @@ SoWin::done(void)
 
 /*!
   This method is provided for easier porting/compatibility with the
-  Open Inventor SoXt component classes. It will call ShowWindow() with the
-  argument SW_SHOW on the provided \a widget window handle.
+  Open Inventor SoXt component classes. It will call ShowWindow() with
+  the argument SW_SHOW on the provided \a widget window handle.
 
   \sa hide()
 */
@@ -372,8 +364,8 @@ SoWin::show(HWND const widget)
 
 /*!
   This method is provided for easier porting/compatibility with the
-  Open Inventor SoXt component classes. It will call ShowWindow() with the
-  argument SW_HIDE on the provided \a widget window handle.
+  Open Inventor SoXt component classes. It will call ShowWindow() with
+  the argument SW_HIDE on the provided \a widget window handle.
 
   \sa show()
 */
@@ -384,9 +376,9 @@ SoWin::hide(HWND const widget)
 }
 
 /*!
-  This method is provided for easier porting of applications based on the
-  Open Inventor SoXt component classes. It will call SetWindowPos() on the
-  provided \a widget window handle.
+  This method is provided for easier porting of applications based on
+  the Open Inventor SoXt component classes. It will call
+  SetWindowPos() on the provided \a widget window handle.
 
   \sa getWidgetSize()
 */
@@ -399,8 +391,9 @@ SoWin::setWidgetSize(HWND widget, const SbVec2s size)
 
 /*!
   This method is provided for easier porting/compatibility with the
-  Open Inventor SoXt component classes. It will call GetWindowExtEx() on the
-  provided \a widget window handle's device context (returning an SbVec2s).
+  Open Inventor SoXt component classes. It will call GetWindowExtEx()
+  on the provided \a widget window handle's device context (returning
+  an SbVec2s).
 
   \sa setWidgetSize()
 */
@@ -417,13 +410,7 @@ SoWin::getWidgetSize(HWND widget)
   return SbVec2s((short) size.cx, (short) size.cy);
 }
 
-/*!
-  Returns a pointer to the HWND which is the main widget for the
-  application. When this widget gets closed, SoWin::mainLoop() will
-  return (unless the close event is caught by the user).
-
-  \sa getShellWidget()
-*/
+// Documented in common/SoGuiCommon.cpp.in.
 HWND
 SoWin::getTopLevelWidget(void)
 {
