@@ -74,6 +74,39 @@ SOWIN_OBJECT_SOURCE(SoWinExaminerViewer);
 
 // *************************************************************************
 
+// The private data for the SoWinExaminerViewer.
+
+class SoWinExaminerViewerP {
+  
+public:
+  
+  // Constructor.
+  SoWinExaminerViewerP( SoWinExaminerViewer * o ) {
+    this->owner = o;
+  }
+
+  // Destructor.
+  ~SoWinExaminerViewerP( ) {
+  }
+  
+  void constructor( SbBool build );
+  void cameratoggleClicked( void );
+
+	HCURSOR defaultcursor;
+	HCURSOR rotatecursor;
+	HCURSOR pancursor;
+	HCURSOR zoomcursor;
+
+private:
+  
+  SoWinExaminerViewer * owner;
+  
+};
+
+#define PRIVATE( o ) ( o->pimpl )
+
+// *************************************************************************  
+
 #define VIEWERBUTTON_CAMERA ( VIEWERBUTTON_SEEK + 1 )
 
 /*!
@@ -90,8 +123,9 @@ SoWinExaminerViewer::SoWinExaminerViewer(
   SoWinViewer::Type type )
 : inherited( parent, name, embed, flag, type, FALSE )
 , common( new SoAnyExaminerViewer( this ) )
+, pimpl( new SoWinExaminerViewerP( this ) )
 {
-  this->constructor( TRUE );
+  PRIVATE( this )->constructor( TRUE );
 } // SoWinExaminerViewer()
 
 // *************************************************************************
@@ -109,8 +143,9 @@ SoWinExaminerViewer::SoWinExaminerViewer(
   SbBool build)
 : inherited( parent, name, embed, flag, type, FALSE )
 , common( new SoAnyExaminerViewer( this ) )
+, pimpl( new SoWinExaminerViewerP( this ) )
 {
-  this->constructor( build );
+  PRIVATE( this )->constructor( build );
 } // SoWinExaminerViewer()
 
 // *************************************************************************
@@ -123,7 +158,7 @@ SoWinExaminerViewer::SoWinExaminerViewer(
 */
 
 void
-SoWinExaminerViewer::constructor(
+SoWinExaminerViewerP::constructor(
 	SbBool build )
 {
   this->defaultcursor = NULL;
@@ -131,21 +166,21 @@ SoWinExaminerViewer::constructor(
   this->pancursor = NULL;
   this->zoomcursor = NULL;
 
-  this->setClassName( "SoWinExaminerViewer" );
+  this->owner->setClassName( "SoWinExaminerViewer" );
 
-  this->setPopupMenuString( "Examiner Viewer" );
-  this->setPrefSheetString( "Examiner Viewer Preference Sheet" );
+  this->owner->setPopupMenuString( "Examiner Viewer" );
+  this->owner->setPrefSheetString( "Examiner Viewer Preference Sheet" );
 
-  this->setLeftWheelString( "Rotx" );
-  this->setBottomWheelString( "Roty" );
+  this->owner->setLeftWheelString( "Rotx" );
+  this->owner->setBottomWheelString( "Roty" );
 
   if ( build ) {
-    HWND widget = this->buildWidget( this->getParentWidget( ) );
-    this->setBaseWidget( widget );
+    HWND widget = this->owner->buildWidget( this->owner->getParentWidget( ) );
+    this->owner->setBaseWidget( widget );
   }
 	// FIXME
-	this->setCursorEnabled( TRUE );
-	this->setAnimationEnabled( TRUE );
+	this->owner->setCursorEnabled( TRUE );
+	this->owner->setAnimationEnabled( TRUE );
 
 } // constructor()
 
@@ -159,11 +194,12 @@ SoWinExaminerViewer::~SoWinExaminerViewer(
 	void )
 {
 	// Cursors.
-	DeleteObject( this->zoomcursor );
-	DeleteObject( this->pancursor );
-	DeleteObject( this->rotatecursor );
-	DeleteObject( this->defaultcursor );
+	DeleteObject( PRIVATE( this )->zoomcursor );
+	DeleteObject( PRIVATE( this )->pancursor );
+	DeleteObject( PRIVATE( this )->rotatecursor );
+	DeleteObject( PRIVATE( this )->defaultcursor );
 
+  delete this->pimpl;
   delete this->common;
 } // ~SoWinExaminerViewer()
 
@@ -400,7 +436,7 @@ SoWinExaminerViewer::onCommand( // virtual
 	HWND hwnd = ( HWND ) lparam;// control handle
 
 	if ( id == VIEWERBUTTON_CAMERA )
-			this->cameratoggleClicked( );
+			PRIVATE( this )->cameratoggleClicked( );
   else
     return inherited::onCommand( window, message, wparam, lparam );
 
@@ -462,8 +498,8 @@ void
 SoWinExaminerViewer::setCursorRepresentation(
 	int mode )
 {
-  if ( ! this->defaultcursor ) {
-		this->defaultcursor = LoadCursor( NULL, IDC_ARROW );
+  if ( ! PRIVATE( this )->defaultcursor ) {
+		PRIVATE( this )->defaultcursor = LoadCursor( NULL, IDC_ARROW );
     
     unsigned char so_win_rotate_neg[so_win_rotate_width][so_win_rotate_height];
     unsigned char so_win_rotate_mask_neg[so_win_rotate_width][so_win_rotate_height];    
@@ -517,15 +553,15 @@ SoWinExaminerViewer::setCursorRepresentation(
       }
 		}
     
-		this->zoomcursor = CreateCursor( SoWin::getInstance( ), so_win_zoom_x_hot,
+		PRIVATE( this )->zoomcursor = CreateCursor( SoWin::getInstance( ), so_win_zoom_x_hot,
 			so_win_zoom_y_hot, so_win_zoom_width, so_win_zoom_height, so_win_zoom_mask_neg,
 			so_win_zoom_neg );
 		
-		this->pancursor = CreateCursor( SoWin::getInstance( ), so_win_pan_x_hot,
+		PRIVATE( this )->pancursor = CreateCursor( SoWin::getInstance( ), so_win_pan_x_hot,
 			so_win_pan_y_hot, so_win_pan_width, so_win_pan_height, so_win_pan_mask_neg,
 			so_win_pan_neg );
       
-		this->rotatecursor = CreateCursor( SoWin::getInstance( ), so_win_rotate_x_hot,
+		PRIVATE( this )->rotatecursor = CreateCursor( SoWin::getInstance( ), so_win_rotate_x_hot,
 			so_win_rotate_y_hot, so_win_rotate_width, so_win_rotate_height, so_win_rotate_mask_neg,
 			so_win_rotate_neg );
       
@@ -544,11 +580,11 @@ SoWinExaminerViewer::setCursorRepresentation(
 
 			case SoAnyExaminerViewer::EXAMINE:
 			case SoAnyExaminerViewer::DRAGGING:
-				this->setCursor( this->rotatecursor );
+				this->setCursor( PRIVATE( this )->rotatecursor );
 				break;
 
 			case SoAnyExaminerViewer::ZOOMING:
-				this->setCursor( this->zoomcursor );
+				this->setCursor( PRIVATE( this )->zoomcursor );
 				break;
 
 			case SoAnyExaminerViewer::WAITING_FOR_SEEK:
@@ -557,7 +593,7 @@ SoWinExaminerViewer::setCursorRepresentation(
 
 			case SoAnyExaminerViewer::WAITING_FOR_PAN:
 			case SoAnyExaminerViewer::PANNING:
-				this->setCursor( this->pancursor );
+				this->setCursor( PRIVATE( this )->pancursor );
 				break;
 
 			default: assert(0); break;
@@ -647,9 +683,9 @@ SoWinExaminerViewer::afterRealizeHook( // virtual
 } // afterRealizeHook()
 
 void
-SoWinExaminerViewer::cameratoggleClicked( void ) // virtual
+SoWinExaminerViewerP::cameratoggleClicked( void ) // virtual
 {
-  if ( this->getCamera( ) ) this->toggleCameraType( );
+  if ( this->owner->getCamera( ) ) this->owner->toggleCameraType( );
 }
 
 // *************************************************************************

@@ -26,14 +26,17 @@
 
 class SoWinThumbWheel;
 class SoAnyExaminerViewer;
+class SoWinExaminerViewerP;
 
 // *************************************************************************
 
 class SOWIN_DLL_API SoWinExaminerViewer : public SoWinFullViewer {
   SOWIN_OBJECT_HEADER(SoWinExaminerViewer, SoWinFullViewer);
   friend class SoAnyExaminerViewer;
+  friend class SoWinExaminerViewerP;
   
 public:
+  
   SoWinExaminerViewer(
     HWND parent = NULL,
     const char * name = NULL,
@@ -61,6 +64,7 @@ public:
   virtual void viewAll( void );
 
 protected:
+  
   SoWinExaminerViewer(
     HWND parent,
     const char * name,
@@ -86,17 +90,13 @@ protected:
   virtual void createPrefSheet( void );
   virtual void buildViewerButtonsEx( HWND parent, int x, int y, int size );
 
+  void setCursorRepresentation( int mode ); // Used by SoAnyExaminerViewer. mariusbu 20010724.
+  
 private:
-  void constructor( SbBool build );
-  void cameratoggleClicked( void );
-  void setCursorRepresentation( int mode );
-
-	HCURSOR defaultcursor;
-	HCURSOR rotatecursor;
-	HCURSOR pancursor;
-	HCURSOR zoomcursor;
 
   SoAnyExaminerViewer * const common;
+  SoWinExaminerViewerP * const pimpl;
+  
 }; // class SoWinExaminerViewer
 
 // *************************************************************************
