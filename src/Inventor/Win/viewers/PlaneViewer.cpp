@@ -474,18 +474,6 @@ SoWinPlaneViewer::openViewerHelpCard(// virtual
 // ************************************************************************
 
 /*!
-  FIXME: write doc
-*/
-
-void
-SoWinPlaneViewer::computeSeekFinalOrientation(// virtual
-  void)
-{
-} // computeSeekFinalOrientation()
-
-// ************************************************************************
-
-/*!
   \internal
 */
 
