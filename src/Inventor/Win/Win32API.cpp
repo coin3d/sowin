@@ -21,15 +21,16 @@
 #include <stdio.h>
 #include <assert.h>
 
-void
-Win32::showLastErr(void)
+// Returns the string and error code describing the cause of an
+// internal Win32 API error.
+SbString
+Win32::getWin32Err(DWORD & lasterr)
 {
   LPTSTR buffer;
+  BOOL result;
 
-  DWORD lasterr = GetLastError();
-
-  BOOL result =
-    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+  lasterr = ::GetLastError();
+  result = ::FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
                   FORMAT_MESSAGE_FROM_SYSTEM |
                   FORMAT_MESSAGE_IGNORE_INSERTS,
                   NULL,
@@ -39,13 +40,21 @@ Win32::showLastErr(void)
                   0,
                   NULL);
 
-  if (result) {
-    // Don't use fprintf(), as compiling in stdout or stderr file
-    // descriptor pointer values is problematic when SoWin is built as
-    // a DLL.
-    (void)printf("\n*** GetLastError()==%d => %s\n", lasterr, buffer);
-    (void)LocalFree(buffer);
+  SbString s = result ? buffer : "*WIN32 ERROR* FormatMessage() failed!";
+  if (result) { (void)::LocalFree(buffer); }
+  return s;
   }
+
+void
+Win32::showLastErr(void)
+{
+  DWORD lasterr;
+  SbString s = Win32::getWin32Err(lasterr);
+
+  // Don't use fprintf(), as compiling in stdout or stderr file
+  // descriptor pointer values is problematic when SoWin is built as a
+  // DLL.
+  (void)printf("\n*** GetLastError()==%d => %s\n", lasterr, s.getString());
 }
 
 void

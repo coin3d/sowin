@@ -28,6 +28,7 @@
 // our behalf, while still keeping the sourcecode nice and clean.
 
 #include <windows.h>
+#include <Inventor/SbString.h>
 
 class Win32 {
 public:
@@ -62,6 +63,9 @@ public:
   static void InsertMenu(HMENU, UINT, UINT, UINT, LPCTSTR);
   static void RemoveMenu(HMENU, UINT, UINT);
   static DWORD CheckMenuItem(HMENU, UINT, UINT);
+
+  // Internal and external interface to GetLastError() + FormatMessage().
+  static SbString getWin32Err(DWORD & lasterr);
   
 private:
   static void showLastErr(void);
