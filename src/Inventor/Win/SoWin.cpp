@@ -45,6 +45,7 @@
 #include <Inventor/Win/Win32API.h>
 #include <sowindefs.h> // SOWIN_STUB
 #include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/SoGuiP.h>
 #include <Inventor/Win/devices/SoWinDevice.h>
 #include <Inventor/Win/SoWinComponent.h>
 #include <Inventor/Win/SoAny.h>
@@ -56,7 +57,6 @@ class SoWinP {
 public:
 
   static BOOL CALLBACK sizeChildProc(HWND window, LPARAM lparam);
-  static void sensorQueueChanged(void * cbdata);
 
   static int timerSensorId;
   static SbBool timerSensorActive;
@@ -116,8 +116,8 @@ SbBool SoWinP::useParentEventHandler = TRUE;
 
 // init()-method documented in common/SoGuiCommon.cpp.in.
 HWND
-SoWin::internal_init(int & argc, char ** argv,
-                     const char * appname, const char * classname)
+SoWin::init(int & argc, char ** argv,
+            const char * appname, const char * classname)
 {
   if (appname)
     SoWinP::appName = strcpy(new char [ strlen(appname) + 1 ], appname);
@@ -130,7 +130,7 @@ SoWin::internal_init(int & argc, char ** argv,
   HWND toplevel = SoWin::createWindow((char *) appname, (char *) classname, size, NULL);
   SoWinP::useParentEventHandler = FALSE;
   
-  SoWin::internal_init( toplevel );
+  SoWin::init( toplevel );
   
   return toplevel;
 }
@@ -138,7 +138,7 @@ SoWin::internal_init(int & argc, char ** argv,
 
 // init()-method documented in common/SoGuiCommon.cpp.in.
 void
-SoWin::internal_init(HWND toplevelwidget)
+SoWin::init(HWND toplevelwidget)
 {
   SoDB::init();
   SoNodeKit::init();
@@ -147,7 +147,7 @@ SoWin::internal_init(HWND toplevelwidget)
 
   SoDebugError::setHandlerCallback(SoWin::errorHandlerCB, NULL);
 
-  SoDB::getSensorManager()->setChangedCallback(SoWinP::sensorQueueChanged, NULL);
+  SoDB::getSensorManager()->setChangedCallback(SoGuiP::sensorQueueChanged, NULL);
   if (IsWindow(toplevelwidget)) 
     SoWinP::mainWidget = toplevelwidget;
 
@@ -498,7 +498,7 @@ SoWin::doIdleTasks(void)
 {
   SoDB::getSensorManager()->processTimerQueue();
   SoDB::getSensorManager()->processDelayQueue(TRUE); // isidle = TRUE
-  SoWinP::sensorQueueChanged(NULL);
+  SoGuiP::sensorQueueChanged(NULL);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -585,7 +585,7 @@ SoWinP::timerSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoDebugError::postInfo("SoWin::timerSensorCB", "called");
 #endif // SOWIN_DEBUG
   SoDB::getSensorManager()->processTimerQueue();
-  SoWinP::sensorQueueChanged(NULL);
+  SoGuiP::sensorQueueChanged(NULL);
 }
 
 /*!
@@ -597,7 +597,7 @@ SoWinP::delaySensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoDebugError::postInfo("SoWin::delaySensorCB", "called");
 #endif // SOWIN_DEBUG
   SoDB::getSensorManager()->processDelayQueue(FALSE);
-  SoWinP::sensorQueueChanged(NULL);
+  SoGuiP::sensorQueueChanged(NULL);
 }
 
 /*!
@@ -611,15 +611,11 @@ SoWinP::idleSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoWin::doIdleTasks();
 }
 
-/*!
-  \internal
-
-  This function gets called whenever something has happened to any of
-  the sensor queues. It starts or reschedules a timer which will trigger
-  when a sensor is ripe for plucking.
-*/
+// This function gets called whenever something has happened to any of
+// the sensor queues. It starts or reschedules a timer which will
+// trigger when a sensor is ripe for plucking.
 void
-SoWinP::sensorQueueChanged(void * cbdata)
+SoGuiP::sensorQueueChanged(void * cbdata)
 {
   SoSensorManager * sensormanager = SoDB::getSensorManager();
 
