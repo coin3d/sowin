@@ -107,7 +107,7 @@
 // type system for their own extension classes. 20020502 mortene.
 
 // This is a private variable.
-SoType SoWinObject::classTypeId;
+SoType SoWinObject::classTypeId SOWIN_STATIC_SOTYPE_INIT;
 
 /*!
   Sets up initialization for data common to all instances of this

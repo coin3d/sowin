@@ -52,8 +52,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib user32.lib /nologo /dll /machine:I386
-# ADD LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib user32.lib /nologo /dll /machine:I386 /out:"sowin1.dll" /opt:nowin98
+# ADD BASE LINK32 $(COINDIR)\lib\coin2.lib opengl32.lib gdi32.lib user32.lib /nologo /dll /machine:I386
+# ADD LINK32 $(COINDIR)\lib\coin2.lib opengl32.lib gdi32.lib user32.lib /nologo /dll /machine:I386 /out:"sowin1.dll" /opt:nowin98
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE=

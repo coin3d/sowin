@@ -603,12 +603,20 @@ SoWinRenderAreaP::setDevicesWindowSize(const SbVec2s size)
 void
 SoWinRenderAreaP::renderCB(void * closure, SoSceneManager * manager)
 {
+  assert(closure && manager);
   SoWinRenderArea * thisptr = (SoWinRenderArea *) closure;
-  if (manager == PRIVATE(thisptr)->normalManager)
+  if (manager == PRIVATE(thisptr)->normalManager) {
     thisptr->render();
-  else if (manager == PRIVATE(thisptr)->overlayManager)
+  } else if (manager == PRIVATE(thisptr)->overlayManager) {
     thisptr->renderOverlay();
-  else assert(0);
+  } else {
+#if SOWIN_DEBUG
+    SoDebugError::post("SoWinRenderAreaP::renderCB",
+                       "invoked for unknown SoSceneManager (%p)", manager);
+#endif // SOWIN_DEBUG
+    manager->setRenderCallback(NULL, NULL);
+    return;
+  }
 
   if (!thisptr->isAutoRedraw())
     manager->setRenderCallback(NULL, NULL);
@@ -1385,6 +1393,7 @@ void
 SoWinRenderArea::setSceneManager(SoSceneManager * manager)
 {
   assert(PRIVATE(this)->normalManager != NULL);
+  PRIVATE(this)->normalManager->setRenderCallback(NULL, NULL);
   delete PRIVATE(this)->normalManager;
   PRIVATE(this)->normalManager = manager;
 }
