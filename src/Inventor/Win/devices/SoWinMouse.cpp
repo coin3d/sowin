@@ -215,7 +215,12 @@ SoWinMouseP::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
     break;
   }
 
-  PUBLIC(this)->setEventPosition(this->buttonevent, msg->pt.x, msg->pt.y);
+  if ( msg->message == WM_MOUSEWHEEL ) {
+    SbVec2s pos = PUBLIC(this)->getLastEventPosition();
+    PUBLIC(this)->setEventPosition(this->buttonevent, pos[0], pos[1]);
+  } else {
+    PUBLIC(this)->setEventPosition(this->buttonevent, msg->pt.x, msg->pt.y);
+  }
 
   this->buttonevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
   this->buttonevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
