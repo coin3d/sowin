@@ -21,7 +21,7 @@
 #define  SO_WIN_SPACEBALL
 
 #include <Inventor/Win/SoWin.h>
-#include <Inventor/Win/SoWinRenderArea.h>
+//  #include <Inventor/Win/SoWinRenderArea.h>
 #include <Inventor/Win/devices/SoWinDevice.h>
 
 #include <Inventor/events/SoMotion3Event.h>
