@@ -439,6 +439,9 @@ SoWinComponent::removeVisibilityChangeCallback( SoWinComponentVisibilityCB * fun
 void
 SoWinComponent::openHelpCard( const char * name )
 {
+  MessageBox( this->widget,
+    "The help functionality has not been implemented.",
+    "SoWin", MB_ICONEXCLAMATION | MB_OK );  
   // FIXME: function not implemented
   SOWIN_STUB( );
 }
