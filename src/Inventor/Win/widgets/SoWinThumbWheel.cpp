@@ -343,21 +343,7 @@ void
 SoWinThumbWheel::size( int width, int height )
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
-
-	// Wheel
   SetWindowPos( this->wheelWindow, NULL, 0, 0, width, height, flags );
-  
-	// Label
-  if ( IsWindow( this->labelWindow ) ) {
-
-    char windowText[80]; // FIXME: use GetWindowTextLength
-    int len = GetWindowText( this->labelWindow, windowText, 80 );
-    HDC hdc = GetDC( this->labelWindow );
-    SIZE textSize;
-    GetTextExtentPoint( hdc, windowText, len, & textSize );
-
-    SetWindowPos( this->labelWindow, NULL, 0, 0, textSize.cx, textSize.cy, flags );
-  }
 }
 
 void
@@ -533,8 +519,9 @@ SoWinThumbWheel::setLabelText( char * text )
 {
   assert( IsWindow( this->wheelWindow ) );
   
-  if ( IsWindow( this->labelWindow ) )
+  if ( IsWindow( this->labelWindow ) ) {
     SetWindowText( this->labelWindow, text );
+  }
   else {
     RECT rect;
     HWND parent = GetParent( this->wheelWindow );
@@ -542,20 +529,14 @@ SoWinThumbWheel::setLabelText( char * text )
     this->labelWindow = createLabel( parent, rect.right + this->labelOffset.x,
       rect.bottom + labelOffset.y, text );
   }
-    
-	/*
-	RECT rect;
-	GetWindowRect( this->labelWindow, & rect );
-
-	int len = strlen( text );
-
-	HDC hdc = GetDC( this->labelWindow );
-
-	SIZE size;
-	GetTextExtentPoint( hdc, text, len, & size );
-	
-	MoveWindow( this->labelWindow, rect.left, rect.top, size.cx, size.cy, TRUE );
-	*/
+      
+  int len = strlen( text );
+  HDC hdc = GetDC( this->labelWindow );
+  SIZE textSize;
+  GetTextExtentPoint( hdc, text, len, & textSize );
+  
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
+  SetWindowPos( this->labelWindow, NULL, 0, 0, textSize.cx + 2, textSize.cy, flags );
 }
 
 void
@@ -624,7 +605,7 @@ SoWinThumbWheel::createLabel( HWND parent, int x, int y, char * text )
 		                        ( text ? text : " " ),
 		                        WS_VISIBLE | WS_CHILD | SS_CENTER,
 		                        x, y,
-		                        textSize.cx, textSize.cy, // SIZE
+		                        textSize.cx + 2, textSize.cy, // SIZE
 		                        parent,
 		                        NULL,
 		                        SoWin::getInstance( ),
