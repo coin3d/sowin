@@ -355,15 +355,15 @@ SoWinThumbWheel::size( int width, int height )
 void
 SoWinThumbWheel::show( void )
 {
-  ShowWindow( this->wheelWindow, SW_SHOW );
-  ShowWindow( this->labelWindow, SW_SHOW );
+  (void)ShowWindow( this->wheelWindow, SW_SHOW );
+  (void)ShowWindow( this->labelWindow, SW_SHOW );
 }
 
 void
 SoWinThumbWheel::hide( void )
 {
- ShowWindow( this->wheelWindow, SW_HIDE );
- ShowWindow( this->labelWindow, SW_HIDE );
+  (void)ShowWindow( this->wheelWindow, SW_HIDE );
+  (void)ShowWindow( this->labelWindow, SW_HIDE );
 }
 
 void

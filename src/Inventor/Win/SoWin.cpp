@@ -203,13 +203,13 @@ SoWin::dispatchEvent( MSG * msg )
 void
 SoWin::show( HWND const widget )
 {
-  ShowWindow( widget, SW_SHOW );
+  (void)ShowWindow( widget, SW_SHOW );
 }
 
 void
 SoWin::hide( HWND const widget )
 {
-  ShowWindow( widget, SW_HIDE );
+  (void)ShowWindow( widget, SW_HIDE );
 }
 
 void

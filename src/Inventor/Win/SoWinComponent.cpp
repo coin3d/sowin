@@ -186,7 +186,7 @@ SoWinComponent::~SoWinComponent( void )
 void
 SoWinComponent::show( void )
 {
-  ShowWindow( PRIVATE( this )->widget, SW_SHOW );
+  (void)ShowWindow( PRIVATE( this )->widget, SW_SHOW );
   BOOL r = InvalidateRect( PRIVATE( this )->widget, NULL, FALSE );
   assert( r && "InvalidateRect() failed -- investigate" );
 }
@@ -194,7 +194,7 @@ SoWinComponent::show( void )
 void
 SoWinComponent::hide( void )
 {
-  ShowWindow( PRIVATE( this )->widget, SW_HIDE );
+  (void)ShowWindow( PRIVATE( this )->widget, SW_HIDE );
 }
 
 void

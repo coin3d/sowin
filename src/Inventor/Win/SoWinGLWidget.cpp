@@ -811,7 +811,7 @@ SoWinGLWidgetP::buildNormalGLWidget( void )
   this->owner->realized = FALSE;
   this->normalWidget = normalwidget;
 
-  ShowWindow( normalwidget, SW_SHOW );
+  (void)ShowWindow( normalwidget, SW_SHOW );
 }
 
 void

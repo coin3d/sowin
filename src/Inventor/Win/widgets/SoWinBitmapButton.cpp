@@ -135,13 +135,13 @@ SoWinBitmapButton::size( int width, int height )
 void
 SoWinBitmapButton::show( void )
 {
-  ShowWindow( this->buttonWindow, SW_SHOW );
+  (void)ShowWindow( this->buttonWindow, SW_SHOW );
 }
 
 void
 SoWinBitmapButton::hide( void )
 {
-  ShowWindow( this->buttonWindow, SW_HIDE );
+  (void)ShowWindow( this->buttonWindow, SW_HIDE );
 }
 
 void

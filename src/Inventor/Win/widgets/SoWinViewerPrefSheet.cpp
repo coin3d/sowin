@@ -97,7 +97,7 @@ void SoWinViewerPrefSheet::destroy( void )
 void SoWinViewerPrefSheet::show( SbBool show )
 {
   // FIXME: update all widgets ( init )
-  ShowWindow( this->mainWidget, ( show ? SW_SHOW : SW_HIDE ) );
+  (void)ShowWindow( this->mainWidget, ( show ? SW_SHOW : SW_HIDE ) );
 }
 
 HWND SoWinViewerPrefSheet::getWidget( void )

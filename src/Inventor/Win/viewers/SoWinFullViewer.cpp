@@ -233,12 +233,15 @@ SoWinFullViewer::showDecorationWidgets( SbBool enable )
   int numAppButtons = this->appButtonList->getLength( );
 
   // Viewer buttons
-  for( i = 0; i < numViewerButtons; i++ )
-    ShowWindow( VIEWERBUTTON( i )->getWidget( ), ( enable ? SW_SHOW : SW_HIDE ) );
+  for( i = 0; i < numViewerButtons; i++ ) {
+    (void)ShowWindow( VIEWERBUTTON( i )->getWidget( ),
+                      ( enable ? SW_SHOW : SW_HIDE ) );
+  }
 
   // App buttons
-  for( i = 0; i < numAppButtons; i++ )
-    ShowWindow( APPBUTTON( i ), ( enable ? SW_SHOW : SW_HIDE ) );
+  for( i = 0; i < numAppButtons; i++ ) {
+    (void)ShowWindow( APPBUTTON( i ), ( enable ? SW_SHOW : SW_HIDE ) );
+  }
 
   // Thumbwheels
   if ( enable ) {
@@ -395,7 +398,7 @@ SoWinFullViewer::setCamera( SoCamera * newCamera )
 void
 SoWinFullViewer::hide( void )
 {
-  ShowWindow( this->viewerWidget, SW_HIDE );
+  (void)ShowWindow( this->viewerWidget, SW_HIDE );
 }
 
 void
@@ -441,7 +444,7 @@ SoWinFullViewer::buildWidget( HWND parent )
   if ( PRIVATE( this )->decorations )
     this->buildDecoration( this->viewerWidget );
 
-  ShowWindow( this->renderAreaWidget, SW_SHOW );
+  (void)ShowWindow( this->renderAreaWidget, SW_SHOW );
 
   BOOL r = InvalidateRect( ( IsWindow( parent ) ? parent : this->viewerWidget ),
                            NULL, TRUE );
