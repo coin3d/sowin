@@ -1,3 +1,6 @@
+#ifndef SOWIN_BITMAPBUTTON_H
+#define SOWIN_BITMAPBUTTON_H
+
 /**************************************************************************
  *
  *  This file is part of the Coin SoWin GUI binding library.
@@ -17,8 +20,9 @@
  *
  **************************************************************************/
 
-#ifndef SOWIN_BITMAPBUTTON_H
-#define SOWIN_BITMAPBUTTON_H
+#ifndef SOWIN_INTERNAL
+#error this is a private header file
+#endif /* !SOWIN_INTERNAL */
 
 #include <wtypes.h>
 #include <Inventor/SbBasic.h>

@@ -415,9 +415,7 @@ libSoWinWidgets_la_SOURCES = \
 	WinNativePopupMenu.cpp \
 	WinNativePopupMenu.h \
 	SoWinBitmapButton.cpp \
-	SoWinBitmapButton.h \
-        SoWinViewerPrefSheet.cpp \
-        SoWinViewerPrefSheet.h
+	SoWinBitmapButton.h
 
 
 nodist_libSoWinWidgets_la_SOURCES = \
@@ -434,9 +432,7 @@ widgets_lst_SOURCES = \
 	WinNativePopupMenu.cpp \
 	WinNativePopupMenu.h \
 	SoWinBitmapButton.cpp \
-	SoWinBitmapButton.h \
-        SoWinViewerPrefSheet.cpp \
-        SoWinViewerPrefSheet.h
+	SoWinBitmapButton.h
 
 
 nodist_widgets_lst_SOURCES = \
@@ -458,8 +454,7 @@ LIBRARIES = $(noinst_LIBRARIES)
 widgets_lst_AR = $(AR) cru
 widgets_lst_LIBADD =
 am_widgets_lst_OBJECTS = SoWinThumbWheel.$(OBJEXT) \
-	WinNativePopupMenu.$(OBJEXT) SoWinBitmapButton.$(OBJEXT) \
-	SoWinViewerPrefSheet.$(OBJEXT)
+	WinNativePopupMenu.$(OBJEXT) SoWinBitmapButton.$(OBJEXT)
 nodist_widgets_lst_OBJECTS = SoAnyThumbWheel.$(OBJEXT) \
 	So@Gui@PopupMenu.$(OBJEXT)
 widgets_lst_OBJECTS = $(am_widgets_lst_OBJECTS) \
@@ -469,7 +464,7 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libSoWinWidgets_la_LDFLAGS =
 libSoWinWidgets_la_LIBADD =
 am_libSoWinWidgets_la_OBJECTS = SoWinThumbWheel.lo WinNativePopupMenu.lo \
-	SoWinBitmapButton.lo SoWinViewerPrefSheet.lo
+	SoWinBitmapButton.lo
 nodist_libSoWinWidgets_la_OBJECTS = SoAnyThumbWheel.lo \
 	So@Gui@PopupMenu.lo
 libSoWinWidgets_la_OBJECTS = $(am_libSoWinWidgets_la_OBJECTS) \
@@ -487,8 +482,6 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/SoWinBitmapButton.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinThumbWheel.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoWinThumbWheel.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoWinViewerPrefSheet.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoWinViewerPrefSheet.Po \
 @AMDEP_TRUE@	$(DEPDIR)/WinNativePopupMenu.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/WinNativePopupMenu.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -568,8 +561,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinBitmapButton.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinThumbWheel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinThumbWheel.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinViewerPrefSheet.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoWinViewerPrefSheet.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/WinNativePopupMenu.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/WinNativePopupMenu.Po@am__quote@
 

@@ -1,3 +1,6 @@
+#ifndef SOWIN_WINNATIVEPOPUPMENU_H
+#define SOWIN_WINNATIVEPOPUPMENU_H
+
 /**************************************************************************
  *
  *  This file is part of the Coin SoWin GUI binding library.
@@ -17,10 +20,9 @@
  *
  **************************************************************************/
 
-//  $Id$
-
-#ifndef SOWIN_WINNATIVEPOPUPMENU_H
-#define SOWIN_WINNATIVEPOPUPMENU_H
+#ifndef SOWIN_INTERNAL
+#error this is a private header file
+#endif /* !SOWIN_INTERNAL */
 
 #include <Inventor/Win/SoWinBasic.h>
 #include <Inventor/Win/widgets/SoWinPopupMenu.h>

@@ -1,3 +1,6 @@
+#ifndef SOWIN_THUMBWHEEL_H
+#define SOWIN_THUMBWHEEL_H
+
 /**************************************************************************
  *
  *  This file is part of the Coin SoWin GUI binding library.
@@ -17,15 +20,15 @@
  *
  **************************************************************************/
 
-#ifndef SOWIN_THUMBWHEEL_H
-#define SOWIN_THUMBWHEEL_H
+#ifndef SOWIN_INTERNAL
+#error this is a private header file
+#endif /* !SOWIN_INTERNAL */
 
 #include <wtypes.h>
 #include <Inventor/SbBasic.h>
 #include <Inventor/Win/SoWinBasic.h>
 
 class SoAnyThumbWheel;
-
 
 // *************************************************************************
 

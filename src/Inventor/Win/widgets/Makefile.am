@@ -38,9 +38,7 @@ libSoWinWidgets_la_SOURCES = \
 	WinNativePopupMenu.cpp \
 	WinNativePopupMenu.h \
 	SoWinBitmapButton.cpp \
-	SoWinBitmapButton.h \
-        SoWinViewerPrefSheet.cpp \
-        SoWinViewerPrefSheet.h
+	SoWinBitmapButton.h
 
 nodist_libSoWinWidgets_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
@@ -55,9 +53,7 @@ widgets_lst_SOURCES = \
 	WinNativePopupMenu.cpp \
 	WinNativePopupMenu.h \
 	SoWinBitmapButton.cpp \
-	SoWinBitmapButton.h \
-        SoWinViewerPrefSheet.cpp \
-        SoWinViewerPrefSheet.h
+	SoWinBitmapButton.h
 
 nodist_widgets_lst_SOURCES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
