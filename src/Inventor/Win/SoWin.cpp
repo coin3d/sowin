@@ -129,46 +129,28 @@ SoWinObject::init(void)
 //
 
 /*!
-  \fn HWND SoWin::init(const char * const appName, const char * const className)
+  \fn HWND SoWin::init(int argc, char ** argv, const char * appname, const char * classname)
 
-  This method is provided for easier porting/compatibility with the
-  Open Inventor SoXt component classes. It just adds dummy \a argc and
-  \a argv arguments and calls the SoWin::init() method below.
-*/
-HWND
-SoWin::internal_init(const char * const appName, const char * const className)
-{
-  int argc = 1;
-  char * argv[] = { (char *) appName, NULL };
-  return SoWin::internal_init(argc, argv, appName, className);
-} // internal_init()
+  Initializes the SoWin component toolkit library, as well as the Open
+  Inventor library.
 
-
-/*!
-  \fn HWND SoWin::init(int argc, char ** argv, const char * const appName, const char * const className)
-
-  Initializes the SoWin component toolkit library, as well as the Open Inventor
-  library.
-
-  Calls \a SoDB::init(), \a SoNodeKit::init() and \a SoInteraction::init(), and
-  returns a  main widget for you
+  Calls \a SoDB::init(), \a SoNodeKit::init() and \a
+  SoInteraction::init(), and returns a main widget for you.
 */
 
 HWND
-SoWin::internal_init(int argc,
-                     char ** argv,
-                     const char * const appName,
-                     const char * const className)
+SoWin::internal_init(int & argc, char ** argv,
+                     const char * appname, const char * classname)
 {
-  if (appName)
-    SoWinP::appName = strcpy(new char [ strlen(appName) + 1 ], appName);
-  if (className)
-    SoWinP::className = strcpy(new char [ strlen(className) + 1 ], className);
+  if (appname)
+    SoWinP::appname = strcpy(new char [ strlen(appname) + 1 ], appname);
+  if (classname)
+    SoWinP::classname = strcpy(new char [ strlen(classname) + 1 ], classname);
 
-  SoWin::registerWindowClass(className);
+  SoWin::registerWindowClass(classname);
  
   SIZE size = { 500, 500 };
-  HWND toplevel = SoWin::createWindow((char *) appName, (char *) className, size, NULL);
+  HWND toplevel = SoWin::createWindow((char *) appname, (char *) classname, size, NULL);
   SoWinP::useParentEventHandler = FALSE;
   
   SoWin::internal_init( toplevel );
@@ -185,7 +167,7 @@ SoWin::internal_init(int argc,
   \a topLevelWidget should be your application's main widget.
 */
 void
-SoWin::internal_init(HWND const topLevelWidget)
+SoWin::internal_init(HWND toplevelwidget)
 {
   SoDB::init();
   SoNodeKit::init();
@@ -195,12 +177,12 @@ SoWin::internal_init(HWND const topLevelWidget)
   SoDebugError::setHandlerCallback(SoWin::errorHandlerCB, NULL);
 
   SoDB::getSensorManager()->setChangedCallback(SoWinP::sensorQueueChanged, NULL);
-  if (IsWindow(topLevelWidget)) 
-    SoWinP::mainWidget = topLevelWidget;
+  if (IsWindow(toplevelwidget)) 
+    SoWinP::mainWidget = toplevelwidget;
 
   if (SoWinP::useParentEventHandler) {
-    SoWinP::parentEventHandler = (WNDPROC) Win32::GetWindowLong(topLevelWidget, GWL_WNDPROC);
-    (void)Win32::SetWindowLong(topLevelWidget, GWL_WNDPROC, (long) SoWin::eventHandler);
+    SoWinP::parentEventHandler = (WNDPROC) Win32::GetWindowLong(toplevelwidget, GWL_WNDPROC);
+    (void)Win32::SetWindowLong(toplevelwidget, GWL_WNDPROC, (long) SoWin::eventHandler);
   }
 } // internal_init()
 
