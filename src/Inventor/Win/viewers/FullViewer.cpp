@@ -108,6 +108,11 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
     this->setBaseWidget(this->buildWidget(this->getParentWidget()));
   }
 
+  /* FIXME: We should use the actual size of the parent window instead
+     of hardcoding the size here, at least if the size of the parent
+     window is reasonable. See also
+     SoWinExaminerViewerP::constructor(). 2004-01-08 thammer.  
+  */
   this->setSize(SbVec2s(500, 420));
 
   if (! this->isViewing())
