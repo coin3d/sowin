@@ -290,10 +290,16 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   this->decorations = ( flag & SoWinFullViewer::BUILD_DECORATION ) ? TRUE : FALSE;
 
   this->prefmenu = NULL;
-  this->leftWheel = NULL;
+
+	this->leftWheel = NULL;
   this->bottomWheel = NULL;
   this->rightWheel = NULL;
   this->extraWheel = NULL; // Is this needed? mariusbu 20010611.
+
+	this->leftWheelVal = 0.0f;
+	this->bottomWheelVal = 0.0f;
+	this->rightWheelVal = 0.0f;
+	this->extraWheelVal = 0.0f;
 
   this->menutitle = "Viewer Menu";
 
@@ -442,10 +448,11 @@ HWND
 SoWinFullViewer::buildLeftWheel( HWND parent )
 {
 	this->setLeftWheelString( "RotX" );
+	 // Create coords not needed - the widget is moved into place (see onSize)
   this->leftWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
                                          parent,
-                                         5,
-                                         250,
+		                                     0,
+                                         0,
                                          this->leftWheelStr );
   this->leftWheel->registerCallback( this->leftWheelCB );
 	this->leftWheel->registerViewer( this );
@@ -456,16 +463,32 @@ SoWinFullViewer::buildLeftWheel( HWND parent )
 HWND
 SoWinFullViewer::buildBottomWheel( HWND parent )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+	this->setBottomWheelString( "RotY" );
+	 // Create coords not needed - the widget is moved into place (see onSize)
+  this->bottomWheel = new SoWinThumbWheel( SoWinThumbWheel::Horizontal,
+		                                       parent,
+		                                       0,
+                                           0,
+                                           this->bottomWheelStr );
+  this->bottomWheel->registerCallback( this->bottomWheelCB );
+	this->bottomWheel->registerViewer( this );
+
   return NULL;
 }
 
 HWND
 SoWinFullViewer::buildRightWheel( HWND parent )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB();
+	this->setRightWheelString( "Dolly" );
+	 // Create coords not needed - the widget is moved into place (see onSize)
+  this->rightWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
+                                          parent,
+		                                      0,
+                                          0,
+                                          this->rightWheelStr );
+  this->rightWheel->registerCallback( this->rightWheelCB );
+	this->rightWheel->registerViewer( this );
+
   return NULL;
 }
 
@@ -856,20 +879,6 @@ SoWinFullViewer::visibilityChangeCB( void * pt, SbBool visible )
 }
 
 void
-SoWinFullViewer::rightWheelCB( SoWinFullViewer * viewer, void * * data )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB();
-}
-
-void
-SoWinFullViewer::bottomWheelCB( SoWinFullViewer * viewer, void ** data )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB();
-}
-
-void
 SoWinFullViewer::leftWheelCB( SoWinFullViewer * viewer, void ** data )
 {
   // FIXME: not pretty
@@ -885,6 +894,42 @@ SoWinFullViewer::leftWheelCB( SoWinFullViewer * viewer, void ** data )
 	}
 
 	viewer->leftWheelMotion( ** ( float ** ) data );
+}
+
+void
+SoWinFullViewer::bottomWheelCB( SoWinFullViewer * viewer, void ** data )
+{
+	// FIXME: not pretty
+	
+	if ( data == NULL ) {
+		viewer->bottomWheelStart( );
+		return;
+	}
+	
+	if ( ( int ) data == -1 ) {
+		viewer->bottomWheelFinish( );
+		return;
+	}
+
+	viewer->bottomWheelMotion( ** ( float ** ) data );
+}
+
+void
+SoWinFullViewer::rightWheelCB( SoWinFullViewer * viewer, void * * data )
+{
+	// FIXME: not pretty
+	
+	if ( data == NULL ) {
+		viewer->rightWheelStart( );
+		return;
+	}
+	
+	if ( ( int ) data == -1 ) {
+		viewer->rightWheelFinish( );
+		return;
+	}
+
+	viewer->rightWheelMotion( ** ( float ** ) data );
 }
 
 LRESULT CALLBACK
@@ -969,20 +1014,31 @@ SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lpar
 LRESULT
 SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
-  //HWND managerWidget = this->getManagerWidget( );
   assert( renderAreaWidget != NULL );
-  MoveWindow( renderAreaWidget,//managerWidget,//
+  MoveWindow( renderAreaWidget,
               0 + renderAreaOffset.left,
               0 + renderAreaOffset.top,
               LOWORD( lparam ) + renderAreaOffset.right,
               HIWORD( lparam ) + renderAreaOffset.bottom,
               FALSE );
 
-  // Left trim
+	// FIXME: handle size too!
+
+  // Left wheel
   if ( this->leftWheel )
-  this->leftWheel->move( renderAreaOffset.left - this->leftWheel->width( ) - 2,
-                         HIWORD( lparam ) + renderAreaOffset.bottom
-                         - this->leftWheel->height( ) + 1 );
+		this->leftWheel->move( renderAreaOffset.left - this->leftWheel->width( ) - 2,
+                           HIWORD( lparam ) + renderAreaOffset.bottom
+                           - this->leftWheel->height( ) + 1 );
+  // Bottom wheel
+  if ( this->bottomWheel )
+		this->bottomWheel->move( ( LOWORD( lparam ) - this->bottomWheel->width( ) ) / 2,
+			                       HIWORD( lparam ) + renderAreaOffset.bottom + 4 );
+
+  // Right wheel
+  if ( this->rightWheel )
+		this->rightWheel->move( LOWORD( lparam ) - renderAreaOffset.left + 4,
+			                      HIWORD( lparam ) + renderAreaOffset.bottom
+			                      - this->rightWheel->height( ) + 1 );
 
   // FIXME: do the rest
   return 0;
