@@ -67,10 +67,6 @@ public:
   // window class is registered.
   static ATOM wndClassAtom;
 
-  // List of all SoWinComponent instances. Needed for the
-  // SoWinComponent::getComponent() function.
-  static SbPList * sowincomplist;
-
   struct FullscreenData {
     FullscreenData(void)
       : on(FALSE)

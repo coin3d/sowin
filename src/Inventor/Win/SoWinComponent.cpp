@@ -299,11 +299,6 @@ void
 SoWinComponentP::fatalerrorHandler(void * userdata)
 {
   SoWinComponentP * that = (SoWinComponentP *)userdata;
-
-  // To avoid the propagation of Win32 Window messages into the
-  // possibly non-valid SoWinComponent.
-  SoWinComponentP::sowincomplist->truncate(0);
-
   that->cleanupWin32References();
 }
 
@@ -637,7 +632,7 @@ SoWinComponent::setBaseWidget(HWND widget)
 
   if (PRIVATE(this)->widget) { this->unregisterWidget(PRIVATE(this)->widget); }
   PRIVATE(this)->widget = widget;
-  this->registerWidget(PRIVATE(this)->widget)
+  this->registerWidget(PRIVATE(this)->widget);
 }
 
 /*!
