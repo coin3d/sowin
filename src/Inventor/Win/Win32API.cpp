@@ -447,3 +447,13 @@ Win32::LoadCursor(HINSTANCE hInstance,  // handle to application instance
   assert(r != NULL && "LoadCursor() failed -- investigate");
   return r;
 }
+
+void
+Win32::ClientToScreen(HWND hWnd,       // window handle for source coordinates
+                      LPPOINT lpPoint  // pointer to structure containing screen coordinates
+                      )
+{
+  BOOL r = ::ClientToScreen(hWnd, lpPoint);
+  if (r == 0) { Win32::showLastErr(); }  
+  assert(r && "ClientToScreen() failed -- investigate");
+}

@@ -66,6 +66,7 @@ public:
   static HCURSOR CreateCursor(HINSTANCE, int, int, int, int,
                               CONST VOID *, CONST VOID *);
   static HCURSOR LoadCursor(HINSTANCE, LPCTSTR);
+  static void ClientToScreen(HWND, LPPOINT);
 
   // Internal and external interface to GetLastError() + FormatMessage().
   static SbString getWin32Err(DWORD & lasterr);
