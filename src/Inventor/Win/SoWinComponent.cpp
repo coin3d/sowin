@@ -121,6 +121,8 @@ SoWinComponent::hide( void )
 void
 SoWinComponent::goFullScreen( SbBool enable )
 {
+  // FIXME: save window position and size
+  
   HWND hwnd;
   
   if ( this->embedded )
@@ -129,6 +131,11 @@ SoWinComponent::goFullScreen( SbBool enable )
     hwnd = this->widget;
 
   if ( enable ) {
+    RECT rect;
+    GetWindowRect( hwnd, & rect );
+    this->pos.setValue( rect.left, rect.top );
+    this->size.setValue( rect.right - rect.left, rect.bottom - rect.top );
+    
     this->fullScreen = TRUE;
     this->style = GetWindowLong( hwnd, GWL_STYLE );
     this->exstyle = GetWindowLong( hwnd, GWL_EXSTYLE );
@@ -148,7 +155,8 @@ SoWinComponent::goFullScreen( SbBool enable )
     ShowWindow( hwnd, SW_SHOW );
   }
   else {
-    short width, height;
+    short x, y, width, height;
+    this->pos.getValue( x, y );
     this->size.getValue( width, height );
     this->fullScreen = FALSE;
 
@@ -157,7 +165,7 @@ SoWinComponent::goFullScreen( SbBool enable )
     SetWindowLong( hwnd, GWL_STYLE, this->style );
     SetWindowLong( hwnd, GWL_EXSTYLE, this->exstyle );
 
-    MoveWindow( hwnd, 0, 0, width, height, FALSE ); // FIXME: save old size?
+    MoveWindow( hwnd, x, y, width, height, FALSE ); // FIXME: save old size?
     ShowWindow( hwnd, SW_SHOW );
   }
 }

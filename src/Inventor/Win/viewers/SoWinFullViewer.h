@@ -251,12 +251,11 @@ private:
 	void * createAppPushButtonData;
   
   //SoWinStereoDialog * stereoDialogBox ; // FIXME: not implemented yet
-	
-  //HWND prefSheetShellWidget;
-  //const char * prefSheetStr;  // - const
-	
+  
   SoAnyPopupMenu * prefmenu;
-  SoAnyFullViewer * const common; 
+  SoAnyFullViewer * const common;
+
+  HWND prefwindow; // preference window
 
   SbBool menuenabled;
   SbBool decorations;

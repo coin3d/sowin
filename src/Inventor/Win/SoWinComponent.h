@@ -152,6 +152,7 @@ private:
   SbString iconTitle;
 
   SbVec2s size;
+  SbVec2s pos;
 
   SbBool embedded;
   SbBool resizeBaseWidget;

@@ -343,6 +343,8 @@ SoWinFullViewer::setStereoDialog( SoWinStereoDialog * newDialog )
 void
 SoWinFullViewer::selectedPrefs( void )
 {
+  // FIXME: open prefs window.
+  
   // FIXME: function not implemented
   SOWIN_STUB();
 }
@@ -455,9 +457,6 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   inherited(parent, name, embedded, type, buildNow ),
   common( new SoAnyFullViewer( this ) )   // FIXME: warning
 {
-  //this->prefwindow = NULL;
-  //this->prefwindowtitle = "Viewer Preference Sheet";
-
   this->viewerWidget = NULL;
   this->renderAreaWidget = NULL;
 
@@ -465,7 +464,10 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   this->decorations = ( flag & SoWinFullViewer::BUILD_DECORATION ) ? TRUE : FALSE;
 
   this->prefmenu = NULL;
-
+  
+  this->prefwindow = NULL;
+  //this->prefwindowtitle = "Viewer Preference Sheet";
+  
 	this->leftWheel = NULL;
   this->bottomWheel = NULL;
   this->rightWheel = NULL;
