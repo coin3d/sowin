@@ -251,6 +251,7 @@ void
 SoWinFullViewer::pasteView( SbTime time )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -281,11 +282,11 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
   this->viewerWidget = NULL;
   this->renderAreaWidget = NULL;
 
-  // FIXME: set to TRUE for testing. mariusbu 20010608.
-  this->menuenabled = buildNow & SoWinFullViewer::BUILD_POPUP;
-  this->decorations = ( buildNow & SoWinFullViewer::BUILD_DECORATION ) ? TRUE : FALSE;
+  this->menuenabled = ( flag & SoWinFullViewer::BUILD_POPUP ) ? TRUE : FALSE;
+  this->decorations = ( flag & SoWinFullViewer::BUILD_DECORATION ) ? TRUE : FALSE;
 
   this->prefmenu = NULL;
+  this->leftWheel = NULL; // FIXME: do the rest of the widgets too! mariusbu 20010611.
   this->menutitle = "Viewer Menu";
 
   this->viewerButtonWidgets = new SbPList;
@@ -411,8 +412,6 @@ SoWinFullViewer::buildWidget( HWND parent )
 
   if ( this->menuenabled )
     this->buildPopupMenu( );
-  else
-    _cprintf( "menu NOT enabled\n" );
 
   ShowWindow( this->viewerWidget, SW_SHOW );
   ShowWindow( this->renderAreaWidget, SW_SHOW );
@@ -422,29 +421,15 @@ SoWinFullViewer::buildWidget( HWND parent )
   return this->viewerWidget;
 }
 
-/*
-void SoWinFullViewer::buildLeftWheel( HWND parent )
-{
-  // FIXME: function not implemented
-
-  this->leftWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
-                                         parent,
-                                         5,
-                                         250,
-                                         this->leftWheelStr );
-  this->leftWheel->registerCallback( leftWheelCB );
-}
-*/
-
 void
 SoWinFullViewer::buildDecoration( HWND parent )
 {
   // FIXME: function not implemented
-  this->buildLeftTrim( parent );
+  this->buildLeftWheel( parent );
 }
 
 HWND
-SoWinFullViewer::buildLeftTrim( HWND parent )
+SoWinFullViewer::buildLeftWheel( HWND parent )
 {
   this->leftWheel = new SoWinThumbWheel( SoWinThumbWheel::Vertical,
                                          parent,
@@ -457,16 +442,18 @@ SoWinFullViewer::buildLeftTrim( HWND parent )
 }
 
 HWND
-SoWinFullViewer::buildBottomTrim( HWND parent )
+SoWinFullViewer::buildBottomWheel( HWND parent )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return NULL;
 }
 
 HWND
-SoWinFullViewer::buildRightTrim( HWND parent )
+SoWinFullViewer::buildRightWheel( HWND parent )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return NULL;
 }
 
@@ -474,6 +461,7 @@ HWND
 SoWinFullViewer::buildZoomSlider( HWND parent )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return NULL;
 }
 
@@ -481,6 +469,7 @@ HWND
 SoWinFullViewer::buildAppButtons( HWND parent )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return NULL;
 }
 
@@ -488,6 +477,7 @@ HWND
 SoWinFullViewer::buildViewerButtons( HWND parent )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return NULL;
 }
 
@@ -495,12 +485,14 @@ void
 SoWinFullViewer::createViewerButtons( HWND parent )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::openStereoDialog( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
@@ -514,18 +506,23 @@ void
 SoWinFullViewer::setPopupMenuString( const char * name )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::openPopupMenu( const SbVec2s position )
 {
-  // FIXME: function not implemented
+  short x, y;
+  position.getValue( x, y );
+  _cprintf( "openPopupMenu\n" );
+  this->displayPopupMenu( x, y, this->viewerWidget );
 }
 
 void
 SoWinFullViewer::destroyPopupMenu( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 int
@@ -538,21 +535,22 @@ SoWinFullViewer::displayPopupMenu( int x, int y, HWND owner )
   //this->popupPostCallback( );
   return 0;
 }
+/* FIXME: not needed? mariusbu 20010611.
+HMENU
+SoWinFullViewer::buildFunctionsSubmenu( HMENU popup )
+{
+  // FIXME: function not implemented
+  SOWIN_STUB();
+  return NULL;
+}
 
-HWND
-SoWinFullViewer::buildFunctionsSubmenu( HWND popup )
+HMENU
+SoWinFullViewer::buildDrawStyleSubmenu( HMENU popup )
 {
   // FIXME: function not implemented
   return NULL;
 }
-
-HWND
-SoWinFullViewer::buildDrawStyleSubmenu( HWND popup )
-{
-  // FIXME: function not implemented
-  return NULL;
-}
-
+*/
 void
 SoWinFullViewer::setPrefSheetString( const char * name )
 {
@@ -569,24 +567,28 @@ void
 SoWinFullViewer::createPrefSheetShellAndForm( HWND shell, HWND form )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::createDefaultPrefSheetParts( HWND widgetList[], int num, HWND form )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::layoutPartsAndMapPrefSheet( HWND widgetList[], int num, HWND form, HWND shell )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 HWND
 SoWinFullViewer::createSeekPrefSheetGuts( HWND parent )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return NULL;
 }
 
@@ -594,6 +596,7 @@ HWND
 SoWinFullViewer::createSeekDistPrefSheetGuts( HWND parent )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return NULL;
 }
 
@@ -601,6 +604,7 @@ HWND
 SoWinFullViewer::createZoomPrefSheetGuts( HWND parent )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return NULL;
 }
 
@@ -608,6 +612,7 @@ HWND
 SoWinFullViewer::createClippingPrefSheetGuts( HWND parent )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return NULL;
 }
 
@@ -615,6 +620,7 @@ HWND
 SoWinFullViewer::createStereoPrefSheetGuts( HWND parent )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return NULL;
 }
 
@@ -667,90 +673,113 @@ void
 SoWinFullViewer::rightWheelMotion( float )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::bottomWheelMotion( float )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::leftWheelMotion( float )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::rightWheelStart( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::bottomWheelStart( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::leftWheelStart( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::rightWheelFinish( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::bottomWheelFinish( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::leftWheelFinish( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::setBottomWheelString( const char * name )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::setLeftWheelString( const char * name )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::setRightWheelString( const char * name )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::openViewerHelpCard( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::afterRealizeHook( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 HWND
 SoWinFullViewer::getViewerWidget( void )
 {
   return this->viewerWidget;
+}
+
+SbBool
+SoWinFullViewer::processSoEvent( const SoEvent * const event )
+{
+  if ( common->processSoEvent( event ) ||
+       inherited::processSoEvent( event ) )
+    return TRUE;
+  return FALSE;
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -763,18 +792,21 @@ void
 SoWinFullViewer::doAppButtonLayout( int start )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::setCameraZoom( float zoom )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 float
 SoWinFullViewer::getCameraZoom( void )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return 0.0f;
 }
 
@@ -782,54 +814,63 @@ void
 SoWinFullViewer::setZoomSliderPosition( float zoom )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::setZoomFieldString( float zoom )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::zoomSliderCB( HWND, SoWinFullViewer *, void ** )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::zoomFieldCB( HWND, SoWinFullViewer *, void ** )   // was XPointer *
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::zoomSensorCB( void *, SoSensor *)
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::visibilityChangeCB( void * pt, SbBool visible )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::rightWheelCB( SoWinFullViewer * viewer, void * * data )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::bottomWheelCB( SoWinFullViewer * viewer, void ** data )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 void
 SoWinFullViewer::leftWheelCB( SoWinFullViewer * viewer, void ** data )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
 
 LRESULT CALLBACK
@@ -857,11 +898,6 @@ SoWinFullViewer::mgrWindowProc( HWND window,
 
     switch ( message )
       {
-
-      case WM_RBUTTONDOWN:
-        ClientToScreen( window, & point );
-        object->displayPopupMenu( point.x, point.y, window );
-        return 0;
 
       case WM_SIZE:
         return object->onSize( window, message, wparam, lparam );
@@ -942,6 +978,7 @@ LRESULT
 SoWinFullViewer::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return 0;
 }
 
@@ -949,6 +986,7 @@ LRESULT
 SoWinFullViewer::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
   return 0;
 }
 
@@ -956,5 +994,11 @@ void
 SoWinFullViewer::drawDecorations( SoWinFullViewer * viewer, HWND hwnd, HDC hdc )
 {
   // FIXME: function not implemented
+  SOWIN_STUB();
 }
+
+
+
+
+
 

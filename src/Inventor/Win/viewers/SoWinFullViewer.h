@@ -54,7 +54,7 @@ public:
   static void setDoButtonBar( SbBool set );
   static SbBool isDoButtonBar( void );
 
-  SoCallbackList popupPostCallback;   // huh?
+  SoCallbackList popupPostCallback;   // FIXME: is this needed? mariusbu 20010611.
   SoCallbackList popupPreCallback;
 
   void setClientPopupMenu( HMENU menu );
@@ -73,8 +73,8 @@ public:
   virtual void setCamera( SoCamera * camera );
   virtual void hide( void );
 
-  //    SoWinStereoDialog * getStereoDialog( void );
-  //    void setStereoDialog( SoWinStereoDialog * newDialog );
+  // SoWinStereoDialog * getStereoDialog( void );
+  // void setStereoDialog( SoWinStereoDialog * newDialog );
 
   HMENU rootPopup;
   HMENU mainPopup;
@@ -107,16 +107,15 @@ public:
                    BuildFlag flag,
                    SoWinViewer::Type type, 
                    SbBool buildNow);
-  ~SoWinFullViewer( void );
-
 protected:
-
+  ~SoWinFullViewer( void );
   HWND viewerWidget; // form which manages all other widgets
   HWND renderAreaWidget;  // render area HWND
+  /*
   HWND leftTrimForm;
   HWND bottomTrimForm;
   HWND rightTrimForm;
-
+  */
   static SbBool doButtonBar;
     
   HWND zoomForm;
@@ -128,13 +127,13 @@ protected:
   SoWinThumbWheel * bottomWheel;
   SoWinThumbWheel * leftWheel;
   SoWinThumbWheel * extraWheel;
-
+  /*
   HWND extraTrimForm;
   float extraWheelVal;
   char * extraWheelStr;
   int extraLabelHeight;
   HWND extraWheelLabel;
-
+  */
   HWND vwrButtonForm;
 
   HBRUSH backgroundBrush;
@@ -145,6 +144,7 @@ protected:
   float rightWheelVal;
   float bottomWheelVal;
   float leftWheelVal;
+
   HWND rightWheelLabel;
   HWND bottomWheelLabel;
   HWND leftWheelLabel;
@@ -159,20 +159,18 @@ protected:
   HWND getButtonWidget( void ) const;
     
   SbBool popupEnabled;
-  HWND popupWidget;   // FIXME: HMENU ?
+  HWND popupWidget; // FIXME: not needed? mariusbu 20010611.
   HWND * popupToggleWidgets;
   HWND * drawStyleWidgets;
   HWND bufferStyleWidgets[3];
   char * popupTitle;
 
   HWND buildWidget( HWND parent );
-  //void buildLeftWheel( HWND parent );
-    
-  virtual void buildDecoration( HWND parent );
 
-  virtual HWND buildLeftTrim( HWND parent );
-  virtual HWND buildBottomTrim( HWND parent );
-  virtual HWND buildRightTrim( HWND parent );
+  virtual void buildDecoration( HWND parent );
+  virtual HWND buildLeftWheel( HWND parent );
+  virtual HWND buildBottomWheel( HWND parent );
+  virtual HWND buildRightWheel( HWND parent );
   virtual HWND buildZoomSlider( HWND parent );
 
   HWND buildAppButtons( HWND parent );
@@ -188,8 +186,10 @@ protected:
   virtual void destroyPopupMenu( void );  
   virtual int displayPopupMenu( int x, int y, HWND owner );
 
-  HWND buildFunctionsSubmenu( HWND popup );
-  HWND buildDrawStyleSubmenu( HWND popup );
+  /* FIXME: not needed? mariusbu 20010611.
+  HMENU buildFunctionsSubmenu( HMENU popup );
+  HMENU buildDrawStyleSubmenu( HMENU popup );
+  */
 
   void setPrefSheetString( const char * name );
   virtual void createPrefSheet( void );
@@ -201,6 +201,7 @@ protected:
                                    int num,
                                    HWND form,
                                    HWND shell );
+
   HWND createSeekPrefSheetGuts( HWND parent );
   HWND createSeekDistPrefSheetGuts( HWND parent );
   HWND createZoomPrefSheetGuts( HWND parent );
@@ -209,18 +210,21 @@ protected:
     
   float getLeftWheelValue(void) const;
   void setLeftWheelValue( const float value );
+
   float getBottomWheelValue(void) const;
   void setBottomWheelValue( const float value );
+
   float getRightWheelValue(void) const;
   void setRightWheelValue( const float value );
 
   virtual void rightWheelMotion( float );
   virtual void bottomWheelMotion( float );
   virtual void leftWheelMotion( float );
-    
+
   virtual void rightWheelStart( void );
   virtual void bottomWheelStart( void );
   virtual void leftWheelStart( void );
+
   virtual void rightWheelFinish( void );
   virtual void bottomWheelFinish( void );
   virtual void leftWheelFinish( void );
@@ -230,17 +234,18 @@ protected:
   void setRightWheelString( const char * name );
     
   virtual void openViewerHelpCard( void );
-    
   virtual void afterRealizeHook( void );
 
   HWND getViewerWidget( void );
 
+  virtual SbBool processSoEvent( const SoEvent * const event );
+
 private:
   SbString menutitle;
-    
+
   SoAnyPopupMenu * prefmenu;
-  SoAnyFullViewer * const common;    
-    
+  SoAnyFullViewer * const common; 
+
   SbBool menuenabled;
   SbBool decorations;
   SbBool firstBuild;
@@ -318,6 +323,14 @@ private:
 };
 
 #endif  // SOWIN_FULLVIEWER_H
+
+
+
+
+
+
+
+
 
 
 
