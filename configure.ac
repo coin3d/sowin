@@ -133,15 +133,7 @@ AC_SUBST([SOGUI_EXTRA_LIBS], [$LIBS])
 # We expect these to include their own dependencies.
 AC_CHECK_HEADERS([windows.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMisc.h X11/Xproto.h X11/extensions/XInput.h netinet/in.h])
 
-# At least with MSVC++, these headers needs windows.h to have been
-# included first.
-AC_CHECK_HEADERS([tlhelp32.h], [], [], [
-#if HAVE_WINDOWS_H
-#include <windows.h>
-#endif
-])
-
-# *******************************************************************
+SIM_AC_CHECK_HEADER_TLHELP32_H
 
 SIM_AC_CHECK_WIN32_API
 
