@@ -93,7 +93,6 @@ public:
   SbBool haveFocus;
   SbBool stealFocus;
   SbBool glRealized;
-  HCURSOR currentCursor;
 
   int glModes;
   int bordersize;
@@ -147,7 +146,6 @@ SoWinGLWidget::SoWinGLWidget(HWND parent,
   PRIVATE(this)->hdcOverlay = NULL;
 
   PRIVATE(this)->glModes = glModes;
-  PRIVATE(this)->currentCursor = NULL;
 
   PRIVATE(this)->haveFocus = FALSE;
   PRIVATE(this)->stealFocus = FALSE;
@@ -466,24 +464,6 @@ SoWinGLWidget::isQuadBufferStereo(void) const
 } // isQuadBufferStereo()
 
 /*!
- */
-void
-SoWinGLWidget::setCursor(HCURSOR newCursor)
-{
-  assert(newCursor != NULL);
-  PRIVATE(this)->currentCursor = newCursor;
-  SetCursor(newCursor);
-} // setCursor()
-
-/*!
- */
-HCURSOR
-SoWinGLWidget::getCursor(void)
-{
-  return PRIVATE(this)->currentCursor;
-} // getCursor()
-
-/*!
   Should return \c TRUE if an overlay GL drawing area exists.
 */
 SbBool
@@ -590,7 +570,10 @@ SoWinGLWidget::glWidgetProc(HWND window,
       return 0;
 
     case WM_SETCURSOR:
-      (void)SetCursor(object->getCursor());
+      // XXX  FIXME XXX
+//        SoDebugError::postInfo("SoWinGLWidget::glWidgetProc",
+//                               "WM_SETCURSOR");
+//        (void)SetCursor(object->getCursor());
       return 0;
  
     }
@@ -1004,8 +987,6 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
 
   }
  
-  this->currentCursor = LoadCursor(SoWin::getInstance(), IDC_ARROW);
-
   assert(IsWindow(manager) && "buildNormalGLWidget() argument is erroneous");
 	
   RECT rect;
