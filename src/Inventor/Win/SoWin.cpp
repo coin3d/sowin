@@ -171,7 +171,7 @@ SoWin::mainLoop( void )
     if ( GetQueueStatus( QS_ALLINPUT ) != 0 ) { // if messagequeue != empty
       if ( GetMessage( & msg, NULL, 0, 0 ) ) { // if msg != WM_QUIT
         TranslateMessage( & msg );
-	DispatchMessage( & msg );
+        DispatchMessage( & msg );
       }
       else break; // msg == WM_QUIT
     }
@@ -284,11 +284,10 @@ SoWin::getShellWidget( HWND hwnd )
     
   parent = GetParent( hwnd );
 
-  while ( parent )
-    {
-      ancestor = parent;
-      parent = GetParent( ancestor );
-    }
+  while ( parent ) {
+   ancestor = parent;
+   parent = GetParent( ancestor );
+  }
 
   return ancestor;
 }
@@ -524,11 +523,3 @@ SoWinP::onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 
   return 0;
 }
-
-
-
-
-
-
-
-
