@@ -44,7 +44,6 @@ public:
   // Constructor.
   SoWinGLWidgetP( SoWinGLWidget * o ) {
     this->owner = o;
-    this->parentEventHandler = NULL;
   }
 
   // Destructor.
@@ -58,12 +57,6 @@ public:
   LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-
-  static LRESULT CALLBACK cmpWidgetProc( HWND window,
-                                         UINT message,
-                                         WPARAM wparam,
-                                         LPARAM lparam );
-  WNDPROC parentEventHandler;
 
   HWND managerWidget;
   HWND normalWidget;
@@ -148,10 +141,6 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
 
 SoWinGLWidget::~SoWinGLWidget( void )
 {
-  if ( IsWindow( this->getParentWidget( ) ) )
-    ( void ) Win32::SetWindowLong( this->getParentWidget( ),
-      GWL_WNDPROC, ( LONG ) PRIVATE( this )->parentEventHandler );
-  
   if ( IsWindow( PRIVATE( this )->managerWidget ) )
     Win32::DestroyWindow( PRIVATE( this )->managerWidget );
   if ( IsWindow( PRIVATE( this )->normalWidget ) )  
@@ -387,22 +376,7 @@ SoWinGLWidget::glScheduleRedraw( void )
 {
   return FALSE;
 }
-/*
-void
-SoWinGLWidget::processExternalEvent( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
-  MSG msg;
-  POINT pt = { LOWORD( lparam ), HIWORD( lparam ) };
-  msg.hwnd = window;
-  msg.lParam = lparam;
-  msg.message = message;
-  msg.pt = pt;
-  msg.time = GetTickCount( );
-  msg.wParam = wparam;
 
-  this->processEvent( & msg );
-}
-*/
 ///////////////////////////////////////////////////////////////////
 //
 //  (protected)
@@ -414,25 +388,7 @@ SoWinGLWidget::mgrWidgetProc( HWND window,
                               WPARAM wparam,
                               LPARAM lparam )
 {
-  if ( message == WM_CREATE ) {
-    CREATESTRUCT * createstruct;
-    createstruct = ( CREATESTRUCT * ) lparam;
-    (void)Win32::SetWindowLong( window, GWL_USERDATA, ( LONG ) ( createstruct->lpCreateParams ) );
-    return 0;
-  }
-
-  SoWinGLWidget * object = ( SoWinGLWidget * ) Win32::GetWindowLong( window, GWL_USERDATA );
-
-  if ( object && window == object->getManagerWidget( ) ) {
-    switch ( message )
-      {
-				
-      case WM_SIZE:
-        object->setGLSize( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
-        return 0;
-				
-      }
-  }
+  // does nothing
   return DefWindowProc( window, message, wparam, lparam );
 }
 
@@ -473,8 +429,6 @@ SoWinGLWidget::glWidgetProc( HWND window,
     object->processEvent( & msg );
     
     switch ( message ) {
-//  case WM_SIZE:
-//    return PRIVATE( object )->onSize( window, message, wparam, lparam );
 
     case WM_PAINT:
       object->waitForExpose = FALSE; // flip flag on first expose
@@ -562,10 +516,12 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )
   PRIVATE( this )->glSize = newSize;
 
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
+  Win32::SetWindowPos( PRIVATE( this )->managerWidget, NULL, 0, 0,
+                         newSize[0], newSize[1], flags );
+  
+  flags = SWP_NOMOVE | SWP_NOZORDER;
   Win32::SetWindowPos( PRIVATE( this )->normalWidget, NULL, 0, 0,
                          newSize[0], newSize[1], flags );
-
-  this->sizeChanged( newSize );
 }
 
 SbVec2s
@@ -618,11 +574,6 @@ SoWinGLWidget::getDisplayListShareGroup( HGLRC ctx )
 HWND
 SoWinGLWidget::buildWidget( HWND parent )
 {
-
- 	// Patch parent event handler
-  LONG l = Win32::SetWindowLong( parent, GWL_WNDPROC, ( LONG ) SoWinGLWidgetP::cmpWidgetProc );
-  PRIVATE( this )->parentEventHandler = ( WNDPROC ) l;
-  
   // Build managerWidget
   // Used only to draw borders and handle resize
 
@@ -990,36 +941,4 @@ SoWinGLWidgetP::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lpar
   ReleaseDC( window, this->hdcNormal );
 
   return 0;
-}
-
-LRESULT CALLBACK
-SoWinGLWidgetP::cmpWidgetProc( HWND window,
-                               UINT message,
-                               WPARAM wparam,
-                               LPARAM lparam )
-{
-
-  SoWinGLWidget * object = NULL;
-  SoWinComponent * comp = SoWinComponent::getComponent( window );
-
-  // FIXME: do type check. mariusbu 20010727.
-  object = ( SoWinGLWidget * ) comp;
-
-  if ( object && window == object->getParentWidget( ) ) {
-    
-    switch ( message )
-      {
-        
-      case WM_SIZE:
-        MoveWindow( object->pimpl->managerWidget, 0, 0, LOWORD( lparam ), HIWORD( lparam ), TRUE );
-        return 0;
-        
-      default:
-        return object->pimpl->parentEventHandler( window, message, wparam, lparam );
-				
-      }
-
-  }
-
-  return DefWindowProc( window, message, wparam, lparam );
 }

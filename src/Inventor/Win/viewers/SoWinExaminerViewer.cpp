@@ -193,11 +193,11 @@ SoWinExaminerViewerP::constructor(
 SoWinExaminerViewer::~SoWinExaminerViewer(
  void )
 {
- // Cursors.
- DeleteObject( PRIVATE( this )->zoomcursor );
- DeleteObject( PRIVATE( this )->pancursor );
- DeleteObject( PRIVATE( this )->rotatecursor );
- DeleteObject( PRIVATE( this )->defaultcursor );
+  // Cursors.
+  DeleteObject( PRIVATE( this )->zoomcursor );
+  DeleteObject( PRIVATE( this )->pancursor );
+  DeleteObject( PRIVATE( this )->rotatecursor );
+  DeleteObject( PRIVATE( this )->defaultcursor );
 
   delete this->pimpl;
   delete this->common;
@@ -257,14 +257,14 @@ SoWinExaminerViewer::buildViewerButtonsEx( // virtual
   int y,
   int size )
 {
- SoWinBitmapButton * button;
+  SoWinBitmapButton * button;
   
- button = new SoWinBitmapButton( parent, x, y, size, size, 24, "perspective", NULL );
- button->addBitmap( perspective_xpm );
- button->addBitmap( ortho_xpm );
- button->setBitmap( 0 );
- button->setId( VIEWERBUTTON_CAMERA );
- this->viewerButtonList->append( button );
+  button = new SoWinBitmapButton( parent, x, y, size, size, 24, "perspective", NULL );
+  button->addBitmap( perspective_xpm );
+  button->addBitmap( ortho_xpm );
+  button->setBitmap( 0 );
+  button->setId( VIEWERBUTTON_CAMERA );
+  this->viewerButtonList->append( button );
 }
 
 // *************************************************************************
@@ -436,13 +436,13 @@ SoWinExaminerViewer::onCommand( // virtual
   WPARAM wparam,
   LPARAM lparam )
 {
- int i;
- short nc = HIWORD( wparam );// notification code
- short id = LOWORD( wparam );// item, control, or accelerator identifier
- HWND hwnd = ( HWND ) lparam;// control handle
+  int i;
+  short nc = HIWORD( wparam );// notification code
+  short id = LOWORD( wparam );// item, control, or accelerator identifier
+  HWND hwnd = ( HWND ) lparam;// control handle
 
- if ( id == VIEWERBUTTON_CAMERA )
-   PRIVATE( this )->cameratoggleClicked( );
+  if ( id == VIEWERBUTTON_CAMERA )
+    PRIVATE( this )->cameratoggleClicked( );
   else
     return inherited::onCommand( window, message, wparam, lparam );
 

@@ -46,7 +46,7 @@ public:
   static LONG SetWindowLong(HWND, int, LONG);
   static LONG GetWindowLong(HWND, int);
   static void SetWindowPos(HWND, HWND, int, int, int, int, UINT);
-   
+  static HHOOK SetWindowsHookEx(int, HOOKPROC, HINSTANCE, DWORD);  
 private:
   static void showLastErr(void);
 };

@@ -90,15 +90,41 @@ public:
     }
     
   }
-  
+
+  // event handler
   static LRESULT CALLBACK eventHandler(
     HWND window, UINT message, WPARAM wparam, LPARAM lparam ) {
-    // Do nothing.This method is just a place holder.
+    
+    SoWinComponent * component = SoWinComponent::getComponent( window );
+    if ( message == WM_SIZE && component ) {
+      component->sizeChanged( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
+    }
+    
     return DefWindowProc( window, message, wparam, lparam );
   }
- 
-  // Variables.
+  
+  // Message hook
+  static LRESULT CALLBACK callWndProc(
+    int code, WPARAM wparam, LPARAM lparam )
+  {
+    CWPSTRUCT * msg = ( CWPSTRUCT * ) lparam;
+    if ( HC_ACTION );// must process message
+    
+    SoWinComponent * component = SoWinComponent::getComponent( msg->hwnd );
+    if ( component ) {
+      if ( code >= 0 ) {
+        if ( msg->message == WM_SIZE ) {
+          component->sizeChanged( SbVec2s( LOWORD( msg->lParam ), HIWORD( msg->lParam ) ) );
+        }
+      }
+      // FIXME: should msgHook be static ?
+      return CallNextHookEx( component->pimpl->msgHook, code, wparam, lparam );
+    }
+    return 0;
+  }
 
+  // Variables.
+  HHOOK msgHook;
   HWND parent;
   HWND widget;
   SbBool embedded, created;
@@ -172,9 +198,13 @@ SoWinComponent::SoWinComponent( const HWND parent,
 
   if ( IsWindow( parent ) && embed ) {
     PRIVATE( this )->parent = parent;
+    PRIVATE( this )->msgHook =
+      Win32::SetWindowsHookEx( WH_CALLWNDPROC, SoWinComponentP::callWndProc,
+        NULL, GetCurrentThreadId( ) );
   }
   else {
     PRIVATE( this )->parent = this->buildFormWidget( parent );
+    PRIVATE( this )->msgHook = NULL;
   }
 
   if ( name ) PRIVATE( this )->widgetname = name;
@@ -188,6 +218,9 @@ SoWinComponent::SoWinComponent( const HWND parent,
 
 SoWinComponent::~SoWinComponent( void )
 {
+  if ( PRIVATE( this )->msgHook )
+    UnhookWindowsHookEx( PRIVATE( this )->msgHook );
+  
   for ( int i = PRIVATE( this )->visibilitychangeCBs->getLength( );
         i > 0; i-- ) {
     PRIVATE( this )->visibilitychangeCBs->remove( i );
@@ -514,6 +547,12 @@ SoWinComponent::buildFormWidget( HWND parent )
 
   assert( IsWindow( parentWidget ) );
   return parentWidget;
+}
+
+void
+SoWinComponent::sizeChanged( const SbVec2s newSize )
+{
+  // virtual - does nothing
 }
 
 const char *

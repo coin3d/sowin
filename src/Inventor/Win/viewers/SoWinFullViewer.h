@@ -103,6 +103,7 @@ protected:
   ~SoWinFullViewer( void );
 
   HWND buildWidget( HWND parent );
+  virtual void sizeChanged( const SbVec2s newSize );
   virtual void buildDecoration( HWND parent );
   virtual HWND buildLeftWheel( HWND parent );
   virtual HWND buildBottomWheel( HWND parent );
@@ -154,14 +155,6 @@ protected:
   virtual void selectedPrefs( void );
 
   virtual SbBool processSoEvent( const SoEvent * const event );
-  /*
-  static LRESULT CALLBACK glWidgetProc( HWND window, UINT message,
-                                        WPARAM wparam, LPARAM lparam );
-  */
-  static LRESULT CALLBACK vwrWidgetProc( HWND window, UINT message,
-                                         WPARAM wparam, LPARAM lparam );
-
-  virtual LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   virtual LRESULT onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   virtual LRESULT onDrawItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
   virtual LRESULT onMeasureItem( HWND window, UINT message, WPARAM wparam, LPARAM lparam );

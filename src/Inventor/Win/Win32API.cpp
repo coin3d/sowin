@@ -198,7 +198,7 @@ Win32::SetWindowLong(HWND hWnd,       // handle of window
 
 LONG
 Win32::GetWindowLong(HWND hWnd,       // handle of window
-           int nIndex)                // offset of value to set
+                     int nIndex)      // offset of value to set
 {
   SetLastError(0);
   LONG l = ::GetWindowLong(hWnd, nIndex);
@@ -210,15 +210,27 @@ Win32::GetWindowLong(HWND hWnd,       // handle of window
 
 void
 Win32::SetWindowPos(HWND hWnd,    // handle to window
-           HWND hWndInsertAfter,  // placement-order handle
-           int X,                 // horizontal position
-           int Y,                 // vertical position
-           int cx,                // width
-           int cy,                // height
-           UINT uFlags)           // window-positioning flags
+                    HWND hWndInsertAfter,  // placement-order handle
+                    int X,                 // horizontal position
+                    int Y,                 // vertical position
+                    int cx,                // width
+                    int cy,                // height
+                    UINT uFlags)           // window-positioning flags
 
 {
   BOOL r = ::SetWindowPos(hWnd, hWndInsertAfter, X, Y, cx, cy, uFlags);
   if (!r) { Win32::showLastErr(); }  
   assert( r && "SetWindowPos() failed -- investigate" );
+}
+
+HHOOK
+Win32::SetWindowsHookEx(int idHook,        // type of hook to install
+                        HOOKPROC lpfn,     // address of hook procedure
+                        HINSTANCE hMod,    // handle to application instance
+                        DWORD dwThreadId)   // identity of thread to install hook for
+{
+  HHOOK h = ::SetWindowsHookEx(idHook, lpfn, hMod, dwThreadId );
+  if (!h) { Win32::showLastErr(); }
+  assert( h && "SetWindowsHookEx() failed -- investigate" );
+  return h;
 }

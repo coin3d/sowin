@@ -60,7 +60,6 @@ public:
   // Constructor.
   SoWinFullViewerP( SoWinFullViewer * o ) {
     this->owner = o;
-    this->parentEventHandler = NULL;
   }
 
   // Destructor.
@@ -78,10 +77,12 @@ public:
   void homebuttonClicked( void );
   void sethomebuttonClicked( void );
   void viewallbuttonClicked( void );
-
+  
   int layoutWidgets( int cx, int cy );
-  //void setRegion( void );
+  static LRESULT CALLBACK callWndProc(int code, WPARAM wparam, LPARAM lparam );
 
+  HHOOK msgHook;
+  
   // App button callbacks
   AppPushButtonCB * appPushButtonCB;
   void * appPushButtonData;
@@ -90,7 +91,7 @@ public:
   CreateAppPushButtonCB * createAppPushButtonCB;
   void * createAppPushButtonData;
 
-  WNDPROC parentEventHandler;
+  //WNDPROC parentEventHandler;
 
   SbBool menuenabled;
   SbBool decorations;
@@ -126,6 +127,7 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 {
   this->pimpl = new SoWinFullViewerP( this );
 
+  PRIVATE( this )->msgHook = NULL;
   this->viewerWidget = NULL;
   this->renderAreaWidget = NULL;
 
@@ -167,11 +169,8 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 
 SoWinFullViewer::~SoWinFullViewer( void )
 {
-  HWND parent = this->getParentWidget( );
-  if ( IsWindow( parent ) ) {
-    ( void ) Win32::SetWindowLong( parent, GWL_WNDPROC,
-      ( LONG ) PRIVATE( this )->parentEventHandler );
-  }
+  if ( PRIVATE( this )->msgHook )
+    UnhookWindowsHookEx( PRIVATE( this )->msgHook );
 
   // FIXME: remember to dealocate all resources
   int i;
@@ -422,15 +421,15 @@ SoWinFullViewer::buildWidget( HWND parent )
   // This method will always be called with a parent.
 
   assert( IsWindow( parent ) );
-
+  
+  PRIVATE( this )->msgHook =
+    Win32::SetWindowsHookEx( WH_CALLWNDPROC, SoWinFullViewerP::callWndProc,
+      NULL, GetCurrentThreadId( ) );
+  
   this->viewerWidget = parent;
   this->renderAreaWidget = inherited::buildWidget( parent );
   assert( IsWindow( this->renderAreaWidget  ) );
-
-  // Patch component eventHandler
-  LONG l = Win32::SetWindowLong( parent, GWL_WNDPROC, ( LONG ) SoWinFullViewer::vwrWidgetProc );
-  PRIVATE( this )->parentEventHandler = ( WNDPROC ) l;
-
+  
   if ( PRIVATE( this )->menuenabled ) {
     this->buildPopupMenu( );
   }
@@ -440,6 +439,22 @@ SoWinFullViewer::buildWidget( HWND parent )
   }
 
   return this->renderAreaWidget;
+}
+
+void
+SoWinFullViewer::sizeChanged( const SbVec2s newSize )
+{
+
+  if ( ! IsWindow( this->getBaseWidget( ) ) ) return;
+  
+  if ( PRIVATE( this )->decorations ) {
+    SoWinRenderArea::sizeChanged( SbVec2s( newSize[0] - ( 2 * DECORATION_SIZE ), newSize[1] - DECORATION_SIZE ) );
+  }
+  else {
+    SoWinRenderArea::sizeChanged( newSize );
+  }
+  PRIVATE( this )->layoutWidgets( newSize[0], newSize[1] );
+  Win32::InvalidateRect( this->getParentWidget( ), NULL, TRUE );
 }
 
 void
@@ -453,14 +468,16 @@ SoWinFullViewer::buildDecoration( HWND parent )
 
     this->buildViewerButtons( parent );
     //this->buildAppButtons( parent ); // FIXME: remove ? mariusbu 20010727.
-
+    
     SoWinFullViewerP::doneButtonBar = TRUE;
   }
 
   // reposition all widgets
   RECT rect;
   Win32::GetClientRect( parent, & rect );
-  PRIVATE( this )->layoutWidgets( rect.right, rect.bottom );
+  
+  // layout widgets
+  //this->sizeChanged( SbVec2s( rect.right, rect.bottom ) );
 }
 
 HWND
@@ -816,59 +833,6 @@ SoWinFullViewer::processSoEvent( const SoEvent * const event )
            inherited::processSoEvent( event ) );
 }
 
-LRESULT CALLBACK
-SoWinFullViewer::vwrWidgetProc(HWND window,
-                               UINT message,
-                               WPARAM wparam,
-                               LPARAM lparam )
-{
-
-  SoWinFullViewer * object = NULL;
-  SoWinComponent * comp = SoWinComponent::getComponent( window );
-
-  // FIXME: do type check. mariusbu 20010727.
-  object = ( SoWinFullViewer * ) comp;
-  
-  if ( object && window == object->getParentWidget( ) ) {
-
-    switch ( message )
-      {
-
-      case WM_SIZE:
-        return object->onSize( window, message, wparam, lparam );
-
-      case WM_COMMAND:
-        return object->onCommand( window, message, wparam, lparam );
-
-      case WM_MEASUREITEM:
-        return object->onMeasureItem( window, message, wparam, lparam );
-
-      case WM_DRAWITEM:
-        return object->onDrawItem( window, message, wparam, lparam );
-
-      case WM_LBUTTONDOWN:
-        SetFocus( object->getGLWidget( ) );
-        return 0;
-
-      default:
-        return object->pimpl->parentEventHandler( window, message, wparam, lparam );
-				
-      }
-
-  }
-
-  return DefWindowProc( window, message, wparam, lparam );
-}
-
-LRESULT
-SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
-{
-  PRIVATE( this )->layoutWidgets( LOWORD( lparam ), HIWORD( lparam ) );
-  Win32::InvalidateRect( window, NULL, TRUE );
-
-  return 0;
-}
-
 LRESULT
 SoWinFullViewer::onCommand( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
@@ -1101,17 +1065,17 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
   int i, x, y, width, height, bottom, right, top;
   int numViewerButtons = this->owner->viewerButtonList->getLength( );
   int numAppButtons = this->owner->appButtonList->getLength( );
-  HWND renderArea = this->owner->renderAreaWidget;
+  HWND renderArea = this->owner->getBaseWidget( );//this->owner->renderAreaWidget;
+  UINT flags = SWP_NOSIZE | SWP_NOZORDER | SWP_NOREDRAW;
   
   // RenderArea
   assert( IsWindow( renderArea ) );
 
   if ( this->decorations ) {
-    Win32::MoveWindow( renderArea, DECORATION_SIZE, 0,
-                       cx - ( 2 * DECORATION_SIZE ), cy - DECORATION_SIZE, TRUE );
+    Win32::SetWindowPos( renderArea, NULL, DECORATION_SIZE, 0, 0, 0, flags );
   }
   else {
-    Win32::MoveWindow( renderArea, 0, 0, cx, cy, TRUE );
+    Win32::SetWindowPos( renderArea, NULL, 0, 0, 0, 0, flags );
     return 0;
   }
   
@@ -1215,5 +1179,43 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
     this->owner->rightWheel->move( x, y, width, height );
   }
 
+  return 0;
+}
+
+LRESULT CALLBACK
+SoWinFullViewerP::callWndProc(int code, WPARAM wparam, LPARAM lparam )
+{
+  CWPSTRUCT * msg = ( CWPSTRUCT * ) lparam;
+  if ( HC_ACTION );// must process message
+  
+  SoWinComponent * component = SoWinComponent::getComponent( msg->hwnd );
+  if ( component && component->getTypeId( ).isDerivedFrom( SoWinFullViewer::getClassTypeId( ) ) ) {
+  
+    SoWinFullViewer * object = ( SoWinFullViewer * ) component;
+      
+    if ( code >= 0 ) {
+
+      switch ( msg->message )
+      {
+
+        case WM_COMMAND:
+          object->onCommand( msg->hwnd, msg->message, msg->wParam, msg->lParam );
+
+        case WM_MEASUREITEM:
+          object->onMeasureItem( msg->hwnd, msg->message, msg->wParam, msg->lParam );
+
+        case WM_DRAWITEM:
+          object->onDrawItem( msg->hwnd, msg->message, msg->wParam, msg->lParam );
+
+        case WM_LBUTTONDOWN:
+          SetFocus( object->getGLWidget( ) );
+          
+      }
+
+    }
+    // FIXME: should msgHook be static ?
+    return CallNextHookEx( object->pimpl->msgHook, code, wparam, lparam );
+  }
+  
   return 0;
 }

@@ -86,6 +86,7 @@ protected:
 
   HWND buildFormWidget( HWND parent );
 
+  virtual void sizeChanged( const SbVec2s newSize );
   virtual const char * getDefaultWidgetName( void ) const;
   virtual const char * getDefaultTitle( void ) const;
   virtual const char * getDefaultIconTitle( void ) const { return this->getDefaultTitle( ); };
