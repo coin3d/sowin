@@ -49,7 +49,7 @@
 SoWinExaminerViewerP::SoWinExaminerViewerP(SoWinExaminerViewer * o)
   : SoGuiExaminerViewerP(o)
 {
-  PRIVATE(this)->camerabutton = NULL;
+  this->camerabutton = NULL;
 }
 
 SoWinExaminerViewerP::~SoWinExaminerViewerP()
