@@ -60,6 +60,8 @@ BUILD_HTMLHELP_FALSE = @BUILD_HTMLHELP_FALSE@
 BUILD_HTMLHELP_TRUE = @BUILD_HTMLHELP_TRUE@
 BUILD_HTMLPAGES_FALSE = @BUILD_HTMLPAGES_FALSE@
 BUILD_HTMLPAGES_TRUE = @BUILD_HTMLPAGES_TRUE@
+BUILD_IVF_FALSE = @BUILD_IVF_FALSE@
+BUILD_IVF_TRUE = @BUILD_IVF_TRUE@
 BUILD_LIBRARY_FALSE = @BUILD_LIBRARY_FALSE@
 BUILD_LIBRARY_TRUE = @BUILD_LIBRARY_TRUE@
 BUILD_MANPAGES_FALSE = @BUILD_MANPAGES_FALSE@
@@ -577,7 +579,10 @@ SoQt_ExtraBuiltMetaFiles = \
   $(top_builddir)/src/Inventor/Qt/widgets/moc_SoQtGLArea.cpp
 
 
-SUBDIRS = . Inventor
+@BUILD_IVF_TRUE@IvfDir = Ivf
+@BUILD_IVF_FALSE@IvfDir = 
+
+SUBDIRS = . $(IvfDir) Inventor
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
@@ -591,21 +596,30 @@ DISTCLEANFILES = \
 	$(SoGui_src_BuiltFiles) \
 	$(SoGui_src_BuiltMetaFiles)
 
+
+@BUILD_IVF_TRUE@ivfdir = $(includedir)
+@BUILD_IVF_TRUE@ivf_HEADERS = \
+@BUILD_IVF_TRUE@	IvfEnterScope.h \
+@BUILD_IVF_TRUE@	IvfLeaveScope.h
+
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 DIST_SOURCES =
+HEADERS = $(ivf_HEADERS)
+
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	ps-recursive install-info-recursive uninstall-info-recursive \
 	all-recursive install-data-recursive install-exec-recursive \
 	installdirs-recursive install-recursive uninstall-recursive \
 	check-recursive installcheck-recursive
-DIST_COMMON = $(srcdir)/Inventor/Win/common/Makefile.common Makefile.am \
+DIST_COMMON = $(ivf_HEADERS) \
+	$(srcdir)/Inventor/Win/common/Makefile.common Makefile.am \
 	Makefile.in config.h.in
-DIST_SUBDIRS = $(SUBDIRS)
+DIST_SUBDIRS = . Ivf Inventor
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -642,6 +656,24 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
+ivfHEADERS_INSTALL = $(INSTALL_HEADER)
+install-ivfHEADERS: $(ivf_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(ivfdir)
+	@list='$(ivf_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(ivfHEADERS_INSTALL) $$d$$p $(DESTDIR)$(ivfdir)/$$f"; \
+	  $(ivfHEADERS_INSTALL) $$d$$p $(DESTDIR)$(ivfdir)/$$f; \
+	done
+
+uninstall-ivfHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(ivf_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(ivfdir)/$$f"; \
+	  rm -f $(DESTDIR)$(ivfdir)/$$f; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -799,7 +831,7 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	list='$(SUBDIRS)'; for subdir in $$list; do \
+	list='$(DIST_SUBDIRS)'; for subdir in $$list; do \
 	  if test "$$subdir" = .; then :; else \
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \
@@ -815,9 +847,10 @@ distdir: $(DISTFILES)
 check-am: all-am
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-recursive
-all-am: Makefile config.h
+all-am: Makefile $(HEADERS) config.h
 installdirs: installdirs-recursive
 installdirs-am:
+	$(mkinstalldirs) $(DESTDIR)$(ivfdir)
 
 install: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) install-recursive
@@ -864,7 +897,7 @@ info: info-recursive
 
 info-am:
 
-install-data-am:
+install-data-am: install-ivfHEADERS
 
 install-exec-am:
 
@@ -890,7 +923,7 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-ivfHEADERS
 
 uninstall-info: uninstall-info-recursive
 
@@ -901,15 +934,16 @@ uninstall-info: uninstall-info-recursive
 	dvi dvi-am dvi-recursive info info-am info-recursive install \
 	install-am install-data install-data-am install-data-recursive \
 	install-exec install-exec-am install-exec-recursive \
-	install-info install-info-am install-info-recursive install-man \
-	install-recursive install-strip installcheck installcheck-am \
-	installdirs installdirs-am installdirs-recursive \
-	maintainer-clean maintainer-clean-generic \
+	install-info install-info-am install-info-recursive \
+	install-ivfHEADERS install-man install-recursive install-strip \
+	installcheck installcheck-am installdirs installdirs-am \
+	installdirs-recursive maintainer-clean maintainer-clean-generic \
 	maintainer-clean-recursive mostlyclean mostlyclean-generic \
 	mostlyclean-libtool mostlyclean-recursive pdf pdf-am \
 	pdf-recursive ps ps-am ps-recursive tags tags-recursive \
 	uninstall uninstall-am uninstall-info-am \
-	uninstall-info-recursive uninstall-recursive
+	uninstall-info-recursive uninstall-ivfHEADERS \
+	uninstall-recursive
 
 
 ############################################################################
@@ -1289,20 +1323,20 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 @BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewerP.h`"; \
 @BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewerP.h` )
 
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h $(top_builddir)/config.status
-@BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h` )
-
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h $(top_builddir)/config.status
-@BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h` )
-
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h $(top_builddir)/config.status
-@BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h` )
+# $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h $(top_builddir)/config.status
+# 	@( cd $(top_builddir); \
+# 	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h`"; \
+# 	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h` )
+# 
+# $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h $(top_builddir)/config.status
+# 	@( cd $(top_builddir); \
+# 	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h`"; \
+# 	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h` )
+# 
+# $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h $(top_builddir)/config.status
+# 	@( cd $(top_builddir); \
+# 	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h`"; \
+# 	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h` )
 
 ############################################################################
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
