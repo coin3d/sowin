@@ -48,7 +48,7 @@ nodes.lst: Makefile $(nodes_lst_OBJECTS)
 
 SoWinNodesincdir = $(includedir)/Inventor/@Gui@/nodes
 
-SoWinNodesinc_HEADERS = \
+nodist_SoWinNodesinc_HEADERS = \
 	SoGuiColorEditor.h \
 	SoGuiMaterialEditor.h
 
