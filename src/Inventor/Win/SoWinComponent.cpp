@@ -769,7 +769,6 @@ SoWinComponent::buildFormWidget(HWND parent)
 
   if (! SoWinComponentP::wndClassAtom) {
     LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
-    LPCTSTR cursor = MAKEINTRESOURCE(IDC_ARROW);
     HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
 
     WNDCLASS windowclass;
@@ -779,7 +778,7 @@ SoWinComponent::buildFormWidget(HWND parent)
     windowclass.style = CS_OWNDC;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = LoadIcon(SoWin::getInstance(), icon);
-    windowclass.hCursor = LoadCursor(SoWin::getInstance(), cursor);
+    windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = brush;
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = 4;
@@ -1019,11 +1018,11 @@ SoWinComponent::setWidgetCursor(HWND w, const SoWinCursor & cursor)
   else {
     switch (cursor.getShape()) {
     case SoWinCursor::DEFAULT:
-      SetCursor(LoadCursor(NULL, IDC_ARROW));
+      SetCursor(Win32::LoadCursor(NULL, IDC_ARROW));
       break;
 
     case SoWinCursor::BUSY:
-      SetCursor(LoadCursor(NULL, IDC_WAIT));
+      SetCursor(Win32::LoadCursor(NULL, IDC_WAIT));
       break;
 
     case SoWinCursor::BLANK:
@@ -1031,11 +1030,11 @@ SoWinComponent::setWidgetCursor(HWND w, const SoWinCursor & cursor)
       break;
 
     case SoWinCursor::CROSSHAIR:
-      SetCursor(LoadCursor(NULL, IDC_CROSS));
+      SetCursor(Win32::LoadCursor(NULL, IDC_CROSS));
       break;
 
     case SoWinCursor::UPARROW:
-      SetCursor(LoadCursor(NULL, IDC_UPARROW));
+      SetCursor(Win32::LoadCursor(NULL, IDC_UPARROW));
       break;
 
     default:

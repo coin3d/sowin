@@ -65,6 +65,7 @@ public:
   static DWORD CheckMenuItem(HMENU, UINT, UINT);
   static HCURSOR CreateCursor(HINSTANCE, int, int, int, int,
                               CONST VOID *, CONST VOID *);
+  static HCURSOR LoadCursor(HINSTANCE, LPCTSTR);
 
   // Internal and external interface to GetLastError() + FormatMessage().
   static SbString getWin32Err(DWORD & lasterr);

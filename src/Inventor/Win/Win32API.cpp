@@ -436,3 +436,14 @@ Win32::CreateCursor(HINSTANCE hInst,         // handle to application instance
   assert(r != NULL && "CreateCursor() failed -- investigate");
   return r;
 }
+
+HCURSOR
+Win32::LoadCursor(HINSTANCE hInstance,  // handle to application instance
+                  LPCTSTR lpCursorName  // name string or cursor resource identifier
+                  )
+{
+  HCURSOR r = ::LoadCursor(hInstance, lpCursorName);
+  if (r == NULL) { Win32::showLastErr(); }  
+  assert(r != NULL && "LoadCursor() failed -- investigate");
+  return r;
+}

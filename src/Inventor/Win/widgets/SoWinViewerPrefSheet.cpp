@@ -259,7 +259,6 @@ void SoWinViewerPrefSheet::createMainWidget(HWND parent)
 
     WNDCLASS windowclass;
     LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
-    LPCTSTR cursor = MAKEINTRESOURCE(IDC_ARROW);
     HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
 
     windowclass.lpszClassName = wndclassname;
@@ -268,7 +267,7 @@ void SoWinViewerPrefSheet::createMainWidget(HWND parent)
     windowclass.style = CS_OWNDC;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = LoadIcon(NULL, icon);
-    windowclass.hCursor = LoadCursor(SoWin::getInstance(), cursor);
+    windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = brush;
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = 4;
