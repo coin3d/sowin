@@ -45,6 +45,19 @@ public:
 
   ~SoWinBitmapButtonP()
   {
+    // Note: since the buttonwindow is owned by it's parent,
+    // it will be destroyed (DestroyWindow()) when parent is destroyed.
+    // This could happen before or after this destructor is called,
+    // so we need to be robust. 2004-01-21 thammer.
+
+    // Note: We need to make sure the button_proc() is not called
+    // after the destructor has been called. 2004-01-21 thammer.
+    if ( (this->buttonwindow) && IsWindow(this->buttonwindow) ) {
+      Win32::SetWindowLong(this->buttonwindow, GWL_WNDPROC,
+                           (LONG)this->prevwndfunc);
+      this->buttonwindow = NULL;
+    }
+
     const int len = this->bitmaplist.getLength();
     for (int i = 0; i < len; i++) { Win32::DeleteObject(this->bitmaplist[i]); }
   }
