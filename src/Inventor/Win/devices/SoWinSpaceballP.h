@@ -37,10 +37,15 @@
 class SoWinSpaceballP : public SoGuiSpaceballP {
 
 public:
-  SoWinSpaceballP(SoWinSpaceball * p) : SoGuiSpaceballP(p) { }
-  virtual ~SoWinSpaceballP() { }
+  SoWinSpaceballP(SoWinSpaceball * p);
+  virtual ~SoWinSpaceballP();
 
-  class SoMotion3Event * motionEvent;
+  void * Spw_DeviceHandle;
+
+  SbRotation makeRotation(const float rx, const float ry, const float rz) const;
+  SbVec3f makeTranslation(const float tx, const float ty, const float tz) const;
+
+  class SoMotion3Event * motion3Event;
   class SoSpaceballButtonEvent * buttonEvent;
 };
 
