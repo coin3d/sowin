@@ -698,11 +698,11 @@ SoWinGLWidget::glWindowProc( HWND window,
     
     object->processEvent( & msg );
     
-    /* Steal focus from other windows
+    // Steal focus from other windows - get keystrokes
     if( ! object->haveFocus ) {
       object->haveFocus = ( BOOL ) SetFocus( window );
     }
-    */
+    
     switch ( message )
       {
       case WM_SIZE:
