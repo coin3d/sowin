@@ -81,11 +81,12 @@ private:
 	void destructor( void );
   HWND buildWidget( HWND parent, RECT rect );
   HBITMAP createDIB( int width, int height, int bpp, void ** bits );
-	HBITMAP parseXpm( char ** xpm );
+	HBITMAP parseXpm( char ** xpm, int dibDepth = 24 );
 	int axtoi( char * str );
 	
   HWND buttonWindow;
 	SbPList * bitmapList;
+  int depth;
 
   bitmapButtonCB * viewerCB;
 	SoWinFullViewer * viewer; // owner object pointer

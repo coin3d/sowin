@@ -479,12 +479,13 @@ SoWinThumbWheel::initWheel( int diameter, int width )
 
 void
 SoWinThumbWheel::setEnabled( bool enable )
-{
+{  
   if ( enable )
     this->state = SoWinThumbWheel::Idle;
   else
     this->state = SoWinThumbWheel::Disabled;
 	InvalidateRect( this->wheelWindow, NULL, FALSE );
+  EnableWindow( this->labelWindow, enable );
 } // setEnabled()
 
 bool

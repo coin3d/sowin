@@ -600,15 +600,7 @@ void SoWinViewerPrefSheet::setChecked( HWND hwnd, BOOL check )
 
 void SoWinViewerPrefSheet::setEnabled( HWND hwnd, BOOL enable )
 {
-  long style = GetWindowLong( hwnd, GWL_STYLE );
-  
-	if ( enable )
-		style &= ~WS_DISABLED;
-	else
-		style |= WS_DISABLED;
-
-	SetWindowLong( hwnd, GWL_STYLE, style );
-  SendMessage( hwnd, WM_ENABLE, ( WPARAM ) enable, ( LPARAM ) 0 );
+  EnableWindow( hwnd, enable );
 }
 
 void SoWinViewerPrefSheet::setEditValue( HWND edit, float value )

@@ -44,6 +44,8 @@ SoWinBitmapButton::SoWinBitmapButton( HWND parent,
   this->constructor( );
   this->buildWidget( parent, rect );
 
+  this->depth = depth;
+
 	if( bits != NULL ) {
 		this->addBitmap( width, height, depth, bits );
 		this->setBitmap( 0 );
@@ -155,6 +157,7 @@ SoWinBitmapButton::constructor( void )
 	this->viewerCB = NULL;
 	this->viewer = NULL;
 	this->bitmapList = new SbPList;
+  this->depth = 0;
 } // constructor()
 
 void
@@ -202,7 +205,7 @@ void
 SoWinBitmapButton::setState( SbBool pushed )
 {
 	SendMessage( this->buttonWindow, BM_SETSTATE, ( WPARAM ) pushed, 0 );
-	InvalidateRect( this->buttonWindow, NULL, FALSE );
+	//InvalidateRect( this->buttonWindow, NULL, FALSE );
 } // setState()
 
 SbBool
@@ -214,15 +217,7 @@ SoWinBitmapButton::getState( void ) const
 void
 SoWinBitmapButton::setEnabled( SbBool enable )
 {
-  long style = GetWindowLong( this->buttonWindow, GWL_STYLE );
-
-	if ( enable)
-		style &= ~WS_DISABLED;
-	else
-		style |= WS_DISABLED;
-
-	SetWindowLong( this->buttonWindow, GWL_STYLE, style );
-	InvalidateRect( this->buttonWindow, NULL, FALSE );
+  EnableWindow( this->buttonWindow, enable );
 } // setEnabled()
 
 SbBool
@@ -253,7 +248,7 @@ SoWinBitmapButton::addBitmap( int width, int height, int bpp, void * src )
 void
 SoWinBitmapButton::addBitmap( char ** xpm )
 {
-	this->addBitmap( this->parseXpm( xpm ) );	
+	this->addBitmap( this->parseXpm( xpm, ( ( this->depth > 0 ) ? this->depth : 24 ) ) );	
 } // addBitmap()
 
 HBITMAP
@@ -319,14 +314,12 @@ SoWinBitmapButton::createDIB( int width, int height, int bpp, void ** bits ) // 
   return bitmap;
 }
 
-// FIXME: slow dog!
 HBITMAP
-SoWinBitmapButton::parseXpm( char ** xpm ) // convert from xpm to 24 bit DIB ( demands hex colors )
+SoWinBitmapButton::parseXpm( char ** xpm, int dibDepth )// convert from xpm to DIB ( demands hex colors )
 {
 	int i, j, k, l, m, x, y;
 	int width;
 	int height;
-	int depth;
 	int numColors;
 	int numChars;
 	char * strStart;
@@ -337,11 +330,10 @@ SoWinBitmapButton::parseXpm( char ** xpm ) // convert from xpm to 24 bit DIB ( d
 	void * dest;
 	HBITMAP hbmp;
 
-	int colorValue;
-	char pixelSize;
-
-	depth = 24; // default depth is 24 bits per pixel
-	pixelSize = depth / 8;
+	unsigned int colorValue;
+	unsigned char pixelSize;
+  
+	pixelSize = dibDepth / 8;
 
 	// get width
 	strStart = xpm[0];
@@ -397,7 +389,7 @@ SoWinBitmapButton::parseXpm( char ** xpm ) // convert from xpm to 24 bit DIB ( d
 	}
 
 	// create bitmap
-	hbmp = this->createDIB( width, height, depth, & dest );
+	hbmp = this->createDIB( width, height, dibDepth, & dest );
 	
 	// put pixels
 	for ( i = 0; i < height; i++ ) {
@@ -421,9 +413,9 @@ SoWinBitmapButton::parseXpm( char ** xpm ) // convert from xpm to 24 bit DIB ( d
 				if ( l >= numChars ) {
 					
 					if ( colorLookupTable[k] == -1 )
-						colorValue = GetSysColor( COLOR_3DFACE ); // FIXME: make param
+						colorValue = GetSysColor( COLOR_3DFACE ) & 0x00FFFFFF; // FIXME: color make param
 					else
-						colorValue = colorLookupTable[k];
+						colorValue = colorLookupTable[k] | 0xFF000000;
 					
 					// FIXME: may not work with depth < 24
 					// for each color byte in the pixel
@@ -431,7 +423,7 @@ SoWinBitmapButton::parseXpm( char ** xpm ) // convert from xpm to 24 bit DIB ( d
 
 						// put color byte ( and only one byte )
 						( ( char * ) dest )[y + x + m] =
-							( char ) ( ( colorValue & ( 0x000000FF << ( m << 3 ) ) ) >> ( m << 3 ) );	
+							( char ) ( ( colorValue & ( 0x000000FF << ( m << 3 ) ) ) >> ( m << 3 ) );
 						
 					}
 
