@@ -401,8 +401,11 @@ SoWinComponent::setTitle( const char * const title )
   if ( title ) PRIVATE( this )->title = title;
   else PRIVATE( this )->title = "";
 
-  if ( IsWindow( PRIVATE( this )->parent ) && title )
-    SetWindowText( PRIVATE( this )->parent , ( LPCTSTR ) PRIVATE( this )->title.getString( ) );
+  if ( IsWindow( PRIVATE( this )->parent ) && title ) {
+    BOOL r = SetWindowText( PRIVATE( this )->parent ,
+                            ( LPCTSTR ) PRIVATE( this )->title.getString( ) );
+    assert( r && "SetWindowText() failed -- investigate" );
+  }
 }
 
 const char *

@@ -107,8 +107,10 @@ HWND SoWinViewerPrefSheet::getWidget( void )
 
 void SoWinViewerPrefSheet::setTitle( const char * title )
 {
-  if ( this->mainWidget )
-    SetWindowText( this->mainWidget, title );
+  if ( this->mainWidget ) {
+    BOOL r = SetWindowText( this->mainWidget, title );
+    assert( r && "SetWindowText() failed -- investigate" );
+  }
   this->title = title;
 }
 
@@ -635,15 +637,23 @@ void SoWinViewerPrefSheet::setEnabled( HWND hwnd, BOOL enable )
 
 void SoWinViewerPrefSheet::setEditValue( HWND edit, float value )
 {
-  char str[32];
-  sprintf( str, "%.3f", value );
-  SetWindowText( edit, str );
+  const int BUFSIZE = 32;
+  char str[BUFSIZE];
+  int l = sprintf( str, "%.3f", value );
+  assert( ( l < BUFSIZE-1 ) && "buffer too small" );
+
+  BOOL r = SetWindowText( edit, str );
+  assert( r && "SetWindowText() failed -- investigate" );
 }
 
 float SoWinViewerPrefSheet::getEditValue( HWND edit )
 {
-  char str[32];
-  GetWindowText( edit, str, 32 );
+  const int BUFSIZE = 32;
+  char str[BUFSIZE];
+  SetLastError(0);
+  int l = GetWindowText( edit, str, BUFSIZE );
+  assert( ! ( l==0 && GetLastError()!= 0 ) && "GetWindowText() failed -- investigate" );
+  assert( ( l < BUFSIZE-1 ) && "buffer too small" );
   return ( float ) atof( str );
 }
 

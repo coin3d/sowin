@@ -299,6 +299,7 @@ SoWinBitmapButton::createDIB( int width, int height, int bpp, void ** bits ) // 
 
   HBITMAP bitmap = NULL;
   HDC hdc = CreateCompatibleDC( NULL );
+  assert( hdc!=NULL && "CreateCompatibleDC() failed -- investigate" );
   int heapspace = sizeof( BITMAPINFOHEADER );
 
   HANDLE heap = GetProcessHeap( );

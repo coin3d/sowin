@@ -535,7 +535,8 @@ SoWinThumbWheel::setLabelText( char * text )
   assert( IsWindow( this->wheelWindow ) );
   
   if ( IsWindow( this->labelWindow ) ) {
-    SetWindowText( this->labelWindow, text );
+    BOOL r = SetWindowText( this->labelWindow, text );
+    assert( r && "SetWindowText() failed -- investigate" );
   }
   else {
     RECT rect;
@@ -637,6 +638,7 @@ SoWinThumbWheel::createDIB( int width, int height, int bpp, void ** bits ) // 16
 
   HBITMAP bitmap = NULL;
   HDC hdc = CreateCompatibleDC( NULL );
+  assert( hdc!=NULL && "CreateCompatibleDC() failed -- investigate" );
   int heapspace = sizeof( BITMAPINFOHEADER );
 
   HANDLE heap = GetProcessHeap( );
@@ -667,8 +669,10 @@ SoWinThumbWheel::createDIB( int width, int height, int bpp, void ** bits ) // 16
 }
 
 void
-SoWinThumbWheel::blitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int height ) const {
+SoWinThumbWheel::blitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int height ) const
+{
   HDC memorydc = CreateCompatibleDC( dc );
+  assert( memorydc!=NULL && "CreateCompatibleDC() failed -- investigate" );
   HBITMAP oldBitmap = ( HBITMAP ) SelectObject( memorydc, bitmap );
   BitBlt( dc, x, y, width, height, memorydc, 0, 0, SRCCOPY );
   SelectObject( memorydc, oldBitmap );

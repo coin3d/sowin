@@ -732,7 +732,8 @@ void
 SoWinGLWidget::glSwapBuffers( void )
 {
   assert( PRIVATE( this )->hdcNormal != NULL );
-  SwapBuffers( PRIVATE( this )->hdcNormal );
+  BOOL r = SwapBuffers( PRIVATE( this )->hdcNormal );
+  assert( r && "SwapBuffers() failed -- investigate" );
 }
 
 void
@@ -751,7 +752,8 @@ SoWinGLWidget::validate( HWND hwnd )
 
   BOOL r = ClientToScreen( PRIVATE( this )->normalWidget, & pt );
   assert( r && "ClientToScreen() failed -- investigate" );
-  ScreenToClient( hwnd, & pt );
+  r = ScreenToClient( hwnd, & pt );
+  assert( r && "ScreenToClient() failed -- investigate" );
 
   RECT rect = {
     pt.x,
@@ -760,7 +762,8 @@ SoWinGLWidget::validate( HWND hwnd )
     PRIVATE( this )->glSize[1] + pt.y
   };
   
-  ValidateRect( hwnd, & rect );
+  r = ValidateRect( hwnd, & rect );
+  assert( r && "ValidateRect() failed -- investigate" );
 }
 
 ///////////////////////////////////////////////////////////////////
