@@ -86,7 +86,7 @@ void SoWinViewerPrefSheet::destroy( void )
 {
   if ( IsWindow (this->mainWidget ) )
     this->destroyMainWidget( );
-  if ( this->seekViewer ) 
+  if ( this->seekViewer )
     this->destroySeekWidgets( );
   if ( this->zoomViewer )
     this->destroyZoomWidgets( );
@@ -383,6 +383,7 @@ void SoWinViewerPrefSheet::destroyMainWidget( void )
 {
   DestroyWindow( this->mainWidget );
   UnregisterClass( this->className, SoWin::getInstance( ) );
+  this->mainWidget = NULL;
 }
 
 void SoWinViewerPrefSheet::destroySeekWidgets( void )
@@ -392,6 +393,7 @@ void SoWinViewerPrefSheet::destroySeekWidgets( void )
       DestroyWindow( this->seekWidgets[i] );
   //if ( this->seekDistWheel )
   //delete this->seekDistWheel;
+  this->seekViewer = NULL;
 }
 
 void SoWinViewerPrefSheet::destroyZoomWidgets( void )
@@ -399,6 +401,7 @@ void SoWinViewerPrefSheet::destroyZoomWidgets( void )
   for ( int i = 0; i < 7; i++ )
     if ( IsWindow( this->zoomWidgets[i] ) )
       DestroyWindow( this->zoomWidgets[i] );
+  this->zoomViewer = NULL;
 }
 
 void SoWinViewerPrefSheet::destroyClippingWidgets( void )
@@ -408,6 +411,7 @@ void SoWinViewerPrefSheet::destroyClippingWidgets( void )
       DestroyWindow( this->clippingWidgets[i] );
   // delete nearPlaneWheel;
   // delete farPlaneWheel;
+  this->clippingViewer = NULL;
 }
 
 void SoWinViewerPrefSheet::destroySpinnWidgets( void )
@@ -416,6 +420,7 @@ void SoWinViewerPrefSheet::destroySpinnWidgets( void )
     if ( IsWindow( this->spinnWidgets[i] ) )
       DestroyWindow( this->spinnWidgets[i] );
   // delete axisSizeWheel;
+  this->spinnViewer = NULL;
 }
 
 
