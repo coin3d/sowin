@@ -28,7 +28,8 @@
 #error this is a private header file
 #endif /* !SOWIN_INTERNAL */
 
-#include <wtypes.h>
+#include <windows.h>
+
 #include <Inventor/SbBasic.h>
 #include <Inventor/Win/SoWinBasic.h>
 
