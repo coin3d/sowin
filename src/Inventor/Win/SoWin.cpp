@@ -114,21 +114,7 @@ SbBool SoWinP::useParentEventHandler = TRUE;
 
 // *************************************************************************
 
-///////////////////////////////////////////////////////////////////
-//
-//  (public)
-//
-
-/*!
-  \fn HWND SoWin::init(int argc, char ** argv, const char * appname, const char * classname)
-
-  Initializes the SoWin component toolkit library, as well as the Open
-  Inventor library.
-
-  Calls \a SoDB::init(), \a SoNodeKit::init() and \a
-  SoInteraction::init(), and returns a main widget for you.
-*/
-
+// init()-method documented in common/SoGuiCommon.cpp.in.
 HWND
 SoWin::internal_init(int & argc, char ** argv,
                      const char * appname, const char * classname)
@@ -150,13 +136,7 @@ SoWin::internal_init(int & argc, char ** argv,
 } // internal_init()
 
 
-/*!
-  \fn SoWin::init(HWND const topLevelWidget)
-
-  Calls \a SoDB::init(), \a SoNodeKit::init() and \a SoInteraction::init().
-  Assumes you are creating your main widget.
-  \a topLevelWidget should be your application's main widget.
-*/
+// init()-method documented in common/SoGuiCommon.cpp.in.
 void
 SoWin::internal_init(HWND toplevelwidget)
 {
