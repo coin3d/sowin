@@ -114,15 +114,6 @@ SbBool SoWinP::useParentEventHandler = TRUE;
 
 // *************************************************************************
 
-// documented in common/SoGuiObject.cpp.in
-void
-SoWinObject::init(void)
-{
-  SoWinObject::initClass();
-  SoWinDevice::initClasses();
-  SoWinComponent::initClasses();
-} // init()
-
 ///////////////////////////////////////////////////////////////////
 //
 //  (public)
