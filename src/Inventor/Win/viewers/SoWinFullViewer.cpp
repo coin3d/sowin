@@ -126,7 +126,7 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 {
   this->common = new SoAnyFullViewer( this );
   this->pimpl = new SoWinFullViewerP( this );
-
+  
   PRIVATE( this )->msgHook = NULL;
   this->viewerWidget = NULL;
   this->renderAreaWidget = NULL;
@@ -158,7 +158,7 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 
     this->setClassName( "SoWinFullViewer" );
     this->setBaseWidget( this->buildWidget( this->getParentWidget( ) ) );
-
+      
   }
 
   this->setSize( SbVec2s( 500, 420 ) );
@@ -450,7 +450,8 @@ SoWinFullViewer::sizeChanged( const SbVec2s newSize )
   if ( ! IsWindow( this->getBaseWidget( ) ) ) return;
   
   if ( PRIVATE( this )->decorations ) {
-    SoWinRenderArea::sizeChanged( SbVec2s( newSize[0] - ( 2 * DECORATION_SIZE ), newSize[1] - DECORATION_SIZE ) );
+    SoWinRenderArea::sizeChanged( SbVec2s( newSize[0] - ( 2 * DECORATION_SIZE ),
+      newSize[1] - DECORATION_SIZE ) );
   }
   else {
     SoWinRenderArea::sizeChanged( newSize );
@@ -469,7 +470,6 @@ SoWinFullViewer::buildDecoration( HWND parent )
   if ( SoWinFullViewerP::doButtonBar ) {
 
     this->buildViewerButtons( parent );
-    //this->buildAppButtons( parent ); // FIXME: remove ? mariusbu 20010727.
     
     SoWinFullViewerP::doneButtonBar = TRUE;
   }
@@ -536,14 +536,7 @@ SoWinFullViewer::buildRightWheel( HWND parent )
 
   return this->rightWheel->getWidget( );
 }
-/*
-void
-SoWinFullViewer::buildAppButtons( HWND parent )
-{
-  // FIXME: function not implemented
-  SOWIN_STUB();
-}
-*/
+
 void
 SoWinFullViewer::buildViewerButtons( HWND parent )
 {
@@ -658,7 +651,7 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
 
   assert( this->prefmenu != NULL );
   this->common->prepareMenu( this->prefmenu );
-  this->displayPopupMenu( point.x, point.y, /*this->getNormalWidget( )*/GetActiveWindow( ) );
+  this->displayPopupMenu( point.x, point.y, GetActiveWindow( ) );
 }
 
 void
@@ -954,7 +947,7 @@ SoWinFullViewer::getCameraZoom( void )
   return 0.0f;
 }
 
-// FIXME: SoAnyFullViewer needs this method to be protected. mariusbu 20010723.
+// SoAnyFullViewer needs this method to be protected. mariusbu 20010723.
 void
 SoWinFullViewer::seekbuttonClicked( void )
 {
@@ -1066,7 +1059,7 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
   int i, x, y, width, height, bottom, right, top;
   int numViewerButtons = this->owner->viewerButtonList->getLength( );
   int numAppButtons = this->owner->appButtonList->getLength( );
-  HWND renderArea = this->owner->getBaseWidget( );//this->owner->renderAreaWidget;
+  HWND renderArea = this->owner->getBaseWidget( );
   UINT flags = SWP_NOSIZE | SWP_NOZORDER | SWP_NOREDRAW;
   
   // RenderArea
@@ -1108,7 +1101,7 @@ SoWinFullViewerP::layoutWidgets( int cx, int cy )
 
     top = numAppButtons * DECORATION_SIZE + DECORATION_BUFFER;
 
-    // if area is large enough for original height
+    // if area is large enough for full height
     if ( ( bottom - top ) > this->owner->leftWheel->sizeHint( ).cy ) {
 
       height = this->owner->leftWheel->sizeHint( ).cy;

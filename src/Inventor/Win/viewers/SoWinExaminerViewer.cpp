@@ -167,7 +167,6 @@ SoWinExaminerViewerP::constructor(
   this->zoomcursor = NULL;
 
   this->owner->setClassName( "SoWinExaminerViewer" );
-
   this->owner->setPopupMenuString( "Examiner Viewer" );
   this->owner->setPrefSheetString( "Examiner Viewer Preference Sheet" );
 
@@ -183,8 +182,8 @@ SoWinExaminerViewerP::constructor(
   this->owner->setAnimationEnabled( TRUE );
   
   this->owner->setSize( SbVec2s( 500, 421 ) );
-  // If the new size is the same as the old size, Windows will never size the
-  // widget, and layoutWidgets() will never be called. mariusbu 20010823.
+  // FIXME: If the new size is the same as the old size, Windows will never
+  // size the widget, and layoutWidgets() will never be called. mariusbu 20010823.
   
 } // constructor()
 
@@ -369,9 +368,8 @@ const char *
 SoWinExaminerViewer::getDefaultWidgetName( // virtual
   void ) const
 {
-  //static const char defaultWidgetName[] = "SoWinExaminerViewer";
-  //return defaultWidgetName;
-  return "SoWinExaminerViewer";
+  static const char defaultWidgetName[] = "SoWinExaminerViewer";
+  return defaultWidgetName;
 } // getDefaultWidgetName()
 
 // *************************************************************************
@@ -384,9 +382,8 @@ const char *
 SoWinExaminerViewer::getDefaultTitle(
  void ) const
 {
-  //static const char defaultTitle[] = "Examiner Viewer";
-  //return defaultTitle;
-  return "Examiner Viewer";
+  static const char defaultTitle[] = "Examiner Viewer";
+  return defaultTitle;
 } // getDefaultTitle()
 
 // *************************************************************************
@@ -399,9 +396,8 @@ const char *
 SoWinExaminerViewer::getDefaultIconTitle(
  void ) const
 {
-  //static const char defaultIconTitle[] = "Examiner Viewer";
-  //return defaultIconTitle;
-  return "Examiner Viewer";
+  static const char defaultIconTitle[] = "Examiner Viewer";
+  return defaultIconTitle;
 } // getDefaultIconTitle()
 
 // *************************************************************************

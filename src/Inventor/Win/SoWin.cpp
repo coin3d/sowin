@@ -243,7 +243,7 @@ void
 SoWin::createSimpleErrorDialog( HWND const widget, const char * const dialogTitle, const char * const errorStr1, const char * const errorStr2 )
 {
   // FIXME: what to do with errorStr2?
-  MessageBox( widget, errorStr1, dialogTitle, MB_OK | MB_ICONERROR );  
+  MessageBox( widget, errorStr1, dialogTitle, MB_OK | MB_ICONERROR );
 }
 
 HWND

@@ -165,13 +165,14 @@ SoWinPlaneViewerP::constructor( // private
   this->owner->addVisibilityChangeCallback( SoWinPlaneViewerP::visibilityCB, this->owner );
 
   this->owner->setClassName( "SoWinPlaneViewer" );
-  this->owner->setLeftWheelString( "transY" );
-  this->owner->setBottomWheelString( "transX" );
-
+  
   if ( ! build ) return;
 
   HWND viewer = this->owner->buildWidget( this->owner->getParentWidget( ) );
   this->owner->setBaseWidget( viewer );
+  
+  this->owner->setLeftWheelString( "TransY" );
+  this->owner->setBottomWheelString( "TransX" );  
 
   this->owner->setSize( SbVec2s( 555, 515 ) );
 } // constructor()
@@ -232,7 +233,6 @@ SoWinPlaneViewer::setCamera( // virtual
 /*!
   FIXME: write doc
 */
-
 void
 SoWinPlaneViewer::setCursorEnabled( // virtual
   SbBool enable )
@@ -266,9 +266,8 @@ const char *
 SoWinPlaneViewer::getDefaultWidgetName( // virtual
   void ) const
 {
-  //static const char defaultWidgetName[] = "SoWinPlaneViewer";
-  //return defaultWidgetName;
-  return "SoWinPlaneViewer";
+  static const char defaultWidgetName[] = "SoWinPlaneViewer";
+  return defaultWidgetName;
 } // getDefaultWidgetName()
 
 // ************************************************************************
@@ -281,9 +280,8 @@ const char *
 SoWinPlaneViewer::getDefaultTitle( // virtual
   void ) const
 {
-  //static const char defaultTitle[] = "Plane Viewer";
-  //return defaultTitle;
-  return "Plane Viewer";
+  static const char defaultTitle[] = "Plane Viewer";
+  return defaultTitle;
 } // getDefaultTitle()
 
 // ************************************************************************
@@ -296,9 +294,8 @@ const char *
 SoWinPlaneViewer::getDefaultIconTitle( // virtual
   void ) const
 {
-  //static const char defaultIconTitle[] = "Plane Viewer";
-  //return defaultIconTitle;
-  return "Plane Viewer";
+  static const char defaultIconTitle[] = "Plane Viewer";
+  return defaultIconTitle;
 } // getDefaultIconTitle()
 
 // ************************************************************************
@@ -470,7 +467,7 @@ SoWinPlaneViewer::buildViewerButtonsEx( // virtual
  button->setId( VIEWERBUTTON_Z );
  this->viewerButtonList->append( button );
   
- button = new SoWinBitmapButton( parent, x, y, size, size, 24, "perspective", NULL );
+ button = new SoWinBitmapButton( parent, x, y, size, size, 24, "camera", NULL );
  button->addBitmap( perspective_xpm );
  button->addBitmap( ortho_xpm );
  button->setBitmap( 0 );
@@ -515,11 +512,6 @@ SoWinPlaneViewerP::xClicked(
   void )
 {
   owner->common->viewPlaneX();
-  /*
-  ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_X] )->setState( TRUE );
-  ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_Y] )->setState( FALSE );
-  ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_Z] )->setState( FALSE );
-  */
 } // xClicked()
 
 /*!
@@ -531,11 +523,6 @@ SoWinPlaneViewerP::yClicked(
   void )
 {
   owner->common->viewPlaneY();
-  /*
-  ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_X] )->setState( FALSE );
-  ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_Y] )->setState( TRUE );
-  ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_Z] )->setState( FALSE );
-  */
 } // yClicked()
 
 /*!
@@ -547,11 +534,6 @@ SoWinPlaneViewerP::zClicked(
   void )
 {
   owner->common->viewPlaneZ();
-  /*
-  ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_X] )->setState( FALSE );
-  ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_Y] )->setState( FALSE );
-  ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_Z] )->setState( TRUE );
-  */
 } // zClicked( )
 
 /*!

@@ -430,6 +430,7 @@ SoWinComponent::getClassName( void ) const
 void
 SoWinComponent::setTitle( const char * const title )
 {
+  printf( "%s\n", title );
   if ( title ) {
     PRIVATE( this )->title = title;
   }
@@ -437,15 +438,17 @@ SoWinComponent::setTitle( const char * const title )
     PRIVATE( this )->title = "";
   }
 
-  if ( IsWindow( PRIVATE( this )->parent ) && title ) {
-    Win32::SetWindowText( PRIVATE( this )->parent, title );
+  HWND shellWidget = this->getShellWidget( );
+  if ( shellWidget == SoWin::getTopLevelWidget( ) ||
+       shellWidget == this->getParentWidget( ) ) {
+    Win32::SetWindowText( shellWidget, PRIVATE( this )->title.getString( ) );
   }
 }
 
 const char *
 SoWinComponent::getTitle( void ) const
 {
-  return ( PRIVATE( this )->title.getLength( ) ?
+  return ( PRIVATE( this )->title.getLength( ) > 0 ?
     PRIVATE( this )->title.getString( ) : this->getDefaultTitle( ) );
 }
 
@@ -494,6 +497,15 @@ SoWinComponent::setBaseWidget( HWND widget )
 {
   assert( IsWindow( widget ) );
   PRIVATE( this )->widget = widget;
+
+  // Set shell widget title. mariusbu 20010823.
+  HWND shellWidget = this->getShellWidget( );
+  if ( PRIVATE( this )->title.getLength( ) == 0 &&
+    ( shellWidget == SoWin::getTopLevelWidget( ) ||
+      shellWidget == this->getParentWidget( ) ) ) {
+    //Win32::SetWindowText( shellWidget, this->getTitle( ) );
+    this->setTitle( this->getDefaultTitle( ) );
+  }
 }
 
 void
