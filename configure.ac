@@ -28,6 +28,8 @@ fi
 
 AC_CANONICAL_SYSTEM
 
+SIM_AC_MSVC_DSP_ENABLE_OPTION
+
 AC_ARG_ENABLE([msvc],
   [AC_HELP_STRING([--disable-msvc], [don't require MS Visual C++ on Cygwin])],
   [case $enableval in
@@ -67,6 +69,13 @@ AC_DEFINE_UNQUOTED(SOWIN_MICRO_VERSION, $SOWIN_MICRO_VERSION,
   [Define to the micro version of SoWin])
 AC_DEFINE_UNQUOTED(SOWIN_VERSION, "$SOWIN_VERSION",
   [Version string for SoWin])
+
+# **************************************************************************
+
+sowin_build_dir=`pwd`
+sowin_src_dir=`cd "$srcdir"; pwd`
+sowin_w32_build_dir=`cygpath -w "$sowin_build_dir" 2>/dev/null || echo "$sowin_build_dir"`
+sowin_w32_src_dir=`cygpath -w "$sowin_src_dir" 2>/dev/null || echo "$sowin_src_dir"`
 
 # **************************************************************************
 #  Locate C++ compiler and set C++ as the default language to use
@@ -177,6 +186,35 @@ AC_SUBST([GUI], [WIN])
 AC_SUBST([WIDGET], [HWND])
 AC_SUBST([EVENT], ["MSG *"])
 AC_SUBST([COMPONENTHEADER], [])
+
+# **************************************************************************
+
+sim_ac_perl_exe=false
+# FIXME
+
+# path_tag is used to identify paths in docs/coin.doxygen that needs to be
+# transformed using cygpath under cygwin.
+
+case $host in
+*-cygwin) path_tag="<PATH>" ;;
+*)        path_tag= ;;
+esac
+   
+AC_SUBST(path_tag)
+
+sim_ac_makensis_exe=false
+case $host in
+*-cygwin)
+  AC_PATH_PROG([sim_ac_makensis_exe], [makensis], [false], [$PATH])
+  ;;
+esac
+   
+sim_ac_windows_packagable=true
+if test x"$sim_ac_perl_exe" = xfalse || test x"$sim_ac_makensis_exe" = xfalse; then
+  sim_ac_windows_packageable=false
+fi
+ 
+AM_CONDITIONAL([WIN_PACKAGEABLE], $sim_ac_windows_packageable)
 
 # **************************************************************************
 # it is important that $CONFIG is set up before the Coin detection is run...
@@ -311,6 +349,11 @@ SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lgdi32 -luser32"
 
 fi
 
+AC_SUBST([soqt_build_dir])
+AC_SUBST([soqt_src_dir])
+AC_SUBST([soqt_w32_build_dir])
+AC_SUBST([soqt_w32_src_dir])
+
 # **************************************************************************
 # Remove redundant options from certain option lists.
 
@@ -417,6 +460,8 @@ fi
 else
   SIM_AC_CONFIGURATION_SETTING([SoWin build type], [build disabled])
 fi
+
+SIM_AC_MSVC_DSP_SETUP([SOWIN], [SoWin], [sowin], [-I$sowin_build_dir/src -I$sowin_src_dir/src -I$sowin_src_dir/data])
 
 # **************************************************************************
 # Submodules that needs to be configured...
