@@ -141,7 +141,7 @@ SoWinPopupMenu::setMenuTitle( int menuid, char * title )
   rec->title = strcpy( new char [strlen(title)+1], title );
 
   if ( rec->parent )
-    ModifyMenu( rec->parent, rec->menuid, MF_BYPOSITION, rec->menuid, rec->title );
+    ModifyMenu( rec->parent, rec->menuid, MF_BYPOSITION | MF_STRING, rec->menuid, rec->title );
   //rec->parent->changeItem( rec->title, rec->menuid );
 
 } // setMenuTitle()
@@ -200,9 +200,7 @@ SoWinPopupMenu::setMenuItemTitle( int itemid, char * title )
   rec->title = strcpy( new char [strlen(title)+1], title );
 
   if ( rec->parent )
-    ModifyMenu( rec->parent, rec->itemid, MF_BYPOSITION, rec->itemid, rec->title );
-  //rec->parent->changeItem( rec->title, rec->itemid );
-
+    ModifyMenu( rec->parent, rec->itemid, MF_BYCOMMAND | MF_STRING, rec->itemid, rec->title );
 } // setMenuItemTitle()
 
 char *
@@ -217,10 +215,17 @@ void
 SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-  if ( rec == NULL )
+  if ( rec == NULL ) {
+		_cprintf( "rec == NULL\n" );
     return;
-  //rec->parent->setItemEnabled( rec->itemid, enabled ? true : false );
-  EnableMenuItem( rec->parent, rec->itemid, TRUE );
+	}
+  
+	if ( enabled )
+		rec->flags |= ITEM_ENABLED;
+	else
+		rec->flags &= ~ITEM_ENABLED;
+
+	EnableMenuItem( rec->parent, rec->itemid, MF_BYCOMMAND | ( enabled ? MF_ENABLED : MF_GRAYED ) );
 } // setMenuItemEnabled()
 
 SbBool
@@ -229,30 +234,34 @@ SoWinPopupMenu::getMenuItemEnabled( int itemid )
   ItemRecord * rec = this->getItemRecord( itemid );
   if ( rec == NULL )
     return FALSE;
-  //return rec->parent->isItemEnabled( rec->itemid ) ? TRUE : FALSE;
-  MENUITEMINFO  menuiteminfo;
-  memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
-  GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
-  return ( menuiteminfo.fState & MFS_ENABLED ) ? TRUE : FALSE;
+
+	//return rec->parent->isItemEnabled( rec->itemid ) ? TRUE : FALSE;
+  //MENUITEMINFO  menuiteminfo;
+  //memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
+  //GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
+  //return ( menuiteminfo.fState & MFS_ENABLED ) ? TRUE : FALSE;
+	
+	return ( rec->flags & ITEM_ENABLED ? TRUE : FALSE );
 } // getMenuItemEnabled()
 
 void
 SoWinPopupMenu::_setMenuItemMarked( int itemid, SbBool marked )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
+	
   if ( rec == NULL )
     return;
   if ( marked )
     rec->flags |= ITEM_MARKED;
   else
-    rec->flags &= ~ITEM_MARKED;
-  if ( rec->parent == NULL )
+		rec->flags &= ~ITEM_MARKED;
+  if ( ! IsMenu( rec->parent ) )
     return;
-  //rec->parent->setItemChecked( rec->itemid, marked ? true : false );
-  MENUITEMINFO  menuiteminfo;
-  memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
-  GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
-  CheckMenuItem( rec->parent, rec->itemid, ( menuiteminfo.fState & MFS_CHECKED ) ? TRUE : FALSE );
+  
+	CheckMenuItem( rec->parent,
+		             rec->itemid,
+		             MF_BYCOMMAND | ( marked ?  MF_CHECKED : MF_UNCHECKED ) );
+	
   if ( marked )
     this->setRadioGroupMarkedItem( itemid );
 } // setMenuItemMarked()
@@ -263,13 +272,14 @@ SoWinPopupMenu::getMenuItemMarked( int itemid )
   ItemRecord * rec = this->getItemRecord( itemid );
   if ( rec == NULL )
     return FALSE;
-  if ( rec->parent == NULL )
+  //if ( rec->parent == NULL )
     return (rec->flags & ITEM_MARKED) ? TRUE : FALSE;
-  //return rec->parent->isItemChecked( rec->itemid ) ? TRUE : FALSE;
-  MENUITEMINFO  menuiteminfo;
+
+		/*
+	MENUITEMINFO  menuiteminfo;
   memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
   GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
-  return ( menuiteminfo.fState & MFS_CHECKED ) ? TRUE : FALSE;
+  return ( menuiteminfo.fState & MFS_CHECKED ) ? TRUE : FALSE;*/
 } // getMenuItemMarked()
 
 // *************************************************************************
@@ -316,7 +326,7 @@ SoWinPopupMenu::addMenuItem( int menuid, int itemid, int pos )
     return;
   }
 
-  InsertMenu( menu->menu, pos, MF_BYPOSITION, item->itemid, item->title );
+  InsertMenu( menu->menu, pos, MF_BYPOSITION | MF_STRING, item->itemid, item->title );
   /*
     if ( pos == -1 )
     menu->menu->insertItem( QString( item->title ), item->itemid );
@@ -325,8 +335,7 @@ SoWinPopupMenu::addMenuItem( int menuid, int itemid, int pos )
   */
   item->parent = menu->menu;
   if ( item->flags & ITEM_MARKED )
-    CheckMenuItem( item->parent, item->itemid, MF_CHECKED );
-  //item->parent->setItemChecked( item->itemid, true );
+    CheckMenuItem( item->parent, item->itemid, MF_BYCOMMAND | MF_CHECKED );
 } // addMenuItem()
 
 void
@@ -339,8 +348,8 @@ SoWinPopupMenu::addSeparator( int menuid, int pos )
     return;
   }
   ItemRecord * rec = createItemRecord( "separator" );
-  //menu->menu->insertSeparator( pos );
-  InsertMenu( menu->menu, pos, MF_BYPOSITION|MF_SEPARATOR, pos, NULL );
+	
+  InsertMenu( menu->menu, pos, MF_BYPOSITION | MF_SEPARATOR, pos, NULL );
   rec->flags |= ITEM_SEPARATOR;
   this->items->append( rec );
 } // addSeparator()
@@ -367,8 +376,7 @@ SoWinPopupMenu::removeMenu( int menuid )
 #endif // SOWIN_DEBUG
     return;
   }
-  //rec->parent->removeItem( rec->menuid );
-  ::RemoveMenu( rec->menu, rec->menuid, MF_BYCOMMAND ); // MF_BYPOSITION
+  ::RemoveMenu( rec->menu, rec->menuid, MF_BYCOMMAND );
   rec->parent = NULL;
 } // removeMenu()
 
@@ -388,8 +396,7 @@ SoWinPopupMenu::removeMenuItem( int itemid )
 #endif // SOWIN_DEBUG
     return;
   }
-  //rec->parent->removeItem( rec->itemid );
-  ::RemoveMenu( rec->parent, rec->itemid, MF_BYCOMMAND ); // MF_BYPOSITION
+  ::RemoveMenu( rec->parent, rec->itemid, MF_BYCOMMAND );
   rec->parent = NULL;
 } // removeMenuItem()
 
@@ -403,14 +410,22 @@ SoWinPopupMenu::popUp( HWND inside, int x, int y )
                                        TPM_LEFTALIGN |
                                        TPM_TOPALIGN |
                                        TPM_RIGHTBUTTON |
-                                       //TPM_NONOTIFY |
+                                       TPM_NONOTIFY |
                                        TPM_RETURNCMD,
                                        x,
                                        y,
                                        0,
                                        inside,
                                        NULL );
+	
+	//this->itemActivation( this->selectedItem );
 } // popUp()
+
+int
+SoWinPopupMenu::getSelectedItem( void )
+{
+	return this->selectedItem;
+} // getSelectedItem()
 
 // *************************************************************************
 
@@ -420,7 +435,7 @@ SoWinPopupMenu::getMenuRecord( int menuid )
   const int numMenus = this->menus->getLength( );
   int i;
   for ( i = 0; i < numMenus; i++ )
-    if ( ((MenuRecord *) ( *this->menus)[i] )->menuid == menuid )
+    if ( ( ( MenuRecord *) ( * this->menus)[i] )->menuid == menuid )
       return ( MenuRecord * ) ( * this->menus )[i];
   return ( MenuRecord * ) NULL;
 } // getMenuRecord()
@@ -430,9 +445,11 @@ SoWinPopupMenu::getItemRecord( int itemid )
 {
   const int numItems = this->items->getLength( );
   int i;
+	
   for ( i = 0; i < numItems; i++ )
-    if ( ( ( ItemRecord * ) ( *this->items)[i] )->itemid == itemid )
-      return ( ItemRecord * ) ( *this->items )[i];
+    if ( ( ( ItemRecord * ) ( * this->items)[i] )->itemid == itemid )
+      return ( ItemRecord * ) ( * this->items)[i];
+
   return ( ItemRecord * ) NULL;
 } // getItemRecord()
 
@@ -443,8 +460,8 @@ SoWinPopupMenu::createMenuRecord( char * name )
 {
   MenuRecord * rec = new MenuRecord;
   rec->menuid = -1;
-  rec->name = strcpy( new char [strlen(name)+1], name );
-  rec->title = strcpy( new char [strlen(name)+1], name );
+  rec->name = strcpy( new char [strlen( name ) + 1], name );
+  rec->title = strcpy( new char [strlen( name ) + 1], name );
   rec->menu = CreatePopupMenu( );
   rec->parent = NULL;
   return rec;
@@ -456,8 +473,8 @@ SoWinPopupMenu::createItemRecord( char * name )
   ItemRecord * rec = new ItemRecord;
   rec->itemid = -1;
   rec->flags = 0;
-  rec->name = strcpy( new char [strlen(name)+1], name );
-  rec->title = strcpy( new char [strlen(name)+1], name );
+  rec->name = strcpy( new char [strlen( name ) + 1], name );
+  rec->title = strcpy( new char [strlen( name ) + 1], name );
   rec->parent = NULL;
   return rec;
 } // create()

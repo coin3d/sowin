@@ -25,6 +25,7 @@
 #include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 #include <Inventor/Win/widgets/SoAnyPopupMenu.h>
+#include <Inventor/Win/widgets/SoWinPopupMenu.h>
 #include <Inventor/Win/viewers/SoAnyFullViewer.h>
 #include <Inventor/Win/viewers/SoWinFullViewer.h>
 
@@ -97,7 +98,8 @@ SoWinFullViewer::isClientPopupMenuInstalled( void )
 HWND
 SoWinFullViewer::getAppPushButtonParent( void ) const
 {
-  return this->appButtonForm;
+  //return this->appButtonForm;
+	return this->viewerWidget;
 }
     
 void
@@ -301,11 +303,10 @@ SoWinFullViewer::SoWinFullViewer( HWND parent,
 	this->rightWheelVal = 0.0f;
 	this->extraWheelVal = 0.0f;
 
-  this->menutitle = "Viewer Menu";
+  //this->menutitle = "Viewer Menu";
 
-  this->viewerButtonWidgets = new SbPList;
+  this->viewerButtonList = new SbPList;
   this->appButtonList = new SbPList;
-  this->appButtonForm = NULL;
 
   this->setSize( SbVec2s( 500, 400 ) ); // FIXME: make default values
 
@@ -346,7 +347,8 @@ SoWinFullViewer::redrawAppButtonCB( LPDRAWITEMSTRUCT lpdis )
 HWND
 SoWinFullViewer::getButtonWidget( void ) const
 {
-  return this->appButtonForm;
+  //return this->appButtonForm;
+	return this->viewerWidget;
 }
 
 HWND
@@ -360,7 +362,7 @@ SoWinFullViewer::buildWidget( HWND parent )
 
   LPCTSTR icon = MAKEINTRESOURCE( IDI_APPLICATION );
   LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );
-  HBRUSH brush = ( HBRUSH ) GetStockObject( COLOR_BACKGROUND );
+  HBRUSH brush = ( HBRUSH ) GetStockObject( NULL_BRUSH );// COLOR_BACKGROUND );
   HMENU menu = NULL;
   LPSTR wndclassname = "SoWinFullViewer_widget";
 
@@ -582,6 +584,8 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
   point.x = x;
   ClientToScreen( this->renderAreaWidget, & point );
 
+	assert( this->prefmenu != NULL );
+	this->common->prepareMenu( this->prefmenu );
   this->displayPopupMenu( point.x, point.y, this->viewerWidget );
 }
 
@@ -598,6 +602,7 @@ SoWinFullViewer::displayPopupMenu( int x, int y, HWND owner )
   //this->popupPreCallback( );
   assert( this->prefmenu != NULL );
   this->prefmenu->popUp( owner, x, y );
+	this->common->menuSelection( ( ( SoWinPopupMenu * ) this->prefmenu )->getSelectedItem( ) );
   //this->popupPostCallback( );
   return 0;
 }
@@ -1097,12 +1102,12 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 			                      - this->rightWheel->height( ) + 1 );
 	
   // Viewer buttons
-	for (int i=0; i<8; i++)
+	for ( int i = 0; i < 8; i++ )
 		if ( IsWindow( this->viewerButtons[i] ) )
 			MoveWindow( this->viewerButtons[i],
 				          LOWORD( lparam ) - this->renderAreaOffset.left + 2, this->renderAreaOffset.left * i + 2,
 			            this->renderAreaOffset.left - 2, this->renderAreaOffset.left - 2,
-			            FALSE );
+			            TRUE );
 	
   return 0;
 }

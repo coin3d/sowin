@@ -219,7 +219,7 @@ protected:
 private:
   void doAppButtonLayout( int start );
 
-  SbString menutitle; // really needed? mariusbu 20010611.
+  //SbString menutitle; // really needed? mariusbu 20010611.
 
   SoAnyPopupMenu * prefmenu;
   SoAnyFullViewer * const common; 
@@ -228,10 +228,9 @@ private:
   SbBool decorations;
   SbBool firstBuild;
 
-  HWND appButtonForm;
-  SbPList * appButtonList;
+	SbPList * appButtonList;
+	SbPList * viewerButtonList;
 
-	//SbPList * viewerButtonList;
 	HWND viewerButtons[8];
 
   //SoWinStereoDialog * stereoDialogBox ; // FIXME: not implemented yet
