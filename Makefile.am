@@ -6,7 +6,6 @@ include src/Inventor/Win/common/Makefile.common
 ############################################################################
 ##
 
-ACLOCAL_AMFLAGS = -I cfg/m4
 SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
 ############################################################################
@@ -47,9 +46,9 @@ if BUILD_LIBRARY
 bin_SCRIPTS = so@gui@-config
 
 m4datadir = $(datadir)/aclocal
-# Don't replace "win" with "@gui@" here, is it will pøkk up
+# Don't replace "win" with "@gui@" here, it will pukk up
 # for ``make dist''.
-dist_m4data_DATA = cfg/m4/sowin.m4
+dist_m4data_DATA = cfg/sowin.m4
 
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = so@gui@-@CONFIG@.cfg
@@ -59,26 +58,6 @@ endif
 EXTRA_DIST = \
 	LICENSE.GPL \
 	bootstrap \
-	cfg/m4/check_dl.m4 \
-	cfg/m4/check_inventor.m4 \
-	cfg/m4/coin.m4 \
-	cfg/m4/compile_debug.m4 \
-	cfg/m4/compile_exceptions.m4 \
-	cfg/m4/compile_functionname.m4 \
-	cfg/m4/compile_profiling.m4 \
-	cfg/m4/compile_rtti.m4 \
-	cfg/m4/compile_symbols.m4 \
-	cfg/m4/compile_warnings.m4 \
-	cfg/m4/compiler_capabilities.m4 \
-	cfg/m4/configuration_summary.m4 \
-	cfg/m4/dates.m4 \
-	cfg/m4/doxygen_detection.m4 \
-	cfg/m4/errors.m4 \
-	cfg/m4/misc_compiler.m4 \
-	cfg/m4/sogui-misc-common.m4 \
-	cfg/m4/sogui.m4 \
-	cfg/m4/sowin.m4 \
-	cfg/m4/uniqify.m4 \
 	packaging/windows/Makefile.in \
 	packaging/windows/bfheader.nsi.in \
 	packaging/windows/footer.nsi.in \
@@ -97,14 +76,14 @@ built-sources: $(BUILT_SOURCES)
 
 all-local: built-sources
 
-install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
+install-exec-local: built-sources $(srcdir)/cfg/wrapmsvc.exe
 	@$(NORMAL_INSTALL)
 	@if @BUILD_WITH_MSVC@; then \
 	  echo " $(mkinstalldirs) $(DESTDIR)$(bindir)"; \
 	  $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
 	  p=wrapmsvc.exe; \
-	  echo " $(INSTALL_PROGRAM) $(top_srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
-	  $(INSTALL_PROGRAM) "$(top_srcdir)/cfg/m4/$$p" "$(DESTDIR)$(bindir)/$$p"; \
+	  echo " $(INSTALL_PROGRAM) $(top_srcdir)/cfg/$$p $(DESTDIR)$(bindir)/$$p"; \
+	  $(INSTALL_PROGRAM) "$(top_srcdir)/cfg/$$p" "$(DESTDIR)$(bindir)/$$p"; \
 	fi
 
 install-data-local: built-sources
