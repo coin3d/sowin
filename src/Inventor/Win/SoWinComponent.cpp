@@ -69,7 +69,7 @@ public:
         SoWinComponentP::sowincomplist = NULL;
 
         // Only unregister classname when all component windows have been destroyed.
-        // FIXME: CreateWindow get the deault "Win Component" name, even when created by
+        // CreateWindow get the deault "Win Component" name, even when created by
         // viewers like SoWinExaminerViewer. Is this a bug? In that case fix this too!
         // mariusbu 20010803.
         
@@ -87,16 +87,33 @@ public:
     SoWinComponent * component = NULL;
     
     component = SoWinComponent::getComponent( window );
-    if ( message == WM_SIZE && component ) {
-      component->sizeChanged( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
-    }
-    if ( message == WM_CLOSE && component ) {
-      component->hide( );
-      return 0;
-    }
-    if ( message == WM_SETFOCUS && component ) {
-      if ( IsWindow( component->pimpl->focusProxy ) ) {
-        SetFocus( component->pimpl->focusProxy );
+
+    if ( component ) {
+
+      switch ( message ) {
+      
+        case WM_SIZE:
+          component->sizeChanged( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
+          break;
+          
+        case WM_CLOSE:
+          component->hide( );
+          component->windowCloseAction( );
+          return 0;
+      
+        case WM_SETFOCUS:
+          if ( IsWindow( component->pimpl->focusProxy ) ) {
+            SetFocus( component->pimpl->focusProxy );
+          }
+          return 0;
+          
+        case WM_SHOWWINDOW:
+          if ( ! component->realized ) {
+            component->afterRealizeHook( );
+            component->realized = TRUE;
+          }
+          break;
+          
       }
     }
     
@@ -113,16 +130,32 @@ public:
     SoWinComponent * component = SoWinComponent::getComponent( msg->hwnd );
     if ( component ) {
       if ( code >= 0 ) {
-        if ( msg->message == WM_SIZE ) {
-          component->sizeChanged( SbVec2s( LOWORD( msg->lParam ), HIWORD( msg->lParam ) ) );
-        }
-        if ( msg->message == WM_SETFOCUS ) {
-          if ( IsWindow( component->pimpl->focusProxy ) ) {
-            SetFocus( component->pimpl->focusProxy );
+
+        switch ( msg->message ) {
+        
+          case WM_SIZE:
+            component->sizeChanged( SbVec2s( LOWORD( msg->lParam ), HIWORD( msg->lParam ) ) );
+            break;
+        
+          case WM_SETFOCUS:
+            if ( IsWindow( component->pimpl->focusProxy ) ) {
+              SetFocus( component->pimpl->focusProxy );
+            }
+            break;
+
+          case WM_CLOSE:
+            component->windowCloseAction( );
+            break;
+            
+          case WM_SHOWWINDOW:
+          if ( ! component->realized ) {
+            component->afterRealizeHook( );
+            component->realized = TRUE;
           }
+          break;
+            
         }
       }
-      // FIXME: should msgHook be static ?
       return CallNextHookEx( component->pimpl->msgHook, code, wparam, lparam );
     }
     return 0;
@@ -140,7 +173,7 @@ public:
   SbPList * visibilitychangeCBs;
 
   // This is the atom returned when the component
-  // window class is registered
+  // window class is registered.
   static ATOM wndClassAtom;
   
   // List of all SoWinComponent instances. Needed for the
@@ -174,6 +207,11 @@ SbPList * SoWinComponentP::sowincomplist = NULL;
 
 // *************************************************************************
 
+/*!
+  \internal
+  This function initializes the type system for all the component classes.
+  It is called indirectly when you call SoWin::init().
+*/
 void
 SoWinComponent::initClasses( void )
 {
@@ -194,6 +232,18 @@ SoWinComponent::initClasses( void )
 //  (protected)
 //
 
+/*!
+  Constructor.
+
+  \a parent is the widget we'll build this component inside. If \a
+  parent is \c NULL, make a new toplevel window.
+
+  \a name is mostly interesting for debugging purposes.
+
+  \a buildInsideParent specifies whether or not we should make a new
+  toplevel window for the component even when we've got a non-NULL \a
+  parent.
+*/
 SoWinComponent::SoWinComponent( const HWND parent,
                                 const char * const name,
                                 const SbBool embed )
@@ -225,13 +275,16 @@ SoWinComponent::SoWinComponent( const HWND parent,
     PRIVATE( this )->widgetname = name;
     this->setTitle( name );
   }
-}
+} // SoWinComponent()
 
 ///////////////////////////////////////////////////////////////////
 //
 //  (public)
 //
 
+/*!
+  Destructor.
+*/
 SoWinComponent::~SoWinComponent( void )
 {
   if ( PRIVATE( this )->msgHook )
@@ -248,25 +301,31 @@ SoWinComponent::~SoWinComponent( void )
   }
   
   delete this->pimpl;
-}
+} //~SoWinComponent()
 
+/*!
+  This will show the widget, deiconifiying and raising it if
+  necessary.
+
+  \sa hide(), isVisible()
+*/
 void
 SoWinComponent::show( void )
 {
-  /*
-  if( ! IsWindow( PRIVATE( this )->parent ) ) {
-    //build widget
-  }
-  */
   (void)ShowWindow( PRIVATE( this )->parent, SW_SHOW );
   Win32::InvalidateRect( PRIVATE( this )->parent, NULL, FALSE );
-}
+} // show()
 
+/*!
+  This will hide the widget.
+
+  \sa show(), isVisible()
+*/
 void
 SoWinComponent::hide( void )
 {
   (void)ShowWindow( PRIVATE( this )->parent, SW_HIDE );
-}
+} // hide()
 
 /*!
   Toggle full screen mode for this component, if possible.
@@ -282,9 +341,10 @@ SoWinComponent::setFullScreen( const SbBool enable )
   if (enable == data->on) { return TRUE; }
   data->on = enable;
   
-  // FIXME: hmm.. this looks suspicious. Shouldn't we just return
-  // FALSE if the (base)widget is not a shellwidget? 20010817 mortene.
-  HWND hwnd = this->getShellWidget( );
+  HWND hwnd = this->getParentWidget( );
+  if ( hwnd != this->getShellWidget( ) ) {
+    return FALSE;
+  }
 
   if ( enable ) {
     // Save size, position and styles.
@@ -313,11 +373,11 @@ SoWinComponent::setFullScreen( const SbBool enable )
     // FIXME: isn't there a specific method in the Win32 API for
     // maximizing a window? If yes, use that mechanism instead of this
     // "homegrown" method with MoveWindow() resizing. 20010820 mortene.
-    //ShowWindow( hwnd, SW_MAXIMIZE );
+    // ShowWindow( hwnd, SW_MAXIMIZE );
   }
   else {
     // Go "normal".
-    //ShowWindow( hwnd, SW_RESTORE );
+    // ShowWindow( hwnd, SW_RESTORE );
     (void)Win32::SetWindowLong( hwnd, GWL_STYLE, data->style | WS_VISIBLE );
     (void)Win32::SetWindowLong( hwnd, GWL_EXSTYLE, data->exstyle );
     
@@ -333,48 +393,90 @@ SoWinComponent::setFullScreen( const SbBool enable )
   }
 
   return TRUE;
-}
+} //setFullScreen()
 
+/*!
+  Returns if this widget/component is in full screen mode.
+
+  \sa setFullScreen()
+*/
 SbBool
 SoWinComponent::isFullScreen( void ) const
 {
   return PRIVATE(this)->fullscreendata.on;
-}
+} // isFullScreen()
 
+/*!
+  Returns visibility status on the widget. If any parents of this
+  widget or this widget itself is hidden, returns \c FALSE.
+
+  Note that a widget which is just obscured by other windows on the
+  desktop is not hidden in this sense, and \c TRUE will be returned.
+
+  \sa show(), hide()
+*/
 SbBool
 SoWinComponent::isVisible( void )
 {
   return IsWindowVisible( PRIVATE( this )->widget );
-}
+} // isVisible()
 
+/*!
+  Returns a pointer to the component's window system widget.
+
+  \sa getShellWidget(), getParentWidget()
+*/
 HWND
 SoWinComponent::getWidget( void ) const
 {
   return PRIVATE( this )->widget;
-}
+} // getWidget()
 
+/*!
+  An SoWinComponent may be composed of any number of widgets in
+  parent-children relationships in a tree structure with any depth.
+  This method will return the root widget in that tree.
+
+  \sa setBaseWidget()
+*/
 HWND
 SoWinComponent::baseWidget( void ) const
 {
   return this->getBaseWidget( );
-}
+} // baseWidget()
 
+/*!
+  An SoWinComponent may be composed of any number of widgets in
+  parent-children relationships in a tree structure with any depth.
+  This method will return the root widget in that tree.
+
+  \sa setBaseWidget()
+*/
 HWND
 SoWinComponent::getBaseWidget( void ) const
 {
-  // FIXME: this method should return the root in the
-  // parent-children tree. Is this correct ? mariusbu 20010718.
-
   return this->getWidget( );
-}
+} // getBaseWidget()
 
+/*!
+  Returns \c TRUE if this component is a toplevel shell, i.e. it has a
+  window representation on the desktop.
+
+  \sa getShellWidget()
+*/
 SbBool
 SoWinComponent::isTopLevelShell( void ) const
 {
   return ( PRIVATE( this )->embedded ? FALSE : TRUE );
   // FIXME: compare with SoWin::getTopLevelWidget() ? mariusbu 20010806.
-}
+} // isTopLevelShell()
 
+/*!
+  Returns the toplevel shell widget for this component. The toplevel
+  shell is the desktop window which contains the component.
+
+  \sa isTopLevelShell(), getWidget()
+*/
 HWND
 SoWinComponent::getShellWidget( void ) const
 {
@@ -390,43 +492,71 @@ SoWinComponent::getShellWidget( void ) const
   } while( IsWindow( parent ) );
   
   return hwnd;
-}
+} // getShellWidget()
 
+/*!
+  Returns the widget which is the parent (i.e. contains) this
+  component's base widget.
+
+  \sa getWidget(), baseWidget(), isTopLevelShell()
+*/
 HWND
 SoWinComponent::getParentWidget( void ) const
 {
   return PRIVATE( this )->parent;
-}
+} // getParentWidget()
 
+/*!
+  Resize the component widget.
+
+  \sa getSize()
+*/
 void
 SoWinComponent::setSize( const SbVec2s size )
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER; // do redraw
   Win32::SetWindowPos( this->getShellWidget( ), NULL, 0, 0,
                        size[0], size[1], flags );
-}
+} // setSize()
 
+/*!
+  Returns the component widget size.
+
+  \sa setSize()
+*/
 SbVec2s
 SoWinComponent::getSize( void )
 {
   RECT rect;
   Win32::GetWindowRect( this->getShellWidget( ), & rect );
   return SbVec2s( rect.right - rect.left, rect.bottom - rect.top );
-}
+} // getSize()
 
+/*!
+  Returns name of the widget.
+*/
 const char *
 SoWinComponent::getWidgetName( void ) const
 {
   return PRIVATE( this )->widgetname.getLength( ) ?
     PRIVATE( this )->widgetname.getString( ) : this->getDefaultWidgetName( );
-}
+} // getWidgetName()
 
+/*!
+  Returns class name of widget.
+*/
 const char *
 SoWinComponent::getClassName( void ) const
 {
   return PRIVATE( this )->classname.getString( );
-}
+} // getClassName()
 
+/*!
+  Set the window title of this component. This will not work unless
+  the component is a toplevel shell.
+
+  \sa getTitle(), setIconTitle(), isTopLevelShell()
+*/
 void
 SoWinComponent::setTitle( const char * const title )
 {
@@ -442,22 +572,43 @@ SoWinComponent::setTitle( const char * const title )
        shellWidget == this->getParentWidget( ) ) {
     Win32::SetWindowText( shellWidget, PRIVATE( this )->title.getString( ) );
   }
-}
+} // setTitle()
 
+/*!
+  Returns the window title. The component should be a toplevel shell
+  if you call this method.
+
+  \sa setTitle(), isTopLevelShell()
+*/
 const char *
 SoWinComponent::getTitle( void ) const
 {
   return ( PRIVATE( this )->title.getLength( ) > 0 ?
     PRIVATE( this )->title.getString( ) : this->getDefaultTitle( ) );
-}
+} // getTitle()
 
+/*!
+  Set up a callback function to use when the component gets closed. A
+  component must be a toplevel shell for this to have any effect.
+
+  For toplevel shells with no close callback set, the window will
+  simply be hidden. The typical action to take in the callback would
+  be to delete the component.
+
+  \sa isTopLevelShell()
+*/
 void
 SoWinComponent::setWindowCloseCallback( SoWinComponentCB * func, void * data )
 {
   PRIVATE( this )->closeCB = func;
   PRIVATE( this )->closeCBdata = data; 
-}
+} // setWindowCloseCallback()
 
+/*!
+  Finds and returns the SoWinComponent corresponding to the given
+  HWND, if any. If no SoWinComponent is the "owner" of the widget,
+  \c NULL will be returned.
+*/
 SoWinComponent *
 SoWinComponent::getComponent( HWND const widget )
 {
@@ -466,47 +617,56 @@ SoWinComponent::getComponent( HWND const widget )
     if ( c->getParentWidget( ) == widget ) return c;
   }
   return NULL;
-}
+} // getComponent()
 
-/**
- * Set focus proxy. Returns previously set focus proxy.
- */
+/*!
+  Set \a widget as focus proxy. Returns previously set focus proxy.
 
+  \sa getFocusProxy()
+*/
 HWND
 SoWinComponent::setFocusProxy( HWND widget )
 {
   HWND w = PRIVATE( this )->focusProxy;
   PRIVATE( this )->focusProxy = widget;
   return w;
-}
+} // setFocusProxy()
 
+/*!
+  Get currently set focus proxy. Returns NULL if no focus proxy is set.
+
+  \sa setFocusProxy()
+*/
 HWND
 SoWinComponent::getFocusProxy( void )
 {
   return PRIVATE( this )->focusProxy;
-}
+} // getFocusProxy()
 
 ///////////////////////////////////////////////////////////////////
 //
 //  (protected)
 //
 
+/*!
+  Set the core widget for this SoWin component. It is important that
+  subclasses get this correct, as the widget set here will be the
+  widget returned from query methods.
+
+  \sa baseWidget()
+*/
 void
 SoWinComponent::setBaseWidget( HWND widget )
 {
   assert( IsWindow( widget ) );
   PRIVATE( this )->widget = widget;
+} // setBaseWidget()
 
-  // Set shell widget title. mariusbu 20010823.
-  HWND shellWidget = this->getShellWidget( );
-  if ( PRIVATE( this )->title.getLength( ) == 0 &&
-    ( shellWidget == SoWin::getTopLevelWidget( ) ||
-      shellWidget == this->getParentWidget( ) ) ) {
-    //Win32::SetWindowText( shellWidget, this->getTitle( ) );
-    this->setTitle( this->getDefaultTitle( ) );
-  }
-}
+/*!
+  Set class name of widget.
 
+  \sa getClassName(), componentClassName()
+*/
 void
 SoWinComponent::setClassName( const char * const name )
 {
@@ -514,20 +674,10 @@ SoWinComponent::setClassName( const char * const name )
     PRIVATE( this )->classname = name;
   else
     PRIVATE( this )->classname = "";
-}
-/*
-void
-SoWinComponent::registerWidget( HWND widget )
-{
-  SoWinComponent::widgets->append( widget );
-}
+} // setClassName()
 
-void
-SoWinComponent::unregisterWidget( HWND widget )
-{
-  SoWinComponent::widgets->removeItem( widget );
-}
-*/
+/*!
+ */  
 HWND
 SoWinComponent::buildFormWidget( HWND parent )
 {
@@ -575,42 +725,75 @@ SoWinComponent::buildFormWidget( HWND parent )
 
   assert( IsWindow( parentWidget ) );
   return parentWidget;
-}
+} // buildFormWidget()
 
+/*!
+  This method is invoked to notify the component that the size has
+  changed.  It is called from the top and all the way down to the
+  bottom, the size being adjusted to take into account extra
+  decorations having been added at each level in the component class
+  hierarchy.
+
+  This default implementation does nothing.
+*/
 void
 SoWinComponent::sizeChanged( const SbVec2s newSize )
 {
-  // virtual - does nothing
-}
+  // virtual - do nothing
+} // sizeChanged()
 
+/*!
+  Returns the default name of an SoQtComponent widget. Should be
+  overloaded by subclasses.
+*/
 const char *
 SoWinComponent::getDefaultWidgetName( void ) const
 {
   static const char defaultWidgetName[] = "SoWinComponent";
   return defaultWidgetName;
-}
+} // getDefaultWidgetName()
 
+/*!
+  Returns the default window caption string of this component. Should
+  be overloaded by subclasses.
+*/
 const char *
 SoWinComponent::getDefaultTitle( void ) const
 {
   static const char defaultTitle[] = "Win Component";
   return defaultTitle;
-}
+} // getDefaultTitle()
 
+/*!
+*/
 void
 SoWinComponent::windowCloseAction( void )
 {
   if ( PRIVATE( this )->closeCB )
     PRIVATE( this )->closeCB( PRIVATE( this )->closeCBdata, this );
-}
+} // windowCloseAction()
 
+/*!
+*/  
 void
-SoWinComponent::afterRealizeHook( void )
+SoWinComponent::afterRealizeHook( void ) // virtual
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
-}
+  // Set shell widget title.
+  HWND shellWidget = this->getShellWidget( );
+  if ( PRIVATE( this )->title.getLength( ) == 0 &&
+    ( shellWidget == SoWin::getTopLevelWidget( ) ||
+      shellWidget == this->getParentWidget( ) ) ) {
+    this->setTitle( this->getDefaultTitle( ) );
+  }
+} // afterRealizeHook()
 
+/*!
+  Add a callback which will be called whenever the widget component
+  changes visibility status (because of iconification or
+  deiconification, for instance).
+
+  \sa removeVisibilityChangeCallback(), isVisible()
+*/
 void
 SoWinComponent::addVisibilityChangeCallback( SoWinComponentVisibilityCB * func, void * user )
 {
@@ -618,8 +801,15 @@ SoWinComponent::addVisibilityChangeCallback( SoWinComponentVisibilityCB * func, 
   combo[0] = func;
   combo[1] = user;
   PRIVATE( this )->visibilitychangeCBs->append( combo );
-}
+  //FIXME: the functions are never called. mariusbu 20010824.
+} // addVisibilityChangeCallback()
 
+/*!
+  Remove one of the callbacks from the list of visibility notification
+  callbacks.
+
+  \sa addVisibilityChangeCallback(), isVisible()
+*/
 void
 SoWinComponent::removeVisibilityChangeCallback( SoWinComponentVisibilityCB * func, void * user )
 {
@@ -632,17 +822,21 @@ SoWinComponent::removeVisibilityChangeCallback( SoWinComponentVisibilityCB * fun
       return;
     }
   }
-}
+} // removeVisibilityChangeCallback()/
 
+/*!
+  Open a dialog providing help about use of this component.
+
+  NB: no help system has been implemented yet, so for the time being
+  this will only pop up an error message.
+*/
 void
 SoWinComponent::openHelpCard( const char * name )
 {
   MessageBox( PRIVATE( this )->parent,
     "The help functionality has not been implemented.",
-    "SoWin", MB_ICONEXCLAMATION | MB_OK );  
-  // FIXME: function not implemented
-  SOWIN_STUB( );
-}
+    "SoWin", MB_ICONEXCLAMATION | MB_OK );
+} // openHelpCard()
 
 ///////////////////////////////////////////////////////////////////
 //

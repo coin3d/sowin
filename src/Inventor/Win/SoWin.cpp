@@ -102,7 +102,7 @@ SoWinObject::init( void )
   SoWinObject::initClass( );
   SoWinDevice::initClasses( );
   SoWinComponent::initClasses( );
-}
+} // init()
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -121,7 +121,7 @@ SoWin::init( const char * const appName,
   int argc = 1;
   char * argv[] = { ( char * ) appName, NULL };
   return SoWin::init( argc, argv, appName, className );
-}
+} // init()
 
 
 /*!
@@ -152,7 +152,7 @@ SoWin::init( int argc,
   SoWin::init( toplevel );
   
   return toplevel;
-}
+} // init()
 
 
 /*!
@@ -178,7 +178,7 @@ SoWin::init( HWND const topLevelWidget )
     SoWinP::parentEventHandler = ( WNDPROC ) Win32::GetWindowLong( topLevelWidget, GWL_WNDPROC );
     (void)Win32::SetWindowLong( topLevelWidget, GWL_WNDPROC, ( long ) SoWin::eventHandler );
   }
-}
+} // init()
 
 /*!
  */
@@ -186,7 +186,7 @@ void
 SoWin::init( void )
 {
   SoWin::init( "SoWin", "SoWin" );
-}
+} // init()
 
 /*!
   This is the event dispatch loop. It doesn't return until
@@ -210,7 +210,7 @@ SoWin::mainLoop( void )
     else // !idleSensorActive
       WaitMessage( );
   }
-}
+} // mainLoop()
 
 /*!
   This funtcion will make the main event loop finish looping.
@@ -221,7 +221,7 @@ void
 SoWin::exitMainLoop( void )
 {
   PostQuitMessage( 0 );
-}
+} // exitMainLoop()
 
 /*!
  */
@@ -231,7 +231,7 @@ SoWin::dispatchEvent( MSG * msg )
   TranslateMessage( msg );
   DispatchMessage( msg );
   return TRUE;
-}
+} // dispatchEvent()
 
 /*!
   This method is provided for easier porting/compatibility with the
@@ -244,7 +244,7 @@ void
 SoWin::show( HWND const widget )
 {
   (void)ShowWindow( widget, SW_SHOW );
-}
+} // show()
 
 /*!
   This method is provided for easier porting/compatibility with the
@@ -257,7 +257,7 @@ void
 SoWin::hide( HWND const widget )
 {
   (void)ShowWindow( widget, SW_HIDE );
-}
+} // hide()
 
 /*!
   This method is provided for easier porting of applications based on the
@@ -271,7 +271,7 @@ SoWin::setWidgetSize( HWND widget, const SbVec2s size )
 {
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
   Win32::SetWindowPos( widget, NULL, 0, 0, size[0], size[1], flags );
-} 
+} // setWidgetSize()
 
 /*!
   This method is provided for easier porting/compatibility with the
@@ -291,7 +291,7 @@ SoWin::getWidgetSize( HWND widget )
     size.cy = -1;
   }
   return SbVec2s( ( short ) size.cx, ( short ) size.cy );
-}
+} // getWidgetSize()
 
 /*!
   Returns a pointer to the HWND which is the main widget for the
@@ -304,7 +304,7 @@ HWND
 SoWin::getTopLevelWidget( void )
 {
   return SoWinP::mainWidget;
-}
+} // getTopLevelWidget()
 
 /*!
   This will pop up an error dialog. It's just a simple wrap-around for
@@ -333,7 +333,7 @@ SoWin::createSimpleErrorDialog( HWND const widget, const char * const dialogTitl
   }
 
   MessageBox( widget, errstr.getString( ), title.getString( ), MB_OK | MB_ICONERROR | MB_TASKMODAL );
-}
+} // createSimpleErrorDialog()
 
 /*!
  */
@@ -359,7 +359,7 @@ SoWin::createWindow( char * title, char * className, SIZE size, HWND parent, HME
                                 SoWin::getInstance( ),
                                 params );
   return widget;
-}
+} // createWindow()
 
 /*!
  */
@@ -367,7 +367,7 @@ SbBool
 SoWin::nextEvent( int appContext, MSG * msg )
 {
   return GetMessage( msg, NULL, 0, 0 );
-}
+} // nextEvent()
 
 /*!
   Returns a pointer to the HWND which is the top level widget for the
@@ -389,7 +389,7 @@ SoWin::getShellWidget( HWND hwnd )
   } while( IsWindow( parent ) );
   
   return hwnd;
-}
+} // getShellWidget()
 
 /*!
  */
@@ -397,7 +397,7 @@ void
 SoWin::setInstance( HINSTANCE instance )
 {
   SoWinP::Instance = instance;
-}
+} // setInstance()
 
 /*!
  */
@@ -405,7 +405,7 @@ HINSTANCE
 SoWin::getInstance( void )
 {
   return SoWinP::Instance;
-}
+} // getInstance()
 
 /*!
  */
@@ -422,7 +422,7 @@ SoWin::errorHandlerCB( const SoError * error, void * data )
 #else // ..but during development it might be better to pipe it to the console.
   (void)printf("%s\n", error->getDebugString().getString() );
 #endif
-}
+} // errorHandlerCB()
 
 /*!
  */
@@ -432,7 +432,7 @@ SoWin::doIdleTasks( void )
   SoDB::getSensorManager( )->processTimerQueue( );
   SoDB::getSensorManager( )->processDelayQueue( TRUE ); // isidle = TRUE
   SoWinP::sensorQueueChanged( NULL );
-}
+} // doIdleTasks()
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -462,7 +462,7 @@ SoWin::registerWindowClass( const char * const className )
   windowclass.cbWndExtra = 4;
 
   RegisterClass( & windowclass );
-}
+} // registerWindowClass()
 
 /*!
  */
@@ -470,7 +470,7 @@ void
 SoWin::unRegisterWindowClass( const char * const className )
 {
   Win32::UnregisterClass( className, SoWin::getInstance( ) );
-}
+} // unRegisterWindowClass(
 
 /*!
  */
@@ -503,7 +503,7 @@ SoWin::eventHandler( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
     return retval;
     
   return DefWindowProc( window, message, wparam, lparam );
-}
+} // eventHandler()
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -520,7 +520,7 @@ SoWinP::timerSensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
 #endif // SOWIN_DEBUG
   SoDB::getSensorManager( )->processTimerQueue( );
   SoWinP::sensorQueueChanged( NULL );
-}
+} // timerSensorCB()
 
 /*!
  */
@@ -532,7 +532,7 @@ SoWinP::delaySensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
 #endif // SOWIN_DEBUG
   SoDB::getSensorManager( )->processDelayQueue( FALSE );
   SoWinP::sensorQueueChanged( NULL );
-}
+} // delaySensorCB()
 
 /*!
  */
@@ -543,7 +543,7 @@ SoWinP::idleSensorCB( HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoDebugError::postInfo( "SoWin::idleSensorCB", "called" );
 #endif // SOWIN_DEBUG
   SoWin::doIdleTasks( );
-}
+} // idleSensorCB()
 
 /*!
   \internal
@@ -607,7 +607,7 @@ SoWinP::sensorQueueChanged( void * cbdata )
       SoWinP::delaySensorActive = FALSE;
     }
   }
-}
+} // sensorQueueChanged()
 
 /*!
  */
@@ -616,7 +616,7 @@ SoWinP::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
   PostQuitMessage( 0 );
   return 0;
-}
+} // onDestroy()
 
 /*!
  */
@@ -630,4 +630,4 @@ SoWinP::onQuit( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
   SoWin::unRegisterWindowClass( SoWinP::className );
 
   return 0;
-}
+} // onQuit()
