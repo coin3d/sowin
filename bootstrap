@@ -1,45 +1,43 @@
 #! /bin/sh
-
+# **************************************************************************
 # Regenerate all files which are constructed by the autoconf, automake
-# and libtool tool-chain. Note: only developers should need to use
-# this script.
-
+# and libtool tool-chain.
+# Note: only developers should need to use this script.
+#
 # Authors:
-#   Morten Eriksen <mortene@sim.no>
 #   Lars J. Aas <larsa@sim.no>
+#   Morten Eriksen <mortene@sim.no>
 
-directory=`echo "$0" | sed -e 's/[^\/]*$//g'`;
-cd $directory
-if test ! -f ./bootstrap; then
-  echo "unexpected problem with your shell - bailing out"
+wd=`echo "$0" | sed -e 's,[^/]*$,,g'`
+me=`echo "$0" | sed -e 's,.*/,,g'`
+cd $wd
+if test ! -f ./$me; then
+  echo >&2 "$me: error: unexpected problem with your shell - bailing out"
   exit 1
 fi
 
-GUI=Win
+AUTOCONF_VER=2.49b   # Autoconf from CVS
+AUTOMAKE_VER=1.4a    # Automake from CVS
+LIBTOOL_VER=1.3.5
 
+GUI=Win
 PROJECT=So$GUI
 MACRODIR=conf-macros
-DIE=false
 
-SUBPROJECTS="$MACRODIR data"
-SUBPROJECTNAMES="$MACRODIR SoWinData"
+SUBPROJECTS="$MACRODIR src/Inventor/Win/common"
+SUBPROJECTNAMES="SoWinMacros SoWinCommon"
+
 AUTOMAKE_ADD=
-
 if test "$1" = "--clean"; then
-  rm -f aclocal.m4 \
-	config.guess \
-	config.h.in \
-	config.sub \
-	configure \
-	depcomp \
-	install-sh \
-	ltconfig \
-	ltmain.sh \
-	missing \
-	mkinstalldirs \
-	stamp-h*
-  find . -name Makefile.in -print | \
-        egrep -v '^\./(examples|ivexamples)/' | xargs rm
+  rm -f config.h.in \
+        configure \
+        stamp-h* \
+        cfg/depcomp \
+        cfg/install-sh cfg/mkinstalldirs cfg/missing \
+        cfg/ltconfig cfg/ltmain.sh \
+        cfg/config.sub cfg/config.guess
+
+  find . -name Makefile.in -print | xargs rm
   exit 0
 elif test "$1" = "--add"; then
   AUTOMAKE_ADD="--add-missing --gnu --copy"
@@ -47,38 +45,33 @@ fi
 
 echo "Checking the installed configuration tools..."
 
-AUTOCONF_VER=2.14a # Autoconf from CVS @ 2000-01-13.
 if test -z "`autoconf --version | grep \" $AUTOCONF_VER\" 2> /dev/null`"; then
-    echo
-    echo "You must have autoconf version $AUTOCONF_VER installed to"
-    echo "generate configure information and Makefiles for $PROJECT."
-    echo ""
-    echo "The Autoconf version we are using is a development version"
-    echo "\"frozen\" from the CVS repository at 2000-01-13. You can get"
-    echo "it here:"
-    echo ""
-    echo "   ftp://ftp.sim.no/pub/coin/autoconf-2.14.1-coin.tar.gz"
-    echo ""
+  cat <<EOF
+
+  You must have autoconf version $AUTOCONF_VER installed to
+  generate configure information and Makefiles for $PROJECT.
+  You can find it at:
+
+    ftp://alpha.gnu.org/gnu/autoconf/autoconf-2.49a.tar.gz
+
+EOF
     DIE=true
 fi
 
-AUTOMAKE_VER=1.4a # Automake from CVS
 if test -z "`automake --version | grep \" $AUTOMAKE_VER\" 2> /dev/null`"; then
     echo
     echo "You must have automake version $AUTOMAKE_VER installed to"
     echo "generate configure information and Makefiles for $PROJECT."
     echo ""
     echo "The Automake version we are using is a development version"
-    echo "\"frozen\" from the CVS repository at 2000-01-13. You can get"
-    echo "it here:"
+    echo "\"frozen\" from the CVS repository. You can get it here:"
     echo ""
     echo "   ftp://ftp.sim.no/pub/coin/automake-1.4a-coin.tar.gz"
     echo ""
     DIE=true
 fi
 
-LIBTOOL_VER=1.3.5
-if test -z "`libtool --version | grep \" $LIBTOOL_VER \" 2> /dev/null`"; then
+if test -z "`libtool --version | egrep \"$LIBTOOL_VER\" 2> /dev/null`"; then
     echo
     echo "You must have libtool version $LIBTOOL_VER installed to"
     echo "generate configure information and Makefiles for $PROJECT."
@@ -92,6 +85,7 @@ set $SUBPROJECTNAMES
 num=1
 for project in $SUBPROJECTS; do
   test -d $project || {
+    echo
     echo "Could not find subdirectory '$project'."
     echo "It was probably added after you initially fetched $PROJECT."
     echo "To add the missing module, run 'cvs co $1' from the $PROJECT"
@@ -99,7 +93,6 @@ for project in $SUBPROJECTS; do
     echo ""
     echo "To do a completely fresh cvs checkout of the whole $PROJECT module,"
     echo "(if all else fails), remove $PROJECT and run:"
-    echo ""
     echo "  cvs -z3 -d :pserver:cvs@cvs.sim.no:/export/cvsroot co -P $PROJECT"
     echo ""
     DIE=true
@@ -108,34 +101,23 @@ for project in $SUBPROJECTS; do
   shift
 done
 
-$DIE && exit 1
+# abnormal exit?
+${DIE=false} && echo "" && echo >&2 "$me: aborting..." && exit 1
 
-# AG_CRUNCH
-echo "Running aclocal (generating aclocal.m4)..."
+# **************************************************************************
+
+# generate aclocal.m4
+echo "Running aclocal..."
 aclocal -I $MACRODIR
 
-echo "Running autoheader (generating config.h.in)..."
-autoheader
+# generate config.h.in
+echo "Running autoheader..."
+( autoheader 3>&1 1>&2 2>&3 | grep -v 'is unchanged$' ) 3>&1 1>&2 2>&3
 
-echo "Running automake (generating the Makefile.in files)..."
-echo "[ignore any \"directory should not contain '/'\" warning]"
-automake $AUTOMAKE_ADD
+# generate Makefile.in templates
+echo "Running automake..."
+( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | grep -v 'directory should not' ) 3>&1 1>&2 2>&3
 
-AMBUGFIXES=`find . \( -name Makefile.in.diff \) | egrep -v '^\./(data|examples|ivexamples)'`
-
-fixmsg=0
-for bugfix in $AMBUGFIXES; do
-  if test $fixmsg -eq 0; then
-    echo "[correcting automake bugs]"
-    fixmsg=1
-  fi
-  patch -p0 < $bugfix
-done
-
-echo "Running autoconf (generating ./configure)..."
+# generate configure
+echo "Running autoconf..."
 autoconf
-
-echo
-echo "Done: Now run './configure' and 'make install' to build $PROJECT."
-echo
-
