@@ -1,7 +1,7 @@
 ############################################################################
 ## So@Gui@/src/Makefile.am
 
-include Inventor/@Gui@/common/Makefile.common
+include Inventor/Win/common/Makefile.common
 
 SUBDIRS = . Inventor
 

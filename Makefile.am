@@ -1,7 +1,7 @@
 ############################################################################
 ## Makefile.am
 
-include src/Inventor/@Gui@/common/Makefile.common
+include src/Inventor/Win/common/Makefile.common
 
 ############################################################################
 ##
