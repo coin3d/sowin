@@ -79,7 +79,8 @@ WinNativePopupMenu::~WinNativePopupMenu(void)
     if (rec->menuid == 0) popup = rec->menu;
     delete [] rec->name;
     delete [] rec->title;
-    if (rec->parent == NULL) delete rec->menu; // menu not attached
+    // menu not attached
+    if (rec->parent == NULL) { Win32::DestroyMenu(rec->menu); }
     delete rec;
   }
 
@@ -457,7 +458,7 @@ WinNativePopupMenu::createMenuRecord(const char * name)
   rec->menuid = -1;
   rec->name = strcpy(new char [strlen(name) + 1], name);
   rec->title = strcpy(new char [strlen(name) + 1], name);
-  rec->menu = CreatePopupMenu();
+  rec->menu = Win32::CreatePopupMenu();
   rec->parent = NULL;
   return rec;
 } // create()
