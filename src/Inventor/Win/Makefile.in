@@ -102,7 +102,9 @@ OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
+SOGUI_EXTRA_CFLAGS = @SOGUI_EXTRA_CFLAGS@
 SOGUI_EXTRA_CPPFLAGS = @SOGUI_EXTRA_CPPFLAGS@
+SOGUI_EXTRA_CXXFLAGS = @SOGUI_EXTRA_CXXFLAGS@
 SOGUI_EXTRA_LDFLAGS = @SOGUI_EXTRA_LDFLAGS@
 SOGUI_EXTRA_LIBS = @SOGUI_EXTRA_LIBS@
 SOWIN_DOC_HTML = @SOWIN_DOC_HTML@
@@ -302,12 +304,6 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
-  src/Inventor/@Gui@/common/SoGuiViewer.h.in \
-  src/Inventor/@Gui@/common/SoGuiViewer.cpp.in \
-  src/Inventor/@Gui@/common/SoGuiConstrainedViewer.h.in \
-  src/Inventor/@Gui@/common/SoGuiConstrainedViewer.cpp.in \
-  src/Inventor/@Gui@/common/SoGuiFlyViewer.h.in \
-  src/Inventor/@Gui@/common/SoGuiFlyViewer.cpp.in \
   src/Inventor/@Gui@/common/SoGuiMaterialList.h.in \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
