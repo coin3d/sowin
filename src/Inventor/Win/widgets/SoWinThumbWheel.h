@@ -22,7 +22,6 @@
 
 
 #include <Inventor/Win/SoWinBasic.h>
-//#include <sowindefs.h>
 
 class SoAnyThumbWheel;
 class SoWinFullViewer;
