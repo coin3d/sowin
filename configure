@@ -18572,8 +18572,6 @@ SOGUI_EXTRA_LDFLAGS=$LDFLAGS
 SOGUI_EXTRA_LIBS=$LIBS
 
 
-if $sim_ac_build_library; then
-
 # **************************************************************************
 # Header files we might want.
 
@@ -19996,8 +19994,6 @@ _ACEOF
 fi
 
 
-fi
-
 # **************************************************************************
 # Variable substitutions for using libSoWin in the generic code.
 
@@ -20387,11 +20383,19 @@ sim_ac_build_library=true
 if test "${enable_build+set}" = set; then
   enableval="$enable_build"
   case $enableval in
-    no | false) sim_ac_build_library=false ;;
+    no | false)
+      sim_ac_build_library=false
+
+if test x"${sim_ac_configuration_settings+set}" = x"set"; then
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|SoWin build type:build disabled"
+else
+  sim_ac_configuration_settings="SoWin build type:build disabled"
+fi
+
+    ;;
   esac
 fi;
 
-if $sim_ac_build_library; then
 # **************************************************************************
 
 
@@ -20639,6 +20643,7 @@ done
 
 # check for Coin library and its dependencies
 
+if $sim_ac_build_library; then
 
 
 
@@ -20814,12 +20819,12 @@ fi
 
 if $sim_ac_coin_avail; then
 
-  CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
-  LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
-  LIBS="$sim_ac_coin_libs $LIBS"
-  SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
-  SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
-  SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+    CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
+    LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+    LIBS="$sim_ac_coin_libs $LIBS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
 
 else
   { { echo "$as_me:$LINENO: error: couldn't compile and link against Coin" >&5
@@ -20827,6 +20832,7 @@ echo "$as_me: error: couldn't compile and link against Coin" >&2;}
    { (exit 1); exit 1; }; }
 fi
 
+fi
 
 ## FIXME: make it possible to build SoWin on top of SGI Inventor.
 ## 20011007 mortene.
@@ -21117,8 +21123,6 @@ SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lgdi32 -luser32"
 
 # **************************************************************************
 
-fi
-
 
 
 
@@ -21335,7 +21339,6 @@ else
 fi
 
 
-if $sim_ac_build_library; then
 if $BUILD_WITH_MSVC; then
   rm -f vc60.pdb
   ## Ensure that if we link with Coin, we use the same C library as Coin
@@ -21429,21 +21432,11 @@ else
 
 fi
 
-  COIN_COMPILER="$CXX"
-  if $BUILD_WITH_MSVC; then
-    COIN_COMPILER="wrapmsvc"
-  fi
-
-
-else
-
-if test x"${sim_ac_configuration_settings+set}" = x"set"; then
-  sim_ac_configuration_settings="$sim_ac_configuration_settings|SoWin build type:build disabled"
-else
-  sim_ac_configuration_settings="SoWin build type:build disabled"
+COIN_COMPILER="$CXX"
+if $BUILD_WITH_MSVC; then
+  COIN_COMPILER="wrapmsvc"
 fi
 
-fi
 
 
 
@@ -23027,7 +23020,6 @@ if test "$no_create" != yes; then
 fi
 
 
-if $sim_ac_build_library; then
 
 if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|Installation Prefix:$prefix"
@@ -23035,7 +23027,6 @@ else
   sim_ac_configuration_settings="Installation Prefix:$prefix"
 fi
 
-fi
 
 
 sim_ac_settings="$sim_ac_configuration_settings"
