@@ -91,7 +91,6 @@ public:
   void * createAppPushButtonData;
 
   WNDPROC parentEventHandler;
-  WNDPROC glEventHandler;
 
   SbBool menuenabled;
   SbBool decorations;
@@ -173,14 +172,7 @@ SoWinFullViewer::~SoWinFullViewer( void )
     ( void ) Win32::SetWindowLong( parent, GWL_WNDPROC,
       ( LONG ) PRIVATE( this )->parentEventHandler );
   }
-  
-  HWND gl =  this->getGLWidget( );
-  // Patch gl widget eventHandler
-  if ( IsWindow( gl ) ) {
-    ( void ) Win32::SetWindowLong( gl, GWL_WNDPROC,
-      ( LONG ) PRIVATE( this )->parentEventHandler );
-  }
-  
+
   // FIXME: remember to dealocate all resources
   int i;
 
@@ -433,22 +425,10 @@ SoWinFullViewer::buildWidget( HWND parent )
 
   this->viewerWidget = parent;
   this->renderAreaWidget = inherited::buildWidget( parent );
-  //assert( IsWindow( this->renderAreaWidget  ) );
-
-  LONG l;
-  // Patch gl widget eventHandler
-  if ( IsWindow( this->getGLWidget( ) ) ) {
-    l = Win32::SetWindowLong( this->getGLWidget( ), GWL_WNDPROC,
-                                ( LONG ) SoWinFullViewer::glWidgetProc );
-    PRIVATE( this )->glEventHandler = ( WNDPROC ) l;
-  }
-  else {
-    // FIXME: do something more informative. mariusbu 20010724.
-    assert ( 0 && "No GLWidget" );
-  }
+  assert( IsWindow( this->renderAreaWidget  ) );
 
   // Patch component eventHandler
-  l = Win32::SetWindowLong( parent, GWL_WNDPROC, ( LONG ) SoWinFullViewer::vwrWidgetProc );
+  LONG l = Win32::SetWindowLong( parent, GWL_WNDPROC, ( LONG ) SoWinFullViewer::vwrWidgetProc );
   PRIVATE( this )->parentEventHandler = ( WNDPROC ) l;
 
   if ( PRIVATE( this )->menuenabled ) {
@@ -834,30 +814,6 @@ SoWinFullViewer::processSoEvent( const SoEvent * const event )
 {
   return ( common->processSoEvent( event ) ||
            inherited::processSoEvent( event ) );
-}
-
-LRESULT CALLBACK
-SoWinFullViewer::glWidgetProc(HWND window,
-                              UINT message,
-                              WPARAM wparam,
-                              LPARAM lparam )
-{
-
-  if ( message != WM_CREATE ) {
-
-    SoWinGLWidget * object = ( SoWinGLWidget * ) Win32::GetWindowLong( window, 0 );
-
-    if ( object && ( message == WM_RBUTTONDOWN ) ) {
-
-      object->processExternalEvent( window, message, wparam, lparam );
-
-      return 0;
-
-    }
-
-  }
-
-  return SoWinGLWidget::glWidgetProc( window, message, wparam, lparam );
 }
 
 LRESULT CALLBACK

@@ -387,7 +387,7 @@ SoWinGLWidget::glScheduleRedraw( void )
 {
   return FALSE;
 }
-
+/*
 void
 SoWinGLWidget::processExternalEvent( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
@@ -402,7 +402,7 @@ SoWinGLWidget::processExternalEvent( HWND window, UINT message, WPARAM wparam, L
 
   this->processEvent( & msg );
 }
-
+*/
 ///////////////////////////////////////////////////////////////////
 //
 //  (protected)
@@ -445,7 +445,7 @@ SoWinGLWidget::glWidgetProc( HWND window,
   if ( message == WM_CREATE ) {
     CREATESTRUCT * createstruct = ( CREATESTRUCT * ) lparam;
 		
-    (void)Win32::SetWindowLong( window, GWL_USERDATA, ( LONG ) ( createstruct->lpCreateParams ) );
+    ( void ) Win32::SetWindowLong( window, GWL_USERDATA, ( LONG ) ( createstruct->lpCreateParams ) );
 		
     SoWinGLWidget * object = ( SoWinGLWidget * )( createstruct->lpCreateParams );
     return PRIVATE( object )->onCreate( window, message, wparam, lparam );
@@ -473,8 +473,8 @@ SoWinGLWidget::glWidgetProc( HWND window,
     object->processEvent( & msg );
     
     switch ( message ) {
-//      case WM_SIZE:
-//        return PRIVATE( object )->onSize( window, message, wparam, lparam );
+//  case WM_SIZE:
+//    return PRIVATE( object )->onSize( window, message, wparam, lparam );
 
     case WM_PAINT:
       object->waitForExpose = FALSE; // flip flag on first expose

@@ -154,10 +154,10 @@ protected:
   virtual void selectedPrefs( void );
 
   virtual SbBool processSoEvent( const SoEvent * const event );
-
+  /*
   static LRESULT CALLBACK glWidgetProc( HWND window, UINT message,
                                         WPARAM wparam, LPARAM lparam );
-
+  */
   static LRESULT CALLBACK vwrWidgetProc( HWND window, UINT message,
                                          WPARAM wparam, LPARAM lparam );
 

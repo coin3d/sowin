@@ -92,11 +92,6 @@ public:
   // FIXME: implemented in SoQt. mariusbu 20010719.
   // unsigned long getOverlayTransparentPixel( void );
 
-  void processExternalEvent( HWND window,
-                             UINT message,
-                             WPARAM wparam,
-                             LPARAM lparam );
-
 protected:
 
   SoWinGLWidget( HWND parent = NULL,
