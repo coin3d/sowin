@@ -431,8 +431,8 @@ SoWinBitmapButtonP::parseXpm(const char ** xpm, int dibdepth)
   }
 
   // cleanup
-  delete charlookuptable;
-  delete colorlookuptable;
+  delete [] charlookuptable;
+  delete [] colorlookuptable;
 
   // return bitmap
   return hbmp;
