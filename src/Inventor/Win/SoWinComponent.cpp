@@ -47,6 +47,8 @@ SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinComponent);
 
 // The private data for the SoWinComponent.
 
+#define PRIVATE(o) (o->pimpl)
+
 class SoWinComponentP {
 
 public:
@@ -55,7 +57,6 @@ public:
   {
     this->owner = o;
     this->cursor = NULL;
-    this->msgHook = NULL;
     this->parent = NULL;
 
     if (! SoWinComponentP::sowincomplist)
@@ -101,10 +102,10 @@ public:
   callWndProc(int code, WPARAM wparam, LPARAM lparam)
   {
     CWPSTRUCT * msg = (CWPSTRUCT *) lparam;
-    if (HC_ACTION);// must process message
-
     SoWinComponent * component = SoWinComponent::getComponent(msg->hwnd);
+
     if (component) {
+      // as per the API doc on CallWndProc(): only process msg if code>=0
       if (code >= 0) {
 
         switch (msg->message) {
@@ -114,8 +115,8 @@ public:
             break;
 
           case WM_SETFOCUS:
-            if (IsWindow(component->pimpl->focusProxy)) {
-              SetFocus(component->pimpl->focusProxy);
+            if (IsWindow(PRIVATE(component)->focusProxy)) {
+              SetFocus(PRIVATE(component)->focusProxy);
             }
             break;
 
@@ -131,13 +132,12 @@ public:
           break;
         }
       }
-      return CallNextHookEx(component->pimpl->msgHook, code, wparam, lparam);
+      return CallNextHookEx(SoWinComponentP::hookhandle, code, wparam, lparam);
     }
     return 0;
   }
 
-  // Variables.
-  HHOOK msgHook;
+  static HHOOK hookhandle; // for (global) system message queue interception
   HWND parent;
   HWND widget;
   HWND focusProxy;
@@ -179,9 +179,7 @@ private:
 ATOM SoWinComponentP::wndClassAtom = NULL;
 SbPList * SoWinComponentP::sowincomplist = NULL;
 SbDict * SoWinComponentP::cursordict = NULL;
-
-#define PRIVATE(o) (o->pimpl)
-
+HHOOK SoWinComponentP::hookhandle = NULL;
 
 LRESULT CALLBACK
 SoWinComponentP::eventHandler(HWND window, UINT message,
@@ -283,15 +281,14 @@ SoWinComponent::SoWinComponent(const HWND parent,
   SoAny::si()->addInternalFatalErrorHandler(SoWinComponentP::fatalerrorHandler,
                                             PRIVATE(this));
 
-  if (IsWindow(parent) && embed) {
-    PRIVATE(this)->parent = parent;
-    PRIVATE(this)->msgHook =
+  if (IsWindow(parent) && embed) { PRIVATE(this)->parent = parent; }
+  else { PRIVATE(this)->parent = this->buildFormWidget(parent); }
+
+  if (SoWinComponentP::hookhandle == NULL) {
+    SoWinComponentP::hookhandle =
       Win32::SetWindowsHookEx(WH_CALLWNDPROC, 
-			      (HOOKPROC)SoWinComponentP::callWndProc,
+                              (HOOKPROC)SoWinComponentP::callWndProc,
                               NULL, GetCurrentThreadId());
-  }
-  else {
-    PRIVATE(this)->parent = this->buildFormWidget(parent);
   }
 
   if (name) {
@@ -315,8 +312,18 @@ SoWinComponent::~SoWinComponent(void)
   }
   delete PRIVATE(this)->visibilitychangeCBs;
 
-  PRIVATE(this)->cleanupWin32References();
+  int idx = SoWinComponentP::sowincomplist->find((void *)this);
+  assert(idx != -1);
+  SoWinComponentP::sowincomplist->remove(idx);
 
+  // Clean up static data if this was the last component.
+  if (SoWinComponentP::sowincomplist->getLength() == 0) {
+    assert(SoWinComponentP::hookhandle != NULL);
+    Win32::UnhookWindowsHookEx(SoWinComponentP::hookhandle);
+    SoWinComponentP::hookhandle = NULL;
+  }
+
+  PRIVATE(this)->cleanupWin32References();
   delete this->pimpl;
 }
 
@@ -366,8 +373,6 @@ SoWinComponentP::fatalerrorHandler(void * userdata)
 void
 SoWinComponentP::cleanupWin32References(void)
 {
-  if (this->msgHook){ UnhookWindowsHookEx(this->msgHook); }
-  this->msgHook = NULL;
   if (IsWindow(this->parent)) { Win32::DestroyWindow(this->parent); }
 }
 
@@ -709,7 +714,7 @@ SoWinComponent::getComponent(HWND const widget)
     if (c->getParentWidget() == widget) return c;
   }
   return NULL;
-} // getComponent()
+}
 
 /*!
   Set \a widget as focus proxy. Returns previously set focus proxy.
