@@ -101,8 +101,7 @@ VERSION = @VERSION@
 WIDGET = @WIDGET@
 gui = @gui@
 install_sh = @install_sh@
-lGUI = @lGUI@
-uGUI = @uGUI@
+sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 
 ############################################################################
 

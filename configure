@@ -3303,7 +3303,46 @@ fi
 
 # Check for the availability of this node (it is used in the hidden
 # line rendering), which is not part of older Inventor implementations.
-SIM_HAVE_SOPOLYGONOFFSET
+echo "configure:2981: checking for the SoPolygonOffset node" >&5
+echo $ECHO_N "checking for the SoPolygonOffset node... $ECHO_C" >&6
+if test "${sim_cv_sopolygonoffset+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<EOF
+#line 2987 "configure"
+#include "confdefs.h"
+#ifdef __cplusplus
+extern "C" void exit (int);
+#endif
+#include <Inventor/nodes/SoPolygonOffset.h>
+int
+main ()
+{
+SoPolygonOffset * p = new SoPolygonOffset;
+  ;
+  return 0;
+}
+EOF
+if { (eval echo configure:3001: \"$ac_link\") >&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  sim_cv_sopolygonoffset=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  sim_cv_sopolygonoffset=no
+fi
+rm -f conftest*
+fi
+echo "configure:3010: result: $sim_cv_sopolygonoffset" >&5
+echo "${ECHO_T}$sim_cv_sopolygonoffset" >&6
+
+if test x"$sim_cv_sopolygonoffset" = xyes; then
+  cat >>confdefs.h <<\EOF
+#define HAVE_SOPOLYGONOFFSET 1
+EOF
+
+else
+  :
+fi
 
 CXXFLAGS="$CXXFLAGS -DSOWIN_INTERNAL=1"
 
@@ -3312,14 +3351,14 @@ CXXFLAGS="$CXXFLAGS -DSOWIN_INTERNAL=1"
 # --with-ivexamples is a silent option
 sim_ac_want_ivexamples=false
 if test x"${with_ivexamples+set}" = x"set"; then
-  echo "configure:2987: checking for ivexamples directory" >&5
+  echo "configure:3024: checking for ivexamples directory" >&5
 echo $ECHO_N "checking for ivexamples directory... $ECHO_C" >&6
   if test -f ${srcdir}/ivexamples/configure.in; then
-    echo "configure:2990: result: found" >&5
+    echo "configure:3027: result: found" >&5
 echo "${ECHO_T}found" >&6
     sim_ac_want_ivexamples=true
   else
-    echo "configure:2994: result: not found" >&5
+    echo "configure:3031: result: not found" >&5
 echo "${ECHO_T}not found" >&6
     { echo "configure: error: can't use '--with-ivexamples' when ivexamples/ doesn't exist" >&2; exit 1; }
   fi
@@ -3362,10 +3401,6 @@ fi
 # Variable substitutions for using libSoWin in the generic code.
 
 . ${srcdir}/libconfigvars.sh
-
-# old
-
-# new
 
 # **************************************************************************
 # Configure the submodule with the examples.
@@ -3784,8 +3819,6 @@ s,@BUILD_EXAMPLES_FALSE@,$BUILD_EXAMPLES_FALSE,;t t
 s,@BUILD_IV_EXAMPLES_TRUE@,$BUILD_IV_EXAMPLES_TRUE,;t t
 s,@BUILD_IV_EXAMPLES_FALSE@,$BUILD_IV_EXAMPLES_FALSE,;t t
 s,@GUI@,$GUI,;t t
-s,@lGUI@,$lGUI,;t t
-s,@uGUI@,$uGUI,;t t
 s,@Gui@,$Gui,;t t
 s,@gui@,$gui,;t t
 s,@WIDGET@,$WIDGET,;t t

@@ -88,7 +88,7 @@ fi
 
 # Check for the availability of this node (it is used in the hidden
 # line rendering), which is not part of older Inventor implementations.
-SIM_HAVE_SOPOLYGONOFFSET
+SIM_AC_HAVE_SOPOLYGONOFFSET
 
 CXXFLAGS="$CXXFLAGS -DSOWIN_INTERNAL=1"
 
@@ -127,11 +127,7 @@ AM_CONDITIONAL(BUILD_IV_EXAMPLES, $sim_ac_want_ivexamples)
 
 . ${srcdir}/libconfigvars.sh
 
-# old
 AC_SUBST(GUI)
-AC_SUBST(lGUI)
-AC_SUBST(uGUI)
-# new
 AC_SUBST(Gui)
 AC_SUBST(gui)
 AC_SUBST(WIDGET)

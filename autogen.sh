@@ -16,7 +16,7 @@ if ! test -f ./autogen.sh; then
   exit 1
 fi
 
-GUI=Xt
+GUI=Win
 
 PROJECT=So$GUI
 MACRODIR=conf-macros
