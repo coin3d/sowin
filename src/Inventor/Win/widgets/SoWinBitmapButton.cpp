@@ -104,14 +104,24 @@ SoWinBitmapButton::height( void )
 void
 SoWinBitmapButton::move( int x, int y )
 {
-	this->move( x, y, this->width( ), this->height( ) );
+ 	assert( IsWindow( this->buttonWindow ) );
+  UINT flags = SWP_NOSIZE | SWP_NOZORDER | SWP_NOREDRAW;
+  SetWindowPos( this->buttonWindow, NULL, x, y, 0, 0, flags );
 }
 
 void
 SoWinBitmapButton::move( int x, int y, int width, int height )
 {
 	assert( IsWindow( this->buttonWindow ) );
-  MoveWindow( this->buttonWindow, x, y, width, height, TRUE );
+  MoveWindow( this->buttonWindow, x, y, width, height, FALSE );
+}
+
+void
+SoWinBitmapButton::size( int width, int height )
+{
+	assert( IsWindow( this->buttonWindow ) );  
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
+  SetWindowPos( this->buttonWindow, NULL, 0, 0, width, height, flags );
 }
 
 void

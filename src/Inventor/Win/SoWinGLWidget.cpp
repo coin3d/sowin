@@ -356,13 +356,9 @@ SoWinGLWidget::setGLSize( SbVec2s newSize )  // Coin spesific
 
   this->glSize = newSize;
   this->sizeChanged( newSize );
-  
-  MoveWindow( this->getNormalWidget( ),
-              0,
-              0,
-              width,
-              height,
-		          FALSE );
+
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
+  SetWindowPos( this->getNormalWidget( ), NULL, 0, 0, width, height, flags );
 }
 
 SbVec2s

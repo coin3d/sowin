@@ -155,9 +155,6 @@ SoWinComponent::goFullScreen( SbBool enable )
     ShowWindow( hwnd, SW_SHOW );
   }
   else {
-    short x, y, width, height;
-    this->pos.getValue( x, y );
-    this->size.getValue( width, height );
     this->fullScreen = FALSE;
 
     ShowWindow( hwnd, SW_HIDE );
@@ -165,7 +162,7 @@ SoWinComponent::goFullScreen( SbBool enable )
     SetWindowLong( hwnd, GWL_STYLE, this->style );
     SetWindowLong( hwnd, GWL_EXSTYLE, this->exstyle );
 
-    MoveWindow( hwnd, x, y, width, height, TRUE ); // FIXME: save old size?
+    MoveWindow( hwnd, pos[0], pos[1], size[0], size[1], TRUE );
     ShowWindow( hwnd, SW_SHOW );
   }
 }
@@ -235,12 +232,8 @@ SoWinComponent::setSize( const SbVec2s size )
 {
   this->size = size;
 
-  short width, height;
-  this->size.getValue( width, height );
-
-  RECT rect;
-  GetWindowRect( this->widget, & rect );
-  MoveWindow( this->widget, rect.left, rect.top, width, height, TRUE );
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
+  SetWindowPos( this->widget, NULL, 0, 0, size[0], size[1], flags );
 }
 
 SbVec2s

@@ -66,6 +66,7 @@ public:
   int height( void );
   void move( int x, int y );
 	void move( int x, int y, int width, int height );
+  void size( int width, int height );
 
 	void show( void );
 	void hide( void );

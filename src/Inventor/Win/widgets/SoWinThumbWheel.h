@@ -75,6 +75,7 @@ public:
   int width( void );
   int height( void );
   void move( int x, int y );
+  void size( int width, int height );
 	void move( int x, int y, int width, int height );
   void registerCallback( thumbWheelCB * func );
 	void registerViewer( SoWinFullViewer * viewer );

@@ -116,8 +116,6 @@ public:
 	
   void copyView( SbTime time );
   void pasteView( SbTime time );
-
-	void goFullScreen( SbBool enable );
 	
 protected:
   SoWinFullViewer( HWND parent,

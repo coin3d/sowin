@@ -294,48 +294,59 @@ SoWinThumbWheel::height( void )
   //return this->sizeHint( ).cy;
 }
 
-void
-SoWinThumbWheel::move( int x, int y )
-{
-	//this->move( x, y, this->width( ), this->height( ) );
-	this->move( x, y, this->sizeHint( ).cx, this->sizeHint( ).cy );
-}
 
 void
 SoWinThumbWheel::move( int x, int y, int width, int height )
 {
-	// Wheel
+  this->size( width, height );
+  this->move( x, y );
+}
   
-  MoveWindow( this->wheelWindow, x, y, width, height, TRUE );
+void
+SoWinThumbWheel::move( int x, int y )
+{
+  UINT flags = SWP_NOSIZE | SWP_NOZORDER | SWP_NOREDRAW;
 
+  SetWindowPos( this->wheelWindow, NULL, x, y, 0, 0, flags );
+
+  if ( IsWindow( this->labelWindow ) ) {
+
+    RECT rect;
+    GetClientRect( this->labelWindow, & rect );
+    
+    if ( this->orient == SoWinThumbWheel::Vertical ) {
+      SetWindowPos( this->labelWindow, NULL,
+        x + this->labelOffset.x,
+        y + this->labelOffset.y + this->height( ),
+        0, 0, flags );
+    }
+    else {
+      SetWindowPos( this->labelWindow, NULL,
+        x + this->labelOffset.x - rect.right,
+        y + this->labelOffset.y,
+        0, 0, flags );
+    }
+  }
+}
+
+void
+SoWinThumbWheel::size( int width, int height )
+{
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
+
+	// Wheel
+  SetWindowPos( this->wheelWindow, NULL, 0, 0, width, height, flags );
+  
 	// Label
-
   if ( IsWindow( this->labelWindow ) ) {
 
     char windowText[80]; // FIXME: use GetWindowTextLength
     int len = GetWindowText( this->labelWindow, windowText, 80 );
-
     HDC hdc = GetDC( this->labelWindow );
-
     SIZE textSize;
     GetTextExtentPoint( hdc, windowText, len, & textSize );
-	
-    // FIXME: compute correct position
-    if ( this->orient == SoWinThumbWheel::Vertical )
-      MoveWindow( this->labelWindow,
-        x + labelOffset.x,
-        y + this->height( ) + labelOffset.y,
-        textSize.cx + 2,
-        textSize.cy + 2,
-        TRUE );
-    else
-      MoveWindow( this->labelWindow,
-        x - textSize.cx + labelOffset.x,
-        y + labelOffset.y,
-        textSize.cx + 2,
-        textSize.cy + 2,
-        TRUE );
-    
+
+    SetWindowPos( this->labelWindow, NULL, 0, 0, textSize.cx, textSize.cy, flags );
   }
 }
 

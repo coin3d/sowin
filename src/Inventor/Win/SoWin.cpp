@@ -621,7 +621,10 @@ BOOL CALLBACK
 SoWin::sizeChildProc( HWND window, LPARAM lparam )
 {
   if ( GetParent( window ) == SoWin::getTopLevelWidget( ) ) {
-    MoveWindow( window, 0, 0, LOWORD( lparam ), HIWORD( lparam ), FALSE );
+    
+    UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
+    SetWindowPos( window, NULL, 0, 0, LOWORD( lparam ), HIWORD( lparam ), flags );
+
     return TRUE;
   }
   return FALSE;

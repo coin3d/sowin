@@ -1194,9 +1194,9 @@ SoWinFullViewer::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lpar
 
   RECT rect;
   HWND hwnd = ( IsWindow( this->parent ) ? this->parent : this->viewerWidget );
-  GetWindowRect( hwnd, & rect );
-  MoveWindow( hwnd, rect.left, rect.top, 500, 420, TRUE );
-
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER;
+  SetWindowPos( hwnd, NULL, 0, 0, 500, 420, flags );
+  
   return 0;
 }
 
@@ -1307,28 +1307,6 @@ SoWinFullViewer::onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lpa
   return 0;
 }
 
-void
-SoWinFullViewer::goFullScreen( SbBool enable )
-{
-	inherited::goFullScreen( enable );
-  // The above function will resize the render area
-  // to fill the entire parent client rect.
-
-  // Make room for decorations.
-  if ( this->isDecoration( ) ) {
-
-    RECT rect;
-    GetClientRect( this->viewerWidget, & rect );
-    
-    MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
-        rect.right - ( 2 * DECORATION_SIZE ),
-         rect.bottom - DECORATION_SIZE,
-        FALSE );
-  }
-  InvalidateRect( ( IsWindow( this->parent ) ? this->parent : this->viewerWidget ),
-    NULL, TRUE );
-}
-
 LRESULT CALLBACK
 SoWinFullViewer::glWidgetProc(
   HWND window,
@@ -1375,6 +1353,7 @@ SoWinFullViewer::layoutWidgets( int cx, int cy )
 	}
 
   if ( SoWinFullViewer::doButtonBar ) {
+
     // Viewer buttons
     for( i = 0; i < numViewerButtons; i++ )
       VIEWERBUTTON( i )->move( cx - DECORATION_SIZE, DECORATION_SIZE * i );
@@ -1383,6 +1362,7 @@ SoWinFullViewer::layoutWidgets( int cx, int cy )
     for( i = 0; i < numAppButtons; i++ )
       MoveWindow( APPBUTTON( i ),	0, ( DECORATION_SIZE * ( i + numViewerButtons ) ),
         DECORATION_SIZE, DECORATION_SIZE, repaint );
+    
   }
 
 	// Wheels
