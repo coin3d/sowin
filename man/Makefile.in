@@ -125,7 +125,11 @@ soqt_build_dir = @soqt_build_dir@
 soqt_src_dir = @soqt_src_dir@
 soqt_w32_build_dir = @soqt_w32_build_dir@
 soqt_w32_src_dir = @soqt_w32_src_dir@
+sowin_build_dir = @sowin_build_dir@
 sowin_configure_date = @sowin_configure_date@
+sowin_src_dir = @sowin_src_dir@
+sowin_w32_build_dir = @sowin_w32_build_dir@
+sowin_w32_src_dir = @sowin_w32_src_dir@
 win_srcdir = @win_srcdir@
 
 @BUILD_MANPAGES_TRUE@MAN3DIR = man3

@@ -1676,6 +1676,11 @@ sowin_src_dir=`cd "$srcdir"; pwd`
 sowin_w32_build_dir=`cygpath -w "$sowin_build_dir" 2>/dev/null || echo "$sowin_build_dir"`
 sowin_w32_src_dir=`cygpath -w "$sowin_src_dir" 2>/dev/null || echo "$sowin_src_dir"`
 
+
+
+
+
+
 # **************************************************************************
 
 
@@ -4853,7 +4858,7 @@ test "x$enable_libtool_lock" != xno && enable_libtool_lock=yes
 case $host in
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 4856 "configure"' > conftest.$ac_ext
+  echo '#line 4861 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5389,7 +5394,7 @@ chmod -w .
 save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -o out/conftest2.$ac_objext"
 compiler_c_o=no
-if { (eval echo configure:5392: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
+if { (eval echo configure:5397: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
   # The compiler can only warn and ignore the option if not recognized
   # So say no if there are warnings
   if test -s out/conftest.err; then
@@ -7182,7 +7187,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7185 "configure"
+#line 7190 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -7280,7 +7285,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7283 "configure"
+#line 7288 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -11510,6 +11515,10 @@ s,@SOWIN_VERSION@,$SOWIN_VERSION,;t t
 s,@LT_CURRENT@,$LT_CURRENT,;t t
 s,@LT_REVISION@,$LT_REVISION,;t t
 s,@LT_AGE@,$LT_AGE,;t t
+s,@sowin_build_dir@,$sowin_build_dir,;t t
+s,@sowin_src_dir@,$sowin_src_dir,;t t
+s,@sowin_w32_build_dir@,$sowin_w32_build_dir,;t t
+s,@sowin_w32_src_dir@,$sowin_w32_src_dir,;t t
 s,@CC@,$CC,;t t
 s,@CFLAGS@,$CFLAGS,;t t
 s,@LDFLAGS@,$LDFLAGS,;t t

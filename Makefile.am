@@ -57,6 +57,13 @@ endif
 EXTRA_DIST = \
 	LICENSE.LGPL \
 	cfg/m4/sowin.m4 \
+	packaging/windows/Makefile.in \
+	packaging/windows/bfheader.nsi.in \
+	packaging/windows/footer.nsi.in \
+	packaging/windows/heading.nsi.in \
+	packaging/windows/middle.nsi.in \
+	packaging/windows/post.nsi.in \
+	packaging/windows/sowin-sdk.html.in \
 	$(SoGuiCommonDistFiles)
 
 # Target which is present to make it simple to only generate all the source
