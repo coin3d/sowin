@@ -24,6 +24,7 @@
 
 class SbPlaneProjector;
 class SoAnyPlaneViewer;
+class SoWinPlaneViewerP;
 
 #include <Inventor/Win/viewers/SoWinFullViewer.h>
 
@@ -33,6 +34,7 @@ class SOWIN_DLL_API SoWinPlaneViewer : public SoWinFullViewer {
   
   SOWIN_OBJECT_HEADER( SoWinPlaneViewer, SoWinFullViewer );
   friend class SoAnyPlaneViewer;
+  friend class SoWinPlaneViewerP;
 
 public:
   
@@ -86,39 +88,9 @@ protected:
 
 private:
   
-  void constructor( SbBool buildNow );
-
-  enum PlaneViewerMode {
-    IDLE_MODE,
-    DOLLY_MODE,
-    TRANSLATE_MODE,
-    ROTZ_WAIT_MODE,
-    ROTZ_MODE,
-    SEEK_WAIT_MODE,
-    SEEK_MODE
-  } mode;
-
-  void setModeFromState( unsigned int state );
-  void setMode( PlaneViewerMode mode );
-
-  SbVec2f prevMousePosition;
-
-  SbPlaneProjector * projector;
-  /*
-  struct {
-    SoWinBitmapButton * x, * y, * z;
-    SoWinBitmapButton * camera;
-  } buttons;
-  */
-  static void visibilityCB( void * data, SbBool visible );
-
   SoAnyPlaneViewer * const common;
+  SoWinPlaneViewerP * const pimpl;
   
-  void xClicked( void );
-  void yClicked( void );
-  void zClicked( void );
-  void cameratoggleClicked( void );
-
 }; // class SoWinPlaneViewer
 
 // ************************************************************************

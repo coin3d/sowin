@@ -48,6 +48,57 @@ static const char rcsid[] =
 
 // ************************************************************************
 
+// The private data for the SoWinFullViewer.
+
+class SoWinPlaneViewerP {
+  
+public:
+  
+  // Constructor.
+  SoWinPlaneViewerP( SoWinPlaneViewer * o ) {
+    this->owner = o;
+  }
+
+  // Destructor.
+  ~SoWinPlaneViewerP( ) {
+  }
+
+  void constructor( SbBool buildNow );
+
+  enum PlaneViewerMode {
+    IDLE_MODE,
+    DOLLY_MODE,
+    TRANSLATE_MODE,
+    ROTZ_WAIT_MODE,
+    ROTZ_MODE,
+    SEEK_WAIT_MODE,
+    SEEK_MODE
+  } mode;
+
+  void setModeFromState( unsigned int state );
+  void setMode( PlaneViewerMode mode );
+
+  SbVec2f prevMousePosition;
+
+  SbPlaneProjector * projector;
+
+  static void visibilityCB( void * data, SbBool visible );
+
+  void xClicked( void );
+  void yClicked( void );
+  void zClicked( void );
+  void cameratoggleClicked( void );
+  
+private:
+  
+  SoWinPlaneViewer * owner;
+  
+};
+
+#define PRIVATE( o ) ( o->pimpl )
+
+// ************************************************************************
+
 SOWIN_OBJECT_SOURCE( SoWinPlaneViewer );
 
 // ************************************************************************
@@ -69,8 +120,9 @@ SoWinPlaneViewer::SoWinPlaneViewer(
   SoWinViewer::Type type )
 : inherited( parent, name, embed, flag, type, FALSE )
 , common( new SoAnyPlaneViewer( this ) )
+, pimpl( new SoWinPlaneViewerP( this ) )  
 {
-  this->constructor( TRUE );
+  PRIVATE( this )->constructor( TRUE );
 } // SoWinPlaneViewer()
 
 // ************************************************************************
@@ -88,8 +140,9 @@ SoWinPlaneViewer::SoWinPlaneViewer(
   SbBool build )
 : inherited( parent, name, embed, flag, type, FALSE )
 , common( new SoAnyPlaneViewer( this ) )
+, pimpl( new SoWinPlaneViewerP( this ) )  
 {
-  this->constructor( build );
+  PRIVATE( this )->constructor( build );
 } // SoWinPlaneViewer()
 
 // ************************************************************************
@@ -99,7 +152,7 @@ SoWinPlaneViewer::SoWinPlaneViewer(
 */
 
 void
-SoWinPlaneViewer::constructor( // private
+SoWinPlaneViewerP::constructor( // private
   SbBool build )
 {
   this->mode = IDLE_MODE;
@@ -109,19 +162,18 @@ SoWinPlaneViewer::constructor( // private
   vv.ortho( -1, 1, -1, 1, -1, 1 );
   this->projector->setViewVolume( vv );
 
-  this->addVisibilityChangeCallback( SoWinPlaneViewer::visibilityCB, this );
+  this->owner->addVisibilityChangeCallback( SoWinPlaneViewerP::visibilityCB, this->owner );
 
-  this->setClassName( "SoWinPlaneViewer" );
-  this->setLeftWheelString( "transY" );
-  this->setBottomWheelString( "transX" );
+  this->owner->setClassName( "SoWinPlaneViewer" );
+  this->owner->setLeftWheelString( "transY" );
+  this->owner->setBottomWheelString( "transX" );
 
   if ( ! build ) return;
-
-  //this->setSize( SbVec2s( 555, 515 ) );
-  this->initSize.setValue( 555, 515 );
   
-  HWND viewer = this->buildWidget( this->getParentWidget( ) );
-  this->setBaseWidget( viewer );
+  HWND viewer = this->owner->buildWidget( this->owner->getParentWidget( ) );
+  this->owner->setBaseWidget( viewer );
+
+  this->owner->setSize( SbVec2s( 555, 515 ) );
 } // constructor()
 
 // ************************************************************************
@@ -133,9 +185,9 @@ SoWinPlaneViewer::constructor( // private
 SoWinPlaneViewer::~SoWinPlaneViewer(
   void )
 {
-  //delete this->pixmaps.orthogonal;
-  //delete this->pixmaps.perspective;
-  delete this->projector;
+  delete PRIVATE( this )->projector;
+  delete this->pimpl;
+  delete this->common;
 } // ~SoWinPlaneViewer()
 
 // ************************************************************************
@@ -166,12 +218,6 @@ SoWinPlaneViewer::setCamera( // virtual
     SbBool orthogonal =
       type.isDerivedFrom( SoOrthographicCamera::getClassTypeId( ) );
     this->setRightWheelString( orthogonal ? "Zoom" : "Dolly" );
-    /*
-    if ( this->buttons.camera ) {
-      this->buttons.camera->setPixmap( orthogonal ?
-        * ( this->pixmaps.orthogonal ) : * ( this->pixmaps.perspective ) );
-    }
-    */
     
     if ( this->isDoButtonBar( ) ) // may not be there if !doButtonBar
       ( ( SoWinBitmapButton * ) ( * this->viewerButtonList ) [VIEWERBUTTON_CAMERA] )->setBitmap(
@@ -288,19 +334,19 @@ SoWinPlaneViewer::onCommand( // virtual
 	switch ( id ) {
 
     case VIEWERBUTTON_CAMERA:
-      this->cameratoggleClicked( );
+      PRIVATE( this )->cameratoggleClicked( );
       return 0;
 
     case VIEWERBUTTON_X:
-      this->xClicked( );
+      PRIVATE( this )->xClicked( );
       return 0;
 
     case VIEWERBUTTON_Y:
-      this->yClicked( );
+      PRIVATE( this )->yClicked( );
       return 0;
 
     case VIEWERBUTTON_Z:
-      this->zClicked( );
+      PRIVATE( this )->zClicked( );
       return 0;
 
     default:
@@ -462,10 +508,10 @@ SoWinPlaneViewer::computeSeekFinalOrientation( // virtual
 */
 
 void
-SoWinPlaneViewer::xClicked(
+SoWinPlaneViewerP::xClicked(
   void )
 {
-  common->viewPlaneX();
+  owner->common->viewPlaneX();
   /*
   ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_X] )->setState( TRUE );
   ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_Y] )->setState( FALSE );
@@ -478,10 +524,10 @@ SoWinPlaneViewer::xClicked(
 */
 
 void
-SoWinPlaneViewer::yClicked(
+SoWinPlaneViewerP::yClicked(
   void )
 {
-  common->viewPlaneY();
+  owner->common->viewPlaneY();
   /*
   ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_X] )->setState( FALSE );
   ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_Y] )->setState( TRUE );
@@ -494,10 +540,10 @@ SoWinPlaneViewer::yClicked(
 */
 
 void
-SoWinPlaneViewer::zClicked(
+SoWinPlaneViewerP::zClicked(
   void )
 {
-  common->viewPlaneZ();
+  owner->common->viewPlaneZ();
   /*
   ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_X] )->setState( FALSE );
   ( ( SoWinBitmapButton * ) ( * viewerButtonList ) [VIEWERBUTTON_Y] )->setState( FALSE );
@@ -510,10 +556,10 @@ SoWinPlaneViewer::zClicked(
 */
 
 void
-SoWinPlaneViewer::cameratoggleClicked(
+SoWinPlaneViewerP::cameratoggleClicked(
   void )
 {
-  this->toggleCameraType( );
+  this->owner->toggleCameraType( );
 } // cameraToggleClicked( )
 
 // ************************************************************************
@@ -523,7 +569,7 @@ SoWinPlaneViewer::cameratoggleClicked(
 */
 
 void
-SoWinPlaneViewer::visibilityCB( // static
+SoWinPlaneViewerP::visibilityCB( // static
   void * data,
   SbBool visible )
 {
@@ -547,7 +593,7 @@ SoWinPlaneViewer::visibilityCB( // static
 */
 
 void
-SoWinPlaneViewer::setModeFromState( // private
+SoWinPlaneViewerP::setModeFromState( // private
   unsigned int state )
 {
 
@@ -593,22 +639,22 @@ SoWinPlaneViewer::setModeFromState( // private
 */
 
 void
-SoWinPlaneViewer::setMode(
+SoWinPlaneViewerP::setMode(
   PlaneViewerMode mode )
 {
   // FIXME: set cursor...
 
   switch ( mode ) {
   case IDLE_MODE:
-    while ( this->getInteractiveCount( ) )
-      this->interactiveCountDec( );
+    while ( this->owner->getInteractiveCount( ) )
+      this->owner->interactiveCountDec( );
     break;
 
   case TRANSLATE_MODE:
   case DOLLY_MODE:
   case ROTZ_MODE:
-    while ( this->getInteractiveCount( ) )
-      this->interactiveCountDec( );
+    while ( this->owner->getInteractiveCount( ) )
+      this->owner->interactiveCountDec( );
     break;
 
   default:
