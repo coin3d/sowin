@@ -107,7 +107,7 @@ void
 SoWinBitmapButton::move( int x, int y )
 {
  	assert( IsWindow( this->buttonWindow ) );
-  UINT flags = SWP_NOSIZE | SWP_NOZORDER | SWP_NOREDRAW;
+  UINT flags = SWP_NOSIZE | SWP_NOZORDER;// | SWP_NOREDRAW;
   SetWindowPos( this->buttonWindow, NULL, x, y, 0, 0, flags );
 }
 
@@ -122,7 +122,7 @@ void
 SoWinBitmapButton::size( int width, int height )
 {
 	assert( IsWindow( this->buttonWindow ) );  
-  UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
   SetWindowPos( this->buttonWindow, NULL, 0, 0, width, height, flags );
 }
 

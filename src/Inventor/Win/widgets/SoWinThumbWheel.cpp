@@ -315,7 +315,7 @@ SoWinThumbWheel::move( int x, int y, int width, int height )
 void
 SoWinThumbWheel::move( int x, int y )
 {
-  UINT flags = SWP_NOSIZE | SWP_NOZORDER | SWP_NOREDRAW;
+  UINT flags = SWP_NOSIZE | SWP_NOZORDER;// | SWP_NOREDRAW;
 
   SetWindowPos( this->wheelWindow, NULL, x, y, 0, 0, flags );
 
@@ -342,7 +342,7 @@ SoWinThumbWheel::move( int x, int y )
 void
 SoWinThumbWheel::size( int width, int height )
 {
-  UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER;// | SWP_NOREDRAW;
   SetWindowPos( this->wheelWindow, NULL, 0, 0, width, height, flags );
 }
 
