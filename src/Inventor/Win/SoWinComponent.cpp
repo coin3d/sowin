@@ -791,13 +791,12 @@ SoWinComponent::buildFormWidget(HWND parent)
   bottom, the size being adjusted to take into account extra
   decorations having been added at each level in the component class
   hierarchy.
-
-  This default implementation does nothing.
 */
 void
-SoWinComponent::sizeChanged(const SbVec2s newSize)
+SoWinComponent::sizeChanged(const SbVec2s & size)
 {
-  // virtual - do nothing
+
+  // The default implementation does nothing.
 } // sizeChanged()
 
 /*!

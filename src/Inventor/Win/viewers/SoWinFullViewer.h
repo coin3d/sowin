@@ -103,7 +103,7 @@ protected:
   ~SoWinFullViewer(void);
 
   HWND buildWidget(HWND parent);
-  virtual void sizeChanged(const SbVec2s newSize);
+  virtual void sizeChanged(const SbVec2s & size);
   virtual void buildDecoration(HWND parent);
   virtual HWND buildLeftWheel(HWND parent);
   virtual HWND buildBottomWheel(HWND parent);

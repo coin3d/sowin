@@ -442,20 +442,20 @@ SoWinFullViewer::buildWidget(HWND parent)
   return this->renderAreaWidget;
 }
 
+// doc in super
 void
-SoWinFullViewer::sizeChanged(const SbVec2s newSize)
+SoWinFullViewer::sizeChanged(const SbVec2s & size)
 {
-
   if (! IsWindow(this->getBaseWidget())) return;
   
   if (PRIVATE(this)->decorations) {
-    SoWinRenderArea::sizeChanged(SbVec2s(newSize[0] - (2 * DECORATION_SIZE),
-      newSize[1] - DECORATION_SIZE));
+    SoWinRenderArea::sizeChanged(SbVec2s(size[0] - (2 * DECORATION_SIZE),
+                                         size[1] - DECORATION_SIZE));
   }
   else {
-    SoWinRenderArea::sizeChanged(newSize);
+    SoWinRenderArea::sizeChanged(size);
   }
-  PRIVATE(this)->layoutWidgets(newSize[0], newSize[1]);
+  PRIVATE(this)->layoutWidgets(size[0], size[1]);
   Win32::InvalidateRect(this->getParentWidget(), NULL, TRUE);
 }
 

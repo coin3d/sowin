@@ -643,11 +643,9 @@ SoWinGLWidget::initOverlayGraphic(void)
   // virtual - does nothing
 } // initOverlayGraphic()
 
-/*!
-  Will be called every time the size of the GL widget changes.
-*/
+// doc in super
 void
-SoWinGLWidget::sizeChanged(const SbVec2s newSize)
+SoWinGLWidget::sizeChanged(const SbVec2s & newSize)
 {
   // virtual - does nothing
 } // sizeChanged()
