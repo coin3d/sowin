@@ -1192,7 +1192,7 @@ SoWinFullViewer::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 	// RenderArea
 	assert( IsWindow( this->renderAreaWidget ) );
 	
-	if ( this->isFullScreen( ) || ! this->isDecoration( ) ) {
+	if ( /*this->isFullScreen( ) ||*/ ! this->isDecoration( ) ) {
 		MoveWindow( this->renderAreaWidget, 0, 0, LOWORD( lparam ), HIWORD( lparam ), FALSE );
 		return 0; 
 	}
@@ -1399,6 +1399,21 @@ void
 SoWinFullViewer::goFullScreen( SbBool enable )
 {
 	inherited::goFullScreen( enable );
-  this->setDecoration( ! enable );
+
+  if ( this->isDecoration( ) ) {
+
+    RECT rect;
+    GetWindowRect(  this->viewerWidget, & rect );
+    int width = rect.right - rect.left;
+    int height = rect.bottom - rect.top;
+
+    assert( IsWindow( this->renderAreaWidget ) );
+    
+    MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
+        width - ( 2 * DECORATION_SIZE ),
+        height - DECORATION_SIZE,
+        TRUE );
+  }
+  //InvalidateRect( SoWin::getTopLevelWidget( ), NULL, TRUE );
 }
 

@@ -121,6 +121,7 @@ void
 SoWinComponent::goFullScreen( SbBool enable )
 {
   HWND hwnd;
+  
   if ( this->embedded )
     hwnd = this->parent;
   else
