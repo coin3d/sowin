@@ -469,7 +469,6 @@ SoWinKeyboard::translateEvent(MSG * msg)
 
   SbVec2s pos = this->getLastEventPosition();
   this->setEventPosition(PRIVATE(this)->kbdevent, pos[0], pos[1]);
-  SoDebugError::postInfo("", "position: %d %d\n", pos[0], pos[1]);
 
   PRIVATE(this)->kbdevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
   PRIVATE(this)->kbdevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
