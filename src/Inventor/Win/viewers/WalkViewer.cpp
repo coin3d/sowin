@@ -17,15 +17,15 @@
  *
  **************************************************************************/
 
+// ************************************************************************
+
+// Class is documented in common/viewers/SoGuiWalkViewer.cpp.in.
+
+// ************************************************************************
+
 #include <sowindefs.h>
 #include <Inventor/Win/viewers/SoWinWalkViewer.h>
 #include <Inventor/Win/viewers/SoGuiWalkViewerP.h>
-
-/*!
-  \class SoWinWalkViewer Inventor/Win/viewers/SoWinWalkViewers.h
-  \brief The SoWinWalkViewer class is yet to be documented...
-  \ingroup sowinviewers
-*/
 
 // ************************************************************************
 
