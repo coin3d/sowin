@@ -83,11 +83,15 @@ public:
   int glModes;
   int borderSize;
 
+  static int widgetCounter;
+
 private:
   
   SoWinGLWidget * owner;
   
 };
+
+int SoWinGLWidgetP::widgetCounter = 0;
 
 #define PRIVATE( o ) ( o->pimpl )
 
@@ -136,8 +140,17 @@ SoWinGLWidget::SoWinGLWidget( HWND parent,
 
 SoWinGLWidget::~SoWinGLWidget( void )
 {
-  Win32::UnregisterClass( "SoWinGLWidget_glwidget", SoWin::getInstance( ) );
-  Win32::UnregisterClass( "SoWinGLWidget_managerwidget", SoWin::getInstance( ) );
+  if ( IsWindow( PRIVATE( this )->managerWidget ) )
+    Win32::DestroyWindow( PRIVATE( this )->managerWidget );
+  if ( IsWindow( PRIVATE( this )->normalWidget ) )  
+    Win32::DestroyWindow( PRIVATE( this )->normalWidget );
+  if ( IsWindow( PRIVATE( this )->overlayWidget ) ) 
+    Win32::DestroyWindow( PRIVATE( this )->overlayWidget );
+  SoWinGLWidgetP::widgetCounter--;
+  if ( SoWinGLWidgetP::widgetCounter <= 0 ) {
+    Win32::UnregisterClass( "SoWinGLWidget_glwidget", SoWin::getInstance( ) );
+    Win32::UnregisterClass( "SoWinGLWidget_managerwidget", SoWin::getInstance( ) );
+  }
   delete this->pimpl;
 }
 
@@ -263,8 +276,8 @@ SoWinGLWidget::setDoubleBuffer( SbBool set )
   else {
     PRIVATE( this )->glModes &= ~SO_GL_DOUBLE;
   }
-  BOOL r = DestroyWindow( this->getGLWidget( ) );
-  assert( r && "DestroyWindow() failed -- investigate" );
+  Win32::DestroyWindow( this->getGLWidget( ) );
+  SoWinGLWidgetP::widgetCounter--;
   PRIVATE( this )->buildNormalGLWidget( );
 }
 
@@ -317,8 +330,8 @@ SoWinGLWidget::setQuadBufferStereo( const SbBool enable )
   else {
     PRIVATE( this )->glModes &= ~SO_GL_STEREO;
   }
-  BOOL r = DestroyWindow( this->getGLWidget( ) );
-  assert( r && "DestroyWindow() failed -- investigate" );
+  Win32::DestroyWindow( this->getGLWidget( ) );
+  SoWinGLWidgetP::widgetCounter--;
   PRIVATE( this )->buildNormalGLWidget( );
 }
 
@@ -603,6 +616,8 @@ SoWinGLWidget::buildWidget( HWND parent )
 {
   // Build managerWidget
   // Used only to draw borders and handle resize
+
+  SoWinGLWidgetP::widgetCounter++;
 
   WNDCLASS windowclass;
   HMENU menu = NULL;
