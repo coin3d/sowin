@@ -243,7 +243,7 @@ SoWinComponent::initClasses(void)
   SoWinFullViewer::initClass();
   SoWinExaminerViewer::initClass();
   SoWinPlaneViewer::initClass();
-} // initClasses()
+}
 
 // *************************************************************************
 
@@ -307,7 +307,7 @@ SoWinComponent::SoWinComponent(const HWND parent,
     PRIVATE(this)->widgetname = name;
     this->setTitle(name);
   }
-} // SoWinComponent()
+}
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -401,7 +401,7 @@ SoWinComponent::show(void)
 {
   (void)ShowWindow(PRIVATE(this)->parent, SW_SHOW);
   Win32::InvalidateRect(PRIVATE(this)->parent, NULL, FALSE);
-} // show()
+}
 
 /*!
   This will hide the widget.
@@ -412,7 +412,7 @@ void
 SoWinComponent::hide(void)
 {
   (void)ShowWindow(PRIVATE(this)->parent, SW_HIDE);
-} // hide()
+}
 
 /*!
   Toggle full screen mode for this component, if possible.
@@ -480,7 +480,7 @@ SoWinComponent::setFullScreen(const SbBool enable)
   }
 
   return TRUE;
-} //setFullScreen()
+}
 
 /*!
   Returns if this widget/component is in full screen mode.
@@ -491,7 +491,7 @@ SbBool
 SoWinComponent::isFullScreen(void) const
 {
   return PRIVATE(this)->fullscreendata.on;
-} // isFullScreen()
+}
 
 /*!
   Returns visibility status on the widget. If any parents of this
@@ -506,7 +506,7 @@ SbBool
 SoWinComponent::isVisible(void)
 {
   return IsWindowVisible(PRIVATE(this)->widget);
-} // isVisible()
+}
 
 /*!
   Returns a pointer to the component's window system widget.
@@ -517,7 +517,7 @@ HWND
 SoWinComponent::getWidget(void) const
 {
   return PRIVATE(this)->widget;
-} // getWidget()
+}
 
 /*!
   An SoWinComponent may be composed of any number of widgets in
@@ -530,7 +530,7 @@ HWND
 SoWinComponent::getBaseWidget(void) const
 {
   return this->getWidget();
-} // getBaseWidget()
+}
 
 /*!
   Returns \c TRUE if this component is a toplevel shell, i.e. it has a
@@ -543,7 +543,7 @@ SoWinComponent::isTopLevelShell(void) const
 {
   return (PRIVATE(this)->embedded ? FALSE : TRUE);
   // FIXME: compare with SoWin::getTopLevelWidget() ? mariusbu 20010806.
-} // isTopLevelShell()
+}
 
 /*!
   Returns the widget which is the parent (i.e. contains) this
@@ -555,7 +555,7 @@ HWND
 SoWinComponent::getParentWidget(void) const
 {
   return PRIVATE(this)->parent;
-} // getParentWidget()
+}
 
 /*!
   Resize the component widget.
@@ -568,7 +568,7 @@ SoWinComponent::setSize(const SbVec2s size)
   UINT flags = SWP_NOMOVE | SWP_NOZORDER; // do redraw
   Win32::SetWindowPos(this->getParentWidget(), NULL, 0, 0,
                       size[0], size[1], flags);
-} // setSize()
+}
 
 /*!
   Returns the component widget size.
@@ -581,7 +581,7 @@ SoWinComponent::getSize(void) const
   RECT rect;
   Win32::GetWindowRect(this->getParentWidget(), & rect);
   return SbVec2s(rect.right - rect.left, rect.bottom - rect.top);
-} // getSize()
+}
 
 /*!
   Returns name of the widget.
@@ -591,7 +591,7 @@ SoWinComponent::getWidgetName(void) const
 {
   return PRIVATE(this)->widgetname.getLength() ?
     PRIVATE(this)->widgetname.getString() : this->getDefaultWidgetName();
-} // getWidgetName()
+}
 
 /*!
   Returns class name of widget.
@@ -600,7 +600,7 @@ const char *
 SoWinComponent::getClassName(void) const
 {
   return PRIVATE(this)->classname.getString();
-} // getClassName()
+}
 
 /*!
   Set the window title of this component. This will not work unless
@@ -623,7 +623,7 @@ SoWinComponent::setTitle(const char * const title)
        shellWidget == this->getParentWidget()) {
     Win32::SetWindowText(shellWidget, PRIVATE(this)->title.getString());
   }
-} // setTitle()
+}
 
 /*!
   Returns the window title. The component should be a toplevel shell
@@ -636,7 +636,7 @@ SoWinComponent::getTitle(void) const
 {
   return (PRIVATE(this)->title.getLength() > 0 ?
     PRIVATE(this)->title.getString() : this->getDefaultTitle());
-} // getTitle()
+}
 
 /*! FIXME: doc */
 void
@@ -669,7 +669,7 @@ SoWinComponent::setWindowCloseCallback(SoWinComponentCB * func, void * data)
 {
   PRIVATE(this)->closeCB = func;
   PRIVATE(this)->closeCBdata = data;
-} // setWindowCloseCallback()
+}
 
 /*!
   Finds and returns the SoWinComponent corresponding to the given
@@ -699,7 +699,7 @@ SoWinComponent::setFocusProxy(HWND widget)
   HWND w = PRIVATE(this)->focusProxy;
   PRIVATE(this)->focusProxy = widget;
   return w;
-} // setFocusProxy()
+}
 
 /*!
   Get currently set focus proxy. Returns NULL if no focus proxy is set.
@@ -710,7 +710,7 @@ HWND
 SoWinComponent::getFocusProxy(void)
 {
   return PRIVATE(this)->focusProxy;
-} // getFocusProxy()
+}
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -729,7 +729,7 @@ SoWinComponent::setBaseWidget(HWND widget)
 {
   assert(IsWindow(widget));
   PRIVATE(this)->widget = widget;
-} // setBaseWidget()
+}
 
 /*!
   Set class name of widget.
@@ -743,7 +743,7 @@ SoWinComponent::setClassName(const char * const name)
     PRIVATE(this)->classname = name;
   else
     PRIVATE(this)->classname = "";
-} // setClassName()
+}
 
 /*!
  */
@@ -790,7 +790,7 @@ SoWinComponent::buildFormWidget(HWND parent)
 
   assert(IsWindow(parentwidget));
   return parentwidget;
-} // buildFormWidget()
+}
 
 /*!
   This method is invoked to notify the component that the size has
@@ -804,7 +804,7 @@ SoWinComponent::sizeChanged(const SbVec2s & size)
 {
 
   // The default implementation does nothing.
-} // sizeChanged()
+}
 
 /*!
 */
@@ -813,10 +813,9 @@ SoWinComponent::windowCloseAction(void)
 {
   if (PRIVATE(this)->closeCB)
     PRIVATE(this)->closeCB(PRIVATE(this)->closeCBdata, this);
-} // windowCloseAction()
+}
 
-/*!
-*/
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoWinComponent::afterRealizeHook(void) // virtual
 {
@@ -827,7 +826,7 @@ SoWinComponent::afterRealizeHook(void) // virtual
       shellWidget == this->getParentWidget())) {
     this->setTitle(this->getDefaultTitle());
   }
-} // afterRealizeHook()
+}
 
 /*!
   Add a callback which will be called whenever the widget component
@@ -844,7 +843,7 @@ SoWinComponent::addVisibilityChangeCallback(SoWinComponentVisibilityCB * func, v
   combo[1] = user;
   PRIVATE(this)->visibilitychangeCBs->append(combo);
   //FIXME: the functions are never called. mariusbu 20010824.
-} // addVisibilityChangeCallback()
+}
 
 /*!
   Remove one of the callbacks from the list of visibility notification
@@ -864,7 +863,7 @@ SoWinComponent::removeVisibilityChangeCallback(SoWinComponentVisibilityCB * func
       return;
     }
   }
-} // removeVisibilityChangeCallback()/
+}
 
 /*!
   Open a dialog providing help about use of this component.
