@@ -17,6 +17,14 @@
  *
  **************************************************************************/
 
+/*!
+  \class SoWinSpaceball SoWinSpaceball.h Inventor/Win/devices/SoWinSpaceball.h
+  \brief The SoWinSpaceball class ...
+  \ingroup devices
+
+  FIXME: write class doc
+*/
+
 #include <windows.h>
 
 #if SOWIN_DEBUG
@@ -36,27 +44,23 @@ SOWIN_OBJECT_SOURCE(SoWinSpaceball);
 
 SoWinSpaceball::SoWinSpaceball( UINT mask )
 {
-  // FIXME: function not implemented
   SOWIN_STUB( );
 }
 
 SoWinSpaceball::~SoWinSpaceball( void )
 {
-  // FIXME: function not implemented
   SOWIN_STUB( );
 }
     
 void
 SoWinSpaceball::enable( HWND, SoWinEventHandler * , void *, HWND )
 {
-  // FIXME: function not implemented
   SOWIN_STUB( );
 }
 
 void
 SoWinSpaceball::disable( HWND, SoWinEventHandler * , void * )
 {
-  // FIXME: function not implemented
   SOWIN_STUB( );
 }
 
@@ -82,7 +86,7 @@ SoWinSpaceball::setRotationScaleFactor( float factor )
 float
 SoWinSpaceball::getRotationScaleFactor( void ) const
 {
-  return rotScale;
+  return this->rotScale;
 }
 
 void
@@ -100,22 +104,18 @@ SoWinSpaceball::getTranslationScaleFactor( void ) const
 SbBool
 SoWinSpaceball::exists( void )
 {
-  // FIXME: function not implemented
-  SOWIN_STUB( );
   return FALSE;
 }
  
 void
 SoWinSpaceball::setFocusToWindow( SbBool flag )
 {
-  // FIXME: function not implemented
   SOWIN_STUB( );
 }
 
 SbBool
 SoWinSpaceball::isFocusToWindow( void ) const
 {
-  // FIXME: function not implemented
   SOWIN_STUB( );
-  return 0;
+  return FALSE;
 }
