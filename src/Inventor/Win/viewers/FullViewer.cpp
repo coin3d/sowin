@@ -910,7 +910,8 @@ SoWinFullViewerP::systemEventHook(int code, WPARAM wparam, LPARAM lparam)
         break;
 
       case WM_LBUTTONDOWN:
-        SetFocus(object->getGLWidget());
+      case WM_SETFOCUS:
+        (void)Win32::SetFocus(object->getGLWidget());
         break;
 
         // Next 3 are for the UI decoration buttons.
