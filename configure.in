@@ -330,6 +330,9 @@ SIM_AC_HAVE_COIN_IFELSE([
   SOWIN_EXTRA_LIBS="$sim_ac_coin_libs $SOWIN_EXTRA_LIBS"
 ], AC_MSG_ERROR(couldn't compile and link against Coin))
 
+## FIXME: make it possible to build SoWin on top of SGI Inventor.
+## 20011007 mortene.
+
 # **************************************************************************
 # misc implementation-dependent Open Inventor features
 
