@@ -119,6 +119,9 @@ SoWinMouse::translateEvent( MSG * msg )
 
   } // switch ( event->type )
 
+  long msec = GetTickCount( );
+  if ( soevent ) soevent->setTime( SbTime( ( msec / 1000 ), ( msec % 1000 ) * 1000 ) );
+
   return (SoEvent *) soevent;
 } // translateEvent()
 
@@ -186,7 +189,7 @@ SoWinMouse::makeButtonEvent( MSG * msg, SoButtonEvent::State state )
   this->buttonEvent->setShiftDown( ( SoWinDevice::modifierKeys & MK_SHIFT ) ? TRUE : FALSE );
   this->buttonEvent->setCtrlDown( ( SoWinDevice::modifierKeys & MK_CONTROL ) ? TRUE : FALSE );
   this->buttonEvent->setAltDown( ( SoWinDevice::modifierKeys & MK_ALT ) ? TRUE : FALSE );
-
+  
   return this->buttonEvent;
 } // makeButtonEvent()
 

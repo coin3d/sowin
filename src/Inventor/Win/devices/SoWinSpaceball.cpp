@@ -63,8 +63,13 @@ SoWinSpaceball::disable( HWND, SoWinEventHandler * , void * )
 const SoEvent *
 SoWinSpaceball::translateEvent( MSG * msg )
 {
+  /*
+  long msec =  GetTickCount( );
+  if ( soevent ) soevent->setTime( SbTime( ( msec / 1000 ), ( msec % 1000 ) * 1000 ) ) );
+  */
   // FIXME: function not implemented
   SOWIN_STUB( );
+  
   return ( SoEvent * ) NULL;
 }
   

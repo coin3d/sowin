@@ -535,7 +535,7 @@ SoWinFullViewer::buildBottomWheel( HWND parent )
   this->bottomWheel->registerCallback( this->bottomWheelCB );
 	this->bottomWheel->registerViewer( this );
 	this->bottomWheel->setRangeBoundaryHandling( SoWinThumbWheel::MODULATE );
-	this->bottomWheel->setLabelOffset( -5, -3 );
+	this->bottomWheel->setLabelOffset( -5, -4 );
 	
   return this->bottomWheel->getWidget( );
 }

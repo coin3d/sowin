@@ -834,6 +834,9 @@ SoWinGLWidget::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
   ok = wglMakeCurrent( NULL, NULL );
   assert( ok );
 
+  if ( wparam & SIZE_RESTORED )
+    InvalidateRect( this->getNormalWidget( ), NULL, FALSE );
+
   return 0;
 }
 

@@ -347,11 +347,10 @@ SoWinExaminerViewer::openViewerHelpCard(
 
 /*!
 */
-
 SbBool
 SoWinExaminerViewer::processSoEvent(
   const SoEvent * const event )
-{
+{ 
   if ( common->processSoEvent( event ) )
     return TRUE;
 
@@ -428,7 +427,7 @@ SoWinExaminerViewer::setCursorRepresentation(
         so_win_zoom_bitmap, so_win_zoom_mask_bitmap,
         so_win_pan_bitmap, so_win_pan_mask_bitmap
 			};
-			/*
+			
       unsigned int bitmapsizes[] = {
 				( so_win_rotate_width + 7 ) / 8 * so_win_rotate_height,
 				( so_win_zoom_width + 7 ) / 8 * so_win_zoom_height,
@@ -437,9 +436,11 @@ SoWinExaminerViewer::setCursorRepresentation(
 			
 			for ( i = 0; i < ( sizeof( bitmapsizes ) / sizeof( unsigned int ) ); i++ ) {
 				for ( j = 0; j < bitmapsizes[i]; j++ )
-					bitmaps[i * 2][j] &= bitmaps[i * 2 + 1][j];
+					//bitmaps[i * 2][j] &= bitmaps[i * 2 + 1][j];
+          bitmaps[i * 2 + 1][j] = ~bitmaps[i * 2][j];
+        // FIXME: use mask
 			}
-			*/
+			
 			unsigned int bitmapheights[] = {
 				so_win_rotate_height,
 				so_win_zoom_height,
@@ -447,9 +448,13 @@ SoWinExaminerViewer::setCursorRepresentation(
 			};
 			
 			unsigned char byte; // FIXME: only works for Nx16 pointers
-			unsigned char hi, lo;
-			for ( i = 0; i < ( sizeof( bitmapheights ) / sizeof( unsigned int ) ); i++ ) {
-				for( j = 0; j < bitmapheights[i] * 2; j += 2 ) {
+      unsigned short line;
+      unsigned short * cwords;
+      unsigned short * mwords;
+
+      for ( i = 0; i < ( sizeof( bitmapheights ) / sizeof( unsigned int ) ); i++ ) {
+
+        for( j = 0; j < bitmapheights[i] * 2; j += 2 ) {
 
 					byte = bitmaps[i * 2][j];
 					bitmaps[i * 2][j] = bitmaps[i * 2][j + 1];
@@ -460,16 +465,24 @@ SoWinExaminerViewer::setCursorRepresentation(
 					bitmaps[i * 2 + 1][j + 1] = byte;
 					
 				}
-				/*
-				for( j = 0; j < bitmapheights[i]; j += 2 ) {
-					hi = bitmaps[i * 2][j];
-					lo = bitmaps[i * 2][j + 1];
 
-					bitmaps[i * 2][bitmapheights[i] - j] = lo;
-					bitmaps[i * 2][bitmapheights[i] - ( j + 1 )] = hi;
+        cwords = ( unsigned short * ) bitmaps[i];
+        mwords = ( unsigned short * ) bitmaps[i * 2];
+        // FIXME: assumes Nx16 cursors
+        for( j = 0; j < bitmapheights[i]; j++ ) {
+
+          line = cwords[j];
+          cwords[j] = cwords[( bitmapheights[i] - 1 ) - j];
+          cwords[( bitmapheights[i] - 1 ) - j] = line;
+          
+          line = mwords[j];
+          mwords[j] = mwords[ ( bitmapheights[i] - 1 ) - j];
+          mwords[( bitmapheights[i] - 1 ) - j] = line;
+    
 				}
-				*/
+        
 			}
+      
 		}
 		
 		this->zoomcursor = CreateCursor( SoWin::getInstance( ), so_win_zoom_x_hot,
@@ -597,7 +610,6 @@ SoWinExaminerViewer::cameratoggleClicked( void ) // virtual
 {
   if ( this->getCamera( ) ) this->toggleCameraType( );
 }
-
 
 // *************************************************************************
 

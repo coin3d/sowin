@@ -87,6 +87,10 @@ SoWinInputFocus::disable( HWND, // widget,
 const SoEvent *
 SoWinInputFocus::translateEvent( MSG * ) // event )
 {
+  /*
+  long msec =  GetTickCount( );
+  if ( soevent ) soevent->setTime( SbTime( ( msec / 1000 ), ( msec % 1000 ) * 1000 ) ) );
+  */
   SOWIN_STUB();
   return NULL;
 } // translateEvent()

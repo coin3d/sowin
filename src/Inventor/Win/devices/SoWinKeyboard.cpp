@@ -518,6 +518,7 @@ SoWinKeyboard::translateEvent( MSG * msg )
     break;
 
   } // switch ( msg->message )
+  
   return ( SoEvent * ) NULL;
 } // translateEvent()
 
@@ -577,6 +578,9 @@ SoWinKeyboard::makeKeyboardEvent( MSG * msg,
   SoWinKeyboard::keyboardEvent->setShiftDown( ( SoWinDevice::modifierKeys & MK_SHIFT ) ? TRUE : FALSE );
   SoWinKeyboard::keyboardEvent->setCtrlDown( ( SoWinDevice::modifierKeys & MK_CONTROL ) ? TRUE : FALSE );
   SoWinKeyboard::keyboardEvent->setAltDown( ( SoWinDevice::modifierKeys & MK_ALT ) ? TRUE : FALSE );
+  
+  long msec =  GetTickCount( );
+  SoWinKeyboard::keyboardEvent->setTime( SbTime( ( msec / 1000 ), ( msec % 1000 ) * 1000 ) );
 
   return SoWinKeyboard::keyboardEvent;
 } // makeKeyboardEvent()
