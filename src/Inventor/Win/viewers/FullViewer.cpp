@@ -1061,7 +1061,7 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
     // App buttons
     for(i = 0; i < numAppButtons; i++) {
       Win32::MoveWindow(APPBUTTON_O(i),
-                        0, (DECORATION_SIZE * (i + numViewerButtons)),
+                        0, DECORATION_SIZE * i,
                         DECORATION_SIZE, DECORATION_SIZE, TRUE);
     }
   }
