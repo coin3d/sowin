@@ -1,12 +1,17 @@
-SoWin 1.2.0 Released (2003-12-12)
-=================================
+SoWin 1.2.0 Released
+====================
+(2003-12-12)
 
 Preamble
 --------
 
-The SoWin library is a C++ GUI toolkit that binds together the Coin rendering library with the user interface parts of the MSWindows Win32 API, thereby providing application programmers a convenient method of using the Coin library from MSWindows development environments. 
+The SoWin library is a C++ GUI toolkit that binds together the Coin
+rendering library with the user interface parts of the MSWindows Win32
+API, thereby providing application programmers a convenient method of
+using the Coin library from MSWindows development environments.
 
-Coin is a high-level 3D graphics library with a C++ Application Programming Interface. Coin implements the SGI Open Inventor API.
+Coin is a high-level 3D graphics library with a C++ Application
+Programming Interface. Coin implements the SGI Open Inventor API.
 
 New in this release
 -------------------
