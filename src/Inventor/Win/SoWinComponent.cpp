@@ -68,9 +68,12 @@ public:
         delete SoWinComponentP::sowincomplist;
         SoWinComponentP::sowincomplist = NULL;
 
-        // Only unregister classname when all component windows have been destroyed.
-        // CreateWindow get the deault "Win Component" name, even when created by
-        // viewers like SoWinExaminerViewer. Is this a bug? In that case fix this too!
+        // FIXME: only unregister classname when all component windows
+        // have been destroyed.  CreateWindow get the default "Win
+        // Component" name, even when created by viewers like
+        // SoWinExaminerViewer. Is this a bug? In that case fix this
+        // too!
+        //
         // mariusbu 20010803.
         
         if (SoWinComponentP::wndClassAtom) { // if wndclass is registered
@@ -82,11 +85,42 @@ public:
   }
 
   // event handler
-  static LRESULT CALLBACK eventHandler(
-    HWND window, UINT message, WPARAM wparam, LPARAM lparam) {
-    SoWinComponent * component = NULL;
-    
-    component = SoWinComponent::getComponent(window);
+  static LRESULT CALLBACK
+  eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
+  {
+    SoWinComponent * component = SoWinComponent::getComponent(window);
+
+    // FIXME?: there's a potential problem here for the application
+    // programmer, which was reported by Alan Walford of Eos. It is a
+    // complex issue where a bug can be triggered like this:
+    // 
+    // 0) the construction of a SoWinGLWidget-derived instance (like
+    // for instance a renderarea) fails due to lack of or faulty
+    // OpenGL-support -- or due to any other fatal error condition
+    //
+    // 1) SoWinGLWidget::buildGLWidget() (for instance) then calls
+    // SoAny::invokeFatalErrorHandler()
+    //
+    // 2) the app-programmer's registered fatal error handler throws a
+    // C++ exception which is caught "higher up", so the construction
+    // of the SoWinGLWidget-derived instance is never completed, and
+    // neither has it been destructed -- it is therefore in an invalid
+    // state, which goes undetected from within SoWin
+    //
+    // 3) in the process of cleaning up, the application client code
+    // causes a message to be sent to the SoWinGLWidget-instance's
+    // window, which triggers the function this FIXME comment is
+    // placed inside
+    //
+    // 4) below, operations on the instance is done -- which of course
+    // causes a crash, since it was never properly initialized
+    //
+    // This is a hard bug to detect and solve for the application
+    // programmers, so anything we could do to either detect and work
+    // around the problem -- or at least trigger a helpful assert() --
+    // would be a good thing.
+    //
+    // 20011018 mortene (thanks to Alan for explaining the problem).
 
     if (component) {
 
@@ -121,8 +155,8 @@ public:
   }
   
   // Message hook
-  static LRESULT CALLBACK callWndProc(
-    int code, WPARAM wparam, LPARAM lparam)
+  static LRESULT CALLBACK
+  callWndProc(int code, WPARAM wparam, LPARAM lparam)
   {
     CWPSTRUCT * msg = (CWPSTRUCT *) lparam;
     if (HC_ACTION);// must process message
@@ -245,8 +279,8 @@ SoWinComponent::initClasses(void)
   parent.
 */
 SoWinComponent::SoWinComponent(const HWND parent,
-                                const char * const name,
-                                const SbBool embed)
+                               const char * const name,
+                               const SbBool embed)
 {
   this->pimpl = new SoWinComponentP(this);
   this->realized = FALSE;
@@ -264,7 +298,7 @@ SoWinComponent::SoWinComponent(const HWND parent,
     PRIVATE(this)->parent = parent;
     PRIVATE(this)->msgHook =
       Win32::SetWindowsHookEx(WH_CALLWNDPROC, SoWinComponentP::callWndProc,
-        NULL, GetCurrentThreadId());
+                              NULL, GetCurrentThreadId());
   }
   else {
     PRIVATE(this)->parent = this->buildFormWidget(parent);
