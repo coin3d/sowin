@@ -5,6 +5,15 @@
 #undef SOWIN_VERSION
 #undef HAVE_SOPOLYGONOFFSET
 
+/* Define to enable use of Inventor feature */
+#undef HAVE_SOCAMERA_SETSTEREOMODE
+
+/* Define to enable use of SoMouseButtonEvent::BUTTON5 */
+#undef HAVE_SOMOUSEBUTTONEVENT_BUTTONS
+
+/* Define to enable use of the Open Inventor SoPolygonOffset node */
+#undef HAVE_SOPOLYGONOFFSET
+
 /* Define this to true if the __FUNCTION__ variable contains the current
    function name */
 #undef HAVE_VAR___FUNCTION__
@@ -13,11 +22,27 @@
    current function name */
 #undef HAVE_VAR___PRETTY_FUNCTION__
 
+/* Define this to true if the __func__ variable contains the current function
+   name */
+#undef HAVE_VAR___func__
+
 /* Name of package */
 #undef PACKAGE
+
+/* Define to the major version of SoWin */
+#undef SOWIN_MAJOR_VERSION
+
+/* Define to the micro version of SoWin */
+#undef SOWIN_MICRO_VERSION
+
+/* Define to the minor version of SoWin */
+#undef SOWIN_MINOR_VERSION
+
+/* Version string for SoWin */
+#undef SOWIN_VERSION
 
 /* Version number of package */
 #undef VERSION
 
-/* Define this if you want defaults to be linked into SoWin */
+/* Define this if you want defaults to be linked into SoXt */
 #undef WITH_STATIC_DEFAULTS
