@@ -31,6 +31,7 @@ class SoWinExaminerViewerP;
 // *************************************************************************
 
 class SOWIN_DLL_API SoWinExaminerViewer : public SoWinFullViewer {
+  
   SOWIN_OBJECT_HEADER(SoWinExaminerViewer, SoWinFullViewer);
   friend class SoAnyExaminerViewer;
   friend class SoWinExaminerViewerP;
