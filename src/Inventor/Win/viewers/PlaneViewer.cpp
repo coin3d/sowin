@@ -345,19 +345,6 @@ SoWinPlaneViewer::onCommand(// virtual
 */
 
 void
-SoWinPlaneViewer::setSeekMode(// virtual
-  SbBool enable)
-{
-  inherited::setSeekMode(enable);
-} // setSeekMode()
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
-void
 SoWinPlaneViewer::actualRedraw(// virtual
   void)
 {
