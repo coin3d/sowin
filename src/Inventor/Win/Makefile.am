@@ -82,7 +82,7 @@ sowin@SOWIN_MAJOR_VERSION@.dll: $(libSoWin_la_OBJECTS) $(libSoWin_la_DEPENDENCIE
 	@rm -f sowin@SOWIN_MAJOR_VERSION@.dll && \
 	if @BUILD_WITH_MSVC@; then \
 	  echo "Linking DLL..."; \
-	  $(CC) /dll /out:sowin@SOWIN_MAJOR_VERSION@.dll $(LDFLAGS) \
+	  $(CC) @DLLFLAGS@ /out:sowin@SOWIN_MAJOR_VERSION@.dll $(LDFLAGS) \
 	        `echo $(libSoWin_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
 	        $(libSoWin_la_LIBADD) $(LIBS); \
 	else \
@@ -97,8 +97,20 @@ sowin@SOWIN_MAJOR_VERSION@.dll: $(libSoWin_la_OBJECTS) $(libSoWin_la_DEPENDENCIE
 install-exec-hook: sowin@SOWIN_MAJOR_VERSION@.dll
 	@if test -s sowin@SOWIN_MAJOR_VERSION@.dll; then \
 	  echo "Installing sowin@SOWIN_MAJOR_VERSION@.dll"; \
-	  for i in sowin@SOWIN_MAJOR_VERSION@.dll sowin@SOWIN_MAJOR_VERSION@.lib; do \
-	    $(INSTALL_DATA) $$i $(DESTDIR)$(libdir)/$$i; \
+	  for e in dll lib pdb; do \
+	    file="sowin@SOWIN_MAJOR_VERSION@.$$e"; \
+	    if test -f $$file; then \
+	      $(INSTALL_DATA) $$file $(DESTDIR)$(libdir)/$$file; \
+	    fi \
 	  done \
 	fi
+
+uninstall: uninstall-am
+	@for e in dll lib pdb; do \
+	  file="$(DESTDIR)$(libdir)/sowin@SOWIN_MAJOR_VERSION@.$$e"; \
+	  if test -f "$$file"; then \
+	    echo rm -f "$$file"; \
+	    rm -f "$$file"; \
+	  fi \
+	done
 
