@@ -213,9 +213,9 @@ SoWin::mainLoop( void )
 } // mainLoop()
 
 /*!
-  This funtcion will make the main event loop finish looping.
+  This function will make the main event loop finish looping.
 
-  NOTE: exitMainLoop is not part of the original InventorXt API.
+  NOTE: exitMainLoop() is not part of the original SGI InventorXt API.
 */
 void
 SoWin::exitMainLoop( void )
@@ -308,18 +308,21 @@ SoWin::getTopLevelWidget( void )
 
 /*!
   This will pop up an error dialog. It's just a simple wrap-around for
-  the MessageBox() call, provided for easier porting from
-  applications using the Open Inventor SoXt component classes.
+  the Win32 API MessageBox() call, provided for easier porting from
+  applications using the Open Inventor SoXt component classes, aswell
+  as being a convenient way for the application programmer or from
+  SoWin components to throw up an obtrusive application-global error
+  dialog.
 
-  If \a widget is \a NULL, the dialog will be modal for the whole
-  application (all windows will be blocked for input). If not,
-  only the window for the given \a widget will be blocked.
+  If \a widget is \c NULL, the dialog will be modal for the whole
+  application (all windows will be blocked for input). If not, only
+  the window for the given \a widget will be blocked.
 
-  \a dialogTitle is the title of the dialog box. \a errorStr1 and
-  \a errorStr2 contains the text which will be shown in the dialog box.
+  \a dialogTitle is the title of the dialog box. \a errorStr1 and \a
+  errorStr2 contains the text which will be shown in the dialog box.
 
   There will only be a single "Ok" button for the user to press.
- */
+*/
 void
 SoWin::createSimpleErrorDialog( HWND const widget, const char * const dialogTitle, const char * const errorStr1, const char * const errorStr2 )
 {
@@ -412,14 +415,18 @@ SoWin::getInstance( void )
 void
 SoWin::errorHandlerCB( const SoError * error, void * data )
 {
-#if 1 // Normally, errors, warnings and info goes to a dialog box..
+  // Normally, errors, warnings and info goes to a dialog box..
+#if 1
   SbString debugstring = error->getDebugString( );
 
-  MessageBox( SoWinP::mainWidget,
+  MessageBox( NULL,
               ( LPCTSTR ) debugstring.getString( ),
               "SoError",
               MB_OK | MB_ICONERROR );
-#else // ..but during development it might be better to pipe it to the console.
+#else
+  // ..but during development it might be better to pipe it to the
+  // console, so keep this #if/#else/#endif wrapper for convenience.
+
   (void)printf("%s\n", error->getDebugString().getString() );
 #endif
 } // errorHandlerCB()
