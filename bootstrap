@@ -17,8 +17,8 @@ if test ! -f ./$me; then
   exit 1
 fi
 
-AUTOCONF_VER=2.49[bcdef]   # Autoconf from CVS
-AUTOMAKE_VER=1.4[abcdef]   # Automake from CVS
+AUTOCONF_VER=2.50
+AUTOMAKE_VER=1.4[fg]     # Automake from CVS
 LIBTOOL_VER=1.3.5
 
 GUI=Win
