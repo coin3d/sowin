@@ -411,9 +411,9 @@ SoWin::getTopLevelWidget(void)
 // Inventor SoXt component classes.
 void
 SoWin::createSimpleErrorDialog(HWND const widget,
-                               const char * const title,
-                               const char * const string1,
-                               const char * const string2)
+                               const char * title,
+                               const char * string1,
+                               const char * string2)
 {
   
   SbString t(title ? title : "");
