@@ -50,7 +50,6 @@ public:
   char * GetMenuItemTitle( int itemid );
   void SetMenuItemEnabled( int itemid, SbBool enabled );
   SbBool GetMenuItemEnabled( int itemid );
-  void SetMenuItemMarked( int itemid, SbBool marked );
   SbBool GetMenuItemMarked( int itemid );
 
   void AddMenu( int menuid, int submenuid, int pos = -1 );
@@ -64,6 +63,7 @@ public:
   void itemActivation( int itemid );    // call this on WM_COMMAND
 
 protected:
+  void _setMenuItemMarked( int itemid, SbBool marked );
   MenuRecord * getMenuRecord( int menuid );
   ItemRecord * getItemRecord( int itemid );
   MenuRecord * createMenuRecord( char * name );

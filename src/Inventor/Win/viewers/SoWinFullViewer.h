@@ -24,13 +24,13 @@
 #include <Inventor/SbPList.h>
 #include <Inventor/lists/SoCallbackList.h>
 
-class  SoFieldSensor;
-class  SoWinBitmapButton;
-class  SoWinThumbWheel;
+class SoFieldSensor;
+class SoWinBitmapButton;
+class SoWinThumbWheel;
+class SoAnyPopupMenu;
 
 typedef void PushAppButtonCB( HWND hwnd, int id, void * pushData, void * userData );
 typedef void RedrawAppButtonCB( LPDRAWITEMSTRUCT lpdis, void * userData );
-
 
 class SoWinFullViewer : public SoWinViewer {
     typedef SoWinViewer inherited;
@@ -53,7 +53,7 @@ public:
     static void setDoButtonBar( SbBool set );
     static SbBool isDoButtonBar( void );
 
-	SoCallbackList popupPostCallback;
+	SoCallbackList popupPostCallback;   // huh?
 	SoCallbackList popupPreCallback;
 
 	void setClientPopupMenu( HMENU menu );
@@ -65,6 +65,7 @@ public:
     void removeAppPushButton( HWND oldButton );
     int findAppPushButton( HWND oldButton );
     int lengthAppPushButton( void );
+
     HWND getRenderAreaWidget( void );
     
     virtual void setViewing( SbBool set );
@@ -83,12 +84,11 @@ public:
     HMENU funcPopup;
     HMENU drawPopup;
     HMENU prefPopup;
+    HMENU clientPopup;
 
     UINT curPopupDrawItem;
     UINT curPopupMoveItem;
     UINT curPopupBufferItem;
-
-	HMENU hClientPopup;
 
     void addPushAppButtonCallback( PushAppButtonCB * callback,
                                    void * data = NULL );
@@ -103,7 +103,7 @@ public:
     void copyView( SbTime time );
     void pasteView( SbTime time );
 
-protected:
+//protected:
     SoWinFullViewer( HWND parent,
                      const char * name, 
                      SbBool embedded, 
@@ -111,10 +111,9 @@ protected:
                      SoWinViewer::Type type, 
                      SbBool buildNow);
     ~SoWinFullViewer( void );
-    
-    SbBool decorationFlag;
-    HWND mgrWidget; // form which manages all other widgets
-    HWND raWidget;  // render area HWND
+protected:
+    HWND viewerWidget; // form which manages all other widgets
+    HWND renderAreaWidget;  // render area HWND
     HWND leftTrimForm;
     HWND bottomTrimForm;
     HWND rightTrimForm;
@@ -150,7 +149,7 @@ protected:
     HWND rightWheelLabel;
     HWND bottomWheelLabel;
     HWND leftWheelLabel;
-    
+
     SbPList * viewerButtonWidgets;
 
     int numFullVwrButtons;
@@ -161,33 +160,37 @@ protected:
     HWND getButtonWidget( void ) const;
     
     SbBool popupEnabled;
-    HWND popupWidget;
+    HWND popupWidget;   // FIXME: HMENU ?
     HWND * popupToggleWidgets;
     HWND * drawStyleWidgets;
     HWND bufferStyleWidgets[3];
     char * popupTitle;
 
     HWND buildWidget( HWND parent );
-    void buildLeftWheel( HWND parent );
+    //void buildLeftWheel( HWND parent );
     
     virtual void buildDecoration( HWND parent );
+
     virtual HWND buildLeftTrim( HWND parent );
     virtual HWND buildBottomTrim( HWND parent );
     virtual HWND buildRightTrim( HWND parent );
     virtual HWND buildZoomSlider( HWND parent );
+
     HWND buildAppButtons( HWND parent );
     HWND buildViewerButtons( HWND parent );
+
     virtual void createViewerButtons( HWND parent );
     
+    virtual void openStereoDialog( void );
+
     virtual void buildPopupMenu( void );
-	virtual void openStereoDialog( void );
     void setPopupMenuString( const char * title );
     void openPopupMenu( const SbVec2s position );
-    virtual void destroyPopupMenu( void );
+    virtual void destroyPopupMenu( void );  
+    virtual int displayPopupMenu( int x, int y, HWND owner );
+
     HWND buildFunctionsSubmenu( HWND popup );
     HWND buildDrawStyleSubmenu( HWND popup );
-
-    virtual int displayPopupMenu( int x, int y, HWND owner );
 
     void setPrefSheetString( const char * name );
     virtual void createPrefSheet( void );
@@ -224,11 +227,16 @@ protected:
     
     virtual void afterRealizeHook( void );
 
+    HWND getViewerWidget( void );
+
 private:
     SbString menutitle;
+    
     SoAnyPopupMenu * prefmenu;
+    SoAnyFullViewer * const common;    
+    
     SbBool menuenabled;
-
+    SbBool decorations;
     SbBool firstBuild;
 
     HWND appButtonForm;
@@ -250,7 +258,7 @@ private:
     SoWinBitmapButton * buttonList[10];
 
     HWND prefSheetShellWidget;
-    char * prefSheetStr;
+    const char * prefSheetStr;  // - const
 
     int seekDistWheelVal;
     HWND seekDistField;
@@ -271,20 +279,25 @@ private:
     static void leftWheelCB  ( SoWinFullViewer * viewer, void ** data );
 
     // Window proc for SoWinFullViewer "manager HWND" windows
-    static LRESULT CALLBACK mgrWindowProc( HWND hwnd, UINT message,
-		 					               WPARAM wParam, LPARAM lParam );
+    static LRESULT CALLBACK mgrWindowProc( HWND window, UINT message,
+		 					               WPARAM wparam, LPARAM lparam );
 
     // Window proc for SoWinFullViewer "button container" windows
-    static LRESULT CALLBACK btnWindowProc( HWND hwnd, UINT message,
-		 					               WPARAM wParam, LPARAM lParam );
+    static LRESULT CALLBACK btnWindowProc( HWND window, UINT message,
+		 					               WPARAM wparam, LPARAM lparam );
 
     // Window proc for SoWinFullViewer "application button container" windows
-    static LRESULT CALLBACK appBtnWindowProc( HWND hwnd, UINT message,
-		 					               WPARAM wParam, LPARAM lParam );
+    static LRESULT CALLBACK appBtnWindowProc( HWND window, UINT message,
+		 					               WPARAM wparam, LPARAM lparam );
 
     // Window proc for SoWinFullViewer text entry window (zoomfield)
-    static LRESULT CALLBACK txtWindowProc( HWND hwnd, UINT message,
-		 					               WPARAM wParam, LPARAM lParam );
+    static LRESULT CALLBACK txtWindowProc( HWND window, UINT message,
+		 					               WPARAM wparam, LPARAM lparam );
+
+    LRESULT onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
+    LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
 
     PushAppButtonCB * customPushBtnCB ;
     RedrawAppButtonCB * customRedrawBtnCB ;
@@ -294,6 +307,7 @@ private:
     WNDPROC origAppBtnWndProc;
     WNDPROC origTxtWndProc;
 
+    RECT renderAreaOffset;
     static void drawDecorations( SoWinFullViewer * viewer, HWND hwnd, HDC hdc );
 };
 

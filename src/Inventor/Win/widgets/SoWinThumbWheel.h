@@ -22,8 +22,12 @@
 
 
 #include <Inventor/Win/SoWinBasic.h>
+//#include <sowindefs.h>
 
 class SoAnyThumbWheel;
+class SoWinFullViewer;
+
+typedef void thumbWheelCB( SoWinFullViewer * viewer, void ** data );
 
 // *************************************************************************
 
@@ -59,6 +63,9 @@ public:
     SIZE sizeHint( void ) const;
     int width( void );
     int height( void );
+    void move( int x, int y );
+    void registerCallback( thumbWheelCB func );
+
 protected:
 
     LRESULT CALLBACK onCreate( HWND window,
@@ -105,7 +112,7 @@ private:
     void constructor( Orientation );
     HWND buildWidget( HWND parent, RECT rect );
     void initWheel( int diameter, int width );
-    HBITMAP createDIB( int width, int height, int bpp, void * bits );
+    HBITMAP createDIB( int width, int height, int bpp, void ** bits );
     void BlitBitmap( HBITMAP bitmap, HDC dc, int x,int y, int width, int height ) const;
     void drawShadePanel( HDC hdc, int x, int y, int width, int height, int border, SbBool elevated );
     void drawPlainRect( HDC hdc, int x, int y, int width, int height, COLORREF color );
@@ -121,8 +128,9 @@ private:
     int currentPixmap;
 
     HWND windowHandle;
-
     RECT rect;
+
+    thumbWheelCB viewerCB;
 }; // class SoWinThumbWheel
 
 // *************************************************************************

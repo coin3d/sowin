@@ -358,6 +358,9 @@ HWND SoWinGLWidget::buildWidget( HWND parent )
         rect.bottom = SoWin_DefaultHeight;
     }
 
+    this->windowPosition.x = 0;
+    this->windowPosition.y = 0;
+
     this->managerWidget = CreateWindow(
                             wndclassname,
 						    wndclassname,
@@ -367,13 +370,13 @@ HWND SoWinGLWidget::buildWidget( HWND parent )
                             WS_BORDER,
                             //WS_THICKFRAME,
                             //WS_DLGFRAME,
-						    0,
-                            0,
+						    this->windowPosition.x,
+                            this->windowPosition.y,
                             rect.right,
                             rect.bottom,
 						    parent,
 						    menu,
-						    SoWin::getInstance(),
+						    SoWin::getInstance( ),
 						    this );
 
     assert( IsWindow( this->managerWidget ) );
@@ -389,9 +392,14 @@ HWND SoWinGLWidget::buildWidget( HWND parent )
     return this->managerWidget;
 }
 
-HWND SoWinGLWidget::getGlxMgrWidget( void )
+HWND SoWinGLWidget::getManagerWidget( void )
 {
     return this->managerWidget;
+}
+
+HWND SoWinGLWidget::getGlxMgrWidget( void )
+{
+    return this->getManagerWidget( );
 }
 
 HWND SoWinGLWidget::getGLWidget( void )
@@ -401,7 +409,7 @@ HWND SoWinGLWidget::getGLWidget( void )
 
 SbBool SoWinGLWidget::makeNormalCurrent( void )
 {
-    return ( wglMakeCurrent( (HDC)this->hdcNormal, this->ctxNormal ) );
+    return ( wglMakeCurrent( ( HDC ) this->hdcNormal, this->ctxNormal ) );
 }
 
 SbBool SoWinGLWidget::swapNormalBuffers( void )
@@ -490,6 +498,12 @@ float SoWinGLWidget::getGLAspectRatio( void )
     return ( ( float ) width / ( float ) height );
 }
 
+void SoWinGLWidget::setWindowPosition( POINT position )
+{
+    this->windowPosition.x = position.x;
+    this->windowPosition.y = position.y;
+}
+
 ///////////////////////////////////////////////////////////////////
 //
 //  (private)
@@ -497,13 +511,13 @@ float SoWinGLWidget::getGLAspectRatio( void )
 
 void SoWinGLWidget::buildNormalGLWidget( PIXELFORMATDESCRIPTOR * pfd )  // pfd is ignored
 {
-    LPCTSTR cursor = MAKEINTRESOURCE(IDC_ARROW);//MAKEINTRESOURCE(IDC_CROSS);
+    LPCTSTR cursor = MAKEINTRESOURCE( IDC_ARROW );//MAKEINTRESOURCE(IDC_CROSS);
     HMENU menu = NULL;
     LPSTR wndclassname = "SoWinGLWidget_glwidget";
 
     WNDCLASS windowclass;
     windowclass.lpszClassName = wndclassname;
-    windowclass.hInstance = SoWin::getInstance();
+    windowclass.hInstance = SoWin::getInstance( );
     windowclass.lpfnWndProc = this->glWindowProc;
     windowclass.style = CS_HREDRAW|CS_VREDRAW|CS_OWNDC;
     windowclass.lpszMenuName = NULL;
@@ -566,24 +580,17 @@ LRESULT CALLBACK SoWinGLWidget::managerWindowProc( HWND window,
     if ( message == WM_CREATE ) {
 		CREATESTRUCT * createstruct;
 		createstruct = ( CREATESTRUCT * ) lparam;
-		SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
+		SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
 		return 0;
 	}
 
 	SoWinGLWidget * object = ( SoWinGLWidget * ) GetWindowLong( window, 0 );
 
-    if ( object && object->getManagerWidget( ) ) {
+    if ( object && window == object->getManagerWidget( ) ) {
         switch ( message )
         {
             case WM_SIZE:
-                object->sizeChanged( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
-
-                MoveWindow( object->getNormalWidget( ),
-                            0,
-                            0,
-                            LOWORD( lparam ),
-                            HIWORD( lparam ),
-                            TRUE );
+                object->setGLSize( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
                 return 0;
         }
 	}
@@ -598,7 +605,7 @@ LRESULT CALLBACK SoWinGLWidget::glWindowProc( HWND window,
     if ( message == WM_CREATE ) {
 		CREATESTRUCT * createstruct;
 		createstruct = ( CREATESTRUCT * ) lparam;
-		SetWindowLong( window, 0, (LONG) ( createstruct->lpCreateParams ) );
+		SetWindowLong( window, 0, ( LONG ) ( createstruct->lpCreateParams ) );
 
         SoWinGLWidget * object = ( SoWinGLWidget * )( createstruct->lpCreateParams );
         return object->onCreate( window, message, wparam, lparam ); // won't work
@@ -606,10 +613,10 @@ LRESULT CALLBACK SoWinGLWidget::glWindowProc( HWND window,
 
 	SoWinGLWidget * object = ( SoWinGLWidget * ) GetWindowLong( window, 0 );
 
-    if ( object && object->getNormalWidget( ) ) {
+    if ( object && window == object->getNormalWidget( ) ) {
 
         MSG msg;
-        POINT pt = { LOWORD(lparam), HIWORD(lparam) };
+        POINT pt = { LOWORD( lparam ), HIWORD( lparam ) };
         msg.hwnd = window;
         msg.lParam = lparam;
         msg.message = message;
@@ -617,7 +624,7 @@ LRESULT CALLBACK SoWinGLWidget::glWindowProc( HWND window,
         msg.time = GetTickCount( );
         msg.wParam = wparam;
         object->processEvent( & msg );
-        
+       
         if( ! object->haveFocus ) {
             object->haveFocus = ( BOOL ) SetFocus( window );
         }
@@ -648,14 +655,13 @@ LRESULT CALLBACK SoWinGLWidget::glWindowProc( HWND window,
             case WM_KILLFOCUS:
                 object->haveFocus = FALSE;
                 return 0;
+
+            case WM_KEYDOWN:
+
+                return 0;
         }
 	}
 	return DefWindowProc( window, message, wparam, lparam );
-}
-
-HWND SoWinGLWidget::getManagerWidget( void )
-{
-    return this->managerWidget;
 }
 
 LRESULT
@@ -666,9 +672,9 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
     int nPixelFormat;
     BOOL ok;
 
-    HDC hDC = GetDC( window );
+    HDC hdc = GetDC( window );
     
-    static PIXELFORMATDESCRIPTOR pfd =  // FIXME: no palette or doublebuffer support
+    static PIXELFORMATDESCRIPTOR pfd =  // FIXME: no palette or singlebuffer support
 	{
 		sizeof(PIXELFORMATDESCRIPTOR),	// size of this pfd
 		1,								// version number
@@ -690,26 +696,26 @@ SoWinGLWidget::onCreate( HWND window, UINT message, WPARAM wparam, LPARAM lparam
 		0, 0, 0							// layer masks ignored
     };
 
-    nPixelFormat = ChoosePixelFormat( hDC, & pfd );
+    nPixelFormat = ChoosePixelFormat( hdc, & pfd );
 
-    ok = SetPixelFormat( hDC, nPixelFormat, & pfd );
+    ok = SetPixelFormat( hdc, nPixelFormat, & pfd );
     assert( ok );
 
-    HGLRC hRC = wglCreateContext( hDC );    // FIXME: returns NULL in Release mode
+    HGLRC hrc = wglCreateContext( hdc );    // FIXME: returns NULL in Release mode
     #if SOWIN_DEBUG && 0
-    SoDebugError::postInfo( "SoWinGLWidget::OnCreate", "called" );
+    SoDebugError::postInfo( "SoWinGLWidget::onCreate", "called" );
 
     if( ! desc ) WinDisplayLastError( );
 
     #endif // SOWIN_DEBUG
-    ok = wglMakeCurrent( hDC, hRC );
+    ok = wglMakeCurrent( hdc, hrc );
     assert( ok );
 
     //GLSetupRC( );
     //this->glInit( );
 
-    this->hdcNormal = hDC;
-    this->ctxNormal = hRC;
+    this->hdcNormal = hdc;
+    this->ctxNormal = hrc;
     this->nPixelFormat = nPixelFormat;
 
     wglMakeCurrent( NULL, NULL );
@@ -732,16 +738,16 @@ LRESULT
 SoWinGLWidget::onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     #if SOWIN_DEBUG && 0
-    SoDebugError::postInfo( "SoWinGLWidget::OnSize", "called" );
+    SoDebugError::postInfo( "SoWinGLWidget::onSize", "called" );
     #endif // SOWIN_DEBUG
-
+/*
+    if(  window != this->getNormalWidget( ) )
+        return 0;
+*/
     BOOL ok = wglMakeCurrent( this->hdcNormal, this->ctxNormal );
     assert( ok );
-    //GLResize( LOWORD( lparam ), HIWORD( lparam ) );
 
-    this->glReshape( LOWORD( lparam ), HIWORD( lparam ) );
     this->setGLSize( SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
-    this->sizeChanged(SbVec2s( LOWORD( lparam ), HIWORD( lparam ) ) );
 
     ok = wglMakeCurrent( NULL, NULL );
     assert( ok );
@@ -753,7 +759,7 @@ LRESULT
 SoWinGLWidget::onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
     #if SOWIN_DEBUG && 0
-    SoDebugError::postInfo( "SoWinGLWidget::OnPaint", "called" );
+    SoDebugError::postInfo( "SoWinGLWidget::onPaint", "called" );
     #endif // SOWIN_DEBUG
 
     PAINTSTRUCT ps;

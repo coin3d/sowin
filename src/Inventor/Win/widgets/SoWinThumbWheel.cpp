@@ -35,16 +35,29 @@ static const char rcsid[] =
 
 static const int SHADEBORDERWIDTH = 2;
 
-SoWinThumbWheel::SoWinThumbWheel( HWND parent, int x, int y, const char * name )
+SoWinThumbWheel::SoWinThumbWheel( HWND parent,
+                                  int x,
+                                  int y,
+                                  const char * name )
 {
-    RECT rect = { x, y, sizeHint( ).cx, sizeHint( ).cy };
+    RECT rect = { x, y, x + sizeHint( ).cx, y + sizeHint( ).cy };
     this->constructor( SoWinThumbWheel::Vertical );
     this->buildWidget( parent, rect );
-} // SoWinThumbWheel()
+} // SoWinThumbWheel( )
 
-SoWinThumbWheel::SoWinThumbWheel( Orientation orientation, HWND parent, int x, int y, const char * name )
+SoWinThumbWheel::SoWinThumbWheel( Orientation orientation,
+                                  HWND parent,
+                                  int x,
+                                  int y,
+                                  const char * name )
 {
     RECT rect = { x, y, sizeHint( ).cx, sizeHint( ).cy };
+    
+    if ( orientation == SoWinThumbWheel::Vertical ) {
+        rect.right = sizeHint( ).cy;
+        rect.bottom = sizeHint( ).cx;
+    }
+
     this->constructor( orientation );
     this->buildWidget( parent, rect );
 } // SoWinThumbWheel()
@@ -125,23 +138,22 @@ LRESULT CALLBACK SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wpa
         ( this->state == SoWinThumbWheel::Disabled ) ?
         SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED );
 
-
     RECT wheelrect = { SHADEBORDERWIDTH, SHADEBORDERWIDTH,
                      this->width( ) - 2*SHADEBORDERWIDTH,
                      this->height( ) - 2*SHADEBORDERWIDTH };
 
-    this->drawShadePanel( hdc, 0, 0, this->width( ), this->height( ), SHADEBORDERWIDTH, TRUE );
+//    this->drawShadePanel( hdc, 0, 0, this->width( ), this->height( ), SHADEBORDERWIDTH, TRUE );
 
     if ( this->orient == Vertical ) {
-        wheelrect.top = wheelrect.top + 5;
-        wheelrect.bottom = wheelrect.bottom - 5;
-        wheelrect.left = wheelrect.left + 2;
-        wheelrect.right = wheelrect.right - 2;
+        wheelrect.top = wheelrect.top + 4;
+        wheelrect.bottom = wheelrect.bottom - 4;
+        wheelrect.left = wheelrect.left + 1;
+        wheelrect.right = wheelrect.right - 1;
     } else {
-        wheelrect.top = wheelrect.top + 2;
-        wheelrect.bottom = wheelrect.bottom - 2;
-        wheelrect.left = wheelrect.left + 5;
-        wheelrect.right = wheelrect.right - 5;
+        wheelrect.top = wheelrect.top + 1;
+        wheelrect.bottom = wheelrect.bottom - 1;
+        wheelrect.left = wheelrect.left + 4;
+        wheelrect.right = wheelrect.right - 4;
     }
 
     drawPlainRect( hdc,
@@ -158,9 +170,9 @@ LRESULT CALLBACK SoWinThumbWheel::onPaint( HWND window, UINT message, WPARAM wpa
   // wheelrect is now wheel-only
 
     if ( this->orient == Vertical )
-        this->BlitBitmap( this->pixmaps[pixmap], hdc, 0, 0, w, d );
+        this->BlitBitmap( this->pixmaps[pixmap], hdc, wheelrect.left, wheelrect.top, w, d );
     else
-        this->BlitBitmap( this->pixmaps[pixmap], hdc, 0, 0, d, w );
+        this->BlitBitmap( this->pixmaps[pixmap], hdc, wheelrect.left, wheelrect.top, d, w );
 
     this->currentPixmap = pixmap;
 
@@ -202,6 +214,10 @@ LRESULT CALLBACK SoWinThumbWheel::onLButtonDown( HWND window, UINT message, WPAR
         this->mouseDownPos = xPos - SHADEBORDERWIDTH - 6;
 
     this->mouseLastPos = this->mouseDownPos;
+
+    //if( this->viewerCB )
+    this->viewerCB( NULL,  );
+
     return 0;
 }
 
@@ -214,6 +230,10 @@ LRESULT CALLBACK SoWinThumbWheel::onLButtonUp( HWND window, UINT message, WPARAM
     this->wheelValue = this->tempWheelValue;
     this->mouseLastPos = this->mouseDownPos;
     this->state = SoWinThumbWheel::Idle;
+
+    if( this->viewerCB )
+        this->viewerCB( window, message, wparam, lparam );
+
     return 0;
 }
 
@@ -233,7 +253,11 @@ LRESULT CALLBACK SoWinThumbWheel::onMouseMove( HWND window, UINT message, WPARAM
     this->tempWheelValue = this->wheel->CalculateValue( this->wheelValue,
         this->mouseDownPos, this->mouseLastPos - this->mouseDownPos );
 
-    UpdateWindow( this->windowHandle );
+    InvalidateRect( this->windowHandle, NULL, FALSE );
+
+    if( this->viewerCB )
+        this->viewerCB( window, message, wparam, lparam );
+
     return 0;
 }
    
@@ -264,9 +288,7 @@ LRESULT CALLBACK SoWinThumbWheel::windowProc( HWND window, UINT message, WPARAM 
 
             case WM_PAINT:
                 return object->onPaint( window, message, wparam, lparam );
-
-            case WM_DESTROY:
-                return object->onDestroy( window, message, wparam, lparam );
+                //break;
 
             case WM_LBUTTONDOWN:
                 return object->onLButtonDown( window, message, wparam, lparam );
@@ -276,6 +298,9 @@ LRESULT CALLBACK SoWinThumbWheel::windowProc( HWND window, UINT message, WPARAM 
 
             case WM_MOUSEMOVE:
                 return object->onMouseMove( window, message, wparam, lparam );
+
+            case WM_DESTROY:
+                return object->onDestroy( window, message, wparam, lparam );
         }
 	}
 	return DefWindowProc( window, message, wparam, lparam );
@@ -283,12 +308,24 @@ LRESULT CALLBACK SoWinThumbWheel::windowProc( HWND window, UINT message, WPARAM 
 
 int SoWinThumbWheel::width( void )
 {
-    return( this->rect.right - this->rect.left );
+    return this->sizeHint( ).cx;
+    //return( this->rect.right - this->rect.left );
 }
 
 int SoWinThumbWheel::height( void )
 {
-    return( this->rect.bottom - this->rect.top );
+    return this->sizeHint( ).cy;
+    //return( this->rect.bottom - this->rect.top );
+}
+
+void SoWinThumbWheel::move( int x, int y )
+{
+    MoveWindow( this->windowHandle, x, y, this->width( ), this->height( ), TRUE );
+}
+
+void SoWinThumbWheel::registerCallback( thumbWheelCB func )
+{
+    this->viewerCB = func;
 }
 
 void SoWinThumbWheel::constructor( Orientation orientation )
@@ -314,7 +351,7 @@ HWND SoWinThumbWheel::buildWidget( HWND parent, RECT rect )
 
     windowclass.lpszClassName = wndclassname;
     windowclass.hInstance = SoWin::getInstance( );
-    windowclass.lpfnWndProc = this->windowProc;
+    windowclass.lpfnWndProc = SoWinThumbWheel::windowProc;
     windowclass.style = NULL;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
@@ -327,13 +364,13 @@ HWND SoWinThumbWheel::buildWidget( HWND parent, RECT rect )
 
     this->windowHandle = CreateWindow(
                             wndclassname,
-						    wndclassname,
+						    "ThumbWheel",
 						    WS_CLIPCHILDREN|
                             WS_CLIPSIBLINGS|
-                            WS_CHILD,/*|
-                            WS_BORDER,*/
-						    rect.top,
+                            WS_CHILD,//|
+                            //WS_DLGFRAME,WS_BORDER,
                             rect.left,
+                            rect.top,
                             rect.right,
                             rect.bottom,
 						    parent,
@@ -341,10 +378,23 @@ HWND SoWinThumbWheel::buildWidget( HWND parent, RECT rect )
 						    SoWin::getInstance( ),
 						    this );
 
+/*
+    this->windowHandle = CreateWindow( "BUTTON",
+                                       "wheel",
+                                       BS_BITMAP|WS_CHILD,
+                                       rect.left,
+                                       rect.top,
+                                       rect.right,
+                                       rect.bottom,
+                                       parent,
+                                       NULL,
+                                       SoWin::getInstance( ),
+                                       this );
+*/
     assert( IsWindow( this->windowHandle ) );
+    ShowWindow( this->windowHandle, SW_SHOW );
 
     //SoWin::addMessageHook( this->windowHandle, WM_SIZE );
-
     return this->windowHandle;
 }
 
@@ -374,8 +424,10 @@ void SoWinThumbWheel::initWheel( int diameter, int width )
     this->numPixmaps = this->wheel->BitmapsRequired( );
     void * bits = NULL;
 
+    this->pixmaps = new HBITMAP[numPixmaps];
+
     for ( int i = 0; i < this->numPixmaps; i++ ) {
-        this->pixmaps[i] = this->createDIB( pwidth, pheight, 32, bits );
+        this->pixmaps[i] = this->createDIB( pwidth, pheight, 32, &bits );
         this->wheel->DrawBitmap( i, bits, ( this->orient == Vertical ) ?
             SoAnyThumbWheel::VERTICAL : SoAnyThumbWheel::HORIZONTAL );
     }
@@ -441,7 +493,7 @@ SoWinThumbWheel::boundaryHandling SoWinThumbWheel::getRangeBoundaryHandling( voi
 } // getRangeBoundaryHandling()
 
 
-HBITMAP SoWinThumbWheel::createDIB( int width, int height, int bpp, void * bits ) // 16||24||32 bpp
+HBITMAP SoWinThumbWheel::createDIB( int width, int height, int bpp, void ** bits ) // 16||24||32 bpp
 {
     assert( bpp > 8 );
 
@@ -466,7 +518,9 @@ HBITMAP SoWinThumbWheel::createDIB( int width, int height, int bpp, void * bits 
 	header->biClrImportant = 0;
 
 	UINT flag = DIB_RGB_COLORS;
-	bitmap = CreateDIBSection( hdc, format, flag, ( void ** ) & bits, NULL, 0 );
+	bitmap = CreateDIBSection( hdc, format, flag, ( void ** ) bits, NULL, 0 );
+
+    assert( * bits );
 
 	HeapFree( heap, 0, format );
 	DeleteDC( hdc );
@@ -500,24 +554,23 @@ void SoWinThumbWheel::drawShadePanel( HDC hdc,
     HBRUSH lowerRightBrush;
 
     if ( elevated ) {
-        upperLeftBrush = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-        lowerRightBrush = (HBRUSH)GetStockObject(DKGRAY_BRUSH);
+        upperLeftBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
+        lowerRightBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
     } else {
-        upperLeftBrush = (HBRUSH)GetStockObject(DKGRAY_BRUSH);
-        lowerRightBrush = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
+        upperLeftBrush = (HBRUSH)GetStockObject(BLACK_BRUSH);
+        lowerRightBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
     }
 
     HBRUSH oldBrush = (HBRUSH)SelectObject( hdc, upperLeftBrush );
 
     for (int i=0; i < border; i++ ) {
         SelectObject( hdc, upperLeftBrush );
-        MoveToEx( hdc, x + i, y + i, NULL );
-        LineTo( hdc, x + width - i * 2, y );    // +-
-        LineTo( hdc, 0, y + height - i * 2 );   // |
+        MoveToEx( hdc, x + i, height - i - 1, NULL );
+        LineTo( hdc, x + i, y + i );    // left
+        LineTo( hdc, x + width - 3 * i, y + i );    // top
         SelectObject( hdc, lowerRightBrush );
-        MoveToEx( hdc, x + width - i * 2, y + height - i * 2, NULL );
-        LineTo( hdc, x + width - i * 2, y );    //  |
-        LineTo( hdc, x , y + height - i * 2 );  // -+
+        LineTo( hdc, x + width - 3 * i, y + height - 3 * i );    //  right
+        LineTo( hdc, x + i, y + height - 3 * i );  // bottom
     }
 
     SelectObject( hdc, oldBrush );
@@ -533,9 +586,14 @@ void SoWinThumbWheel::drawPlainRect( HDC hdc,
     HBRUSH brush = CreateSolidBrush( color );
     HBRUSH oldBrush = ( HBRUSH ) SelectObject( hdc, brush );
 
-    RECT rect = { x, y, x + width, y + height };
+    //RECT rect = { x, y, x + width, y + height };
 
-    FillRect( hdc, & rect, brush );
+    //FillRect( hdc, & rect, brush );
+    MoveToEx( hdc, x, y, NULL );
+    LineTo( hdc, x + width - 1, y );
+    LineTo( hdc, x + width - 1, y + height - 1 );
+    LineTo( hdc, x, y + height - 1 );
+    LineTo( hdc, x, y );
 
     SelectObject( hdc, oldBrush );
 }

@@ -451,7 +451,7 @@ LRESULT CALLBACK SoWin::windowProc( HWND window, UINT message, WPARAM wparam, LP
             
         case WM_QUIT:
             return SoWin::onQuit( window, message, wparam, lparam );
-            
+
     }
     return DefWindowProc( window, message, wparam, lparam );
 }
@@ -550,23 +550,20 @@ void SoWin::sensorQueueChanged( void * cbdata )
 
 LRESULT SoWin::onAny( HWND window, UINT message, WPARAM wparam, LPARAM lparam )
 {
+    BOOL messageHandeled = FALSE;
+
     if ( messageHookList ) {
         int length = messageHookList->getLength( );
         MessageHook * const * hookList = messageHookList->getArrayPtr( );
         for ( int i = 0; i < length; i++ )
             if ( hookList[i]->message == message ) {
-
-                switch( message) {
-
-                    case WM_SIZE:
-                        MoveWindow( hookList[i]->hWnd,
-                                    0,
-                                    0,
-                                    LOWORD( lparam ),
-                                    HIWORD( lparam ),
-                                    TRUE );
-                        return 0;
-                }
+                MoveWindow( hookList[i]->hWnd,
+                            0,
+                            0,
+                            LOWORD( lparam ),
+                            HIWORD( lparam ),
+                            TRUE );
+                messageHandeled = TRUE;
             }
     }
     return 0;

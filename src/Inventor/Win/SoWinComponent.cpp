@@ -290,7 +290,7 @@ SoWinComponent::buildFormWidget( HWND parent )
     HWND widget;
 
     windowclass.lpszClassName = ( char * ) this->getDefaultWidgetName( ); // FIXME: virtual function
-    windowclass.hInstance = SoWin::getInstance();
+    windowclass.hInstance = SoWin::getInstance( );
     windowclass.lpfnWndProc = SoWinComponent::windowProc;
     windowclass.style = CS_HREDRAW|CS_VREDRAW|CS_OWNDC;
     windowclass.lpszMenuName = NULL;
@@ -300,10 +300,10 @@ SoWinComponent::buildFormWidget( HWND parent )
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = 4;
 
-    RegisterClass(&windowclass);
+    RegisterClass( & windowclass );
 
     RECT rect;
-    if( IsWindow( parent ) ) {
+    if ( IsWindow( parent ) ) {
         GetClientRect( parent, & rect );
     } else {
         rect.right = SoWin_DefaultWidth;
@@ -311,7 +311,7 @@ SoWinComponent::buildFormWidget( HWND parent )
     }
 
     widget = CreateWindow( ( char * ) this->getDefaultWidgetName( ),
-						   ( char * ) this->getTitle(),
+						   ( char * ) this->getTitle( ),
 						   WS_CLIPCHILDREN|WS_CLIPSIBLINGS|WS_OVERLAPPEDWINDOW,
 						   0,
                            0,

@@ -224,7 +224,7 @@ SbBool SoWinPopupMenu::GetMenuItemEnabled( int itemid )
     return ( menuiteminfo.fState & MFS_ENABLED ) ? TRUE : FALSE;
 } // getMenuItemEnabled()
 
-void SoWinPopupMenu::SetMenuItemMarked( int itemid, SbBool marked )
+void SoWinPopupMenu::_setMenuItemMarked( int itemid, SbBool marked )
 {
     ItemRecord * rec = this->getItemRecord( itemid );
     if ( rec == NULL )

@@ -89,7 +89,7 @@ public:
     SbBool isDrawToFrontBufferEnable( void ) const;
 
     void setCursor( HCURSOR newCursor );
-    HCURSOR getCursor( void ); // coin spesific
+    HCURSOR getCursor( void );
 
 protected:
     virtual void redraw( void ) = 0;
@@ -119,6 +119,7 @@ protected:
     int	getDisplayListShareGroup( HGLRC ctx );
     
     HWND buildWidget( HWND parent );
+    HWND getManagerWidget( void );
     HWND getGlxMgrWidget( void );
     HWND getGLWidget( void );
 
@@ -148,6 +149,8 @@ protected:
     SbBool waitForExpose;
     SbBool drawToFrontBuffer;
 
+    void setWindowPosition( POINT position );;
+
 private:
     void buildNormalGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
     void buildOverlayGLWidget(PIXELFORMATDESCRIPTOR *pfd = NULL);
@@ -168,8 +171,6 @@ private:
     LRESULT onSize( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
     LRESULT onPaint( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
     LRESULT onDestroy( HWND window, UINT message, WPARAM wparam, LPARAM lparam );
-
-    HWND getManagerWidget( void );
 
     HWND managerWidget;
     HWND doubleBufferWidget;
@@ -225,6 +226,7 @@ private:
     int borderSize;
     
     SbBool windowResized;
+    POINT windowPosition;
 
 }; // class SoWinGLWidget
 
