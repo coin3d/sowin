@@ -30,12 +30,3 @@
     20020624 mortene.
 
 =====================================================================
-
-003 Buttons in ExaminerViewer are not wired up correctly.
-
-    Click on the "scenegraph-interact-mode" button and watch the
-    camera type toggle.  :-/
-
-    20020719 mortene.
-
-=====================================================================

@@ -102,10 +102,13 @@ SoWinPlaneViewerP::cameratoggleClicked(void)
 
 // ************************************************************************
 
-#define VIEWERBUTTON_X 0
-#define VIEWERBUTTON_Y 1
-#define VIEWERBUTTON_Z 2
-#define VIEWERBUTTON_CAMERA 3
+// FIXME: this has got to be guaranteed unique versus the FullViewer
+// button ids. This is just a quick hack. 20020719 mortene.
+#define VIEWERBUTTON_STARTID 4242
+#define VIEWERBUTTON_X (0+VIEWERBUTTON_STARTID)
+#define VIEWERBUTTON_Y (1+VIEWERBUTTON_STARTID)
+#define VIEWERBUTTON_Z (2+VIEWERBUTTON_STARTID)
+#define VIEWERBUTTON_CAMERA (3+VIEWERBUTTON_STARTID)
 
 // ************************************************************************
 

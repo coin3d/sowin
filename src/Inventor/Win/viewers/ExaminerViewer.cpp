@@ -62,7 +62,9 @@ SOWIN_OBJECT_SOURCE(SoWinExaminerViewer);
 
 // *************************************************************************
 
-#define VIEWERBUTTON_CAMERA 0
+// FIXME: this has got to be guaranteed unique versus the FullViewer
+// button ids. This is just a quick hack. 20020719 mortene.
+#define VIEWERBUTTON_CAMERA 4242
 
 /*!
   Constructor.  See parent class for explanation of arguments.
