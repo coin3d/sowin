@@ -229,12 +229,17 @@ ivf_lst_SOURCES = \
 	IvfMainFrm.cpp IvfMainFrm.h \
 	IvfPlaneViewer.cpp Viewers/IvfPlaneViewer.h \
 	IvfRenderArea.cpp Viewers/IvfRenderArea.h \
-	IvfResource.cpp IvfResource.h \
+	IvfResource.cpp IvfResource.h IvfRes.h \
 	IvfSceneViewer.cpp Viewers/IvfSceneViewer.h \
 	IvfSrvrItem.cpp IvfSrvrItem.h \
 	IvfStdViewer.cpp Viewers/IvfStdViewer.h \
-	IvfWalkViewer.cpp Viewers/IvfWalkViewer.h
+	IvfWalkViewer.cpp Viewers/IvfWalkViewer.h \
+	SoSceneMenu.cpp Viewers/SoSceneMenu.h \
+	SoSceneViewer.cpp Viewers/SoSceneViewer.h \
+	SvManipList.cpp Viewers/SvManipList.h
 
+
+ivf_lst_CPPFLAGS = -DIVF_DLL_API="__declspec(dllexport)"
 
 ivfincdir = $(includedir)/Ivf
 ivfinc_HEADERS = \
@@ -245,6 +250,7 @@ ivfinc_HEADERS = \
 	IvfComponent.h \
 	IvfDocument.h \
 	IvfMainFrm.h \
+	IvfRes.h \
 	IvfResource.h \
 	IvfSrvrItem.h
 
@@ -257,7 +263,10 @@ ivfviewersinc_HEADERS = \
 	Viewers/IvfRenderArea.h \
 	Viewers/IvfSceneViewer.h \
 	Viewers/IvfStdViewer.h \
-	Viewers/IvfWalkViewer.h
+	Viewers/IvfWalkViewer.h \
+	Viewers/SoSceneMenu.h \
+	Viewers/SoSceneViewer.h \
+	Viewers/SvManipList.h
 
 subdir = src/Ivf
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -268,33 +277,41 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 ivf_lst_AR = $(AR) cru
 ivf_lst_LIBADD =
-am_ivf_lst_OBJECTS = IvfApp.$(OBJEXT) IvfArchiveInput.$(OBJEXT) \
-	IvfArchiveOutput.$(OBJEXT) IvfAsyncFile.$(OBJEXT) \
-	IvfComponent.$(OBJEXT) IvfDocument.$(OBJEXT) \
-	IvfExaminerViewer.$(OBJEXT) IvfFlyViewer.$(OBJEXT) \
-	IvfMainFrm.$(OBJEXT) IvfPlaneViewer.$(OBJEXT) \
-	IvfRenderArea.$(OBJEXT) IvfResource.$(OBJEXT) \
-	IvfSceneViewer.$(OBJEXT) IvfSrvrItem.$(OBJEXT) \
-	IvfStdViewer.$(OBJEXT) IvfWalkViewer.$(OBJEXT)
+am_ivf_lst_OBJECTS = ivf_lst-IvfApp.$(OBJEXT) \
+	ivf_lst-IvfArchiveInput.$(OBJEXT) \
+	ivf_lst-IvfArchiveOutput.$(OBJEXT) \
+	ivf_lst-IvfAsyncFile.$(OBJEXT) ivf_lst-IvfComponent.$(OBJEXT) \
+	ivf_lst-IvfDocument.$(OBJEXT) \
+	ivf_lst-IvfExaminerViewer.$(OBJEXT) \
+	ivf_lst-IvfFlyViewer.$(OBJEXT) ivf_lst-IvfMainFrm.$(OBJEXT) \
+	ivf_lst-IvfPlaneViewer.$(OBJEXT) \
+	ivf_lst-IvfRenderArea.$(OBJEXT) ivf_lst-IvfResource.$(OBJEXT) \
+	ivf_lst-IvfSceneViewer.$(OBJEXT) ivf_lst-IvfSrvrItem.$(OBJEXT) \
+	ivf_lst-IvfStdViewer.$(OBJEXT) ivf_lst-IvfWalkViewer.$(OBJEXT) \
+	ivf_lst-SoSceneMenu.$(OBJEXT) ivf_lst-SoSceneViewer.$(OBJEXT) \
+	ivf_lst-SvManipList.$(OBJEXT)
 ivf_lst_OBJECTS = $(am_ivf_lst_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/IvfApp.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfArchiveInput.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfArchiveOutput.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfAsyncFile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfComponent.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfDocument.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfExaminerViewer.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfFlyViewer.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfMainFrm.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfPlaneViewer.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfRenderArea.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfResource.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfSceneViewer.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfSrvrItem.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfStdViewer.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/IvfWalkViewer.Po
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/ivf_lst-IvfApp.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfArchiveInput.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfArchiveOutput.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfAsyncFile.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfComponent.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfDocument.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfExaminerViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfFlyViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfMainFrm.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfPlaneViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfRenderArea.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfResource.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfSceneViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfSrvrItem.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfStdViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-IvfWalkViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-SoSceneMenu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-SoSceneViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ivf_lst-SvManipList.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -336,22 +353,25 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfApp.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfArchiveInput.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfArchiveOutput.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfAsyncFile.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfComponent.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfDocument.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfExaminerViewer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfFlyViewer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfMainFrm.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfPlaneViewer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfRenderArea.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfResource.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfSceneViewer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfSrvrItem.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfStdViewer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/IvfWalkViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfApp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfArchiveInput.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfArchiveOutput.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfAsyncFile.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfComponent.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfDocument.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfExaminerViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfFlyViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfMainFrm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfPlaneViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfRenderArea.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfResource.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfSceneViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfSrvrItem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfStdViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-IvfWalkViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-SoSceneMenu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-SoSceneViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ivf_lst-SvManipList.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -388,6 +408,633 @@ distclean-depend:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
+
+ivf_lst-IvfApp.o: IvfApp.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfApp.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfApp.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfApp.o `test -f 'IvfApp.cpp' || echo '$(srcdir)/'`IvfApp.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfApp.Tpo" "$(DEPDIR)/ivf_lst-IvfApp.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfApp.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfApp.cpp' object='ivf_lst-IvfApp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfApp.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfApp.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfApp.o `test -f 'IvfApp.cpp' || echo '$(srcdir)/'`IvfApp.cpp
+
+ivf_lst-IvfApp.obj: IvfApp.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfApp.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfApp.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfApp.obj `if test -f 'IvfApp.cpp'; then $(CYGPATH_W) 'IvfApp.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfApp.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfApp.Tpo" "$(DEPDIR)/ivf_lst-IvfApp.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfApp.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfApp.cpp' object='ivf_lst-IvfApp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfApp.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfApp.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfApp.obj `if test -f 'IvfApp.cpp'; then $(CYGPATH_W) 'IvfApp.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfApp.cpp'; fi`
+
+ivf_lst-IvfApp.lo: IvfApp.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfApp.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfApp.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfApp.lo `test -f 'IvfApp.cpp' || echo '$(srcdir)/'`IvfApp.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfApp.Tpo" "$(DEPDIR)/ivf_lst-IvfApp.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfApp.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfApp.cpp' object='ivf_lst-IvfApp.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfApp.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfApp.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfApp.lo `test -f 'IvfApp.cpp' || echo '$(srcdir)/'`IvfApp.cpp
+
+ivf_lst-IvfArchiveInput.o: IvfArchiveInput.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfArchiveInput.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfArchiveInput.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfArchiveInput.o `test -f 'IvfArchiveInput.cpp' || echo '$(srcdir)/'`IvfArchiveInput.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfArchiveInput.Tpo" "$(DEPDIR)/ivf_lst-IvfArchiveInput.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfArchiveInput.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfArchiveInput.cpp' object='ivf_lst-IvfArchiveInput.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfArchiveInput.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfArchiveInput.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfArchiveInput.o `test -f 'IvfArchiveInput.cpp' || echo '$(srcdir)/'`IvfArchiveInput.cpp
+
+ivf_lst-IvfArchiveInput.obj: IvfArchiveInput.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfArchiveInput.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfArchiveInput.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfArchiveInput.obj `if test -f 'IvfArchiveInput.cpp'; then $(CYGPATH_W) 'IvfArchiveInput.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfArchiveInput.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfArchiveInput.Tpo" "$(DEPDIR)/ivf_lst-IvfArchiveInput.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfArchiveInput.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfArchiveInput.cpp' object='ivf_lst-IvfArchiveInput.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfArchiveInput.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfArchiveInput.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfArchiveInput.obj `if test -f 'IvfArchiveInput.cpp'; then $(CYGPATH_W) 'IvfArchiveInput.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfArchiveInput.cpp'; fi`
+
+ivf_lst-IvfArchiveInput.lo: IvfArchiveInput.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfArchiveInput.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfArchiveInput.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfArchiveInput.lo `test -f 'IvfArchiveInput.cpp' || echo '$(srcdir)/'`IvfArchiveInput.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfArchiveInput.Tpo" "$(DEPDIR)/ivf_lst-IvfArchiveInput.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfArchiveInput.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfArchiveInput.cpp' object='ivf_lst-IvfArchiveInput.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfArchiveInput.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfArchiveInput.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfArchiveInput.lo `test -f 'IvfArchiveInput.cpp' || echo '$(srcdir)/'`IvfArchiveInput.cpp
+
+ivf_lst-IvfArchiveOutput.o: IvfArchiveOutput.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfArchiveOutput.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfArchiveOutput.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfArchiveOutput.o `test -f 'IvfArchiveOutput.cpp' || echo '$(srcdir)/'`IvfArchiveOutput.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfArchiveOutput.Tpo" "$(DEPDIR)/ivf_lst-IvfArchiveOutput.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfArchiveOutput.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfArchiveOutput.cpp' object='ivf_lst-IvfArchiveOutput.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfArchiveOutput.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfArchiveOutput.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfArchiveOutput.o `test -f 'IvfArchiveOutput.cpp' || echo '$(srcdir)/'`IvfArchiveOutput.cpp
+
+ivf_lst-IvfArchiveOutput.obj: IvfArchiveOutput.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfArchiveOutput.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfArchiveOutput.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfArchiveOutput.obj `if test -f 'IvfArchiveOutput.cpp'; then $(CYGPATH_W) 'IvfArchiveOutput.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfArchiveOutput.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfArchiveOutput.Tpo" "$(DEPDIR)/ivf_lst-IvfArchiveOutput.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfArchiveOutput.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfArchiveOutput.cpp' object='ivf_lst-IvfArchiveOutput.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfArchiveOutput.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfArchiveOutput.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfArchiveOutput.obj `if test -f 'IvfArchiveOutput.cpp'; then $(CYGPATH_W) 'IvfArchiveOutput.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfArchiveOutput.cpp'; fi`
+
+ivf_lst-IvfArchiveOutput.lo: IvfArchiveOutput.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfArchiveOutput.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfArchiveOutput.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfArchiveOutput.lo `test -f 'IvfArchiveOutput.cpp' || echo '$(srcdir)/'`IvfArchiveOutput.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfArchiveOutput.Tpo" "$(DEPDIR)/ivf_lst-IvfArchiveOutput.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfArchiveOutput.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfArchiveOutput.cpp' object='ivf_lst-IvfArchiveOutput.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfArchiveOutput.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfArchiveOutput.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfArchiveOutput.lo `test -f 'IvfArchiveOutput.cpp' || echo '$(srcdir)/'`IvfArchiveOutput.cpp
+
+ivf_lst-IvfAsyncFile.o: IvfAsyncFile.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfAsyncFile.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfAsyncFile.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfAsyncFile.o `test -f 'IvfAsyncFile.cpp' || echo '$(srcdir)/'`IvfAsyncFile.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfAsyncFile.Tpo" "$(DEPDIR)/ivf_lst-IvfAsyncFile.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfAsyncFile.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfAsyncFile.cpp' object='ivf_lst-IvfAsyncFile.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfAsyncFile.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfAsyncFile.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfAsyncFile.o `test -f 'IvfAsyncFile.cpp' || echo '$(srcdir)/'`IvfAsyncFile.cpp
+
+ivf_lst-IvfAsyncFile.obj: IvfAsyncFile.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfAsyncFile.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfAsyncFile.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfAsyncFile.obj `if test -f 'IvfAsyncFile.cpp'; then $(CYGPATH_W) 'IvfAsyncFile.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfAsyncFile.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfAsyncFile.Tpo" "$(DEPDIR)/ivf_lst-IvfAsyncFile.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfAsyncFile.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfAsyncFile.cpp' object='ivf_lst-IvfAsyncFile.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfAsyncFile.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfAsyncFile.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfAsyncFile.obj `if test -f 'IvfAsyncFile.cpp'; then $(CYGPATH_W) 'IvfAsyncFile.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfAsyncFile.cpp'; fi`
+
+ivf_lst-IvfAsyncFile.lo: IvfAsyncFile.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfAsyncFile.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfAsyncFile.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfAsyncFile.lo `test -f 'IvfAsyncFile.cpp' || echo '$(srcdir)/'`IvfAsyncFile.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfAsyncFile.Tpo" "$(DEPDIR)/ivf_lst-IvfAsyncFile.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfAsyncFile.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfAsyncFile.cpp' object='ivf_lst-IvfAsyncFile.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfAsyncFile.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfAsyncFile.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfAsyncFile.lo `test -f 'IvfAsyncFile.cpp' || echo '$(srcdir)/'`IvfAsyncFile.cpp
+
+ivf_lst-IvfComponent.o: IvfComponent.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfComponent.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfComponent.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfComponent.o `test -f 'IvfComponent.cpp' || echo '$(srcdir)/'`IvfComponent.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfComponent.Tpo" "$(DEPDIR)/ivf_lst-IvfComponent.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfComponent.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfComponent.cpp' object='ivf_lst-IvfComponent.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfComponent.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfComponent.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfComponent.o `test -f 'IvfComponent.cpp' || echo '$(srcdir)/'`IvfComponent.cpp
+
+ivf_lst-IvfComponent.obj: IvfComponent.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfComponent.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfComponent.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfComponent.obj `if test -f 'IvfComponent.cpp'; then $(CYGPATH_W) 'IvfComponent.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfComponent.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfComponent.Tpo" "$(DEPDIR)/ivf_lst-IvfComponent.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfComponent.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfComponent.cpp' object='ivf_lst-IvfComponent.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfComponent.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfComponent.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfComponent.obj `if test -f 'IvfComponent.cpp'; then $(CYGPATH_W) 'IvfComponent.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfComponent.cpp'; fi`
+
+ivf_lst-IvfComponent.lo: IvfComponent.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfComponent.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfComponent.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfComponent.lo `test -f 'IvfComponent.cpp' || echo '$(srcdir)/'`IvfComponent.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfComponent.Tpo" "$(DEPDIR)/ivf_lst-IvfComponent.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfComponent.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfComponent.cpp' object='ivf_lst-IvfComponent.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfComponent.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfComponent.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfComponent.lo `test -f 'IvfComponent.cpp' || echo '$(srcdir)/'`IvfComponent.cpp
+
+ivf_lst-IvfDocument.o: IvfDocument.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfDocument.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfDocument.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfDocument.o `test -f 'IvfDocument.cpp' || echo '$(srcdir)/'`IvfDocument.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfDocument.Tpo" "$(DEPDIR)/ivf_lst-IvfDocument.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfDocument.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfDocument.cpp' object='ivf_lst-IvfDocument.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfDocument.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfDocument.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfDocument.o `test -f 'IvfDocument.cpp' || echo '$(srcdir)/'`IvfDocument.cpp
+
+ivf_lst-IvfDocument.obj: IvfDocument.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfDocument.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfDocument.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfDocument.obj `if test -f 'IvfDocument.cpp'; then $(CYGPATH_W) 'IvfDocument.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfDocument.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfDocument.Tpo" "$(DEPDIR)/ivf_lst-IvfDocument.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfDocument.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfDocument.cpp' object='ivf_lst-IvfDocument.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfDocument.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfDocument.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfDocument.obj `if test -f 'IvfDocument.cpp'; then $(CYGPATH_W) 'IvfDocument.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfDocument.cpp'; fi`
+
+ivf_lst-IvfDocument.lo: IvfDocument.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfDocument.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfDocument.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfDocument.lo `test -f 'IvfDocument.cpp' || echo '$(srcdir)/'`IvfDocument.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfDocument.Tpo" "$(DEPDIR)/ivf_lst-IvfDocument.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfDocument.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfDocument.cpp' object='ivf_lst-IvfDocument.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfDocument.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfDocument.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfDocument.lo `test -f 'IvfDocument.cpp' || echo '$(srcdir)/'`IvfDocument.cpp
+
+ivf_lst-IvfExaminerViewer.o: IvfExaminerViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfExaminerViewer.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfExaminerViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfExaminerViewer.o `test -f 'IvfExaminerViewer.cpp' || echo '$(srcdir)/'`IvfExaminerViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfExaminerViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfExaminerViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfExaminerViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfExaminerViewer.cpp' object='ivf_lst-IvfExaminerViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfExaminerViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfExaminerViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfExaminerViewer.o `test -f 'IvfExaminerViewer.cpp' || echo '$(srcdir)/'`IvfExaminerViewer.cpp
+
+ivf_lst-IvfExaminerViewer.obj: IvfExaminerViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfExaminerViewer.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfExaminerViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfExaminerViewer.obj `if test -f 'IvfExaminerViewer.cpp'; then $(CYGPATH_W) 'IvfExaminerViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfExaminerViewer.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfExaminerViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfExaminerViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfExaminerViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfExaminerViewer.cpp' object='ivf_lst-IvfExaminerViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfExaminerViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfExaminerViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfExaminerViewer.obj `if test -f 'IvfExaminerViewer.cpp'; then $(CYGPATH_W) 'IvfExaminerViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfExaminerViewer.cpp'; fi`
+
+ivf_lst-IvfExaminerViewer.lo: IvfExaminerViewer.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfExaminerViewer.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfExaminerViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfExaminerViewer.lo `test -f 'IvfExaminerViewer.cpp' || echo '$(srcdir)/'`IvfExaminerViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfExaminerViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfExaminerViewer.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfExaminerViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfExaminerViewer.cpp' object='ivf_lst-IvfExaminerViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfExaminerViewer.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfExaminerViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfExaminerViewer.lo `test -f 'IvfExaminerViewer.cpp' || echo '$(srcdir)/'`IvfExaminerViewer.cpp
+
+ivf_lst-IvfFlyViewer.o: IvfFlyViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfFlyViewer.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfFlyViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfFlyViewer.o `test -f 'IvfFlyViewer.cpp' || echo '$(srcdir)/'`IvfFlyViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfFlyViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfFlyViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfFlyViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfFlyViewer.cpp' object='ivf_lst-IvfFlyViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfFlyViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfFlyViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfFlyViewer.o `test -f 'IvfFlyViewer.cpp' || echo '$(srcdir)/'`IvfFlyViewer.cpp
+
+ivf_lst-IvfFlyViewer.obj: IvfFlyViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfFlyViewer.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfFlyViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfFlyViewer.obj `if test -f 'IvfFlyViewer.cpp'; then $(CYGPATH_W) 'IvfFlyViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfFlyViewer.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfFlyViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfFlyViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfFlyViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfFlyViewer.cpp' object='ivf_lst-IvfFlyViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfFlyViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfFlyViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfFlyViewer.obj `if test -f 'IvfFlyViewer.cpp'; then $(CYGPATH_W) 'IvfFlyViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfFlyViewer.cpp'; fi`
+
+ivf_lst-IvfFlyViewer.lo: IvfFlyViewer.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfFlyViewer.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfFlyViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfFlyViewer.lo `test -f 'IvfFlyViewer.cpp' || echo '$(srcdir)/'`IvfFlyViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfFlyViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfFlyViewer.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfFlyViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfFlyViewer.cpp' object='ivf_lst-IvfFlyViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfFlyViewer.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfFlyViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfFlyViewer.lo `test -f 'IvfFlyViewer.cpp' || echo '$(srcdir)/'`IvfFlyViewer.cpp
+
+ivf_lst-IvfMainFrm.o: IvfMainFrm.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfMainFrm.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfMainFrm.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfMainFrm.o `test -f 'IvfMainFrm.cpp' || echo '$(srcdir)/'`IvfMainFrm.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfMainFrm.Tpo" "$(DEPDIR)/ivf_lst-IvfMainFrm.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfMainFrm.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfMainFrm.cpp' object='ivf_lst-IvfMainFrm.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfMainFrm.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfMainFrm.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfMainFrm.o `test -f 'IvfMainFrm.cpp' || echo '$(srcdir)/'`IvfMainFrm.cpp
+
+ivf_lst-IvfMainFrm.obj: IvfMainFrm.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfMainFrm.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfMainFrm.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfMainFrm.obj `if test -f 'IvfMainFrm.cpp'; then $(CYGPATH_W) 'IvfMainFrm.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfMainFrm.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfMainFrm.Tpo" "$(DEPDIR)/ivf_lst-IvfMainFrm.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfMainFrm.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfMainFrm.cpp' object='ivf_lst-IvfMainFrm.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfMainFrm.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfMainFrm.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfMainFrm.obj `if test -f 'IvfMainFrm.cpp'; then $(CYGPATH_W) 'IvfMainFrm.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfMainFrm.cpp'; fi`
+
+ivf_lst-IvfMainFrm.lo: IvfMainFrm.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfMainFrm.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfMainFrm.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfMainFrm.lo `test -f 'IvfMainFrm.cpp' || echo '$(srcdir)/'`IvfMainFrm.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfMainFrm.Tpo" "$(DEPDIR)/ivf_lst-IvfMainFrm.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfMainFrm.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfMainFrm.cpp' object='ivf_lst-IvfMainFrm.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfMainFrm.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfMainFrm.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfMainFrm.lo `test -f 'IvfMainFrm.cpp' || echo '$(srcdir)/'`IvfMainFrm.cpp
+
+ivf_lst-IvfPlaneViewer.o: IvfPlaneViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfPlaneViewer.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfPlaneViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfPlaneViewer.o `test -f 'IvfPlaneViewer.cpp' || echo '$(srcdir)/'`IvfPlaneViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfPlaneViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfPlaneViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfPlaneViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfPlaneViewer.cpp' object='ivf_lst-IvfPlaneViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfPlaneViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfPlaneViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfPlaneViewer.o `test -f 'IvfPlaneViewer.cpp' || echo '$(srcdir)/'`IvfPlaneViewer.cpp
+
+ivf_lst-IvfPlaneViewer.obj: IvfPlaneViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfPlaneViewer.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfPlaneViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfPlaneViewer.obj `if test -f 'IvfPlaneViewer.cpp'; then $(CYGPATH_W) 'IvfPlaneViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfPlaneViewer.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfPlaneViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfPlaneViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfPlaneViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfPlaneViewer.cpp' object='ivf_lst-IvfPlaneViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfPlaneViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfPlaneViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfPlaneViewer.obj `if test -f 'IvfPlaneViewer.cpp'; then $(CYGPATH_W) 'IvfPlaneViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfPlaneViewer.cpp'; fi`
+
+ivf_lst-IvfPlaneViewer.lo: IvfPlaneViewer.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfPlaneViewer.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfPlaneViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfPlaneViewer.lo `test -f 'IvfPlaneViewer.cpp' || echo '$(srcdir)/'`IvfPlaneViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfPlaneViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfPlaneViewer.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfPlaneViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfPlaneViewer.cpp' object='ivf_lst-IvfPlaneViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfPlaneViewer.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfPlaneViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfPlaneViewer.lo `test -f 'IvfPlaneViewer.cpp' || echo '$(srcdir)/'`IvfPlaneViewer.cpp
+
+ivf_lst-IvfRenderArea.o: IvfRenderArea.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfRenderArea.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfRenderArea.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfRenderArea.o `test -f 'IvfRenderArea.cpp' || echo '$(srcdir)/'`IvfRenderArea.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfRenderArea.Tpo" "$(DEPDIR)/ivf_lst-IvfRenderArea.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfRenderArea.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfRenderArea.cpp' object='ivf_lst-IvfRenderArea.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfRenderArea.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfRenderArea.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfRenderArea.o `test -f 'IvfRenderArea.cpp' || echo '$(srcdir)/'`IvfRenderArea.cpp
+
+ivf_lst-IvfRenderArea.obj: IvfRenderArea.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfRenderArea.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfRenderArea.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfRenderArea.obj `if test -f 'IvfRenderArea.cpp'; then $(CYGPATH_W) 'IvfRenderArea.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfRenderArea.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfRenderArea.Tpo" "$(DEPDIR)/ivf_lst-IvfRenderArea.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfRenderArea.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfRenderArea.cpp' object='ivf_lst-IvfRenderArea.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfRenderArea.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfRenderArea.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfRenderArea.obj `if test -f 'IvfRenderArea.cpp'; then $(CYGPATH_W) 'IvfRenderArea.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfRenderArea.cpp'; fi`
+
+ivf_lst-IvfRenderArea.lo: IvfRenderArea.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfRenderArea.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfRenderArea.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfRenderArea.lo `test -f 'IvfRenderArea.cpp' || echo '$(srcdir)/'`IvfRenderArea.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfRenderArea.Tpo" "$(DEPDIR)/ivf_lst-IvfRenderArea.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfRenderArea.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfRenderArea.cpp' object='ivf_lst-IvfRenderArea.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfRenderArea.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfRenderArea.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfRenderArea.lo `test -f 'IvfRenderArea.cpp' || echo '$(srcdir)/'`IvfRenderArea.cpp
+
+ivf_lst-IvfResource.o: IvfResource.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfResource.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfResource.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfResource.o `test -f 'IvfResource.cpp' || echo '$(srcdir)/'`IvfResource.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfResource.Tpo" "$(DEPDIR)/ivf_lst-IvfResource.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfResource.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfResource.cpp' object='ivf_lst-IvfResource.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfResource.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfResource.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfResource.o `test -f 'IvfResource.cpp' || echo '$(srcdir)/'`IvfResource.cpp
+
+ivf_lst-IvfResource.obj: IvfResource.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfResource.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfResource.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfResource.obj `if test -f 'IvfResource.cpp'; then $(CYGPATH_W) 'IvfResource.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfResource.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfResource.Tpo" "$(DEPDIR)/ivf_lst-IvfResource.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfResource.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfResource.cpp' object='ivf_lst-IvfResource.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfResource.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfResource.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfResource.obj `if test -f 'IvfResource.cpp'; then $(CYGPATH_W) 'IvfResource.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfResource.cpp'; fi`
+
+ivf_lst-IvfResource.lo: IvfResource.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfResource.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfResource.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfResource.lo `test -f 'IvfResource.cpp' || echo '$(srcdir)/'`IvfResource.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfResource.Tpo" "$(DEPDIR)/ivf_lst-IvfResource.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfResource.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfResource.cpp' object='ivf_lst-IvfResource.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfResource.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfResource.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfResource.lo `test -f 'IvfResource.cpp' || echo '$(srcdir)/'`IvfResource.cpp
+
+ivf_lst-IvfSceneViewer.o: IvfSceneViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfSceneViewer.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfSceneViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfSceneViewer.o `test -f 'IvfSceneViewer.cpp' || echo '$(srcdir)/'`IvfSceneViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfSceneViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfSceneViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfSceneViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfSceneViewer.cpp' object='ivf_lst-IvfSceneViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfSceneViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfSceneViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfSceneViewer.o `test -f 'IvfSceneViewer.cpp' || echo '$(srcdir)/'`IvfSceneViewer.cpp
+
+ivf_lst-IvfSceneViewer.obj: IvfSceneViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfSceneViewer.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfSceneViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfSceneViewer.obj `if test -f 'IvfSceneViewer.cpp'; then $(CYGPATH_W) 'IvfSceneViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfSceneViewer.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfSceneViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfSceneViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfSceneViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfSceneViewer.cpp' object='ivf_lst-IvfSceneViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfSceneViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfSceneViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfSceneViewer.obj `if test -f 'IvfSceneViewer.cpp'; then $(CYGPATH_W) 'IvfSceneViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfSceneViewer.cpp'; fi`
+
+ivf_lst-IvfSceneViewer.lo: IvfSceneViewer.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfSceneViewer.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfSceneViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfSceneViewer.lo `test -f 'IvfSceneViewer.cpp' || echo '$(srcdir)/'`IvfSceneViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfSceneViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfSceneViewer.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfSceneViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfSceneViewer.cpp' object='ivf_lst-IvfSceneViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfSceneViewer.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfSceneViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfSceneViewer.lo `test -f 'IvfSceneViewer.cpp' || echo '$(srcdir)/'`IvfSceneViewer.cpp
+
+ivf_lst-IvfSrvrItem.o: IvfSrvrItem.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfSrvrItem.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfSrvrItem.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfSrvrItem.o `test -f 'IvfSrvrItem.cpp' || echo '$(srcdir)/'`IvfSrvrItem.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfSrvrItem.Tpo" "$(DEPDIR)/ivf_lst-IvfSrvrItem.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfSrvrItem.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfSrvrItem.cpp' object='ivf_lst-IvfSrvrItem.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfSrvrItem.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfSrvrItem.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfSrvrItem.o `test -f 'IvfSrvrItem.cpp' || echo '$(srcdir)/'`IvfSrvrItem.cpp
+
+ivf_lst-IvfSrvrItem.obj: IvfSrvrItem.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfSrvrItem.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfSrvrItem.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfSrvrItem.obj `if test -f 'IvfSrvrItem.cpp'; then $(CYGPATH_W) 'IvfSrvrItem.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfSrvrItem.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfSrvrItem.Tpo" "$(DEPDIR)/ivf_lst-IvfSrvrItem.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfSrvrItem.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfSrvrItem.cpp' object='ivf_lst-IvfSrvrItem.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfSrvrItem.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfSrvrItem.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfSrvrItem.obj `if test -f 'IvfSrvrItem.cpp'; then $(CYGPATH_W) 'IvfSrvrItem.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfSrvrItem.cpp'; fi`
+
+ivf_lst-IvfSrvrItem.lo: IvfSrvrItem.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfSrvrItem.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfSrvrItem.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfSrvrItem.lo `test -f 'IvfSrvrItem.cpp' || echo '$(srcdir)/'`IvfSrvrItem.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfSrvrItem.Tpo" "$(DEPDIR)/ivf_lst-IvfSrvrItem.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfSrvrItem.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfSrvrItem.cpp' object='ivf_lst-IvfSrvrItem.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfSrvrItem.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfSrvrItem.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfSrvrItem.lo `test -f 'IvfSrvrItem.cpp' || echo '$(srcdir)/'`IvfSrvrItem.cpp
+
+ivf_lst-IvfStdViewer.o: IvfStdViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfStdViewer.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfStdViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfStdViewer.o `test -f 'IvfStdViewer.cpp' || echo '$(srcdir)/'`IvfStdViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfStdViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfStdViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfStdViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfStdViewer.cpp' object='ivf_lst-IvfStdViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfStdViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfStdViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfStdViewer.o `test -f 'IvfStdViewer.cpp' || echo '$(srcdir)/'`IvfStdViewer.cpp
+
+ivf_lst-IvfStdViewer.obj: IvfStdViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfStdViewer.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfStdViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfStdViewer.obj `if test -f 'IvfStdViewer.cpp'; then $(CYGPATH_W) 'IvfStdViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfStdViewer.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfStdViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfStdViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfStdViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfStdViewer.cpp' object='ivf_lst-IvfStdViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfStdViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfStdViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfStdViewer.obj `if test -f 'IvfStdViewer.cpp'; then $(CYGPATH_W) 'IvfStdViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfStdViewer.cpp'; fi`
+
+ivf_lst-IvfStdViewer.lo: IvfStdViewer.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfStdViewer.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfStdViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfStdViewer.lo `test -f 'IvfStdViewer.cpp' || echo '$(srcdir)/'`IvfStdViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfStdViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfStdViewer.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfStdViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfStdViewer.cpp' object='ivf_lst-IvfStdViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfStdViewer.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfStdViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfStdViewer.lo `test -f 'IvfStdViewer.cpp' || echo '$(srcdir)/'`IvfStdViewer.cpp
+
+ivf_lst-IvfWalkViewer.o: IvfWalkViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfWalkViewer.o -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfWalkViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfWalkViewer.o `test -f 'IvfWalkViewer.cpp' || echo '$(srcdir)/'`IvfWalkViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfWalkViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfWalkViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfWalkViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfWalkViewer.cpp' object='ivf_lst-IvfWalkViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfWalkViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfWalkViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfWalkViewer.o `test -f 'IvfWalkViewer.cpp' || echo '$(srcdir)/'`IvfWalkViewer.cpp
+
+ivf_lst-IvfWalkViewer.obj: IvfWalkViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfWalkViewer.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfWalkViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfWalkViewer.obj `if test -f 'IvfWalkViewer.cpp'; then $(CYGPATH_W) 'IvfWalkViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfWalkViewer.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfWalkViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfWalkViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfWalkViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfWalkViewer.cpp' object='ivf_lst-IvfWalkViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfWalkViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-IvfWalkViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfWalkViewer.obj `if test -f 'IvfWalkViewer.cpp'; then $(CYGPATH_W) 'IvfWalkViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/IvfWalkViewer.cpp'; fi`
+
+ivf_lst-IvfWalkViewer.lo: IvfWalkViewer.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-IvfWalkViewer.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-IvfWalkViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-IvfWalkViewer.lo `test -f 'IvfWalkViewer.cpp' || echo '$(srcdir)/'`IvfWalkViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-IvfWalkViewer.Tpo" "$(DEPDIR)/ivf_lst-IvfWalkViewer.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-IvfWalkViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='IvfWalkViewer.cpp' object='ivf_lst-IvfWalkViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-IvfWalkViewer.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-IvfWalkViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-IvfWalkViewer.lo `test -f 'IvfWalkViewer.cpp' || echo '$(srcdir)/'`IvfWalkViewer.cpp
+
+ivf_lst-SoSceneMenu.o: SoSceneMenu.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-SoSceneMenu.o -MD -MP -MF "$(DEPDIR)/ivf_lst-SoSceneMenu.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-SoSceneMenu.o `test -f 'SoSceneMenu.cpp' || echo '$(srcdir)/'`SoSceneMenu.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-SoSceneMenu.Tpo" "$(DEPDIR)/ivf_lst-SoSceneMenu.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-SoSceneMenu.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoSceneMenu.cpp' object='ivf_lst-SoSceneMenu.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-SoSceneMenu.Po' tmpdepfile='$(DEPDIR)/ivf_lst-SoSceneMenu.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-SoSceneMenu.o `test -f 'SoSceneMenu.cpp' || echo '$(srcdir)/'`SoSceneMenu.cpp
+
+ivf_lst-SoSceneMenu.obj: SoSceneMenu.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-SoSceneMenu.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-SoSceneMenu.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-SoSceneMenu.obj `if test -f 'SoSceneMenu.cpp'; then $(CYGPATH_W) 'SoSceneMenu.cpp'; else $(CYGPATH_W) '$(srcdir)/SoSceneMenu.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-SoSceneMenu.Tpo" "$(DEPDIR)/ivf_lst-SoSceneMenu.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-SoSceneMenu.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoSceneMenu.cpp' object='ivf_lst-SoSceneMenu.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-SoSceneMenu.Po' tmpdepfile='$(DEPDIR)/ivf_lst-SoSceneMenu.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-SoSceneMenu.obj `if test -f 'SoSceneMenu.cpp'; then $(CYGPATH_W) 'SoSceneMenu.cpp'; else $(CYGPATH_W) '$(srcdir)/SoSceneMenu.cpp'; fi`
+
+ivf_lst-SoSceneMenu.lo: SoSceneMenu.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-SoSceneMenu.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-SoSceneMenu.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-SoSceneMenu.lo `test -f 'SoSceneMenu.cpp' || echo '$(srcdir)/'`SoSceneMenu.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-SoSceneMenu.Tpo" "$(DEPDIR)/ivf_lst-SoSceneMenu.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-SoSceneMenu.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoSceneMenu.cpp' object='ivf_lst-SoSceneMenu.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-SoSceneMenu.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-SoSceneMenu.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-SoSceneMenu.lo `test -f 'SoSceneMenu.cpp' || echo '$(srcdir)/'`SoSceneMenu.cpp
+
+ivf_lst-SoSceneViewer.o: SoSceneViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-SoSceneViewer.o -MD -MP -MF "$(DEPDIR)/ivf_lst-SoSceneViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-SoSceneViewer.o `test -f 'SoSceneViewer.cpp' || echo '$(srcdir)/'`SoSceneViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-SoSceneViewer.Tpo" "$(DEPDIR)/ivf_lst-SoSceneViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-SoSceneViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoSceneViewer.cpp' object='ivf_lst-SoSceneViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-SoSceneViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-SoSceneViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-SoSceneViewer.o `test -f 'SoSceneViewer.cpp' || echo '$(srcdir)/'`SoSceneViewer.cpp
+
+ivf_lst-SoSceneViewer.obj: SoSceneViewer.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-SoSceneViewer.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-SoSceneViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-SoSceneViewer.obj `if test -f 'SoSceneViewer.cpp'; then $(CYGPATH_W) 'SoSceneViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/SoSceneViewer.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-SoSceneViewer.Tpo" "$(DEPDIR)/ivf_lst-SoSceneViewer.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-SoSceneViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoSceneViewer.cpp' object='ivf_lst-SoSceneViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-SoSceneViewer.Po' tmpdepfile='$(DEPDIR)/ivf_lst-SoSceneViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-SoSceneViewer.obj `if test -f 'SoSceneViewer.cpp'; then $(CYGPATH_W) 'SoSceneViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/SoSceneViewer.cpp'; fi`
+
+ivf_lst-SoSceneViewer.lo: SoSceneViewer.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-SoSceneViewer.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-SoSceneViewer.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-SoSceneViewer.lo `test -f 'SoSceneViewer.cpp' || echo '$(srcdir)/'`SoSceneViewer.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-SoSceneViewer.Tpo" "$(DEPDIR)/ivf_lst-SoSceneViewer.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-SoSceneViewer.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoSceneViewer.cpp' object='ivf_lst-SoSceneViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-SoSceneViewer.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-SoSceneViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-SoSceneViewer.lo `test -f 'SoSceneViewer.cpp' || echo '$(srcdir)/'`SoSceneViewer.cpp
+
+ivf_lst-SvManipList.o: SvManipList.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-SvManipList.o -MD -MP -MF "$(DEPDIR)/ivf_lst-SvManipList.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-SvManipList.o `test -f 'SvManipList.cpp' || echo '$(srcdir)/'`SvManipList.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-SvManipList.Tpo" "$(DEPDIR)/ivf_lst-SvManipList.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-SvManipList.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SvManipList.cpp' object='ivf_lst-SvManipList.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-SvManipList.Po' tmpdepfile='$(DEPDIR)/ivf_lst-SvManipList.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-SvManipList.o `test -f 'SvManipList.cpp' || echo '$(srcdir)/'`SvManipList.cpp
+
+ivf_lst-SvManipList.obj: SvManipList.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-SvManipList.obj -MD -MP -MF "$(DEPDIR)/ivf_lst-SvManipList.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-SvManipList.obj `if test -f 'SvManipList.cpp'; then $(CYGPATH_W) 'SvManipList.cpp'; else $(CYGPATH_W) '$(srcdir)/SvManipList.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-SvManipList.Tpo" "$(DEPDIR)/ivf_lst-SvManipList.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-SvManipList.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SvManipList.cpp' object='ivf_lst-SvManipList.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-SvManipList.Po' tmpdepfile='$(DEPDIR)/ivf_lst-SvManipList.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-SvManipList.obj `if test -f 'SvManipList.cpp'; then $(CYGPATH_W) 'SvManipList.cpp'; else $(CYGPATH_W) '$(srcdir)/SvManipList.cpp'; fi`
+
+ivf_lst-SvManipList.lo: SvManipList.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ivf_lst-SvManipList.lo -MD -MP -MF "$(DEPDIR)/ivf_lst-SvManipList.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ivf_lst-SvManipList.lo `test -f 'SvManipList.cpp' || echo '$(srcdir)/'`SvManipList.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ivf_lst-SvManipList.Tpo" "$(DEPDIR)/ivf_lst-SvManipList.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ivf_lst-SvManipList.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SvManipList.cpp' object='ivf_lst-SvManipList.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ivf_lst-SvManipList.Plo' tmpdepfile='$(DEPDIR)/ivf_lst-SvManipList.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ivf_lst_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ivf_lst-SvManipList.lo `test -f 'SvManipList.cpp' || echo '$(srcdir)/'`SvManipList.cpp
 
 mostlyclean-libtool:
 	-rm -f *.lo
