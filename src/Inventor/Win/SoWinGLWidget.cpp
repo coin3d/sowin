@@ -658,7 +658,7 @@ SoWinGLWidget::glLockNormal(void)
   assert(PRIVATE(this)->hdcNormal != NULL);
   assert(PRIVATE(this)->lockcounter >= 0);
 
-#ifdef SOWIN_DEBUG && 0 // debug
+#if defined(SOWIN_DEBUG) && 0 // debug
   SoDebugError::postInfo("SoWinGLWidget::glLockNormal",
                          "lockcounter: %d => %d",
                          PRIVATE(this)->lockcounter,
@@ -679,7 +679,7 @@ SoWinGLWidget::glLockNormal(void)
 void
 SoWinGLWidget::glUnlockNormal(void)
 {
-#ifdef SOWIN_DEBUG && 0 // debug
+#if defined(SOWIN_DEBUG) && 0 // debug
   SoDebugError::postInfo("SoWinGLWidget::glUnlockNormal",
                          "lockcounter: %d => %d",
                          PRIVATE(this)->lockcounter,
@@ -687,7 +687,7 @@ SoWinGLWidget::glUnlockNormal(void)
 #endif // debug
 
   if (PRIVATE(this)->lockcounter == 0) {
-#ifdef SOWIN_DEBUG
+#if defined(SOWIN_DEBUG)
     SoDebugError::post("SoWinGLWidget::glUnlockNormal",
                        "GL-context lock counter too low (internal error)");
 #endif // SOWIN_DEBUG
