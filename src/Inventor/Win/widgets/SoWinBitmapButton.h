@@ -35,15 +35,15 @@ class SOWIN_DLL_API SoWinBitmapButton {
 
 public:
   SoWinBitmapButton(HWND parent,
-                     int x,
-                     int y,
-                     int width = 30,
-                     int height = 30,
-                     int depth = 0,
-                     const char * name = NULL,
-                     void * bits = NULL);
+                    int x,
+                    int y,
+                    int width = 30,
+                    int height = 30,
+                    int depth = 0,
+                    const char * name = NULL,
+                    void * bits = NULL);
   SoWinBitmapButton(HWND button);
-  ~SoWinBitmapButton(void);
+  ~SoWinBitmapButton();
 
   void setId(long id);
   long getId(void);
@@ -56,7 +56,7 @@ public:
 
   void addBitmap(HBITMAP hbmp);
   void addBitmap(int width, int height, int bpp, void * src);
-  void addBitmap(char ** xpm);
+  void addBitmap(const char ** xpm);
   HBITMAP getBitmap(int index);
   void setBitmap(int index);
 
@@ -83,8 +83,8 @@ private:
   void destructor(void);
   HWND buildWidget(HWND parent, RECT rect);
   HBITMAP createDIB(int width, int height, int bpp, void ** bits);
-  HBITMAP parseXpm(char ** xpm, int dibDepth = 24);
-  int axtoi(char * str);
+  HBITMAP parseXpm(const char ** xpm, int dibDepth = 24);
+  static int axtoi(const char * str);
 
   HWND buttonWindow;
   SbPList * bitmapList;
@@ -92,7 +92,7 @@ private:
 
   bitmapButtonCB * viewerCB;
   SoWinFullViewer * viewer; // owner object pointer
-}; // class SoWinBitmapButton
+};
 
 // *************************************************************************
 

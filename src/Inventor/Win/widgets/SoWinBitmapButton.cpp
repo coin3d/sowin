@@ -247,7 +247,7 @@ SoWinBitmapButton::addBitmap(int width, int height, int bpp, void * src)
 } // addBitmap()
 
 void
-SoWinBitmapButton::addBitmap(char ** xpm)
+SoWinBitmapButton::addBitmap(const char ** xpm)
 {
  this->addBitmap(this->parseXpm(xpm, ((this->depth > 0) ? this->depth : 24)));
 } // addBitmap()
@@ -317,42 +317,13 @@ SoWinBitmapButton::createDIB(int width, int height, int bpp, void ** bits) // 16
 
 // Convert from xpm to DIB (demands hex colors).
 HBITMAP
-SoWinBitmapButton::parseXpm(char ** xpm, int dibdepth)
+SoWinBitmapButton::parseXpm(const char ** xpm, int dibdepth)
 {
   unsigned char pixelsize = dibdepth / 8;
 
-  // get width
-  char * strstart = xpm[0];
-  char * strend = strchr(strstart, ' ');
-  assert(strend);
-  *strend = '\0';
-  int width = atoi(strstart);
-  *strend = ' ';
-
-  // get height
-  strstart = strend + 1;
-  strend = strchr(strstart, ' ');
-  assert(strend);
-  *strend = '\0';
-  int height = atoi(strstart);
-  *strend = ' ';
-
-  // get number of colors
-  strstart = strend + 1;
-  strend = strchr(strstart, ' ');
-  assert(strend);
-  *strend = '\0';
-  int numcol = atoi(strstart);
-  *strend = ' ';
-
-  // get number of chars per pixel
-  strstart = strend + 1;
-  strend = strchr(strstart, ' ');
-  if (!strend) strend = strchr(strstart, '\0');
-  assert(strend);
-  *strend = '\0';
-  int numchars = atoi(strstart);
-  // * strend = ' '; FIXME
+  int width, height, numcol, numchars;
+  int nr = sscanf(xpm[0], "%d %d %d %d", &width, &height, &numcol, &numchars);
+  assert((nr == 4) && "corrupt xpm?");
 
   // create color lookup table
   char * charlookuptable = new char[numcol * numchars];
@@ -368,12 +339,12 @@ SoWinBitmapButton::parseXpm(char ** xpm, int dibdepth)
     }
 
     // FIXME: make sure it is 'c '
-    strstart = strchr((xpm[i + 1] + numchars), 'c');
+    const char * strstart = strchr((xpm[i + 1] + numchars), 'c');
 
-    strend = strstart + 2;
+    const char * strend = strstart + 2;
 
     if (*strend == '#')
-      colorlookuptable[i] = axtoi(strend + 1);
+      colorlookuptable[i] = SoWinBitmapButton::axtoi(strend + 1);
     else
       colorlookuptable[i] = -1; // Parse string (color name)
 
@@ -386,7 +357,7 @@ SoWinBitmapButton::parseXpm(char ** xpm, int dibdepth)
   // put pixels
   for (i = 0; i < height; i++) {
 
-    char * line = xpm[i + 1 + numcol];
+    const char * line = xpm[i + 1 + numcol];
 
     int y = i * width * pixelsize;
 
@@ -444,9 +415,9 @@ SoWinBitmapButton::parseXpm(char ** xpm, int dibdepth)
 }
 
 int
-SoWinBitmapButton::axtoi(char * str) // convert from ASCII hex to int
+SoWinBitmapButton::axtoi(const char * str) // convert from ASCII hex to int
 {
-  char * c = str;
+  const char * c = str;
   int n = (strchr(c, '\0') - c);
 
   int x = 0;
@@ -469,5 +440,4 @@ SoWinBitmapButton::axtoi(char * str) // convert from ASCII hex to int
   }
 
   return x;
-
 }
