@@ -183,7 +183,7 @@ static struct key1map WinToSoMapping[] = {
   {SOWIN_KEY_RETURN, SoKeyboardEvent::RETURN},
   {SOWIN_KEY_ENTER, SoKeyboardEvent::ENTER},
   {SOWIN_KEY_INSERT, SoKeyboardEvent::INSERT},
-  {SOWIN_KEY_DELETE, SoKeyboardEvent::KEY_DELETE},
+  {SOWIN_KEY_DELETE, SoKeyboardEvent::DELETE},
   {SOWIN_KEY_PAUSE, SoKeyboardEvent::PAUSE},
   {SOWIN_KEY_PRINT, SoKeyboardEvent::PRINT},
 //    {Key_SysReq, SoKeyboardEvent::}, // FIXME
