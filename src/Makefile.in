@@ -122,13 +122,19 @@ am__quote = @am__quote@
 gui = @gui@
 htmldir = @htmldir@
 install_sh = @install_sh@
+path_tag = @path_tag@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
+sim_ac_makensis_exe = @sim_ac_makensis_exe@
 sim_ac_perl_exe = @sim_ac_perl_exe@
 sogui_build_dir = @sogui_build_dir@
 sogui_html_dir = @sogui_html_dir@
 sogui_man_dir = @sogui_man_dir@
 sogui_src_dir = @sogui_src_dir@
+soqt_build_dir = @soqt_build_dir@
+soqt_src_dir = @soqt_src_dir@
+soqt_w32_build_dir = @soqt_w32_build_dir@
+soqt_w32_src_dir = @soqt_w32_src_dir@
 sowin_configure_date = @sowin_configure_date@
 win_srcdir = @win_srcdir@
 
@@ -287,10 +293,13 @@ SoGuiCommonDistFiles = \
   LICENSE.GPL \
   HACKING \
   BUGS.txt \
-  src/Inventor/@Gui@/BUGS.txt \
+  src/Inventor/@Gui@/common/BUGS.txt \
   \
   cfg/m4/errors.txt \
   cfg/m4/doxy4win.pl \
+  cfg/m4/gendsp.m4 \
+  cfg/m4/gendsp.sh \
+  cfg/m4/wrapmsvc.m4 \
   cfg/m4/wrapmsvc.cpp \
   cfg/m4/wrapmsvc.exe \
   \
@@ -667,6 +676,7 @@ uninstall-info: uninstall-info-recursive
 
 $(top_builddir)/sogui.doxygen: $(top_srcdir)/src/Inventor/@Gui@/common/sogui.doxygen.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=sogui.doxygen:src/Inventor/@Gui@/common/sogui.doxygen.in )
+	@( cd $(top_builddir); $(top_srcdir)/cfg/m4/doxy4win.pl sogui.doxygen )
 
 $(top_builddir)/so@gui@-config: $(top_srcdir)/src/Inventor/@Gui@/common/sogui-config.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=so@gui@-config:src/Inventor/@Gui@/common/sogui-config.in && chmod +x so@gui@-config )

@@ -1007,6 +1007,7 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-msvcdsp        build .dsp, not library
   --disable-msvc          don't require MS Visual C++ on Cygwin
   --disable-dependency-tracking Speeds up one-time builds
   --enable-dependency-tracking  Do not reject slow dependency extractors
@@ -1536,6 +1537,24 @@ test -n "$target_alias" &&
     NONENONEs,x,x, &&
   program_prefix=${target_alias}-
 
+
+# Check whether --enable-msvcdsp or --disable-msvcdsp was given.
+if test "${enable_msvcdsp+set}" = set; then
+  enableval="$enable_msvcdsp"
+  case $enableval in
+  no | false) sim_ac_make_dsp=false ;;
+  *)          sim_ac_make_dsp=true ;;
+  esac
+else
+  sim_ac_make_dsp=false
+fi;
+
+if $sim_ac_make_dsp; then
+  enable_dependency_tracking=no
+  enable_libtool_lock=no
+fi
+
+
 # Check whether --enable-msvc or --disable-msvc was given.
 if test "${enable_msvc+set}" = set; then
   enableval="$enable_msvc"
@@ -1649,6 +1668,13 @@ cat >>confdefs.h <<_ACEOF
 #define SOWIN_VERSION "$SOWIN_VERSION"
 _ACEOF
 
+
+# **************************************************************************
+
+sowin_build_dir=`pwd`
+sowin_src_dir=`cd "$srcdir"; pwd`
+sowin_w32_build_dir=`cygpath -w "$sowin_build_dir" 2>/dev/null || echo "$sowin_build_dir"`
+sowin_w32_src_dir=`cygpath -w "$sowin_src_dir" 2>/dev/null || echo "$sowin_src_dir"`
 
 # **************************************************************************
 #  Locate C++ compiler and set C++ as the default language to use
@@ -4822,7 +4848,7 @@ test "x$enable_libtool_lock" != xno && enable_libtool_lock=yes
 case $host in
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 4825 "configure"' > conftest.$ac_ext
+  echo '#line 4851 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5358,7 +5384,7 @@ chmod -w .
 save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -o out/conftest2.$ac_objext"
 compiler_c_o=no
-if { (eval echo configure:5361: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
+if { (eval echo configure:5387: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
   # The compiler can only warn and ignore the option if not recognized
   # So say no if there are warnings
   if test -s out/conftest.err; then
@@ -7151,7 +7177,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7154 "configure"
+#line 7180 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -7249,7 +7275,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7252 "configure"
+#line 7278 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -9255,8 +9281,10 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
     ##       SbTime.h in SGI/TGS Inventor does this, so we need to kill
     ##       this warning to avoid all the output clutter when compiling
     ##       the SoQt, SoGtk or SoXt libraries on IRIX with SGI MIPSPro CC.
+    ## 1169: External/internal linkage conflicts with a previous declaration.
+    ##       We get this for the "friend operators" in SbString.h
 
-    sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,1110,1506"
+    sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,1110,1506,1169"
 
     if test x"$CC" = xcc || test x"$CC" = xCC; then
 
@@ -9446,6 +9474,82 @@ EVENT="MSG *"
 
 
 # **************************************************************************
+
+sim_ac_perl_exe=false
+# FIXME
+
+# path_tag is used to identify paths in docs/coin.doxygen that needs to be
+# transformed using cygpath under cygwin.
+
+case $host in
+*-cygwin) path_tag="<PATH>" ;;
+*)        path_tag= ;;
+esac
+
+
+
+sim_ac_makensis_exe=false
+case $host in
+*-cygwin)
+  # Extract the first word of "makensis", so it can be a program name with args.
+set dummy makensis; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_path_sim_ac_makensis_exe+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $sim_ac_makensis_exe in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_sim_ac_makensis_exe="$sim_ac_makensis_exe" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_sim_ac_makensis_exe="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+  test -z "$ac_cv_path_sim_ac_makensis_exe" && ac_cv_path_sim_ac_makensis_exe="false"
+  ;;
+esac
+fi
+sim_ac_makensis_exe=$ac_cv_path_sim_ac_makensis_exe
+
+if test -n "$sim_ac_makensis_exe"; then
+  echo "$as_me:$LINENO: result: $sim_ac_makensis_exe" >&5
+echo "${ECHO_T}$sim_ac_makensis_exe" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  ;;
+esac
+
+sim_ac_windows_packagable=true
+if test x"$sim_ac_perl_exe" = xfalse || test x"$sim_ac_makensis_exe" = xfalse; then
+  sim_ac_windows_packageable=false
+fi
+
+
+
+if $sim_ac_windows_packageable; then
+  WIN_PACKAGEABLE_TRUE=
+  WIN_PACKAGEABLE_FALSE='#'
+else
+  WIN_PACKAGEABLE_TRUE='#'
+  WIN_PACKAGEABLE_FALSE=
+fi
+
+# **************************************************************************
 # it is important that $CONFIG is set up before the Coin detection is run...
 
 
@@ -9574,13 +9678,6 @@ fi
 fi
 
 if test x"$want_html" != xno -o x"$want_man" != xno; then
-  # Stop any attempts at using Doxygen under MSWin, as it's not working yet.
-  case $host in
-  *-cygwin) { { echo "$as_me:$LINENO: error: Sorry, Doxygen-generation of documentation does not work under Cygwin yet." >&5
-echo "$as_me: error: Sorry, Doxygen-generation of documentation does not work under Cygwin yet." >&2;}
-   { (exit 1); exit 1; }; } ;;
-  esac
-
 
 
 # Check whether --with-doxygen or --without-doxygen was given.
@@ -9719,6 +9816,17 @@ fi
 echo "$as_me: WARNING: Could not find the Perl executable" >&2;}
   fi
 fi
+
+# path_tag is used to identify paths in docs/coin.doxygen that needs to be
+# transformed using cygpath under cygwin.
+
+case $host in
+*-cygwin) path_tag="<PATH>" ;;
+*)        path_tag= ;;
+esac
+
+
+
 
 
 # **************************************************************************
@@ -10395,6 +10503,11 @@ SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lgdi32 -luser32"
 
 fi
 
+
+
+
+
+
 # **************************************************************************
 # Remove redundant options from certain option lists.
 
@@ -10708,6 +10821,93 @@ else
 fi
 
 fi
+
+
+
+SOWIN_DSP_LIBDIRS=
+SOWIN_DSP_LIBS=
+SOWIN_DSP_INCS=
+SOWIN_DSP_DEFS=
+
+if $sim_ac_make_dsp; then
+  if test x${sim_ac_configuration_settings+set} != xset; then
+  sim_ac_configuration_settings="SoWin build type:msvc .dsp"
+else
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|SoWin build type:msvc .dsp"
+fi
+
+
+  # -DHAVE_CONFIG_H is set up in $DEFS too late for use to use, and some
+  # include directives are usually set up in the Makefile.am files
+  for arg in -DHAVE_CONFIG_H -I$sowin_build_dir/src -I$sowin_src_dir/src -I$sowin_src_dir/data $CPPFLAGS $LDFLAGS $LIBS; do
+    case $arg in
+    -L* )
+      libdir=`echo $arg | cut -c3-`
+      SOWIN_DSP_LIBDIRS="$SOWIN_DSP_LIBDIRS $libdir"
+      ;;
+    -l* )
+      libname=`echo $arg | cut -c3-`
+      for libdir in $SOWIN_DSP_LIBDIRS; do
+        if test -f $libdir/$libname.lib; then
+          # lib is not in any standard location - use full path
+          libname=`cygpath -w "$libdir/$libname" 2>/dev/null || echo "$libdir/$libname"`
+          break
+        fi
+      done
+      if test x"$SOWIN_DSP_LIBS" = x""; then
+        SOWIN_DSP_LIBS="$libname.lib"
+      else
+        SOWIN_DSP_LIBS="$SOWIN_DSP_LIBS $libname.lib"
+      fi
+      ;;
+    -I* )
+      incdir=`echo $arg | cut -c3-`
+      incdir=`cygpath -w "$incdir" 2>/dev/null || echo "$incdir"`
+      if test x"$SOWIN_DSP_INCS" = x""; then
+        SOWIN_DSP_INCS="/I \"$incdir\""
+      else
+        SOWIN_DSP_INCS="$SOWIN_DSP_INCS /I \"$incdir\""
+      fi
+      ;;
+    -DSOWIN_DEBUG* | -DNDEBUG )
+      # Defines that vary between release/debug configurations can't be
+      # set up dynamically in <lib>_DSP_DEFS - they must be static in the
+      # gendsp.sh script.  We therefore catche them here so we can ignore
+      # checking for them below.
+      ;;
+    -D*=* | -D* )
+      define=`echo $arg | cut -c3-`
+      if test x"$SOWIN_DSP_DEFS" = x""; then
+        SOWIN_DSP_DEFS="/D \"$define\""
+      else
+        SOWIN_DSP_DEFS="$SOWIN_DSP_DEFS /D \"$define\""
+      fi
+      ;;
+    esac
+  done
+
+  CC=$sowin_src_dir/cfg/m4/gendsp.sh
+  CXX=$sowin_src_dir/cfg/m4/gendsp.sh
+  CXXLD=$sowin_src_dir/cfg/m4/gendsp.sh
+  # Yes, this is totally bogus stuff, but don't worry about it.  As long
+  # as gendsp.sh recognizes it...  20030219 larsa
+  CPPFLAGS="$CPPFLAGS -Ddspfile=$sowin_build_dir/sowin$SOWIN_MAJOR_VERSION.dsp"
+  LDFLAGS="$LDFLAGS -Wl,-Ddspfile=$sowin_build_dir/sowin$SOWIN_MAJOR_VERSION.dsp"
+  LIBFLAGS="$LIBFLAGS -o sowin$SOWIN_MAJOR_VERSION.so.0"
+
+  # this can't be set up at the point the libtool script is generated
+  mv libtool libtool.bak
+  sed -e "s%^CC=\"gcc\"%CC=\"$sowin_src_dir/cfg/m4/gendsp.sh\"%" \
+      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"$sowin_src_dir/cfg/m4/gendsp.sh\"%" \
+      <libtool.bak >libtool
+  rm -f libtool.bak
+  chmod 755 libtool
+fi
+
+
+
+
+
 
 # **************************************************************************
 # Submodules that needs to be configured...
@@ -11380,6 +11580,10 @@ s,@GUI@,$GUI,;t t
 s,@WIDGET@,$WIDGET,;t t
 s,@EVENT@,$EVENT,;t t
 s,@COMPONENTHEADER@,$COMPONENTHEADER,;t t
+s,@path_tag@,$path_tag,;t t
+s,@sim_ac_makensis_exe@,$sim_ac_makensis_exe,;t t
+s,@WIN_PACKAGEABLE_TRUE@,$WIN_PACKAGEABLE_TRUE,;t t
+s,@WIN_PACKAGEABLE_FALSE@,$WIN_PACKAGEABLE_FALSE,;t t
 s,@CONFIG@,$CONFIG,;t t
 s,@SUFFIX@,$SUFFIX,;t t
 s,@MAC_FRAMEWORK_TRUE@,$MAC_FRAMEWORK_TRUE,;t t
@@ -11404,12 +11608,19 @@ s,@BUILD_METAFILES_FALSE@,$BUILD_METAFILES_FALSE,;t t
 s,@HAVE_JOYSTICK_LINUX_TRUE@,$HAVE_JOYSTICK_LINUX_TRUE,;t t
 s,@HAVE_JOYSTICK_LINUX_FALSE@,$HAVE_JOYSTICK_LINUX_FALSE,;t t
 s,@sim_ac_coin_configcmd@,$sim_ac_coin_configcmd,;t t
+s,@soqt_build_dir@,$soqt_build_dir,;t t
+s,@soqt_src_dir@,$soqt_src_dir,;t t
+s,@soqt_w32_build_dir@,$soqt_w32_build_dir,;t t
+s,@soqt_w32_src_dir@,$soqt_w32_src_dir,;t t
 s,@LIBFLAGS@,$LIBFLAGS,;t t
 s,@BUILD_WITH_MSVC_TRUE@,$BUILD_WITH_MSVC_TRUE,;t t
 s,@BUILD_WITH_MSVC_FALSE@,$BUILD_WITH_MSVC_FALSE,;t t
 s,@win_srcdir@,$win_srcdir,;t t
 s,@sowin_configure_date@,$sowin_configure_date,;t t
 s,@COIN_COMPILER@,$COIN_COMPILER,;t t
+s,@SOWIN_DSP_LIBS@,$SOWIN_DSP_LIBS,;t t
+s,@SOWIN_DSP_INCS@,$SOWIN_DSP_INCS,;t t
+s,@SOWIN_DSP_DEFS@,$SOWIN_DSP_DEFS,;t t
 CEOF
 
 _ACEOF
