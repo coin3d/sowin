@@ -29,7 +29,7 @@ BUILT_SOURCES = \
 	SoWinFlyViewer.h \
 	SoWinFlyViewer.cpp
 
-EXTRADISTFILES = \
+EXTRA_DIST = \
 	SoNativeFlyViewer.cpp
 
 DISTCLEANFILES = \

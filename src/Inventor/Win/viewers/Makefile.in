@@ -142,7 +142,7 @@ BUILT_SOURCES = \
 	SoWinFlyViewer.cpp
 
 
-EXTRADISTFILES = \
+EXTRA_DIST = \
 	SoNativeFlyViewer.cpp
 
 

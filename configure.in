@@ -450,6 +450,7 @@ AM_CONDITIONAL(BUILD_WITH_MSVC, $BUILD_WITH_MSVC)
 
 if $sim_ac_build_library; then
 if $BUILD_WITH_MSVC; then
+  rm -f vc60.pdb
   if $SOWIN_STATIC; then
     SOWIN_EXTRA_CPPFLAGS="$SOWIN_EXTRA_CPPFLAGS -DSOWIN_NOT_DLL"
   else
