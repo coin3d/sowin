@@ -193,8 +193,8 @@ SoWinExaminerViewer::setViewing(// virtual
   SbBool enable)
 {
   this->setMode(enable ?
-                         SoAnyExaminerViewer::EXAMINE :
-                         SoAnyExaminerViewer::INTERACT);
+                         SoWinExaminerViewer::EXAMINE :
+                         SoWinExaminerViewer::INTERACT);
   inherited::setViewing(enable);
 } // setViewing()
 
@@ -449,8 +449,8 @@ SoWinExaminerViewer::setSeekMode(SbBool on)
   if (this->isAnimating()) this->stopAnimating();
   inherited::setSeekMode(on);
   this->setMode(on ?
-                         SoAnyExaminerViewer::WAITING_FOR_SEEK :
-                         SoAnyExaminerViewer::EXAMINE);
+                         SoWinExaminerViewer::WAITING_FOR_SEEK :
+                         SoWinExaminerViewer::EXAMINE);
 } // setSeekMode()
 
 // *************************************************************************
@@ -486,25 +486,25 @@ SoWinExaminerViewer::setCursorRepresentation(int mode)
   }
 
   switch (mode) {
-  case SoAnyExaminerViewer::INTERACT:
+  case SoWinExaminerViewer::INTERACT:
     this->setComponentCursor(SoWinCursor(SoWinCursor::DEFAULT));
     break;
 
-  case SoAnyExaminerViewer::EXAMINE:
-  case SoAnyExaminerViewer::DRAGGING:
+  case SoWinExaminerViewer::EXAMINE:
+  case SoWinExaminerViewer::DRAGGING:
     this->setComponentCursor(SoWinCursor::getRotateCursor());
     break;
 
-  case SoAnyExaminerViewer::ZOOMING:
+  case SoWinExaminerViewer::ZOOMING:
     this->setComponentCursor(SoWinCursor::getZoomCursor());
     break;
 
-  case SoAnyExaminerViewer::WAITING_FOR_SEEK:
+  case SoWinExaminerViewer::WAITING_FOR_SEEK:
     this->setComponentCursor(SoWinCursor(SoWinCursor::CROSSHAIR));
     break;
 
-  case SoAnyExaminerViewer::WAITING_FOR_PAN:
-  case SoAnyExaminerViewer::PANNING:
+  case SoWinExaminerViewer::WAITING_FOR_PAN:
+  case SoWinExaminerViewer::PANNING:
     this->setComponentCursor(SoWinCursor::getPanCursor());
     break;
 
