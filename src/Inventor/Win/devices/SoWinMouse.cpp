@@ -162,6 +162,7 @@ SoWinMouseP::makeLocationEvent(MSG * msg)
   
   if (this->locationevent == NULL) 
     this->locationevent = new SoLocation2Event;
+
   PUBLIC(this)->setEventPosition(this->locationevent, msg->pt.x, msg->pt.y);
 
   this->locationevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
@@ -210,12 +211,8 @@ SoWinMouseP::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
     break;
   }
 
-  /*  if (this->locationevent) {
-    this->buttonevent->setPosition(this->locationevent->getPosition());
-  }
-  else {*/
-    PUBLIC(this)->setEventPosition(this->buttonevent, msg->pt.x, msg->pt.y);
-    //}
+  PUBLIC(this)->setEventPosition(this->buttonevent, msg->pt.x, msg->pt.y);
+
   this->buttonevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
   this->buttonevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
   this->buttonevent->setAltDown((SoWinDeviceP::modifierKeys & MK_ALT) ? TRUE : FALSE);
