@@ -41,11 +41,11 @@ libSoWin_la_LDFLAGS = \
 libSoWinincdir = $(includedir)/Inventor/Win
 
 libSoWininc_HEADERS = \
+	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
 	$(top_srcdir)/src/Inventor/Win/SoWin.h \
 	$(top_builddir)/src/Inventor/Win/SoWinObject.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinComponent.h \
 	$(top_srcdir)/src/Inventor/Win/SoWinGLWidget.h \
-	$(top_builddir)/src/Inventor/Win/SoWinBasic.h \
 	$(top_builddir)/src/Inventor/Win/SoWinRenderArea.h
 
 ############################################################################
@@ -101,3 +101,4 @@ install-exec-hook: sowin@SOWIN_MAJOR_VERSION@.dll
 	    $(INSTALL_DATA) $$i $(DESTDIR)$(libdir)/$$i; \
 	  done \
 	fi
+

@@ -1,10 +1,13 @@
+############################################################################
 ## Process this file with automake to generate Makefile.in.
+
+ACLOCAL_AMFLAGS = -I cfg/m4
+
+############################################################################
 
 SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
-SUBDIRS = . src/Inventor/Win
-
-bin_SCRIPTS = sowin-config
+SUBDIRS = src/Inventor/Win
 
 BUILT_SOURCES = \
 	sowin-config \
@@ -31,9 +34,7 @@ BUILT_SOURCES = \
 	src/Inventor/Win/devices/spwinput.h \
 	src/Inventor/Win/devices/spwinput_x11.cpp
 
-# This is necessary to set up a hook somewhere in the generated Makefile
-# so the sources are actually built.
-noinst_DATA = $(BUILT_SOURCES)
+bin_SCRIPTS = sowin-config
 
 sowin-config: sowin-config.in
 
@@ -42,10 +43,12 @@ EXTRA_DIST = cfg/m4/sowin.m4
 m4datadir = $(datadir)/aclocal
 m4data_DATA = cfg/m4/sowin.m4
 
-############################################################################
-
 # Target which is present to make it simple to only generate the
 # sourcefiles from the common sources.
+Makefile: $(BUILT_SOURCES)
+
+############################################################################
+
 built-sources: $(BUILT_SOURCES)
 
 sowindefs.h: $(srcdir)/sowindefs.h.in
@@ -141,3 +144,7 @@ src/Inventor/Win/devices/spwinput_x11.cpp: \
 	@./config.status --file=$@:src/Inventor/Win/common/spwinput_x11.cpp.in
 
 ############################################################################
+
+doxygen-docs:
+	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
+

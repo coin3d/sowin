@@ -11,6 +11,33 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+# **************************************************************************
+# Usage: SIM_AC_MSVC_SUPPORT
+#
+#   This macro takes no arguments, and just checks if The MS VC++ compiler can
+#   be used to compile the project.
+#
+# Authors:
+#   Morten Eriksen <mortene@sim.no>
+#   Lars J. Aas <larsa@sim.no>
+
+AC_DEFUN([SIM_AC_MSVC_SUPPORT], [
+# **************************************************************************
+# If the Microsoft Visual C++ cl.exe compiler is available, set us up for
+# compiling with it and to generate an MSWindows .dll file.
+
+BUILD_WITH_MSVC=false
+sim_ac_msvccc=`cd $srcdir; pwd`/cfg/m4/msvccc
+if test -z "$CC" && test -z "$CXX" && $sim_ac_msvccc >/dev/null 2>&1; then
+  CC=$sim_ac_msvccc
+  CXX=$sim_ac_msvccc
+  export CC CXX
+  BUILD_WITH_MSVC=true
+fi
+AC_SUBST(BUILD_WITH_MSVC)
+]) # SIM_AC_MSVC_SUPPORT
+
+
 # Do all the work for Automake.  This macro actually does too much --
 # some checks are only needed if your package does certain things.
 # But this isn't really a big deal.
@@ -207,7 +234,7 @@ if test -z "$AMDEP"; then
     if depmode="$depmode" \
        source=conftest.c object=conftest.o \
        depfile=conftest.Po tmpdepfile=conftest.TPo \
-       $SHELL $am_depcomp $depcc -c conftest.c -o conftest.o 2>/dev/null &&
+       $SHELL $am_depcomp $depcc -c conftest.c -o conftest.o >/dev/null 2>&1 &&
        grep conftest.h conftest.Po > /dev/null 2>&1; then
       am_cv_[$1]_dependencies_compiler_type="$depmode"
       break
@@ -767,8 +794,8 @@ AC_DEFUN([AM_MAINTAINER_MODE],
                           (and sometimes confusing) to the casual installer],
       USE_MAINTAINER_MODE=$enableval,
       USE_MAINTAINER_MODE=no)
-  AC_MSG_RESULT($USE_MAINTAINER_MODE)
-  AM_CONDITIONAL(MAINTAINER_MODE, test $USE_MAINTAINER_MODE = yes)
+  AC_MSG_RESULT([$USE_MAINTAINER_MODE])
+  AM_CONDITIONAL(MAINTAINER_MODE, [test $USE_MAINTAINER_MODE = yes])
   MAINT=$MAINTAINER_MODE_TRUE
   AC_SUBST(MAINT)dnl
 ]
@@ -1537,35 +1564,6 @@ m4_do([popdef([cache_variable])],
 ]) # SIM_AC_HAVE_INVENTOR_NODE
 
 # **************************************************************************
-# SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS
-#
-# Authors:
-#   Lars J. Aas <larsa@sim.no>
-#
-# TODO:
-#   Check for enums generically instead.
-#
-
-AC_DEFUN([SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS],
-[AC_CACHE_CHECK(
-  [for SoMouseButtonEvent::BUTTON5 availability],
-  sim_cv_somousebuttonevent_buttons,
-  [AC_TRY_COMPILE(
-    [#include <Inventor/events/SoMouseButtonEvent.h>],
-    [int button = SoMouseButtonEvent::BUTTON5],
-    [sim_cv_somousebuttonevent_buttons=true],
-    [sim_cv_somousebuttonevent_buttons=false])])
-
-if $sim_cv_somousebuttonevent_buttons; then
-  AC_DEFINE(HAVE_SOMOUSEBUTTONEVENT_BUTTONS, 1,
-    [Define to enable use of SoMouseButtonEvent::BUTTON5])
-  $1
-else
-  ifelse([$2], , :, [$2])
-fi
-]) # SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS()
-
-# **************************************************************************
 # SIM_AC_HAVE_INVENTOR_FEATURE(MESSAGE, HEADERS, BODY, DEFINE
 #                              [, ACTION-IF-FOUND[, ACTION-IF-NOT-FOUND]])
 #
@@ -1593,6 +1591,7 @@ fi
 m4_do([popdef([cache_variable])],
       [popdef([DEFINE_VARIABLE])])
 ]) # SIM_AC_HAVE_INVENTOR_FEATURE
+
 
 # Convenience macros SIM_AC_DEBACKSLASH and SIM_AC_DOBACKSLASH for
 # converting to and from MSWin/MS-DOS style paths.
