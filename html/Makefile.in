@@ -156,6 +156,7 @@ SoGui_src_Inventor_Gui_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Component.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidget.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp \
@@ -226,7 +227,7 @@ SoGuiBuiltFiles = \
 @BUILD_METAFILES_TRUE@SoGui_src_Inventor_BuiltMetaFiles = 
 
 @BUILD_METAFILES_TRUE@SoGui_src_Inventor_Gui_BuiltMetaFiles = \
-@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@.cpp \
+@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@P.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@Object.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@Component.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@GLWidget.cpp \
@@ -310,6 +311,7 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiObject.cpp.in \
   src/Inventor/@Gui@/common/SoGui.h.in \
   src/Inventor/@Gui@/common/SoGuiCommon.cpp.in \
+  src/Inventor/@Gui@/common/SoGuiComponentCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiComponent.h.in \
   src/Inventor/@Gui@/common/SoGuiGLWidget.h.in \
   src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
@@ -550,6 +552,9 @@ $(top_builddir)/src/Inventor/@Gui@/So@Gui@.h: $(top_srcdir)/src/Inventor/@Gui@/c
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiCommon.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Common.cpp:src/Inventor/@Gui@/common/SoGuiCommon.cpp.in )
 
+$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiComponentCommon.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp:src/Inventor/@Gui@/common/SoGuiComponentCommon.cpp.in )
+
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@Component.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiComponent.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Component.h:src/Inventor/@Gui@/common/SoGuiComponent.h.in )
 
@@ -654,10 +659,10 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 # **************************************************************************
 # auto-generated Qt moc files.
 
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@.cpp: $(top_builddir)/src/Inventor/@Gui@/So@Gui@.h $(top_builddir)/config.status
+@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@P.cpp: $(top_srcdir)/src/Inventor/@Gui@/So@Gui@P.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@.cpp src/Inventor/@Gui@/So@Gui@.h"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@.cpp src/Inventor/@Gui@/So@Gui@.h )
+@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@P.cpp $(top_srcdir)/src/Inventor/@Gui@/So@Gui@P.h"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@P.cpp $(top_srcdir)/src/Inventor/@Gui@/So@Gui@P.h )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@Object.cpp: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
