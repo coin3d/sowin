@@ -27,6 +27,7 @@ static const char rcsid[] =
 
 #include <sowindefs.h>
 #include <Inventor/Win/widgets/SoWinPopupMenu.h>
+#include <Inventor/Win/Win32API.h>
 
 /*!
   \class SoWinPopupMenu Inventor/Win/widgets/SoWinPopupMenu.h
@@ -143,8 +144,7 @@ SoWinPopupMenu::setMenuTitle( int menuid, char * title )
   rec->title = strcpy( new char [strlen(title)+1], title );
 
   if ( rec->parent )
-    ModifyMenu( rec->parent, rec->menuid, MF_BYPOSITION | MF_STRING, rec->menuid, rec->title );
-  //rec->parent->changeItem( rec->title, rec->menuid );
+    Win32::ModifyMenu( rec->parent, rec->menuid, MF_BYPOSITION | MF_STRING, rec->menuid, rec->title );
 
 } // setMenuTitle()
 
@@ -202,7 +202,7 @@ SoWinPopupMenu::setMenuItemTitle( int itemid, char * title )
   rec->title = strcpy( new char [strlen(title)+1], title );
 
   if ( rec->parent )
-    ModifyMenu( rec->parent, rec->itemid, MF_BYCOMMAND | MF_STRING, rec->itemid, rec->title );
+    Win32::ModifyMenu( rec->parent, rec->itemid, MF_BYCOMMAND | MF_STRING, rec->itemid, rec->title );
 } // setMenuItemTitle()
 
 char *
@@ -225,23 +225,20 @@ SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
  else
   rec->flags &= ~ITEM_ENABLED;
 
- EnableMenuItem( rec->parent, rec->itemid, MF_BYCOMMAND | ( enabled ? MF_ENABLED : MF_GRAYED ) );
+ Win32::EnableMenuItem( rec->parent, rec->itemid, MF_BYCOMMAND | ( enabled ? MF_ENABLED : MF_GRAYED ) );
 } // setMenuItemEnabled()
 
 SbBool
 SoWinPopupMenu::getMenuItemEnabled( int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-  /*
-  if ( rec == NULL )
-    return FALSE;
-  */
+
   assert( rec != NULL );
   assert( IsMenu( rec->parent ) );
 
   //MENUITEMINFO  menuiteminfo;
   //memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
-  //GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
+  //Win32::GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
   //return ( menuiteminfo.fState & MFS_ENABLED ) ? TRUE : FALSE;
  
  return ( rec->flags & ITEM_ENABLED ? TRUE : FALSE );
@@ -271,7 +268,7 @@ SoWinPopupMenu::_setMenuItemMarked( int itemid, SbBool marked )
     info.fState = MFS_UNCHECKED;
   }
   
-  SetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
+  Win32::SetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
 
 } // setMenuItemMarked()
 
@@ -287,7 +284,7 @@ SoWinPopupMenu::getMenuItemMarked( int itemid )
   info.cbSize = sizeof( MENUITEMINFO );
   info.fMask = MIIM_STATE;
   
-  GetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
+  Win32::GetMenuItemInfo( rec->parent, rec->itemid, FALSE, & info );
 
   return ( info.fState & MFS_CHECKED ? TRUE : FALSE );
 } // getMenuItemMarked()
@@ -317,9 +314,9 @@ SoWinPopupMenu::addMenu( int menuid, int submenuid, int pos )
   menuiteminfo.cch = strlen( sub->title );
 
   if ( pos == -1 )
-    InsertMenuItem( super->menu, sub->menuid, FALSE, & menuiteminfo );
+    Win32::InsertMenuItem( super->menu, sub->menuid, FALSE, & menuiteminfo );
   else
-    InsertMenuItem( super->menu, pos, TRUE, & menuiteminfo );
+    Win32::InsertMenuItem( super->menu, pos, TRUE, & menuiteminfo );
   sub->parent = super->menu;
 } // addMenu()
 
@@ -335,12 +332,12 @@ SoWinPopupMenu::addMenuItem( int menuid, int itemid, int pos )
 #endif // SOWIN_DEBUG
     return;
   }
-
-  InsertMenu( menu->menu, pos, MF_BYPOSITION | MF_STRING, item->itemid, item->title );
+  
+  Win32::InsertMenu( menu->menu, pos, MF_BYPOSITION | MF_STRING, item->itemid, item->title );
 
   item->parent = menu->menu;
   if ( item->flags & ITEM_MARKED )
-    CheckMenuItem( item->parent, item->itemid, MF_BYCOMMAND | MF_CHECKED );
+    Win32::CheckMenuItem( item->parent, item->itemid, MF_BYCOMMAND | MF_CHECKED );
 } // addMenuItem()
 
 void
@@ -354,7 +351,7 @@ SoWinPopupMenu::addSeparator( int menuid, int pos )
   }
   ItemRecord * rec = createItemRecord( "separator" );
  
-  InsertMenu( menu->menu, pos, MF_BYPOSITION | MF_SEPARATOR, pos, NULL );
+  Win32::InsertMenu( menu->menu, pos, MF_BYPOSITION | MF_SEPARATOR, pos, NULL );
   rec->flags |= ITEM_SEPARATOR;
   this->items->append( rec );
 } // addSeparator()
@@ -381,7 +378,7 @@ SoWinPopupMenu::removeMenu( int menuid )
 #endif // SOWIN_DEBUG
     return;
   }
-  ::RemoveMenu( rec->menu, rec->menuid, MF_BYCOMMAND );
+  Win32::RemoveMenu( rec->menu, rec->menuid, MF_BYCOMMAND );
   rec->parent = NULL;
 } // removeMenu()
 
@@ -401,7 +398,7 @@ SoWinPopupMenu::removeMenuItem( int itemid )
 #endif // SOWIN_DEBUG
     return;
   }
-  ::RemoveMenu( rec->parent, rec->itemid, MF_BYCOMMAND );
+  Win32::RemoveMenu( rec->parent, rec->itemid, MF_BYCOMMAND );
   rec->parent = NULL;
 } // removeMenuItem()
 

@@ -54,6 +54,15 @@ public:
   static LONG GetWindowLong(HWND, int);
   static void SetWindowPos(HWND, HWND, int, int, int, int, UINT);
   static HHOOK SetWindowsHookEx(int, HOOKPROC, HINSTANCE, DWORD);
+  static void ModifyMenu(HMENU,UINT,UINT,UINT,LPCTSTR);
+  static void EnableMenuItem(HMENU, UINT, UINT);
+  static void GetMenuItemInfo(HMENU, UINT, BOOL, LPMENUITEMINFO);
+  static void SetMenuItemInfo(HMENU, UINT, BOOL, LPMENUITEMINFO);
+  static void InsertMenuItem(HMENU, UINT, BOOL, LPMENUITEMINFO);
+  static void InsertMenu(HMENU, UINT, UINT, UINT, LPCTSTR);
+  static void RemoveMenu(HMENU, UINT, UINT);
+  static DWORD CheckMenuItem(HMENU, UINT, UINT);
+  
 private:
   static void showLastErr(void);
 };

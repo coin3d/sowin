@@ -311,3 +311,101 @@ Win32::SetWindowsHookEx(int idHook,        // type of hook to install
   assert( h && "SetWindowsHookEx() failed -- investigate" );
   return h;
 }
+
+void
+Win32::ModifyMenu(HMENU hMnu,       // handle to menu
+                  UINT uPosition,   // menu item to modify
+                  UINT uFlags,      // menu item flags
+                  UINT uIDNewItem,  // menu item identifier or handle to drop-down 
+                                    // menu or submenu
+                  LPCTSTR lpNewItem // menu item content
+                  )
+{
+  BOOL r = ::ModifyMenu(hMnu, uPosition, uFlags, uIDNewItem, lpNewItem);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "ModifyMenu() failed -- investigate" );
+}
+
+void
+Win32::EnableMenuItem(HMENU hMenu,         // handle to menu
+                      UINT uIDEnableItem,  // menu item to enable, disable, or gray
+                      UINT uEnable         // menu item flags
+                      )
+{
+  BOOL r = ::EnableMenuItem(hMenu, uIDEnableItem, uEnable);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "EnableMenuItem() failed -- investigate" );
+}
+
+void
+Win32::GetMenuItemInfo(HMENU hMenu,          
+                       UINT uItem,           
+                       BOOL fByPosition,     
+                       LPMENUITEMINFO lpmii  
+                       )
+{
+  BOOL r = ::GetMenuItemInfo(hMenu, uItem, fByPosition, lpmii);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "GetMenuItemInfo() failed -- investigate" );
+}
+
+void
+Win32::SetMenuItemInfo(HMENU hMenu,          
+                       UINT uItem,           
+                       BOOL fByPosition,     
+                       LPMENUITEMINFO lpmii  
+                       )
+{
+  BOOL r = ::SetMenuItemInfo(hMenu, uItem, fByPosition, lpmii);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "SetMenuItemInfo() failed -- investigate" );
+}
+
+void
+Win32::InsertMenuItem(HMENU hMenu,          
+                      UINT uItem,           
+                      BOOL fByPosition,     
+                      LPMENUITEMINFO lpmii  
+                      )
+{
+  BOOL r = ::InsertMenuItem(hMenu, uItem, fByPosition, lpmii);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "InsertMenuItem() failed -- investigate" );
+}
+
+void
+Win32::InsertMenu(HMENU hMenu,      // handle to menu
+                  UINT uPosition,   // menu item that new menu item precedes
+                  UINT uFlags,      // menu item flags
+                  UINT uIDNewItem,  // menu item identifier or handle to drop-down 
+                                    // menu or submenu
+                  LPCTSTR lpNewItem // menu item content
+)
+{
+  BOOL r = ::InsertMenu(hMenu, uPosition, uFlags, uIDNewItem, lpNewItem);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "InsertMenu() failed -- investigate" );
+}
+
+void
+Win32::RemoveMenu(HMENU hMenu,     // handle to menu
+                  UINT uPosition,  // menu item identifier or position
+                  UINT uFlags      // menu item flag
+)
+{
+  BOOL r = ::RemoveMenu(hMenu, uPosition, uFlags);
+  if (!r) { Win32::showLastErr(); }  
+  assert( r && "RemoveMenu() failed -- investigate" );
+}
+
+DWORD
+Win32::CheckMenuItem(HMENU hmenu,        // handle to menu
+                     UINT uIDCheckItem,  // menu item to check or uncheck
+                     UINT uCheck         // menu item flags
+)
+{
+  DWORD r = ::CheckMenuItem(hmenu, uIDCheckItem, uCheck);
+  if (r==0xFFFFFFFF) { Win32::showLastErr(); }  
+  assert( r!=0xFFFFFFFF && "CheckMenuItem() failed -- investigate" );
+  return r;
+}
