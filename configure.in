@@ -79,7 +79,7 @@ if test x"${with_inventor+set}" = x"set"; then
   ], AC_MSG_ERROR([couldn't compile and link against Open Inventor]))
 else
   # check for Coin library and its dependencies
-  SIM_CHECK_COIN([
+  SIM_AC_HAVE_COIN_IFELSE([
     SOWIN_EXTRA_CPPFLAGS="$SOWIN_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
     SOWIN_EXTRA_LDFLAGS="$SOWIN_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
     SOWIN_EXTRA_LIBS="$sim_ac_coin_libs $SOWIN_EXTRA_LIBS"
