@@ -43,6 +43,8 @@ extern "C" {
 
 // *************************************************************************
 
+#ifndef DOXYGEN_SKIP_THIS
+
 SoWinSpaceballP::SoWinSpaceballP(SoWinSpaceball * p)
   : SoGuiSpaceballP(p)
 {
@@ -79,6 +81,8 @@ SoWinSpaceballP::makeTranslation(const float tx, const float ty, const float tz)
                - tz * this->translationscale);
 }
 
+#endif // !DOXYGEN_SKIP_THIS
+
 // *************************************************************************
 
 SoWinSpaceball::SoWinSpaceball(int mask)
@@ -90,10 +94,10 @@ SoWinSpaceball::~SoWinSpaceball(void)
 {
   delete PRIVATE(this);
 }
-    
+
 void
 SoWinSpaceball::enable(HWND hwnd, SoWinEventHandler * , void *)
-{  
+{
   SiOpenData oData;
   SiOpenWinInit(&oData, hwnd);
   PRIVATE(this)->Spw_DeviceHandle = SiOpen("", SI_ANY_DEVICE, SI_NO_MASK, SI_EVENT, &oData);
@@ -104,12 +108,14 @@ SoWinSpaceball::enable(HWND hwnd, SoWinEventHandler * , void *)
 void
 SoWinSpaceball::disable(HWND, SoWinEventHandler * , void *)
 {
+  // FIXME: should be implemented..? 20030812 mortene.
   SOWIN_STUB();
 }
 
 const SoEvent *
 SoWinSpaceball::translateEvent(MSG * msg)
 {
+  // FIXME: don't leave in commented-out code. 20030812 mortene.
   /*
   long msec =  GetTickCount();
   if (soevent) soevent->setTime(SbTime((msec / 1000), (msec % 1000) * 1000)));
@@ -120,9 +126,9 @@ SoWinSpaceball::translateEvent(MSG * msg)
   if (PRIVATE(this)->Spw_DeviceHandle != SI_NO_HANDLE) {
      SiGetEventWinInit (&eventdata, msg->message, msg->wParam, msg->lParam);
      if (SiGetEvent (PRIVATE(this)->Spw_DeviceHandle, 0, &eventdata, &spwEvent) == SI_IS_EVENT) {
-        if (spwEvent.type == SI_MOTION_EVENT) {           
+        if (spwEvent.type == SI_MOTION_EVENT) {
            long * data = spwEvent.u.spwData.mData;
-           
+
            PRIVATE(this)->motion3Event->setTranslation(
              PRIVATE(this)->makeTranslation((float)data[SI_TX],(float)data[SI_TY],(float)data[SI_TZ]));
 
@@ -134,7 +140,7 @@ SoWinSpaceball::translateEvent(MSG * msg)
         else if (spwEvent.type == SI_BUTTON_EVENT) {
           return (SoEvent *) NULL;
         }
-     } 
+     }
   }
   return (SoEvent *) NULL;
 }
@@ -142,18 +148,21 @@ SoWinSpaceball::translateEvent(MSG * msg)
 SbBool
 SoWinSpaceball::exists(void)
 {
+  // FIXME: should be implemented. 20030812 mortene.
   return FALSE;
 }
- 
+
 void
 SoWinSpaceball::setFocusToWindow(SbBool flag)
 {
+  // FIXME: should be implemented..? 20030812 mortene.
   SOWIN_STUB();
 }
 
 SbBool
 SoWinSpaceball::isFocusToWindow(void) const
 {
+  // FIXME: should be implemented..? 20030812 mortene.
   SOWIN_STUB();
   return FALSE;
 }
