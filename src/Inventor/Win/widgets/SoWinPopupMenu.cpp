@@ -52,9 +52,10 @@ struct ItemRecord {
   HMENU parent;
 }; // struct ItemRecord
 
-#define ITEM_MARKED       0x0001
-#define ITEM_SEPARATOR    0x0002
-#define ITEM_ENABLED      0x0004
+#define ITEM_TOGGLE       0x0001
+#define ITEM_MARKED       0x0002
+#define ITEM_SEPARATOR    0x0004
+#define ITEM_ENABLED      0x0008
 
 // *************************************************************************
 
@@ -217,7 +218,6 @@ SoWinPopupMenu::setMenuItemEnabled( int itemid, SbBool enabled )
   ItemRecord * rec = this->getItemRecord( itemid );
   if ( rec == NULL )
     return;
-	
   
 	if ( enabled )
 		rec->flags |= ITEM_ENABLED;
@@ -231,10 +231,13 @@ SbBool
 SoWinPopupMenu::getMenuItemEnabled( int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
+  /*
   if ( rec == NULL )
     return FALSE;
+  */
+  assert( rec != NULL );
+  assert( IsMenu( rec->parent ) );
 
-	//return rec->parent->isItemEnabled( rec->itemid ) ? TRUE : FALSE;
   //MENUITEMINFO  menuiteminfo;
   //memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
   //GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
@@ -247,36 +250,37 @@ void
 SoWinPopupMenu::_setMenuItemMarked( int itemid, SbBool marked )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-	
-  if ( rec == NULL )
-    return;
+
+  assert( rec != NULL );
+  assert( IsMenu( rec->parent ) );
+
+  rec->flags |= ITEM_TOGGLE;
+  
   if ( marked )
     rec->flags |= ITEM_MARKED;
   else
 		rec->flags &= ~ITEM_MARKED;
-  if ( ! IsMenu( rec->parent ) )
-    return;
   
-	CheckMenuItem( rec->parent,
-		             rec->itemid,
-		             MF_BYCOMMAND | ( marked ?  MF_CHECKED : MF_UNCHECKED ) );
-	
+	assert( CheckMenuItem( rec->parent, rec->itemid,
+    MF_BYCOMMAND | ( /*marked*/ ( rec->flags & ITEM_MARKED ) ?  MF_CHECKED : MF_UNCHECKED ) )
+    != 0xFFFFFFFF );
+	/*
   if ( marked )
     this->setRadioGroupMarkedItem( itemid );
+  */
 } // setMenuItemMarked()
 
 SbBool
 SoWinPopupMenu::getMenuItemMarked( int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-  if ( rec == NULL )
-    return FALSE;
-  if ( rec->parent == NULL )
-    return ( rec->flags & ITEM_MARKED ? TRUE : FALSE );
-		
+  assert( rec != NULL );
+  assert( rec->parent != NULL );
+
 	MENUITEMINFO  menuiteminfo;
   memset( ( void * ) & menuiteminfo, 0, sizeof( menuiteminfo ) );
   GetMenuItemInfo( rec->parent, rec->itemid, TRUE, & menuiteminfo );
+
   return ( menuiteminfo.fState & MFS_CHECKED ? TRUE : FALSE );
 } // getMenuItemMarked()
 
@@ -325,12 +329,7 @@ SoWinPopupMenu::addMenuItem( int menuid, int itemid, int pos )
   }
 
   InsertMenu( menu->menu, pos, MF_BYPOSITION | MF_STRING, item->itemid, item->title );
-  /*
-    if ( pos == -1 )
-    menu->menu->insertItem( QString( item->title ), item->itemid );
-    else
-    menu->menu->insertItem( QString( item->title ), item->itemid, pos );
-  */
+
   item->parent = menu->menu;
   if ( item->flags & ITEM_MARKED )
     CheckMenuItem( item->parent, item->itemid, MF_BYCOMMAND | MF_CHECKED );
@@ -403,8 +402,8 @@ SoWinPopupMenu::removeMenuItem( int itemid )
 void
 SoWinPopupMenu::popUp( HWND inside, int x, int y )
 {
-  MenuRecord * rec = this->getMenuRecord( 0 );
-  this->selectedItem = TrackPopupMenu( rec->menu,
+  MenuRecord * menurec = this->getMenuRecord( 0 );
+  this->selectedItem = TrackPopupMenu( menurec->menu,
                                        TPM_LEFTALIGN |
                                        TPM_TOPALIGN |
                                        TPM_RIGHTBUTTON |
@@ -415,6 +414,22 @@ SoWinPopupMenu::popUp( HWND inside, int x, int y )
                                        0,
                                        inside,
                                        NULL );
+
+  if ( this->selectedItem == 0 )
+    return;
+  
+  ItemRecord * itemrec = this->getItemRecord( this->selectedItem );
+  assert( itemrec != NULL );
+
+  if ( itemrec->flags & ITEM_TOGGLE ) {
+
+    itemrec->flags ^= ITEM_MARKED;
+  
+    assert( CheckMenuItem( itemrec->parent, itemrec->itemid,
+      MF_BYCOMMAND | ( ( itemrec->flags & ITEM_MARKED ) ?  MF_CHECKED : MF_UNCHECKED ) )
+      != 0xFFFFFFFF );
+    
+  }
 	
 	//this->itemActivation( this->selectedItem );
 } // popUp()

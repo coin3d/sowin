@@ -734,13 +734,13 @@ SoWinFullViewer::openPopupMenu( const SbVec2s position )
   point.y = clientRect.bottom - y;
   point.x = x;
   ClientToScreen( this->renderAreaWidget, & point );
-
+  
 	// Popup
 	assert( this->prefmenu != NULL );
 	this->common->prepareMenu( this->prefmenu );
-
+  
   assert( IsWindow( this->renderAreaWidget ) );
-  this->displayPopupMenu( point.x, point.y, /*this->renderAreaWidget );*/this->viewerWidget );
+  this->displayPopupMenu( point.x, point.y, this->renderAreaWidget );//this->viewerWidget );
 }
 
 void
@@ -1398,15 +1398,16 @@ void
 SoWinFullViewer::goFullScreen( SbBool enable )
 {
 	inherited::goFullScreen( enable );
+  // The above function will resize the render area
+  // to fill the entire parent client rect.
 
+  // Make room for decorations.
   if ( this->isDecoration( ) ) {
 
     RECT rect;
     GetWindowRect(  this->viewerWidget, & rect );
     int width = rect.right - rect.left;
     int height = rect.bottom - rect.top;
-
-    assert( IsWindow( this->renderAreaWidget ) );
     
     MoveWindow( this->renderAreaWidget, DECORATION_SIZE, 0,
         width - ( 2 * DECORATION_SIZE ),
