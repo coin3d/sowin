@@ -218,6 +218,11 @@ AC_SUBST(SOWIN_EXTRA_LDFLAGS)
 AC_SUBST(SOWIN_EXTRA_LIBS)
 
 # **************************************************************************
+# Header files we might want.
+
+AC_CHECK_HEADERS([windows.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMisc.h X11/Xproto.h X11/extensions/XInput.h netinet/in.h])
+
+# **************************************************************************
 # Compiler control.
 
 SIM_AC_COMPILE_DEBUG(
