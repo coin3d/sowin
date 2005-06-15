@@ -21,7 +21,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include"
+				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -38,7 +38,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(COINDIR)\lib\coin2d.lib opengl32.lib"
+				AdditionalDependencies="$(COINDIR)\lib\coin2.lib opengl32.lib winmm.lib"
 				OutputFile="sowin1.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -86,7 +86,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include"
+				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -103,7 +103,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(COINDIR)\lib\coin2d.lib opengl32.lib"
+				AdditionalDependencies="$(COINDIR)\lib\coin2d.lib opengl32.lib winmm.lib"
 				OutputFile="sowin1d.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
