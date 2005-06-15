@@ -42,8 +42,8 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /YX /FD /c
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -52,8 +52,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(COINDIR)\lib\coin2.lib opengl32.lib gdi32.lib user32.lib /nologo /dll /machine:I386
-# ADD LINK32 $(COINDIR)\lib\coin2.lib opengl32.lib gdi32.lib user32.lib /nologo /dll /machine:I386 /out:"sowin1.dll" /opt:nowin98
+# ADD BASE LINK32 $(COINDIR)\lib\coin2.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /machine:I386
+# ADD LINK32 $(COINDIR)\lib\coin2.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /machine:I386 /out:"sowin1.dll" /opt:nowin98
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE=
@@ -72,8 +72,8 @@ PostBuild_Cmds=installsowin.bat
 # PROP Output_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /YX /FD /GZ /c
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -82,8 +82,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"sowin1d.dll"
+# ADD BASE LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"sowin1d.dll"
 # Begin Special Build Tool
 SOURCE=
 PostBuild_Cmds=installsowin.bat

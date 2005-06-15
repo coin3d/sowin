@@ -167,6 +167,7 @@
 #include <Inventor/nodekits/SoBaseKit.h>
 #include <Inventor/nodes/SoCamera.h>
 #include <Inventor/nodes/SoSelection.h>
+#include <Inventor/SoOffscreenRenderer.h>
 
 #include <sowindefs.h>
 #include <Inventor/Win/SoWinBasic.h>
@@ -235,13 +236,14 @@ public:
   void setDevicesWindowSize(const SbVec2s size);
 
   // OpenGL info-window hack.
-  enum { NONE, OPENGL, INVENTOR, TOOLKIT, DUMPSCENEGRAPH, DUMPCAMERAS };
+  enum { NONE, OPENGL, INVENTOR, TOOLKIT, DUMPSCENEGRAPH, DUMPCAMERAS, OFFSCREENGRAB };
   int checkMagicSequences(const char c);
   void showOpenGLDriverInformation(void);
   void showInventorInformation(void);
   void showToolkitInformation(void);
   void dumpScenegraph(void);
   void dumpCameras(void);
+  void offScreenGrab(void);
 
   SbBool invokeAppCB(MSG * event);
   const SoEvent * getSoEvent(MSG * event);
@@ -549,6 +551,106 @@ SoWinRenderAreaP::dumpCameras(void)
 #endif // DEBUGGING_EGGS
 }
 
+/*
+  Behaviour controlled by environment variables
+    COIN_SOGRAB_GEOMETRY  (maximum geometry - on-screen aspect is preserved)
+    COIN_SOGRAB_FILENAME  (filename template - can use %d to insert counter)
+
+  Examples:
+    export COIN_SOGRAB_GEOMETRY=1024x768
+    export COIN_SOGRAB_FILENAME=c:\\grab%03d.png
+
+*/
+
+void
+SoWinRenderAreaP::offScreenGrab(void)
+{
+#ifdef DEBUGGING_EGGS
+  static int maxwidth = -1;
+  static int maxheight = -1;
+  static int counter = 0;
+  static const char fallback_ext[] = ".rgb";
+  static const char fallback_name[] = "coingrab%03d.rgb";
+
+  /*
+    FIXME:
+
+    - schedule a regular render-pass and hook into the render
+      pipe-line to check all the interesting GL context features that
+      might need to be enabled for the offscreen renderer context.
+      Then set up the offscreen renderer context to match those
+      features, so the rendering becomes the same.
+    - create a clone of the on-screen renderaction to get the same
+      kind of custom rendering.
+    - check if we might be able to hook up the on-screen pre-render
+      callback to the offscreen renderer as well, if any point.
+    - disable accidentally enabled seek mode again (from typing 'osgrab').
+
+    20050606 larsa.
+  */
+
+  counter++;
+  if ( maxwidth <= 0 ) {
+    const char * env = 
+      SoAny::si()->getenv("COIN_SOGRAB_GEOMETRY");
+    if ( env ) {
+      sscanf(env, "%dx%d", &maxwidth, &maxheight);
+    }
+    if ( (maxwidth <= 0) || !env ) {
+      SbVec2s vp = PUBLIC(this)->getViewportRegion().getWindowSize();
+      maxwidth = vp[0];
+      maxheight = vp[1];
+    }
+  }
+
+  if ( maxwidth <= 0 || maxheight <= 0 ) {
+    SoDebugError::post("SoWinRenderAreaP::offScreenGrab",
+                       "invalid geometry: %dx%d", maxwidth, maxheight);
+    return;
+  }
+  SbVec2s vp = PUBLIC(this)->getViewportRegion().getWindowSize();
+
+  const char * filenametpl =
+    SoAny::si()->getenv("COIN_SOGRAB_FILENAME");
+  if ( !filenametpl ) filenametpl = fallback_name;
+
+  SbString filename;
+  filename.sprintf(filenametpl, counter);
+  const char * ext = strrchr(filename.getString(), '.');
+  if ( !ext ) ext = fallback_ext;
+  ext++;
+
+  SbVec2s osvp(maxwidth, maxheight);
+  if ( vp[0] > maxwidth || vp[1] > maxheight ||
+       (vp[0] < maxwidth && vp[1] < maxheight) ) {
+    float onscaspect = float(vp[0]) / float(vp[1]);
+    float offscaspect = float(maxwidth) / float(maxheight);
+
+    osvp[1] = maxheight;
+    osvp[0] = short(maxheight * onscaspect);
+    if ( osvp[0] > maxwidth ) {
+      osvp[0] = maxwidth;
+      osvp[1] = short(maxwidth * (1.0f / onscaspect));
+    }
+  }
+
+  SoOffscreenRenderer os(osvp);
+  if ( !os.render(PUBLIC(this)->getSceneManager()->getSceneGraph()) ) {
+    return;
+  }
+
+  if ( !os.writeToFile(filename, ext) && (strcmp(ext, "rgb") != 0) ) {
+    SbString fname2;
+    fname2.sprintf("%s.rgb", filename.getString());
+    os.writeToRGB(fname2.getString());
+  }
+
+  SoDebugError::postInfo("SoWinRenderAreaP::offScreenGrab",
+                         "wrote image #%d, %dx%d",
+                         counter, osvp[0], osvp[1]);
+#endif // DEBUGGING_EGGS
+}
+
 int
 SoWinRenderAreaP::checkMagicSequences(const char c)
 {
@@ -563,14 +665,15 @@ SoWinRenderAreaP::checkMagicSequences(const char c)
   const int cl = this->currentinput.getLength();
 
   static const char * keyseq[] = {
-    "glinfo", "ivinfo", "soinfo", "dumpiv", "cameras"
+    "glinfo", "ivinfo", "soinfo", "dumpiv", "cameras", "osgrab"
   };
   static const int id[] = {
     SoWinRenderAreaP::OPENGL,
     SoWinRenderAreaP::INVENTOR,
     SoWinRenderAreaP::TOOLKIT,
     SoWinRenderAreaP::DUMPSCENEGRAPH,
-    SoWinRenderAreaP::DUMPCAMERAS
+    SoWinRenderAreaP::DUMPCAMERAS,
+    SoWinRenderAreaP::OFFSCREENGRAB
   };
 
   for (unsigned int i = 0; i < (sizeof(keyseq) / sizeof(keyseq[0])); i++) {
@@ -1081,6 +1184,17 @@ SoWinRenderArea::getTransparencyType(void) const
 
 /*!
   This method sets the antialiasing used for the scene.
+
+  The \a smoothing flag signifies whether or not line and point
+  aliasing should be turned on. See documentation of
+  SoGLRenderAction::setSmoothing(), which will be called from this
+  function.
+
+  \a numPasses gives the number of re-renderings to do of the scene,
+  blending together the results from slight "jitters" of the camera
+  view, into the OpenGL accumulation buffer. For further information,
+  see documentation of SoGLRenderAction::setNumPasses() and
+  SoWinGLWidget::setAccumulationBuffer().
 */
 void
 SoWinRenderArea::setAntialiasing(SbBool smoothing, int numPasses)
@@ -2025,6 +2139,9 @@ SoWinRenderArea::processEvent(MSG * event)
           break;
         case SoWinRenderAreaP::DUMPCAMERAS:  // "cameras"
           PRIVATE(this)->dumpCameras();
+          break;
+        case SoWinRenderAreaP::OFFSCREENGRAB:  // "osgrab"
+          PRIVATE(this)->offScreenGrab();
           break;
         default:
           assert(FALSE && "unknown debug key sequence");
