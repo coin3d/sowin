@@ -21,9 +21,6 @@
  *
 \**************************************************************************/
 
-static const char rcsid[] =
-  "$Id$";
-
 #include <windows.h>
 
 #include <Inventor/SoLists.h>
@@ -288,7 +285,6 @@ WinNativePopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
   }
   
   Win32::SetMenuItemInfo(rec->parent, rec->itemid, FALSE, & info);
-
 }
 
 SbBool
