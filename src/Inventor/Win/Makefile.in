@@ -1892,7 +1892,7 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 
 ############################################################################
 
-install-exec-local:
+install-exec-local: sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
 	for ext in dll pdb; do \
 	  file="$$basename.$$ext"; \
