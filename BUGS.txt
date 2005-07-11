@@ -643,4 +643,18 @@ int main(int argc, char* argv[])
 
     20050711 mortene.
 
+    UPDATE 20050711 mortene: the reason for the see-through, or
+    missing redraws, on the borders is the NULL-value set for the
+    hbrBackground field of the WNDCLASS struct. This field signifies
+    what kind of brush to use for redraws. Set a proper brush:
+
+      windowclass.hbrBackground = (HBRUSH)GetSysColorBrush(COLOR_BTNFACE);
+
+    ...and there is no such problem.
+
+    Awaiting information from reported about whether or not his
+    example works better with TGS InventorWin before deciding to
+    remove this item, or whether we should fix up SoWin to work better
+    in this case.
+
 =====================================================================
