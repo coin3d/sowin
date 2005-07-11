@@ -549,3 +549,98 @@ int main(int argc, char ** argv)
     20040923 mortene.
 
 =====================================================================
+
+024 Decorations not updated correctly.
+
+    We got the below example code to reproduce something which
+    supposedly works with TGS InventorWin, but not with SoWin. The
+    decorations are not properly redrawn when they should
+    be. Investigate to find the cause of this.
+
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+#include <windows.h>
+#include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/viewers/SoWinExaminerViewer.h>
+#include <Inventor/nodes/SoCone.h>
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam){
+  switch (uiMessage)
+    {
+    case WM_CLOSE:
+      DestroyWindow(hWnd);
+      return 0;
+    case WM_DESTROY:
+      PostQuitMessage(0);
+      return 0;
+    default:
+      break;
+    }
+  return DefWindowProc(hWnd, uiMessage, wParam, lParam);
+}
+
+HWND createMainWindow(void)
+{
+
+  // register the main widget class by the windos manager
+  // and create a main window
+  HINSTANCE hinst; 
+  HWND hwndMain;
+  WNDCLASS windowclass;
+
+  windowclass.lpszClassName = "MainWidget";
+  windowclass.hInstance = NULL;
+  windowclass.lpfnWndProc = WndProc;
+  windowclass.style = CS_OWNDC;
+  windowclass.lpszMenuName = NULL;
+  windowclass.hIcon = NULL;
+  windowclass.hCursor = ::LoadCursor(NULL, IDC_ARROW);
+  windowclass.hbrBackground = NULL;
+  windowclass.cbClsExtra = 0;
+  windowclass.cbWndExtra = 4;
+
+  ATOM a = RegisterClass(&windowclass);
+  assert(a);
+
+  hwndMain = CreateWindow( 
+                          "MainWidget", // class name 
+                          "MultiViewer", // window name 
+                          WS_OVERLAPPEDWINDOW | // overlapped window 
+                          WS_CLIPSIBLINGS |
+                          WS_CLIPCHILDREN, 
+                          20, // default horizontal position 
+                          20, // default vertical position 
+                          250, // default width 
+                          250, // default height 
+                          (HWND) NULL, // no parent or owner window 
+                          (HMENU) NULL, // class menu used 
+                          NULL, // instance handle 
+                          NULL); // no window creation data 
+ 
+  assert(hwndMain);
+  return hwndMain; 
+}
+
+int main(int argc, char* argv[])
+{
+#if 1 // this bugs
+  HWND mainWidget = createMainWindow();
+  SoWin::init(mainWidget);
+#else // while this is ok
+  HWND mainWidget = SoWin::init(argv[0]);
+#endif
+
+  SoWinExaminerViewer * viewer1 = new SoWinExaminerViewer(mainWidget, NULL);
+  viewer1 -> setSceneGraph(new SoCone);
+
+  viewer1 -> show();
+  SoWin::show(mainWidget);
+
+  SoWin::mainLoop();
+
+  return 0;
+}
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+
+    20050711 mortene.
+
+=====================================================================
