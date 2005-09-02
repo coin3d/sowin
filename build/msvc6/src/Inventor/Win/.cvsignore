@@ -1,3 +1,4 @@
 Makefile
+.deps
 stamp-*
 sowin1.so.*

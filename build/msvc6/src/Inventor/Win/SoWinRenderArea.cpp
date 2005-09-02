@@ -433,7 +433,7 @@ SoWinRenderAreaP::showToolkitInformation(void)
   // Qt implementation info.
   {
     SbString s;
-    s.sprintf("\nQt version: %s\nQGL version: %s\n", qVersion(), qGLVersion());
+    s.sprintf("\nQt version: %s\n", qVersion());
     info += s;
   }
 #endif // SOQT_INTERNAL

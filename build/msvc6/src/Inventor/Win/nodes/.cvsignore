@@ -1,2 +1,3 @@
 Makefile
-echo *.lst
+.deps
+*.lst

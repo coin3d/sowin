@@ -1,5 +1,7 @@
 Debug
+StaticDebug
 Release
+StaticRelease
 cfg
 man
 html
@@ -17,3 +19,4 @@ sowin-default.cfg
 *.opt
 *.ncb
 *.plg
+*.lib
