@@ -11,7 +11,7 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-# **************************************************************************
+ **************************************************************************
 # gendsp.m4
 #
 # macros:
@@ -43,6 +43,7 @@ AC_REQUIRE([SIM_AC_MSVC_DSP_ENABLE_OPTION])
 $1_DSP_LIBDIRS=
 $1_DSP_LIBS=
 $1_DSP_INCS=
+$1_LIB_DSP_DEFS=
 $1_DSP_DEFS=
 
 if $sim_ac_make_dsp; then
@@ -93,6 +94,15 @@ if $sim_ac_make_dsp; then
       else
         $1_DSP_DEFS="[$]$1_DSP_DEFS /D \"$define\""
       fi
+      if echo $define | grep _MAKE_DLL; then
+        :
+      else
+        if test x"[$]$1_DSP_DEFS" = x""; then
+          $1_LIB_DSP_DEFS="/D \"$define\""
+        else
+          $1_LIB_DSP_DEFS="[$]$1_LIB_DSP_DEFS /D \"$define\""
+        fi
+      fi
       ;;
     esac
   done
@@ -118,6 +128,7 @@ fi
 AC_SUBST([$1_DSP_LIBS])
 AC_SUBST([$1_DSP_INCS])
 AC_SUBST([$1_DSP_DEFS])
+AC_SUBST([$1_LIB_DSP_DEFS])
 ])
 
 
@@ -236,6 +247,17 @@ AC_ARG_ENABLE([msvc],
 ])
 
 # **************************************************************************
+
+AC_DEFUN([SIM_AC_MSVC_VERSION], [
+AC_MSG_CHECKING([Visual Studio C++ version])
+AC_TRY_COMPILE([],
+  [long long number = 0;],
+  [sim_ac_msvc_version=7]
+  [sim_ac_msvc_version=6])
+AC_MSG_RESULT($sim_ac_msvc_version)
+])
+
+# **************************************************************************
 # Note: the SIM_AC_SETUP_MSVC_IFELSE macro has been OBSOLETED and
 # replaced by the one below.
 #
@@ -262,6 +284,29 @@ if $sim_ac_try_msvc; then
       export CC CXX
       BUILD_WITH_MSVC=true
       AC_MSG_RESULT([working])
+
+      # FIXME: why is this here, larsa? 20050714 mortene.
+      # SIM_AC_MSVC_VERSION
+
+      # Robustness: we had multiple reports of Cygwin ''link'' getting in
+      # the way of MSVC link.exe, so do a little sanity check for that.
+      #
+      # FIXME: a better fix would be to call link.exe with full path from
+      # the wrapmsvc wrapper, to avoid any trouble with this -- I believe
+      # that should be possible, using the dirname of the full cl.exe path.
+      # 20050714 mortene.
+      sim_ac_check_link=`type link`
+      AC_MSG_CHECKING([whether Cygwin's /usr/bin/link shadows MSVC link.exe])
+      case x"$sim_ac_check_link" in
+      x"link is /usr/bin/link"* )
+        AC_MSG_RESULT(yes)
+        SIM_AC_ERROR([cygwin-link])
+        ;;
+      * )
+        AC_MSG_RESULT(no)
+        ;;
+      esac
+
     else
       case $host in
       *-cygwin)
@@ -2999,9 +3044,7 @@ if test -f "$ltmain" && test -n "$tagnames"; then
 
       case $tagname in
       CXX)
-	if test -n "$CXX" && ( test "X$CXX" != "Xno" &&
-	    ( (test "X$CXX" = "Xg++" && `g++ -v >/dev/null 2>&1` ) || 
-	    (test "X$CXX" != "Xg++"))) ; then
+	if test -n "$CXX" && test "X$CXX" != "Xno"; then
 	  AC_LIBTOOL_LANG_CXX_CONFIG
 	else
 	  tagname=""
@@ -3521,6 +3564,15 @@ irix5* | irix6* | nonstopux*)
 
 # This must be Linux ELF.
 linux*)
+  case $host_cpu in
+  alpha*|hppa*|i*86|ia64*|m68*|mips*|powerpc*|sparc*|s390*|sh*)
+    lt_cv_deplibs_check_method=pass_all ;;
+  *)
+    # glibc up to 2.1.1 does not perform some relocations on ARM
+    # this will be overridden with pass_all, but let us keep it just in case
+    lt_cv_deplibs_check_method='file_magic ELF [[0-9]][[0-9]]*-bit [[LM]]SB (shared object|dynamic lib )' ;;
+  esac
+  lt_cv_file_magic_test_file=`echo /lib/libc.so* /lib/libc-*.so`
   lt_cv_deplibs_check_method=pass_all
   ;;
 
@@ -3736,21 +3788,10 @@ AC_DEFUN([AC_LIBTOOL_CXX],
 # ---------------
 AC_DEFUN([_LT_AC_LANG_CXX],
 [AC_REQUIRE([AC_PROG_CXX])
-AC_REQUIRE([_LT_AC_PROG_CXXCPP])
+AC_REQUIRE([AC_PROG_CXXCPP])
 _LT_AC_SHELL_INIT([tagnames=${tagnames+${tagnames},}CXX])
 ])# _LT_AC_LANG_CXX
 
-# _LT_AC_PROG_CXXCPP
-# ---------------
-AC_DEFUN([_LT_AC_PROG_CXXCPP],
-[
-AC_REQUIRE([AC_PROG_CXX])
-if test -n "$CXX" && ( test "X$CXX" != "Xno" &&
-    ( (test "X$CXX" = "Xg++" && `g++ -v >/dev/null 2>&1` ) || 
-    (test "X$CXX" != "Xg++"))) ; then
-  AC_PROG_CXXCPP
-fi
-])# _LT_AC_PROG_CXXCPP
 
 # AC_LIBTOOL_F77
 # --------------
@@ -3911,7 +3952,7 @@ AC_DEFUN([AC_LIBTOOL_LANG_CXX_CONFIG], [_LT_AC_LANG_CXX_CONFIG(CXX)])
 AC_DEFUN([_LT_AC_LANG_CXX_CONFIG],
 [AC_LANG_PUSH(C++)
 AC_REQUIRE([AC_PROG_CXX])
-AC_REQUIRE([_LT_AC_PROG_CXXCPP])
+AC_REQUIRE([AC_PROG_CXXCPP])
 
 _LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no
 _LT_AC_TAGVAR(allow_undefined_flag, $1)=
@@ -4529,8 +4570,6 @@ case $host_os in
     _LT_AC_TAGVAR(ld_shlibs, $1)=no
     ;;
   openbsd*)
-    _LT_AC_TAGVAR(hardcode_direct, $1)=yes
-    _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
     _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags -o $lib'
     _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
     if test -z "`echo __ELF__ | $CC -E - | grep __ELF__`" || test "$host_os-$host_cpu" = "openbsd2.8-powerpc"; then
@@ -5702,13 +5741,6 @@ hpux*) # Its linker distinguishes data from code symbols
   fi
   lt_cv_sys_global_symbol_to_cdecl="sed -n -e 's/^T .* \(.*\)$/extern int \1();/p' -e 's/^$symcode* .* \(.*\)$/extern char \1;/p'"
   lt_cv_sys_global_symbol_to_c_name_address="sed -n -e 's/^: \([[^ ]]*\) $/  {\\\"\1\\\", (lt_ptr) 0},/p' -e 's/^$symcode* \([[^ ]]*\) \([[^ ]]*\)$/  {\"\2\", (lt_ptr) \&\2},/p'"
-  ;;
-linux*)
-  if test "$host_cpu" = ia64; then
-    symcode='[[ABCDGIRSTW]]'
-    lt_cv_sys_global_symbol_to_cdecl="sed -n -e 's/^T .* \(.*\)$/extern int \1();/p' -e 's/^$symcode* .* \(.*\)$/extern char \1;/p'"
-    lt_cv_sys_global_symbol_to_c_name_address="sed -n -e 's/^: \([[^ ]]*\) $/  {\\\"\1\\\", (lt_ptr) 0},/p' -e 's/^$symcode* \([[^ ]]*\) \([[^ ]]*\)$/  {\"\2\", (lt_ptr) \&\2},/p'"
-  fi
   ;;
 irix* | nonstopux*)
   symcode='[[BCDEGRST]]'
@@ -7638,6 +7670,8 @@ fi
 #
 
 AC_DEFUN([SIM_AC_COMPILE_DEBUG], [
+AC_REQUIRE([SIM_AC_CHECK_SIMIAN_IFELSE])
+
 AC_ARG_ENABLE(
   [debug],
   AC_HELP_STRING([--enable-debug], [compile in debug mode [[default=yes]]]),
@@ -7651,6 +7685,21 @@ AC_ARG_ENABLE(
 
 if $enable_debug; then
   DSUFFIX=d
+  if $sim_ac_simian; then
+    case $CXX in
+    *wrapmsvc* )
+      # uninitialized checks
+      if test ${sim_ac_msvc_version-0} -gt 6; then
+        SIM_AC_CC_COMPILER_OPTION([/RTCu], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /RTCu"])
+        SIM_AC_CXX_COMPILER_OPTION([/RTCu], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /RTCu"])
+        # stack frame checks
+        SIM_AC_CC_COMPILER_OPTION([/RTCs], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /RTCs"])
+        SIM_AC_CXX_COMPILER_OPTION([/RTCs], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /RTCs"])
+      fi
+      ;;
+    esac
+  fi
+
   ifelse([$1], , :, [$1])
 else
   DSUFFIX=
@@ -7695,6 +7744,115 @@ else
   CFLAGS="`echo $CFLAGS | sed 's/-O[[0-9]]*[[ ]]*//'`"
   CXXFLAGS="`echo $CXXFLAGS | sed 's/-O[[0-9]]*[[ ]]*//'`"
 fi
+])
+
+#
+# SIM_AC_CHECK_SIMIAN_IFELSE( IF-SIMIAN, IF-NOT-SIMIAN )
+#
+# Sets $sim_ac_simian to true or false
+#
+
+AC_DEFUN([SIM_AC_CHECK_SIMIAN_IFELSE], [
+AC_MSG_CHECKING([if user is simian])
+case `hostname -d 2>/dev/null || domainname 2>/dev/null || hostname` in
+*.sim.no | sim.no )
+  sim_ac_simian=true
+  ;;
+* )
+  if grep -ls "domain.*sim\\.no" /etc/resolv.conf >/dev/null; then
+    sim_ac_simian=true
+    :
+  else
+    sim_ac_simian=false
+    :
+  fi
+  ;;
+esac
+
+if $sim_ac_simian; then
+  AC_MSG_RESULT([probably])
+  ifelse($1, [], :, $1)
+else
+  AC_MSG_RESULT([probably not])
+  ifelse($2, [], :, $2)
+fi])
+
+
+#   Use this file to store miscellaneous macros related to checking
+#   compiler features.
+
+# Usage:
+#   SIM_AC_CC_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
+#   SIM_AC_CXX_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
+#
+# Description:
+#
+#   Check whether the current C or C++ compiler can handle a
+#   particular command-line option.
+#
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+#
+#   * [mortene:19991218] improve macros by catching and analyzing
+#     stderr (at least to see if there was any output there)?
+#
+
+AC_DEFUN([SIM_AC_COMPILER_OPTION], [
+sim_ac_save_cppflags=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $1"
+AC_TRY_COMPILE([], [], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
+AC_MSG_RESULT([$sim_ac_accept_result])
+CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in arg 2 or arg 3.
+if test $sim_ac_accept_result = yes; then
+  ifelse([$2], , :, [$2])
+else
+  ifelse([$3], , :, [$3])
+fi
+])
+
+AC_DEFUN([SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET], [
+sim_ac_save_cppflags=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $1"
+AC_TRY_COMPILE([], [$2], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
+CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in arg 3 or arg 4.
+if test $sim_ac_accept_result = yes; then
+  ifelse([$3], , :, [$3])
+else
+  ifelse([$4], , :, [$4])
+fi
+])
+
+
+AC_DEFUN([SIM_AC_CC_COMPILER_OPTION], [
+AC_LANG_SAVE
+AC_LANG(C)
+AC_MSG_CHECKING([whether $CC accepts $1])
+SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CC_COMPILER_BEHAVIOR_OPTION_QUIET], [
+AC_LANG_SAVE
+AC_LANG(C)
+SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CXX_COMPILER_OPTION], [
+AC_LANG_SAVE
+AC_LANG(C++)
+AC_MSG_CHECKING([whether $CXX accepts $1])
+SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET], [
+AC_LANG_SAVE
+AC_LANG(C++)
+SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
+AC_LANG_RESTORE
 ])
 
 # Usage:
@@ -7879,83 +8037,6 @@ else
 fi
 ])
 
-
-#   Use this file to store miscellaneous macros related to checking
-#   compiler features.
-
-# Usage:
-#   SIM_AC_CC_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
-#   SIM_AC_CXX_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
-#
-# Description:
-#
-#   Check whether the current C or C++ compiler can handle a
-#   particular command-line option.
-#
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-#
-#   * [mortene:19991218] improve macros by catching and analyzing
-#     stderr (at least to see if there was any output there)?
-#
-
-AC_DEFUN([SIM_AC_COMPILER_OPTION], [
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS $1"
-AC_TRY_COMPILE([], [], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
-AC_MSG_RESULT([$sim_ac_accept_result])
-CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in arg 2 or arg 3.
-if test $sim_ac_accept_result = yes; then
-  ifelse([$2], , :, [$2])
-else
-  ifelse([$3], , :, [$3])
-fi
-])
-
-AC_DEFUN([SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET], [
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS $1"
-AC_TRY_COMPILE([], [$2], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
-CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in arg 3 or arg 4.
-if test $sim_ac_accept_result = yes; then
-  ifelse([$3], , :, [$3])
-else
-  ifelse([$4], , :, [$4])
-fi
-])
-
-
-AC_DEFUN([SIM_AC_CC_COMPILER_OPTION], [
-AC_LANG_SAVE
-AC_LANG(C)
-AC_MSG_CHECKING([whether $CC accepts $1])
-SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
-AC_LANG_RESTORE
-])
-
-AC_DEFUN([SIM_AC_CC_COMPILER_BEHAVIOR_OPTION_QUIET], [
-AC_LANG_SAVE
-AC_LANG(C)
-SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
-AC_LANG_RESTORE
-])
-
-AC_DEFUN([SIM_AC_CXX_COMPILER_OPTION], [
-AC_LANG_SAVE
-AC_LANG(C++)
-AC_MSG_CHECKING([whether $CXX accepts $1])
-SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
-AC_LANG_RESTORE
-])
-
-AC_DEFUN([SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET], [
-AC_LANG_SAVE
-AC_LANG(C++)
-SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
-AC_LANG_RESTORE
-])
 
 # Usage:
 #   SIM_AC_PROFILING_SUPPORT
@@ -8166,6 +8247,12 @@ SIM_AC_COMPILE_DEBUG([
       # warning level 3
       SIM_AC_CC_COMPILER_OPTION([/W3], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /W3"])
       SIM_AC_CXX_COMPILER_OPTION([/W3], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /W3"])
+
+      if test ${sim_ac_msvc_version-0} -gt 6; then
+        # 64-bit porting warnings
+        SIM_AC_CC_COMPILER_OPTION([/Wp64], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /Wp64"])
+        SIM_AC_CXX_COMPILER_OPTION([/Wp64], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /Wp64"])
+      fi
       ;;
     esac
   fi
@@ -8178,15 +8265,17 @@ ifelse($1, [], :, $1)
 AC_DEFUN([SIM_AC_COMPILER_NOBOOL], [
 sim_ac_nobool_CXXFLAGS=
 sim_ac_have_nobool=false
-AC_MSG_CHECKING([whether $CXX accepts /noBool])
-SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
-  [/noBool],
-  [int temp],
-  [SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
+if $BUILD_WITH_MSVC && test x$sim_ac_msvc_version = x6; then
+  AC_MSG_CHECKING([whether $CXX accepts /noBool])
+  SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
     [/noBool],
-    [bool res = true],
-    [],
-    [sim_ac_have_nobool=true])])
+    [int temp],
+    [SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
+      [/noBool],
+      [bool res = true],
+      [],
+      [sim_ac_have_nobool=true])])
+fi
  
 if $sim_ac_have_nobool; then
   sim_ac_nobool_CXXFLAGS="/noBool"
@@ -8220,38 +8309,6 @@ case $VERSION in
   ;;
 esac
 ])
-
-
-#
-# SIM_AC_CHECK_SIMIAN_IFELSE( IF-SIMIAN, IF-NOT-SIMIAN )
-#
-# Sets $sim_ac_simian to true or false
-#
-
-AC_DEFUN([SIM_AC_CHECK_SIMIAN_IFELSE], [
-AC_MSG_CHECKING([if user is simian])
-case `hostname -d 2>/dev/null || domainname 2>/dev/null || hostname` in
-*.sim.no | sim.no )
-  sim_ac_simian=true
-  ;;
-* )
-  if grep -ls "domain.*sim\\.no" /etc/resolv.conf >/dev/null; then
-    sim_ac_simian=true
-    :
-  else
-    sim_ac_simian=false
-    :
-  fi
-  ;;
-esac
-
-if $sim_ac_simian; then
-  AC_MSG_RESULT([probably])
-  ifelse($1, [], :, $1)
-else
-  AC_MSG_RESULT([probably not])
-  ifelse($2, [], :, $2)
-fi])
 
 
 # conf-macros/sogui.m4
@@ -8735,7 +8792,7 @@ sim_ac_oivqt_libs="-lInventorQt"
 sim_ac_save_libs=$LIBS
 LIBS="$sim_ac_oivqt_libs $LIBS"
 
-AC_CACHE_CHECK([for Qt glue library in the Open Inventor developer kit],
+AC_CACHE_CHECK([for InventorQt glue library],
   sim_cv_lib_oivqt_avail,
   [AC_TRY_LINK([#include <Inventor/Qt/SoQt.h>],
                [(void)SoQt::init(0L, 0L);],
