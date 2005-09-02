@@ -398,8 +398,10 @@ LIBS=$sim_ac_configure_save_libs
 # **************************************************************************
 # Misc set-up.
 
-# Functions from the gdi32.lib and user32.lib libraries are used.
-LIBS="$LIBS -lgdi32 -luser32"
+if $SOWIN_STATIC; then :; else
+  # Functions from the gdi32.lib and user32.lib libraries are used.
+  LIBS="$LIBS -lgdi32 -luser32"
+fi
 SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lgdi32 -luser32"
 
 # **************************************************************************
