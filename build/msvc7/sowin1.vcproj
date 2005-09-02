@@ -11,7 +11,7 @@
 	</Platforms>
 	<Configurations>
 		<Configuration
-			Name="Release|Win32"
+			Name="DLL (Release)|Win32"
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
@@ -56,7 +56,7 @@
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="installsowin.bat"/>
+				CommandLine="install-dll-release.bat"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -77,7 +77,59 @@
 				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
-			Name="Debug|Win32"
+			Name="LIB (Release)|Win32"
+			OutputDirectory=".\StaticRelease"
+			IntermediateDirectory=".\StaticRelease"
+			ConfigurationType="4"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_INTERNAL;COIN_DLL"
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderFile=".\StaticRelease/sowin1.pch"
+				AssemblerListingLocation=".\StaticRelease/"
+				ObjectFile=".\StaticRelease/"
+				ProgramDataBaseFileName=".\StaticRelease/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="sowin1s.lib"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="install-lib-release.bat"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1044"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="DLL (Debug)|Win32"
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="2"
@@ -121,7 +173,7 @@
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="installsowin.bat"/>
+				CommandLine="install-dll-debug.bat"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -141,6 +193,58 @@
 			<Tool
 				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
+		<Configuration
+			Name="LIB (Debug)|Win32"
+			OutputDirectory=".\StaticDebug"
+			IntermediateDirectory=".\StaticDebug"
+			ConfigurationType="4"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_INTERNAL;COIN_DLL"
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderFile=".\StaticDebug/sowin1.pch"
+				AssemblerListingLocation=".\StaticDebug/"
+				ObjectFile=".\StaticDebug/"
+				ProgramDataBaseFileName=".\StaticDebug/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="sowin1sd.lib"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="install-lib-debug.bat"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1044"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
@@ -151,7 +255,7 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\ClickCounter.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -161,7 +265,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -170,12 +284,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\ColorEditor.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -185,7 +309,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -194,12 +328,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\engines\Engines.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -209,7 +353,17 @@
 						ProgramDataBaseFileName="Release\engines/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\engines/"
+						ProgramDataBaseFileName="StaticRelease\engines/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -218,12 +372,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\engines/"
 						ProgramDataBaseFileName="Debug\engines/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\engines/"
+						ProgramDataBaseFileName="StaticDebug\engines/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\viewers\ExaminerViewer.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -233,7 +397,17 @@
 						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -242,12 +416,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\engines\Format.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -257,7 +441,17 @@
 						ProgramDataBaseFileName="Release\engines/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\engines/"
+						ProgramDataBaseFileName="StaticRelease\engines/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -266,12 +460,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\engines/"
 						ProgramDataBaseFileName="Debug\engines/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\engines/"
+						ProgramDataBaseFileName="StaticDebug\engines/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\Frame.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -281,7 +485,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -290,12 +504,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\viewers\FullViewer.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -305,7 +529,17 @@
 						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -314,12 +548,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\Image.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -329,7 +573,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -338,12 +592,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\Label.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -353,7 +617,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -362,12 +636,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\MaterialEditor.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -377,7 +661,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -386,12 +680,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\Nodes.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -401,7 +705,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -410,12 +724,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\Pane.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -425,7 +749,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -435,11 +769,21 @@
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\viewers\PlaneViewer.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -449,7 +793,17 @@
 						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -459,11 +813,21 @@
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\Position.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -473,7 +837,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -482,12 +856,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\RadioButton.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -497,7 +881,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -507,11 +901,21 @@
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\engines\RadioGroup.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -521,7 +925,17 @@
 						ProgramDataBaseFileName="Release\engines/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\engines/"
+						ProgramDataBaseFileName="StaticRelease\engines/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -531,11 +945,21 @@
 						ObjectFile=".\Debug\engines/"
 						ProgramDataBaseFileName="Debug\engines/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\engines/"
+						ProgramDataBaseFileName="StaticDebug\engines/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\SceneTexture2.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -545,7 +969,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -554,12 +988,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\Slider1.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -569,7 +1013,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -578,12 +1032,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\Slider2.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -593,7 +1057,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -602,12 +1076,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\SoAny.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -617,7 +1101,17 @@
 						ProgramDataBaseFileName="Release\Win/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Win/"
+						ProgramDataBaseFileName="StaticRelease\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -626,12 +1120,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\Win/"
 						ProgramDataBaseFileName="Debug\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Win/"
+						ProgramDataBaseFileName="StaticDebug\Win/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\widgets\SoAnyThumbWheel.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -641,7 +1145,17 @@
 						ProgramDataBaseFileName="Release\widgets/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\widgets/"
+						ProgramDataBaseFileName="StaticRelease\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -650,12 +1164,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\widgets/"
 						ProgramDataBaseFileName="Debug\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\widgets/"
+						ProgramDataBaseFileName="StaticDebug\widgets/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\SoWin.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -665,7 +1189,17 @@
 						ProgramDataBaseFileName="Release\Win/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Win/"
+						ProgramDataBaseFileName="StaticRelease\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -674,12 +1208,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\Win/"
 						ProgramDataBaseFileName="Debug\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Win/"
+						ProgramDataBaseFileName="StaticDebug\Win/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\widgets\SoWinBitmapButton.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -689,7 +1233,17 @@
 						ProgramDataBaseFileName="Release\widgets/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\widgets/"
+						ProgramDataBaseFileName="StaticRelease\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -698,12 +1252,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\widgets/"
 						ProgramDataBaseFileName="Debug\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\widgets/"
+						ProgramDataBaseFileName="StaticDebug\widgets/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\editors\SoWinColorEditor.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -713,7 +1277,17 @@
 						ProgramDataBaseFileName="Release\editors/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\editors/"
+						ProgramDataBaseFileName="StaticRelease\editors/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -722,12 +1296,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\editors/"
 						ProgramDataBaseFileName="Debug\editors/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\editors/"
+						ProgramDataBaseFileName="StaticDebug\editors/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\SoWinCommon.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -737,7 +1321,17 @@
 						ProgramDataBaseFileName="Release\Win/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Win/"
+						ProgramDataBaseFileName="StaticRelease\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -746,12 +1340,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\Win/"
 						ProgramDataBaseFileName="Debug\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Win/"
+						ProgramDataBaseFileName="StaticDebug\Win/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\SoWinComponent.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -761,7 +1365,17 @@
 						ProgramDataBaseFileName="Release\Win/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Win/"
+						ProgramDataBaseFileName="StaticRelease\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -770,12 +1384,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\Win/"
 						ProgramDataBaseFileName="Debug\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Win/"
+						ProgramDataBaseFileName="StaticDebug\Win/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\SoWinComponentCommon.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -785,7 +1409,17 @@
 						ProgramDataBaseFileName="Release\Win/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Win/"
+						ProgramDataBaseFileName="StaticRelease\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -794,12 +1428,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\Win/"
 						ProgramDataBaseFileName="Debug\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Win/"
+						ProgramDataBaseFileName="StaticDebug\Win/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -809,7 +1453,17 @@
 						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -818,12 +1472,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\SoWinCursor.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -833,7 +1497,17 @@
 						ProgramDataBaseFileName="Release\Win/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Win/"
+						ProgramDataBaseFileName="StaticRelease\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -842,12 +1516,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\Win/"
 						ProgramDataBaseFileName="Debug\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Win/"
+						ProgramDataBaseFileName="StaticDebug\Win/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\devices\SoWinDevice.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -857,7 +1541,17 @@
 						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -866,12 +1560,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\devices\SoWinDeviceCommon.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -881,7 +1585,17 @@
 						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -890,12 +1604,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\viewers\SoWinExaminerViewer.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -905,7 +1629,17 @@
 						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -914,12 +1648,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\viewers\SoWinFlyViewer.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -929,7 +1673,17 @@
 						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -938,12 +1692,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\viewers\SoWinFullViewer.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -953,7 +1717,17 @@
 						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -963,11 +1737,21 @@
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\SoWinGLWidget.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -977,7 +1761,17 @@
 						ProgramDataBaseFileName="Release\Win/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Win/"
+						ProgramDataBaseFileName="StaticRelease\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -986,12 +1780,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\Win/"
 						ProgramDataBaseFileName="Debug\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Win/"
+						ProgramDataBaseFileName="StaticDebug\Win/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\SoWinGLWidgetCommon.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1001,7 +1805,17 @@
 						ProgramDataBaseFileName="Release\Win/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Win/"
+						ProgramDataBaseFileName="StaticRelease\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1011,11 +1825,21 @@
 						ObjectFile=".\Debug\Win/"
 						ProgramDataBaseFileName="Debug\Win/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Win/"
+						ProgramDataBaseFileName="StaticDebug\Win/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\devices\SoWinInputFocus.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1025,7 +1849,17 @@
 						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1034,12 +1868,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\devices\SoWinInputFocusCommon.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1049,7 +1893,17 @@
 						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1058,12 +1912,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\devices\SoWinKeyboard.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1073,7 +1937,17 @@
 						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1082,12 +1956,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\devices\SoWinKeyboardCommon.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1097,7 +1981,17 @@
 						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1107,11 +2001,21 @@
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\editors\SoWinMaterialEditor.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1121,7 +2025,17 @@
 						ProgramDataBaseFileName="Release\editors/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\editors/"
+						ProgramDataBaseFileName="StaticRelease\editors/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1131,11 +2045,21 @@
 						ObjectFile=".\Debug\editors/"
 						ProgramDataBaseFileName="Debug\editors/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\editors/"
+						ProgramDataBaseFileName="StaticDebug\editors/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\devices\SoWinMouse.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1145,7 +2069,17 @@
 						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1154,12 +2088,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\devices\SoWinMouseCommon.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1169,7 +2113,17 @@
 						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1178,12 +2132,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\SoWinObject.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1193,7 +2157,17 @@
 						ProgramDataBaseFileName="Release\Win/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Win/"
+						ProgramDataBaseFileName="StaticRelease\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1202,12 +2176,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\Win/"
 						ProgramDataBaseFileName="Debug\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Win/"
+						ProgramDataBaseFileName="StaticDebug\Win/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\viewers\SoWinPlaneViewer.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1217,7 +2201,17 @@
 						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1226,12 +2220,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\widgets\SoWinPopupMenu.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1241,7 +2245,17 @@
 						ProgramDataBaseFileName="Release\widgets/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\widgets/"
+						ProgramDataBaseFileName="StaticRelease\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1251,11 +2265,21 @@
 						ObjectFile=".\Debug\widgets/"
 						ProgramDataBaseFileName="Debug\widgets/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\widgets/"
+						ProgramDataBaseFileName="StaticDebug\widgets/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\SoWinRenderArea.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1265,7 +2289,17 @@
 						ProgramDataBaseFileName="Release\Win/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Win/"
+						ProgramDataBaseFileName="StaticRelease\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1275,11 +2309,21 @@
 						ObjectFile=".\Debug\Win/"
 						ProgramDataBaseFileName="Debug\Win/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Win/"
+						ProgramDataBaseFileName="StaticDebug\Win/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\devices\SoWinSpaceball.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1289,7 +2333,17 @@
 						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1298,12 +2352,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\devices\SoWinSpaceballCommon.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1313,7 +2377,17 @@
 						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1323,11 +2397,21 @@
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\widgets\SoWinThumbWheel.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1337,7 +2421,17 @@
 						ProgramDataBaseFileName="Release\widgets/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\widgets/"
+						ProgramDataBaseFileName="StaticRelease\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1347,11 +2441,21 @@
 						ObjectFile=".\Debug\widgets/"
 						ProgramDataBaseFileName="Debug\widgets/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\widgets/"
+						ProgramDataBaseFileName="StaticDebug\widgets/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\viewers\SoWinViewer.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1361,7 +2465,17 @@
 						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1371,11 +2485,21 @@
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\devices\spwinput_win32.c">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1385,7 +2509,17 @@
 						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1394,12 +2528,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\devices\spwinput_x11.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1409,7 +2553,17 @@
 						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1419,11 +2573,21 @@
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\ToggleButton.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1433,7 +2597,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1442,12 +2616,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\Translation.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1457,7 +2641,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1466,12 +2660,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\ViewpointWrapper.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1481,7 +2685,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1490,12 +2704,22 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Win\nodes\ViewportFix.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1505,7 +2729,17 @@
 						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1515,11 +2749,21 @@
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\Win32API.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1529,7 +2773,17 @@
 						ProgramDataBaseFileName="Release\Win/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Win/"
+						ProgramDataBaseFileName="StaticRelease\Win/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1539,11 +2793,21 @@
 						ObjectFile=".\Debug\Win/"
 						ProgramDataBaseFileName="Debug\Win/"/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Win/"
+						ProgramDataBaseFileName="StaticDebug\Win/"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Win\widgets\WinNativePopupMenu.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
@@ -1553,7 +2817,17 @@
 						ProgramDataBaseFileName="Release\widgets/"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\widgets/"
+						ProgramDataBaseFileName="StaticRelease\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1562,6 +2836,16 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\widgets/"
 						ProgramDataBaseFileName="Debug\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\widgets/"
+						ProgramDataBaseFileName="StaticDebug\widgets/"/>
 				</FileConfiguration>
 			</File>
 		</Filter>
@@ -1648,30 +2932,108 @@
 			Name="Private Headers"
 			Filter="h;ic;icc">
 			<File
-				RelativePath="src\config.h">
+				RelativePath="src\config-debug.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="src\config.h">
+				RelativePath="src\config-debug.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\config-release.h">
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\config-release.h">
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1680,13 +3042,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiClickCounter.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1695,13 +3069,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiClickCounter.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1710,13 +3096,25 @@
 			<File
 				RelativePath="src\Inventor\Win\SoGuiComponentP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1725,13 +3123,25 @@
 			<File
 				RelativePath="src\Inventor\Win\SoGuiComponentP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1740,13 +3150,25 @@
 			<File
 				RelativePath="src\Inventor\Win\devices\SoGuiDeviceP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1755,13 +3177,25 @@
 			<File
 				RelativePath="src\Inventor\Win\devices\SoGuiDeviceP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1770,13 +3204,25 @@
 			<File
 				RelativePath="src\Inventor\Win\engines\SoGuiEngines.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1785,13 +3231,25 @@
 			<File
 				RelativePath="src\Inventor\Win\engines\SoGuiEngines.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1800,13 +3258,25 @@
 			<File
 				RelativePath="src\Inventor\Win\viewers\SoGuiExaminerViewerP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1815,13 +3285,25 @@
 			<File
 				RelativePath="src\Inventor\Win\viewers\SoGuiExaminerViewerP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1830,13 +3312,25 @@
 			<File
 				RelativePath="src\Inventor\Win\engines\SoGuiFormat.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1845,13 +3339,25 @@
 			<File
 				RelativePath="src\Inventor\Win\engines\SoGuiFormat.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1860,13 +3366,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiFrame.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1875,13 +3393,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiFrame.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1890,13 +3420,25 @@
 			<File
 				RelativePath="src\Inventor\Win\viewers\SoGuiFullViewerP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1905,13 +3447,25 @@
 			<File
 				RelativePath="src\Inventor\Win\viewers\SoGuiFullViewerP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1920,13 +3474,25 @@
 			<File
 				RelativePath="src\Inventor\Win\SoGuiGLWidgetP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1935,13 +3501,25 @@
 			<File
 				RelativePath="src\Inventor\Win\SoGuiGLWidgetP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1950,13 +3528,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiImage.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1965,13 +3555,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiImage.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1980,13 +3582,25 @@
 			<File
 				RelativePath="src\Inventor\Win\devices\SoGuiInputFocusP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1995,13 +3609,25 @@
 			<File
 				RelativePath="src\Inventor\Win\devices\SoGuiInputFocusP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2010,13 +3636,25 @@
 			<File
 				RelativePath="src\Inventor\Win\devices\SoGuiKeyboardP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2025,13 +3663,25 @@
 			<File
 				RelativePath="src\Inventor\Win\devices\SoGuiKeyboardP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2040,13 +3690,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiLabel.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2055,13 +3717,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiLabel.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2070,13 +3744,25 @@
 			<File
 				RelativePath="src\Inventor\Win\devices\SoGuiMouseP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2085,13 +3771,25 @@
 			<File
 				RelativePath="src\Inventor\Win\devices\SoGuiMouseP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2100,13 +3798,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiNodes.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2115,13 +3825,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiNodes.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2130,13 +3852,25 @@
 			<File
 				RelativePath="src\Inventor\Win\SoGuiP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2145,13 +3879,25 @@
 			<File
 				RelativePath="src\Inventor\Win\SoGuiP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2160,13 +3906,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiPane.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2175,13 +3933,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiPane.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2190,13 +3960,25 @@
 			<File
 				RelativePath="src\Inventor\Win\viewers\SoGuiPlaneViewerP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2205,13 +3987,25 @@
 			<File
 				RelativePath="src\Inventor\Win\viewers\SoGuiPlaneViewerP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2220,13 +4014,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiPosition.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2235,13 +4041,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiPosition.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2250,13 +4068,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiRadioButton.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2265,13 +4095,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiRadioButton.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2280,13 +4122,25 @@
 			<File
 				RelativePath="src\Inventor\Win\engines\SoGuiRadioGroup.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2295,13 +4149,25 @@
 			<File
 				RelativePath="src\Inventor\Win\engines\SoGuiRadioGroup.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2310,13 +4176,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiSceneTexture2.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2325,13 +4203,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiSceneTexture2.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2340,13 +4230,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiSlider1.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2355,13 +4257,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiSlider1.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2370,13 +4284,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiSlider2.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2385,13 +4311,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiSlider2.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2400,13 +4338,25 @@
 			<File
 				RelativePath="src\Inventor\Win\devices\SoGuiSpaceballP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2415,13 +4365,25 @@
 			<File
 				RelativePath="src\Inventor\Win\devices\SoGuiSpaceballP.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2430,13 +4392,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiToggleButton.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2445,13 +4419,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiToggleButton.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2460,13 +4446,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiTranslation.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2475,13 +4473,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiTranslation.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2490,13 +4500,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiViewpointWrapper.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2505,13 +4527,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiViewpointWrapper.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2520,13 +4554,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiViewportFix.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2535,13 +4581,25 @@
 			<File
 				RelativePath="src\Inventor\Win\nodes\SoGuiViewportFix.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2550,13 +4608,25 @@
 			<File
 				RelativePath="src\sowindefs.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2565,13 +4635,25 @@
 			<File
 				RelativePath="src\sowindefs.h">
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>

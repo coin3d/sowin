@@ -48,6 +48,10 @@
 
 #include <Inventor/Win/SoWinRenderArea.h>
 
+#ifndef SOWIN_INTERNAL
+#include <Inventor/events/SoKeyboardEvent.h>
+#endif // SOWIN_INTERNAL
+
 class SoCallbackList;
 class SoBaseColor;
 class SoCamera;
@@ -198,6 +202,7 @@ protected:
   virtual void setSeekMode(SbBool enable);
   SbBool isSeekMode(void) const;
   SbBool seekToPoint(const SbVec2s screenpos);
+  void seekToPoint(const SbVec3f & scenepos);
   virtual void computeSeekFinalOrientation(void);
 
   virtual void actualRedraw(void);
