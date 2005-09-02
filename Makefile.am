@@ -182,11 +182,17 @@ EXTRA_DIST = \
 	build/msvc6/src/Inventor/Win/widgets/SoAnyThumbWheel.h \
 	build/msvc6/src/Inventor/Win/widgets/SoWinPopupMenu.cpp \
 	build/msvc6/src/Inventor/Win/widgets/SoWinPopupMenu.h \
+	build/msvc6/src/config-debug.h \
+	build/msvc6/src/config-release.h \
 	build/msvc6/src/config.h \
 	build/msvc6/src/sowindefs.h \
 	build/msvc6/generate.sh \
-	build/msvc6/installsowin.bat \
-	build/msvc6/installsowinheaders.bat \
+	build/msvc6/config-wrapper.h \
+	build/msvc6/install-headers.bat \
+	build/msvc6/install-lib-release.bat \
+	build/msvc6/install-lib-debug.bat \
+	build/msvc6/install-dll-release.bat \
+	build/msvc6/install-dll-debug.bat \
 	build/msvc6/sowin1.dsp \
 	build/msvc6/sowin1.dsw \
 	build/msvc7/src/Inventor/Win/common/gl.h \
@@ -293,10 +299,16 @@ EXTRA_DIST = \
 	build/msvc7/src/Inventor/Win/widgets/SoWinPopupMenu.cpp \
 	build/msvc7/src/Inventor/Win/widgets/SoWinPopupMenu.h \
 	build/msvc7/src/config.h \
+	build/msvc7/src/config-debug.h \
+	build/msvc7/src/config-release.h \
 	build/msvc7/src/sowindefs.h \
 	build/msvc7/generate.sh \
-	build/msvc7/installsowin.bat \
-	build/msvc7/installsowinheaders.bat \
+	build/msvc7/config-wrapper.h \
+	build/msvc7/install-headers.bat \
+	build/msvc7/install-lib-release.bat \
+	build/msvc7/install-lib-debug.bat \
+	build/msvc7/install-dll-release.bat \
+	build/msvc7/install-dll-debug.bat \
 	build/msvc7/sowin1.sln \
 	build/msvc7/sowin1.vcproj
 
