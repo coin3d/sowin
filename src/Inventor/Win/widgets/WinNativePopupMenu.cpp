@@ -265,8 +265,8 @@ WinNativePopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
 
-  assert(rec != NULL && "no such menu");
-  assert(IsMenu(rec->parent));
+  if(rec == NULL) return;
+  if(rec->parent == NULL) return;
 
   rec->flags |= ITEM_TOGGLE;
 
@@ -291,8 +291,8 @@ SbBool
 WinNativePopupMenu::getMenuItemMarked(int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
-  assert(rec != NULL && "no such menu");
-  assert(rec->parent != NULL);
+  if(rec == NULL) return FALSE;
+  if(rec->parent == NULL) return FALSE;
   
   MENUITEMINFO info;
 
