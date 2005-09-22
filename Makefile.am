@@ -69,8 +69,10 @@ EXTRA_DIST = \
 	cfg/gendsp.sh.in \
 	docs/ChangeLog.v1.0.0 \
 	docs/ChangeLog.v1.2.0 \
+	docs/ChangeLog.v1.3.0 \
 	docs/announcement-1_1_0.txt \
 	docs/announcement-1_2_0.txt \
+	docs/announcement-1_3_0.txt \
 	packaging/windows/Makefile.in \
 	packaging/windows/bfheader.nsi.in \
 	packaging/windows/footer.nsi.in \
