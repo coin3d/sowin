@@ -275,3 +275,273 @@ SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\devices\SoWinInputFocus
 # Begin Source File
 
 SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\devices\SoWinKeyboardCommon.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\devices"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\devices\SoWinMouseCommon.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\devices"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\devices"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\editors\SoWinColorEditor.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\editors"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\editors"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\editors"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\editors"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\editors\SoWinMaterialEditor.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\editors"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\editors"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\editors"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\editors"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\engines\Engines.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\engines"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\engines"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\engines"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\engines"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\engines\RadioGroup.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\engines"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\engines"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\engines"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\engines"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\engines\Format.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\engines"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\engines"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\engines"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\engines"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\Nodes.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\SceneTexture2.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\ViewportFix.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\ViewpointWrapper.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\Pane.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\Position.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\Translation.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\Frame.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\Image.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\Label.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\ToggleButton.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\RadioButton.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
+# Begin Source File
+
+SOURCE=c:\Work\source\SoWin\build\msvc6\src\Inventor\Win\nodes\ClickCounter.cpp
+!IF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Release)"
+# PROP Intermediate_Dir "Release\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 DLL (Debug)"
+# PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "sowin@SOWIN_MAJOR_VERSION@ - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
+!ENDIF 
+# End Source File
