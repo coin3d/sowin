@@ -1042,11 +1042,6 @@ SOURCE=.\src\config-release.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\config.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\Inventor\Win\devices\SoGuiDeviceP.h
 # PROP Exclude_From_Build 1
 # End Source File
@@ -1203,11 +1198,6 @@ SOURCE=.\src\config-debug.h
 # Begin Source File
 
 SOURCE=.\src\config-release.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\config.h
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File

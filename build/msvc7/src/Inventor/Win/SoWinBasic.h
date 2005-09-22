@@ -69,16 +69,16 @@ inline void SoWinSwap(Type & a, Type & b) {
 #define SOWIN_MAJOR_VERSION 1
 #endif /* ! SOWIN_MAJOR_VERSION */
 #if ! defined(SOWIN_MINOR_VERSION)
-#define SOWIN_MINOR_VERSION 2
+#define SOWIN_MINOR_VERSION 3
 #endif /* ! SOWIN_MINOR_VERSION */
 #if ! defined(SOWIN_MICRO_VERSION)
-#define SOWIN_MICRO_VERSION 1
+#define SOWIN_MICRO_VERSION 0
 #endif /* ! SOWIN_MICRO_VERSION */
 #if ! defined(SOWIN_BETA_VERSION)
 /* #undef SOWIN_BETA_VERSION */
 #endif /* ! SOWIN_BETA_VERSION */
 #if ! defined(SOWIN_VERSION)
-#define SOWIN_VERSION "1.2.1a"
+#define SOWIN_VERSION "1.3.0"
 #endif /* ! SOWIN_VERSION */
 
 // *************************************************************************
