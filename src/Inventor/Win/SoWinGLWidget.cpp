@@ -90,6 +90,14 @@ SoWinGLWidget::SoWinGLWidget(HWND const parent,
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SoWinGLWidget::~SoWinGLWidget()
 {
+  if (PRIVATE(this)->ctxNormal) {
+    BOOL r = wglDeleteContext(PRIVATE(this)->ctxNormal);
+    assert(r && "wglDeleteContext() failed -- investigate");
+  }
+  if (PRIVATE(this)->ctxOverlay) {
+    BOOL r = wglDeleteContext(PRIVATE(this)->ctxOverlay);
+    assert(r && "wglDeleteContext() failed -- investigate");
+  }
   if (IsWindow(PRIVATE(this)->managerWidget))
     Win32::DestroyWindow(PRIVATE(this)->managerWidget);
   if (IsWindow(PRIVATE(this)->normalWidget))
