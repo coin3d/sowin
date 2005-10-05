@@ -78,6 +78,7 @@ SoWinGLWidget::SoWinGLWidget(HWND const parent,
 
   PRIVATE(this)->glModes = glmodes;
   PRIVATE(this)->glRealized = FALSE;
+  PRIVATE(this)->glSize = SbVec2s(0,0);
 
   this->setClassName("SoWinGLWidget");
 	

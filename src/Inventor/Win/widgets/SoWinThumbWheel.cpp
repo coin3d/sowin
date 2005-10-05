@@ -75,6 +75,7 @@ SoWinThumbWheel::constructor(Orientation orientation,
   this->currentPixmap = -1;
   this->viewerCB = NULL;
   this->labelWindow = NULL;
+  this->wheelWindow = NULL;
 
   RECT rect = { x, y, this->sizeHint().cx, this->sizeHint().cy };
   this->buildWidget(parent, rect, name);
