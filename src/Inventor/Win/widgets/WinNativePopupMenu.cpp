@@ -102,6 +102,9 @@ WinNativePopupMenu::~WinNativePopupMenu(void)
     delete [] rec->title;
     delete rec;
   }
+  
+  delete this->menus;
+  delete this->items;
 }
 
 // *************************************************************************
