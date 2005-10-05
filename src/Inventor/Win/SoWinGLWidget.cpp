@@ -1422,8 +1422,14 @@ SoWinGLWidgetP::createGLContext(HWND window)
 
     Win32::ReleaseDC(tempwindow, tempdc);
     Win32::DestroyWindow(tempwindow);
-
-    if (!foundone) i++;
+    
+    // delete the test context before looping or exiting to avoid
+    // memory leaks.
+    if (this->ctxNormal) {
+      BOOL r = wglDeleteContext(this->ctxNormal);
+      assert(r && "wglDeleteContext() failed -- investigate");
+      this->ctxNormal = NULL;
+    }
   } while (i < pflist.getLength() && !foundone);
   
   if (!foundone) { goto panic; }
