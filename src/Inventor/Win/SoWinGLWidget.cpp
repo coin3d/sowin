@@ -1423,6 +1423,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
     Win32::ReleaseDC(tempwindow, tempdc);
     Win32::DestroyWindow(tempwindow);
     
+    if (!foundone) i++;
     // delete the test context before looping or exiting to avoid
     // memory leaks.
     if (this->ctxNormal) {
