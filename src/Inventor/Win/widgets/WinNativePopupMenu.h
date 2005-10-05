@@ -41,7 +41,7 @@ class SOWIN_DLL_API WinNativePopupMenu : public SoWinPopupMenu {
 
 public:
   WinNativePopupMenu(void);
-  ~WinNativePopupMenu(void);
+  virtual ~WinNativePopupMenu(void);
 
   virtual int newMenu(const char * name, int menuid = -1);
   virtual int getMenu(const char * name);
