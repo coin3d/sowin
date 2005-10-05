@@ -1419,11 +1419,6 @@ SoWinGLWidgetP::createGLContext(HWND window)
                              "Failed to set pixel format for format == %d",
                              pf->format);
     }
-
-    Win32::ReleaseDC(tempwindow, tempdc);
-    Win32::DestroyWindow(tempwindow);
-    
-    if (!foundone) i++;
     // delete the test context before looping or exiting to avoid
     // memory leaks.
     if (this->ctxNormal) {
@@ -1431,6 +1426,10 @@ SoWinGLWidgetP::createGLContext(HWND window)
       assert(r && "wglDeleteContext() failed -- investigate");
       this->ctxNormal = NULL;
     }
+    Win32::ReleaseDC(tempwindow, tempdc);
+    Win32::DestroyWindow(tempwindow);
+    
+    if (!foundone) i++;
   } while (i < pflist.getLength() && !foundone);
   
   if (!foundone) { goto panic; }
