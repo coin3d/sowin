@@ -658,3 +658,13 @@ int main(int argc, char* argv[])
     in this case.
 
 =====================================================================
+
+025 Memory leaks upon opening and closing SoWinExaminerViewer
+    instances.
+
+    We've had reports about this, even with recent versions of
+    SoWin. Give it a spin with Rational Purify.
+
+    20051028 mortene.
+
+=====================================================================
