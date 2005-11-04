@@ -657,6 +657,10 @@ int main(int argc, char* argv[])
     remove this item, or whether we should fix up SoWin to work better
     in this case.
 
+    UPDATE 20051104 mortene: Coin-user Volker Enderlein checked this
+    out, and found InventorWin to work properly in this case, so this
+    should be fixed for SoWin.
+
 =====================================================================
 
 025 Memory leaks upon opening and closing SoWinExaminerViewer
