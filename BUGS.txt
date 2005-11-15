@@ -672,3 +672,59 @@ int main(int argc, char* argv[])
     20051028 mortene.
 
 =====================================================================
+
+026 A minimized window causes the getGLSize() to return negative
+    values.
+
+    This further causes bad parameters to be passed in to OpenGL when
+    drawing the axis cross, which causes GL errors.
+
+    20051115 mortene. reported by Robert Derek Norris, who suggested
+    the following patch:
+
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+diff -r -u SoWin-20020502/src/Inventor/Win/SoWinComponent.cpp SoWin-20020502-Mod/src/Inventor/Win/SoWinComponent.cpp
+--- SoWin-20020502/src/Inventor/Win/SoWinComponent.cpp	Fri Mar 22 09:42:40 2002
++++ SoWin-20020502-Mod/src/Inventor/Win/SoWinComponent.cpp	Thu May  2 16:05:08 2002
+@@ -587,7 +587,7 @@
+ SoWinComponent::setSize(const SbVec2s size)
+ {
+   UINT flags = SWP_NOMOVE | SWP_NOZORDER; // do redraw
+-  Win32::SetWindowPos(this->getShellWidget(), NULL, 0, 0,
++  Win32::SetWindowPos(this->getParentWidget(), NULL, 0, 0,
+                        size[0], size[1], flags);
+ } // setSize()
+ 
+@@ -600,7 +600,7 @@
+ SoWinComponent::getSize(void) const
+ {
+   RECT rect;
+-  Win32::GetWindowRect(this->getShellWidget(), & rect);
++  Win32::GetWindowRect(this->getParentWidget(), & rect);
+   return SbVec2s(rect.right - rect.left, rect.bottom - rect.top);
+ } // getSize()
+ 
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0.dll
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0.exp
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0.lib
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0.pdb
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0d.dll
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0d.exp
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0d.pdb
+diff -r -u SoWin-20020502/src/Inventor/Win/viewers/FullViewer.cpp SoWin-20020502-Mod/src/Inventor/Win/viewers/FullViewer.cpp
+--- SoWin-20020502/src/Inventor/Win/viewers/FullViewer.cpp	Mon Mar 25 07:16:24 2002
++++ SoWin-20020502-Mod/src/Inventor/Win/viewers/FullViewer.cpp	Thu May  2 16:04:38 2002
+@@ -1064,7 +1064,7 @@
+     // App buttons
+     for(i = 0; i < numAppButtons; i++) {
+       Win32::MoveWindow(APPBUTTON_O(i),
+-                         0, (DECORATION_SIZE * (i + numViewerButtons)),
++                         0, DECORATION_SIZE * i,
+                          DECORATION_SIZE, DECORATION_SIZE, TRUE);
+     }
+   }
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+
+    (This does look a little peculiar, tho'..?)
+
+=====================================================================
