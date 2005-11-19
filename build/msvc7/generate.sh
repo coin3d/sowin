@@ -48,7 +48,13 @@ mv new.bat install-headers.bat
 
 # find . -name "moc_*" | xargs rm
 
+echo "Done."
+echo "Modify so the static configurations are built with COIN_NOT_DLL"
+echo "Then make sure there are no absolute paths in the project files"
+grep -i c: sowin1.dsp sowin1.dsw
 echo "Run 'devenv sowin1.dsw' and save all solution files."
+
+# only needed with post-build events:
 # echo "Then run './fixvcproj.sh'."
 
 # How can I avoid the modal upgrade prompt-dialog for MSVC7.1 here???

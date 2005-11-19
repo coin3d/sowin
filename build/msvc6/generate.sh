@@ -46,6 +46,11 @@ sed \
 
 mv new.bat install-headers.bat
 
+echo "Done."
+echo "Modify so the static configurations are built with COIN_NOT_DLL"
+echo "Then make sure there are no absolute paths in the project files"
+grep -i c: sowin1.dsp sowin1.dsw
+
 # find . -name "moc_*" | xargs rm
 
 # How can I avoid the modal upgrade prompt-dialog for MSVC7.1 here???
