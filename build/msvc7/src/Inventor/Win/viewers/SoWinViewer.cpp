@@ -109,7 +109,6 @@
 
 // *************************************************************************
 
-
 /*!
   \enum SoWinViewer::AutoClippingStrategy
 
@@ -134,6 +133,8 @@
   method.
 */
 
+// *************************************************************************
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H
@@ -141,13 +142,22 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <float.h> // FLT_MAX
 
-#include <Inventor/Win/common/gl.h>
-#include <Inventor/Win/SoAny.h>
-#include <Inventor/Win/common/SbGuiList.h>
-#include <Inventor/Win/nodes/SoGuiViewpointWrapper.h>
+#include <Inventor/SbLinear.h>
 #include <Inventor/SoDB.h>
-
+#include <Inventor/SoLists.h>
+#include <Inventor/SoPickedPoint.h>
+#include <Inventor/SoSceneManager.h>
+#include <Inventor/actions/SoGetBoundingBoxAction.h>
+#include <Inventor/actions/SoGetMatrixAction.h>
+#include <Inventor/actions/SoRayPickAction.h>
+#include <Inventor/actions/SoSearchAction.h>
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/events/SoKeyboardEvent.h>
+#include <Inventor/events/SoMouseButtonEvent.h>
+#include <Inventor/misc/SoCallbackList.h>
+#include <Inventor/nodekits/SoBaseKit.h>
 #include <Inventor/nodes/SoBaseColor.h>
 #include <Inventor/nodes/SoComplexity.h>
 #include <Inventor/nodes/SoDirectionalLight.h>
@@ -159,32 +169,21 @@
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoSwitch.h>
-#include <Inventor/nodekits/SoBaseKit.h>
-
-#include <Inventor/actions/SoGetBoundingBoxAction.h>
-#include <Inventor/actions/SoGetMatrixAction.h>
-#include <Inventor/actions/SoSearchAction.h>
-#include <Inventor/actions/SoRayPickAction.h>
-
-#include <Inventor/events/SoMouseButtonEvent.h>
-#include <Inventor/errors/SoDebugError.h>
-#include <Inventor/misc/SoCallbackList.h>
 #include <Inventor/sensors/SoTimerSensor.h>
-#include <Inventor/events/SoKeyboardEvent.h>
-#include <Inventor/SoSceneManager.h>
-#include <Inventor/SoPickedPoint.h>
-#include <Inventor/SoLists.h>
-#include <Inventor/SbLinear.h>
-
-#include <sowindefs.h>
-#include <Inventor/Win/SoWin.h>
-#include <Inventor/Win/viewers/SoWinViewer.h>
-#include <math.h>
-#include <float.h> // FLT_MAX
 
 #ifdef HAVE_SOPOLYGONOFFSET
 #include <Inventor/nodes/SoPolygonOffset.h>
 #endif // HAVE_SOPOLYGONOFFSET
+
+#include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/SoAny.h>
+#include <Inventor/Win/common/SbGuiList.h>
+#include <Inventor/Win/common/gl.h>
+#include <Inventor/Win/nodes/SoGuiViewpointWrapper.h>
+#include <Inventor/Win/viewers/SoWinViewer.h>
+#include <sowindefs.h>
+
+// *************************************************************************
 
 // (note: this *must* be a #define, not a static variable -- to avoid
 // initialization race conditions with the static variables being set
@@ -333,6 +332,7 @@ public:
 #define PRIVATE(ptr) (ptr->pimpl)
 #define PUBLIC(ptr) (ptr->pub)
 
+// *************************************************************************
 
 SoWinViewerP::SoWinViewerP(SoWinViewer * publ)
 {
@@ -2496,7 +2496,6 @@ SoWinViewer::isAutoClipping(void) const
 // *************************************************************************
 
 /*!
-
   Turn stereo viewing on or off.
 
   Note: this function is being obsoleted, you should use the
@@ -2606,7 +2605,7 @@ SoWinViewer::isStereoViewing(void) const
   The default is to do monoscopic rendering, i.e. the default
   SoWinViewer::StereoType value is SoWinViewer::STEREO_NONE.
 
-  \sa SoWinViewer::StereoType
+  \sa SoWinViewer::StereoType, SoCamera::setStereoAdjustment
   \since SoWin 1.2
 */
 SbBool

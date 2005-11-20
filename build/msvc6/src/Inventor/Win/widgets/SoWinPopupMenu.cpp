@@ -109,6 +109,7 @@ SoWinPopupMenu::~SoWinPopupMenu()
 {
   delete PRIVATE(this)->callbacks;
   delete PRIVATE(this)->userdata;
+  delete PRIVATE(this);
 } // ~SoWinPopupMenu()
 
 // *************************************************************************
@@ -145,7 +146,7 @@ SoWinPopupMenu::newRadioGroup(
       if (PRIVATE(this)->radiogroups[i] == id)
         hit = TRUE;
     }
-    if (hit == TRUE) {
+    if (hit) {
 #if SOWIN_DEBUG
       SoDebugError::postInfo("SoWinPopupMenu::NewRadioGroup",
         "requested group id already taken");
@@ -163,7 +164,7 @@ SoWinPopupMenu::newRadioGroup(
         if (PRIVATE(this)->radiogroups[i] == id)
           found = TRUE;
       }
-    } while (found == TRUE);
+    } while (found);
   }
   // id is OK here
   PRIVATE(this)->menuitems.append(-1); // fake menu item

@@ -23,6 +23,7 @@
 
 // src/Inventor/Win/widgets/SoAnyThumbWheel.cpp.  Generated from SoAnyThumbWheel.cpp.in by configure.
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H
@@ -30,12 +31,14 @@
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
+
+#include <sowindefs.h>
+#include <Inventor/Win/SoWinObject.h> // for __COIN_SOQT__
+#include <Inventor/Win/widgets/SoAnyThumbWheel.h>
+
 #ifdef __COIN_SOQT__
 #include <qglobal.h> // for Q_WS_MAC
 #endif
-
-#include <sowindefs.h>
-#include <Inventor/Win/widgets/SoAnyThumbWheel.h>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846f

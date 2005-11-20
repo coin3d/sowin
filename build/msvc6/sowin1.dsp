@@ -103,8 +103,8 @@ PostBuild_Cmds=install-dll-debug.bat
 # PROP Output_Dir "StaticRelease"
 # PROP Intermediate_Dir "StaticRelease"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=0"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=0"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=0"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=0"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
 # ADD BASE RSC /l 0x414 /d "NDEBUG"
 # ADD RSC /l 0x414 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -130,8 +130,8 @@ PostBuild_Cmds=install-lib-release.bat
 # PROP Output_Dir "StaticDebug"
 # PROP Intermediate_Dir "StaticDebug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=1"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=1"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=1"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=1"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
 # ADD BASE RSC /l 0x414 /d "_DEBUG"
 # ADD RSC /l 0x414 /d "_DEBUG"
 BSC32=bscmake.exe
