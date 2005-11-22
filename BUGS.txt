@@ -728,3 +728,72 @@ diff -r -u SoWin-20020502/src/Inventor/Win/viewers/FullViewer.cpp SoWin-20020502
     (This does look a little peculiar, tho'..?)
 
 =====================================================================
+
+027 Multithreading-support in Coin/SoWin worse than for Mercury/TGS
+    Inventor / InventorWin?
+
+    A user migrating from TGS Inventor reports that the following
+    example works as he expects with TGS Inventor, but not with Coin /
+    SoWin. He reports the problem as follows:
+
+        "I expect a cone to appear every second and the viewer should
+        redraw.  Instead I no updates occur until the thread is
+        completed."
+
+    We should check the ref doc of TGS Inventor to see if this is
+    officially supported, and if so, consider fixing it in Coin
+    aswell. Perhaps we should fix it anyway, since modifying the scene
+    graph in one thread would be very convenient to have
+    working. We've run into this problem ourselves many times -- the
+    same also goes for SoQt.
+
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+#include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/viewers/SoWinExaminerViewer.h>
+#include <Inventor/nodes/SoSeparator.h> 
+#include <Inventor/nodes/SoCone.h>
+#include <Inventor/nodes/SoTranslation.h>
+#include <Inventor/threads/SbThread.h>
+#include <Inventor/SoDB.h>
+
+
+static void* AddCones(void * view) {
+  SoDB::init();
+
+  SoWinExaminerViewer* viewer = (SoWinExaminerViewer*) view;
+  SoSeparator *root = new SoSeparator; 
+  viewer->setSceneGraph(root);
+
+  while(root->getNumChildren() <= 10) {
+    Sleep(1000);
+    SoSeparator* sep = new SoSeparator();
+
+    SoTranslation* trans = new SoTranslation();
+    sep->addChild(trans);
+    trans->translation = 100.0f * SbVec3f((float)rand() / RAND_MAX, (float)rand() / RAND_MAX, (float)rand() / RAND_MAX);
+    sep->addChild(new SoCone());
+    SoDB::writelock();
+    root->addChild(sep);
+    SoDB::writeunlock();
+
+    SoDB::readlock();
+    viewer->viewAll();
+    SoDB::readunlock();
+  }
+  return NULL;
+}
+
+int main(int, char ** argv) {
+  HWND window = SoWin::init(argv[0]);
+  if (window==NULL) exit(1);
+  SoWinExaminerViewer * viewer = new SoWinExaminerViewer(window);
+  SoWin::show(window);
+  SbThread* thread = SbThread::create(AddCones, (void*)viewer);
+  SoWin::mainLoop();
+  return 0;
+}
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+
+    20051122 mortene, reported by Martin Kavalar.
+
+=====================================================================
