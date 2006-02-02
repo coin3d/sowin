@@ -193,6 +193,8 @@
 #include <Inventor/SoInteraction.h>
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
 #include <Inventor/errors/SoDebugError.h>
+#include <Inventor/errors/SoReadError.h>
+#include <Inventor/errors/SoMemoryError.h>
 #include <Inventor/nodekits/SoNodeKit.h>
 
 #include <Inventor/Win/Win32API.h>
@@ -204,6 +206,12 @@
 #include <Inventor/Win/SoAny.h>
 #include <Inventor/Win/nodes/SoGuiNodes.h>
 #include <Inventor/Win/engines/SoGuiEngines.h>
+
+#undef ERROR // workaround for MS Visual C++ stupidity; this is an
+             // enum in SoDebugError.h, but also a #define somewhere
+             // in the MSVS system headers
+
+// *************************************************************************
 
 // The private data for the SoWin class.
 
@@ -530,8 +538,35 @@ SoWinP::errorHandlerCB(const SoError * error, void * data)
     (void)printf("%s\n", error->getDebugString().getString());
   }
   else {
-    SbString debugstring = error->getDebugString();
-    MessageBox(NULL, (LPCTSTR) debugstring.getString(), "SoError", MB_OK | MB_ICONERROR);
+    const SbString debugstring = error->getDebugString();
+    const char * title = "Message";
+    UINT icontype = MB_ICONERROR;
+
+    if (error->isOfType(SoReadError::getClassTypeId())) {
+      title = "File import problem";
+    }
+    else if (error->isOfType(SoMemoryError::getClassTypeId())) {
+      title = "Memory resource problem";
+    }
+    else if (error->isOfType(SoDebugError::getClassTypeId())) {
+      switch (((SoDebugError *)error)->getSeverity()) {
+      case SoDebugError::ERROR:
+        title = "Error";
+        break;
+      case SoDebugError::WARNING:
+        title = "Warning";
+        icontype = MB_ICONWARNING;
+        break;
+      case SoDebugError::INFO:
+        title = "Information";
+        icontype = MB_ICONINFORMATION;
+        break;
+      default: assert(FALSE && "unknown severity"); break;
+      }
+    }
+    
+    MessageBox(NULL, (LPCTSTR) debugstring.getString(), title,
+               MB_OK | MB_TASKMODAL | icontype);
   }
 }
 
