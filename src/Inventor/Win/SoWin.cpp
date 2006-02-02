@@ -565,6 +565,11 @@ SoWinP::errorHandlerCB(const SoError * error, void * data)
       }
     }
     
+    // Note that the messagebox dialog is not entirely modal: event
+    // queue handling is still done for the application's
+    // windows. E.g. WM_PAINT-messages will still "slip through", so
+    // the rendering canvas will continue to update upon expose
+    // events, for instance.
     MessageBox(NULL, (LPCTSTR) debugstring.getString(), title,
                MB_OK | MB_TASKMODAL | icontype);
   }
