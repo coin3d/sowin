@@ -1594,34 +1594,38 @@ SoWinGLWidgetP::onCreate(HWND window, UINT message, WPARAM wparam, LPARAM lparam
 LRESULT
 SoWinGLWidgetP::onPaint(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-#if SOWIN_DEBUG && 0
-  SoDebugError::postInfo("SoWinGLWidget::onPaint", "called");
-#endif // SOWIN_DEBUG
-
+  // I believe the BeginPaint() / EndPaint() pair of calls are here
+  // because that is how the window with the WM_PAINT event is
+  // supposed to be told it is has been handled. I couldn't find a
+  // definitive answer to this in the relevant MSDN documentation,
+  // though, but that's what it looks like from their examples etc.
+  //
+  // --mortene.
   PAINTSTRUCT ps;
   HDC dc = Win32::BeginPaint(window, &ps);
-  if (dc != this->hdcNormal) {
-    SoDebugError::post("SoWinGLWidgetP::onPaint",
-                       "BeginPaint() HDC not equal to GL-context HDC");
-    return 0;
-  }
-  if (!SoWinGLWidgetP::wglMakeCurrent(this->hdcNormal, this->ctxNormal)) {
-    return 0;
-  }
+  assert((dc == this->hdcNormal) && "incorrect BeginPaint() return value");
 
+  // First time a paint event came along for this window? If so,
+  // initialize what needs initializing in the OpenGL context.
   if (! this->glRealized) {
     this->glRealized = TRUE;
     PUBLIC(this)->initGraphic();
   }
+
+  // The virtual glScheduleRedraw() passes on the information that an
+  // expose event has happened, down to the subclasses.
   if (! PUBLIC(this)->glScheduleRedraw()) {
+    SoDebugError::postWarning("SoWinGLWidgetP::onPaint",
+                              "glScheduleRedraw() not implemented in "
+                              "subclass -- this may cause trouble");
+    // The original SGI InventorXt documents glScheduleRedraw() to be
+    // handled like this: if a subclass didn't pick up the event, call
+    // redraw() directly. In SoWin, SoWinRenderArea will invoke
+    // scheduleRedraw() from within the overridden glScheduleRedraw().
     PUBLIC(this)->redraw();
   }
 
-  // Release context.
-  if (!SoWinGLWidgetP::wglMakeCurrent(NULL, NULL)) { return 0; }
-  // FIXME: should perhaps the next call go before the gl-context
-  // release?  20010925 mortene.
-  Win32::EndPaint(window, & ps);
+  Win32::EndPaint(window, &ps);
   return 0;
 }
 
