@@ -91,20 +91,18 @@ SoWinGLWidget::SoWinGLWidget(HWND const parent,
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SoWinGLWidget::~SoWinGLWidget()
 {
-  if (PRIVATE(this)->ctxNormal) {
-    BOOL r = wglDeleteContext(PRIVATE(this)->ctxNormal);
-    assert(r && "wglDeleteContext() failed -- investigate");
-  }
-  if (PRIVATE(this)->ctxOverlay) {
-    BOOL r = wglDeleteContext(PRIVATE(this)->ctxOverlay);
-    assert(r && "wglDeleteContext() failed -- investigate");
-  }
+  // wglDeleteContext(this->ctxNormal), and other window clean-up
+  // tasks, will be called implicitly: DestroyWindow() triggers the
+  // WM_DESTROY event, which triggers an invocation of
+  // SoWinGLWidget::destroyWindow().
+
   if (IsWindow(PRIVATE(this)->managerWidget))
     Win32::DestroyWindow(PRIVATE(this)->managerWidget);
   if (IsWindow(PRIVATE(this)->normalWidget))
     Win32::DestroyWindow(PRIVATE(this)->normalWidget);
   if (IsWindow(PRIVATE(this)->overlayWidget))
     Win32::DestroyWindow(PRIVATE(this)->overlayWidget);
+
   SoWinGLWidgetP::widgetCounter--;
   if (SoWinGLWidgetP::widgetCounter <= 0) {
     Win32::UnregisterClass("Manager Widget", NULL);
@@ -114,7 +112,8 @@ SoWinGLWidget::~SoWinGLWidget()
     Win32::UnregisterClass("sowin_glwidget_temp", NULL);
     SoWinGLWidgetP::glWidgetTmpAtom = 0;
   }
-  delete this->pimpl;
+
+  delete PRIVATE(this);
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
@@ -664,7 +663,8 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
       return PRIVATE(object)->onPaint(window, message, wparam, lparam);
 
     case WM_DESTROY:
-      return PRIVATE(object)->onDestroy(window, message, wparam, lparam);
+      PRIVATE(object)->destroyWindow(window);
+      return 0;
 
     case WM_LBUTTONDOWN:
     case WM_MBUTTONDOWN:
@@ -1213,7 +1213,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
 
   SoWinGLWidget * share = NULL;
 
-  // All contexts were destroyed or released in onDestroy().
+  // All contexts were destroyed or released in destroyWindow().
 
   this->hdcNormal = GetDC(window);
   assert(this->hdcNormal && "GetDC failed -- investigate");
@@ -1629,15 +1629,14 @@ SoWinGLWidgetP::onPaint(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
   return 0;
 }
 
-LRESULT
-SoWinGLWidgetP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
+void
+SoWinGLWidgetP::destroyWindow(HWND window)
 {
-  // Release context.
-  if (!SoWinGLWidgetP::wglMakeCurrent(NULL, NULL)) { return 0; }
-
   SoAny::si()->unregisterGLContext((void *) PUBLIC(this));
 
-  BOOL r = wglDeleteContext(this->ctxNormal);
+  // Release context. wglDeleteContext() will automatically make the
+  // context non-current if it was current.
+  const BOOL r = wglDeleteContext(this->ctxNormal);
   assert(r && "wglDeleteContext() failed -- investigate");
   this->ctxNormal = NULL;
 
@@ -1645,8 +1644,6 @@ SoWinGLWidgetP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lpara
   this->hdcNormal = NULL;
 
   // FIXME: Overlay not supported. mariusbu 20010808.
-
-  return 0;
 }
 
 // Wrap wglMakeCurrent() for convenience with regard to verbose

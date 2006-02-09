@@ -61,7 +61,7 @@ public:
 
   LRESULT onCreate(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   LRESULT onPaint(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
-  LRESULT onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
+  void destroyWindow(HWND window);
 
   static BOOL wglMakeCurrent(HDC hdc, HGLRC hglrc);
 
