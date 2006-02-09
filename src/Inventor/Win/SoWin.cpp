@@ -204,8 +204,6 @@
 #include <Inventor/Win/devices/SoWinDevice.h>
 #include <Inventor/Win/SoWinComponent.h>
 #include <Inventor/Win/SoAny.h>
-#include <Inventor/Win/nodes/SoGuiNodes.h>
-#include <Inventor/Win/engines/SoGuiEngines.h>
 
 #undef ERROR // workaround for MS Visual C++ stupidity; this is an
              // enum in SoDebugError.h, but also a #define somewhere
@@ -339,10 +337,7 @@ SoWin::init(HWND toplevelwidget)
   SoNodeKit::init();
   SoInteraction::init();
 
-  SoWinObject::init();
-
-  SoGuiNodes::initClasses();
-  SoGuiEngines::initClasses();
+  SoAny::init();
 
   SoDebugError::setHandlerCallback(SoWinP::errorHandlerCB, NULL);
 
