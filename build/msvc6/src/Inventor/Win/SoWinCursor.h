@@ -29,6 +29,8 @@
 
 class SOWIN_DLL_API SoWinCursor {
 public:
+  static void initClass(void);
+
   struct CustomCursor {
     SbVec2s dim;
     SbVec2s hotspot;
