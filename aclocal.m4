@@ -94,7 +94,7 @@ if $sim_ac_make_dsp; then
       else
         $1_DSP_DEFS="[$]$1_DSP_DEFS /D \"$define\""
       fi
-      if echo $define | grep _MAKE_DLL; then
+      if (echo $define | grep _MAKE_DLL) >/dev/null 2>&1; then
         :
       else
         if test x"[$]$1_DSP_DEFS" = x""; then
@@ -9251,6 +9251,9 @@ eval "$1=\"`echo $2 | sed -e 's%\\/%\\\\\\\\\\\\\\\\%g'`\""
 #
 # BUGS:
 #   Items with spaces are probably not supported.
+#
+# Note that this macro is obsolete! You should use the alternative
+# macro SIM_AC_UNIQIFY_OPTION_LIST instead, which supports spaces.
 #
 # Authors:
 #   Lars J. Aas <larsa@sim.no>

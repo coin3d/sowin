@@ -23640,7 +23640,7 @@ fi
       else
         SOWIN_DSP_DEFS="$SOWIN_DSP_DEFS /D \"$define\""
       fi
-      if echo $define | grep _MAKE_DLL; then
+      if (echo $define | grep _MAKE_DLL) >/dev/null 2>&1; then
         :
       else
         if test x"$SOWIN_DSP_DEFS" = x""; then
