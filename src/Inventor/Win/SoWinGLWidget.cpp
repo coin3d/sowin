@@ -642,6 +642,12 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
     // Grab focus so keystrokes are piped in our direction.
     if (!PRIVATE(object)->havefocus) {
       switch (message) {
+
+      // FIXME: the canvas/widget/window should also grab focus on
+      // mouse enter events -- shouldn't it? See doc on
+      // setStealFocus(). Or will this cause trouble with the typical
+      // click-to-focus policy under Windows? 20050412 mortene.
+
       case WM_LBUTTONDOWN:
       case WM_MBUTTONDOWN:
       case WM_RBUTTONDOWN:

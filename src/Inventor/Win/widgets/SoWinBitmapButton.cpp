@@ -326,6 +326,8 @@ SoWinBitmapButtonP::createDIB(int width, int height, int bpp, void ** bits) // 1
   assert(hdc!=NULL && "CreateCompatibleDC() failed -- investigate");
   int heapspace = sizeof(BITMAPINFOHEADER);
 
+  // FIXME: allocating the BITMAPINFO on the heap seems unnecessary..?
+  // Investigate. 20051020 mortene.
   HANDLE heap = GetProcessHeap();
   BITMAPINFO * format = (BITMAPINFO *) HeapAlloc(heap, 0, heapspace);
 

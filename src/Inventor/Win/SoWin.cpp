@@ -339,6 +339,8 @@ SoWin::init(HWND toplevelwidget)
 
   SoAny::init();
 
+  // FIXME: should set on all! SoReadError will just disappear with
+  // this.. 20050714 mortene.
   SoDebugError::setHandlerCallback(SoWinP::errorHandlerCB, NULL);
 
   // This should prove helpful for debugging the pervasive problem
