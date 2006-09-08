@@ -149,27 +149,37 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 
 ############################################################################
 
+if BUILD_WITH_MSVC
 install-exec-local: sowin@SOWIN_MAJOR_VERSION@@SUFFIX@.lib
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
-	for ext in dll pdb; do \
-	  file="$$basename.$$ext"; \
-	  if test -f "$$file"; then \
-	    $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
-	    echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
-	    $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file"; \
-	  fi \
-	done
+	if @BUILD_WITH_MSVC@; then \
+	  for ext in dll pdb; do \
+	    file="$$basename.$$ext"; \
+	    if test -f "$$file"; then \
+	      $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
+	      echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+	      $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file" || exit 1; \
+	    fi \
+	  done; \
+	else :; \
+	fi
+else
+install-exec-local:
+endif
 
 install-data-local:
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
-	for ext in lib; do \
-	  file="$$basename.$$ext"; \
-	  if test -f "$$file"; then \
-	    $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
-	    echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
-	    $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
-	  fi \
-	done
+	if @BUILD_WITH_MSVC@; then \
+	  for ext in lib; do \
+	    file="$$basename.$$ext"; \
+	    if test -f "$$file"; then \
+	      $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
+	      echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	      $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file" || exit 1; \
+	    fi \
+	  done; \
+	else :; \
+	fi
 
 uninstall-local: uninstall-SoWinincHEADERS uninstall-nodist_SoWinincHEADERS
 	@basename="sowin@SOWIN_MAJOR_VERSION@@SUFFIX@"; \
