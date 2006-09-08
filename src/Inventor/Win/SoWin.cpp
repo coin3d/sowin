@@ -291,14 +291,13 @@ SoWin::init(int & argc, char ** argv,
 
   {
     WNDCLASS windowclass;
-    LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
     HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
     windowclass.lpszClassName = classname;
     windowclass.hInstance = NULL;
     windowclass.lpfnWndProc = SoWinP::eventHandler;
     windowclass.style = CS_OWNDC;
     windowclass.lpszMenuName = NULL;
-    windowclass.hIcon = LoadIcon(NULL, icon);
+    windowclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = brush;
     windowclass.cbClsExtra = 0;
