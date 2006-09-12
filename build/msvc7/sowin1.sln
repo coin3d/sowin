@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sowin1", "sowin1.vcproj", "{CB2DE9D1-B234-4A3F-8F01-82A56C20BC1C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sowin1", "sowin1.vcproj", "{CD3BEF6C-4F66-4457-B772-5D56B43A43B2}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -11,14 +11,14 @@ Global
 		LIB (Release) = LIB (Release)
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
-		{CB2DE9D1-B234-4A3F-8F01-82A56C20BC1C}.DLL (Debug).ActiveCfg = DLL (Debug)|Win32
-		{CB2DE9D1-B234-4A3F-8F01-82A56C20BC1C}.DLL (Debug).Build.0 = DLL (Debug)|Win32
-		{CB2DE9D1-B234-4A3F-8F01-82A56C20BC1C}.DLL (Release).ActiveCfg = DLL (Release)|Win32
-		{CB2DE9D1-B234-4A3F-8F01-82A56C20BC1C}.DLL (Release).Build.0 = DLL (Release)|Win32
-		{CB2DE9D1-B234-4A3F-8F01-82A56C20BC1C}.LIB (Debug).ActiveCfg = LIB (Debug)|Win32
-		{CB2DE9D1-B234-4A3F-8F01-82A56C20BC1C}.LIB (Debug).Build.0 = LIB (Debug)|Win32
-		{CB2DE9D1-B234-4A3F-8F01-82A56C20BC1C}.LIB (Release).ActiveCfg = LIB (Release)|Win32
-		{CB2DE9D1-B234-4A3F-8F01-82A56C20BC1C}.LIB (Release).Build.0 = LIB (Release)|Win32
+		{CD3BEF6C-4F66-4457-B772-5D56B43A43B2}.DLL (Debug).ActiveCfg = DLL (Debug)|Win32
+		{CD3BEF6C-4F66-4457-B772-5D56B43A43B2}.DLL (Debug).Build.0 = DLL (Debug)|Win32
+		{CD3BEF6C-4F66-4457-B772-5D56B43A43B2}.DLL (Release).ActiveCfg = DLL (Release)|Win32
+		{CD3BEF6C-4F66-4457-B772-5D56B43A43B2}.DLL (Release).Build.0 = DLL (Release)|Win32
+		{CD3BEF6C-4F66-4457-B772-5D56B43A43B2}.LIB (Debug).ActiveCfg = LIB (Debug)|Win32
+		{CD3BEF6C-4F66-4457-B772-5D56B43A43B2}.LIB (Debug).Build.0 = LIB (Debug)|Win32
+		{CD3BEF6C-4F66-4457-B772-5D56B43A43B2}.LIB (Release).ActiveCfg = LIB (Release)|Win32
+		{CD3BEF6C-4F66-4457-B772-5D56B43A43B2}.LIB (Release).Build.0 = LIB (Release)|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
