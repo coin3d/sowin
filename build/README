@@ -1,14 +1,11 @@
-build_sowin_win32.sh
 
-        Builds SoWin for the Win32 platform in different
-        configurations. All dependant libraries will be downloaded
-        using wget.
+msvc6
+	Project files for building SoWin with Visual C++ 6.0.
 
-        * Requires cygwin and wget. 
-        * Run from the command line in any directory.
+msvc7
+	Project files for building SoWin with Visual Studio 7.1.
+	(Visual Studio .Net 2003)
 
-        This script is used by Systems In Motion when creating binary
-        releases of SoWin, and is probably of little use to most
-        SoWin users. If you want to configure and build SoWin yourself,
-        please read the INSTALL file in the SoWin root directory for 
-        instructions.
+msvc8
+	Project files for building SoWin with Visual Studio 8.0.
+
