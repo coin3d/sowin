@@ -2120,7 +2120,7 @@ SoWinRenderArea::processEvent(MSG * event)
   const SoEvent * soevent = PRIVATE(this)->getSoEvent(event);
 
   if (soevent != NULL) {
-#if SOWIN_DEBUG
+#if SOWIN_DEBUG || defined(DEBUGGING_EGGS)
     // Undocumented feature: there are several "magic" sequences of
     // keys when tapped into the rendering canvas which'll pop up a
     // dialog box with information about that particular feature.
