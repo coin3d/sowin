@@ -48,7 +48,8 @@ sed \
 
 mv new.bat install-headers.bat
 
-# find . -name "moc_*" | xargs rm
+find . -name "moc_*"
+ls config.h 2>/dev/null
 
 echo "Done."
 echo "Modify so the static configurations are built with COIN_NOT_DLL"

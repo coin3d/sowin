@@ -1513,8 +1513,17 @@ SoWinRenderArea::setSceneManager(SoSceneManager * manager)
 {
   assert(PRIVATE(this)->normalManager != NULL);
   PRIVATE(this)->normalManager->setRenderCallback(NULL, NULL);
+
+  // NOTE: Although deleting the previous scene manager here is correct
+  // behaviour from a compatibility-POV, I think it is ugly and should
+  // be addressed in some other way if possible. It is also inconsistent
+  // with overlay scenemanager management.  20061015 larsa
   delete PRIVATE(this)->normalManager;
+
   PRIVATE(this)->normalManager = manager;
+  if (PRIVATE(this)->normalManager) {
+    PRIVATE(this)->normalManager->setSize(this->getGLSize());
+  }
 }
 
 /*!
@@ -1547,6 +1556,9 @@ void
 SoWinRenderArea::setOverlaySceneManager(SoSceneManager * manager)
 {
   PRIVATE(this)->overlayManager = manager;
+  if (PRIVATE(this)->overlayManager) {
+    PRIVATE(this)->overlayManager->setSize(this->getGLSize());
+  }
 }
 
 /*!
