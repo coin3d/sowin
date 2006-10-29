@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="sowin1"
-	ProjectGUID="{2AF97B3A-3067-4533-A002-61E236DBF019}"
+	ProjectGUID="{9B7B00A6-88A9-42B5-B4EB-23C89BD26B67}"
 	>
 	<Platforms>
 		<Platform
@@ -72,7 +72,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(COINDIR)\lib\coin2d.lib opengl32.lib"
+				AdditionalDependencies="$(COINDIR)\lib\coin2.lib opengl32.lib"
 				OutputFile="sowin1.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
