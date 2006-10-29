@@ -2,9 +2,9 @@
 # SoWin/configure.in
 
 m4_define([SOWIN_MAJOR], [1])
-m4_define([SOWIN_MINOR], [3])
-m4_define([SOWIN_MICRO], [1])
-m4_define([SOWIN_BETA],  [a])
+m4_define([SOWIN_MINOR], [4])
+m4_define([SOWIN_MICRO], [0])
+m4_define([SOWIN_BETA],  [])
 m4_define([SOWIN_VERSION_STRING],
           [SOWIN_MAJOR.SOWIN_MINOR.SOWIN_MICRO[]SOWIN_BETA])
 
