@@ -592,7 +592,7 @@ SoWinP::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
   }
 
   if (SoWinP::useParentEventHandler && SoWinP::parentEventHandler)
-    return SoWinP::parentEventHandler(window, message, wparam, lparam);
+    return CallWindowProc(SoWinP::parentEventHandler, window, message, wparam, lparam);
 
   if (handled)
     return retval;
