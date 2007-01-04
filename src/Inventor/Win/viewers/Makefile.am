@@ -36,6 +36,7 @@ DISTCLEANFILES = \
 
 libSoWinViewers_la_SOURCES = \
 	FullViewer.cpp \
+	SoWinViewerP.h \
 	SoWinFullViewerP.h \
 	ExaminerViewer.cpp \
 	SoWinExaminerViewerP.h \
