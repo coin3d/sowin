@@ -34,6 +34,7 @@
 #include <Inventor/misc/SoBasic.h>
 #include <Inventor/SoLists.h>
 #include <Inventor/SbDict.h>
+#include <Inventor/threads/SbStorage.h>
 #include <Inventor/errors/SoDebugError.h>
 
 #include <Inventor/Win/SoWin.h>
@@ -135,12 +136,13 @@ SoWinComponentP::systemEventFilter(int code, WPARAM wparam, LPARAM lparam)
     PRIVATE(component)->commonEventHandler(msg->message,
                                            msg->wParam, msg->lParam);
   }
-  return CallNextHookEx(SoWinComponentP::hookhandle, code, wparam, lparam);
+  HHOOK * hookhandle = (HHOOK *) SoWinComponentP::hookhandle->get();
+  return CallNextHookEx(*hookhandle, code, wparam, lparam);
 }
 
 ATOM SoWinComponentP::wndClassAtom = 0;
 SbDict * SoWinComponentP::cursordict = NULL;
-HHOOK SoWinComponentP::hookhandle = NULL;
+SbStorage * SoWinComponentP::hookhandle = NULL;
 SbDict * SoWinComponentP::embeddedparents = NULL;
 
 LRESULT CALLBACK
@@ -220,6 +222,19 @@ SoWinComponent::initClasses(void)
 
 // *************************************************************************
 
+static void
+hookhandle_constructor(void * closure)
+{
+  HHOOK * hookhandle = (HHOOK *) closure;
+  *hookhandle = NULL;
+}
+
+static void
+hookhandle_destructor(void *)
+{
+
+}
+
 // Documented in common/SoGuiComponentCommon.cpp.in.
 SoWinComponent::SoWinComponent(HWND const parent,
                                const char * const name,
@@ -249,12 +264,18 @@ SoWinComponent::SoWinComponent(HWND const parent,
   else {
     PRIVATE(this)->parent = PRIVATE(this)->buildFormWidget(parent);
   }
-
+  
   if (SoWinComponentP::hookhandle == NULL) {
-    SoWinComponentP::hookhandle =
-      Win32::SetWindowsHookEx(WH_CALLWNDPROC, 
-                              (HOOKPROC)SoWinComponentP::systemEventFilter,
-                              NULL, GetCurrentThreadId());
+    SoWinComponentP::hookhandle = new SbStorage(sizeof(HHOOK), 
+                                                hookhandle_constructor,
+                                                hookhandle_destructor);
+  }
+
+  HHOOK * hookhandle = (HHOOK *) SoWinComponentP::hookhandle->get();
+  if (!(*hookhandle)) {
+    *hookhandle = Win32::SetWindowsHookEx(WH_CALLWNDPROC,
+                                          (HOOKPROC)SoWinComponentP::systemEventFilter,
+                                          NULL, GetCurrentThreadId());
   }
 
   if (name) {
@@ -270,17 +291,19 @@ SoWinComponent::~SoWinComponent()
 
   delete PRIVATE(this)->visibilitychangeCBs;
 
+  HHOOK * hookhandle = (HHOOK *) SoWinComponentP::hookhandle->get();
+  if (*hookhandle) {
+    Win32::UnhookWindowsHookEx(*hookhandle);
+  }
+
   (void)SoWinComponentP::embeddedparents->remove((unsigned long)this->getParentWidget());
 
   // Clean up static data if this is the last component.
   if (SoGuiComponentP::nrofcomponents == 1) {
-    // Global MSG hook.
-    assert(SoWinComponentP::hookhandle != NULL);
-    Win32::UnhookWindowsHookEx(SoWinComponentP::hookhandle);
-    SoWinComponentP::hookhandle = NULL;
-    // Parent HWND -> SoWinComponent dict.
     delete SoWinComponentP::embeddedparents;
     SoWinComponentP::embeddedparents = NULL;
+
+    delete SoWinComponentP::hookhandle;
   }
 
   PRIVATE(this)->cleanupWin32References();

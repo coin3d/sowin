@@ -31,6 +31,8 @@
 #include <Inventor/Win/SoGuiComponentP.h>
 #include <Inventor/Win/SoWinCursor.h>
 
+class SbStorage;
+
 // ************************************************************************
 
 // "Hidden" class for storing private data (to avoid cluttering up the
@@ -57,7 +59,7 @@ public:
 
   HWND buildFormWidget(HWND parent);
 
-  static HHOOK hookhandle; // for (global) system message queue interception
+  static SbStorage * hookhandle; // for (global) system message queue interception
   HWND parent;
   HWND widget;
   HWND focusProxy;

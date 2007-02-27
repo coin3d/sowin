@@ -32,6 +32,8 @@
 #include <Inventor/Win/SoWinCursor.h>
 #include <Inventor/Win/widgets/SoWinThumbWheel.h>
 
+class SbStorage;
+
 // ************************************************************************
 
 // This class contains private data and methods used within the
@@ -82,7 +84,7 @@ public:
   int layoutWidgets(int cx, int cy);
   static LRESULT CALLBACK systemEventHook(int code, WPARAM wparam, LPARAM lparam);
 
-  static HHOOK hookhandle;
+  static SbStorage * hookhandle;
   static int nrinstances;
   
   static SbDict * parentHWNDmappings;

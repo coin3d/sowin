@@ -30,6 +30,7 @@
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 #include <Inventor/errors/SoDebugError.h>
+#include <Inventor/threads/SbStorage.h>
 
 #include <sowindefs.h>
 #include <Inventor/Win/Win32API.h>
@@ -61,6 +62,17 @@ SOWIN_OBJECT_ABSTRACT_SOURCE(SoWinFullViewer);
 
 // *************************************************************************
 
+static void hookhandle_constructor(void * closure)
+{
+  HHOOK * hookhandle = (HHOOK *) closure;
+  *hookhandle = NULL;
+}
+
+static void hookhandle_destructor(void *)
+{
+  
+}
+
 SoWinFullViewer::SoWinFullViewer(HWND parent,
                                  const char * name,
                                  SbBool embedded,
@@ -69,18 +81,25 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
                                  SbBool build) :
   inherited(parent, name, embedded, type, FALSE)
 {
-  this->pimpl = new SoWinFullViewerP(this);
   SoWinFullViewerP::nrinstances++;
+  this->pimpl = new SoWinFullViewerP(this);
 
-  if (SoWinFullViewerP::nrinstances == 1) {
-    if (SoWinFullViewerP::parentHWNDmappings == NULL) {
-      SoWinFullViewerP::parentHWNDmappings = new SbDict;
-    }
 
-    SoWinFullViewerP::hookhandle =
-      Win32::SetWindowsHookEx(WH_CALLWNDPROC,
-                              (HOOKPROC)SoWinFullViewerP::systemEventHook,
-                              NULL, GetCurrentThreadId());
+  if (SoWinFullViewerP::hookhandle == NULL) {
+    SoWinFullViewerP::hookhandle = new SbStorage(sizeof(HHOOK),
+                                                 hookhandle_constructor,
+                                                 hookhandle_destructor);
+  }
+
+  HHOOK * hookhandle = (HHOOK *) SoWinFullViewerP::hookhandle->get();
+  if (!(*hookhandle)) {
+    *hookhandle = Win32::SetWindowsHookEx(WH_CALLWNDPROC,
+                                          (HOOKPROC)SoWinFullViewerP::systemEventHook,
+                                          NULL, GetCurrentThreadId());
+  }
+
+  if (SoWinFullViewerP::parentHWNDmappings == NULL) {
+    SoWinFullViewerP::parentHWNDmappings = new SbDict;
   }
 
   PRIVATE(this)->viewerwidget = NULL;
@@ -123,15 +142,18 @@ SoWinFullViewer::~SoWinFullViewer()
 {
   (void)SoWinFullViewerP::parentHWNDmappings->remove((unsigned long)this->getParentWidget());
 
+  HHOOK * hookhandle = (HHOOK *) SoWinFullViewerP::hookhandle->get();
+  if (*hookhandle) {
+    Win32::UnhookWindowsHookEx(*hookhandle);
+  }
+
   SoWinFullViewerP::nrinstances--;
-
   if (SoWinFullViewerP::nrinstances == 0) {
-    assert(SoWinFullViewerP::hookhandle != NULL);
-    Win32::UnhookWindowsHookEx(SoWinFullViewerP::hookhandle);
-
     // Parent HWND -> SoWinFullViewer dict.
     delete SoWinFullViewerP::parentHWNDmappings;
     SoWinFullViewerP::parentHWNDmappings = NULL;
+
+    delete SoWinFullViewerP::hookhandle;
   }
   
   delete this->prefmenu;
@@ -394,8 +416,8 @@ SoWinFullViewer::setRightWheelString(const char * const name)
 
 #ifndef DOXYGEN_SKIP_THIS
 
-HHOOK SoWinFullViewerP::hookhandle = NULL;
 int SoWinFullViewerP::nrinstances = 0;
+SbStorage * SoWinFullViewerP::hookhandle = NULL;
 SbDict * SoWinFullViewerP::parentHWNDmappings = NULL;
 
 HWND
@@ -735,7 +757,8 @@ SoWinFullViewerP::systemEventHook(int code, WPARAM wparam, LPARAM lparam)
     }
   }
 
-  return CallNextHookEx(SoWinFullViewerP::hookhandle, code, wparam, lparam);
+  HHOOK * hookhandle = (HHOOK *) SoWinFullViewerP::hookhandle->get();
+  return CallNextHookEx(*hookhandle, code, wparam, lparam);
 }
 
 // *************************************************************************
