@@ -1,5 +1,10 @@
 @echo off
 
+REM **********************************************************************
+REM * Create all the directories for the installed files
+
+pushd %COINDIR%
+
 if exist bin\*.* goto binexists
 echo mkdir %COINDIR%\bin
 mkdir bin
