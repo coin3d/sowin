@@ -16,13 +16,13 @@ source_pwd="`(cd ../..; pwd) | sed -e 's/\\//\\\\\\\\/g'`"
 
 ../../configure --with-msvcrt=mtd --with-suffix=d \
   --enable-debug --enable-symbols || exit 1
-cp src/config.h src/config-debug.h
+mv src/config.h src/config-debug.h
 
 ../../configure --enable-msvcdsp --with-msvcrt=mt \
   --disable-debug --disable-symbols --enable-optimization || exit 1
-cp src/config.h src/config-release.h
+mv src/config.h src/config-release.h
 
-cp config-wrapper.h src/config.h
+cp ../misc/config-wrapper.h src/config.h
 
 make || exit 1
 

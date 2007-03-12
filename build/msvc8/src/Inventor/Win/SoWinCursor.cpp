@@ -35,6 +35,7 @@
 */
 
 #include <Inventor/Win/SoWinCursor.h>
+#include <Inventor/Win/SoAny.h>
 #include <assert.h>
 
 /*!
@@ -250,7 +251,7 @@ SoWinCursor::initClass(void)
   soguicursor_pancursor = new SoWinCursor(&pan);
   soguicursor_rotatecursor = new SoWinCursor(&rotate);
   soguicursor_blankcursor = new SoWinCursor(&blank);
-  sogui_atexit((sogui_atexit_f*)soguicursor_atexit_cleanup, 0);
+  SoAny::atexit((SoAny::atexit_f*)soguicursor_atexit_cleanup, 0);
 }
 
 /*!

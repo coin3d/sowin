@@ -181,6 +181,7 @@
 #include <Inventor/Win/common/gl.h>
 #include <Inventor/Win/nodes/SoGuiViewpointWrapper.h>
 #include <Inventor/Win/viewers/SoWinViewer.h>
+#include <Inventor/Win/viewers/SoGuiViewerP.h>
 #include <sowindefs.h>
 
 // *************************************************************************
@@ -196,137 +197,6 @@
 static int COIN_SHOW_FPS_COUNTER = UNINITIALIZED_ENVVAR;
 
 // *************************************************************************
-
-// The private data for the SoWinViewer.
-class SoWinViewerP {
-public:
-  SoWinViewerP(SoWinViewer * publ);
-  ~SoWinViewerP(void);
-
-  SoSeparator * createSuperScene(void);
-
-  static void convertOrtho2Perspective(const SoOrthographicCamera * in,
-                                       SoPerspectiveCamera * out);
-  static void convertPerspective2Ortho(const SoPerspectiveCamera * in,
-                                       SoOrthographicCamera * out);
-
-  SoCamera * camera;
-  SoWinViewer::Type type;
-  SbBool viewingflag;
-  SoGetBoundingBoxAction * autoclipbboxaction;
-  SoSeparator * sceneroot;
-  SoNode * scenegraph;
-
-
-  // Seek functionality
-  SoTimerSensor * seeksensor;
-  float seekperiod;
-  SbBool inseekmode;
-  SbBool seektopoint;
-  SbVec3f camerastartposition, cameraendposition;
-  SbRotation camerastartorient, cameraendorient;
-  float seekdistance;
-  SbBool seekdistanceabs;
-
-  // Home position storage.
-  SoNode * storedcamera;
-
-  SoDirectionalLight * headlight;
-
-  // Drawstyles
-  SoWinViewer::DrawStyle drawstyles[2];
-  SoSwitch * drawstyleroot, * hiddenlineroot, * polygonoffsetparent;
-  SoBaseColor * sobasecolor;
-  SoComplexity * socomplexity;
-  SoDrawStyle * sodrawstyle;
-  SoLightModel * solightmodel;
-  SoMaterialBinding * somaterialbinding;
-  SoSeparator * usersceneroot;
-  SoSwitch * superimpositionroot;
-#ifdef HAVE_SOPOLYGONOFFSET
-  SoPolygonOffset * sopolygonoffset;
-#endif // HAVE_SOPOLYGONOFFSET
-  // Automatic setting of clipping planes
-  SbBool adjustclipplanes;
-
-  // Keep track of the frames-per-second counter.
-  // Const value trick for old compilers.
-  enum Constants { FRAMESARRAY_SIZE = 100 };
-  SbVec2f frames[FRAMESARRAY_SIZE];
-  float totalcoin, totaldraw;
-  double lastgettimeofday;
-  int framecount;
-
-  // Stereo-related
-  SbBool stereoviewing, stereotypesetexplicit;
-  float stereooffset;
-  SoWinViewer::StereoType stereotype;
-  SbBool stereoanaglyphmask[2][3];
-  SbViewportRegion stereostencilmaskvp;
-  GLubyte * stereostencilmask;
-  enum StencilType { ROWS, COLUMNS, NONE };
-  SoWinViewer::StereoType stereostenciltype;
-  enum Eye { LEFT, RIGHT, RESTORE };
-  struct StereoData {
-    SbVec3f camerapos, cameradir, offsetvec, focalpoint;
-    SbRotation camerarot;
-    float offset;
-    SbBool nodenotify, positionnotify, orientationnotify;
-  };
-  void setStereoEye(SoCamera * camera,
-                    const SoWinViewerP::Eye eye,
-                    SoWinViewerP::StereoData & storage) const;
-  void initStencilBufferForInterleavedStereo(void);
-
-  // Misc
-  SoType cameratype;
-  SbBool cursoron, localsetbuffertype;
-  SoCallbackList * interactionstartCallbacks, * interactionendCallbacks;
-  int interactionnesting;
-  SoWinViewer::BufferType buffertype;
-  SbColor wireframeoverlaycolor;
-
-  void reallyRedraw(const SbBool clearcol, const SbBool clearz = TRUE);
-
-  // Seek functionality
-  static void seeksensorCB(void * data, SoSensor *);
-
-  // Drawstyles
-  void changeDrawStyle(SoWinViewer::DrawStyle style);
-  SbBool drawInteractiveAsStill(void) const;
-  SbBool drawAsHiddenLine(void) const;
-  SbBool drawAsWireframeOverlay(void) const;
-  SoWinViewer::DrawStyle currentDrawStyle(void) const;
-
-  // Automatic setting of clipping planes
-  void setClippingPlanes(void);
-
-  // Methods to keep track of frames-per-second value.
-  void resetFrameCounter(void);
-  SbVec2f addFrametime(const double ft);
-  void recordFPS(const double rendertime);
-
-  // Misc
-  static void interactivestartCB(void *, SoWinViewer * thisp);
-  static void interactiveendCB(void *, SoWinViewer * thisp);
-  void moveCameraScreen(const SbVec2f & screenpos);
-  void getCameraCoordinateSystem(SoCamera * camera, SoNode * root,
-                                 SbMatrix & matrix, SbMatrix & inverse);
-
-  SoGroup * getParentOfNode(SoNode * root, SoNode * node) const;
-  SoSearchAction * searchaction;
-
-  SoGetMatrixAction * matrixaction;
-  SbPList * superimpositions;
-  SbGuiList<SbBool> superimpositionsenabled;
-  SoWinViewer * pub;
-
-  // auto clipping parameters
-  SoWinViewer::AutoClippingStrategy autoclipstrategy;
-  float autoclipvalue;
-  SoWinAutoClippingCB * autoclipcb;
-  void * autoclipuserdata;
-};
 
 #define PRIVATE(ptr) (ptr->pimpl)
 #define PUBLIC(ptr) (ptr->pub)
@@ -3195,6 +3065,11 @@ SoWinViewer::seekToPoint(const SbVec3f & scenepos)
   PRIVATE(this)->cameraendposition = hitpoint - fd * dir;
   PRIVATE(this)->cameraendorient = PRIVATE(this)->camera->orientation.getValue() * diffrot;
 
+  // Subclasses that want another cameraendorient than what is
+  // computed here should override this function and set the desired
+  // orientation there
+  this->computeSeekFinalOrientation();
+
   if (PRIVATE(this)->seeksensor->isScheduled()) {
     PRIVATE(this)->seeksensor->unschedule();
     this->interactiveCountDec();
@@ -3690,13 +3565,16 @@ SoWinViewer::isSeekValuePercentage(void) const
 
 // ************************************************************************
 
-/*!
-  This method is obsoleted in Coin SoWin.
+/*!  
+  This method can be overridden in subclasses if the final
+  orientation of the camera after a seek should be something other
+  than what is computed in SoWinViewer::seekToPoint(const SbVec3f &
+  scenepos)
  */
 void
 SoWinViewer::computeSeekFinalOrientation(void)
 {
-  SOWIN_OBSOLETED();
+  
 }
 
 // *************************************************************************

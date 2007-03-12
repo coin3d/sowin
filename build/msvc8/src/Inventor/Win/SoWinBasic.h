@@ -72,13 +72,13 @@ inline void SoWinSwap(Type & a, Type & b) {
 #define SOWIN_MINOR_VERSION 4
 #endif /* ! SOWIN_MINOR_VERSION */
 #if ! defined(SOWIN_MICRO_VERSION)
-#define SOWIN_MICRO_VERSION 0
+#define SOWIN_MICRO_VERSION 1
 #endif /* ! SOWIN_MICRO_VERSION */
 #if ! defined(SOWIN_BETA_VERSION)
 /* #undef SOWIN_BETA_VERSION */
 #endif /* ! SOWIN_BETA_VERSION */
 #if ! defined(SOWIN_VERSION)
-#define SOWIN_VERSION "1.4.0"
+#define SOWIN_VERSION "1.4.1a"
 #endif /* ! SOWIN_VERSION */
 
 // *************************************************************************
@@ -137,13 +137,5 @@ inline void SoWinSwap(Type & a, Type & b) {
 #ifndef SOWIN_DLL_API
 # define SOWIN_DLL_API
 #endif /* !SOWIN_DLL_API */
-
-// *************************************************************************
-
-// FIXME: Dummy sogui_atexit(). Replace with real
-// implementation. kintel 20060209
-#include <stdlib.h>
-typedef void sogui_atexit_f(void);
-void sogui_atexit(sogui_atexit_f * fp, int priority);
 
 #endif // ! SOWIN_BASIC_H

@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=sowin1 - Win32 DLL (Debug)
+CFG=sowin1 - Win32 DLL (Release)
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE
@@ -44,8 +44,8 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /YX /FD /c
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -54,12 +54,12 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(COINDIR)\lib\coin2.lib opengl32.lib gdi32.lib user32.lib /nologo /dll /machine:I386
-# ADD LINK32 $(COINDIR)\lib\coin2.lib opengl32.lib gdi32.lib user32.lib /nologo /dll /machine:I386 /out:"sowin1.dll" /opt:nowin98
+# ADD BASE LINK32 $(COINDIR)\lib\coin2.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /machine:I386
+# ADD LINK32 $(COINDIR)\lib\coin2.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /machine:I386 /out:"sowin1.dll" /opt:nowin98
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=install-dll-release.bat
+PostBuild_Cmds=..\misc\install-sdk.bat dll release
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
@@ -74,8 +74,8 @@ PostBuild_Cmds=install-dll-release.bat
 # PROP Output_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /YX /FD /GZ /c
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOWIN_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -84,11 +84,11 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"sowin1d.dll"
+# ADD BASE LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"sowin1d.dll"
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=install-dll-debug.bat
+PostBuild_Cmds=..\misc\install-sdk.bat dll debug
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
@@ -103,8 +103,8 @@ PostBuild_Cmds=install-dll-debug.bat
 # PROP Output_Dir "StaticRelease"
 # PROP Intermediate_Dir "StaticRelease"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=0"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=0"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /YX /FD /c
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=0"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=0"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
 # ADD BASE RSC /l 0x414 /d "NDEBUG"
 # ADD RSC /l 0x414 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -115,7 +115,7 @@ LIB32=link.exe -lib
 # ADD LIB32 /nologo /machine:I386 /out:"sowin1s.lib"
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=install-lib-release.bat
+PostBuild_Cmds=..\misc\install-sdk.bat lib release
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
@@ -130,8 +130,8 @@ PostBuild_Cmds=install-lib-release.bat
 # PROP Output_Dir "StaticDebug"
 # PROP Intermediate_Dir "StaticDebug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=1"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=1"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /YX /FD /c
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=1"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D "SOWIN_DEBUG=1"  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /YX /FD /c
 # ADD BASE RSC /l 0x414 /d "_DEBUG"
 # ADD RSC /l 0x414 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -142,8 +142,9 @@ LIB32=link.exe -lib
 # ADD LIB32 /nologo /machine:I386 /out:"sowin1sd.lib"
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=install-lib-debug.bat
+PostBuild_Cmds=..\misc\install-sdk.bat lib debug
 # End Special Build Tool
+
 !ENDIF
 
 # Begin Target
@@ -152,780 +153,806 @@ PostBuild_Cmds=install-lib-debug.bat
 # Name "sowin1 - Win32 DLL (Debug)"
 # Name "sowin1 - Win32 LIB (Release)"
 # Name "sowin1 - Win32 LIB (Debug)"
+# Begin Group "Documents"
+# PROP Default_Filter ";txt"
+# End Group
 # Begin Group "Source Files"
+# PROP Default_Filter "c;cpp;ic;icc;h"
 
-# PROP Default_Filter "cpp;c;ic;icc"
+# Begin Group "Win/devices sources"
+# PROP Default_Filter "c;cpp;ic;icc;h"
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\devices\SoWinDevice.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\devices"
+# PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\devices"
+# PROP Intermediate_Dir "Debug\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\devices"
+# PROP Intermediate_Dir "StaticRelease\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\devices"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\devices"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\devices\SoWinInputFocus.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\devices"
+# PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\devices"
+# PROP Intermediate_Dir "Debug\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\devices"
+# PROP Intermediate_Dir "StaticRelease\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\devices"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\devices"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\devices\SoWinKeyboard.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\devices"
+# PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\devices"
+# PROP Intermediate_Dir "Debug\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\devices"
+# PROP Intermediate_Dir "StaticRelease\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\devices"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\devices"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\devices\SoWinMouse.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\devices"
+# PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\devices"
+# PROP Intermediate_Dir "Debug\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\devices"
+# PROP Intermediate_Dir "StaticRelease\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\devices"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\devices"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\devices\SoWinSpaceball.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\devices"
+# PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\devices"
+# PROP Intermediate_Dir "Debug\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\devices"
+# PROP Intermediate_Dir "StaticRelease\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\devices"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\devices"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\devices\spwinput_x11.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\devices"
+# PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\devices"
+# PROP Intermediate_Dir "Debug\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\devices"
+# PROP Intermediate_Dir "StaticRelease\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\devices"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\devices"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\devices\spwinput_win32.c
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\devices"
+# PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\devices"
+# PROP Intermediate_Dir "Debug\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\devices"
+# PROP Intermediate_Dir "StaticRelease\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\devices"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\devices"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\devices\SoWinDeviceCommon.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\devices"
+# PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\devices"
+# PROP Intermediate_Dir "Debug\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\devices"
+# PROP Intermediate_Dir "StaticRelease\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\devices"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\devices"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\devices\SoWinInputFocusCommon.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\devices"
+# PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\devices"
+# PROP Intermediate_Dir "Debug\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\devices"
+# PROP Intermediate_Dir "StaticRelease\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\devices"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\devices"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\devices\SoWinKeyboardCommon.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\devices"
+# PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\devices"
+# PROP Intermediate_Dir "Debug\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\devices"
+# PROP Intermediate_Dir "StaticRelease\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\devices"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\devices"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\devices\SoWinMouseCommon.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\devices"
+# PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\devices"
+# PROP Intermediate_Dir "Debug\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\devices"
+# PROP Intermediate_Dir "StaticRelease\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\devices"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\devices"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\devices"
+# PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\devices"
+# PROP Intermediate_Dir "Debug\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\devices"
+# PROP Intermediate_Dir "StaticRelease\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\devices"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\devices"
+!ENDIF
 # End Source File
+# End Group
+# Begin Group "Win/editors sources"
+# PROP Default_Filter "c;cpp;ic;icc;h"
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\editors\SoWinColorEditor.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\editors"
+# PROP Intermediate_Dir "Release\Win\editors"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\editors"
+# PROP Intermediate_Dir "Debug\Win\editors"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\editors"
+# PROP Intermediate_Dir "StaticRelease\Win\editors"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\editors"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\editors"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\editors\SoWinMaterialEditor.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\editors"
+# PROP Intermediate_Dir "Release\Win\editors"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\editors"
+# PROP Intermediate_Dir "Debug\Win\editors"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\editors"
+# PROP Intermediate_Dir "StaticRelease\Win\editors"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\editors"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\editors"
+!ENDIF
 # End Source File
+# End Group
+# Begin Group "Win/engines sources"
+# PROP Default_Filter "c;cpp;ic;icc;h"
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\engines\Engines.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\engines"
+# PROP Intermediate_Dir "Release\Win\engines"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\engines"
+# PROP Intermediate_Dir "Debug\Win\engines"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\engines"
+# PROP Intermediate_Dir "StaticRelease\Win\engines"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\engines"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\engines"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\engines\RadioGroup.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\engines"
+# PROP Intermediate_Dir "Release\Win\engines"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\engines"
+# PROP Intermediate_Dir "Debug\Win\engines"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\engines"
+# PROP Intermediate_Dir "StaticRelease\Win\engines"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\engines"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\engines"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\engines\Format.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\engines"
+# PROP Intermediate_Dir "Release\Win\engines"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\engines"
+# PROP Intermediate_Dir "Debug\Win\engines"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\engines"
+# PROP Intermediate_Dir "StaticRelease\Win\engines"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\engines"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\engines"
+!ENDIF
 # End Source File
+# End Group
+# Begin Group "Win/nodes sources"
+# PROP Default_Filter "c;cpp;ic;icc;h"
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\Nodes.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\SceneTexture2.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\ViewportFix.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\ViewpointWrapper.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\Pane.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\Position.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\Translation.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\Frame.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\Image.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\Label.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\ToggleButton.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\RadioButton.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\ClickCounter.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\Slider1.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\Slider2.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\ColorEditor.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\nodes\MaterialEditor.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\nodes"
+# PROP Intermediate_Dir "Release\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\nodes"
+# PROP Intermediate_Dir "Debug\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\nodes"
+# PROP Intermediate_Dir "StaticRelease\Win\nodes"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\nodes"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\nodes"
+!ENDIF
 # End Source File
+# End Group
+# Begin Group "Win/viewers sources"
+# PROP Default_Filter "c;cpp;ic;icc;h"
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\viewers\FullViewer.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\viewers"
+# PROP Intermediate_Dir "Release\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\viewers"
+# PROP Intermediate_Dir "Debug\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\viewers"
+# PROP Intermediate_Dir "StaticRelease\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\viewers"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\viewers"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\viewers\ExaminerViewer.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\viewers"
+# PROP Intermediate_Dir "Release\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\viewers"
+# PROP Intermediate_Dir "Debug\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\viewers"
+# PROP Intermediate_Dir "StaticRelease\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\viewers"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\viewers"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\viewers\PlaneViewer.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\viewers"
+# PROP Intermediate_Dir "Release\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\viewers"
+# PROP Intermediate_Dir "Debug\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\viewers"
+# PROP Intermediate_Dir "StaticRelease\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\viewers"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\viewers"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\viewers\SoWinViewer.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\viewers"
+# PROP Intermediate_Dir "Release\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\viewers"
+# PROP Intermediate_Dir "Debug\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\viewers"
+# PROP Intermediate_Dir "StaticRelease\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\viewers"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\viewers"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\viewers"
+# PROP Intermediate_Dir "Release\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\viewers"
+# PROP Intermediate_Dir "Debug\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\viewers"
+# PROP Intermediate_Dir "StaticRelease\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\viewers"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\viewers"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\viewers\SoWinFlyViewer.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\viewers"
+# PROP Intermediate_Dir "Release\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\viewers"
+# PROP Intermediate_Dir "Debug\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\viewers"
+# PROP Intermediate_Dir "StaticRelease\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\viewers"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\viewers"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\viewers\SoWinFullViewer.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\viewers"
+# PROP Intermediate_Dir "Release\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\viewers"
+# PROP Intermediate_Dir "Debug\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\viewers"
+# PROP Intermediate_Dir "StaticRelease\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\viewers"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\viewers"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\viewers\SoWinExaminerViewer.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\viewers"
+# PROP Intermediate_Dir "Release\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\viewers"
+# PROP Intermediate_Dir "Debug\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\viewers"
+# PROP Intermediate_Dir "StaticRelease\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\viewers"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\viewers"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\viewers\SoWinPlaneViewer.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\viewers"
+# PROP Intermediate_Dir "Release\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\viewers"
+# PROP Intermediate_Dir "Debug\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\viewers"
+# PROP Intermediate_Dir "StaticRelease\Win\viewers"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\viewers"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\viewers"
+!ENDIF
 # End Source File
+# End Group
+# Begin Group "Win/widgets sources"
+# PROP Default_Filter "c;cpp;ic;icc;h"
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\widgets\SoWinThumbWheel.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\widgets"
+# PROP Intermediate_Dir "Release\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\widgets"
+# PROP Intermediate_Dir "Debug\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\widgets"
+# PROP Intermediate_Dir "StaticRelease\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\widgets"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\widgets"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\widgets\WinNativePopupMenu.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\widgets"
+# PROP Intermediate_Dir "Release\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\widgets"
+# PROP Intermediate_Dir "Debug\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\widgets"
+# PROP Intermediate_Dir "StaticRelease\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\widgets"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\widgets"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\widgets\SoWinBitmapButton.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\widgets"
+# PROP Intermediate_Dir "Release\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\widgets"
+# PROP Intermediate_Dir "Debug\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\widgets"
+# PROP Intermediate_Dir "StaticRelease\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\widgets"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\widgets"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\widgets\SoAnyThumbWheel.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\widgets"
+# PROP Intermediate_Dir "Release\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\widgets"
+# PROP Intermediate_Dir "Debug\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\widgets"
+# PROP Intermediate_Dir "StaticRelease\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\widgets"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\widgets"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\widgets\SoWinPopupMenu.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\widgets"
+# PROP Intermediate_Dir "Release\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\widgets"
+# PROP Intermediate_Dir "Debug\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\widgets"
+# PROP Intermediate_Dir "StaticRelease\Win\widgets"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\widgets"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Win\widgets"
+!ENDIF
 # End Source File
+# End Group
+# Begin Group "Inventor/Win sources"
+# PROP Default_Filter "c;cpp;ic;icc;h"
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\SoWin.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win"
+# PROP Intermediate_Dir "Release\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win"
+# PROP Intermediate_Dir "Debug\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win"
+# PROP Intermediate_Dir "StaticRelease\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Inventor\Win"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\SoWinComponent.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win"
+# PROP Intermediate_Dir "Release\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win"
+# PROP Intermediate_Dir "Debug\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win"
+# PROP Intermediate_Dir "StaticRelease\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Inventor\Win"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\SoWinGLWidget.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win"
+# PROP Intermediate_Dir "Release\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win"
+# PROP Intermediate_Dir "Debug\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win"
+# PROP Intermediate_Dir "StaticRelease\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Inventor\Win"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\Win32API.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win"
+# PROP Intermediate_Dir "Release\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win"
+# PROP Intermediate_Dir "Debug\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win"
+# PROP Intermediate_Dir "StaticRelease\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Inventor\Win"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\SoAny.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win"
+# PROP Intermediate_Dir "Release\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win"
+# PROP Intermediate_Dir "Debug\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win"
+# PROP Intermediate_Dir "StaticRelease\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Inventor\Win"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\SoWinCursor.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win"
+# PROP Intermediate_Dir "Release\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win"
+# PROP Intermediate_Dir "Debug\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win"
+# PROP Intermediate_Dir "StaticRelease\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Inventor\Win"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\SoWinObject.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win"
+# PROP Intermediate_Dir "Release\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win"
+# PROP Intermediate_Dir "Debug\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win"
+# PROP Intermediate_Dir "StaticRelease\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Inventor\Win"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\SoWinCommon.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win"
+# PROP Intermediate_Dir "Release\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win"
+# PROP Intermediate_Dir "Debug\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win"
+# PROP Intermediate_Dir "StaticRelease\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Inventor\Win"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\SoWinComponentCommon.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win"
+# PROP Intermediate_Dir "Release\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win"
+# PROP Intermediate_Dir "Debug\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win"
+# PROP Intermediate_Dir "StaticRelease\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Inventor\Win"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\SoWinGLWidgetCommon.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win"
+# PROP Intermediate_Dir "Release\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win"
+# PROP Intermediate_Dir "Debug\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win"
+# PROP Intermediate_Dir "StaticRelease\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Inventor\Win"
+!ENDIF
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\SoWinRenderArea.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win"
+# PROP Intermediate_Dir "Release\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win"
+# PROP Intermediate_Dir "Debug\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win"
+# PROP Intermediate_Dir "StaticRelease\Inventor\Win"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win"
-!ENDIF 
+# PROP Intermediate_Dir "StaticDebug\Inventor\Win"
+!ENDIF
 # End Source File
+# End Group
 # End Group
 # Begin Group "Public Headers"
 
-# PROP Default_Filter "h"
+# PROP Default_Filter "h;ic;icc"
+# Begin Group "src\Inventor\Win\devices headers"
+# Set Default_Filter "h"
 # Begin Source File
 
 SOURCE=src\Inventor\Win\devices\SoWinDevice.h
@@ -946,6 +973,9 @@ SOURCE=src\Inventor\Win\devices\SoWinMouse.h
 
 SOURCE=src\Inventor\Win\devices\SoWinSpaceball.h
 # End Source File
+# End Group
+# Begin Group "src\Inventor\Win\editors headers"
+# Set Default_Filter "h"
 # Begin Source File
 
 SOURCE=src\Inventor\Win\editors\SoWinColorEditor.h
@@ -954,6 +984,9 @@ SOURCE=src\Inventor\Win\editors\SoWinColorEditor.h
 
 SOURCE=src\Inventor\Win\editors\SoWinMaterialEditor.h
 # End Source File
+# End Group
+# Begin Group "src\Inventor\Win\nodes headers"
+# Set Default_Filter "h"
 # Begin Source File
 
 SOURCE=src\Inventor\Win\nodes\SoGuiColorEditor.h
@@ -962,6 +995,9 @@ SOURCE=src\Inventor\Win\nodes\SoGuiColorEditor.h
 
 SOURCE=src\Inventor\Win\nodes\SoGuiMaterialEditor.h
 # End Source File
+# End Group
+# Begin Group "src\Inventor\Win\viewers headers"
+# Set Default_Filter "h"
 # Begin Source File
 
 SOURCE=src\Inventor\Win\viewers\SoWinViewer.h
@@ -986,10 +1022,16 @@ SOURCE=src\Inventor\Win\viewers\SoWinFlyViewer.h
 
 SOURCE=src\Inventor\Win\viewers\SoWinPlaneViewer.h
 # End Source File
+# End Group
+# Begin Group "src\Inventor\Win\widgets headers"
+# Set Default_Filter "h"
 # Begin Source File
 
 SOURCE=src\Inventor\Win\widgets\SoWinPopupMenu.h
 # End Source File
+# End Group
+# Begin Group "src\Inventor\Win headers"
+# Set Default_Filter "h"
 # Begin Source File
 
 SOURCE=src\Inventor\Win\SoWin.h
@@ -1027,329 +1069,308 @@ SOURCE=src\Inventor\Win\SoWinColorEditor.h
 SOURCE=src\Inventor\Win\SoWinMaterialEditor.h
 # End Source File
 # End Group
+# End Group
 # Begin Group "Private Headers"
+
+# PROP Default_Filter "h;ic;icc"
+# Begin Group "Win local includes"
+
+# PROP Default_Filter "h;ic;icc"
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\SoGuiComponentP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\SoGuiGLWidgetP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\SoGuiP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# End Group
+# Begin Group "devices local includes"
+
+# PROP Default_Filter "h;ic;icc"
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\devices\SoGuiDeviceP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\devices\SoGuiInputFocusP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\devices\SoGuiKeyboardP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\devices\SoGuiMouseP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\devices\SoGuiSpaceballP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# End Group
+# Begin Group "engines local includes"
+
+# PROP Default_Filter "h;ic;icc"
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\engines\SoGuiEngines.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\engines\SoGuiFormat.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\engines\SoGuiRadioGroup.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# End Group
+# Begin Group "nodes local includes"
+
+# PROP Default_Filter "h;ic;icc"
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiClickCounter.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiFrame.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiImage.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiLabel.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiNodes.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiPane.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiPosition.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiRadioButton.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiSceneTexture2.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiSlider1.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiSlider2.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiToggleButton.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiTranslation.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiViewpointWrapper.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\nodes\SoGuiViewportFix.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# End Group
+# Begin Group "viewers local includes"
+
+# PROP Default_Filter "h;ic;icc"
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\viewers\SoGuiExaminerViewerP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\viewers\SoGuiFullViewerP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\viewers\SoGuiPlaneViewerP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\Inventor\Win\viewers\SoGuiViewerP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# End Group
+# Begin Group "src local includes"
 
 # PROP Default_Filter "h;ic;icc"
 # Begin Source File
 
 SOURCE=.\src\config-debug.h
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\config-release.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
 
-SOURCE=.\src\Inventor\Win\devices\SoGuiDeviceP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\devices\SoGuiInputFocusP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\devices\SoGuiKeyboardP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\devices\SoGuiMouseP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\devices\SoGuiSpaceballP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\engines\SoGuiEngines.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\engines\SoGuiFormat.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\engines\SoGuiRadioGroup.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiClickCounter.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiFrame.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiImage.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiLabel.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiNodes.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiPane.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiPosition.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiRadioButton.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiSceneTexture2.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiSlider1.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiSlider2.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiToggleButton.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiTranslation.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiViewpointWrapper.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiViewportFix.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\SoGuiComponentP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\SoGuiGLWidgetP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\SoGuiP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\viewers\SoGuiExaminerViewerP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\viewers\SoGuiFullViewerP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\viewers\SoGuiPlaneViewerP.h
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\sowindefs.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# End Group
+# Begin Group "Win local includes"
+
+# PROP Default_Filter "h;ic;icc"
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\SoWinComponentP.h
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\config-debug.h
+SOURCE=..\..\src\Inventor\Win\SoWinGLWidgetP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# End Group
+# Begin Group "devices local includes"
+
+# PROP Default_Filter "h;ic;icc"
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\devices\SoWinDeviceP.h
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\config-release.h
+SOURCE=..\..\src\Inventor\Win\devices\SoWinSpaceballP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# End Group
+# Begin Group "viewers local includes"
+
+# PROP Default_Filter "h;ic;icc"
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\viewers\SoWinExaminerViewerP.h
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\Inventor\Win\devices\SoGuiDeviceP.h
+SOURCE=..\..\src\Inventor\Win\viewers\SoWinFullViewerP.h
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\Inventor\Win\devices\SoGuiInputFocusP.h
+SOURCE=..\..\src\Inventor\Win\viewers\SoWinPlaneViewerP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# End Group
+# Begin Group "widgets local includes"
+
+# PROP Default_Filter "h;ic;icc"
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\widgets\SoWinBitmapButton.h
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\Inventor\Win\devices\SoGuiKeyboardP.h
+SOURCE=..\..\src\Inventor\Win\widgets\SoWinThumbWheel.h
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\Inventor\Win\devices\SoGuiMouseP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
+SOURCE=..\..\src\Inventor\Win\widgets\WinNativePopupMenu.h
 
-SOURCE=.\src\Inventor\Win\devices\SoGuiSpaceballP.h
 # PROP Exclude_From_Build 1
 # End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\engines\SoGuiEngines.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\engines\SoGuiFormat.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\engines\SoGuiRadioGroup.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiClickCounter.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiFrame.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiImage.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiLabel.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiNodes.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiPane.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiPosition.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiRadioButton.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiSceneTexture2.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiSlider1.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiSlider2.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiToggleButton.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiTranslation.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiViewpointWrapper.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\nodes\SoGuiViewportFix.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\SoGuiComponentP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\SoGuiGLWidgetP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\SoGuiP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\viewers\SoGuiExaminerViewerP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\viewers\SoGuiFullViewerP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\viewers\SoGuiPlaneViewerP.h
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\sowindefs.h
-# PROP Exclude_From_Build 1
-# End Source File
+# End Group
 # End Group
 # End Target
 # End Project

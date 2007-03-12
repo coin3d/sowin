@@ -227,6 +227,7 @@ protected:
 private:
   class SoWinViewerP * pimpl;
   friend class SoWinViewerP;
+  friend class SoWinPlaneViewer;
 };
 
 // *************************************************************************

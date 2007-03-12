@@ -125,6 +125,7 @@
 #include <sowindefs.h>
 
 #include <Inventor/Win/viewers/SoGuiFullViewerP.h> // for pan() and zoom()
+#include <Inventor/Win/viewers/SoGuiViewerP.h> // for adjusting final camera orientation before seek
 #include <Inventor/Win/viewers/SoWinPlaneViewerP.h>
 
 // *************************************************************************
@@ -960,6 +961,19 @@ SoGuiPlaneViewerP::setCursorRepresentation(PlaneViewerMode modearg)
     break;
   }
 }
+
+
+/*!  
+  Overridden to make sure camera orientation is not affected by a
+  seek
+ */
+void
+SoWinPlaneViewer::computeSeekFinalOrientation(void)
+{
+  SoWinViewerP * thisp = ((SoWinViewer *)this)->pimpl;
+  thisp->cameraendorient = thisp->camera->orientation.getValue();
+}
+
 
 void
 SoGuiPlaneViewerP::changeMode(PlaneViewerMode newmode)

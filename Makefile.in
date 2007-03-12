@@ -633,6 +633,7 @@ EXTRA_DIST = \
 	LICENSE.GPL \
 	cfg/sowin.m4 \
 	cfg/gendsp.sh.in \
+	cfg/gendsp.pl.in \
 	docs/ChangeLog.v1.0.0 \
 	docs/ChangeLog.v1.2.0 \
 	docs/ChangeLog.v1.3.0 \
@@ -758,11 +759,12 @@ EXTRA_DIST = \
 	build/msvc6/src/sowindefs.h \
 	build/msvc6/generate.sh \
 	build/msvc6/config-wrapper.h \
-	build/msvc6/install-headers.bat \
-	build/msvc6/install-lib-release.bat \
-	build/msvc6/install-lib-debug.bat \
 	build/msvc6/install-dll-release.bat \
 	build/msvc6/install-dll-debug.bat \
+	build/msvc6/install-lib-release.bat \
+	build/msvc6/install-lib-debug.bat \
+	build/msvc6/create-directories.bat \
+	build/msvc6/install-headers.bat \
 	build/msvc6/sowin1.dsp \
 	build/msvc6/sowin1.dsw \
 	build/msvc7/src/Inventor/Win/common/gl.h \
@@ -874,11 +876,12 @@ EXTRA_DIST = \
 	build/msvc7/src/sowindefs.h \
 	build/msvc7/generate.sh \
 	build/msvc7/config-wrapper.h \
-	build/msvc7/install-headers.bat \
-	build/msvc7/install-lib-release.bat \
-	build/msvc7/install-lib-debug.bat \
 	build/msvc7/install-dll-release.bat \
 	build/msvc7/install-dll-debug.bat \
+	build/msvc7/install-lib-release.bat \
+	build/msvc7/install-lib-debug.bat \
+	build/msvc7/create-directories.bat \
+	build/msvc7/install-headers.bat \
 	build/msvc7/sowin1.sln \
 	build/msvc7/sowin1.vcproj \
 	build/msvc8/src/Inventor/Win/common/gl.h \
@@ -990,11 +993,12 @@ EXTRA_DIST = \
 	build/msvc8/src/sowindefs.h \
 	build/msvc8/generate.sh \
 	build/msvc8/config-wrapper.h \
-	build/msvc8/install-headers.bat \
 	build/msvc8/install-lib-release.bat \
 	build/msvc8/install-lib-debug.bat \
 	build/msvc8/install-dll-release.bat \
 	build/msvc8/install-dll-debug.bat \
+	build/msvc8/create-directories.bat \
+	build/msvc8/install-headers.bat \
 	build/msvc8/sowin1.sln \
 	build/msvc8/sowin1.vcproj
 
@@ -1002,7 +1006,7 @@ subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
-CONFIG_CLEAN_FILES = sowin-$CONFIG.cfg cfg/gendsp.sh
+CONFIG_CLEAN_FILES = sowin-$CONFIG.cfg cfg/gendsp.sh cfg/gendsp.pl
 SCRIPTS = $(bin_SCRIPTS)
 
 DIST_SOURCES =
@@ -1045,6 +1049,8 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.ac
 sowin-$CONFIG.cfg: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Win/common/sogui.cfg.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 cfg/gendsp.sh: $(top_builddir)/config.status $(top_srcdir)/cfg/gendsp.sh.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+cfg/gendsp.pl: $(top_builddir)/config.status $(top_srcdir)/cfg/gendsp.pl.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
 install-binSCRIPTS: $(bin_SCRIPTS)

@@ -76,6 +76,7 @@ protected:
   virtual void createViewerButtons(HWND parent, SbPList * buttons);
 
   virtual void afterRealizeHook(void);
+  virtual void computeSeekFinalOrientation(void);
 
 private:
   class SoWinPlaneViewerP * pimpl;

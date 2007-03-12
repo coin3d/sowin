@@ -67,6 +67,7 @@ EXTRA_DIST = \
 	LICENSE.GPL \
 	cfg/sowin.m4 \
 	cfg/gendsp.sh.in \
+	cfg/gendsp.pl.in \
 	docs/ChangeLog.v1.0.0 \
 	docs/ChangeLog.v1.2.0 \
 	docs/ChangeLog.v1.3.0 \
@@ -83,6 +84,10 @@ EXTRA_DIST = \
 	packaging/windows/post.nsi.in \
 	packaging/windows/sowin-sdk.html.in \
 	$(SoGuiCommonDistFiles) \
+	build/misc/generate.sh \
+	build/misc/install-sdk.bat \
+	build/misc/create-directories.bat \
+	build/misc/config-wrapper.h \
 	build/msvc6/src/Inventor/Win/common/gl.h \
 	build/msvc6/src/Inventor/Win/SoAny.cpp \
 	build/msvc6/src/Inventor/Win/SoAny.h \
@@ -190,13 +195,7 @@ EXTRA_DIST = \
 	build/msvc6/src/config-release.h \
 	build/msvc6/src/config.h \
 	build/msvc6/src/sowindefs.h \
-	build/msvc6/generate.sh \
-	build/msvc6/config-wrapper.h \
 	build/msvc6/install-headers.bat \
-	build/msvc6/install-lib-release.bat \
-	build/msvc6/install-lib-debug.bat \
-	build/msvc6/install-dll-release.bat \
-	build/msvc6/install-dll-debug.bat \
 	build/msvc6/sowin1.dsp \
 	build/msvc6/sowin1.dsw \
 	build/msvc7/src/Inventor/Win/common/gl.h \
@@ -306,13 +305,7 @@ EXTRA_DIST = \
 	build/msvc7/src/config-debug.h \
 	build/msvc7/src/config-release.h \
 	build/msvc7/src/sowindefs.h \
-	build/msvc7/generate.sh \
-	build/msvc7/config-wrapper.h \
 	build/msvc7/install-headers.bat \
-	build/msvc7/install-lib-release.bat \
-	build/msvc7/install-lib-debug.bat \
-	build/msvc7/install-dll-release.bat \
-	build/msvc7/install-dll-debug.bat \
 	build/msvc7/sowin1.sln \
 	build/msvc7/sowin1.vcproj \
 	build/msvc8/src/Inventor/Win/common/gl.h \
@@ -422,13 +415,7 @@ EXTRA_DIST = \
 	build/msvc8/src/config-debug.h \
 	build/msvc8/src/config-release.h \
 	build/msvc8/src/sowindefs.h \
-	build/msvc8/generate.sh \
-	build/msvc8/config-wrapper.h \
 	build/msvc8/install-headers.bat \
-	build/msvc8/install-lib-release.bat \
-	build/msvc8/install-lib-debug.bat \
-	build/msvc8/install-dll-release.bat \
-	build/msvc8/install-dll-debug.bat \
 	build/msvc8/sowin1.sln \
 	build/msvc8/sowin1.vcproj
 

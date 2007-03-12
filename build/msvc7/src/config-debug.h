@@ -113,13 +113,13 @@
 #define PACKAGE_NAME "SoWin"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "SoWin 1.4.0"
+#define PACKAGE_STRING "SoWin 1.4.1a"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "sowin"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.4.0"
+#define PACKAGE_VERSION "1.4.1a"
 
 /* define this to the SoWin beta version letter */
 /* #undef SOWIN_BETA_VERSION */
@@ -128,19 +128,19 @@
 #define SOWIN_MAJOR_VERSION 1
 
 /* Define to the micro version of SoWin */
-#define SOWIN_MICRO_VERSION 0
+#define SOWIN_MICRO_VERSION 1
 
 /* Define to the minor version of SoWin */
 #define SOWIN_MINOR_VERSION 4
 
 /* Version string for SoWin */
-#define SOWIN_VERSION "1.4.0"
+#define SOWIN_VERSION "1.4.1a"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.4.0"
+#define VERSION "1.4.1a"
 
 /* Define this if you want defaults to be linked into SoXt */
 #define WITH_STATIC_DEFAULTS 
