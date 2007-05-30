@@ -91,6 +91,8 @@ AC_PROG_CPP
 AC_PROG_CXX
 AC_PROG_CXXCPP
 
+SIM_AC_STRIP_EXIT_DECLARATION
+
 AC_OBJEXT
 AC_EXEEXT
 
@@ -322,6 +324,8 @@ AC_CHECK_HEADERS([GL/gl.h GL/glu.h], [], [], [
 # Expected to be correct for Mac OS X.
 AC_CHECK_HEADERS([OpenGL/gl.h OpenGL/glu.h])
 
+AC_LANG(C++)
+
 # check for Coin library and its dependencies
 
 if $sim_ac_build_library; then
@@ -347,7 +351,6 @@ fi
 # from C to C++ mode.  The AC_LANG(C++) reset below is a work-around.
 # FIXME: should of course smoke out the offender and fix that instead
 # of just hiding the bug. 20011012 mortene.
-AC_LANG(C++)
 
 sim_ac_configure_save_ldflags=$LDFLAGS
 sim_ac_configure_save_libs=$LIBS
