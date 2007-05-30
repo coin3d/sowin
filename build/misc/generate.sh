@@ -4,11 +4,13 @@
 #
 # 20041214 larsa
 
-rm -f sowin1.dsp sowin1.dsw sowin1.vcproj sowin1.sln \
-      sowin1_install.dsp sowin1_install.dsw \
-      sowin1_install.vcproj sowin1_install.sln \
-      sowin1_uninstall.dsp sowin1_uninstall.dsw \
-      sowin1_uninstall.vcproj sowin1_uninstall.sln \
+project=sowin1
+
+rm -f ${project}.dsp ${project}.dsw ${project}.vcproj ${project}.sln \
+      ${project}_install.dsp ${project}_install.dsw \
+      ${project}_install.vcproj ${project}_install.sln \
+      ${project}_uninstall.dsp ${project}_uninstall.dsw \
+      ${project}_uninstall.vcproj ${project}_uninstall.sln \
       ../misc/install-headers.bat ../misc/uninstall-headers.bat
 
 build_pwd=`pwd`
@@ -39,9 +41,9 @@ sed \
   -e 's/COIN_DLL/COIN_NOT_DLL/g' \
   -e '/_MAKE_DLL/ { s/COIN_NOT_DLL/COIN_DLL/g; }' \
   -e 's/$/\r/g' \
-  <sowin1.dsp >new.dsp
+  <${project}.dsp >new.dsp
 
-mv new.dsp sowin1.dsp
+mv new.dsp ${project}.dsp
 
 sed \
   -e "s/$build/./g" \
@@ -56,10 +58,10 @@ mv new.bat ../misc/install-headers.bat
 echo "Done."
 echo "Modify so the static configurations are built with COIN_NOT_DLL"
 echo "Then make sure there are no absolute paths in the project files"
-grep -i c: sowin1.dsp sowin1.dsw
+grep -i c: ${project}.dsp ${project}.dsw
 
 # find . -name "moc_*" | xargs rm
 
 # How can I avoid the modal upgrade prompt-dialog for MSVC7.1 here???
-# devenv /command "File.OpenProject $build\\sowin1.dsp"
+# devenv /command "File.OpenProject $build\\${project}.dsp"
 
