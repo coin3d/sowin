@@ -4,7 +4,12 @@
 #
 # 20041214 larsa
 
-rm -f sowin1.dsp sowin1.dsw sowin1.vcproj sowin1.sln install-headers.bat
+rm -f sowin1.dsp sowin1.dsw sowin1.vcproj sowin1.sln \
+      sowin1_install.dsp sowin1_install.dsw \
+      sowin1_install.vcproj sowin1_install.sln \
+      sowin1_uninstall.dsp sowin1_uninstall.dsw \
+      sowin1_uninstall.vcproj sowin1_uninstall.sln \
+      ../misc/install-headers.bat ../misc/uninstall-headers.bat
 
 build_pwd=`pwd`
 build="`cygpath -w $build_pwd | sed -e 's/\\\\/\\\\\\\\/g'`"
@@ -44,9 +49,9 @@ sed \
   -e "s/$source/..\\\\../g" \
   -e "s/$source_pwd/..\\\\../g" \
   -e 's/$/\r/g' \
-  <install-headers.bat >new.bat
+  <../misc/install-headers.bat >new.bat
 
-mv new.bat install-headers.bat
+mv new.bat ../misc/install-headers.bat
 
 echo "Done."
 echo "Modify so the static configurations are built with COIN_NOT_DLL"

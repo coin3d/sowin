@@ -1,3 +1,8 @@
+#ifndef SOWIN_INTERNALDEFS_H
+#define SOWIN_INTERNALDEFS_H
+
+// src/sowindefs.h.  Generated from soguidefs.h.in by configure.
+
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
@@ -20,9 +25,6 @@
  *  <URL:http://www.sim.no/>.
  *
 \**************************************************************************/
-
-#ifndef SOWIN_INTERNALDEFS_H
-#define SOWIN_INTERNALDEFS_H
 
 /* ********************************************************************** */
 

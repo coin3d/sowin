@@ -1,6 +1,9 @@
 @echo off
 
-set libname=sowin1
+set type=%1
+set mode=%2
+set msvc=%3
+set libname=%4
 
 rem ************************************************************************
 rem * check script arguments
@@ -52,7 +55,7 @@ rem **********************************************************************
 rem * Copy files
 
 echo Installing header files...
-call install-headers.bat
+call ..\misc\install-headers.bat %msvc%
 
 echo Installing binaries...
 
