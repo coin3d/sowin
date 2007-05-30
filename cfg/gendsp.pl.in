@@ -46,7 +46,59 @@ if ( $me =~ m%^[^/\\]% ) {
   $me =~ s%/./%/%g;
 }
 
+# Environment variables to back-substitute from value to variable reference
+# in the project files to make the project moveable
 @reversevars = ("QTDIR", "COINDIR");
+
+# List of files that should be entered into the "Documents" project file
+# group if they exist.
+@docfiles = ("README", "README.WIN32", "NEWS", "RELNOTES", "LICENSE.GPL",
+             "COPYING", "THANKS", "ChangeLog");
+
+############################################################################
+
+$prefix = "@prefix@";
+$build_dir = "@abs_top_builddir@";
+while ( $build_dir =~ m%[\\/][^\\/]*[^\\/.][\\/]\.\.% ) {
+  $build_dir =~ s%[\\/][^\\/]*[^\\/\.][\\/]\.\.%%g;
+}
+$build_dir =~ s%[\\/]\.$%%g;
+$src_dir = "@abs_top_srcdir@";
+while ( $src_dir =~ m%[\\/][^\\/]*[^\\/.][\\/]\.\.% ) {
+  $src_dir =~ s%[\\/][^\\/]*[^\\/\.][\\/]\.\.%%g;
+}
+$src_dir =~ s%[\\/]\.$%%;
+$ac_unique_file = "@ac_unique_file@";
+$sim_ac_relative_src_dir = "@sim_ac_relative_src_dir@";
+$sim_ac_relative_src_dir_p = @sim_ac_relative_src_dir_p@; # true or false
+if ($sim_ac_relative_src_dir_p) {
+  $sim_ac_relative_src_dir_win = Unix2Dos($sim_ac_relative_src_dir);
+}
+$src_dir_win = Cygpath2Win($src_dir);
+$build_dir_win = Cygpath2Win($build_dir);
+
+$src_dir_win =~ s/\\/\\\\/g;
+$build_dir_win =~ s/\\/\\\\/g;
+# print "SOURCE DIR:     ${src_dir}\n";
+# print "SOURCE DIR WIN: ${src_dir_win}\n";
+# print "BUILD DIR WIN:  ${build_dir_win}\n";
+
+$me_u = Dos2Unix($me);
+$medir_u = $me;
+$medir_u =~ s,[^/]*$,,g;
+$srcdir_u = $medir_u;
+$srcdir_u =~ s,[^/]*/$,,g;
+$thisdir_u = Dos2Unix($cwd);
+
+if ( $sim_ac_relative_src_dir_p ) {
+  local $filename = "${srcdir_u}/${sim_ac_relative_src_dir}/${ac_unique_file}";
+  $filename = Dos2Unix($filename);
+  if ( ! -f $filename ) {
+    die "error: directories have been moved relative to each other since the last configure run. expected to find '$filename'.";
+  }
+} else {
+  die "error: dsp generation is not supported when absolute paths are necessary to locate files.";
+}
 
 ############################################################################
 
@@ -54,7 +106,7 @@ $group = "";
 $prev_group = "";
 
 sub LoadVars {
-  local $filename = "/tmp/gendsp-vars.txt";
+  local $filename = "@abs_top_builddir@/gendsp-vars.txt";
   open(IN, "${filename}");
   while (<IN>) {
     $line = $_;
@@ -67,7 +119,7 @@ sub LoadVars {
 }
 
 sub SaveVars {
-  local $filename = "/tmp/gendsp-vars.txt";
+  local $filename = "@abs_top_builddir@/gendsp-vars.txt";
   open(OUT, ">${filename}");
   print OUT "group = ${group}\n";
   close(OUT);
@@ -167,11 +219,6 @@ sub SubstFile {
         $line =~ s/@([^@]*)@/$dict{$1}/g;
       }
     }
-    for $var (@reversevars) {
-      if ($line =~ m%$envvars{$var}%) {
-        $line =~ s%$envvars{$var}%\$(${var})%g;
-      }
-    }
 
     if ($line =~ m%${build_dir_win}\\%o) {
       $line =~ s%${build_dir_win}\\%%g;
@@ -181,6 +228,12 @@ sub SubstFile {
     }
     if ($line =~ m%${src_dir_win}[\\]?%o) {
       $line =~ s%${src_dir_win}([\\]?)%${sim_ac_relative_src_dir_win}$1%g;
+    }
+
+    for $var (@reversevars) {
+      if ($line =~ m%$envvars{$var}%) {
+        $line =~ s%$envvars{$var}%\$(${var})%g;
+      }
     }
 
     print OUT $line;
@@ -231,50 +284,166 @@ sub CRLFFile {
   return true;
 }
 
+sub CreateScriptDSP {
+  local ($scriptdspfilename, $projectname, $script, @resourcefiles) = @_;
+  
+  open(SCRIPTDSP, ">${scriptdspfilename}");
+  print SCRIPTDSP <<"_EODSP";
+# Microsoft Developer Studio Project File - Name="${projectname}" - Package Owner=<4>
+# Microsoft Developer Studio Generated Build File, Format Version 6.00
+# ** DO NOT EDIT **
+
+# TARGTYPE "Win32 (x86) External Target" 0x0106
+
+CFG=${projectname} - Win32 DLL (Debug)
+!MESSAGE This is not a valid makefile. To build this project using NMAKE,
+!MESSAGE use the Export Makefile command and run
+!MESSAGE 
+!MESSAGE NMAKE /f "${projectname}.mak".
+!MESSAGE 
+!MESSAGE You can specify a configuration when running NMAKE
+!MESSAGE by defining the macro CFG on the command line. For example:
+!MESSAGE 
+!MESSAGE NMAKE /f "${projectname}.mak" CFG="${projectname} - Win32 DLL (Debug)"
+!MESSAGE 
+!MESSAGE Possible choices for configuration are:
+!MESSAGE 
+!MESSAGE "${projectname} - Win32 LIB (Release)" (based on "Win32 (x86) External Target")
+!MESSAGE "${projectname} - Win32 LIB (Debug)" (based on "Win32 (x86) External Target")
+!MESSAGE "${projectname} - Win32 DLL (Release)" (based on "Win32 (x86) External Target")
+!MESSAGE "${projectname} - Win32 DLL (Debug)" (based on "Win32 (x86) External Target")
+!MESSAGE 
+
+# Begin Project
+# PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
+
+!IF  "\$(CFG)" == "${projectname} - Win32 LIB (Release)"
+
+# PROP BASE Use_MFC
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "StaticRelease"
+# PROP BASE Intermediate_Dir "StaticRelease"
+# PROP BASE Cmd_Line "${script} lib release ${msvc} ${library}\@${LIBRARY}_MAJOR_VERSION\@"
+# PROP BASE Rebuild_Opt ""
+# PROP BASE Target_File ""
+# PROP BASE Bsc_Name ""
+# PROP BASE Target_Dir ""
+# PROP Use_MFC
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "StaticRelease"
+# PROP Intermediate_Dir "StaticRelease"
+# PROP Cmd_Line "${script} lib release ${msvc} ${library}\@${LIBRARY}_MAJOR_VERSION\@"
+# PROP Rebuild_Opt ""
+# PROP Target_File ""
+# PROP Bsc_Name ""
+# PROP Target_Dir ""
+
+!ELSEIF  "\$(CFG)" == "${projectname} - Win32 LIB (Debug)"
+
+# PROP BASE Use_MFC
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "StaticDebug"
+# PROP BASE Intermediate_Dir "StaticDebug"
+# PROP BASE Cmd_Line "${script} lib debug ${msvc} ${library}\@${LIBRARY}_MAJOR_VERSION\@"
+# PROP BASE Rebuild_Opt ""
+# PROP BASE Target_File ""
+# PROP BASE Bsc_Name ""
+# PROP BASE Target_Dir ""
+# PROP Use_MFC
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "StaticDebug"
+# PROP Intermediate_Dir "StaticDebug"
+# PROP Cmd_Line "${script} lib debug ${msvc} ${library}\@${LIBRARY}_MAJOR_VERSION\@"
+# PROP Rebuild_Opt ""
+# PROP Target_File ""
+# PROP Bsc_Name ""
+# PROP Target_Dir ""
+
+!ELSEIF  "\$(CFG)" == "${projectname} - Win32 DLL (Release)"
+
+# PROP BASE Use_MFC
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "Release"
+# PROP BASE Intermediate_Dir "Release"
+# PROP BASE Cmd_Line "${script} dll release ${msvc} ${library}\@${LIBRARY}_MAJOR_VERSION\@"
+# PROP BASE Rebuild_Opt ""
+# PROP BASE Target_File ""
+# PROP BASE Bsc_Name ""
+# PROP BASE Target_Dir ""
+# PROP Use_MFC
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "Release"
+# PROP Intermediate_Dir "Release"
+# PROP Cmd_Line "${script} dll release ${msvc} ${library}\@${LIBRARY}_MAJOR_VERSION\@"
+# PROP Rebuild_Opt ""
+# PROP Target_File ""
+# PROP Bsc_Name ""
+# PROP Target_Dir ""
+
+!ELSEIF  "\$(CFG)" == "${projectname} - Win32 DLL (Debug)"
+
+# PROP BASE Use_MFC
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "Debug"
+# PROP BASE Intermediate_Dir "Debug"
+# PROP BASE Cmd_Line "${script} dll debug ${msvc} ${library}\@${LIBRARY}_MAJOR_VERSION\@"
+# PROP BASE Rebuild_Opt ""
+# PROP BASE Target_File ""
+# PROP BASE Bsc_Name ""
+# PROP BASE Target_Dir ""
+# PROP Use_MFC
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "Debug"
+# PROP Intermediate_Dir "Debug"
+# PROP Cmd_Line "${script} dll debug ${msvc} ${library}\@${LIBRARY}_MAJOR_VERSION\@"
+# PROP Rebuild_Opt ""
+# PROP Target_File ""
+# PROP Bsc_Name ""
+# PROP Target_Dir ""
+
+!ENDIF
+
+# Begin Target
+
+# Name "${projectname} - Win32 LIB (Release)"
+# Name "${projectname} - Win32 LIB (Debug)"
+# Name "${projectname} - Win32 DLL (Release)"
+# Name "${projectname} - Win32 DLL (Debug)"
+
+!IF  "\$(CFG)" == "${projectname} - Win32 LIB (Release)"
+
+!ELSEIF  "\$(CFG)" == "${projectname} - Win32 LIB (Debug)"
+
+!ELSEIF  "\$(CFG)" == "${projectname} - Win32 DLL (Release)"
+
+!ELSEIF  "\$(CFG)" == "${projectname} - Win32 DLL (Debug)"
+
+!ENDIF
+
+# Begin Group "Resource Files"
+
+# PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;bat"
+_EODSP
+
+  for $file (@resourcefiles) {
+    print SCRIPTDSP "# Begin Source File\n\n";
+    print SCRIPTDSP "SOURCE=${file}\n";
+    print SCRIPTDSP "# End Source File\n";
+  }
+
+  print SCRIPTDSP <<"_EODSP";
+# End Group
+# End Target
+# End Project
+_EODSP
+  close(SCRIPTDSP);
+}
+
 ############################################################################
 
 LoadVars();
-
-$prefix = "@prefix@";
-$build_dir = "@abs_top_builddir@";
-while ( $build_dir =~ m%[\\/][^\\/]*[^\\/.][\\/]\.\.% ) {
-  $build_dir =~ s%[\\/][^\\/]*[^\\/\.][\\/]\.\.%%g;
-}
-$build_dir =~ s%[\\/]\.$%%g;
-$src_dir = "@abs_top_srcdir@";
-while ( $src_dir =~ m%[\\/][^\\/]*[^\\/.][\\/]\.\.% ) {
-  $src_dir =~ s%[\\/][^\\/]*[^\\/\.][\\/]\.\.%%g;
-}
-$src_dir =~ s%[\\/]\.$%%;
-$ac_unique_file = "@ac_unique_file@";
-$sim_ac_relative_src_dir = "@sim_ac_relative_src_dir@";
-$sim_ac_relative_src_dir_p = @sim_ac_relative_src_dir_p@; # true or false
-$src_dir_win = Cygpath2Win($src_dir);
-$build_dir_win = Cygpath2Win($build_dir);
-
-
-$src_dir_win =~ s/\\/\\\\/g;
-$build_dir_win =~ s/\\/\\\\/g;
-# print "SOURCE DIR:     ${src_dir}\n";
-# print "SOURCE DIR WIN: ${src_dir_win}\n";
-# print "BUILD DIR WIN:  ${build_dir_win}\n";
-
-$me_u = Dos2Unix($me);
-$medir_u = $me;
-$medir_u =~ s,[^/]*$,,g;
-$srcdir_u = $medir_u;
-$srcdir_u =~ s,[^/]*/$,,g;
-$thisdir_u = Dos2Unix($cwd);
-
-if ( $sim_ac_relative_src_dir_p ) {
-  local $filename = "${srcdir_u}/${sim_ac_relative_src_dir}/${ac_unique_file}";
-  $filename = Dos2Unix($filename);
-  if ( ! -f $filename ) {
-    die "error: directories have been moved relative to each other since the last configure run. expected to find '$filename'.";
-  }
-} else {
-  die "error: dsp generation is not supported when absolute paths are necessary to locate files.";
-}
 
 # **************************************************************************
 # The following block (the --registar-public-header part) generates
@@ -289,7 +458,7 @@ if ( $ARGV[0] eq "--register-public-header" ) {
   $finalheader = $installpath;
   $finalheader =~ s,.*${prefix}/(include|data),$ENV{'COINDIR'}/$1,;
   $finalheader =~ s,/\./,/,g;
-  $finalheader = Unix2Dos($finalheader);
+  $finalheader = &Unix2Dos($finalheader);
 
   $sim_ac_relative_src_dir_q = "@sim_ac_relative_src_dir@";
   $sim_ac_relative_src_dir_q =~ s,\.,\\.,g;
@@ -321,7 +490,6 @@ if ( $ARGV[0] eq "--register-public-header" ) {
   $headerfile =~ s%^${build_dir}[\\/]?%.\\%;
   $headerfile =~ s%^${build_dir_win}[\\/]?%.\\%;
   if ($sim_ac_relative_src_dir_p) {
-    $sim_ac_relative_src_dir_win = Unix2Dos($sim_ac_relative_src_dir);
     $headerfile =~ s%^${src_dir}[\\/]?%${sim_ac_relative_src_dir_win}\\%;
     $headerfile =~ s%^${src_dir_win}[\\/]?%${sim_ac_relative_src_dir_win}\\%;
   }
@@ -333,6 +501,7 @@ if ( $ARGV[0] eq "--register-public-header" ) {
   open(DSP, ">>${studiofile}");
   $group = Dirname($headerfile);
   $group =~ s%.*lib[\\/]?%%g;
+  $group =~ s%.*src[\\/]?%%g;
   $group =~ s%.*include[\\/]?%%g;
   $group =~ s%^Inventor[\\/]annex[\\/]%%g;
 
@@ -356,6 +525,11 @@ if ( $ARGV[0] eq "--register-public-header" ) {
   # and the installation script
   $installheadersfile = $studiofile;
   $installheadersfile =~ s,([^\\/0-9]*)[0-9][^\\/]*\.dsp,install-headers.bat,;
+ 
+  $installheadersfile =~ m,(msvc[678]),;
+  $msvc = $1;
+
+  $installheadersfile =~ s,msvc[678]/,misc/,;
 
   # sourcedirq=`echo "$sourcedir" | sed -e 's,\\\\,\\\\,g'`
   # builddirq=`echo "$builddir" | sed -e 's,\\\\,\\\\,g'`
@@ -364,9 +538,40 @@ if ( $ARGV[0] eq "--register-public-header" ) {
   # relheader=`echo "$relheader"`
   # finalheader=`echo "$finalheader"`
 
+  $createheader = 0;
+  if ( ! -e $installheadersfile ) {
+    $createheader = 1;
+  }
+  if ( $headerfile !~ m/^${sim_ac_relative_src_dir_win}/ ) {
+    $headerfile = "..\\%msvc%\\${headerfile}";
+  }
   open(BAT, ">>${installheadersfile}");
+  if ( $createheader ) {
+    print BAT <<"_EOBAT";
+rem ************************************************************************
+rem * install-headers.bat - generated by gendsp.pl
+rem *
+set msvc=%1
+_EOBAT
+  }
   print BAT "copy /Y ${headerfile} ${finalheader} >nul:\n";
   close(BAT);
+
+  $uninstallheadersfile = $installheadersfile;
+  $uninstallheadersfile =~ s/install-hea/uninstall-hea/;
+
+  open(BAT2, ">>${uninstallheadersfile}");
+  if ( $createheader ) {
+    print BAT2 <<"_EOBAT";
+rem ************************************************************************
+rem * uninstall-headers.bat - generated by gendsp.pl
+rem *
+set msvc=%1
+_EOBAT
+  }
+  print BAT2 "del ${finalheader}\n";
+  close(BAT2);
+
   exit 0;
 }
 
@@ -379,6 +584,8 @@ $sourcefile = "";
 $objectfile = "";
 $dependfile = "";
 $studiofile = "";
+$installstudiofile = "";
+$uninstallstudiofile = "";
 $outputfile = "";
 
 $LIBRARY = "";
@@ -419,6 +626,10 @@ for $arg (@ARGV) {
       # this way.
       $studiofile = $arg;
       $studiofile =~ s/^.*=//g;
+      $installstudiofile = $studiofile;
+      $uninstallstudiofile = $studiofile;
+      $installstudiofile =~ s/.dsp/_install.dsp/;
+      $uninstallstudiofile =~ s/.dsp/_uninstall.dsp/;
       # FIXME: we don't get the -D*_INTERNAL flag when closing, so we
       # have to set up the variables here too.
       $library = $studiofile;
@@ -479,8 +690,33 @@ if ( $dependfile ne "" ) {
 if ( -f $studiofile ) {
   open(DSP, ">>${studiofile}");
 } else {
-  # file does not exist yet, open project
+  # files do not exist yet, open project
   ClearVars();
+
+  $studiofile =~ m,(msvc[678]),;
+  $msvc = $1;
+
+  @installrcfiles = (
+    "..\\misc\\install-sdk.bat",
+    "..\\misc\\install-headers.bat",
+    "..\\misc\\create-directories.bat"
+  );
+
+  @uninstallrcfiles = (
+    "..\\misc\\uninstall-sdk.bat",
+    "..\\misc\\uninstall-headers.bat"
+  );
+
+  &CreateScriptDSP($installstudiofile,
+                   "${library}\@${LIBRARY}_MAJOR_VERSION\@_install",
+                   "..\\misc\\install-sdk.bat",
+                   @installrcfiles);
+
+  &CreateScriptDSP($uninstallstudiofile,
+                   "${library}\@${LIBRARY}_MAJOR_VERSION\@_uninstall",
+                   "..\\misc\\uninstall-sdk.bat",
+                   @uninstallrcfiles);
+
   open(DSP, ">${studiofile}");
   print DSP <<"_EODSP";
 # Microsoft Developer Studio Project File - Name="${library}\@${LIBRARY}_MAJOR_VERSION\@" - Package Owner=<4>
@@ -516,67 +752,7 @@ CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
 
-!IF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION\@ - Win32 DLL (Release)"
-
-# PROP BASE Use_MFC 0
-# PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir "Release"
-# PROP BASE Intermediate_Dir "Release"
-# PROP BASE Target_Dir ""
-# PROP Use_MFC 0
-# PROP Use_Debug_Libraries 0
-# PROP Output_Dir "Release"
-# PROP Intermediate_Dir "Release"
-# PROP Ignore_Export_Lib 0
-# PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "${LIBRARY}_DEBUG=0" \@${LIBRARY}_DSP_DEFS\@ \@${LIBRARY}_DSP_INCS\@ /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "${LIBRARY}_DEBUG=0" \@${LIBRARY}_DSP_DEFS\@ \@${LIBRARY}_DSP_INCS\@ /YX /FD /c
-# ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
-# ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "NDEBUG"
-# ADD RSC /l 0x409 /d "NDEBUG"
-BSC32=bscmake.exe
-# ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
-LINK32=link.exe
-# ADD BASE LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /machine:I386
-# ADD LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /machine:I386 /out:"${library}\@${LIBRARY}_MAJOR_VERSION\@.dll" /opt:nowin98
-# SUBTRACT LINK32 /pdb:none
-# Begin Special Build Tool
-SOURCE="\$(InputPath)"
-PostBuild_Cmds=..\\misc\\install-sdk.bat dll release
-# End Special Build Tool
-
-!ELSEIF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION@ - Win32 DLL (Debug)"
-
-# PROP BASE Use_MFC 0
-# PROP BASE Use_Debug_Libraries 1
-# PROP BASE Output_Dir "Debug"
-# PROP BASE Intermediate_Dir "Debug"
-# PROP BASE Target_Dir ""
-# PROP Use_MFC 0
-# PROP Use_Debug_Libraries 1
-# PROP Output_Dir "Debug"
-# PROP Intermediate_Dir "Debug"
-# PROP Target_Dir ""
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "${LIBRARY}_DEBUG=1" \@${LIBRARY}_DSP_DEFS\@ \@${LIBRARY}_DSP_INCS\@ /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "${LIBRARY}_DEBUG=1" \@${LIBRARY}_DSP_DEFS\@ \@${LIBRARY}_DSP_INCS\@ /YX /FD /GZ /c
-# ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
-# ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "_DEBUG"
-# ADD RSC /l 0x409 /d "_DEBUG"
-BSC32=bscmake.exe
-# ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
-LINK32=link.exe
-# ADD BASE LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"${library}\@${LIBRARY}_MAJOR_VERSION\@d.dll"
-# Begin Special Build Tool
-SOURCE="\$(InputPath)"
-PostBuild_Cmds=..\\misc\\install-sdk.bat dll debug
-# End Special Build Tool
-
-!ELSEIF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION\@ - Win32 LIB (Release)"
+!IF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION\@ - Win32 LIB (Release)"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -588,8 +764,11 @@ PostBuild_Cmds=..\\misc\\install-sdk.bat dll debug
 # PROP Output_Dir "StaticRelease"
 # PROP Intermediate_Dir "StaticRelease"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D "${LIBRARY}_DEBUG=0" \@${LIBRARY}_LIB_DSP_DEFS\@ \@${LIBRARY}_DSP_INCS\@ /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D "${LIBRARY}_DEBUG=0" \@${LIBRARY}_LIB_DSP_DEFS\@ \@${LIBRARY}_DSP_INCS\@ /YX /FD /c
+MTL=midl.exe
+CPP=cl.exe
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /Ob2 /Og /Oi /Oy /Gy \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D ${LIBRARY}_DEBUG=0 \@${LIBRARY}_LIB_DSP_DEFS\@ /YX /FD /Gs /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /Ob2 /Og /Oi /Oy /Gy \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D ${LIBRARY}_DEBUG=0 \@${LIBRARY}_LIB_DSP_DEFS\@ /YX /FD /Gs /c
+RSC=rc.exe
 # ADD BASE RSC /l 0x414 /d "NDEBUG"
 # ADD RSC /l 0x414 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -598,10 +777,6 @@ BSC32=bscmake.exe
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo /machine:I386 /out:"${library}\@${LIBRARY}_MAJOR_VERSION\@s.lib"
 # ADD LIB32 /nologo /machine:I386 /out:"${library}\@${LIBRARY}_MAJOR_VERSION\@s.lib"
-# Begin Special Build Tool
-SOURCE="\$(InputPath)"
-PostBuild_Cmds=..\\misc\\install-sdk.bat lib release
-# End Special Build Tool
 
 !ELSEIF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION\@ - Win32 LIB (Debug)"
 
@@ -615,8 +790,11 @@ PostBuild_Cmds=..\\misc\\install-sdk.bat lib release
 # PROP Output_Dir "StaticDebug"
 # PROP Intermediate_Dir "StaticDebug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D "${LIBRARY}_DEBUG=1" \@${LIBRARY}_LIB_DSP_DEFS\@ \@${LIBRARY}_DSP_INCS\@ /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D "${LIBRARY}_DEBUG=1" \@${LIBRARY}_LIB_DSP_DEFS\@ \@${LIBRARY}_DSP_INCS\@ /YX /FD /c
+MTL=midl.exe
+CPP=cl.exe
+# ADD BASE CPP /nologo /MD /W3 /GX /Od \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D ${LIBRARY}_DEBUG=1 \@${LIBRARY}_LIB_DSP_DEFS\@ /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /Od \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D ${LIBRARY}_DEBUG=1 \@${LIBRARY}_LIB_DSP_DEFS\@ /YX /FD /c
+RSC=rc.exe
 # ADD BASE RSC /l 0x414 /d "_DEBUG"
 # ADD RSC /l 0x414 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -625,10 +803,64 @@ BSC32=bscmake.exe
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo /machine:I386 /out:"${library}\@${LIBRARY}_MAJOR_VERSION\@sd.lib"
 # ADD LIB32 /nologo /machine:I386 /out:"${library}\@${LIBRARY}_MAJOR_VERSION\@sd.lib"
-# Begin Special Build Tool
-SOURCE="\$(InputPath)"
-PostBuild_Cmds=..\\misc\\install-sdk.bat lib debug
-# End Special Build Tool
+
+!ELSEIF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION\@ - Win32 DLL (Release)"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "Release"
+# PROP BASE Intermediate_Dir "Release"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "Release"
+# PROP Intermediate_Dir "Release"
+# PROP Ignore_Export_Lib 0
+# PROP Target_Dir ""
+CPP=cl.exe
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /Og /Oi /Oy /Ob2 /Gy \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D ${LIBRARY}_DEBUG=0 \@${LIBRARY}_DSP_DEFS\@ /YX /FD /Gs /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /Og /Oi /Oy /Ob2 /Gy \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D ${LIBRARY}_DEBUG=0 \@${LIBRARY}_DSP_DEFS\@ /YX /FD /Gs /c
+MTL=midl.exe
+# ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
+# ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
+RCS=rc.exe
+# ADD BASE RSC /l 0x409 /d "NDEBUG"
+# ADD RSC /l 0x409 /d "NDEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /machine:I386
+# ADD LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /machine:I386 /out:"${library}\@${LIBRARY}_MAJOR_VERSION\@.dll" /opt:nowin98
+# SUBTRACT LINK32 /pdb:none
+
+!ELSEIF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION@ - Win32 DLL (Debug)"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "Debug"
+# PROP BASE Intermediate_Dir "Debug"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "Debug"
+# PROP Intermediate_Dir "Debug"
+# PROP Target_Dir ""
+CPP=cl.exe
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D ${LIBRARY}_DEBUG=1 \@${LIBRARY}_DSP_DEFS\@ /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D ${LIBRARY}_DEBUG=1 \@${LIBRARY}_DSP_DEFS\@ /YX /FD /GZ /c
+MTL=midl.exe
+# ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
+# ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
+RCS=rc.exe
+# ADD BASE RSC /l 0x409 /d "_DEBUG"
+# ADD RSC /l 0x409 /d "_DEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"${library}\@${LIBRARY}_MAJOR_VERSION\@d.dll"
 
 !ENDIF
 
@@ -641,6 +873,96 @@ PostBuild_Cmds=..\\misc\\install-sdk.bat lib debug
 # Begin Group "Documents"
 # PROP Default_Filter ";txt"
 _EODSP
+
+      for $docfile (@docfiles) {
+        if ( -f "${src_dir}/${docfile}" ) {
+          print DSP <<"_EODSP";
+# Begin Source File
+
+SOURCE=${sim_ac_relative_src_dir_win}\\${docfile}
+# End Source File
+_EODSP
+        }
+      }
+      print DSP <<"_EODSP";
+# End Group
+# Begin Group "Template Files"
+# PROP Default_Filter "in"
+_EODSP
+
+      # FIXME: figure out which is the template files, and set up
+      # csubst.exe-based build-rules for them...
+
+      # print STDERR "\n\n\n\nATTENTION\n\n\n\n\n";
+
+      open(FILES, "cd ${build_dir} && find src/Inventor " . '-name "*.h" -o -name "*.cpp" -o -name "*.c" | xargs grep "Generated from .* by configure" |');
+      @lines = <FILES>;
+      close(FILES);
+
+      for $line (@lines) {
+        $line =~ m/^([^:]*):.*Generated from (.*) by configure/;
+        $file = &Unix2Dos($1);
+        $template = $2;
+        open(FILE, "cd ${src_dir} && find src/Inventor -name '${template}' |");
+        $templatepath = <FILE>;
+	chop($templatepath);
+        $templatepath = &Unix2Dos("../../${templatepath}");
+	close(FILE);
+        # print STDERR "TEMPLATE '${template}' - $templatepath\n  :: TARGET '${file}'\n";
+	print DSP <<"_EODSP";
+# Begin Source File
+
+SOURCE=${templatepath}
+
+!IF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION\@ - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing \$(InputPath)
+InputPath=${templatepath}
+
+"${file}" : \$(SOURCE) "\$(INTDIR)" "\$(OUTDIR)"
+	..\\..\\cfg\\csubst --file=${templatepath}:${file}
+
+# End Custom Build
+
+!ELSEIF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION\@ - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing \$(InputPath)
+InputPath=${headerfile}
+
+"${file}" : \$(SOURCE) "\$(INTDIR)" "\$(OUTDIR)"
+	..\\..\\cfg\\csubst --file=${templatepath}:${file}
+
+# End Custom Build
+
+!ELSEIF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION\@ - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing \$(InputPath)
+InputPath=${headerfile}
+
+"${file}" : \$(SOURCE) "\$(INTDIR)" "\$(OUTDIR)"
+	..\\..\\cfg\\csubst --file=${templatepath}:${file}
+
+# End Custom Build
+  
+!ELSEIF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION\@ - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing \$(InputPath)
+InputPath=${headerfile}
+
+"${file}" : \$(SOURCE) "\$(INTDIR)" "\$(OUTDIR)"
+	..\\..\\cfg\\csubst --file=${templatepath}:${file}
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+_EODSP
+      }
 
       print DSP <<"_EODSP";
 # End Group
@@ -706,7 +1028,6 @@ _EODSP
 
 SOURCE=${sourcefile}
 _EODSP
-  # print "SOURCE=${sourcefile}\n";
   if ($group ne "") {
     print DSP <<"_EODSP";
 !IF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION\@ - Win32 DLL (Release)"
@@ -747,17 +1068,19 @@ _EODSP
     # header file name.  It is also assumed that the moc file is not built
     # on its own but included in the source file, and named moc_*.icc.
     $mocfile = $matches[0];
-    $mocfile =~ s,.*<(.*icc)>.*,$1,;
+    $mocfile =~ m%.*<(.*icc)>.*%;
+    $mocfile = $1;
     $mocfile =~ s,.*/,,;
     open(MOC, $mocfile);
     @mocmatches = grep(/from reading C/, <MOC>);
     close(MOC);
     $headerfile = $mocmatches[0];
-    $headerfile =~ s,.*'(.*)'$,$1,;
-    $mocfile = "$cwd/$mocfile";
+    $headerfile =~ m%.*\'(.*)\'%;
+    $headerfile = $1;
+    $mocfile = "${cwd}/${mocfile}";
     $mocfile =~ s%${build_dir}/%%;
     $mocfile = Unix2Dos($mocfile);
-    $headerfilepath = "$cwd/$headerfile";
+    $headerfilepath = "${cwd}/${headerfile}";
     $headerfilepath =~ s%${build_dir}/%%;
 
     if ( -f $headerfile ) {
@@ -776,6 +1099,8 @@ _EODSP
       $headerfile =~ s%^${src_dir_win}[\\/]?%${sim_ac_relative_src_dir_win}\\%;
     }
 
+    # FIXME: this seems awfully redundant - check if the moc-rules can be
+    # folded to one config-independent rule.
     print DSP <<"_EODSP";
 # Begin Source File
 
@@ -842,9 +1167,10 @@ if ( $outputfile =~ /\.so\./ ) {
   close(OUT);
 
   # "close" the dsp file
-  #if ( $group ne "" ) {
+  # (this if-block should (custom edit) only be enabled for Coin)
+  if ( $group ne "" && $LIBRARY eq "COIN" ) {
     print DSP "# End Group\n";
-  #}
+  }
   print DSP "# End Group\n";
 
   # We need to know about the root build dir and source dir to trigger the
@@ -989,7 +1315,34 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "${library}\@${LIBRARY}_MAJOR_VERSION\@"=.\\${library}\@${LIBRARY}_MAJOR_VERSION@.dsp - Package Owner=<4>
+Project: "${library}\@${LIBRARY}_MAJOR_VERSION\@"=.\\${library}\@${LIBRARY}_MAJOR_VERSION\@.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "${library}\@${LIBRARY}_MAJOR_VERSION\@_install"=.\\${library}\@${LIBRARY}_MAJOR_VERSION\@_install.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ${library}\@${LIBRARY}_MAJOR_VERSION\@
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "${library}\@${LIBRARY}_MAJOR_VERSION\@_uninstall"=.\\${library}\@${LIBRARY}_MAJOR_VERSION\@_uninstall.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1019,10 +1372,16 @@ _EODSW
   # Make everything peachy for MS DOS
 
   SubstFile($studiofile);
+  SubstFile($installstudiofile);
+  SubstFile($uninstallstudiofile);
   SubstFile($workspacefile);
   $installheadersfile = $studiofile;
   $installheadersfile =~ s,([^\\/0-9]*)[0-9][^\\/]*\.dsp,install-headers.bat,;
+  $installheadersfile =~ s,msvc[678]/,misc/,;
+  $uninstallheadersfile = $installheadersfile;
+  $uninstallheadersfile =~ s/install-hea/uninstall-hea/;
   SubstBatFile($installheadersfile);
+  SubstBatFile($uninstallheadersfile);
 
   # Transform paths to be relative paths for non-installer-builds too.
   # This should probably be configurable in some way though.
@@ -1067,13 +1426,22 @@ _EODSW
 
   # we want to link debug versions of this project with debug versions of the
   # libs they depend on.  we only do this for our own known libraries though.
-  @debuglibs = ( "coin[0-9]", "soqt[0-9]", "sowin[0-9]" );
+  @debuglibs = (
+    "coin[0-9]",
+    "soqt[0-9]",
+    "sowin[0-9]",
+    "nutsnbolts[0-9]",
+    "smallchange[0-9]",
+    "simvoleon[0-9]"
+  );
   for $lib (@debuglibs) {
     # FIXME: rewrite debuglibs ($?.lib -> $?d.lib) for lines matching "/debug"
   }
 
   # do unix2dos conversion (\n -> \r\n) on the DevStudio files
   CRLFFile($studiofile);
+  CRLFFile($installstudiofile);
+  CRLFFile($uninstallstudiofile);
   CRLFFile($workspacefile);
   # clean out temporary files
 
