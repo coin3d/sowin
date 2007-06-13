@@ -222,19 +222,19 @@ public:
   static LRESULT CALLBACK eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   static SbBool pipeErrorMessagesToConsole(void);
 
-  static int timerSensorId;
+  static UINT_PTR timerSensorId;
   static void CALLBACK timerSensorCB(HWND window,
                                      UINT message,
                                      UINT idevent,
                                      DWORD dwtime);
 
-  static int delaySensorId;
+  static UINT_PTR delaySensorId;
   static void CALLBACK delaySensorCB(HWND window,
                                      UINT message,
                                      UINT idevent,
                                      DWORD dwtime);
 
-  static int idleSensorId;
+  static UINT_PTR idleSensorId;
   static void CALLBACK idleSensorCB(HWND window,
                                     UINT message,
                                     UINT idevent,
@@ -269,9 +269,9 @@ WNDPROC SoWinP::parentEventHandler = NULL;
 SbBool SoWinP::useParentEventHandler = TRUE;
 
 /* value 0 signifies "inactive": */
-int SoWinP::timerSensorId = 0;
-int SoWinP::delaySensorId = 0;
-int SoWinP::idleSensorId = 0;
+UINT_PTR SoWinP::timerSensorId = 0;
+UINT_PTR SoWinP::delaySensorId = 0;
+UINT_PTR SoWinP::idleSensorId = 0;
 
 #define ENVVAR_NOT_INITED INT_MAX
 
@@ -301,7 +301,7 @@ SoWin::init(int & argc, char ** argv,
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = brush;
     windowclass.cbClsExtra = 0;
-    windowclass.cbWndExtra = 4;
+    windowclass.cbWndExtra = sizeof(LONG_PTR);
     (void)Win32::RegisterClass(&windowclass);
   }
  
@@ -355,8 +355,8 @@ SoWin::init(HWND toplevelwidget)
     SoWinP::mainWidget = toplevelwidget;
 
   if (SoWinP::useParentEventHandler) {
-    SoWinP::parentEventHandler = (WNDPROC) Win32::GetWindowLong(toplevelwidget, GWL_WNDPROC);
-    (void)Win32::SetWindowLong(toplevelwidget, GWL_WNDPROC, (long) SoWinP::eventHandler);
+    SoWinP::parentEventHandler = (WNDPROC) Win32::GetWindowLong(toplevelwidget, GWLP_WNDPROC);
+    (void)Win32::SetWindowLong(toplevelwidget, GWLP_WNDPROC, (LONG_PTR) SoWinP::eventHandler);
   }
 }
 
@@ -501,7 +501,7 @@ SoWin::createSimpleErrorDialog(HWND const widget,
 HWND
 SoWin::getShellWidget(HWND hwnd)
 {
-  LONG style;
+  LONG_PTR style;
   HWND parent = hwnd;
   
   do {

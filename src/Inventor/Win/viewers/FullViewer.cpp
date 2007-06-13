@@ -140,7 +140,7 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
 
 SoWinFullViewer::~SoWinFullViewer()
 {
-  (void)SoWinFullViewerP::parentHWNDmappings->remove((unsigned long)this->getParentWidget());
+  (void)SoWinFullViewerP::parentHWNDmappings->remove((SbDict::Key)this->getParentWidget());
 
   HHOOK * hookhandle = (HHOOK *) SoWinFullViewerP::hookhandle->get();
   if (*hookhandle) {
@@ -307,7 +307,7 @@ SoWinFullViewer::buildWidget(HWND parent)
 
   assert(IsWindow(parent));
   
-  SoWinFullViewerP::parentHWNDmappings->enter((unsigned long)parent, this);
+  SoWinFullViewerP::parentHWNDmappings->enter((SbDict::Key)parent, this);
 
   PRIVATE(this)->viewerwidget = parent;
   PRIVATE(this)->renderareawidget = inherited::buildWidget(parent);
@@ -317,7 +317,7 @@ SoWinFullViewer::buildWidget(HWND parent)
   // cursor. This must be done for the SetCursor()-call in
   // SoWinFullViewerP::systemEventHook() to work even when the canvas has
   // not grabbed the mouse.
-  SetClassLong(this->getGLWidget(), GCL_HCURSOR, 0);
+  SetClassLongPtr(this->getGLWidget(), GCLP_HCURSOR, 0);
   
   if (PRIVATE(this)->menuenabled) { this->buildPopupMenu(); }
   if (PRIVATE(this)->decorations) { this->buildDecoration(parent); }
@@ -729,7 +729,7 @@ SoWinFullViewerP::systemEventHook(int code, WPARAM wparam, LPARAM lparam)
 
   void * comp;
   SbBool found =
-    SoWinFullViewerP::parentHWNDmappings->find((unsigned long)msg->hwnd, comp);
+    SoWinFullViewerP::parentHWNDmappings->find((SbDict::Key)msg->hwnd, comp);
 
   if (found) {
     SoWinFullViewer * object = (SoWinFullViewer *)comp;

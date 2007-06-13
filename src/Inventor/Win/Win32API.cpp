@@ -181,7 +181,7 @@ Win32::SelectObject(HDC hdc,          // handle to device context
                    )
 {
   HGDIOBJ o = ::SelectObject(hdc, hgdiobj);
-  BOOL fail = ((o == NULL) || (o == (HGDIOBJ)GDI_ERROR));
+  BOOL fail = ((o == NULL) || (o == HGDI_ERROR));
   assert(!fail && "SelectObject() failed -- investigate");
   return o;
 }
@@ -324,27 +324,27 @@ Win32::GetClientRect(HWND hWnd,      // handle to window
   assert(r && "GetClientRect() failed -- investigate");
 }
 
-LONG
+LONG_PTR
 Win32::SetWindowLong(HWND hWnd,       // handle of window
                      int nIndex,      // offset of value to set
-                     LONG dwNewLong   // new value
+                     LONG_PTR dwNewLong   // new value
                     )
 {
   SetLastError(0);
-  LONG l = ::SetWindowLong(hWnd, nIndex, dwNewLong);
+  LONG_PTR l = ::SetWindowLongPtr(hWnd, nIndex, dwNewLong);
   BOOL failed = l==0 && ::GetLastError()!=0;
   if (failed) { Win32::showLastErr(); }  
   assert(!failed && "SetWindowLong() failed -- investigate");
   return l;
 }
 
-LONG
+LONG_PTR
 Win32::GetWindowLong(HWND hWnd,       // handle of window
                      int nIndex       // offset of value to set
                     )
 {
   SetLastError(0);
-  LONG l = ::GetWindowLong(hWnd, nIndex);
+  LONG_PTR l = ::GetWindowLongPtr(hWnd, nIndex);
   BOOL failed = l==0 && ::GetLastError()!=0;
   if (failed) { Win32::showLastErr(); }  
   assert(!failed && "GetWindowLong() failed -- investigate");

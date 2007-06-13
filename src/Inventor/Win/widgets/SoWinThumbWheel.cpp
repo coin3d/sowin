@@ -85,7 +85,7 @@ SoWinThumbWheel::constructor(Orientation orientation,
     SoWinThumbWheel::hwnddict = new SbDict;
   }
 
-  const unsigned long key = (unsigned long)this->getWidget();
+  const SbDict::Key key = (SbDict::Key)this->getWidget();
   SbBool isnewentry = SoWinThumbWheel::hwnddict->enter(key, this);
   assert(isnewentry);
 }
@@ -94,7 +94,7 @@ SoWinThumbWheel::~SoWinThumbWheel(void)
 {
   delete this->wheel;
 
-  const unsigned long key = (unsigned long)this->getWidget();
+  const SbDict::Key key = (SbDict::Key)this->getWidget();
   SbBool found = SoWinThumbWheel::hwnddict->remove(key);
   assert(found);
 
@@ -125,7 +125,7 @@ SoWinThumbWheel::getWheelFromHWND(HWND h)
   if (SoWinThumbWheel::hwnddict == NULL) { return NULL; }
 
   void * w;
-  SbBool found = SoWinThumbWheel::hwnddict->find((unsigned long)h, w);
+  SbBool found = SoWinThumbWheel::hwnddict->find((SbDict::Key)h, w);
   return found ? ((SoWinThumbWheel *)w) : NULL;
 }
 
@@ -316,7 +316,7 @@ SoWinThumbWheel::windowProc(HWND window, UINT message, WPARAM wparam, LPARAM lpa
     CREATESTRUCT * createstruct;
     createstruct = (CREATESTRUCT *) lparam;
 
-    (void)Win32::SetWindowLong(window, 0, (LONG) (createstruct->lpCreateParams));
+    (void)Win32::SetWindowLong(window, 0, (LONG_PTR) (createstruct->lpCreateParams));
 
     SoWinThumbWheel * object = (SoWinThumbWheel *)(createstruct->lpCreateParams);
     return object->onCreate(window, message, wparam, lparam);
@@ -456,7 +456,7 @@ SoWinThumbWheel::buildWidget(HWND parent, RECT rect, const char * name)
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = NULL;
     windowclass.cbClsExtra = 0;
-    windowclass.cbWndExtra = 4;
+    windowclass.cbWndExtra = sizeof(LONG_PTR);
 
     SoWinThumbWheel::wheelWndClassAtom = Win32::RegisterClass(& windowclass);
 

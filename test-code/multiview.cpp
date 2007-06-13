@@ -31,9 +31,9 @@
 void
 setUserData(
   HWND window,
-  LONG data)
+  LONG_PTR data)
 {
- SetWindowLong(window, GWL_USERDATA, data);
+ SetWindowLongPtr(window, GWLP_USERDATA, data);
 }
 
 void
@@ -61,7 +61,7 @@ mainWindowProc(
   
   // Remove this if U want free floating viewers.
  if ( message == WM_SIZE ) {
-    HWND * win = (HWND *)GetWindowLong(window, GWL_USERDATA);
+    HWND * win = (HWND *)GetWindowLong(window, GWLP_USERDATA);
   if (win) {
    MoveWindow(
         win[1],
@@ -104,7 +104,7 @@ viewerWindowProc(
   LPARAM lparam)
 {
   SoWinFullViewer * v =
-      (SoWinFullViewer *)GetWindowLong(window, GWL_USERDATA);
+      (SoWinFullViewer *)GetWindowLong(window, GWLP_USERDATA);
 
   if (message == WM_SIZE) {
   if (v) v->setSize(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
@@ -112,7 +112,7 @@ viewerWindowProc(
 
   if (message == WM_DESTROY) {
     if (v) {
-      SetWindowLong(window, GWL_USERDATA, NULL);
+      SetWindowLongPtr(window, GWLP_USERDATA, NULL);
       if (v->getTypeId() == SoWinPlaneViewer::getClassTypeId())
         delete (SoWinPlaneViewer *)v;
       else
@@ -150,7 +150,7 @@ createWindow(
   windowclass.hCursor = LoadCursor(instance, cursor);
   windowclass.hbrBackground = brush;
   windowclass.cbClsExtra = 0;
-  windowclass.cbWndExtra = 4;
+  windowclass.cbWndExtra = sizeof(LONG_PTR);
 
   RegisterClass(&windowclass);
 
@@ -225,7 +225,7 @@ WinMain(
       SbVec2s(300,300),
       viewerWindowProc);
 
-  setUserData(win[0], (LONG)win);
+  setUserData(win[0], (LONG_PTR)win);
 
   SoWin::init(win[0]);
 
@@ -233,22 +233,22 @@ WinMain(
   s->addChild(new SoCone);
 
   SoWinPlaneViewer * pviewer_a = new SoWinPlaneViewer(win[1]);
-  setUserData(win[1], (LONG)pviewer_a);
+  setUserData(win[1], (LONG_PTR)pviewer_a);
   pviewer_a->setSceneGraph(s);
   pviewer_a->show();
 
   SoWinExaminerViewer * eviewer = new SoWinExaminerViewer(win[2]);
-  setUserData(win[2], (LONG)eviewer);
+  setUserData(win[2], (LONG_PTR)eviewer);
   eviewer->setSceneGraph(s);
   eviewer->show();
 
   SoWinPlaneViewer * pviewer_b = new SoWinPlaneViewer(win[3]);
-  setUserData(win[3], (LONG)pviewer_b);
+  setUserData(win[3], (LONG_PTR)pviewer_b);
   pviewer_b->setSceneGraph(s);
   pviewer_b->show();
 
   SoWinPlaneViewer * pviewer_c = new SoWinPlaneViewer(win[4]);
-  setUserData(win[4], (LONG)pviewer_c);
+  setUserData(win[4], (LONG_PTR)pviewer_c);
   pviewer_c->setSceneGraph(s);
   pviewer_c->show();
 

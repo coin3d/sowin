@@ -129,7 +129,7 @@ SoWinComponentP::systemEventFilter(int code, WPARAM wparam, LPARAM lparam)
 {
   CWPSTRUCT * msg = (CWPSTRUCT *)lparam;
   void * comp;
-  if (SoWinComponentP::embeddedparents->find((unsigned long)msg->hwnd, comp) &&
+  if (SoWinComponentP::embeddedparents->find((SbDict::Key)msg->hwnd, comp) &&
       // as per the API doc on CallWndProc(): only process msg if code>=0
       (code >= 0)) {
     SoWinComponent * component = (SoWinComponent *)comp;
@@ -150,7 +150,7 @@ SoWinComponentP::frameWindowHandler(HWND window, UINT message,
                                     WPARAM wparam, LPARAM lparam)
 {
   SoWinComponent * component = (SoWinComponent *)
-    Win32::GetWindowLong(window, GWL_USERDATA);
+    Win32::GetWindowLong(window, GWLP_USERDATA);
 
   if (component) {
     PRIVATE(component)->commonEventHandler(message, wparam, lparam);
@@ -178,7 +178,7 @@ SoWinComponentP::buildFormWidget(HWND parent)
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = brush;
     windowclass.cbClsExtra = 0;
-    windowclass.cbWndExtra = 4;
+    windowclass.cbWndExtra = sizeof(LONG_PTR);
 
     SoWinComponentP::wndClassAtom = Win32::RegisterClass(&windowclass);
   }
@@ -197,7 +197,7 @@ SoWinComponentP::buildFormWidget(HWND parent)
                                            NULL,
                                            NULL);
 
-  (void)Win32::SetWindowLong(parentwidget, GWL_USERDATA, (LONG)PUBLIC(this));
+  (void)Win32::SetWindowLong(parentwidget, GWLP_USERDATA, (LONG_PTR)PUBLIC(this));
 
   assert(IsWindow(parentwidget));
   return parentwidget;
@@ -259,7 +259,7 @@ SoWinComponent::SoWinComponent(HWND const parent,
 
   if (IsWindow(parent) && embed) {
     PRIVATE(this)->parent = parent;
-    SoWinComponentP::embeddedparents->enter((unsigned long)parent, this);
+    SoWinComponentP::embeddedparents->enter((SbDict::Key)parent, this);
   }
   else {
     PRIVATE(this)->parent = PRIVATE(this)->buildFormWidget(parent);
@@ -296,7 +296,7 @@ SoWinComponent::~SoWinComponent()
     Win32::UnhookWindowsHookEx(*hookhandle);
   }
 
-  (void)SoWinComponentP::embeddedparents->remove((unsigned long)this->getParentWidget());
+  (void)SoWinComponentP::embeddedparents->remove((SbDict::Key)this->getParentWidget());
 
   // Clean up static data if this is the last component.
   if (SoGuiComponentP::nrofcomponents == 1) {
@@ -655,7 +655,7 @@ SoWinComponentP::getNativeCursor(const SoWinCursor::CustomCursor * cc)
   }
 
   void * qc;
-  SbBool b = SoWinComponentP::cursordict->find((unsigned long)cc, qc);
+  SbBool b = SoWinComponentP::cursordict->find((SbDict::Key)cc, qc);
   if (b) { return (HCURSOR)qc; }
 
   const short cursorwidth = GetSystemMetrics(SM_CXCURSOR);
@@ -714,7 +714,7 @@ SoWinComponentP::getNativeCursor(const SoWinCursor::CustomCursor * cc)
   delete ANDbitmap;
   delete XORbitmap;
 
-  SoWinComponentP::cursordict->enter((unsigned long)cc, c);
+  SoWinComponentP::cursordict->enter((SbDict::Key)cc, c);
   return c;
 }
 

@@ -429,7 +429,7 @@ SoWinGLWidget::buildWidget(HWND parent)
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = GetSysColorBrush(COLOR_3DSHADOW);
     windowclass.cbClsExtra = 0;
-    windowclass.cbWndExtra = 4;
+    windowclass.cbWndExtra = sizeof(LONG_PTR);
 
     SoWinGLWidgetP::managerWndClassAtom = Win32::RegisterClass(&windowclass);
   }
@@ -622,11 +622,11 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
   if (message == WM_CREATE) {
     CREATESTRUCT * createstruct = (CREATESTRUCT *) lparam;
     SoWinGLWidget * object = (SoWinGLWidget *)(createstruct->lpCreateParams);
-    (void)Win32::SetWindowLong(window, GWL_USERDATA, (LONG)object);
+    (void)Win32::SetWindowLong(window, GWLP_USERDATA, (LONG_PTR)object);
     return PRIVATE(object)->onCreate(window, message, wparam, lparam);
   }
 
-  SoWinGLWidget * object = (SoWinGLWidget *)Win32::GetWindowLong(window, GWL_USERDATA);
+  SoWinGLWidget * object = (SoWinGLWidget *)Win32::GetWindowLong(window, GWLP_USERDATA);
 
   if (object && window == object->getNormalWidget()) {
 
@@ -721,7 +721,7 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = NULL;
     windowclass.cbClsExtra = 0;
-    windowclass.cbWndExtra = 4;
+    windowclass.cbWndExtra = sizeof(LONG_PTR);
 
     SoWinGLWidgetP::glWndClassAtom = Win32::RegisterClass(&windowclass);
   }
