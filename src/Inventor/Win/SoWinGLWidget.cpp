@@ -651,10 +651,8 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
       case WM_LBUTTONDOWN:
       case WM_MBUTTONDOWN:
       case WM_RBUTTONDOWN:
-	if ( object->isStealFocus() ) {
-	  (void)Win32::SetFocus(window);
-	  PRIVATE(object)->havefocus = TRUE;
-	}
+        (void)Win32::SetFocus(window);
+        PRIVATE(object)->havefocus = TRUE;
         break;
       default: break;
       }
