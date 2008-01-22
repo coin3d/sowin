@@ -109,8 +109,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(COINDIR)\lib\coin2.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /machine:I386
-# ADD LINK32 $(COINDIR)\lib\coin2.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /machine:I386 /out:"sowin1.dll" /opt:nowin98
+# ADD BASE LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /machine:I386
+# ADD LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /machine:I386 /out:"sowin1.dll" /opt:nowin98
 # SUBTRACT LINK32 /pdb:none
 
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
@@ -176,6 +176,822 @@ SOURCE=..\..\ChangeLog
 # PROP Default_Filter "in"
 # Begin Source File
 
+SOURCE=..\..\src\Inventor\Win\common\gl.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\gl.h.in
+
+"src\Inventor\Win\common\gl.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\gl.h.in:src\Inventor\Win\common\gl.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\common\gl.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\gl.h.in:src\Inventor\Win\common\gl.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\common\gl.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\gl.h.in:src\Inventor\Win\common\gl.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\common\gl.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\gl.h.in:src\Inventor\Win\common\gl.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiDeviceP.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiDeviceP.h.in
+
+"src\Inventor\Win\devices\SoGuiDeviceP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDeviceP.h.in:src\Inventor\Win\devices\SoGuiDeviceP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiDeviceP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDeviceP.h.in:src\Inventor\Win\devices\SoGuiDeviceP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiDeviceP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDeviceP.h.in:src\Inventor\Win\devices\SoGuiDeviceP.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiDeviceP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDeviceP.h.in:src\Inventor\Win\devices\SoGuiDeviceP.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiInputFocusP.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiInputFocusP.h.in
+
+"src\Inventor\Win\devices\SoGuiInputFocusP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocusP.h.in:src\Inventor\Win\devices\SoGuiInputFocusP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiInputFocusP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocusP.h.in:src\Inventor\Win\devices\SoGuiInputFocusP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiInputFocusP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocusP.h.in:src\Inventor\Win\devices\SoGuiInputFocusP.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiInputFocusP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocusP.h.in:src\Inventor\Win\devices\SoGuiInputFocusP.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiKeyboardP.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiKeyboardP.h.in
+
+"src\Inventor\Win\devices\SoGuiKeyboardP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboardP.h.in:src\Inventor\Win\devices\SoGuiKeyboardP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiKeyboardP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboardP.h.in:src\Inventor\Win\devices\SoGuiKeyboardP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiKeyboardP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboardP.h.in:src\Inventor\Win\devices\SoGuiKeyboardP.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiKeyboardP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboardP.h.in:src\Inventor\Win\devices\SoGuiKeyboardP.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiMouseP.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiMouseP.h.in
+
+"src\Inventor\Win\devices\SoGuiMouseP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouseP.h.in:src\Inventor\Win\devices\SoGuiMouseP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiMouseP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouseP.h.in:src\Inventor\Win\devices\SoGuiMouseP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiMouseP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouseP.h.in:src\Inventor\Win\devices\SoGuiMouseP.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiMouseP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouseP.h.in:src\Inventor\Win\devices\SoGuiMouseP.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in
+
+"src\Inventor\Win\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in
+
+"src\Inventor\Win\devices\SoWinDevice.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in:src\Inventor\Win\devices\SoWinDevice.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinDevice.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in:src\Inventor\Win\devices\SoWinDevice.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinDevice.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in:src\Inventor\Win\devices\SoWinDevice.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinDevice.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in:src\Inventor\Win\devices\SoWinDevice.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiDevice.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiDevice.cpp.in
+
+"src\Inventor\Win\devices\SoWinDeviceCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.cpp.in:src\Inventor\Win\devices\SoWinDeviceCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinDeviceCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.cpp.in:src\Inventor\Win\devices\SoWinDeviceCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinDeviceCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.cpp.in:src\Inventor\Win\devices\SoWinDeviceCommon.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinDeviceCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.cpp.in:src\Inventor\Win\devices\SoWinDeviceCommon.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.h.in
+
+"src\Inventor\Win\devices\SoWinInputFocus.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.h.in:src\Inventor\Win\devices\SoWinInputFocus.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinInputFocus.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.h.in:src\Inventor\Win\devices\SoWinInputFocus.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinInputFocus.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.h.in:src\Inventor\Win\devices\SoWinInputFocus.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinInputFocus.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.h.in:src\Inventor\Win\devices\SoWinInputFocus.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.cpp.in
+
+"src\Inventor\Win\devices\SoWinInputFocusCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Win\devices\SoWinInputFocusCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinInputFocusCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Win\devices\SoWinInputFocusCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinInputFocusCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Win\devices\SoWinInputFocusCommon.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinInputFocusCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Win\devices\SoWinInputFocusCommon.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.h.in
+
+"src\Inventor\Win\devices\SoWinKeyboard.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.h.in:src\Inventor\Win\devices\SoWinKeyboard.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinKeyboard.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.h.in:src\Inventor\Win\devices\SoWinKeyboard.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinKeyboard.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.h.in:src\Inventor\Win\devices\SoWinKeyboard.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinKeyboard.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.h.in:src\Inventor\Win\devices\SoWinKeyboard.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.cpp.in
+
+"src\Inventor\Win\devices\SoWinKeyboardCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Win\devices\SoWinKeyboardCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinKeyboardCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Win\devices\SoWinKeyboardCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinKeyboardCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Win\devices\SoWinKeyboardCommon.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinKeyboardCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Win\devices\SoWinKeyboardCommon.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiMouse.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiMouse.h.in
+
+"src\Inventor\Win\devices\SoWinMouse.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.h.in:src\Inventor\Win\devices\SoWinMouse.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinMouse.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.h.in:src\Inventor\Win\devices\SoWinMouse.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinMouse.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.h.in:src\Inventor\Win\devices\SoWinMouse.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinMouse.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.h.in:src\Inventor\Win\devices\SoWinMouse.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in
+
+"src\Inventor\Win\devices\SoWinMouseCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in:src\Inventor\Win\devices\SoWinMouseCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinMouseCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in:src\Inventor\Win\devices\SoWinMouseCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinMouseCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in:src\Inventor\Win\devices\SoWinMouseCommon.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinMouseCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in:src\Inventor\Win\devices\SoWinMouseCommon.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in
+
+"src\Inventor\Win\devices\SoWinSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in
+
+"src\Inventor\Win\devices\SoWinSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\SoWinSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\Inventor\Win\common\spwinput.h.in
 
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
@@ -219,6 +1035,57 @@ InputPath=
 
 "src\Inventor\Win\devices\spwinput.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\spwinput.h.in:src\Inventor\Win\devices\spwinput.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\spwinput_win32.c.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\spwinput_win32.c.in
+
+"src\Inventor\Win\devices\spwinput_win32.c" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\spwinput_win32.c.in:src\Inventor\Win\devices\spwinput_win32.c
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\spwinput_win32.c" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\spwinput_win32.c.in:src\Inventor\Win\devices\spwinput_win32.c
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\spwinput_win32.c" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\spwinput_win32.c.in:src\Inventor\Win\devices\spwinput_win32.c
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\devices\spwinput_win32.c" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\spwinput_win32.c.in:src\Inventor\Win\devices\spwinput_win32.c
 
 # End Custom Build
 
@@ -329,3984 +1196,6 @@ InputPath=
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Win\common\spwinput_win32.c.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\spwinput_win32.c.in
-
-"src\Inventor\Win\devices\spwinput_win32.c" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\spwinput_win32.c.in:src\Inventor\Win\devices\spwinput_win32.c
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\spwinput_win32.c" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\spwinput_win32.c.in:src\Inventor\Win\devices\spwinput_win32.c
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\spwinput_win32.c" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\spwinput_win32.c.in:src\Inventor\Win\devices\spwinput_win32.c
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\spwinput_win32.c" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\spwinput_win32.c.in:src\Inventor\Win\devices\spwinput_win32.c
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiDevice.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiDevice.cpp.in
-
-"src\Inventor\Win\devices\SoWinDeviceCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.cpp.in:src\Inventor\Win\devices\SoWinDeviceCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinDeviceCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.cpp.in:src\Inventor\Win\devices\SoWinDeviceCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinDeviceCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.cpp.in:src\Inventor\Win\devices\SoWinDeviceCommon.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinDeviceCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.cpp.in:src\Inventor\Win\devices\SoWinDeviceCommon.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiDeviceP.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiDeviceP.h.in
-
-"src\Inventor\Win\devices\SoGuiDeviceP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDeviceP.h.in:src\Inventor\Win\devices\SoGuiDeviceP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiDeviceP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDeviceP.h.in:src\Inventor\Win\devices\SoGuiDeviceP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiDeviceP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDeviceP.h.in:src\Inventor\Win\devices\SoGuiDeviceP.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiDeviceP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDeviceP.h.in:src\Inventor\Win\devices\SoGuiDeviceP.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in
-
-"src\Inventor\Win\devices\SoWinDevice.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in:src\Inventor\Win\devices\SoWinDevice.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinDevice.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in:src\Inventor\Win\devices\SoWinDevice.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinDevice.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in:src\Inventor\Win\devices\SoWinDevice.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinDevice.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in:src\Inventor\Win\devices\SoWinDevice.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.cpp.in
-
-"src\Inventor\Win\devices\SoWinInputFocusCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Win\devices\SoWinInputFocusCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinInputFocusCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Win\devices\SoWinInputFocusCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinInputFocusCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Win\devices\SoWinInputFocusCommon.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinInputFocusCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Win\devices\SoWinInputFocusCommon.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.h.in
-
-"src\Inventor\Win\devices\SoWinInputFocus.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.h.in:src\Inventor\Win\devices\SoWinInputFocus.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinInputFocus.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.h.in:src\Inventor\Win\devices\SoWinInputFocus.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinInputFocus.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.h.in:src\Inventor\Win\devices\SoWinInputFocus.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinInputFocus.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocus.h.in:src\Inventor\Win\devices\SoWinInputFocus.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiInputFocusP.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiInputFocusP.h.in
-
-"src\Inventor\Win\devices\SoGuiInputFocusP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocusP.h.in:src\Inventor\Win\devices\SoGuiInputFocusP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiInputFocusP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocusP.h.in:src\Inventor\Win\devices\SoGuiInputFocusP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiInputFocusP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocusP.h.in:src\Inventor\Win\devices\SoGuiInputFocusP.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiInputFocusP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiInputFocusP.h.in:src\Inventor\Win\devices\SoGuiInputFocusP.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.cpp.in
-
-"src\Inventor\Win\devices\SoWinKeyboardCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Win\devices\SoWinKeyboardCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinKeyboardCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Win\devices\SoWinKeyboardCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinKeyboardCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Win\devices\SoWinKeyboardCommon.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinKeyboardCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Win\devices\SoWinKeyboardCommon.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.h.in
-
-"src\Inventor\Win\devices\SoWinKeyboard.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.h.in:src\Inventor\Win\devices\SoWinKeyboard.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinKeyboard.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.h.in:src\Inventor\Win\devices\SoWinKeyboard.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinKeyboard.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.h.in:src\Inventor\Win\devices\SoWinKeyboard.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinKeyboard.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboard.h.in:src\Inventor\Win\devices\SoWinKeyboard.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiKeyboardP.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiKeyboardP.h.in
-
-"src\Inventor\Win\devices\SoGuiKeyboardP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboardP.h.in:src\Inventor\Win\devices\SoGuiKeyboardP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiKeyboardP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboardP.h.in:src\Inventor\Win\devices\SoGuiKeyboardP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiKeyboardP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboardP.h.in:src\Inventor\Win\devices\SoGuiKeyboardP.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiKeyboardP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiKeyboardP.h.in:src\Inventor\Win\devices\SoGuiKeyboardP.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in
-
-"src\Inventor\Win\devices\SoWinMouseCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in:src\Inventor\Win\devices\SoWinMouseCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinMouseCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in:src\Inventor\Win\devices\SoWinMouseCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinMouseCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in:src\Inventor\Win\devices\SoWinMouseCommon.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinMouseCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in:src\Inventor\Win\devices\SoWinMouseCommon.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiMouse.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiMouse.h.in
-
-"src\Inventor\Win\devices\SoWinMouse.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.h.in:src\Inventor\Win\devices\SoWinMouse.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinMouse.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.h.in:src\Inventor\Win\devices\SoWinMouse.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinMouse.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.h.in:src\Inventor\Win\devices\SoWinMouse.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinMouse.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.h.in:src\Inventor\Win\devices\SoWinMouse.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiMouseP.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiMouseP.h.in
-
-"src\Inventor\Win\devices\SoGuiMouseP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouseP.h.in:src\Inventor\Win\devices\SoGuiMouseP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiMouseP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouseP.h.in:src\Inventor\Win\devices\SoGuiMouseP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiMouseP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouseP.h.in:src\Inventor\Win\devices\SoGuiMouseP.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiMouseP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouseP.h.in:src\Inventor\Win\devices\SoGuiMouseP.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in
-
-"src\Inventor\Win\devices\SoWinSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in
-
-"src\Inventor\Win\devices\SoWinSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in
-
-"src\Inventor\Win\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.h.in
-
-"src\Inventor\Win\viewers\SoWinViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.h.in:src\Inventor\Win\viewers\SoWinViewer.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.h.in:src\Inventor\Win\viewers\SoWinViewer.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.h.in:src\Inventor\Win\viewers\SoWinViewer.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.h.in:src\Inventor\Win\viewers\SoWinViewer.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in
-
-"src\Inventor\Win\viewers\SoGuiViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in:src\Inventor\Win\viewers\SoGuiViewerP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoGuiViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in:src\Inventor\Win\viewers\SoGuiViewerP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoGuiViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in:src\Inventor\Win\viewers\SoGuiViewerP.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoGuiViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in:src\Inventor\Win\viewers\SoGuiViewerP.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in
-
-"src\Inventor\Win\viewers\SoWinViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Win\viewers\SoWinViewer.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Win\viewers\SoWinViewer.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Win\viewers\SoWinViewer.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Win\viewers\SoWinViewer.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.h.in
-
-"src\Inventor\Win\viewers\SoWinConstrainedViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.h.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinConstrainedViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.h.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinConstrainedViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.h.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinConstrainedViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.h.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.cpp.in
-
-"src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.h.in
-
-"src\Inventor\Win\viewers\SoWinFlyViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.h.in:src\Inventor\Win\viewers\SoWinFlyViewer.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinFlyViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.h.in:src\Inventor\Win\viewers\SoWinFlyViewer.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinFlyViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.h.in:src\Inventor\Win\viewers\SoWinFlyViewer.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinFlyViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.h.in:src\Inventor\Win\viewers\SoWinFlyViewer.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.cpp.in
-
-"src\Inventor\Win\viewers\SoWinFlyViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Win\viewers\SoWinFlyViewer.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinFlyViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Win\viewers\SoWinFlyViewer.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinFlyViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Win\viewers\SoWinFlyViewer.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinFlyViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Win\viewers\SoWinFlyViewer.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.h.in
-
-"src\Inventor\Win\viewers\SoWinFullViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.h.in:src\Inventor\Win\viewers\SoWinFullViewer.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinFullViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.h.in:src\Inventor\Win\viewers\SoWinFullViewer.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinFullViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.h.in:src\Inventor\Win\viewers\SoWinFullViewer.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinFullViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.h.in:src\Inventor\Win\viewers\SoWinFullViewer.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewerP.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewerP.h.in
-
-"src\Inventor\Win\viewers\SoGuiFullViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewerP.h.in:src\Inventor\Win\viewers\SoGuiFullViewerP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoGuiFullViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewerP.h.in:src\Inventor\Win\viewers\SoGuiFullViewerP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoGuiFullViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewerP.h.in:src\Inventor\Win\viewers\SoGuiFullViewerP.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoGuiFullViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewerP.h.in:src\Inventor\Win\viewers\SoGuiFullViewerP.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.cpp.in
-
-"src\Inventor\Win\viewers\SoWinFullViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Win\viewers\SoWinFullViewer.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinFullViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Win\viewers\SoWinFullViewer.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinFullViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Win\viewers\SoWinFullViewer.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinFullViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Win\viewers\SoWinFullViewer.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewerP.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewerP.h.in
-
-"src\Inventor\Win\viewers\SoGuiExaminerViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewerP.h.in:src\Inventor\Win\viewers\SoGuiExaminerViewerP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoGuiExaminerViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewerP.h.in:src\Inventor\Win\viewers\SoGuiExaminerViewerP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoGuiExaminerViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewerP.h.in:src\Inventor\Win\viewers\SoGuiExaminerViewerP.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoGuiExaminerViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewerP.h.in:src\Inventor\Win\viewers\SoGuiExaminerViewerP.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.h.in
-
-"src\Inventor\Win\viewers\SoWinExaminerViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.h.in:src\Inventor\Win\viewers\SoWinExaminerViewer.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinExaminerViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.h.in:src\Inventor\Win\viewers\SoWinExaminerViewer.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinExaminerViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.h.in:src\Inventor\Win\viewers\SoWinExaminerViewer.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinExaminerViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.h.in:src\Inventor\Win\viewers\SoWinExaminerViewer.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.cpp.in
-
-"src\Inventor\Win\viewers\SoWinExaminerViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Win\viewers\SoWinExaminerViewer.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinExaminerViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Win\viewers\SoWinExaminerViewer.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinExaminerViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Win\viewers\SoWinExaminerViewer.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinExaminerViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Win\viewers\SoWinExaminerViewer.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.h.in
-
-"src\Inventor\Win\viewers\SoWinPlaneViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.h.in:src\Inventor\Win\viewers\SoWinPlaneViewer.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinPlaneViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.h.in:src\Inventor\Win\viewers\SoWinPlaneViewer.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinPlaneViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.h.in:src\Inventor\Win\viewers\SoWinPlaneViewer.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinPlaneViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.h.in:src\Inventor\Win\viewers\SoWinPlaneViewer.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewerP.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewerP.h.in
-
-"src\Inventor\Win\viewers\SoGuiPlaneViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewerP.h.in:src\Inventor\Win\viewers\SoGuiPlaneViewerP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoGuiPlaneViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewerP.h.in:src\Inventor\Win\viewers\SoGuiPlaneViewerP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoGuiPlaneViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewerP.h.in:src\Inventor\Win\viewers\SoGuiPlaneViewerP.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoGuiPlaneViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewerP.h.in:src\Inventor\Win\viewers\SoGuiPlaneViewerP.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.cpp.in
-
-"src\Inventor\Win\viewers\SoWinPlaneViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Win\viewers\SoWinPlaneViewer.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinPlaneViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Win\viewers\SoWinPlaneViewer.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinPlaneViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Win\viewers\SoWinPlaneViewer.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\viewers\SoWinPlaneViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Win\viewers\SoWinPlaneViewer.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\gl.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\gl.h.in
-
-"src\Inventor\Win\common\gl.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\gl.h.in:src\Inventor\Win\common\gl.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\common\gl.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\gl.h.in:src\Inventor\Win\common\gl.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\common\gl.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\gl.h.in:src\Inventor\Win\common\gl.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\common\gl.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\gl.h.in:src\Inventor\Win\common\gl.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\engines\Engines.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\engines\Engines.h.in
-
-"src\Inventor\Win\engines\SoGuiEngines.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.h.in:src\Inventor\Win\engines\SoGuiEngines.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\SoGuiEngines.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.h.in:src\Inventor\Win\engines\SoGuiEngines.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\SoGuiEngines.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.h.in:src\Inventor\Win\engines\SoGuiEngines.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\SoGuiEngines.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.h.in:src\Inventor\Win\engines\SoGuiEngines.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\engines\Engines.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\engines\Engines.cpp.in
-
-"src\Inventor\Win\engines\Engines.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.cpp.in:src\Inventor\Win\engines\Engines.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\Engines.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.cpp.in:src\Inventor\Win\engines\Engines.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\Engines.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.cpp.in:src\Inventor\Win\engines\Engines.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\Engines.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.cpp.in:src\Inventor\Win\engines\Engines.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\engines\RadioGroup.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\engines\RadioGroup.h.in
-
-"src\Inventor\Win\engines\SoGuiRadioGroup.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.h.in:src\Inventor\Win\engines\SoGuiRadioGroup.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\SoGuiRadioGroup.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.h.in:src\Inventor\Win\engines\SoGuiRadioGroup.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\SoGuiRadioGroup.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.h.in:src\Inventor\Win\engines\SoGuiRadioGroup.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\SoGuiRadioGroup.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.h.in:src\Inventor\Win\engines\SoGuiRadioGroup.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\engines\RadioGroup.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\engines\RadioGroup.cpp.in
-
-"src\Inventor\Win\engines\RadioGroup.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.cpp.in:src\Inventor\Win\engines\RadioGroup.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\RadioGroup.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.cpp.in:src\Inventor\Win\engines\RadioGroup.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\RadioGroup.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.cpp.in:src\Inventor\Win\engines\RadioGroup.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\RadioGroup.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.cpp.in:src\Inventor\Win\engines\RadioGroup.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\engines\Format.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\engines\Format.h.in
-
-"src\Inventor\Win\engines\SoGuiFormat.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.h.in:src\Inventor\Win\engines\SoGuiFormat.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\SoGuiFormat.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.h.in:src\Inventor\Win\engines\SoGuiFormat.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\SoGuiFormat.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.h.in:src\Inventor\Win\engines\SoGuiFormat.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\SoGuiFormat.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.h.in:src\Inventor\Win\engines\SoGuiFormat.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\engines\Format.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\engines\Format.cpp.in
-
-"src\Inventor\Win\engines\Format.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.cpp.in:src\Inventor\Win\engines\Format.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\Format.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.cpp.in:src\Inventor\Win\engines\Format.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\Format.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.cpp.in:src\Inventor\Win\engines\Format.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\engines\Format.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.cpp.in:src\Inventor\Win\engines\Format.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.h.in
-
-"src\Inventor\Win\widgets\SoAnyThumbWheel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.h.in:src\Inventor\Win\widgets\SoAnyThumbWheel.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\widgets\SoAnyThumbWheel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.h.in:src\Inventor\Win\widgets\SoAnyThumbWheel.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\widgets\SoAnyThumbWheel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.h.in:src\Inventor\Win\widgets\SoAnyThumbWheel.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\widgets\SoAnyThumbWheel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.h.in:src\Inventor\Win\widgets\SoAnyThumbWheel.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.cpp.in
-
-"src\Inventor\Win\widgets\SoAnyThumbWheel.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Win\widgets\SoAnyThumbWheel.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\widgets\SoAnyThumbWheel.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Win\widgets\SoAnyThumbWheel.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\widgets\SoAnyThumbWheel.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Win\widgets\SoAnyThumbWheel.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\widgets\SoAnyThumbWheel.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Win\widgets\SoAnyThumbWheel.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.h.in
-
-"src\Inventor\Win\widgets\SoWinPopupMenu.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.h.in:src\Inventor\Win\widgets\SoWinPopupMenu.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\widgets\SoWinPopupMenu.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.h.in:src\Inventor\Win\widgets\SoWinPopupMenu.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\widgets\SoWinPopupMenu.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.h.in:src\Inventor\Win\widgets\SoWinPopupMenu.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\widgets\SoWinPopupMenu.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.h.in:src\Inventor\Win\widgets\SoWinPopupMenu.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.cpp.in
-
-"src\Inventor\Win\widgets\SoWinPopupMenu.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Win\widgets\SoWinPopupMenu.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\widgets\SoWinPopupMenu.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Win\widgets\SoWinPopupMenu.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\widgets\SoWinPopupMenu.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Win\widgets\SoWinPopupMenu.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\widgets\SoWinPopupMenu.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Win\widgets\SoWinPopupMenu.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Nodes.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Nodes.h.in
-
-"src\Inventor\Win\nodes\SoGuiNodes.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.h.in:src\Inventor\Win\nodes\SoGuiNodes.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiNodes.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.h.in:src\Inventor\Win\nodes\SoGuiNodes.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiNodes.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.h.in:src\Inventor\Win\nodes\SoGuiNodes.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiNodes.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.h.in:src\Inventor\Win\nodes\SoGuiNodes.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Nodes.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Nodes.cpp.in
-
-"src\Inventor\Win\nodes\Nodes.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.cpp.in:src\Inventor\Win\nodes\Nodes.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Nodes.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.cpp.in:src\Inventor\Win\nodes\Nodes.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Nodes.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.cpp.in:src\Inventor\Win\nodes\Nodes.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Nodes.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.cpp.in:src\Inventor\Win\nodes\Nodes.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\SceneTexture2.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\SceneTexture2.h.in
-
-"src\Inventor\Win\nodes\SoGuiSceneTexture2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.h.in:src\Inventor\Win\nodes\SoGuiSceneTexture2.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiSceneTexture2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.h.in:src\Inventor\Win\nodes\SoGuiSceneTexture2.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiSceneTexture2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.h.in:src\Inventor\Win\nodes\SoGuiSceneTexture2.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiSceneTexture2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.h.in:src\Inventor\Win\nodes\SoGuiSceneTexture2.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\SceneTexture2.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\SceneTexture2.cpp.in
-
-"src\Inventor\Win\nodes\SceneTexture2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.cpp.in:src\Inventor\Win\nodes\SceneTexture2.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SceneTexture2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.cpp.in:src\Inventor\Win\nodes\SceneTexture2.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SceneTexture2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.cpp.in:src\Inventor\Win\nodes\SceneTexture2.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SceneTexture2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.cpp.in:src\Inventor\Win\nodes\SceneTexture2.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\ViewportFix.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\ViewportFix.h.in
-
-"src\Inventor\Win\nodes\SoGuiViewportFix.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.h.in:src\Inventor\Win\nodes\SoGuiViewportFix.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiViewportFix.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.h.in:src\Inventor\Win\nodes\SoGuiViewportFix.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiViewportFix.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.h.in:src\Inventor\Win\nodes\SoGuiViewportFix.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiViewportFix.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.h.in:src\Inventor\Win\nodes\SoGuiViewportFix.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\ViewportFix.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\ViewportFix.cpp.in
-
-"src\Inventor\Win\nodes\ViewportFix.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.cpp.in:src\Inventor\Win\nodes\ViewportFix.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ViewportFix.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.cpp.in:src\Inventor\Win\nodes\ViewportFix.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ViewportFix.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.cpp.in:src\Inventor\Win\nodes\ViewportFix.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ViewportFix.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.cpp.in:src\Inventor\Win\nodes\ViewportFix.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.h.in
-
-"src\Inventor\Win\nodes\SoGuiViewpointWrapper.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.h.in:src\Inventor\Win\nodes\SoGuiViewpointWrapper.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiViewpointWrapper.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.h.in:src\Inventor\Win\nodes\SoGuiViewpointWrapper.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiViewpointWrapper.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.h.in:src\Inventor\Win\nodes\SoGuiViewpointWrapper.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiViewpointWrapper.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.h.in:src\Inventor\Win\nodes\SoGuiViewpointWrapper.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.cpp.in
-
-"src\Inventor\Win\nodes\ViewpointWrapper.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Win\nodes\ViewpointWrapper.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ViewpointWrapper.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Win\nodes\ViewpointWrapper.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ViewpointWrapper.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Win\nodes\ViewpointWrapper.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ViewpointWrapper.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Win\nodes\ViewpointWrapper.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Pane.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Pane.h.in
-
-"src\Inventor\Win\nodes\SoGuiPane.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.h.in:src\Inventor\Win\nodes\SoGuiPane.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiPane.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.h.in:src\Inventor\Win\nodes\SoGuiPane.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiPane.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.h.in:src\Inventor\Win\nodes\SoGuiPane.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiPane.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.h.in:src\Inventor\Win\nodes\SoGuiPane.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Pane.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Pane.cpp.in
-
-"src\Inventor\Win\nodes\Pane.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.cpp.in:src\Inventor\Win\nodes\Pane.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Pane.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.cpp.in:src\Inventor\Win\nodes\Pane.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Pane.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.cpp.in:src\Inventor\Win\nodes\Pane.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Pane.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.cpp.in:src\Inventor\Win\nodes\Pane.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Position.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Position.h.in
-
-"src\Inventor\Win\nodes\SoGuiPosition.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.h.in:src\Inventor\Win\nodes\SoGuiPosition.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiPosition.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.h.in:src\Inventor\Win\nodes\SoGuiPosition.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiPosition.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.h.in:src\Inventor\Win\nodes\SoGuiPosition.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiPosition.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.h.in:src\Inventor\Win\nodes\SoGuiPosition.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Position.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Position.cpp.in
-
-"src\Inventor\Win\nodes\Position.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.cpp.in:src\Inventor\Win\nodes\Position.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Position.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.cpp.in:src\Inventor\Win\nodes\Position.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Position.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.cpp.in:src\Inventor\Win\nodes\Position.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Position.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.cpp.in:src\Inventor\Win\nodes\Position.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Translation.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Translation.h.in
-
-"src\Inventor\Win\nodes\SoGuiTranslation.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.h.in:src\Inventor\Win\nodes\SoGuiTranslation.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiTranslation.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.h.in:src\Inventor\Win\nodes\SoGuiTranslation.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiTranslation.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.h.in:src\Inventor\Win\nodes\SoGuiTranslation.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiTranslation.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.h.in:src\Inventor\Win\nodes\SoGuiTranslation.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Translation.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Translation.cpp.in
-
-"src\Inventor\Win\nodes\Translation.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.cpp.in:src\Inventor\Win\nodes\Translation.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Translation.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.cpp.in:src\Inventor\Win\nodes\Translation.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Translation.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.cpp.in:src\Inventor\Win\nodes\Translation.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Translation.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.cpp.in:src\Inventor\Win\nodes\Translation.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Frame.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Frame.h.in
-
-"src\Inventor\Win\nodes\SoGuiFrame.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.h.in:src\Inventor\Win\nodes\SoGuiFrame.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiFrame.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.h.in:src\Inventor\Win\nodes\SoGuiFrame.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiFrame.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.h.in:src\Inventor\Win\nodes\SoGuiFrame.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiFrame.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.h.in:src\Inventor\Win\nodes\SoGuiFrame.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Frame.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Frame.cpp.in
-
-"src\Inventor\Win\nodes\Frame.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.cpp.in:src\Inventor\Win\nodes\Frame.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Frame.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.cpp.in:src\Inventor\Win\nodes\Frame.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Frame.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.cpp.in:src\Inventor\Win\nodes\Frame.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Frame.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.cpp.in:src\Inventor\Win\nodes\Frame.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Image.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Image.h.in
-
-"src\Inventor\Win\nodes\SoGuiImage.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.h.in:src\Inventor\Win\nodes\SoGuiImage.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiImage.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.h.in:src\Inventor\Win\nodes\SoGuiImage.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiImage.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.h.in:src\Inventor\Win\nodes\SoGuiImage.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiImage.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.h.in:src\Inventor\Win\nodes\SoGuiImage.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Image.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Image.cpp.in
-
-"src\Inventor\Win\nodes\Image.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.cpp.in:src\Inventor\Win\nodes\Image.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Image.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.cpp.in:src\Inventor\Win\nodes\Image.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Image.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.cpp.in:src\Inventor\Win\nodes\Image.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Image.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.cpp.in:src\Inventor\Win\nodes\Image.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Label.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Label.h.in
-
-"src\Inventor\Win\nodes\SoGuiLabel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.h.in:src\Inventor\Win\nodes\SoGuiLabel.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiLabel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.h.in:src\Inventor\Win\nodes\SoGuiLabel.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiLabel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.h.in:src\Inventor\Win\nodes\SoGuiLabel.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiLabel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.h.in:src\Inventor\Win\nodes\SoGuiLabel.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Label.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Label.cpp.in
-
-"src\Inventor\Win\nodes\Label.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.cpp.in:src\Inventor\Win\nodes\Label.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Label.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.cpp.in:src\Inventor\Win\nodes\Label.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Label.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.cpp.in:src\Inventor\Win\nodes\Label.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Label.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.cpp.in:src\Inventor\Win\nodes\Label.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\ToggleButton.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\ToggleButton.h.in
-
-"src\Inventor\Win\nodes\SoGuiToggleButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.h.in:src\Inventor\Win\nodes\SoGuiToggleButton.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiToggleButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.h.in:src\Inventor\Win\nodes\SoGuiToggleButton.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiToggleButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.h.in:src\Inventor\Win\nodes\SoGuiToggleButton.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiToggleButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.h.in:src\Inventor\Win\nodes\SoGuiToggleButton.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\ToggleButton.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\ToggleButton.cpp.in
-
-"src\Inventor\Win\nodes\ToggleButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.cpp.in:src\Inventor\Win\nodes\ToggleButton.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ToggleButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.cpp.in:src\Inventor\Win\nodes\ToggleButton.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ToggleButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.cpp.in:src\Inventor\Win\nodes\ToggleButton.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ToggleButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.cpp.in:src\Inventor\Win\nodes\ToggleButton.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\RadioButton.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\RadioButton.h.in
-
-"src\Inventor\Win\nodes\SoGuiRadioButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.h.in:src\Inventor\Win\nodes\SoGuiRadioButton.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiRadioButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.h.in:src\Inventor\Win\nodes\SoGuiRadioButton.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiRadioButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.h.in:src\Inventor\Win\nodes\SoGuiRadioButton.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiRadioButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.h.in:src\Inventor\Win\nodes\SoGuiRadioButton.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\RadioButton.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\RadioButton.cpp.in
-
-"src\Inventor\Win\nodes\RadioButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.cpp.in:src\Inventor\Win\nodes\RadioButton.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\RadioButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.cpp.in:src\Inventor\Win\nodes\RadioButton.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\RadioButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.cpp.in:src\Inventor\Win\nodes\RadioButton.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\RadioButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.cpp.in:src\Inventor\Win\nodes\RadioButton.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\ClickCounter.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\ClickCounter.h.in
-
-"src\Inventor\Win\nodes\SoGuiClickCounter.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.h.in:src\Inventor\Win\nodes\SoGuiClickCounter.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiClickCounter.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.h.in:src\Inventor\Win\nodes\SoGuiClickCounter.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiClickCounter.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.h.in:src\Inventor\Win\nodes\SoGuiClickCounter.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiClickCounter.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.h.in:src\Inventor\Win\nodes\SoGuiClickCounter.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\ClickCounter.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\ClickCounter.cpp.in
-
-"src\Inventor\Win\nodes\ClickCounter.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.cpp.in:src\Inventor\Win\nodes\ClickCounter.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ClickCounter.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.cpp.in:src\Inventor\Win\nodes\ClickCounter.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ClickCounter.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.cpp.in:src\Inventor\Win\nodes\ClickCounter.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ClickCounter.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.cpp.in:src\Inventor\Win\nodes\ClickCounter.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Slider1.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Slider1.h.in
-
-"src\Inventor\Win\nodes\SoGuiSlider1.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.h.in:src\Inventor\Win\nodes\SoGuiSlider1.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiSlider1.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.h.in:src\Inventor\Win\nodes\SoGuiSlider1.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiSlider1.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.h.in:src\Inventor\Win\nodes\SoGuiSlider1.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiSlider1.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.h.in:src\Inventor\Win\nodes\SoGuiSlider1.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Slider1.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Slider1.cpp.in
-
-"src\Inventor\Win\nodes\Slider1.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.cpp.in:src\Inventor\Win\nodes\Slider1.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Slider1.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.cpp.in:src\Inventor\Win\nodes\Slider1.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Slider1.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.cpp.in:src\Inventor\Win\nodes\Slider1.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Slider1.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.cpp.in:src\Inventor\Win\nodes\Slider1.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Slider2.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Slider2.h.in
-
-"src\Inventor\Win\nodes\SoGuiSlider2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.h.in:src\Inventor\Win\nodes\SoGuiSlider2.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiSlider2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.h.in:src\Inventor\Win\nodes\SoGuiSlider2.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiSlider2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.h.in:src\Inventor\Win\nodes\SoGuiSlider2.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiSlider2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.h.in:src\Inventor\Win\nodes\SoGuiSlider2.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\Slider2.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\Slider2.cpp.in
-
-"src\Inventor\Win\nodes\Slider2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.cpp.in:src\Inventor\Win\nodes\Slider2.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Slider2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.cpp.in:src\Inventor\Win\nodes\Slider2.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Slider2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.cpp.in:src\Inventor\Win\nodes\Slider2.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\Slider2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.cpp.in:src\Inventor\Win\nodes\Slider2.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\ColorEditor.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\ColorEditor.h.in
-
-"src\Inventor\Win\nodes\SoGuiColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.h.in:src\Inventor\Win\nodes\SoGuiColorEditor.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.h.in:src\Inventor\Win\nodes\SoGuiColorEditor.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.h.in:src\Inventor\Win\nodes\SoGuiColorEditor.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.h.in:src\Inventor\Win\nodes\SoGuiColorEditor.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\ColorEditor.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\ColorEditor.cpp.in
-
-"src\Inventor\Win\nodes\ColorEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.cpp.in:src\Inventor\Win\nodes\ColorEditor.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ColorEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.cpp.in:src\Inventor\Win\nodes\ColorEditor.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ColorEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.cpp.in:src\Inventor\Win\nodes\ColorEditor.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\ColorEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.cpp.in:src\Inventor\Win\nodes\ColorEditor.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\MaterialEditor.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\MaterialEditor.h.in
-
-"src\Inventor\Win\nodes\SoGuiMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.h.in:src\Inventor\Win\nodes\SoGuiMaterialEditor.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.h.in:src\Inventor\Win\nodes\SoGuiMaterialEditor.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.h.in:src\Inventor\Win\nodes\SoGuiMaterialEditor.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\SoGuiMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.h.in:src\Inventor\Win\nodes\SoGuiMaterialEditor.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\nodes\MaterialEditor.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\nodes\MaterialEditor.cpp.in
-
-"src\Inventor\Win\nodes\MaterialEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.cpp.in:src\Inventor\Win\nodes\MaterialEditor.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\MaterialEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.cpp.in:src\Inventor\Win\nodes\MaterialEditor.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\MaterialEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.cpp.in:src\Inventor\Win\nodes\MaterialEditor.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\nodes\MaterialEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.cpp.in:src\Inventor\Win\nodes\MaterialEditor.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in
-
-"src\Inventor\Win\editors\SoWinColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\editors\SoWinColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\editors\SoWinColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\editors\SoWinColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.cpp.in
 
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
@@ -4358,16 +1247,16 @@ InputPath=
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in
+SOURCE=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in
 
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in
+InputPath=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in
 
-"src\Inventor\Win\editors\SoWinMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
+"src\Inventor\Win\editors\SoWinColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h
 
 # End Custom Build
 
@@ -4377,8 +1266,8 @@ InputPath=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\editors\SoWinMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
+"src\Inventor\Win\editors\SoWinColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h
 
 # End Custom Build
 
@@ -4388,8 +1277,8 @@ InputPath=
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\editors\SoWinMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
+"src\Inventor\Win\editors\SoWinColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h
 
 # End Custom Build
   
@@ -4399,8 +1288,8 @@ InputPath=
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\editors\SoWinMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
+"src\Inventor\Win\editors\SoWinColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h
 
 # End Custom Build
 
@@ -4460,16 +1349,16 @@ InputPath=
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Win\common\SoAny.h.in
+SOURCE=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in
 
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoAny.h.in
+InputPath=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in
 
-"src\Inventor\Win\SoAny.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoAny.h.in:src\Inventor\Win\SoAny.h
+"src\Inventor\Win\editors\SoWinMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
 
 # End Custom Build
 
@@ -4479,8 +1368,8 @@ InputPath=..\..\src\Inventor\Win\common\SoAny.h.in
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\SoAny.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoAny.h.in:src\Inventor\Win\SoAny.h
+"src\Inventor\Win\editors\SoWinMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
 
 # End Custom Build
 
@@ -4490,8 +1379,8 @@ InputPath=
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\SoAny.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoAny.h.in:src\Inventor\Win\SoAny.h
+"src\Inventor\Win\editors\SoWinMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
 
 # End Custom Build
   
@@ -4501,8 +1390,2048 @@ InputPath=
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\SoAny.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoAny.h.in:src\Inventor\Win\SoAny.h
+"src\Inventor\Win\editors\SoWinMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\engines\Engines.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\engines\Engines.cpp.in
+
+"src\Inventor\Win\engines\Engines.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.cpp.in:src\Inventor\Win\engines\Engines.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\Engines.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.cpp.in:src\Inventor\Win\engines\Engines.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\Engines.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.cpp.in:src\Inventor\Win\engines\Engines.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\Engines.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.cpp.in:src\Inventor\Win\engines\Engines.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\engines\Format.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\engines\Format.cpp.in
+
+"src\Inventor\Win\engines\Format.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.cpp.in:src\Inventor\Win\engines\Format.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\Format.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.cpp.in:src\Inventor\Win\engines\Format.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\Format.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.cpp.in:src\Inventor\Win\engines\Format.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\Format.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.cpp.in:src\Inventor\Win\engines\Format.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\engines\RadioGroup.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\engines\RadioGroup.cpp.in
+
+"src\Inventor\Win\engines\RadioGroup.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.cpp.in:src\Inventor\Win\engines\RadioGroup.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\RadioGroup.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.cpp.in:src\Inventor\Win\engines\RadioGroup.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\RadioGroup.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.cpp.in:src\Inventor\Win\engines\RadioGroup.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\RadioGroup.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.cpp.in:src\Inventor\Win\engines\RadioGroup.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\engines\Engines.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\engines\Engines.h.in
+
+"src\Inventor\Win\engines\SoGuiEngines.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.h.in:src\Inventor\Win\engines\SoGuiEngines.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\SoGuiEngines.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.h.in:src\Inventor\Win\engines\SoGuiEngines.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\SoGuiEngines.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.h.in:src\Inventor\Win\engines\SoGuiEngines.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\SoGuiEngines.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Engines.h.in:src\Inventor\Win\engines\SoGuiEngines.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\engines\Format.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\engines\Format.h.in
+
+"src\Inventor\Win\engines\SoGuiFormat.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.h.in:src\Inventor\Win\engines\SoGuiFormat.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\SoGuiFormat.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.h.in:src\Inventor\Win\engines\SoGuiFormat.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\SoGuiFormat.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.h.in:src\Inventor\Win\engines\SoGuiFormat.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\SoGuiFormat.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\Format.h.in:src\Inventor\Win\engines\SoGuiFormat.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\engines\RadioGroup.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\engines\RadioGroup.h.in
+
+"src\Inventor\Win\engines\SoGuiRadioGroup.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.h.in:src\Inventor\Win\engines\SoGuiRadioGroup.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\SoGuiRadioGroup.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.h.in:src\Inventor\Win\engines\SoGuiRadioGroup.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\SoGuiRadioGroup.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.h.in:src\Inventor\Win\engines\SoGuiRadioGroup.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\engines\SoGuiRadioGroup.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\engines\RadioGroup.h.in:src\Inventor\Win\engines\SoGuiRadioGroup.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\ClickCounter.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\ClickCounter.cpp.in
+
+"src\Inventor\Win\nodes\ClickCounter.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.cpp.in:src\Inventor\Win\nodes\ClickCounter.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ClickCounter.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.cpp.in:src\Inventor\Win\nodes\ClickCounter.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ClickCounter.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.cpp.in:src\Inventor\Win\nodes\ClickCounter.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ClickCounter.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.cpp.in:src\Inventor\Win\nodes\ClickCounter.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\ColorEditor.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\ColorEditor.cpp.in
+
+"src\Inventor\Win\nodes\ColorEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.cpp.in:src\Inventor\Win\nodes\ColorEditor.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ColorEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.cpp.in:src\Inventor\Win\nodes\ColorEditor.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ColorEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.cpp.in:src\Inventor\Win\nodes\ColorEditor.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ColorEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.cpp.in:src\Inventor\Win\nodes\ColorEditor.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Frame.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Frame.cpp.in
+
+"src\Inventor\Win\nodes\Frame.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.cpp.in:src\Inventor\Win\nodes\Frame.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Frame.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.cpp.in:src\Inventor\Win\nodes\Frame.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Frame.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.cpp.in:src\Inventor\Win\nodes\Frame.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Frame.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.cpp.in:src\Inventor\Win\nodes\Frame.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Image.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Image.cpp.in
+
+"src\Inventor\Win\nodes\Image.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.cpp.in:src\Inventor\Win\nodes\Image.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Image.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.cpp.in:src\Inventor\Win\nodes\Image.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Image.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.cpp.in:src\Inventor\Win\nodes\Image.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Image.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.cpp.in:src\Inventor\Win\nodes\Image.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Label.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Label.cpp.in
+
+"src\Inventor\Win\nodes\Label.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.cpp.in:src\Inventor\Win\nodes\Label.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Label.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.cpp.in:src\Inventor\Win\nodes\Label.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Label.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.cpp.in:src\Inventor\Win\nodes\Label.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Label.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.cpp.in:src\Inventor\Win\nodes\Label.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\MaterialEditor.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\MaterialEditor.cpp.in
+
+"src\Inventor\Win\nodes\MaterialEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.cpp.in:src\Inventor\Win\nodes\MaterialEditor.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\MaterialEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.cpp.in:src\Inventor\Win\nodes\MaterialEditor.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\MaterialEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.cpp.in:src\Inventor\Win\nodes\MaterialEditor.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\MaterialEditor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.cpp.in:src\Inventor\Win\nodes\MaterialEditor.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Nodes.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Nodes.cpp.in
+
+"src\Inventor\Win\nodes\Nodes.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.cpp.in:src\Inventor\Win\nodes\Nodes.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Nodes.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.cpp.in:src\Inventor\Win\nodes\Nodes.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Nodes.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.cpp.in:src\Inventor\Win\nodes\Nodes.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Nodes.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.cpp.in:src\Inventor\Win\nodes\Nodes.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Pane.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Pane.cpp.in
+
+"src\Inventor\Win\nodes\Pane.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.cpp.in:src\Inventor\Win\nodes\Pane.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Pane.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.cpp.in:src\Inventor\Win\nodes\Pane.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Pane.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.cpp.in:src\Inventor\Win\nodes\Pane.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Pane.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.cpp.in:src\Inventor\Win\nodes\Pane.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Position.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Position.cpp.in
+
+"src\Inventor\Win\nodes\Position.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.cpp.in:src\Inventor\Win\nodes\Position.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Position.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.cpp.in:src\Inventor\Win\nodes\Position.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Position.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.cpp.in:src\Inventor\Win\nodes\Position.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Position.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.cpp.in:src\Inventor\Win\nodes\Position.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\RadioButton.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\RadioButton.cpp.in
+
+"src\Inventor\Win\nodes\RadioButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.cpp.in:src\Inventor\Win\nodes\RadioButton.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\RadioButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.cpp.in:src\Inventor\Win\nodes\RadioButton.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\RadioButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.cpp.in:src\Inventor\Win\nodes\RadioButton.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\RadioButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.cpp.in:src\Inventor\Win\nodes\RadioButton.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\SceneTexture2.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\SceneTexture2.cpp.in
+
+"src\Inventor\Win\nodes\SceneTexture2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.cpp.in:src\Inventor\Win\nodes\SceneTexture2.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SceneTexture2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.cpp.in:src\Inventor\Win\nodes\SceneTexture2.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SceneTexture2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.cpp.in:src\Inventor\Win\nodes\SceneTexture2.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SceneTexture2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.cpp.in:src\Inventor\Win\nodes\SceneTexture2.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Slider1.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Slider1.cpp.in
+
+"src\Inventor\Win\nodes\Slider1.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.cpp.in:src\Inventor\Win\nodes\Slider1.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Slider1.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.cpp.in:src\Inventor\Win\nodes\Slider1.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Slider1.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.cpp.in:src\Inventor\Win\nodes\Slider1.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Slider1.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.cpp.in:src\Inventor\Win\nodes\Slider1.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Slider2.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Slider2.cpp.in
+
+"src\Inventor\Win\nodes\Slider2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.cpp.in:src\Inventor\Win\nodes\Slider2.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Slider2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.cpp.in:src\Inventor\Win\nodes\Slider2.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Slider2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.cpp.in:src\Inventor\Win\nodes\Slider2.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Slider2.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.cpp.in:src\Inventor\Win\nodes\Slider2.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\ClickCounter.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\ClickCounter.h.in
+
+"src\Inventor\Win\nodes\SoGuiClickCounter.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.h.in:src\Inventor\Win\nodes\SoGuiClickCounter.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiClickCounter.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.h.in:src\Inventor\Win\nodes\SoGuiClickCounter.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiClickCounter.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.h.in:src\Inventor\Win\nodes\SoGuiClickCounter.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiClickCounter.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ClickCounter.h.in:src\Inventor\Win\nodes\SoGuiClickCounter.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\ColorEditor.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\ColorEditor.h.in
+
+"src\Inventor\Win\nodes\SoGuiColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.h.in:src\Inventor\Win\nodes\SoGuiColorEditor.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.h.in:src\Inventor\Win\nodes\SoGuiColorEditor.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.h.in:src\Inventor\Win\nodes\SoGuiColorEditor.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiColorEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ColorEditor.h.in:src\Inventor\Win\nodes\SoGuiColorEditor.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Frame.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Frame.h.in
+
+"src\Inventor\Win\nodes\SoGuiFrame.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.h.in:src\Inventor\Win\nodes\SoGuiFrame.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiFrame.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.h.in:src\Inventor\Win\nodes\SoGuiFrame.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiFrame.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.h.in:src\Inventor\Win\nodes\SoGuiFrame.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiFrame.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Frame.h.in:src\Inventor\Win\nodes\SoGuiFrame.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Image.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Image.h.in
+
+"src\Inventor\Win\nodes\SoGuiImage.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.h.in:src\Inventor\Win\nodes\SoGuiImage.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiImage.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.h.in:src\Inventor\Win\nodes\SoGuiImage.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiImage.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.h.in:src\Inventor\Win\nodes\SoGuiImage.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiImage.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Image.h.in:src\Inventor\Win\nodes\SoGuiImage.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Label.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Label.h.in
+
+"src\Inventor\Win\nodes\SoGuiLabel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.h.in:src\Inventor\Win\nodes\SoGuiLabel.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiLabel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.h.in:src\Inventor\Win\nodes\SoGuiLabel.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiLabel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.h.in:src\Inventor\Win\nodes\SoGuiLabel.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiLabel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Label.h.in:src\Inventor\Win\nodes\SoGuiLabel.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\MaterialEditor.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\MaterialEditor.h.in
+
+"src\Inventor\Win\nodes\SoGuiMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.h.in:src\Inventor\Win\nodes\SoGuiMaterialEditor.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.h.in:src\Inventor\Win\nodes\SoGuiMaterialEditor.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.h.in:src\Inventor\Win\nodes\SoGuiMaterialEditor.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\MaterialEditor.h.in:src\Inventor\Win\nodes\SoGuiMaterialEditor.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Nodes.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Nodes.h.in
+
+"src\Inventor\Win\nodes\SoGuiNodes.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.h.in:src\Inventor\Win\nodes\SoGuiNodes.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiNodes.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.h.in:src\Inventor\Win\nodes\SoGuiNodes.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiNodes.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.h.in:src\Inventor\Win\nodes\SoGuiNodes.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiNodes.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Nodes.h.in:src\Inventor\Win\nodes\SoGuiNodes.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Pane.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Pane.h.in
+
+"src\Inventor\Win\nodes\SoGuiPane.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.h.in:src\Inventor\Win\nodes\SoGuiPane.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiPane.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.h.in:src\Inventor\Win\nodes\SoGuiPane.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiPane.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.h.in:src\Inventor\Win\nodes\SoGuiPane.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiPane.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Pane.h.in:src\Inventor\Win\nodes\SoGuiPane.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Position.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Position.h.in
+
+"src\Inventor\Win\nodes\SoGuiPosition.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.h.in:src\Inventor\Win\nodes\SoGuiPosition.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiPosition.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.h.in:src\Inventor\Win\nodes\SoGuiPosition.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiPosition.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.h.in:src\Inventor\Win\nodes\SoGuiPosition.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiPosition.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Position.h.in:src\Inventor\Win\nodes\SoGuiPosition.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\RadioButton.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\RadioButton.h.in
+
+"src\Inventor\Win\nodes\SoGuiRadioButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.h.in:src\Inventor\Win\nodes\SoGuiRadioButton.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiRadioButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.h.in:src\Inventor\Win\nodes\SoGuiRadioButton.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiRadioButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.h.in:src\Inventor\Win\nodes\SoGuiRadioButton.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiRadioButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\RadioButton.h.in:src\Inventor\Win\nodes\SoGuiRadioButton.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\SceneTexture2.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\SceneTexture2.h.in
+
+"src\Inventor\Win\nodes\SoGuiSceneTexture2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.h.in:src\Inventor\Win\nodes\SoGuiSceneTexture2.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiSceneTexture2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.h.in:src\Inventor\Win\nodes\SoGuiSceneTexture2.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiSceneTexture2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.h.in:src\Inventor\Win\nodes\SoGuiSceneTexture2.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiSceneTexture2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\SceneTexture2.h.in:src\Inventor\Win\nodes\SoGuiSceneTexture2.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Slider1.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Slider1.h.in
+
+"src\Inventor\Win\nodes\SoGuiSlider1.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.h.in:src\Inventor\Win\nodes\SoGuiSlider1.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiSlider1.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.h.in:src\Inventor\Win\nodes\SoGuiSlider1.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiSlider1.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.h.in:src\Inventor\Win\nodes\SoGuiSlider1.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiSlider1.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider1.h.in:src\Inventor\Win\nodes\SoGuiSlider1.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Slider2.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Slider2.h.in
+
+"src\Inventor\Win\nodes\SoGuiSlider2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.h.in:src\Inventor\Win\nodes\SoGuiSlider2.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiSlider2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.h.in:src\Inventor\Win\nodes\SoGuiSlider2.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiSlider2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.h.in:src\Inventor\Win\nodes\SoGuiSlider2.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiSlider2.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Slider2.h.in:src\Inventor\Win\nodes\SoGuiSlider2.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\ToggleButton.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\ToggleButton.h.in
+
+"src\Inventor\Win\nodes\SoGuiToggleButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.h.in:src\Inventor\Win\nodes\SoGuiToggleButton.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiToggleButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.h.in:src\Inventor\Win\nodes\SoGuiToggleButton.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiToggleButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.h.in:src\Inventor\Win\nodes\SoGuiToggleButton.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiToggleButton.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.h.in:src\Inventor\Win\nodes\SoGuiToggleButton.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Translation.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Translation.h.in
+
+"src\Inventor\Win\nodes\SoGuiTranslation.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.h.in:src\Inventor\Win\nodes\SoGuiTranslation.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiTranslation.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.h.in:src\Inventor\Win\nodes\SoGuiTranslation.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiTranslation.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.h.in:src\Inventor\Win\nodes\SoGuiTranslation.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiTranslation.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.h.in:src\Inventor\Win\nodes\SoGuiTranslation.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.h.in
+
+"src\Inventor\Win\nodes\SoGuiViewpointWrapper.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.h.in:src\Inventor\Win\nodes\SoGuiViewpointWrapper.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiViewpointWrapper.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.h.in:src\Inventor\Win\nodes\SoGuiViewpointWrapper.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiViewpointWrapper.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.h.in:src\Inventor\Win\nodes\SoGuiViewpointWrapper.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiViewpointWrapper.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.h.in:src\Inventor\Win\nodes\SoGuiViewpointWrapper.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\ViewportFix.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\ViewportFix.h.in
+
+"src\Inventor\Win\nodes\SoGuiViewportFix.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.h.in:src\Inventor\Win\nodes\SoGuiViewportFix.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiViewportFix.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.h.in:src\Inventor\Win\nodes\SoGuiViewportFix.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiViewportFix.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.h.in:src\Inventor\Win\nodes\SoGuiViewportFix.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\SoGuiViewportFix.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.h.in:src\Inventor\Win\nodes\SoGuiViewportFix.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\ToggleButton.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\ToggleButton.cpp.in
+
+"src\Inventor\Win\nodes\ToggleButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.cpp.in:src\Inventor\Win\nodes\ToggleButton.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ToggleButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.cpp.in:src\Inventor\Win\nodes\ToggleButton.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ToggleButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.cpp.in:src\Inventor\Win\nodes\ToggleButton.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ToggleButton.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ToggleButton.cpp.in:src\Inventor\Win\nodes\ToggleButton.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\Translation.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\Translation.cpp.in
+
+"src\Inventor\Win\nodes\Translation.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.cpp.in:src\Inventor\Win\nodes\Translation.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Translation.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.cpp.in:src\Inventor\Win\nodes\Translation.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Translation.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.cpp.in:src\Inventor\Win\nodes\Translation.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\Translation.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\Translation.cpp.in:src\Inventor\Win\nodes\Translation.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.cpp.in
+
+"src\Inventor\Win\nodes\ViewpointWrapper.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Win\nodes\ViewpointWrapper.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ViewpointWrapper.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Win\nodes\ViewpointWrapper.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ViewpointWrapper.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Win\nodes\ViewpointWrapper.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ViewpointWrapper.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Win\nodes\ViewpointWrapper.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\nodes\ViewportFix.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\nodes\ViewportFix.cpp.in
+
+"src\Inventor\Win\nodes\ViewportFix.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.cpp.in:src\Inventor\Win\nodes\ViewportFix.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ViewportFix.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.cpp.in:src\Inventor\Win\nodes\ViewportFix.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ViewportFix.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.cpp.in:src\Inventor\Win\nodes\ViewportFix.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\nodes\ViewportFix.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\nodes\ViewportFix.cpp.in:src\Inventor\Win\nodes\ViewportFix.cpp
 
 # End Custom Build
 
@@ -4562,16 +3491,16 @@ InputPath=
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Win\common\SoGuiCursor.h.in
+SOURCE=..\..\src\Inventor\Win\common\SoAny.h.in
 
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGuiCursor.h.in
+InputPath=..\..\src\Inventor\Win\common\SoAny.h.in
 
-"src\Inventor\Win\SoWinCursor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.h.in:src\Inventor\Win\SoWinCursor.h
+"src\Inventor\Win\SoAny.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoAny.h.in:src\Inventor\Win\SoAny.h
 
 # End Custom Build
 
@@ -4581,8 +3510,8 @@ InputPath=..\..\src\Inventor\Win\common\SoGuiCursor.h.in
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\SoWinCursor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.h.in:src\Inventor\Win\SoWinCursor.h
+"src\Inventor\Win\SoAny.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoAny.h.in:src\Inventor\Win\SoAny.h
 
 # End Custom Build
 
@@ -4592,8 +3521,8 @@ InputPath=
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\SoWinCursor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.h.in:src\Inventor\Win\SoWinCursor.h
+"src\Inventor\Win\SoAny.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoAny.h.in:src\Inventor\Win\SoAny.h
 
 # End Custom Build
   
@@ -4603,416 +3532,8 @@ InputPath=
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\SoWinCursor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.h.in:src\Inventor\Win\SoWinCursor.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\SoGuiCursor.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGuiCursor.cpp.in
-
-"src\Inventor\Win\SoWinCursor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.cpp.in:src\Inventor\Win\SoWinCursor.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinCursor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.cpp.in:src\Inventor\Win\SoWinCursor.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinCursor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.cpp.in:src\Inventor\Win\SoWinCursor.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinCursor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.cpp.in:src\Inventor\Win\SoWinCursor.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\SoGuiObject.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGuiObject.h.in
-
-"src\Inventor\Win\SoWinObject.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.h.in:src\Inventor\Win\SoWinObject.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinObject.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.h.in:src\Inventor\Win\SoWinObject.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinObject.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.h.in:src\Inventor\Win\SoWinObject.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinObject.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.h.in:src\Inventor\Win\SoWinObject.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\SoGuiObject.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGuiObject.cpp.in
-
-"src\Inventor\Win\SoWinObject.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.cpp.in:src\Inventor\Win\SoWinObject.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinObject.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.cpp.in:src\Inventor\Win\SoWinObject.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinObject.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.cpp.in:src\Inventor\Win\SoWinObject.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinObject.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.cpp.in:src\Inventor\Win\SoWinObject.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\SoGui.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGui.h.in
-
-"src\Inventor\Win\SoWin.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGui.h.in:src\Inventor\Win\SoWin.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWin.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGui.h.in:src\Inventor\Win\SoWin.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWin.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGui.h.in:src\Inventor\Win\SoWin.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWin.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGui.h.in:src\Inventor\Win\SoWin.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\SoGuiP.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGuiP.h.in
-
-"src\Inventor\Win\SoGuiP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiP.h.in:src\Inventor\Win\SoGuiP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoGuiP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiP.h.in:src\Inventor\Win\SoGuiP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoGuiP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiP.h.in:src\Inventor\Win\SoGuiP.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoGuiP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiP.h.in:src\Inventor\Win\SoGuiP.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\SoGuiCommon.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGuiCommon.cpp.in
-
-"src\Inventor\Win\SoWinCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCommon.cpp.in:src\Inventor\Win\SoWinCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCommon.cpp.in:src\Inventor\Win\SoWinCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCommon.cpp.in:src\Inventor\Win\SoWinCommon.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCommon.cpp.in:src\Inventor\Win\SoWinCommon.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\SoGuiComponentCommon.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGuiComponentCommon.cpp.in
-
-"src\Inventor\Win\SoWinComponentCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponentCommon.cpp.in:src\Inventor\Win\SoWinComponentCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinComponentCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponentCommon.cpp.in:src\Inventor\Win\SoWinComponentCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinComponentCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponentCommon.cpp.in:src\Inventor\Win\SoWinComponentCommon.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinComponentCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponentCommon.cpp.in:src\Inventor\Win\SoWinComponentCommon.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\SoGuiComponent.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGuiComponent.h.in
-
-"src\Inventor\Win\SoWinComponent.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponent.h.in:src\Inventor\Win\SoWinComponent.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinComponent.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponent.h.in:src\Inventor\Win\SoWinComponent.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinComponent.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponent.h.in:src\Inventor\Win\SoWinComponent.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinComponent.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponent.h.in:src\Inventor\Win\SoWinComponent.h
+"src\Inventor\Win\SoAny.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoAny.h.in:src\Inventor\Win\SoAny.h
 
 # End Custom Build
 
@@ -5072,57 +3593,6 @@ InputPath=
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Win\common\SoGuiGLWidget.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGuiGLWidget.h.in
-
-"src\Inventor\Win\SoWinGLWidget.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidget.h.in:src\Inventor\Win\SoWinGLWidget.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinGLWidget.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidget.h.in:src\Inventor\Win\SoWinGLWidget.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinGLWidget.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidget.h.in:src\Inventor\Win\SoWinGLWidget.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinGLWidget.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidget.h.in:src\Inventor\Win\SoWinGLWidget.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\src\Inventor\Win\common\SoGuiGLWidgetP.h.in
 
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
@@ -5174,16 +3644,16 @@ InputPath=
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in
+SOURCE=..\..\src\Inventor\Win\common\SoGuiP.h.in
 
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in
+InputPath=..\..\src\Inventor\Win\common\SoGuiP.h.in
 
-"src\Inventor\Win\SoWinGLWidgetCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Win\SoWinGLWidgetCommon.cpp
+"src\Inventor\Win\SoGuiP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiP.h.in:src\Inventor\Win\SoGuiP.h
 
 # End Custom Build
 
@@ -5193,8 +3663,8 @@ InputPath=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\SoWinGLWidgetCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Win\SoWinGLWidgetCommon.cpp
+"src\Inventor\Win\SoGuiP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiP.h.in:src\Inventor\Win\SoGuiP.h
 
 # End Custom Build
 
@@ -5204,8 +3674,8 @@ InputPath=
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\SoWinGLWidgetCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Win\SoWinGLWidgetCommon.cpp
+"src\Inventor\Win\SoGuiP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiP.h.in:src\Inventor\Win\SoGuiP.h
 
 # End Custom Build
   
@@ -5215,8 +3685,8 @@ InputPath=
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\SoWinGLWidgetCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Win\SoWinGLWidgetCommon.cpp
+"src\Inventor\Win\SoGuiP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiP.h.in:src\Inventor\Win\SoGuiP.h
 
 # End Custom Build
 
@@ -5225,16 +3695,16 @@ InputPath=
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in
+SOURCE=..\..\src\Inventor\Win\common\SoGui.h.in
 
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in
+InputPath=..\..\src\Inventor\Win\common\SoGui.h.in
 
-"src\Inventor\Win\SoWinRenderArea.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in:src\Inventor\Win\SoWinRenderArea.h
+"src\Inventor\Win\SoWin.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGui.h.in:src\Inventor\Win\SoWin.h
 
 # End Custom Build
 
@@ -5244,8 +3714,8 @@ InputPath=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\SoWinRenderArea.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in:src\Inventor\Win\SoWinRenderArea.h
+"src\Inventor\Win\SoWin.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGui.h.in:src\Inventor\Win\SoWin.h
 
 # End Custom Build
 
@@ -5255,8 +3725,8 @@ InputPath=
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\SoWinRenderArea.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in:src\Inventor\Win\SoWinRenderArea.h
+"src\Inventor\Win\SoWin.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGui.h.in:src\Inventor\Win\SoWin.h
 
 # End Custom Build
   
@@ -5266,59 +3736,8 @@ InputPath=
 #Begin Custom Build - subst'ing $(InputPath)
 InputPath=
 
-"src\Inventor\Win\SoWinRenderArea.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in:src\Inventor\Win\SoWinRenderArea.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\SoGuiRenderArea.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\SoGuiRenderArea.cpp.in
-
-"src\Inventor\Win\SoWinRenderArea.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.cpp.in:src\Inventor\Win\SoWinRenderArea.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinRenderArea.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.cpp.in:src\Inventor\Win\SoWinRenderArea.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinRenderArea.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.cpp.in:src\Inventor\Win\SoWinRenderArea.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\SoWinRenderArea.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.cpp.in:src\Inventor\Win\SoWinRenderArea.cpp
+"src\Inventor\Win\SoWin.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGui.h.in:src\Inventor\Win\SoWin.h
 
 # End Custom Build
 
@@ -5378,6 +3797,363 @@ InputPath=
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\Inventor\Win\common\SoGuiCommon.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\SoGuiCommon.cpp.in
+
+"src\Inventor\Win\SoWinCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCommon.cpp.in:src\Inventor\Win\SoWinCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCommon.cpp.in:src\Inventor\Win\SoWinCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCommon.cpp.in:src\Inventor\Win\SoWinCommon.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCommon.cpp.in:src\Inventor\Win\SoWinCommon.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\SoGuiComponent.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\SoGuiComponent.h.in
+
+"src\Inventor\Win\SoWinComponent.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponent.h.in:src\Inventor\Win\SoWinComponent.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinComponent.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponent.h.in:src\Inventor\Win\SoWinComponent.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinComponent.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponent.h.in:src\Inventor\Win\SoWinComponent.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinComponent.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponent.h.in:src\Inventor\Win\SoWinComponent.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\SoGuiComponentCommon.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\SoGuiComponentCommon.cpp.in
+
+"src\Inventor\Win\SoWinComponentCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponentCommon.cpp.in:src\Inventor\Win\SoWinComponentCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinComponentCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponentCommon.cpp.in:src\Inventor\Win\SoWinComponentCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinComponentCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponentCommon.cpp.in:src\Inventor\Win\SoWinComponentCommon.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinComponentCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiComponentCommon.cpp.in:src\Inventor\Win\SoWinComponentCommon.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\SoGuiCursor.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\SoGuiCursor.cpp.in
+
+"src\Inventor\Win\SoWinCursor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.cpp.in:src\Inventor\Win\SoWinCursor.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinCursor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.cpp.in:src\Inventor\Win\SoWinCursor.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinCursor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.cpp.in:src\Inventor\Win\SoWinCursor.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinCursor.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.cpp.in:src\Inventor\Win\SoWinCursor.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\SoGuiCursor.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\SoGuiCursor.h.in
+
+"src\Inventor\Win\SoWinCursor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.h.in:src\Inventor\Win\SoWinCursor.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinCursor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.h.in:src\Inventor\Win\SoWinCursor.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinCursor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.h.in:src\Inventor\Win\SoWinCursor.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinCursor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiCursor.h.in:src\Inventor\Win\SoWinCursor.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\SoGuiGLWidget.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\SoGuiGLWidget.h.in
+
+"src\Inventor\Win\SoWinGLWidget.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidget.h.in:src\Inventor\Win\SoWinGLWidget.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinGLWidget.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidget.h.in:src\Inventor\Win\SoWinGLWidget.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinGLWidget.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidget.h.in:src\Inventor\Win\SoWinGLWidget.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinGLWidget.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidget.h.in:src\Inventor\Win\SoWinGLWidget.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in
+
+"src\Inventor\Win\SoWinGLWidgetCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Win\SoWinGLWidgetCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinGLWidgetCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Win\SoWinGLWidgetCommon.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinGLWidgetCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Win\SoWinGLWidgetCommon.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinGLWidgetCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Win\SoWinGLWidgetCommon.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in
 
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
@@ -5421,6 +4197,1230 @@ InputPath=
 
 "src\Inventor\Win\SoWinMaterialEditor.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\SoWinMaterialEditor.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\SoGuiObject.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\SoGuiObject.cpp.in
+
+"src\Inventor\Win\SoWinObject.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.cpp.in:src\Inventor\Win\SoWinObject.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinObject.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.cpp.in:src\Inventor\Win\SoWinObject.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinObject.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.cpp.in:src\Inventor\Win\SoWinObject.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinObject.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.cpp.in:src\Inventor\Win\SoWinObject.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\SoGuiObject.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\SoGuiObject.h.in
+
+"src\Inventor\Win\SoWinObject.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.h.in:src\Inventor\Win\SoWinObject.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinObject.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.h.in:src\Inventor\Win\SoWinObject.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinObject.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.h.in:src\Inventor\Win\SoWinObject.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinObject.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiObject.h.in:src\Inventor\Win\SoWinObject.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\SoGuiRenderArea.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\SoGuiRenderArea.cpp.in
+
+"src\Inventor\Win\SoWinRenderArea.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.cpp.in:src\Inventor\Win\SoWinRenderArea.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinRenderArea.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.cpp.in:src\Inventor\Win\SoWinRenderArea.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinRenderArea.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.cpp.in:src\Inventor\Win\SoWinRenderArea.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinRenderArea.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.cpp.in:src\Inventor\Win\SoWinRenderArea.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in
+
+"src\Inventor\Win\SoWinRenderArea.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in:src\Inventor\Win\SoWinRenderArea.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinRenderArea.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in:src\Inventor\Win\SoWinRenderArea.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinRenderArea.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in:src\Inventor\Win\SoWinRenderArea.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\SoWinRenderArea.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\SoGuiRenderArea.h.in:src\Inventor\Win\SoWinRenderArea.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewerP.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewerP.h.in
+
+"src\Inventor\Win\viewers\SoGuiExaminerViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewerP.h.in:src\Inventor\Win\viewers\SoGuiExaminerViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoGuiExaminerViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewerP.h.in:src\Inventor\Win\viewers\SoGuiExaminerViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoGuiExaminerViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewerP.h.in:src\Inventor\Win\viewers\SoGuiExaminerViewerP.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoGuiExaminerViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewerP.h.in:src\Inventor\Win\viewers\SoGuiExaminerViewerP.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewerP.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewerP.h.in
+
+"src\Inventor\Win\viewers\SoGuiFullViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewerP.h.in:src\Inventor\Win\viewers\SoGuiFullViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoGuiFullViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewerP.h.in:src\Inventor\Win\viewers\SoGuiFullViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoGuiFullViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewerP.h.in:src\Inventor\Win\viewers\SoGuiFullViewerP.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoGuiFullViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewerP.h.in:src\Inventor\Win\viewers\SoGuiFullViewerP.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewerP.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewerP.h.in
+
+"src\Inventor\Win\viewers\SoGuiPlaneViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewerP.h.in:src\Inventor\Win\viewers\SoGuiPlaneViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoGuiPlaneViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewerP.h.in:src\Inventor\Win\viewers\SoGuiPlaneViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoGuiPlaneViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewerP.h.in:src\Inventor\Win\viewers\SoGuiPlaneViewerP.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoGuiPlaneViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewerP.h.in:src\Inventor\Win\viewers\SoGuiPlaneViewerP.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in
+
+"src\Inventor\Win\viewers\SoGuiViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in:src\Inventor\Win\viewers\SoGuiViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoGuiViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in:src\Inventor\Win\viewers\SoGuiViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoGuiViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in:src\Inventor\Win\viewers\SoGuiViewerP.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoGuiViewerP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in:src\Inventor\Win\viewers\SoGuiViewerP.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.cpp.in
+
+"src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.h.in
+
+"src\Inventor\Win\viewers\SoWinConstrainedViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.h.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinConstrainedViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.h.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinConstrainedViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.h.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinConstrainedViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiConstrainedViewer.h.in:src\Inventor\Win\viewers\SoWinConstrainedViewer.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.cpp.in
+
+"src\Inventor\Win\viewers\SoWinExaminerViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Win\viewers\SoWinExaminerViewer.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinExaminerViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Win\viewers\SoWinExaminerViewer.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinExaminerViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Win\viewers\SoWinExaminerViewer.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinExaminerViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Win\viewers\SoWinExaminerViewer.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.h.in
+
+"src\Inventor\Win\viewers\SoWinExaminerViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.h.in:src\Inventor\Win\viewers\SoWinExaminerViewer.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinExaminerViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.h.in:src\Inventor\Win\viewers\SoWinExaminerViewer.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinExaminerViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.h.in:src\Inventor\Win\viewers\SoWinExaminerViewer.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinExaminerViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiExaminerViewer.h.in:src\Inventor\Win\viewers\SoWinExaminerViewer.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.cpp.in
+
+"src\Inventor\Win\viewers\SoWinFlyViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Win\viewers\SoWinFlyViewer.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinFlyViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Win\viewers\SoWinFlyViewer.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinFlyViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Win\viewers\SoWinFlyViewer.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinFlyViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Win\viewers\SoWinFlyViewer.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.h.in
+
+"src\Inventor\Win\viewers\SoWinFlyViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.h.in:src\Inventor\Win\viewers\SoWinFlyViewer.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinFlyViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.h.in:src\Inventor\Win\viewers\SoWinFlyViewer.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinFlyViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.h.in:src\Inventor\Win\viewers\SoWinFlyViewer.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinFlyViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFlyViewer.h.in:src\Inventor\Win\viewers\SoWinFlyViewer.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.cpp.in
+
+"src\Inventor\Win\viewers\SoWinFullViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Win\viewers\SoWinFullViewer.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinFullViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Win\viewers\SoWinFullViewer.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinFullViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Win\viewers\SoWinFullViewer.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinFullViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Win\viewers\SoWinFullViewer.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.h.in
+
+"src\Inventor\Win\viewers\SoWinFullViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.h.in:src\Inventor\Win\viewers\SoWinFullViewer.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinFullViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.h.in:src\Inventor\Win\viewers\SoWinFullViewer.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinFullViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.h.in:src\Inventor\Win\viewers\SoWinFullViewer.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinFullViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiFullViewer.h.in:src\Inventor\Win\viewers\SoWinFullViewer.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.cpp.in
+
+"src\Inventor\Win\viewers\SoWinPlaneViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Win\viewers\SoWinPlaneViewer.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinPlaneViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Win\viewers\SoWinPlaneViewer.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinPlaneViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Win\viewers\SoWinPlaneViewer.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinPlaneViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Win\viewers\SoWinPlaneViewer.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.h.in
+
+"src\Inventor\Win\viewers\SoWinPlaneViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.h.in:src\Inventor\Win\viewers\SoWinPlaneViewer.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinPlaneViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.h.in:src\Inventor\Win\viewers\SoWinPlaneViewer.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinPlaneViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.h.in:src\Inventor\Win\viewers\SoWinPlaneViewer.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinPlaneViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiPlaneViewer.h.in:src\Inventor\Win\viewers\SoWinPlaneViewer.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in
+
+"src\Inventor\Win\viewers\SoWinViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Win\viewers\SoWinViewer.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Win\viewers\SoWinViewer.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Win\viewers\SoWinViewer.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinViewer.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Win\viewers\SoWinViewer.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.h.in
+
+"src\Inventor\Win\viewers\SoWinViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.h.in:src\Inventor\Win\viewers\SoWinViewer.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.h.in:src\Inventor\Win\viewers\SoWinViewer.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.h.in:src\Inventor\Win\viewers\SoWinViewer.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\viewers\SoWinViewer.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewer.h.in:src\Inventor\Win\viewers\SoWinViewer.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.cpp.in
+
+"src\Inventor\Win\widgets\SoAnyThumbWheel.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Win\widgets\SoAnyThumbWheel.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\widgets\SoAnyThumbWheel.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Win\widgets\SoAnyThumbWheel.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\widgets\SoAnyThumbWheel.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Win\widgets\SoAnyThumbWheel.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\widgets\SoAnyThumbWheel.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Win\widgets\SoAnyThumbWheel.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.h.in
+
+"src\Inventor\Win\widgets\SoAnyThumbWheel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.h.in:src\Inventor\Win\widgets\SoAnyThumbWheel.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\widgets\SoAnyThumbWheel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.h.in:src\Inventor\Win\widgets\SoAnyThumbWheel.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\widgets\SoAnyThumbWheel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.h.in:src\Inventor\Win\widgets\SoAnyThumbWheel.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\widgets\SoAnyThumbWheel.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoAnyThumbWheel.h.in:src\Inventor\Win\widgets\SoAnyThumbWheel.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.cpp.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.cpp.in
+
+"src\Inventor\Win\widgets\SoWinPopupMenu.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Win\widgets\SoWinPopupMenu.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\widgets\SoWinPopupMenu.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Win\widgets\SoWinPopupMenu.cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\widgets\SoWinPopupMenu.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Win\widgets\SoWinPopupMenu.cpp
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\widgets\SoWinPopupMenu.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Win\widgets\SoWinPopupMenu.cpp
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.h.in
+
+!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.h.in
+
+"src\Inventor\Win\widgets\SoWinPopupMenu.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.h.in:src\Inventor\Win\widgets\SoWinPopupMenu.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\widgets\SoWinPopupMenu.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.h.in:src\Inventor\Win\widgets\SoWinPopupMenu.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\widgets\SoWinPopupMenu.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.h.in:src\Inventor\Win\widgets\SoWinPopupMenu.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - subst'ing $(InputPath)
+InputPath=
+
+"src\Inventor\Win\widgets\SoWinPopupMenu.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\widgets\SoGuiPopupMenu.h.in:src\Inventor\Win\widgets\SoWinPopupMenu.h
 
 # End Custom Build
 

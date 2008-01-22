@@ -138,4 +138,8 @@ inline void SoWinSwap(Type & a, Type & b) {
 # define SOWIN_DLL_API
 #endif /* !SOWIN_DLL_API */
 
+#ifndef GUI_TOOLKIT_VERSION
+#define GUI_TOOLKIT_VERSION ""
+#endif /* GUI_TOOLKIT_VERSION */
+
 #endif // ! SOWIN_BASIC_H

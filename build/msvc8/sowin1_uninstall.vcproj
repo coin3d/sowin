@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="sowin1_uninstall"
-	ProjectGUID="{FF1B1663-7EDA-45ED-8375-613687050980}"
+	ProjectGUID="{F7FE5DFF-EA5E-422E-AB82-F4BC993704C0}"
 	Keyword="MakeFileProj"
 	>
 	<Platforms>
