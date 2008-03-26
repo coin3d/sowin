@@ -529,7 +529,9 @@ if ( $ARGV[0] eq "--register-public-header" ) {
   $installheadersfile =~ m,(msvc[678]),;
   $msvc = $1;
 
-  $installheadersfile =~ s,msvc[678]/,misc/,;
+  # don't generate inside misc/ to be able to generate concurrently in several
+  # msvc*/-directories...
+  # $installheadersfile =~ s,msvc[678]/,misc/,;
 
   # sourcedirq=`echo "$sourcedir" | sed -e 's,\\\\,\\\\,g'`
   # builddirq=`echo "$builddir" | sed -e 's,\\\\,\\\\,g'`
@@ -586,6 +588,7 @@ $dependfile = "";
 $studiofile = "";
 $installstudiofile = "";
 $uninstallstudiofile = "";
+$docstudiofile = "";
 $outputfile = "";
 
 $LIBRARY = "";
@@ -628,8 +631,10 @@ for $arg (@ARGV) {
       $studiofile =~ s/^.*=//g;
       $installstudiofile = $studiofile;
       $uninstallstudiofile = $studiofile;
+      $docstudiofile = $studiofile;
       $installstudiofile =~ s/.dsp/_install.dsp/;
       $uninstallstudiofile =~ s/.dsp/_uninstall.dsp/;
+      $docstudiofile =~ s/.dsp/_docs.dsp/;
       # FIXME: we don't get the -D*_INTERNAL flag when closing, so we
       # have to set up the variables here too.
       $library = $studiofile;
@@ -707,6 +712,12 @@ if ( -f $studiofile ) {
     "..\\misc\\uninstall-headers.bat"
   );
 
+  @docsrcfiles = (
+    "..\\misc\\build-docs.bat",
+    "docs\\${library}\@${LIBRARY}_MAJOR_VERSION\@.doxygen",
+    "..\\html\\index.html"
+  );
+
   &CreateScriptDSP($installstudiofile,
                    "${library}\@${LIBRARY}_MAJOR_VERSION\@_install",
                    "..\\misc\\install-sdk.bat",
@@ -716,6 +727,11 @@ if ( -f $studiofile ) {
                    "${library}\@${LIBRARY}_MAJOR_VERSION\@_uninstall",
                    "..\\misc\\uninstall-sdk.bat",
                    @uninstallrcfiles);
+
+  &CreateScriptDSP($docstudiofile,
+                   "${library}\@${LIBRARY}_MAJOR_VERSION\@_docs",
+                   "..\\misc\\build-docs.bat",
+                   @docsrcfiles);
 
   open(DSP, ">${studiofile}");
   print DSP <<"_EODSP";
@@ -766,8 +782,8 @@ RSC=rc.exe
 # PROP Target_Dir ""
 MTL=midl.exe
 CPP=cl.exe
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /Ob2 /Og /Oi /Oy /Gy \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D ${LIBRARY}_DEBUG=0 \@${LIBRARY}_LIB_DSP_DEFS\@ /YX /FD /Gs /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /Ob2 /Og /Oi /Oy /Gy \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D ${LIBRARY}_DEBUG=0 \@${LIBRARY}_LIB_DSP_DEFS\@ /YX /FD /Gs /c
+# ADD BASE CPP /nologo /MD /W3 /GX /Ox /Gy /Zi \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D ${LIBRARY}_DEBUG=0 \@${LIBRARY}_LIB_DSP_DEFS\@ /FD /c
+# ADD CPP /nologo /MD /W3 /GX /Ox /Gy /Zi \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D ${LIBRARY}_DEBUG=0 \@${LIBRARY}_LIB_DSP_DEFS\@ /FD /c
 RSC=rc.exe
 # ADD BASE RSC /l 0x414 /d "NDEBUG"
 # ADD RSC /l 0x414 /d "NDEBUG"
@@ -792,8 +808,8 @@ LIB32=link.exe -lib
 # PROP Target_Dir ""
 MTL=midl.exe
 CPP=cl.exe
-# ADD BASE CPP /nologo /MD /W3 /GX /Od \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D ${LIBRARY}_DEBUG=1 \@${LIBRARY}_LIB_DSP_DEFS\@ /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /Od \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D ${LIBRARY}_DEBUG=1 \@${LIBRARY}_LIB_DSP_DEFS\@ /YX /FD /c
+# ADD BASE CPP /nologo /MD /W3 /GX /GZ /Od /Zi \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D ${LIBRARY}_DEBUG=1 \@${LIBRARY}_LIB_DSP_DEFS\@ /FD /c
+# ADD CPP /nologo /MD /W3 /GX /GZ /Od /Zi \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D ${LIBRARY}_DEBUG=1 \@${LIBRARY}_LIB_DSP_DEFS\@ /FD /c
 RSC=rc.exe
 # ADD BASE RSC /l 0x414 /d "_DEBUG"
 # ADD RSC /l 0x414 /d "_DEBUG"
@@ -818,8 +834,8 @@ LIB32=link.exe -lib
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 CPP=cl.exe
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /Og /Oi /Oy /Ob2 /Gy \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D ${LIBRARY}_DEBUG=0 \@${LIBRARY}_DSP_DEFS\@ /YX /FD /Gs /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /Og /Oi /Oy /Ob2 /Gy \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D ${LIBRARY}_DEBUG=0 \@${LIBRARY}_DSP_DEFS\@ /YX /FD /Gs /c
+# ADD BASE CPP /nologo /MD /W3 /GX /Ox /Gy /Zi \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D ${LIBRARY}_DEBUG=0 \@${LIBRARY}_DSP_DEFS\@ /FD /c
+# ADD CPP /nologo /MD /W3 /GX /Ox /Gy /Zi \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D ${LIBRARY}_DEBUG=0 \@${LIBRARY}_DSP_DEFS\@ /FD /c
 MTL=midl.exe
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -830,8 +846,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /machine:I386
-# ADD LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /machine:I386 /out:"${library}\@${LIBRARY}_MAJOR_VERSION\@.dll" /opt:nowin98
+# ADD BASE LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"${library}\@${LIBRARY}_MAJOR_VERSION\@.dll" /opt:nowin98
 # SUBTRACT LINK32 /pdb:none
 
 !ELSEIF  "\$(CFG)" == "${library}\@${LIBRARY}_MAJOR_VERSION@ - Win32 DLL (Debug)"
@@ -847,8 +863,8 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 CPP=cl.exe
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D ${LIBRARY}_DEBUG=1 \@${LIBRARY}_DSP_DEFS\@ /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D ${LIBRARY}_DEBUG=1 \@${LIBRARY}_DSP_DEFS\@ /YX /FD /GZ /c
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /GZ /Zi /Od \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D ${LIBRARY}_DEBUG=1 \@${LIBRARY}_DSP_DEFS\@ /FD /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /GZ /Zi /Od \@${LIBRARY}_DSP_INCS\@ /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D ${LIBRARY}_DEBUG=1 \@${LIBRARY}_DSP_DEFS\@ /FD /c
 MTL=midl.exe
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -860,7 +876,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"${library}\@${LIBRARY}_MAJOR_VERSION\@d.dll"
+# ADD LINK32 \@${LIBRARY}_DSP_LIBS\@ /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"${library}\@${LIBRARY}_MAJOR_VERSION\@d.dll" /opt:nowin98
 
 !ENDIF
 
@@ -1354,6 +1370,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "${library}\@${LIBRARY}_MAJOR_VERSION\@_docs"=.\\${library}\@${LIBRARY}_MAJOR_VERSION\@_docs.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Global:
 
 Package=<5>
@@ -1374,10 +1402,13 @@ _EODSW
   SubstFile($studiofile);
   SubstFile($installstudiofile);
   SubstFile($uninstallstudiofile);
+  SubstFile($docstudiofile);
   SubstFile($workspacefile);
   $installheadersfile = $studiofile;
   $installheadersfile =~ s,([^\\/0-9]*)[0-9][^\\/]*\.dsp,install-headers.bat,;
-  $installheadersfile =~ s,msvc[678]/,misc/,;
+  # don't generate install-headers inside misc/ to be able to generate
+  # concurrently inside several msvc*/-directories.
+  # $installheadersfile =~ s,msvc[678]/,misc/,;
   $uninstallheadersfile = $installheadersfile;
   $uninstallheadersfile =~ s/install-hea/uninstall-hea/;
   SubstBatFile($installheadersfile);
@@ -1442,6 +1473,7 @@ _EODSW
   CRLFFile($studiofile);
   CRLFFile($installstudiofile);
   CRLFFile($uninstallstudiofile);
+  CRLFFile($docstudiofile);
   CRLFFile($workspacefile);
   # clean out temporary files
 

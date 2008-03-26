@@ -152,7 +152,7 @@ AC_SUBST([SOGUI_EXTRA_LIBS], [$LIBS])
 # Header files we might want.
 
 # We expect these to include their own dependencies.
-AC_CHECK_HEADERS([windows.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMisc.h X11/Xproto.h X11/extensions/XInput.h netinet/in.h])
+AC_CHECK_HEADERS([windows.h crtdbg.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMisc.h X11/Xproto.h X11/extensions/XInput.h netinet/in.h])
 
 SIM_AC_CHECK_HEADER_TLHELP32_H
 
@@ -461,8 +461,8 @@ if $BUILD_WITH_MSVC; then
       ;;
     *)
       SIM_AC_CONFIGURATION_SETTING([SoWin build type], [dynamic .dll + .pdb])
-      CFLAGS="/Fd$debugfile $CFLAGS"
-      CXXFLAGS="/Fd$debugfile $CXXFLAGS"
+      CFLAGS="/Fd$debugfile $CFLAGS /D_DEBUG"
+      CXXFLAGS="/Fd$debugfile $CXXFLAGS /D_DEBUG"
       LIBFLAGS="$LIBFLAGS /DEBUG /PDB:sowin$SOWIN_MAJOR_VERSION$SUFFIX.pdb"
       ;;
     esac
