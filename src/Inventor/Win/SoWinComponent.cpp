@@ -291,11 +291,6 @@ SoWinComponent::~SoWinComponent()
 
   delete PRIVATE(this)->visibilitychangeCBs;
 
-  HHOOK * hookhandle = (HHOOK *) SoWinComponentP::hookhandle->get();
-  if (*hookhandle) {
-    Win32::UnhookWindowsHookEx(*hookhandle);
-  }
-
   (void)SoWinComponentP::embeddedparents->remove((SbDict::Key)this->getParentWidget());
 
   // Clean up static data if this is the last component.
@@ -303,7 +298,13 @@ SoWinComponent::~SoWinComponent()
     delete SoWinComponentP::embeddedparents;
     SoWinComponentP::embeddedparents = NULL;
 
+    HHOOK * hookhandle = (HHOOK *) SoWinComponentP::hookhandle->get();
+    if (*hookhandle) {
+      Win32::UnhookWindowsHookEx(*hookhandle);
+    }
+
     delete SoWinComponentP::hookhandle;
+    SoWinComponentP::hookhandle = NULL;
   }
 
   PRIVATE(this)->cleanupWin32References();

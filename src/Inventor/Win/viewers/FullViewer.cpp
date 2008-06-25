@@ -142,18 +142,20 @@ SoWinFullViewer::~SoWinFullViewer()
 {
   (void)SoWinFullViewerP::parentHWNDmappings->remove((SbDict::Key)this->getParentWidget());
 
-  HHOOK * hookhandle = (HHOOK *) SoWinFullViewerP::hookhandle->get();
-  if (*hookhandle) {
-    Win32::UnhookWindowsHookEx(*hookhandle);
-  }
-
   SoWinFullViewerP::nrinstances--;
   if (SoWinFullViewerP::nrinstances == 0) {
     // Parent HWND -> SoWinFullViewer dict.
     delete SoWinFullViewerP::parentHWNDmappings;
     SoWinFullViewerP::parentHWNDmappings = NULL;
 
+    HHOOK * hookhandle = (HHOOK *) SoWinFullViewerP::hookhandle->get();
+    if (*hookhandle) {
+      Win32::UnhookWindowsHookEx(*hookhandle);
+    }
+
     delete SoWinFullViewerP::hookhandle;
+    SoWinFullViewerP::hookhandle = NULL;
+
   }
   
   delete this->prefmenu;
