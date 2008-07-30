@@ -169,9 +169,9 @@ SoWinMouseP::makeLocationEvent(MSG * msg)
 
   PUBLIC(this)->setEventPosition(this->locationevent, msg->pt.x, msg->pt.y);
 
-  this->locationevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
-  this->locationevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
-  this->locationevent->setAltDown((SoWinDeviceP::modifierKeys & MK_ALT) ? TRUE : FALSE);
+  this->locationevent->setShiftDown(::GetKeyState(VK_SHIFT) & 0x8000);
+  this->locationevent->setCtrlDown(::GetKeyState(VK_CONTROL) & 0x8000);
+  this->locationevent->setAltDown(::GetKeyState(VK_MENU) & 0x8000);
 
   return this->locationevent;
 }
@@ -222,9 +222,9 @@ SoWinMouseP::makeButtonEvent(MSG * msg, SoButtonEvent::State state)
     PUBLIC(this)->setEventPosition(this->buttonevent, msg->pt.x, msg->pt.y);
   }
 
-  this->buttonevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
-  this->buttonevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
-  this->buttonevent->setAltDown((SoWinDeviceP::modifierKeys & MK_ALT) ? TRUE : FALSE);
+  this->buttonevent->setShiftDown(::GetKeyState(VK_SHIFT) & 0x8000);
+  this->buttonevent->setCtrlDown(::GetKeyState(VK_CONTROL) & 0x8000);
+  this->buttonevent->setAltDown(::GetKeyState(VK_MENU) & 0x8000);
 
   return this->buttonevent;
 }

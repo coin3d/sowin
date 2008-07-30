@@ -435,46 +435,12 @@ SoWinKeyboard::translateEvent(MSG * msg)
     return NULL;
   }
 
-  // modifiers:
-  if ((int)sokey == SoKeyboardEvent::LEFT_SHIFT) {
-    if (state == SoButtonEvent::UP) {
-      SoWinDeviceP::modifierKeys &= ~MK_SHIFT;
-      //return NULL;
-    }
-    else {    // SoButtonEvent::DOWN
-      if (SoWinDeviceP::modifierKeys & MK_SHIFT) return NULL;
-      SoWinDeviceP::modifierKeys |= MK_SHIFT;
-    }
-  }
-
-  if ((int)sokey == SoKeyboardEvent::LEFT_CONTROL) {
-    if (state == SoButtonEvent::UP) {
-      SoWinDeviceP::modifierKeys &= ~MK_CONTROL;
-      //return NULL;
-    }
-    else {    // SoButtonEvent::DOWN
-      if (SoWinDeviceP::modifierKeys & MK_CONTROL) return NULL;
-      SoWinDeviceP::modifierKeys |= MK_CONTROL;
-    }
-  }
-
-  if ((int)sokey == SoKeyboardEvent::LEFT_ALT) {
-    if (state == SoButtonEvent::UP) {
-      SoWinDeviceP::modifierKeys &= ~MK_ALT;
-      //return NULL;
-    }
-    else {    // SoButtonEvent::DOWN
-      if (SoWinDeviceP::modifierKeys & MK_ALT) return NULL;
-      SoWinDeviceP::modifierKeys |= MK_ALT;
-    }
-  }
-
   SbVec2s pos = this->getLastEventPosition();
   this->setEventPosition(PRIVATE(this)->kbdevent, pos[0], pos[1]);
 
-  PRIVATE(this)->kbdevent->setShiftDown((SoWinDeviceP::modifierKeys & MK_SHIFT) ? TRUE : FALSE);
-  PRIVATE(this)->kbdevent->setCtrlDown((SoWinDeviceP::modifierKeys & MK_CONTROL) ? TRUE : FALSE);
-  PRIVATE(this)->kbdevent->setAltDown((SoWinDeviceP::modifierKeys & MK_ALT) ? TRUE : FALSE);
+  PRIVATE(this)->kbdevent->setShiftDown(::GetKeyState(VK_SHIFT) & 0x8000);
+  PRIVATE(this)->kbdevent->setCtrlDown(::GetKeyState(VK_CONTROL) & 0x8000);
+  PRIVATE(this)->kbdevent->setAltDown(::GetKeyState(VK_MENU) & 0x8000);
   
   return PRIVATE(this)->kbdevent;
 }
