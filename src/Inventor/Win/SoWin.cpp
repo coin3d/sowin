@@ -251,7 +251,9 @@ public:
 
   static SbBool useParentEventHandler;
   static WNDPROC parentEventHandler;
-
+  static UINT focusMessage;
+  static SbBool hasFocus;
+  static HWND savedFocus;
   static int DEBUG_LISTMODULES;
 
 private:
@@ -267,6 +269,9 @@ char * SoWinP::appName = NULL;
 char * SoWinP::className = NULL;
 WNDPROC SoWinP::parentEventHandler = NULL;
 SbBool SoWinP::useParentEventHandler = TRUE;
+UINT SoWinP::focusMessage = 0xffffffff;
+SbBool SoWinP::hasFocus = FALSE;
+HWND SoWinP::savedFocus = NULL;
 
 /* value 0 signifies "inactive": */
 UINT_PTR SoWinP::timerSensorId = 0;
@@ -291,13 +296,14 @@ SoWin::init(int & argc, char ** argv,
 
   {
     WNDCLASS windowclass;
+    LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
     HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
     windowclass.lpszClassName = classname;
     windowclass.hInstance = NULL;
     windowclass.lpfnWndProc = SoWinP::eventHandler;
     windowclass.style = CS_OWNDC;
     windowclass.lpszMenuName = NULL;
-    windowclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    windowclass.hIcon = LoadIcon(NULL, icon);
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = brush;
     windowclass.cbClsExtra = 0;
@@ -353,6 +359,12 @@ SoWin::init(HWND toplevelwidget)
   SoDB::getSensorManager()->setChangedCallback(SoGuiP::sensorQueueChanged, NULL);
   if (IsWindow(toplevelwidget)) 
     SoWinP::mainWidget = toplevelwidget;
+
+  if (SoWinP::focusMessage == 0xffffffff) {
+    // note: windows will unregister message automatically
+    SoWinP::focusMessage = RegisterWindowMessage("SoWin_set_focus_message");
+    assert(SoWinP::focusMessage != 0 && "RegisterWindowMessage failed.");
+  }
 
   if (SoWinP::useParentEventHandler) {
     SoWinP::parentEventHandler = (WNDPROC) Win32::GetWindowLong(toplevelwidget, GWLP_WNDPROC);
@@ -576,8 +588,44 @@ SoWinP::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
   LRESULT retval = 0;
   BOOL handled = FALSE;
-  
+
+  if (message == focusMessage && hasFocus && savedFocus) {
+    HWND r = SetFocus(savedFocus);
+    assert(r && "SetFocus() failed.");
+    savedFocus = NULL;
+    return 0;
+  }
+
   switch (message) {
+
+  // WM_ACTIVATE message is necessary for restoring correct focus after the application
+  // is ALT-tab-bed to background and brought to foreground again, or when message dialog
+  // appears and is closed. In all these cases, the focus may be lost.
+  case WM_ACTIVATE:
+    
+    // FIXME: Will this code handle multiple top-level windows? PCJohn-2006-09-26
+    if (LOWORD(wparam) != WA_INACTIVE) {
+      
+      // mainWindget is activated
+      assert(hasFocus == FALSE && "Something is wrong with Windows.");
+      hasFocus = TRUE;
+      
+      if (savedFocus)
+        if (PostMessage(window, focusMessage, (WPARAM)savedFocus, 0) == 0)
+          assert(0);
+    
+    } else {
+      
+      // mainWindget is deactivated
+      assert(hasFocus == TRUE && "Something is wrong with Windows.");
+      hasFocus = FALSE;
+      
+      if (savedFocus == NULL)
+        savedFocus = GetFocus();
+    
+    }
+    break;
+
   case WM_DESTROY:
     if (! SoWinP::useParentEventHandler) {
       retval = SoWinP::onDestroy(window, message, wparam, lparam);
