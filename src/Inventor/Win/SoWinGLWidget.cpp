@@ -687,6 +687,14 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
     case WM_SETFOCUS:
       PRIVATE(object)->havefocus = TRUE;
       return 0;
+
+    case WM_KEYDOWN:
+    case WM_KEYUP:
+    case WM_SYSKEYDOWN:
+    case WM_SYSKEYUP:
+      if (wparam == VK_MENU)
+        return 0;
+      break;
     }
   }
   return DefWindowProc(window, message, wparam, lparam);

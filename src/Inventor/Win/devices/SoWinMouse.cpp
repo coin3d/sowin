@@ -24,6 +24,7 @@
 #include <windows.h>
 
 #include <Inventor/errors/SoDebugError.h>
+#include <Inventor/events/SoKeyboardEvent.h>
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
 
@@ -48,8 +49,12 @@
 
 class SoWinMouseP : public SoGuiMouseP {
 public:
-  SoWinMouseP(SoWinMouse * p) : SoGuiMouseP(p) { }
+  SoWinMouseP(SoWinMouse * p) : SoGuiMouseP(p) { keyboardevent = NULL; }
+  ~SoWinMouseP() { delete keyboardevent; }
 
+  SoKeyboardEvent * keyboardevent;
+
+  SoKeyboardEvent * makeKeyboardEvent(MSG * msg);
   SoLocation2Event * makeLocationEvent(MSG * msg);
   SoMouseButtonEvent * makeButtonEvent(MSG * msg, SoButtonEvent::State state);
 };
@@ -127,14 +132,12 @@ SoWinMouse::translateEvent(MSG * msg)
 
     // FIXME: implement BUTTON_MOTION filtering. mariusbu.
 
-
   case WM_SETFOCUS:
   case WM_KILLFOCUS:
-
-    // should we make location-events for these?
-    do {
-      // FIXME: not implemented
-    } while (FALSE);
+    // FIXME: hack to reset to pick mode when ALT key toggle active.
+    // I need that information in the processSoEvent routine of 
+    // SoWinViewer for a general handling of the alt key(s) toggle.
+    soevent = PRIVATE(this)->makeKeyboardEvent(msg);
     break;
 
     // events we should ignore:
@@ -152,6 +155,22 @@ SoWinMouse::translateEvent(MSG * msg)
 }
 
 // *************************************************************************
+
+SoKeyboardEvent *
+SoWinMouseP::makeKeyboardEvent(MSG * msg)
+{
+  if (this->keyboardevent == NULL)
+    this->keyboardevent = new SoKeyboardEvent;
+
+  this->keyboardevent->setKey(SoKeyboardEvent::LEFT_ALT);
+  this->keyboardevent->setState(SoButtonEvent::UP);
+
+  this->keyboardevent->setShiftDown(::GetKeyState(VK_SHIFT) & 0x8000);
+  this->keyboardevent->setCtrlDown(::GetKeyState(VK_CONTROL) & 0x8000);
+  this->keyboardevent->setAltDown(::GetKeyState(VK_MENU) & 0x8000);
+
+  return this->keyboardevent;
+}
 
 SoLocation2Event *
 SoWinMouseP::makeLocationEvent(MSG * msg)
