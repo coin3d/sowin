@@ -461,8 +461,8 @@ if $BUILD_WITH_MSVC; then
       ;;
     *)
       SIM_AC_CONFIGURATION_SETTING([SoWin build type], [dynamic .dll + .pdb])
-      CFLAGS="/Fd$debugfile $CFLAGS /D_DEBUG"
-      CXXFLAGS="/Fd$debugfile $CXXFLAGS /D_DEBUG"
+      CFLAGS="/Fd$debugfile $CFLAGS"
+      CXXFLAGS="/Fd$debugfile $CXXFLAGS"
       LIBFLAGS="$LIBFLAGS /DEBUG /PDB:sowin$SOWIN_MAJOR_VERSION$SUFFIX.pdb"
       ;;
     esac
