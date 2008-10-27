@@ -40,6 +40,8 @@ sed \
   -e "s/$source_pwd/..\\\\../g" \
   -e 's/COIN_DLL/COIN_NOT_DLL/g' \
   -e '/_MAKE_DLL/ { s/COIN_NOT_DLL/COIN_DLL/g; }' \
+  -e '/^# ADD .*LINK32.*\/debug/ { s/COINDIR)\\lib\\coin3.lib/COINDIR)\\lib\\coin3d.lib/g; }' \
+  -e '/^# ADD .*LINK32.*\/debug/ { s/QTDIR)\\lib\\Qt\([^ ]*\)4.lib/QTDIR)\\lib\\Qt\1d4.lib/g; }' \
   -e 's/$/\r/g' \
   <${project}.dsp >new.dsp
 
@@ -51,9 +53,19 @@ sed \
   -e "s/$source/..\\\\../g" \
   -e "s/$source_pwd/..\\\\../g" \
   -e 's/$/\r/g' \
-  <../misc/install-headers.bat >new.bat
+  <install-headers.bat >new.bat
 
 mv new.bat ../misc/install-headers.bat
+
+sed \
+  -e "s/$build/./g" \
+  -e "s/$build_pwd//g" \
+  -e "s/$source/..\\\\../g" \
+  -e "s/$source_pwd/..\\\\../g" \
+  -e 's/$/\r/g' \
+  <uninstall-headers.bat >new.bat
+
+mv new.bat ../misc/uninstall-headers.bat
 
 echo "Done."
 echo "Modify so the static configurations are built with COIN_NOT_DLL"

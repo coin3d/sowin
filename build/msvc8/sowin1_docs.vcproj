@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="sowin1_uninstall"
-	ProjectGUID="{5E5C4BA0-E2EF-4576-A348-1EFDB0B4F4BC}"
+	Name="sowin1_docs"
+	ProjectGUID="{674AD3AA-A568-4312-92A3-70B0EB9FEAE2}"
 	Keyword="MakeFileProj"
 	>
 	<Platforms>
@@ -15,29 +15,6 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="DLL (Release)|Win32"
-			OutputDirectory=".\Release"
-			IntermediateDirectory=".\Release"
-			ConfigurationType="0"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCNMakeTool"
-				BuildCommandLine="..\misc\uninstall-sdk.bat dll release msvc8 sowin1"
-				ReBuildCommandLine="..\misc\uninstall-sdk.bat dll release msvc8 sowin1 "
-				CleanCommandLine=""
-				Output="sowin1_uninstall.exe"
-				PreprocessorDefinitions=""
-				IncludeSearchPath=""
-				ForcedIncludes=""
-				AssemblySearchPath=""
-				ForcedUsingAssemblies=""
-				CompileAsManaged=""
-			/>
-		</Configuration>
-		<Configuration
 			Name="LIB (Release)|Win32"
 			OutputDirectory=".\StaticRelease"
 			IntermediateDirectory=".\StaticRelease"
@@ -48,10 +25,10 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="..\misc\uninstall-sdk.bat lib release msvc8 sowin1"
-				ReBuildCommandLine="..\misc\uninstall-sdk.bat lib release msvc8 sowin1 "
+				BuildCommandLine="..\misc\build-docs.bat lib release msvc8 sowin1"
+				ReBuildCommandLine="..\misc\build-docs.bat lib release msvc8 sowin1 "
 				CleanCommandLine=""
-				Output="sowin1_uninstall.exe"
+				Output="sowin1_docs.exe"
 				PreprocessorDefinitions=""
 				IncludeSearchPath=""
 				ForcedIncludes=""
@@ -71,10 +48,10 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="..\misc\uninstall-sdk.bat lib debug msvc8 sowin1"
-				ReBuildCommandLine="..\misc\uninstall-sdk.bat lib debug msvc8 sowin1 "
+				BuildCommandLine="..\misc\build-docs.bat lib debug msvc8 sowin1"
+				ReBuildCommandLine="..\misc\build-docs.bat lib debug msvc8 sowin1 "
 				CleanCommandLine=""
-				Output="sowin1_uninstall.exe"
+				Output="sowin1_docs.exe"
 				PreprocessorDefinitions=""
 				IncludeSearchPath=""
 				ForcedIncludes=""
@@ -94,10 +71,33 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="..\misc\uninstall-sdk.bat dll debug msvc8 sowin1"
-				ReBuildCommandLine="..\misc\uninstall-sdk.bat dll debug msvc8 sowin1 "
+				BuildCommandLine="..\misc\build-docs.bat dll debug msvc8 sowin1"
+				ReBuildCommandLine="..\misc\build-docs.bat dll debug msvc8 sowin1 "
 				CleanCommandLine=""
-				Output="sowin1_uninstall.exe"
+				Output="sowin1_docs.exe"
+				PreprocessorDefinitions=""
+				IncludeSearchPath=""
+				ForcedIncludes=""
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="DLL (Release)|Win32"
+			OutputDirectory=".\Release"
+			IntermediateDirectory=".\Release"
+			ConfigurationType="0"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="..\misc\build-docs.bat dll release msvc8 sowin1"
+				ReBuildCommandLine="..\misc\build-docs.bat dll release msvc8 sowin1 "
+				CleanCommandLine=""
+				Output="sowin1_docs.exe"
 				PreprocessorDefinitions=""
 				IncludeSearchPath=""
 				ForcedIncludes=""
@@ -115,11 +115,15 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;bat"
 			>
 			<File
-				RelativePath="..\misc\uninstall-headers.bat"
+				RelativePath="..\misc\build-docs.bat"
 				>
 			</File>
 			<File
-				RelativePath="..\misc\uninstall-sdk.bat"
+				RelativePath="..\html\index.html"
+				>
+			</File>
+			<File
+				RelativePath="docs\sowin1.doxygen"
 				>
 			</File>
 		</Filter>

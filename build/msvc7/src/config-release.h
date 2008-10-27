@@ -10,6 +10,9 @@
 /* The CPP compiler has a variable containing the current function name */
 #define HAVE_CPP_COMPILER_FUNCTION_NAME_VAR __FUNCTION__
 
+/* Define to 1 if you have the <crtdbg.h> header file. */
+#define HAVE_CRTDBG_H 1
+
 /* The C compiler has a variable containing the current function name */
 #define HAVE_C_COMPILER_FUNCTION_NAME_VAR __FUNCTION__
 

@@ -45,8 +45,8 @@ RSC=rc.exe
 # PROP Target_Dir ""
 MTL=midl.exe
 CPP=cl.exe
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /Ob2 /Og /Oi /Oy /Gy /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D SOWIN_DEBUG=0  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /YX /FD /Gs /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /Ob2 /Og /Oi /Oy /Gy /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D SOWIN_DEBUG=0  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /YX /FD /Gs /c
+# ADD BASE CPP /nologo /MD /W3 /GX /Ox /Gy /Zi /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D SOWIN_DEBUG=0  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /Ox /Gy /Zi /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D SOWIN_DEBUG=0  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /FD /c
 RSC=rc.exe
 # ADD BASE RSC /l 0x414 /d "NDEBUG"
 # ADD RSC /l 0x414 /d "NDEBUG"
@@ -71,8 +71,8 @@ LIB32=link.exe -lib
 # PROP Target_Dir ""
 MTL=midl.exe
 CPP=cl.exe
-# ADD BASE CPP /nologo /MD /W3 /GX /Od /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D SOWIN_DEBUG=1  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /Od /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D SOWIN_DEBUG=1  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /YX /FD /c
+# ADD BASE CPP /nologo /MDd /W3 /GX /GZ /Od /Zi /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D SOWIN_DEBUG=1  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /FD /c
+# ADD CPP /nologo /MDd /W3 /GX /GZ /Od /Zi /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D SOWIN_DEBUG=1  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_NOT_DLL" /FD /c
 RSC=rc.exe
 # ADD BASE RSC /l 0x414 /d "_DEBUG"
 # ADD RSC /l 0x414 /d "_DEBUG"
@@ -97,8 +97,8 @@ LIB32=link.exe -lib
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 CPP=cl.exe
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /Og /Oi /Oy /Ob2 /Gy /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D SOWIN_DEBUG=0 /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /YX /FD /Gs /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /Og /Oi /Oy /Ob2 /Gy /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D SOWIN_DEBUG=0 /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /YX /FD /Gs /c
+# ADD BASE CPP /nologo /MD /W3 /GX /Ox /Gy /Zi /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D SOWIN_DEBUG=0 /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /Ox /Gy /Zi /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D SOWIN_DEBUG=0 /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /FD /c
 MTL=midl.exe
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -109,8 +109,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /machine:I386
-# ADD LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /machine:I386 /out:"sowin1.dll" /opt:nowin98
+# ADD BASE LINK32 $(COINDIR)\lib\coin3.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /release /machine:I386 /pdbtype:sept
+# ADD LINK32 $(COINDIR)\lib\coin3.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /release /machine:I386 /pdbtype:sept /out:"sowin1.dll" /opt:nowin98
 # SUBTRACT LINK32 /pdb:none
 
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
@@ -126,8 +126,8 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 CPP=cl.exe
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D SOWIN_DEBUG=1 /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D SOWIN_DEBUG=1 /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /YX /FD /GZ /c
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /GZ /Zi /Od /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D SOWIN_DEBUG=1 /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /FD /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /GZ /Zi /Od /I "src" /I "data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D SOWIN_DEBUG=1 /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL" /FD /c
 MTL=midl.exe
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -138,8 +138,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 $(COINDIR)\lib\coin2d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"sowin1d.dll"
+# ADD BASE LINK32 $(COINDIR)\lib\coin3d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 $(COINDIR)\lib\coin3d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"sowin1d.dll" /opt:nowin98
 
 !ENDIF
 

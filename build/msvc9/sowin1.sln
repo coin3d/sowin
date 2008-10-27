@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sowin1", "sowin1.vcproj", "{85753479-2042-467C-AFE6-02260341FDF6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sowin1_install", "sowin1_install.vcproj", "{94417292-9761-400C-A240-80F3D19D14CF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{85753479-2042-467C-AFE6-02260341FDF6} = {85753479-2042-467C-AFE6-02260341FDF6}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sowin1_uninstall", "sowin1_uninstall.vcproj", "{57EC3D7F-0157-44F5-B562-3C93DFAF1F15}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sowin1_docs", "sowin1_docs.vcproj", "{122D338D-734B-4E4F-8DAA-78C22446E345}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		DLL (Debug)|Win32 = DLL (Debug)|Win32
+		DLL (Release)|Win32 = DLL (Release)|Win32
+		LIB (Debug)|Win32 = LIB (Debug)|Win32
+		LIB (Release)|Win32 = LIB (Release)|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{85753479-2042-467C-AFE6-02260341FDF6}.DLL (Debug)|Win32.ActiveCfg = DLL (Debug)|Win32
+		{85753479-2042-467C-AFE6-02260341FDF6}.DLL (Debug)|Win32.Build.0 = DLL (Debug)|Win32
+		{85753479-2042-467C-AFE6-02260341FDF6}.DLL (Release)|Win32.ActiveCfg = DLL (Release)|Win32
+		{85753479-2042-467C-AFE6-02260341FDF6}.DLL (Release)|Win32.Build.0 = DLL (Release)|Win32
+		{85753479-2042-467C-AFE6-02260341FDF6}.LIB (Debug)|Win32.ActiveCfg = LIB (Debug)|Win32
+		{85753479-2042-467C-AFE6-02260341FDF6}.LIB (Debug)|Win32.Build.0 = LIB (Debug)|Win32
+		{85753479-2042-467C-AFE6-02260341FDF6}.LIB (Release)|Win32.ActiveCfg = LIB (Release)|Win32
+		{85753479-2042-467C-AFE6-02260341FDF6}.LIB (Release)|Win32.Build.0 = LIB (Release)|Win32
+		{94417292-9761-400C-A240-80F3D19D14CF}.DLL (Debug)|Win32.ActiveCfg = DLL (Debug)|Win32
+		{94417292-9761-400C-A240-80F3D19D14CF}.DLL (Debug)|Win32.Build.0 = DLL (Debug)|Win32
+		{94417292-9761-400C-A240-80F3D19D14CF}.DLL (Release)|Win32.ActiveCfg = DLL (Release)|Win32
+		{94417292-9761-400C-A240-80F3D19D14CF}.DLL (Release)|Win32.Build.0 = DLL (Release)|Win32
+		{94417292-9761-400C-A240-80F3D19D14CF}.LIB (Debug)|Win32.ActiveCfg = LIB (Debug)|Win32
+		{94417292-9761-400C-A240-80F3D19D14CF}.LIB (Debug)|Win32.Build.0 = LIB (Debug)|Win32
+		{94417292-9761-400C-A240-80F3D19D14CF}.LIB (Release)|Win32.ActiveCfg = LIB (Release)|Win32
+		{94417292-9761-400C-A240-80F3D19D14CF}.LIB (Release)|Win32.Build.0 = LIB (Release)|Win32
+		{57EC3D7F-0157-44F5-B562-3C93DFAF1F15}.DLL (Debug)|Win32.ActiveCfg = DLL (Debug)|Win32
+		{57EC3D7F-0157-44F5-B562-3C93DFAF1F15}.DLL (Debug)|Win32.Build.0 = DLL (Debug)|Win32
+		{57EC3D7F-0157-44F5-B562-3C93DFAF1F15}.DLL (Release)|Win32.ActiveCfg = DLL (Release)|Win32
+		{57EC3D7F-0157-44F5-B562-3C93DFAF1F15}.DLL (Release)|Win32.Build.0 = DLL (Release)|Win32
+		{57EC3D7F-0157-44F5-B562-3C93DFAF1F15}.LIB (Debug)|Win32.ActiveCfg = LIB (Debug)|Win32
+		{57EC3D7F-0157-44F5-B562-3C93DFAF1F15}.LIB (Debug)|Win32.Build.0 = LIB (Debug)|Win32
+		{57EC3D7F-0157-44F5-B562-3C93DFAF1F15}.LIB (Release)|Win32.ActiveCfg = LIB (Release)|Win32
+		{57EC3D7F-0157-44F5-B562-3C93DFAF1F15}.LIB (Release)|Win32.Build.0 = LIB (Release)|Win32
+		{122D338D-734B-4E4F-8DAA-78C22446E345}.DLL (Debug)|Win32.ActiveCfg = DLL (Debug)|Win32
+		{122D338D-734B-4E4F-8DAA-78C22446E345}.DLL (Debug)|Win32.Build.0 = DLL (Debug)|Win32
+		{122D338D-734B-4E4F-8DAA-78C22446E345}.DLL (Release)|Win32.ActiveCfg = DLL (Release)|Win32
+		{122D338D-734B-4E4F-8DAA-78C22446E345}.DLL (Release)|Win32.Build.0 = DLL (Release)|Win32
+		{122D338D-734B-4E4F-8DAA-78C22446E345}.LIB (Debug)|Win32.ActiveCfg = LIB (Debug)|Win32
+		{122D338D-734B-4E4F-8DAA-78C22446E345}.LIB (Debug)|Win32.Build.0 = LIB (Debug)|Win32
+		{122D338D-734B-4E4F-8DAA-78C22446E345}.LIB (Release)|Win32.ActiveCfg = LIB (Release)|Win32
+		{122D338D-734B-4E4F-8DAA-78C22446E345}.LIB (Release)|Win32.Build.0 = LIB (Release)|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
