@@ -634,6 +634,7 @@ DISTCLEANFILES = \
 
 EXTRA_DIST = \
 	LICENSE.GPL \
+	SoWin.pc.in \
 	cfg/sowin.m4 \
 	cfg/gendsp.pl.in \
 	cfg/wrapmsvc.exe \
