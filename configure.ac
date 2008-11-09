@@ -515,6 +515,7 @@ SIM_AC_MSVC_DSP_SETUP([SOWIN], [SoWin], [sowin], [-I$sowin_build_dir/src -I$sowi
 
 AC_OUTPUT([
 	sowin-$CONFIG.cfg:src/Inventor/Win/common/sogui.cfg.in
+	SoWin.pc
 	Makefile
 	src/Makefile
 	src/Ivf/Makefile
