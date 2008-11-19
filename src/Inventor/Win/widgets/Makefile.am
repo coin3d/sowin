@@ -68,7 +68,7 @@ widgets.lst: Makefile $(widgets_lst_OBJECTS)
 # header installation
 
 SoWinWidgetsincdir = $(includedir)/Inventor/Win/widgets
-SoWinWidgetsinc_HEADERS = 
+SoWinWidgetsinc_HEADERS = SoWinBitmapButton.h 
 nodist_SoWinWidgetsinc_HEADERS = SoWinPopupMenu.h
 
 install-SoWinWidgetsincHEADERS: $(SoWinWidgetsinc_HEADERS)

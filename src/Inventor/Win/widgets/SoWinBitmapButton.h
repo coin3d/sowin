@@ -24,10 +24,6 @@
  *
 \**************************************************************************/
 
-#ifndef SOWIN_INTERNAL
-#error this is a private header file
-#endif /* !SOWIN_INTERNAL */
-
 #include <windows.h>
 
 #include <Inventor/SbBasic.h>

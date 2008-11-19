@@ -674,7 +674,10 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 ############################################################################
 # header installation
 SoWinincdir = $(includedir)/Inventor/Win
-SoWininc_HEADERS = 
+SoWininc_HEADERS = \
+	SoWinDef.h \
+	SoWinBeginStrict.h \
+	SoWinEndStrict.h
 
 nodist_SoWininc_HEADERS = \
 	SoWin.h \

@@ -636,7 +636,7 @@ nodist_widgets_lst_SOURCES = \
 ############################################################################
 # header installation
 SoWinWidgetsincdir = $(includedir)/Inventor/Win/widgets
-SoWinWidgetsinc_HEADERS = 
+SoWinWidgetsinc_HEADERS = SoWinBitmapButton.h 
 nodist_SoWinWidgetsinc_HEADERS = SoWinPopupMenu.h
 subdir = src/Inventor/Win/widgets
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
