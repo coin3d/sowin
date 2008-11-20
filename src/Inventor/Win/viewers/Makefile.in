@@ -640,7 +640,9 @@ nodist_viewers_lst_SOURCES = \
 ############################################################################
 # header installation
 SoWinViewersincdir = $(includedir)/Inventor/Win/viewers
-SoWinViewersinc_HEADERS = 
+SoWinViewersinc_HEADERS = \
+	../widgets/SoWinBitmapButton.h \
+	SoWinViewerResource.h
 
 nodist_SoWinViewersinc_HEADERS = \
 	SoWinViewer.h \

@@ -29,8 +29,6 @@
 #include <Inventor/SbBasic.h>
 #include <Inventor/Win/SoWinBasic.h>
 
-class SoWinFullViewer;
-
 // *************************************************************************
 
 class SOWIN_DLL_API SoWinBitmapButton {

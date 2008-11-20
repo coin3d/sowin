@@ -71,7 +71,9 @@ viewers.lst: Makefile $(viewers_lst_OBJECTS)
 # header installation
 
 SoWinViewersincdir = $(includedir)/Inventor/Win/viewers
-SoWinViewersinc_HEADERS =
+SoWinViewersinc_HEADERS = \
+	../widgets/SoWinBitmapButton.h \
+	SoWinViewerResource.h
 
 nodist_SoWinViewersinc_HEADERS = \
 	SoWinViewer.h \
