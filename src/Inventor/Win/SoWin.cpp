@@ -190,12 +190,10 @@
 #include <limits.h>
 #include <Inventor/SbTime.h>
 #include <Inventor/SoDB.h>
-#include <Inventor/SoInteraction.h>
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/errors/SoReadError.h>
 #include <Inventor/errors/SoMemoryError.h>
-#include <Inventor/nodekits/SoNodeKit.h>
 
 #include <Inventor/Win/Win32API.h>
 #include <sowindefs.h> // SOWIN_STUB
@@ -338,11 +336,7 @@ SoWin::init(int & argc, char ** argv,
 void
 SoWin::init(HWND toplevelwidget)
 {
-  SoDB::init();
-  SoNodeKit::init();
-  SoInteraction::init();
-
-  SoAny::init();
+  SoGuiP::commonInit();
 
   // FIXME: should set on all! SoReadError will just disappear with
   // this.. 20050714 mortene.
@@ -409,8 +403,10 @@ SoWin::exitMainLoop(void)
 void
 SoWin::done(void)
 {
-  // FIXME: should clean up all resources stlil dangling
-  // about. 20020624 mortene.
+  SoGuiP::commonCleanup();
+
+  // FIXME: should clean up *all* resources still dangling
+  // about. -mortene.
 }
 
 /*!
