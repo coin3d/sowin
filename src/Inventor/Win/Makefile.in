@@ -676,6 +676,8 @@ sowin@SOWIN_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 SoWinincdir = $(includedir)/Inventor/Win
 SoWininc_HEADERS = \
 	SoWinDef.h \
+	SoWinRes.h \
+	SoWinResource.h \
 	SoWinBeginStrict.h \
 	SoWinEndStrict.h
 
