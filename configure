@@ -19522,6 +19522,15 @@ echo "${ECHO_T}no" >&6
 fi
 
 
+# **************************************************************************
+# Misc set-up.
+
+if $SOWIN_STATIC; then :; else
+  # Functions from the gdi32.lib and user32.lib libraries are used.
+  LIBS="$LIBS -lgdi32 -luser32"
+fi
+SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lgdi32 -luser32"
+
 # *******************************************************************
 # Instead of getenv() on most Win32 platforms (not Windows CE).
 
@@ -19599,7 +19608,7 @@ cat >>conftest.$ac_ext <<_ACEOF
 int
 main ()
 {
-(void)SetWindowLongPtr(0, NULL, 0); (void)GetWindowLongPtr(0, 0);
+(void)SetWindowLongPtr(0, 0, 0); (void)GetWindowLongPtr(0, 0);
   ;
   return 0;
 }
@@ -22935,15 +22944,6 @@ fi
 
 LDFLAGS=$sim_ac_configure_save_ldflags
 LIBS=$sim_ac_configure_save_libs
-
-# **************************************************************************
-# Misc set-up.
-
-if $SOWIN_STATIC; then :; else
-  # Functions from the gdi32.lib and user32.lib libraries are used.
-  LIBS="$LIBS -lgdi32 -luser32"
-fi
-SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lgdi32 -luser32"
 
 # **************************************************************************
 
