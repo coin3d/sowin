@@ -644,6 +644,7 @@ SoWinViewersinc_HEADERS = \
 	../widgets/SoWinBitmapButton.h \
 	SoWinViewerResource.h
 
+
 nodist_SoWinViewersinc_HEADERS = \
 	SoWinViewer.h \
 	SoWinConstrainedViewer.h \
@@ -1095,7 +1096,7 @@ top_distdir = ../../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/./../common
+	$(mkinstalldirs) $(distdir)/../widgets $(distdir)/./../common
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

@@ -681,6 +681,7 @@ SoWininc_HEADERS = \
 	SoWinBeginStrict.h \
 	SoWinEndStrict.h
 
+
 nodist_SoWininc_HEADERS = \
 	SoWin.h \
 	SoWinBasic.h \

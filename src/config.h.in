@@ -33,6 +33,9 @@
 /* Define if the Ivf API is to be included in the SoWin library */
 #undef HAVE_IVF
 
+/* Define if LONG_PTR typedef / define is available */
+#undef HAVE_LONG_PTR_TYPE
+
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
@@ -44,6 +47,9 @@
 
 /* Define to 1 if you have the <OpenGL/gl.h> header file. */
 #undef HAVE_OPENGL_GL_H
+
+/* Define to use SetWindowLongPtr() instead of SetWindowLong() */
+#undef HAVE_SETWINDOWLONGPTR
 
 /* Define to enable use of Inventor feature */
 #undef HAVE_SOCAMERA_SETSTEREOMODE
