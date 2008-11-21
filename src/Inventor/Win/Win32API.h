@@ -57,12 +57,17 @@
 #define ULONG_PTR DWORD
 #endif // !HAVE_LONG_PTR_TYPE
 
-// this define for Set/GetClassLongPtr() is missing from MSVC 6
-// SDK. its value matches the GCL_HCURSOR define from the
-// superseded Set/GetClassLong().
+// these defines for Set/GetWindowLongPtr() and Set/GetClassLongPtr()
+// which we use, is missing from MSVC 6 SDK.
 #ifndef GLCP_HCURSOR
 #define GCLP_HCURSOR (-12)
 #endif // ! GLCP_HCURSOR
+#ifndef GWLP_WNDPROC
+#define GWLP_WNDPROC (-4)
+#endif // ! GWLP_WNDPROC
+#ifndef GWLP_USERDATA
+#define GWLP_USERDATA (-21)
+#endif // ! GWLP_USERDATA
 
 // *************************************************************************
 
