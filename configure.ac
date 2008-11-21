@@ -158,6 +158,15 @@ SIM_AC_CHECK_HEADER_TLHELP32_H
 
 SIM_AC_CHECK_WIN32_API
 
+# **************************************************************************
+# Misc set-up.
+
+if $SOWIN_STATIC; then :; else
+  # Functions from the gdi32.lib and user32.lib libraries are used.
+  LIBS="$LIBS -lgdi32 -luser32"
+fi
+SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lgdi32 -luser32"
+
 # *******************************************************************
 # Instead of getenv() on most Win32 platforms (not Windows CE).
 
@@ -176,7 +185,7 @@ AC_TRY_LINK([#include <windows.h>],
 
 AC_MSG_CHECKING([for SetWindowLongPtr() function])
 AC_TRY_LINK([#include <windows.h>],
-            [(void)SetWindowLongPtr(0, NULL, 0); (void)GetWindowLongPtr(0, 0);],
+            [(void)SetWindowLongPtr(0, 0, 0); (void)GetWindowLongPtr(0, 0);],
   [AC_MSG_RESULT([yes])
   AC_DEFINE([HAVE_SETWINDOWLONGPTR], 1, [Define to use SetWindowLongPtr() instead of SetWindowLong()])],
   [AC_MSG_RESULT([no])])
@@ -413,15 +422,6 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
 
 LDFLAGS=$sim_ac_configure_save_ldflags
 LIBS=$sim_ac_configure_save_libs
-
-# **************************************************************************
-# Misc set-up.
-
-if $SOWIN_STATIC; then :; else
-  # Functions from the gdi32.lib and user32.lib libraries are used.
-  LIBS="$LIBS -lgdi32 -luser32"
-fi
-SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lgdi32 -luser32"
 
 # **************************************************************************
 
