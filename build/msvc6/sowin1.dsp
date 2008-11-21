@@ -6268,8 +6268,19 @@ SOURCE=src\Inventor\Win\nodes\SoGuiColorEditor.h
 SOURCE=src\Inventor\Win\nodes\SoGuiMaterialEditor.h
 # End Source File
 # End Group
+# Begin Group "Inventor\Win\viewers\..\widgets headers"
+# Set Default_Filter "h"
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\viewers\..\widgets\SoWinBitmapButton.h
+# End Source File
+# End Group
 # Begin Group "Inventor\Win\viewers headers"
 # Set Default_Filter "h"
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\viewers\SoWinViewerResource.h
+# End Source File
 # Begin Source File
 
 SOURCE=src\Inventor\Win\viewers\SoWinViewer.h
@@ -6304,6 +6315,26 @@ SOURCE=src\Inventor\Win\widgets\SoWinPopupMenu.h
 # End Group
 # Begin Group "Inventor\Win headers"
 # Set Default_Filter "h"
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\SoWinDef.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\SoWinRes.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\SoWinResource.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\SoWinBeginStrict.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\SoWinEndStrict.h
+# End Source File
 # Begin Source File
 
 SOURCE=src\Inventor\Win\SoWin.h
@@ -6624,12 +6655,6 @@ SOURCE=..\..\src\Inventor\Win\viewers\SoWinPlaneViewerP.h
 # Begin Group "widgets local includes"
 
 # PROP Default_Filter "h;ic;icc"
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\widgets\SoWinBitmapButton.h
-
-# PROP Exclude_From_Build 1
-# End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\widgets\SoWinThumbWheel.h

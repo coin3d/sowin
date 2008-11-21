@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="sowin1"
-	ProjectGUID="{85753479-2042-467C-AFE6-02260341FDF6}"
+	ProjectGUID="{DD7DEE94-8146-40D8-A97E-7ABE5876E90F}"
 	TargetFrameworkVersion="0"
 	>
 	<Platforms>
@@ -7960,6 +7960,14 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="Inventor\Win\viewers\..\widgets headers"
+				>
+				<File
+					RelativePath="..\..\src\Inventor\Win\widgets\SoWinBitmapButton.h"
+					>
+				</File>
+			</Filter>
+			<Filter
 				Name="Inventor\Win\viewers headers"
 				>
 				<File
@@ -7986,6 +7994,10 @@
 					RelativePath="src\Inventor\Win\viewers\SoWinViewer.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\src\Inventor\Win\viewers\SoWinViewerResource.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Inventor\Win\widgets headers"
@@ -8007,6 +8019,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\Inventor\Win\SoWinBeginStrict.h"
+					>
+				</File>
+				<File
 					RelativePath="src\Inventor\Win\SoWinColorEditor.h"
 					>
 				</File>
@@ -8016,6 +8032,14 @@
 				</File>
 				<File
 					RelativePath="src\Inventor\Win\SoWinCursor.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\Inventor\Win\SoWinDef.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\Inventor\Win\SoWinEndStrict.h"
 					>
 				</File>
 				<File
@@ -8032,6 +8056,14 @@
 				</File>
 				<File
 					RelativePath="src\Inventor\Win\SoWinRenderArea.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\Inventor\Win\SoWinRes.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\Inventor\Win\SoWinResource.h"
 					>
 				</File>
 			</Filter>
@@ -9514,42 +9546,6 @@
 				Name="widgets local includes"
 				Filter="h;ic;icc"
 				>
-				<File
-					RelativePath="..\..\src\Inventor\Win\widgets\SoWinBitmapButton.h"
-					>
-					<FileConfiguration
-						Name="DLL (Release)|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Release)|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DLL (Debug)|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Debug)|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
 				<File
 					RelativePath="..\..\src\Inventor\Win\widgets\SoWinThumbWheel.h"
 					>
