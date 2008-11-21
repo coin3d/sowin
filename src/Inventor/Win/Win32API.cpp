@@ -29,14 +29,6 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
-#ifdef HAVE_CRTDBG_H
-#include <crtdbg.h>
-#endif // HAVE_CRTDBG_H
-
-#ifndef _ASSERT 
-#define _ASSERT assert
-#endif // !_ASSERT
-
 // Returns the string and error code describing the cause of an
 // internal Win32 API error.
 SbString
@@ -100,7 +92,7 @@ Win32::CreateWindow_(LPCTSTR lpClassName,  // pointer to registered class name
                              // FIXME: ugly cast, get rid of it. 20020315 mortene.
                              (HINSTANCE__ *)hInstance, lpParam);
   if (hwnd == NULL) { Win32::showLastErr(); }
-  _ASSERT((hwnd != NULL) && ::IsWindow(hwnd) && "CreateWindow() failed -- investigate");
+  assert((hwnd != NULL) && ::IsWindow(hwnd) && "CreateWindow() failed -- investigate");
   return hwnd;
 }
 
@@ -124,7 +116,7 @@ Win32::CreateWindowEx_(DWORD dwExStyle,      // extended window style
                                // FIXME: ugly cast, get rid of it. 20020315 mortene.
                                (HINSTANCE__ *)hInstance, lpParam);
   if (hwnd == NULL) { Win32::showLastErr(); }
-  _ASSERT((hwnd != NULL) && ::IsWindow(hwnd) && "CreateWindowEx() failed -- investigate");
+  assert((hwnd != NULL) && ::IsWindow(hwnd) && "CreateWindowEx() failed -- investigate");
   return hwnd;
 }
 
@@ -139,7 +131,7 @@ Win32::MoveWindow(HWND hWnd,      // handle to window
 {
   BOOL r = ::MoveWindow(hWnd, X, Y, nWidth, nHeight, bRepaint);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "MoveWindow() failed -- investigate");
+  assert(r && "MoveWindow() failed -- investigate");
 }
 
 void
@@ -154,7 +146,7 @@ Win32::EnableWindow(HWND hWnd,     // handle to window
   BOOL r = ::EnableWindow(hWnd, bEnable);
   BOOL fail = (!r && bEnable) || (r && !bEnable);
   if (fail) { Win32::showLastErr(); }
-  _ASSERT(!fail && "EnableWindow() failed -- investigate");
+  assert(!fail && "EnableWindow() failed -- investigate");
 }
 
 void
@@ -166,7 +158,7 @@ Win32::GetTextExtentPoint(HDC hdc,           // handle to device context
 {
   BOOL r = ::GetTextExtentPoint(hdc, lpString, cbString, lpSize);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "GetTextExtentPoint() failed -- investigate");
+  assert(r && "GetTextExtentPoint() failed -- investigate");
 }
   
 void
@@ -184,7 +176,7 @@ Win32::BitBlt(HDC hdcDest, // handle to destination device context
   BOOL r = ::BitBlt(hdcDest, nXDest, nYDest, nWidth, nHeight,
                      hdcSrc, nXSrc, nYSrc, dwRop);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "BitBlt() failed -- investigate");
+  assert(r && "BitBlt() failed -- investigate");
 }
 
 HGDIOBJ
@@ -194,7 +186,7 @@ Win32::SelectObject(HDC hdc,          // handle to device context
 {
   HGDIOBJ o = ::SelectObject(hdc, hgdiobj);
   BOOL fail = ((o == NULL) || (o == HGDI_ERROR));
-  _ASSERT(!fail && "SelectObject() failed -- investigate");
+  assert(!fail && "SelectObject() failed -- investigate");
   return o;
 }
 
@@ -204,7 +196,7 @@ Win32::DeleteObject(HGDIOBJ hObject   // handle to graphic object
 {
   BOOL r = ::DeleteObject(hObject);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "DeleteObject() failed -- investigate");
+  assert(r && "DeleteObject() failed -- investigate");
 }
 
 HDC
@@ -213,7 +205,7 @@ Win32::GetDC(HWND hWnd   // handle to a window
 {
   HDC hdc = ::GetDC(hWnd);
   if (!hdc) { Win32::showLastErr(); }
-  _ASSERT(hdc && "GetDC() failed -- investigate");
+  assert(hdc && "GetDC() failed -- investigate");
   return hdc;
 }
 
@@ -223,7 +215,7 @@ Win32::DeleteDC(HDC hdc   // handle to device context
 {
   BOOL r = ::DeleteDC(hdc);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "DeleteDC() failed -- investigate");
+  assert(r && "DeleteDC() failed -- investigate");
 }
 
 void
@@ -233,7 +225,7 @@ Win32::ReleaseDC(HWND hWnd,  // handle to window
 {
   int r = ::ReleaseDC(hWnd, hDC);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "ReleaseDC() failed -- investigate");
+  assert(r && "ReleaseDC() failed -- investigate");
 }
   
 HDC
@@ -243,7 +235,7 @@ Win32::BeginPaint(HWND hwnd,  // handle to window
 {
   HDC hdc = ::BeginPaint(hwnd, lpPaint);
   if (!hdc) { Win32::showLastErr(); }
-  _ASSERT(hdc && "BeginPaint() failed -- investigate");
+  assert(hdc && "BeginPaint() failed -- investigate");
   return hdc;
 }
 
@@ -254,7 +246,7 @@ Win32::EndPaint(HWND hWnd,  // handle to window
 {
   BOOL r = ::EndPaint(hWnd, lpPaint);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "EndPaint() failed -- investigate");
+  assert(r && "EndPaint() failed -- investigate");
 }
 void
 Win32::SwapBuffers(HDC hdc  // device context whose buffers get swapped
@@ -262,7 +254,7 @@ Win32::SwapBuffers(HDC hdc  // device context whose buffers get swapped
 {
   BOOL r = ::SwapBuffers(hdc);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "SwapBuffers() failed -- investigate");
+  assert(r && "SwapBuffers() failed -- investigate");
 }
 
 ATOM
@@ -272,7 +264,7 @@ Win32::RegisterClass(CONST WNDCLASS *lpWndClass   // address of structure with c
 {
   ATOM a = ::RegisterClass(lpWndClass);
   if (!a) { Win32::showLastErr(); }
-  _ASSERT(a && "RegisterClass() failed -- investigate");
+  assert(a && "RegisterClass() failed -- investigate");
   return a;
 }
 
@@ -283,7 +275,7 @@ Win32::UnregisterClass(LPCTSTR lpClassName,  // address of class name string
 {
   BOOL r = ::UnregisterClass(lpClassName, hInstance);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "UnregisterClass() failed -- investigate");
+  assert(r && "UnregisterClass() failed -- investigate");
 }
 
 void
@@ -292,7 +284,7 @@ Win32::DestroyWindow(HWND hWnd      // handle to window or control
 {
   BOOL r = ::DestroyWindow(hWnd);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "DestroyWindow() failed -- investigate");
+  assert(r && "DestroyWindow() failed -- investigate");
 }
 
 void
@@ -302,7 +294,7 @@ Win32::SetWindowText(HWND hWnd,       // handle to window or control
 {
   BOOL r = ::SetWindowText(hWnd, lpString);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "SetWindowText() failed -- investigate");
+  assert(r && "SetWindowText() failed -- investigate");
 }
 
 void
@@ -313,7 +305,7 @@ Win32::InvalidateRect(HWND hWnd,          // handle of window with changed updat
 {
   BOOL r = ::InvalidateRect(hWnd, lpRect, bErase);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "InvalidateRect() failed -- investigate");
+  assert(r && "InvalidateRect() failed -- investigate");
 }
 
 void
@@ -323,7 +315,7 @@ Win32::GetWindowRect(HWND hWnd,      // handle to window
 {
   BOOL r = ::GetWindowRect(hWnd, lpRect);
   if (!r) { Win32::showLastErr(); }  
-  _ASSERT(r && "GetWindowRect() failed -- investigate");
+  assert(r && "GetWindowRect() failed -- investigate");
 }
 
 void
@@ -333,7 +325,7 @@ Win32::GetClientRect(HWND hWnd,      // handle to window
 {
   BOOL r = ::GetClientRect(hWnd, lpRect);
   if (!r) { Win32::showLastErr(); }  
-  _ASSERT(r && "GetClientRect() failed -- investigate");
+  assert(r && "GetClientRect() failed -- investigate");
 }
 
 LONG_PTR
@@ -346,7 +338,7 @@ Win32::SetWindowLong(HWND hWnd,       // handle of window
   LONG_PTR l = ::SetWindowLongPtr(hWnd, nIndex, dwNewLong);
   BOOL failed = l==0 && ::GetLastError()!=0;
   if (failed) { Win32::showLastErr(); }  
-  _ASSERT(!failed && "SetWindowLong() failed -- investigate");
+  assert(!failed && "SetWindowLong() failed -- investigate");
   return l;
 }
 
@@ -359,7 +351,7 @@ Win32::GetWindowLong(HWND hWnd,       // handle of window
   LONG_PTR l = ::GetWindowLongPtr(hWnd, nIndex);
   BOOL failed = l==0 && ::GetLastError()!=0;
   if (failed) { Win32::showLastErr(); }  
-  _ASSERT(!failed && "GetWindowLong() failed -- investigate");
+  assert(!failed && "GetWindowLong() failed -- investigate");
   return l;
 }
 
@@ -376,7 +368,7 @@ Win32::SetWindowPos(HWND hWnd,             // handle to window
 {
   BOOL r = ::SetWindowPos(hWnd, hWndInsertAfter, X, Y, cx, cy, uFlags);
   if (!r) { Win32::showLastErr(); }  
-  _ASSERT(r && "SetWindowPos() failed -- investigate");
+  assert(r && "SetWindowPos() failed -- investigate");
 }
 
 HHOOK
@@ -388,7 +380,7 @@ Win32::SetWindowsHookEx(int idHook,        // type of hook to install
 {
   HHOOK h = ::SetWindowsHookEx(idHook, lpfn, hMod, dwThreadId);
   if (!h) { Win32::showLastErr(); }
-  _ASSERT(h && "SetWindowsHookEx() failed -- investigate");
+  assert(h && "SetWindowsHookEx() failed -- investigate");
   return h;
 }
 
@@ -398,7 +390,7 @@ Win32::UnhookWindowsHookEx(HHOOK hhk // handle to hook procedure to remove
 {
   BOOL r = ::UnhookWindowsHookEx(hhk);
   if (!r) { Win32::showLastErr(); }
-  _ASSERT(r && "UnhookWindowsHookEx() failed -- investigate");
+  assert(r && "UnhookWindowsHookEx() failed -- investigate");
 }
 
 void
@@ -412,7 +404,7 @@ Win32::ModifyMenu(HMENU hMnu,       // handle to menu
 {
   BOOL r = ::ModifyMenu(hMnu, uPosition, uFlags, uIDNewItem, lpNewItem);
   if (!r) { Win32::showLastErr(); }  
-  _ASSERT(r && "ModifyMenu() failed -- investigate");
+  assert(r && "ModifyMenu() failed -- investigate");
 }
 
 void
@@ -424,7 +416,7 @@ Win32::EnableMenuItem(HMENU hMenu,         // handle to menu
   BOOL r = ::EnableMenuItem(hMenu, uIDEnableItem, uEnable);
   BOOL failed = r == 0xFFFFFFFF;
   if (failed) { Win32::showLastErr(); }  
-  _ASSERT(!failed && "EnableMenuItem() failed -- investigate");
+  assert(!failed && "EnableMenuItem() failed -- investigate");
 }
 
 void
@@ -436,7 +428,7 @@ Win32::GetMenuItemInfo(HMENU hMenu,
 {
   BOOL r = ::GetMenuItemInfo(hMenu, uItem, fByPosition, lpmii);
   if (!r) { Win32::showLastErr(); }  
-  _ASSERT(r && "GetMenuItemInfo() failed -- investigate");
+  assert(r && "GetMenuItemInfo() failed -- investigate");
 }
 
 void
@@ -448,7 +440,7 @@ Win32::SetMenuItemInfo(HMENU hMenu,
 {
   BOOL r = ::SetMenuItemInfo(hMenu, uItem, fByPosition, lpmii);
   if (!r) { Win32::showLastErr(); }  
-  _ASSERT(r && "SetMenuItemInfo() failed -- investigate");
+  assert(r && "SetMenuItemInfo() failed -- investigate");
 }
 
 void
@@ -460,7 +452,7 @@ Win32::InsertMenuItem(HMENU hMenu,
 {
   BOOL r = ::InsertMenuItem(hMenu, uItem, fByPosition, lpmii);
   if (!r) { Win32::showLastErr(); }  
-  _ASSERT(r && "InsertMenuItem() failed -- investigate");
+  assert(r && "InsertMenuItem() failed -- investigate");
 }
 
 void
@@ -474,7 +466,7 @@ Win32::InsertMenu(HMENU hMenu,      // handle to menu
 {
   BOOL r = ::InsertMenu(hMenu, uPosition, uFlags, uIDNewItem, lpNewItem);
   if (!r) { Win32::showLastErr(); }  
-  _ASSERT(r && "InsertMenu() failed -- investigate");
+  assert(r && "InsertMenu() failed -- investigate");
 }
 
 void
@@ -485,7 +477,7 @@ Win32::RemoveMenu(HMENU hMenu,     // handle to menu
 {
   BOOL r = ::RemoveMenu(hMenu, uPosition, uFlags);
   if (!r) { Win32::showLastErr(); }  
-  _ASSERT(r && "RemoveMenu() failed -- investigate");
+  assert(r && "RemoveMenu() failed -- investigate");
 }
 
 DWORD
@@ -496,7 +488,7 @@ Win32::CheckMenuItem(HMENU hmenu,        // handle to menu
 {
   DWORD r = ::CheckMenuItem(hmenu, uIDCheckItem, uCheck);
   if (r==0xFFFFFFFF) { Win32::showLastErr(); }  
-  _ASSERT(r!=0xFFFFFFFF && "CheckMenuItem() failed -- investigate");
+  assert(r!=0xFFFFFFFF && "CheckMenuItem() failed -- investigate");
   return r;
 }
 
@@ -513,7 +505,7 @@ Win32::CreateCursor(HINSTANCE hInst,         // handle to application instance
   HCURSOR r = ::CreateCursor(hInst, xHotSpot, yHotSpot, nWidth, nHeight,
                              pvANDPlane, pvXORPlane);
   if (r == NULL) { Win32::showLastErr(); }  
-  _ASSERT(r != NULL && "CreateCursor() failed -- investigate");
+  assert(r != NULL && "CreateCursor() failed -- investigate");
   return r;
 }
 
@@ -524,7 +516,7 @@ Win32::LoadCursor(HINSTANCE hInstance,  // handle to application instance
 {
   HCURSOR r = ::LoadCursor(hInstance, lpCursorName);
   if (r == NULL) { Win32::showLastErr(); }  
-  _ASSERT(r != NULL && "LoadCursor() failed -- investigate");
+  assert(r != NULL && "LoadCursor() failed -- investigate");
   return r;
 }
 
@@ -535,7 +527,7 @@ Win32::ClientToScreen(HWND hWnd,       // window handle for source coordinates
 {
   BOOL r = ::ClientToScreen(hWnd, lpPoint);
   if (r == 0) { Win32::showLastErr(); }  
-  _ASSERT(r && "ClientToScreen() failed -- investigate");
+  assert(r && "ClientToScreen() failed -- investigate");
 }
 
 HMENU
@@ -543,7 +535,7 @@ Win32::CreatePopupMenu(VOID)
 {
   HMENU m = ::CreatePopupMenu();
   if (m == NULL) { Win32::showLastErr(); }  
-  _ASSERT(m && "CreatePopupMenu() failed -- investigate");
+  assert(m && "CreatePopupMenu() failed -- investigate");
   return m;
 }
 
@@ -552,7 +544,7 @@ Win32::DestroyMenu(HMENU hMenu)
 {
   BOOL r = ::DestroyMenu(hMenu);
   if (!r) { Win32::showLastErr(); }  
-  _ASSERT(r && "DestroyMenu() failed -- investigate");
+  assert(r && "DestroyMenu() failed -- investigate");
 }
 
 HWND
@@ -561,7 +553,7 @@ Win32::SetFocus(HWND hWnd)
   HWND h = ::SetFocus(hWnd);
   BOOL failed = h==NULL && ::GetLastError()!=0;
   if (failed) { Win32::showLastErr(); }  
-  _ASSERT(!failed && "SetFocus() failed -- investigate");
+  assert(!failed && "SetFocus() failed -- investigate");
   return h;
 }
 
@@ -573,7 +565,7 @@ Win32::SetTimer(HWND hWnd,
 {
   UINT_PTR id = ::SetTimer(hWnd, nIDEvent, uElapse, lpTimerFunc);
   if (id == 0) { Win32::showLastErr(); }  
-  _ASSERT(id != 0 && "SetTimer() failed -- investigate");
+  assert(id != 0 && "SetTimer() failed -- investigate");
   return id;
 }
 
@@ -582,5 +574,5 @@ Win32::KillTimer(HWND hWnd, UINT_PTR uIDEvent)
 {
   BOOL ret = ::KillTimer(hWnd, uIDEvent);
   if (ret == 0) { Win32::showLastErr(); }  
-  _ASSERT(ret != 0 && "KillTimer() failed -- investigate");
+  assert(ret != 0 && "KillTimer() failed -- investigate");
 }
