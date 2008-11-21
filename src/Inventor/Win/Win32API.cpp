@@ -25,10 +25,6 @@
 #include <stdio.h>
 #include <assert.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif // HAVE_CONFIG_H
-
 // Returns the string and error code describing the cause of an
 // internal Win32 API error.
 SbString
@@ -328,32 +324,87 @@ Win32::GetClientRect(HWND hWnd,      // handle to window
   assert(r && "GetClientRect() failed -- investigate");
 }
 
+// *************************************************************************
+
 LONG_PTR
-Win32::SetWindowLong(HWND hWnd,       // handle of window
-                     int nIndex,      // offset of value to set
-                     LONG_PTR dwNewLong   // new value
-                    )
+Win32::SetWindowLongPtr(HWND hWnd,       // handle of window
+                        int nIndex,      // offset of value to set
+                        LONG_PTR dwNewLong   // new value
+                        )
 {
   SetLastError(0);
+
+#if HAVE_SETWINDOWLONGPTR // (MSVC 6 SDK doesn't have SetWindowLongPtr())
   LONG_PTR l = ::SetWindowLongPtr(hWnd, nIndex, dwNewLong);
+#else // ! HAVE_SETWINDOWLONGPTR
+  LONG_PTR l = ::SetWindowLong(hWnd, nIndex, dwNewLong);
+#endif // ! HAVE_SETWINDOWLONGPTR
+
   BOOL failed = l==0 && ::GetLastError()!=0;
   if (failed) { Win32::showLastErr(); }  
-  assert(!failed && "SetWindowLong() failed -- investigate");
+  assert(!failed && "SetWindowLongPtr() failed -- investigate");
   return l;
 }
 
 LONG_PTR
-Win32::GetWindowLong(HWND hWnd,       // handle of window
-                     int nIndex       // offset of value to set
-                    )
+Win32::GetWindowLongPtr(HWND hWnd,       // handle of window
+                        int nIndex       // offset of value to set
+                        )
 {
   SetLastError(0);
+
+#if HAVE_SETWINDOWLONGPTR // (MSVC 6 SDK doesn't have Set/GetWindowLongPtr())
   LONG_PTR l = ::GetWindowLongPtr(hWnd, nIndex);
+#else // ! HAVE_SETWINDOWLONGPTR
+  LONG_PTR l = ::GetWindowLong(hWnd, nIndex);
+#endif // ! HAVE_SETWINDOWLONGPTR
+
   BOOL failed = l==0 && ::GetLastError()!=0;
   if (failed) { Win32::showLastErr(); }  
-  assert(!failed && "GetWindowLong() failed -- investigate");
+  assert(!failed && "GetWindowLongPtr() failed -- investigate");
   return l;
 }
+
+ULONG_PTR
+Win32::SetClassLongPtr(HWND hWnd,       // handle of window
+                       int nIndex,      // offset of value to set
+                       LONG_PTR dwNewLong   // new value
+                       )
+{
+  SetLastError(0);
+
+#if HAVE_SETWINDOWLONGPTR // (MSVC 6 SDK doesn't have SetWindowLongPtr())
+  ULONG_PTR l = ::SetClassLongPtr(hWnd, nIndex, dwNewLong);
+#else // ! HAVE_SETWINDOWLONGPTR
+  ULONG_PTR l = ::SetClassLong(hWnd, nIndex, dwNewLong);
+#endif // ! HAVE_SETWINDOWLONGPTR
+
+  BOOL failed = l==0 && ::GetLastError()!=0;
+  if (failed) { Win32::showLastErr(); }  
+  assert(!failed && "SetClassLongPtr() failed -- investigate");
+  return l;
+}
+
+ULONG_PTR
+Win32::GetClassLongPtr(HWND hWnd,       // handle of window
+                       int nIndex       // offset of value to set
+                       )
+{
+  SetLastError(0);
+
+#if HAVE_SETWINDOWLONGPTR // (MSVC 6 SDK doesn't have Set/GetWindowLongPtr())
+  ULONG_PTR l = ::GetClassLongPtr(hWnd, nIndex);
+#else // ! HAVE_SETWINDOWLONGPTR
+  ULONG_PTR l = ::GetClassLong(hWnd, nIndex);
+#endif // ! HAVE_SETWINDOWLONGPTR
+
+  BOOL failed = l==0 && ::GetLastError()!=0;
+  if (failed) { Win32::showLastErr(); }  
+  assert(!failed && "GetClassLongPtr() failed -- investigate");
+  return l;
+}
+
+// *************************************************************************
 
 void
 Win32::SetWindowPos(HWND hWnd,             // handle to window

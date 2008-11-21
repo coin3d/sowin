@@ -150,7 +150,7 @@ SoWinComponentP::frameWindowHandler(HWND window, UINT message,
                                     WPARAM wparam, LPARAM lparam)
 {
   SoWinComponent * component = (SoWinComponent *)
-    Win32::GetWindowLong(window, GWLP_USERDATA);
+    Win32::GetWindowLongPtr(window, GWLP_USERDATA);
 
   if (component) {
     PRIVATE(component)->commonEventHandler(message, wparam, lparam);
@@ -197,7 +197,7 @@ SoWinComponentP::buildFormWidget(HWND parent)
                                            NULL,
                                            NULL);
 
-  (void)Win32::SetWindowLong(parentwidget, GWLP_USERDATA, (LONG_PTR)PUBLIC(this));
+  (void)Win32::SetWindowLongPtr(parentwidget, GWLP_USERDATA, (LONG_PTR)PUBLIC(this));
 
   assert(IsWindow(parentwidget));
   return parentwidget;
@@ -395,27 +395,30 @@ SoWinComponent::setFullScreen(const SbBool enable)
   // in fullscreen or not. 20030806 frodo.
   if (enable) {
     // Go to fullscreen. We must change the style to get rid of the title bar and the border
-    Win32::SetWindowLong(hwnd, GWL_STYLE, WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
+    Win32::SetWindowLongPtr(hwnd, GWL_STYLE, WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
+    // FIXME: no error handling, argh. should wrap in the Win32 class.
+    // -mortene.
     ShowWindow(hwnd,SW_MAXIMIZE);
-
   }
   else {
     // Restore old window position and size.
+    // FIXME: no error handling, argh. should wrap in the Win32 class.
+    // -mortene.
     ShowWindow(hwnd,SW_RESTORE);
     // Restore old window style
-    Win32::SetWindowLong(hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW |
-                                          WS_VISIBLE |
-                                          WS_CLIPSIBLINGS |
-                                          WS_CLIPCHILDREN);
-
+    Win32::SetWindowLongPtr(hwnd, GWL_STYLE,
+                            WS_OVERLAPPEDWINDOW | WS_VISIBLE |
+                            WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
+    
     // Certain window data such as style is cached, so we must call
     // SetWindowPos() in order for the changes to take effect, 20030806 frodo.
     RECT rect;
     Win32::GetWindowRect(hwnd, &rect);
+    // FIXME: no error handling, argh. should wrap in the Win32 class.
+    // -mortene.
     SetWindowPos(hwnd,HWND_TOPMOST, rect.left, rect.top,
                                     rect.right - rect.left, rect.bottom - rect.top,
                                     SWP_FRAMECHANGED);
-
   }
 
   return TRUE;
@@ -432,6 +435,8 @@ SoWinComponent::isFullScreen(void) const
 SbBool
 SoWinComponent::isVisible(void)
 {
+  // FIXME: no error handling, argh. should wrap in the Win32 class.
+  // -mortene.
   return IsWindowVisible(PRIVATE(this)->widget);
 }
 

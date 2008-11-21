@@ -622,11 +622,12 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
   if (message == WM_CREATE) {
     CREATESTRUCT * createstruct = (CREATESTRUCT *) lparam;
     SoWinGLWidget * object = (SoWinGLWidget *)(createstruct->lpCreateParams);
-    (void)Win32::SetWindowLong(window, GWLP_USERDATA, (LONG_PTR)object);
+    (void)Win32::SetWindowLongPtr(window, GWLP_USERDATA, (LONG_PTR)object);
     return PRIVATE(object)->onCreate(window, message, wparam, lparam);
   }
 
-  SoWinGLWidget * object = (SoWinGLWidget *)Win32::GetWindowLong(window, GWLP_USERDATA);
+  SoWinGLWidget * object = (SoWinGLWidget *)
+    Win32::GetWindowLongPtr(window, GWLP_USERDATA);
 
   if (object && window == object->getNormalWidget()) {
 

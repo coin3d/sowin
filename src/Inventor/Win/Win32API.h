@@ -1,3 +1,6 @@
+#ifndef SOWIN_WIN32API_H
+#define SOWIN_WIN32API_H
+
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
@@ -21,9 +24,12 @@
  *
 \**************************************************************************/
 
-#ifndef SOWIN_WIN32API
-#define SOWIN_WIN32API
+#ifndef SOWIN_INTERNAL
+#error this is a private header file
+#endif /* !SOWIN_INTERNAL */
 
+// *************************************************************************
+// 
 // This is an internal class which wraps most of the Win32 API
 // functions we use in SoWin -- to do robust checking of return values
 // etc.
@@ -31,9 +37,34 @@
 // This way, we should be able to early detect programming errors on
 // our behalf, while still keeping the sourcecode nice and clean.
 
+// *************************************************************************
+
 #include <windows.h>
 #include <winuser.h>
 #include <Inventor/SbString.h>
+
+// *************************************************************************
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
+#ifndef HAVE_LONG_PTR_TYPE
+// FIXME: can we do better? use a 64-bit type from Coin's inttypes.h,
+// for instance? need to know more about how exactly LONG_PTR is
+// defined in the MSVS SDKs to figure this out.  -mortene.
+#define LONG_PTR LONG
+#define ULONG_PTR DWORD
+#endif // !HAVE_LONG_PTR_TYPE
+
+// this define for Set/GetClassLongPtr() is missing from MSVC 6
+// SDK. its value matches the GCL_HCURSOR define from the
+// superseded Set/GetClassLong().
+#ifndef GLCP_HCURSOR
+#define GCLP_HCURSOR (-12)
+#endif // ! GLCP_HCURSOR
+
+// *************************************************************************
 
 class Win32 {
 public:
@@ -61,8 +92,6 @@ public:
   static void InvalidateRect(HWND, CONST RECT *, BOOL);
   static void GetWindowRect(HWND, LPRECT);
   static void GetClientRect(HWND, LPRECT); 
-  static LONG SetWindowLong(HWND, int, LONG);
-  static LONG GetWindowLong(HWND, int);
   static void SetWindowPos(HWND, HWND, int, int, int, int, UINT);
   static HHOOK SetWindowsHookEx(int, HOOKPROC, HINSTANCE, DWORD);
   static void UnhookWindowsHookEx(HHOOK);
@@ -84,6 +113,11 @@ public:
   static UINT_PTR SetTimer(HWND, UINT_PTR, UINT, TIMERPROC);
   static void KillTimer(HWND, UINT_PTR);
 
+  static LONG_PTR SetWindowLongPtr(HWND, int, LONG_PTR);
+  static LONG_PTR GetWindowLongPtr(HWND, int);
+  static ULONG_PTR SetClassLongPtr(HWND, int, LONG_PTR);
+  static ULONG_PTR GetClassLongPtr(HWND, int);
+
   // Internal and external interface to GetLastError() + FormatMessage().
   static SbString getWin32Err(DWORD & lasterr);
   
@@ -91,4 +125,6 @@ private:
   static void showLastErr(void);
 };
 
-#endif // SOWIN_WIN32API
+// *************************************************************************
+
+#endif // ! SOWIN_WIN32API_H

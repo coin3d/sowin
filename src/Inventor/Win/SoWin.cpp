@@ -361,8 +361,9 @@ SoWin::init(HWND toplevelwidget)
   }
 
   if (SoWinP::useParentEventHandler) {
-    SoWinP::parentEventHandler = (WNDPROC) Win32::GetWindowLong(toplevelwidget, GWLP_WNDPROC);
-    (void)Win32::SetWindowLong(toplevelwidget, GWLP_WNDPROC, (LONG_PTR) SoWinP::eventHandler);
+    SoWinP::parentEventHandler = (WNDPROC)
+      Win32::GetWindowLongPtr(toplevelwidget, GWLP_WNDPROC);
+    (void)Win32::SetWindowLongPtr(toplevelwidget, GWLP_WNDPROC, (LONG_PTR) SoWinP::eventHandler);
   }
 }
 
@@ -509,12 +510,11 @@ SoWin::createSimpleErrorDialog(HWND const widget,
 HWND
 SoWin::getShellWidget(HWND hwnd)
 {
-  LONG_PTR style;
   HWND parent = hwnd;
   
   do {
     hwnd = parent;
-    style = Win32::GetWindowLong(hwnd, GWL_STYLE);
+    LONG_PTR style = Win32::GetWindowLongPtr(hwnd, GWL_STYLE);
     // FIXME: this check seems bogus. 20020521 mortene.
     if (style & WS_OVERLAPPEDWINDOW) break;
     parent = GetParent(hwnd);

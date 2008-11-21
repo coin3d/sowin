@@ -53,8 +53,8 @@ public:
     // Note: We need to make sure the button_proc() is not called
     // after the destructor has been called. 2004-01-21 thammer.
     if ( (this->buttonwindow) && IsWindow(this->buttonwindow) ) {
-      Win32::SetWindowLong(this->buttonwindow, GWLP_WNDPROC,
-                           (LONG_PTR)this->prevwndfunc);
+      Win32::SetWindowLongPtr(this->buttonwindow, GWLP_WNDPROC,
+                              (LONG_PTR)this->prevwndfunc);
       this->buttonwindow = NULL;
     }
 
@@ -199,7 +199,7 @@ LRESULT CALLBACK
 SoWinBitmapButtonP::button_proc(HWND hwnd, UINT msg,
                                 WPARAM wparam, LPARAM lparam)
 {
-  LONG_PTR l = Win32::GetWindowLong(hwnd, GWLP_USERDATA);
+  LONG_PTR l = Win32::GetWindowLongPtr(hwnd, GWLP_USERDATA);
   SoWinBitmapButtonP * that = (SoWinBitmapButtonP *)l;
 
   if (that->clickproc) {
@@ -241,9 +241,10 @@ SoWinBitmapButtonP::buildWidget(HWND parent, RECT rect)
                          NULL); // lpParam (window-creation data)
 
   this->prevwndfunc = (WNDPROC)
-    Win32::SetWindowLong(this->buttonwindow, GWLP_WNDPROC,
-                         (LONG_PTR)SoWinBitmapButtonP::button_proc);
-  (void)Win32::SetWindowLong(this->buttonwindow, GWLP_USERDATA, (LONG_PTR)this);
+    Win32::SetWindowLongPtr(this->buttonwindow, GWLP_WNDPROC,
+                            (LONG_PTR)SoWinBitmapButtonP::button_proc);
+  (void)Win32::SetWindowLongPtr(this->buttonwindow, GWLP_USERDATA,
+                                (LONG_PTR)this);
 
   return this->buttonwindow;
 }
@@ -257,7 +258,7 @@ SoWinBitmapButton::setEnabled(SbBool enable)
 SbBool
 SoWinBitmapButton::isEnabled(void) const
 {
-  return (! (Win32::GetWindowLong(PRIVATE(this)->buttonwindow, GWL_STYLE) & WS_DISABLED));
+  return (! (Win32::GetWindowLongPtr(PRIVATE(this)->buttonwindow, GWL_STYLE) & WS_DISABLED));
 }
 
 void

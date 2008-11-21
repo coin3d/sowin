@@ -320,18 +320,7 @@ SoWinFullViewer::buildWidget(HWND parent)
   // SoWinFullViewerP::systemEventHook() to work even when the canvas
   // has not grabbed the mouse.
   //
-  // FIXME: the following function has really superseded the
-  // SetClassLong() we use below, but it is not in MSVC v6's SDK.
-  //
-  //   SetClassLongPtr(this->getGLWidget(), GCLP_HCURSOR, 0);
-  //
-  // The better way to fix it than to just fall back would be to have
-  // a configure-check for the availability of SetClassLongPtr() and
-  // use that if available.  -mortene.
-  (void)SetClassLong(this->getGLWidget(), GCL_HCURSOR, 0);
-  // FIXME: also, we should integrate SetClassLong()/SetClassLongPtr()
-  // into the Win32 API class wrapper, to more conveniently handle
-  // errors -- which we just ignore for now.  -mortene.
+  (void)Win32::SetClassLongPtr(this->getGLWidget(), GCLP_HCURSOR, 0);
   
   if (PRIVATE(this)->menuenabled) { this->buildPopupMenu(); }
   if (PRIVATE(this)->decorations) { this->buildDecoration(parent); }
