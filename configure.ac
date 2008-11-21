@@ -169,6 +169,26 @@ AC_TRY_LINK([#include <windows.h>],
   [AC_MSG_RESULT([no])])
 
 # *******************************************************************
+# This function supersedes SetWindowLong() and is recommended for
+# 64-bit compatibility, but is not part of the MSVC 6 SDK.
+#
+# The LONG_PTR type is not available from MSVC 6 either.
+
+AC_MSG_CHECKING([for SetWindowLongPtr() function])
+AC_TRY_LINK([#include <windows.h>],
+            [(void)SetWindowLongPtr(0, NULL, 0); (void)GetWindowLongPtr(0, 0);],
+  [AC_MSG_RESULT([yes])
+  AC_DEFINE([HAVE_SETWINDOWLONGPTR], 1, [Define to use SetWindowLongPtr() instead of SetWindowLong()])],
+  [AC_MSG_RESULT([no])])
+
+AC_MSG_CHECKING([for LONG_PTR type])
+AC_TRY_COMPILE([#include <windows.h>],
+               [LONG_PTR tjobing;],
+  [AC_MSG_RESULT([yes])
+  AC_DEFINE([HAVE_LONG_PTR_TYPE], 1, [Define if LONG_PTR typedef / define is available])],
+  [AC_MSG_RESULT([no])])
+
+# *******************************************************************
 # Win32 LoadLibrary() and friends available? (Used for Win32-specific
 # debugging code).
 
