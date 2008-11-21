@@ -11,7 +11,7 @@ rm -f ${project}.dsp ${project}.dsw ${project}.vcproj ${project}.sln \
       ${project}_install.vcproj ${project}_install.sln \
       ${project}_uninstall.dsp ${project}_uninstall.dsw \
       ${project}_uninstall.vcproj ${project}_uninstall.sln \
-      ../misc/install-headers.bat ../misc/uninstall-headers.bat
+      install-headers.bat uninstall-headers.bat
 
 build_pwd=`pwd`
 build="`cygpath -w $build_pwd | sed -e 's/\\\\/\\\\\\\\/g'`"
@@ -55,6 +55,7 @@ sed \
   -e 's/$/\r/g' \
   <install-headers.bat >new.bat
 
+rm -f ../misc/install-headers.bat
 mv new.bat ../misc/install-headers.bat
 
 sed \
@@ -65,6 +66,7 @@ sed \
   -e 's/$/\r/g' \
   <uninstall-headers.bat >new.bat
 
+rm -f ../misc/uninstall-headers.bat
 mv new.bat ../misc/uninstall-headers.bat
 
 echo "Done."
