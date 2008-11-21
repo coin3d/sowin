@@ -61,8 +61,8 @@ public:
   static void InvalidateRect(HWND, CONST RECT *, BOOL);
   static void GetWindowRect(HWND, LPRECT);
   static void GetClientRect(HWND, LPRECT); 
-  static LONG_PTR SetWindowLong(HWND, int, LONG_PTR);
-  static LONG_PTR GetWindowLong(HWND, int);
+  static LONG SetWindowLong(HWND, int, LONG);
+  static LONG GetWindowLong(HWND, int);
   static void SetWindowPos(HWND, HWND, int, int, int, int, UINT);
   static HHOOK SetWindowsHookEx(int, HOOKPROC, HINSTANCE, DWORD);
   static void UnhookWindowsHookEx(HHOOK);
