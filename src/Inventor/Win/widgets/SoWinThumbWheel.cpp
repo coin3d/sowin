@@ -163,7 +163,7 @@ SoWinThumbWheel::setId(long id)
 long
 SoWinThumbWheel::id(void) const
 {
-  return Win32::GetWindowLong(this->wheelWindow, GWL_ID);
+  return Win32::GetWindowLongPtr(this->wheelWindow, GWL_ID);
 }
 
 void
