@@ -316,7 +316,10 @@ SoWinThumbWheel::windowProc(HWND window, UINT message, WPARAM wparam, LPARAM lpa
     CREATESTRUCT * createstruct;
     createstruct = (CREATESTRUCT *) lparam;
 
-    (void)Win32::SetWindowLong(window, 0, (LONG_PTR) (createstruct->lpCreateParams));
+    // FIXME: this might not be compatible with 64-bit Windows,
+    // casting a pointer to LONG -- must investigate when we're up and
+    // running on that platform.  -mortene.
+    (void)Win32::SetWindowLong(window, 0, (LONG) (createstruct->lpCreateParams));
 
     SoWinThumbWheel * object = (SoWinThumbWheel *)(createstruct->lpCreateParams);
     return object->onCreate(window, message, wparam, lparam);
@@ -456,7 +459,9 @@ SoWinThumbWheel::buildWidget(HWND parent, RECT rect, const char * name)
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
     windowclass.hbrBackground = NULL;
     windowclass.cbClsExtra = 0;
-    windowclass.cbWndExtra = sizeof(LONG_PTR);
+    // FIXME: this might not be compatible with 64-bit Windows, since
+    // we store pointers in the extra space.  -mortene.
+    windowclass.cbWndExtra = sizeof(LONG);
 
     SoWinThumbWheel::wheelWndClassAtom = Win32::RegisterClass(& windowclass);
 
