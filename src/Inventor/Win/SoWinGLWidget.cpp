@@ -207,6 +207,18 @@ SoWinGLWidget::setQuadBufferStereo(const SbBool flag)
   PRIVATE(this)->buildNormalGLWidget(PRIVATE(this)->managerWidget);
 }
 
+void 
+SoWinGLWidget::setSampleBuffers(const int numsamples)
+{
+  // FIXME: implement
+}
+
+int 
+SoWinGLWidget::getSampleBuffers() const
+{
+  // FIXME: implement
+  return 1;
+}
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
