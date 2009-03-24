@@ -446,6 +446,25 @@ AC_SUBST([LIBFLAGS], [])
 # **************************************************************************
 # Remaining setup based on platform.
 
+# check if compiler/linker handles __declspec()
+sim_ac_win32_declspec_available=false
+AC_MSG_CHECKING([for __declspec() support])
+AC_TRY_LINK(
+ [],
+ [__declspec(dllimport) int foo;],
+ [sim_ac_win32_declspec_available=true
+  AC_MSG_RESULT([available])],
+ [AC_MSG_RESULT([not available])])
+
+if $sim_ac_win32_declspec_available; then
+  if $SOWIN_STATIC; then
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOWIN_NOT_DLL"
+  else
+    CPPFLAGS="-DSOWIN_MAKE_DLL $CPPFLAGS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOWIN_DLL"
+  fi
+fi
+
 AM_CONDITIONAL(BUILD_WITH_MSVC, $BUILD_WITH_MSVC)
 
 if $BUILD_WITH_MSVC; then
@@ -457,13 +476,6 @@ if $BUILD_WITH_MSVC; then
   fi
   LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
   LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
-
-  if $SOWIN_STATIC; then
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOWIN_NOT_DLL"
-  else
-    CPPFLAGS="-DSOWIN_MAKE_DLL $CPPFLAGS"
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOWIN_DLL"
-  fi
 
   debugfile="`pwd`/src/Inventor/Win/sowin${SOWIN_MAJOR_VERSION}${SUFFIX}.pdb"
   debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
