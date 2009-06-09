@@ -117,18 +117,27 @@ SoWinPlaneViewerP::cameraButtonProc(SoWinBitmapButton * b, void * userdata)
 
 // Documented in superclass.
 void
-SoWinPlaneViewer::setCamera(SoCamera * camera)
+SoWinPlaneViewer::setCamera(SoCamera * newCamera)
 {
-  if (camera) {
-    SoType type = camera->getTypeId();
+  if (newCamera) {
+    SoType camtype = newCamera->getTypeId();
     SbBool orthogonal =
-      type.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
-    this->setRightWheelString(orthogonal ? "Zoom" : "Dolly");
+      camtype.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
+
+    const char * oldLabel = this->getRightWheelString();
+    if (oldLabel) {
+      if (orthogonal) {
+        if (strcmp("Dolly",oldLabel) == 0)
+          this->setRightWheelString("Zoom");
+      }
+      else if (strcmp("Zoom",oldLabel) == 0)
+        this->setRightWheelString("Dolly");
+    }
     
     SoWinBitmapButton * b = (SoWinBitmapButton *)PRIVATE(this)->camerabutton;
     if (b) { b->setBitmap(orthogonal ? 1 : 0); }
   }
-  inherited::setCamera(camera);
+  inherited::setCamera(newCamera);
 }
 
 // ************************************************************************

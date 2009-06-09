@@ -408,11 +408,27 @@ SoWinFullViewer::setBottomWheelString(const char * const name)
     PRIVATE(this)->bottomthumbwheel->setLabelText(name);
 }
 
-void
-SoWinFullViewer::setRightWheelString(const char * const name)
+const char *
+SoWinFullViewer::getRightWheelString() const
 {
-  if (PRIVATE(this)->rightthumbwheel)
-    PRIVATE(this)->rightthumbwheel->setLabelText(name);
+  return this->rightWheelStr;
+}
+
+void
+SoWinFullViewer::setRightWheelString(const char * const string)
+{
+  if (this->rightWheelStr)
+    delete [] this->rightWheelStr;
+  this->rightWheelStr = NULL;
+
+  if (string)
+    this->rightWheelStr = strcpy(new char [strlen(string)+1], string);
+
+  printf("Foo\n");
+
+  if (PRIVATE(this)->rightthumbwheel) {
+    PRIVATE(this)->rightthumbwheel->setLabelText(string);
+  }
 }
 
 // *************************************************************************
@@ -477,6 +493,7 @@ SoWinFullViewerP::buildRightWheel(HWND parent)
                         0,
                         0,
                         "Dolly");
+  PUBLIC(this)->setRightWheelString("Dolly");
   PUBLIC(this)->rightWheelVal = this->rightthumbwheel->value();
   this->rightthumbwheel->setCallback(this->rightWheelCB, this);
   this->rightthumbwheel->setRangeBoundaryHandling(SoWinThumbWheel::ACCUMULATE);

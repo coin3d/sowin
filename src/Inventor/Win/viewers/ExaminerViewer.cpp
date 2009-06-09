@@ -152,15 +152,23 @@ SoWinExaminerViewer::setCamera(SoCamera * newCamera)
   if (! newCamera)
     return;
 
-  SbBool isorthotype =
-    newCamera->getTypeId().isDerivedFrom(SoOrthographicCamera::getClassTypeId());
+  SoType camtype = newCamera->getTypeId();
+  SbBool orthogonal =
+    camtype.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
 
-  this->setRightWheelString(isorthotype ? "Zoom" : "Dolly");
-
+  const char * oldLabel = this->getRightWheelString();
+  if (oldLabel) {
+    if (orthogonal) {
+      if (strcmp("Dolly",oldLabel) == 0)
+        this->setRightWheelString("Zoom");
+    }
+    else if (strcmp("Zoom",oldLabel) == 0)
+      this->setRightWheelString("Dolly");
+  }
   SoWinBitmapButton * wbtn = PRIVATE(this)->camerabutton;
   // If viewer was made without decorations, button will not have been
   // made yet.
-  if (wbtn) { wbtn->setBitmap(isorthotype ? 1 : 0); }
+  if (wbtn) { wbtn->setBitmap(orthogonal ? 1 : 0); }
 }
 
 // *************************************************************************
