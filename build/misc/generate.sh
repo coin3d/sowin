@@ -7,10 +7,9 @@
 project=sowin1
 
 rm -f ${project}.dsp ${project}.dsw ${project}.vcproj ${project}.sln \
-      ${project}_install.dsp ${project}_install.dsw \
-      ${project}_install.vcproj ${project}_install.sln \
-      ${project}_uninstall.dsp ${project}_uninstall.dsw \
-      ${project}_uninstall.vcproj ${project}_uninstall.sln \
+      ${project}_install.dsp ${project}_install.vcproj \
+      ${project}_docs.dsp ${project}_docs.vcproj \
+      ${project}_uninstall.dsp ${project}_uninstall.vcproj \
       install-headers.bat uninstall-headers.bat
 
 build_pwd=`pwd`
