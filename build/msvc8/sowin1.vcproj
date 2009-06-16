@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="sowin1"
-	ProjectGUID="{218F68EA-0841-4AC5-B905-BE18761155D7}"
+	ProjectGUID="{BED7C166-058B-43EE-910B-8DA58FFCF286}"
 	>
 	<Platforms>
 		<Platform
@@ -2110,8 +2110,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2120,8 +2120,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2130,8 +2130,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2140,8 +2140,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -2154,8 +2154,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2164,8 +2164,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2174,8 +2174,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2184,8 +2184,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -4126,138 +4126,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in"
-				>
-				<FileConfiguration
-					Name="DLL (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\devices\SoWinSpaceballCommon.cpp"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\devices\SoWinSpaceballCommon.cpp"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DLL (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\devices\SoWinSpaceballCommon.cpp"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\devices\SoWinSpaceballCommon.cpp"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in"
-				>
-				<FileConfiguration
-					Name="DLL (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\devices\SoWinSpaceball.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\devices\SoWinSpaceball.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DLL (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\devices\SoWinSpaceball.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\devices\SoWinSpaceball.h"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in"
-				>
-				<FileConfiguration
-					Name="DLL (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\devices\SoGuiSpaceballP.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\devices\SoGuiSpaceballP.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DLL (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\devices\SoGuiSpaceballP.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\devices\SoGuiSpaceballP.h"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\src\Inventor\Win\common\viewers\SoGuiViewer.cpp.in"
 				>
 				<FileConfiguration
@@ -4386,6 +4254,138 @@
 						Description="subst&apos;ing $(InputPath)"
 						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in:src\Inventor\Win\viewers\SoGuiViewerP.h&#x0D;&#x0A;"
 						Outputs="src\Inventor\Win\viewers\SoGuiViewerP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\SoWin"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\devices\SoWinSpaceballCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\devices\SoWinSpaceballCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\devices\SoWinSpaceballCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\devices\SoWinSpaceballCommon.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\SoWin"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\devices\SoWinSpaceball.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\devices\SoWinSpaceball.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\devices\SoWinSpaceball.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\devices\SoWinSpaceball.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\devices\SoWinSpaceball.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\devices\SoWinSpaceball.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\devices\SoWinSpaceball.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\devices\SoWinSpaceball.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\SoWin"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\devices\SoGuiSpaceballP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\devices\SoGuiSpaceballP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\devices\SoGuiSpaceballP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\devices\SoGuiSpaceballP.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -5278,106 +5278,6 @@
 				</File>
 				<File
 					RelativePath="src\Inventor\Win\devices\SoWinMouseCommon.cpp"
-					>
-					<FileConfiguration
-						Name="DLL (Release)|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							ObjectFile=".\Release\Win\devices/"
-							ProgramDataBaseFileName="Release\Win\devices/"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Release)|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							ObjectFile=".\StaticRelease\Win\devices/"
-							ProgramDataBaseFileName="StaticRelease\Win\devices/"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DLL (Debug)|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							ObjectFile=".\Debug\Win\devices/"
-							ProgramDataBaseFileName="Debug\Win\devices/"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Debug)|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							ObjectFile=".\StaticDebug\Win\devices/"
-							ProgramDataBaseFileName="StaticDebug\Win\devices/"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\src\Inventor\Win\devices\SoWinSpaceball.cpp"
-					>
-					<FileConfiguration
-						Name="DLL (Release)|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							ObjectFile=".\Release\Win\devices/"
-							ProgramDataBaseFileName="Release\Win\devices/"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Release)|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							ObjectFile=".\StaticRelease\Win\devices/"
-							ProgramDataBaseFileName="StaticRelease\Win\devices/"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DLL (Debug)|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							ObjectFile=".\Debug\Win\devices/"
-							ProgramDataBaseFileName="Debug\Win\devices/"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Debug)|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							ObjectFile=".\StaticDebug\Win\devices/"
-							ProgramDataBaseFileName="StaticDebug\Win\devices/"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="src\Inventor\Win\devices\SoWinSpaceballCommon.cpp"
 					>
 					<FileConfiguration
 						Name="DLL (Release)|Win32"
@@ -7931,10 +7831,6 @@
 					RelativePath="src\Inventor\Win\devices\SoWinMouse.h"
 					>
 				</File>
-				<File
-					RelativePath="src\Inventor\Win\devices\SoWinSpaceball.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Inventor\Win\editors headers"
@@ -8257,6 +8153,42 @@
 						/>
 					</FileConfiguration>
 				</File>
+				<File
+					RelativePath="..\..\src\Inventor\Win\Win32API.h"
+					>
+					<FileConfiguration
+						Name="DLL (Release)|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="LIB (Release)|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DLL (Debug)|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="LIB (Debug)|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
 			</Filter>
 			<Filter
 				Name="devices local includes"
@@ -8444,42 +8376,6 @@
 				</File>
 				<File
 					RelativePath="..\..\src\Inventor\Win\devices\SoWinDeviceP.h"
-					>
-					<FileConfiguration
-						Name="DLL (Release)|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Release)|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DLL (Debug)|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Debug)|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\src\Inventor\Win\devices\SoWinSpaceballP.h"
 					>
 					<FileConfiguration
 						Name="DLL (Release)|Win32"

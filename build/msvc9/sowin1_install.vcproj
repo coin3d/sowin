@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="sowin1_install"
-	ProjectGUID="{C2C39E28-4FD2-40FB-A4ED-6EE29BCAB03C}"
+	ProjectGUID="{870C4B8A-D70F-4C11-8AD9-D75B6B714CE7}"
 	Keyword="MakeFileProj"
 	TargetFrameworkVersion="0"
 	>

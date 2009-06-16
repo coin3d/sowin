@@ -7,7 +7,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -69,16 +69,16 @@ inline void SoWinSwap(Type & a, Type & b) {
 #define SOWIN_MAJOR_VERSION 1
 #endif /* ! SOWIN_MAJOR_VERSION */
 #if ! defined(SOWIN_MINOR_VERSION)
-#define SOWIN_MINOR_VERSION 4
+#define SOWIN_MINOR_VERSION 6
 #endif /* ! SOWIN_MINOR_VERSION */
 #if ! defined(SOWIN_MICRO_VERSION)
-#define SOWIN_MICRO_VERSION 1
+#define SOWIN_MICRO_VERSION 0
 #endif /* ! SOWIN_MICRO_VERSION */
 #if ! defined(SOWIN_BETA_VERSION)
 /* #undef SOWIN_BETA_VERSION */
 #endif /* ! SOWIN_BETA_VERSION */
 #if ! defined(SOWIN_VERSION)
-#define SOWIN_VERSION "1.4.1a"
+#define SOWIN_VERSION "1.6.0a"
 #endif /* ! SOWIN_VERSION */
 
 // *************************************************************************
