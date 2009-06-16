@@ -82,7 +82,7 @@ CPPFLAGS = -DSOWIN_MAKE_DLL -DNDEBUG -DSOWIN_DEBUG=0 -DSOWIN_INTERNAL -I/cygdriv
 CXX = /cygdrive/c/home/larsa/svn/clean/SoWin/build/msvc6/cfg/gendsp.pl
 CXXCPP = /cygdrive/c/home/larsa/svn/clean/SoWin/cfg/wrapmsvc.exe -E
 CXXDEPMODE = depmode=none
-CXXFLAGS =  /MT
+CXXFLAGS =  /MT /EHsc
 CYGPATH_W = cygpath -w
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -111,9 +111,9 @@ LIBS = -lcoin3 -lopengl32 -lgdi32 -lwinmm -luser32
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LN_S = ln -s
 LTLIBOBJS = 
-LT_AGE = 4
-LT_CURRENT = 24
-LT_REVISION = 1
+LT_AGE = 6
+LT_CURRENT = 26
+LT_REVISION = 0
 MAC_FRAMEWORK_FALSE = 
 MAC_FRAMEWORK_TRUE = #
 MAINT = #
@@ -124,9 +124,9 @@ OBJEXT = obj
 PACKAGE = SoWin
 PACKAGE_BUGREPORT = coin-bugs@coin3d.org
 PACKAGE_NAME = SoWin
-PACKAGE_STRING = SoWin 1.4.1a
+PACKAGE_STRING = SoWin 1.6.0a
 PACKAGE_TARNAME = sowin
-PACKAGE_VERSION = 1.4.1a
+PACKAGE_VERSION = 1.6.0a
 PATH_SEPARATOR = :
 RANLIB = true
 SET_MAKE = 
@@ -146,12 +146,12 @@ SOWIN_DSP_INCS = /I "c:\home\larsa\svn\clean\SoWin\build\msvc6\src" /I "c:\home\
 SOWIN_DSP_LIBS = c:\Coin3D-6\lib\coin3.lib opengl32.lib gdi32.lib winmm.lib user32.lib
 SOWIN_LIB_DSP_DEFS =  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_DLL"
 SOWIN_MAJOR_VERSION = 1
-SOWIN_MICRO_VERSION = 1
-SOWIN_MINOR_VERSION = 4
-SOWIN_VERSION = 1.4.1a
+SOWIN_MICRO_VERSION = 0
+SOWIN_MINOR_VERSION = 6
+SOWIN_VERSION = 1.6.0a
 STRIP = strip
 SUFFIX = 
-VERSION = 1.4.1a
+VERSION = 1.6.0a
 WIDGET = HWND
 ac_ct_AR = ar
 ac_ct_CC = /cygdrive/c/home/larsa/svn/clean/SoWin/cfg/wrapmsvc.exe
@@ -279,10 +279,7 @@ SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/Win/devices/SoGuiKeyboardP.h \
   $(top_builddir)/src/Inventor/Win/devices/SoWinMouseCommon.cpp \
   $(top_builddir)/src/Inventor/Win/devices/SoWinMouse.h \
-  $(top_builddir)/src/Inventor/Win/devices/SoGuiMouseP.h \
-  $(top_builddir)/src/Inventor/Win/devices/SoWinSpaceballCommon.cpp \
-  $(top_builddir)/src/Inventor/Win/devices/SoWinSpaceball.h \
-  $(top_builddir)/src/Inventor/Win/devices/SoGuiSpaceballP.h
+  $(top_builddir)/src/Inventor/Win/devices/SoGuiMouseP.h
 
 
 SoGui_src_Inventor_Gui_editors_BuiltFiles = \
@@ -495,9 +492,6 @@ SoGuiCommonDistFiles = \
   src/Inventor/Win/common/devices/SoGuiMouse.cpp.in \
   src/Inventor/Win/common/devices/SoGuiMouse.h.in \
   src/Inventor/Win/common/devices/SoGuiMouseP.h.in \
-  src/Inventor/Win/common/devices/SoGuiSpaceball.cpp.in \
-  src/Inventor/Win/common/devices/SoGuiSpaceball.h.in \
-  src/Inventor/Win/common/devices/SoGuiSpaceballP.h.in \
   src/Inventor/Win/common/docs/doxygen/header.html \
   src/Inventor/Win/common/docs/doxygen/footer.html \
   src/Inventor/Win/common/docs/doxygen/stylesheet.css \
@@ -1312,15 +1306,6 @@ $(top_builddir)/src/Inventor/Win/devices/SoWinMouse.h: $(top_srcdir)/src/Invento
 
 $(top_builddir)/src/Inventor/Win/devices/SoGuiMouseP.h: $(top_srcdir)/src/Inventor/Win/common/devices/SoGuiMouseP.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Win/devices/SoGuiMouseP.h:src/Inventor/Win/common/devices/SoGuiMouseP.h.in )
-
-$(top_builddir)/src/Inventor/Win/devices/SoWinSpaceballCommon.cpp: $(top_srcdir)/src/Inventor/Win/common/devices/SoGuiSpaceball.cpp.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Win/devices/SoWinSpaceballCommon.cpp:src/Inventor/Win/common/devices/SoGuiSpaceball.cpp.in )
-
-$(top_builddir)/src/Inventor/Win/devices/SoWinSpaceball.h: $(top_srcdir)/src/Inventor/Win/common/devices/SoGuiSpaceball.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Win/devices/SoWinSpaceball.h:src/Inventor/Win/common/devices/SoGuiSpaceball.h.in )
-
-$(top_builddir)/src/Inventor/Win/devices/SoGuiSpaceballP.h: $(top_srcdir)/src/Inventor/Win/common/devices/SoGuiSpaceballP.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Win/devices/SoGuiSpaceballP.h:src/Inventor/Win/common/devices/SoGuiSpaceballP.h.in )
 
 $(top_builddir)/src/Inventor/Win/devices/spwinput.h: $(top_srcdir)/src/Inventor/Win/common/spwinput.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Win/devices/spwinput.h:src/Inventor/Win/common/spwinput.h.in )

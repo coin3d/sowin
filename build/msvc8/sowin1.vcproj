@@ -2110,8 +2110,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2120,8 +2120,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2130,8 +2130,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2140,8 +2140,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -2154,8 +2154,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2164,8 +2164,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2174,8 +2174,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2184,8 +2184,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\SoWinColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Win\SoWinColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiColorEditor.h.in:src\Inventor\Win\editors\SoWinColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\editors\SoWinColorEditor.h"
 					/>
 				</FileConfiguration>
 			</File>

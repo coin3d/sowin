@@ -6,7 +6,6 @@ copy /Y ..\%msvc%\src\Inventor\Win\devices\SoWinDevice.h %COINDIR%\include\Inven
 copy /Y ..\%msvc%\src\Inventor\Win\devices\SoWinInputFocus.h %COINDIR%\include\Inventor\Win\devices\SoWinInputFocus.h >nul:
 copy /Y ..\%msvc%\src\Inventor\Win\devices\SoWinKeyboard.h %COINDIR%\include\Inventor\Win\devices\SoWinKeyboard.h >nul:
 copy /Y ..\%msvc%\src\Inventor\Win\devices\SoWinMouse.h %COINDIR%\include\Inventor\Win\devices\SoWinMouse.h >nul:
-copy /Y ..\%msvc%\src\Inventor\Win\devices\SoWinSpaceball.h %COINDIR%\include\Inventor\Win\devices\SoWinSpaceball.h >nul:
 copy /Y ..\%msvc%\src\Inventor\Win\editors\SoWinColorEditor.h %COINDIR%\include\Inventor\Win\editors\SoWinColorEditor.h >nul:
 copy /Y ..\%msvc%\src\Inventor\Win\editors\SoWinMaterialEditor.h %COINDIR%\include\Inventor\Win\editors\SoWinMaterialEditor.h >nul:
 copy /Y ..\%msvc%\src\Inventor\Win\nodes\SoGuiColorEditor.h %COINDIR%\include\Inventor\Win\nodes\SoGuiColorEditor.h >nul:

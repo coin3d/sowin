@@ -34,6 +34,9 @@
 /* Define if the Ivf API is to be included in the SoWin library */
 /* #undef HAVE_IVF */
 
+/* Define if LONG_PTR typedef / define is available */
+/* #undef HAVE_LONG_PTR_TYPE */
+
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
@@ -45,6 +48,9 @@
 
 /* Define to 1 if you have the <OpenGL/gl.h> header file. */
 /* #undef HAVE_OPENGL_GL_H */
+
+/* Define to use SetWindowLongPtr() instead of SetWindowLong() */
+/* #undef HAVE_SETWINDOWLONGPTR */
 
 /* Define to enable use of Inventor feature */
 #define HAVE_SOCAMERA_SETSTEREOMODE 1
@@ -116,13 +122,13 @@
 #define PACKAGE_NAME "SoWin"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "SoWin 1.4.1a"
+#define PACKAGE_STRING "SoWin 1.6.0a"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "sowin"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.4.1a"
+#define PACKAGE_VERSION "1.6.0a"
 
 /* define this to the SoWin beta version letter */
 /* #undef SOWIN_BETA_VERSION */
@@ -131,19 +137,19 @@
 #define SOWIN_MAJOR_VERSION 1
 
 /* Define to the micro version of SoWin */
-#define SOWIN_MICRO_VERSION 1
+#define SOWIN_MICRO_VERSION 0
 
 /* Define to the minor version of SoWin */
-#define SOWIN_MINOR_VERSION 4
+#define SOWIN_MINOR_VERSION 6
 
 /* Version string for SoWin */
-#define SOWIN_VERSION "1.4.1a"
+#define SOWIN_VERSION "1.6.0a"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.4.1a"
+#define VERSION "1.6.0a"
 
 /* Define this if you want defaults to be linked into SoXt */
 #define WITH_STATIC_DEFAULTS 

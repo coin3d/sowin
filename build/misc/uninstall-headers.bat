@@ -6,7 +6,6 @@ del %COINDIR%\include\Inventor\Win\devices\SoWinDevice.h
 del %COINDIR%\include\Inventor\Win\devices\SoWinInputFocus.h
 del %COINDIR%\include\Inventor\Win\devices\SoWinKeyboard.h
 del %COINDIR%\include\Inventor\Win\devices\SoWinMouse.h
-del %COINDIR%\include\Inventor\Win\devices\SoWinSpaceball.h
 del %COINDIR%\include\Inventor\Win\editors\SoWinColorEditor.h
 del %COINDIR%\include\Inventor\Win\editors\SoWinMaterialEditor.h
 del %COINDIR%\include\Inventor\Win\nodes\SoGuiColorEditor.h

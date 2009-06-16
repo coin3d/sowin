@@ -431,57 +431,6 @@ InputPath=
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in
-
-"src\Inventor\Win\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Win\devices\SoGuiSpaceballP.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiDevice.h.in
 
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
@@ -882,108 +831,6 @@ InputPath=
 
 "src\Inventor\Win\devices\SoWinMouseCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiMouse.cpp.in:src\Inventor\Win\devices\SoWinMouseCommon.cpp
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in
-
-"src\Inventor\Win\devices\SoWinSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.h.in:src\Inventor\Win\devices\SoWinSpaceball.h
-
-# End Custom Build
-
-!ENDIF
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in
-
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in
-
-"src\Inventor\Win\devices\SoWinSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
-
-# End Custom Build
-  
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-
-# PROP IgnoreDefaultTool 1
-#Begin Custom Build - subst'ing $(InputPath)
-InputPath=
-
-"src\Inventor\Win\devices\SoWinSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
 
 # End Custom Build
 
@@ -5487,19 +5334,6 @@ SOURCE=..\..\src\Inventor\Win\devices\SoWinMouse.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Win\devices\SoWinSpaceball.cpp
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win\devices"
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win\devices"
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win\devices"
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win\devices"
-!ENDIF
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\Inventor\Win\devices\spwinput_x11.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Win\devices"
@@ -5566,19 +5400,6 @@ SOURCE=.\src\Inventor\Win\devices\SoWinKeyboardCommon.cpp
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\devices\SoWinMouseCommon.cpp
-!IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Win\devices"
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Win\devices"
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Win\devices"
-!ELSEIF  "$(CFG)" == "sowin1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Win\devices"
-!ENDIF
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\devices\SoWinSpaceballCommon.cpp
 !IF  "$(CFG)" == "sowin1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Win\devices"
 !ELSEIF  "$(CFG)" == "sowin1 - Win32 DLL (Debug)"
@@ -6241,10 +6062,6 @@ SOURCE=src\Inventor\Win\devices\SoWinKeyboard.h
 
 SOURCE=src\Inventor\Win\devices\SoWinMouse.h
 # End Source File
-# Begin Source File
-
-SOURCE=src\Inventor\Win\devices\SoWinSpaceball.h
-# End Source File
 # End Group
 # Begin Group "Inventor\Win\editors headers"
 # Set Default_Filter "h"
@@ -6422,12 +6239,6 @@ SOURCE=.\src\Inventor\Win\devices\SoGuiKeyboardP.h
 # Begin Source File
 
 SOURCE=.\src\Inventor\Win\devices\SoGuiMouseP.h
-
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Win\devices\SoGuiSpaceballP.h
 
 # PROP Exclude_From_Build 1
 # End Source File
@@ -6613,6 +6424,12 @@ SOURCE=..\..\src\Inventor\Win\SoWinGLWidgetP.h
 
 # PROP Exclude_From_Build 1
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Win\Win32API.h
+
+# PROP Exclude_From_Build 1
+# End Source File
 # End Group
 # Begin Group "devices local includes"
 
@@ -6620,12 +6437,6 @@ SOURCE=..\..\src\Inventor\Win\SoWinGLWidgetP.h
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Win\devices\SoWinDeviceP.h
-
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Win\devices\SoWinSpaceballP.h
 
 # PROP Exclude_From_Build 1
 # End Source File
