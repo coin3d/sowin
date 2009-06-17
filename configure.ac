@@ -190,6 +190,13 @@ AC_TRY_LINK([#include <windows.h>],
   AC_DEFINE([HAVE_SETWINDOWLONGPTR], 1, [Define to use SetWindowLongPtr() instead of SetWindowLong()])],
   [AC_MSG_RESULT([no])])
 
+AC_MSG_CHECKING([for SetClassLongPtr() function])
+AC_TRY_LINK([#include <windows.h>],
+            [(void)SetClassLongPtr(0, 0, 0); (void)GetClassLongPtr(0, 0);],
+  [AC_MSG_RESULT([yes])
+  AC_DEFINE([HAVE_SETCLASSLONGPTR], 1, [Define to use SetClassLongPtr() instead of SetClassLong()])],
+  [AC_MSG_RESULT([no])])
+
 AC_MSG_CHECKING([for LONG_PTR type])
 AC_TRY_COMPILE([#include <windows.h>],
                [LONG_PTR tjobing;],

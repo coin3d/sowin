@@ -373,11 +373,11 @@ Win32::SetClassLongPtr(HWND hWnd,       // handle of window
 {
   SetLastError(0);
 
-#if HAVE_SETWINDOWLONGPTR // (MSVC 6 SDK doesn't have SetWindowLongPtr())
+#if HAVE_SETCLASSLONGPTR // (MingW doesn't have SetClassLongPtr())
   ULONG_PTR l = ::SetClassLongPtr(hWnd, nIndex, dwNewLong);
-#else // ! HAVE_SETWINDOWLONGPTR
+#else // ! HAVE_SETCLASSLONGPTR
   ULONG_PTR l = ::SetClassLong(hWnd, nIndex, dwNewLong);
-#endif // ! HAVE_SETWINDOWLONGPTR
+#endif // ! HAVE_SETCLASSLONGPTR
 
   BOOL failed = l==0 && ::GetLastError()!=0;
   if (failed) { Win32::showLastErr(); }  
@@ -392,11 +392,11 @@ Win32::GetClassLongPtr(HWND hWnd,       // handle of window
 {
   SetLastError(0);
 
-#if HAVE_SETWINDOWLONGPTR // (MSVC 6 SDK doesn't have Set/GetWindowLongPtr())
+#if HAVE_SETCLASSLONGPTR // (MingW doesn't have Set/GetClassLongPtr())
   ULONG_PTR l = ::GetClassLongPtr(hWnd, nIndex);
-#else // ! HAVE_SETWINDOWLONGPTR
+#else // ! HAVE_SETCLASSLONGPTR
   ULONG_PTR l = ::GetClassLong(hWnd, nIndex);
-#endif // ! HAVE_SETWINDOWLONGPTR
+#endif // ! HAVE_SETCLASSLONGPTR
 
   BOOL failed = l==0 && ::GetLastError()!=0;
   if (failed) { Win32::showLastErr(); }  
