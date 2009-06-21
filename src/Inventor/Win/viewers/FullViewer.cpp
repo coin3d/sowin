@@ -589,7 +589,7 @@ SoWinFullViewerP::viewallbuttonProc(SoWinBitmapButton * b, void * userdata)
 int
 SoWinFullViewerP::layoutWidgets(int cx, int cy)
 {
-  int x=0, y, width, height, bottom, right, top;
+  int x, y, width, height, bottom, right, top;
   const int numViewerButtons = this->righttrimbuttons.getLength();
   const int numAppButtons = this->lefttrimbuttons.getLength();
   HWND renderArea = PUBLIC(this)->getBaseWidget();
