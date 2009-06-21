@@ -62,6 +62,7 @@ libSoWin@SUFFIX@_la_LIBADD = \
 	widgets/libSoWinWidgets.la
 
 libSoWin@SUFFIX@_la_LDFLAGS = \
+        -no-undefined \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 ############################################################################
