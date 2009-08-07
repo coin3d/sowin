@@ -116,6 +116,7 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
   this->leftWheel = NULL;
   this->bottomWheel = NULL;
   this->rightWheel = NULL;
+  this->rightWheelStr = NULL;
 
   // Let these be bogus until we actually set up the wheels.
   this->leftWheelVal = FLT_MAX;
