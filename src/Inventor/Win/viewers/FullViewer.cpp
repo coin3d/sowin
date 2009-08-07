@@ -424,8 +424,6 @@ SoWinFullViewer::setRightWheelString(const char * const string)
   if (string)
     this->rightWheelStr = strcpy(new char [strlen(string)+1], string);
 
-  printf("Foo\n");
-
   if (PRIVATE(this)->rightthumbwheel) {
     PRIVATE(this)->rightthumbwheel->setLabelText(string);
   }
