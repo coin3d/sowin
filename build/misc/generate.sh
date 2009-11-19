@@ -4,7 +4,16 @@
 #
 # 20041214 larsa
 
+if test x"$COINDIR" = x""; then
+  echo >&2 "error: you must have the environment variable COINDIR set."
+  exit 1
+fi
+
 project=sowin1
+
+function escape () {
+  echo $1 | sed -e 's/\\/\\\\/g'
+}
 
 rm -f ${project}.dsp ${project}.dsw ${project}.vcproj ${project}.sln \
       ${project}_install.dsp ${project}_install.vcproj \
@@ -32,11 +41,14 @@ cp ../misc/config-wrapper.h src/config.h
 
 make || exit 1
 
+ECOINDIR=$(escape ${COINDIR})
+
 sed \
   -e "s/$build/./g" \
   -e "s/$build_pwd//g" \
   -e "s/$source/..\\\\../g" \
   -e "s/$source_pwd/..\\\\../g" \
+  -e "s/${ECOINDIR}/\$(COINDIR)/gi" \
   -e 's/COIN_DLL/COIN_NOT_DLL/g' \
   -e '/_MAKE_DLL/ { s/COIN_NOT_DLL/COIN_DLL/g; }' \
   -e '/^# ADD .*LINK32.*\/debug/ { s/COINDIR)\\lib\\coin3.lib/COINDIR)\\lib\\coin3d.lib/g; }' \
@@ -51,6 +63,7 @@ sed \
   -e "s/$build_pwd//g" \
   -e "s/$source/..\\\\../g" \
   -e "s/$source_pwd/..\\\\../g" \
+  -e "s/${ECOINDIR}/\$(COINDIR)/gi" \
   -e 's/$/\r/g' \
   <install-headers.bat >new.bat
 
@@ -62,6 +75,7 @@ sed \
   -e "s/$build_pwd//g" \
   -e "s/$source/..\\\\../g" \
   -e "s/$source_pwd/..\\\\../g" \
+  -e "s/${ECOINDIR}/\$(COINDIR)/gi" \
   -e 's/$/\r/g' \
   <uninstall-headers.bat >new.bat
 
