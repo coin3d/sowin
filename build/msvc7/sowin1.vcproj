@@ -21,7 +21,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="3"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
+				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -37,7 +37,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(COINDIR)\lib\coin3.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="$(COINDIR)\lib\coin3d.lib opengl32.lib"
 				OutputFile="sowin1.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -86,7 +86,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="3"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
+				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_INTERNAL;COIN_NOT_DLL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -135,7 +135,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
+				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -151,7 +151,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(COINDIR)\lib\coin3d.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="$(COINDIR)\lib\coin3d.lib opengl32.lib"
 				OutputFile="sowin1d.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -199,7 +199,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
+				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_INTERNAL;COIN_NOT_DLL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -245,9 +245,6 @@
 		<Filter
 			Name="Documents"
 			Filter=";txt">
-			<File
-				RelativePath="..\..\ChangeLog">
-			</File>
 			<File
 				RelativePath="..\..\COPYING">
 			</File>
@@ -8027,6 +8024,4 @@
 			</Filter>
 		</Filter>
 	</Files>
-	<Globals>
-	</Globals>
 </VisualStudioProject>

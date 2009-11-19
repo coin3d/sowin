@@ -47,14 +47,14 @@ POST_UNINSTALL = :
 build_triplet = i686-pc-cygwin
 host_triplet = i686-pc-cygwin
 target_triplet = i686-pc-cygwin
-ACLOCAL = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoWin/cfg/missing --run aclocal-1.7
+ACLOCAL = ${SHELL} /cygdrive/c/MSVCGeneration/SoWin/cfg/missing --run aclocal-1.7
 AMDEP_FALSE = 
 AMDEP_TRUE = #
-AMTAR = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoWin/cfg/missing --run tar
+AMTAR = ${SHELL} /cygdrive/c/MSVCGeneration/SoWin/cfg/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoWin/cfg/missing --run autoconf
-AUTOHEADER = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoWin/cfg/missing --run autoheader
-AUTOMAKE = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoWin/cfg/missing --run automake-1.7
+AUTOCONF = ${SHELL} /cygdrive/c/MSVCGeneration/SoWin/cfg/missing --run autoconf
+AUTOHEADER = ${SHELL} /cygdrive/c/MSVCGeneration/SoWin/cfg/missing --run autoheader
+AUTOMAKE = ${SHELL} /cygdrive/c/MSVCGeneration/SoWin/cfg/missing --run automake-1.7
 AWK = gawk
 BUILD_HTMLHELP_FALSE = 
 BUILD_HTMLHELP_TRUE = #
@@ -71,16 +71,16 @@ BUILD_METAFILES_TRUE = #
 BUILD_WITH_MSVC = true
 BUILD_WITH_MSVC_FALSE = #
 BUILD_WITH_MSVC_TRUE = 
-CC = /cygdrive/c/home/larsa/svn/clean/SoWin/build/msvc9/cfg/gendsp.pl
+CC = /cygdrive/c/MSVCGeneration/SoWin/build/msvc9/cfg/gendsp.pl
 CCDEPMODE = depmode=none
 CFLAGS =  /MT
 COIN_COMPILER = wrapmsvc
 COMPONENTHEADER = 
 CONFIG = default
-CPP = /cygdrive/c/home/larsa/svn/clean/SoWin/cfg/wrapmsvc.exe -E
-CPPFLAGS = -DSOWIN_MAKE_DLL -DNDEBUG -DSOWIN_DEBUG=0 -DSOWIN_INTERNAL -I/cygdrive/c/Coin3D-9/include -I/cygdrive/c/Coin3D-9/include/Inventor/annex -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DCOIN_DLL -Ddspfile=/cygdrive/c/home/larsa/svn/clean/SoWin/build/msvc9/sowin1.dsp
-CXX = /cygdrive/c/home/larsa/svn/clean/SoWin/build/msvc9/cfg/gendsp.pl
-CXXCPP = /cygdrive/c/home/larsa/svn/clean/SoWin/cfg/wrapmsvc.exe -E
+CPP = /cygdrive/c/MSVCGeneration/SoWin/cfg/wrapmsvc.exe -E
+CPPFLAGS = -DSOWIN_MAKE_DLL -DNDEBUG -DSOWIN_DEBUG=0 -DSOWIN_INTERNAL -I/cygdrive/c/Coin3D/include -DCOIN_DLL -Ddspfile=/cygdrive/c/MSVCGeneration/SoWin/build/msvc9/sowin1.dsp
+CXX = /cygdrive/c/MSVCGeneration/SoWin/build/msvc9/cfg/gendsp.pl
+CXXCPP = /cygdrive/c/MSVCGeneration/SoWin/cfg/wrapmsvc.exe -E
 CXXDEPMODE = depmode=none
 CXXFLAGS =  /MT /EHsc
 CYGPATH_W = cygpath -w
@@ -104,10 +104,10 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
-LDFLAGS = -L/cygdrive/c/Coin3D-9/lib -Wl,-Ddspfile=/cygdrive/c/home/larsa/svn/clean/SoWin/build/msvc9/sowin1.dsp
+LDFLAGS = -L/cygdrive/c/Coin3D/lib -Wl,-Ddspfile=/cygdrive/c/MSVCGeneration/SoWin/build/msvc9/sowin1.dsp
 LIBFLAGS = -DLL /INCREMENTAL:NO   /RELEASE /OUT:sowin1.dll -o sowin1.so.0
 LIBOBJS = 
-LIBS = -lcoin3 -lopengl32 -lgdi32 -lwinmm -luser32 
+LIBS = -lcoin3d -lopengl32 -lgdi32 -luser32 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LN_S = ln -s
 LTLIBOBJS = 
@@ -119,7 +119,7 @@ MAC_FRAMEWORK_TRUE = #
 MAINT = #
 MAINTAINER_MODE_FALSE = 
 MAINTAINER_MODE_TRUE = #
-MAKEINFO = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoWin/cfg/missing --run makeinfo
+MAKEINFO = ${SHELL} /cygdrive/c/MSVCGeneration/SoWin/cfg/missing --run makeinfo
 OBJEXT = obj
 PACKAGE = SoWin
 PACKAGE_BUGREPORT = coin-bugs@coin3d.org
@@ -135,16 +135,16 @@ SOGUI_DOC_HTML = NO
 SOGUI_DOC_HTML_HELP = NO
 SOGUI_DOC_MAN = NO
 SOGUI_EXTRA_CFLAGS = -g /MT
-SOGUI_EXTRA_CPPFLAGS = -I${prefix}/include -I/cygdrive/c/Coin3D-9/include -I/cygdrive/c/Coin3D-9/include/Inventor/annex -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DCOIN_DLL -DSOWIN_DLL
+SOGUI_EXTRA_CPPFLAGS = -I${prefix}/include -I/cygdrive/c/Coin3D/include -DCOIN_DLL -DSOWIN_DLL
 SOGUI_EXTRA_CXXFLAGS = -g /MT
-SOGUI_EXTRA_LDFLAGS = -L${exec_prefix}/lib -L/cygdrive/c/Coin3D-9/lib
-SOGUI_EXTRA_LIBS = -lsowin1 -lcoin3 -lopengl32 -lgdi32 -lwinmm -luser32
+SOGUI_EXTRA_LDFLAGS = -L${exec_prefix}/lib -L/cygdrive/c/Coin3D/lib
+SOGUI_EXTRA_LIBS = -lsowin1 -lcoin3d -lopengl32 -lgdi32 -luser32
 SOGUI_MAJOR_VERSION = 1
 SOGUI_MSVC_LIBC = multithread-static
-SOWIN_DSP_DEFS = /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "_CRT_NONSTDC_NO_DEPRECATE" /D "_CRT_SECURE_NO_WARNINGS" /D "COIN_DLL"
-SOWIN_DSP_INCS = /I "c:\home\larsa\svn\clean\SoWin\build\msvc9\src" /I "c:\home\larsa\svn\clean\SoWin\build\msvc9\data" /I "c:\home\larsa\svn\clean\SoWin\src" /I "c:\Coin3D-9\include" /I "c:\Coin3D-9\include\Inventor\annex"
-SOWIN_DSP_LIBS = c:\Coin3D-9\lib\coin3.lib opengl32.lib gdi32.lib winmm.lib user32.lib
-SOWIN_LIB_DSP_DEFS =  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "_CRT_NONSTDC_NO_DEPRECATE" /D "_CRT_SECURE_NO_WARNINGS" /D "COIN_DLL"
+SOWIN_DSP_DEFS = /D "HAVE_CONFIG_H" /D "SOWIN_MAKE_DLL" /D "SOWIN_INTERNAL" /D "COIN_DLL"
+SOWIN_DSP_INCS = /I "c:\MSVCGeneration\SoWin\build\msvc9\src" /I "c:\MSVCGeneration\SoWin\build\msvc9\data" /I "c:\MSVCGeneration\SoWin\src" /I "c:\Coin3D\include"
+SOWIN_DSP_LIBS = c:\Coin3D\lib\coin3d.lib opengl32.lib gdi32.lib user32.lib
+SOWIN_LIB_DSP_DEFS =  /D "HAVE_CONFIG_H" /D "SOWIN_INTERNAL" /D "COIN_DLL"
 SOWIN_MAJOR_VERSION = 1
 SOWIN_MICRO_VERSION = 0
 SOWIN_MINOR_VERSION = 6
@@ -154,7 +154,7 @@ SUFFIX =
 VERSION = 1.6.0a
 WIDGET = HWND
 ac_ct_AR = ar
-ac_ct_CC = /cygdrive/c/home/larsa/svn/clean/SoWin/cfg/wrapmsvc.exe
+ac_ct_CC = /cygdrive/c/MSVCGeneration/SoWin/cfg/wrapmsvc.exe
 ac_ct_CXX = 
 ac_ct_F77 = 
 ac_ct_RANLIB = true
@@ -185,8 +185,8 @@ htmldir = ${prefix}/share/SoWin/html
 htmlhelpdir = ${prefix}/share/SoWin/htmlhelp
 includedir = ${prefix}/include
 infodir = ${prefix}/info
-install_sh = /cygdrive/c/home/larsa/svn/clean/SoWin/cfg/install-sh
-libdir = /cygdrive/c/Coin3D-9/lib
+install_sh = /cygdrive/c/MSVCGeneration/SoWin/cfg/install-sh
+libdir = /cygdrive/c/Coin3D/lib
 libexecdir = ${exec_prefix}/libexec
 localstatedir = ${prefix}/var
 mandir = ${prefix}/man
@@ -196,30 +196,30 @@ prefix = /usr/local
 program_transform_name = s,x,x,
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
-sim_ac_coin_configcmd = /cygdrive/c/Coin3D-9/bin/coin-config --alternate=default
+sim_ac_coin_configcmd = false
 sim_ac_doxygen_exe = 
 sim_ac_hhc_exe = 
 sim_ac_makensis_exe = false
 sim_ac_perl_exe = 
 sim_ac_relative_src_dir = ../..
 sim_ac_relative_src_dir_p = true
-sogui_build_dir = /cygdrive/c/home/larsa/svn/clean/SoWin/build/msvc9
-sogui_html_dir = /cygdrive/c/home/larsa/svn/clean/SoWin/build/msvc9/html
-sogui_html_help_dir = /cygdrive/c/home/larsa/svn/clean/SoWin/build/msvc9/htmlhelp
-sogui_man_dir = /cygdrive/c/home/larsa/svn/clean/SoWin/build/msvc9/man
-sogui_src_dir = /cygdrive/c/home/larsa/svn/clean/SoWin
-sowin_build_dir = /cygdrive/c/home/larsa/svn/clean/SoWin/build/msvc9
+sogui_build_dir = /cygdrive/c/MSVCGeneration/SoWin/build/msvc9
+sogui_html_dir = /cygdrive/c/MSVCGeneration/SoWin/build/msvc9/html
+sogui_html_help_dir = /cygdrive/c/MSVCGeneration/SoWin/build/msvc9/htmlhelp
+sogui_man_dir = /cygdrive/c/MSVCGeneration/SoWin/build/msvc9/man
+sogui_src_dir = /cygdrive/c/MSVCGeneration/SoWin
+sowin_build_dir = /cygdrive/c/MSVCGeneration/SoWin/build/msvc9
 sowin_configure_date = 
-sowin_src_dir = /cygdrive/c/home/larsa/svn/clean/SoWin
-sowin_w32_build_dir = c:\home\larsa\svn\clean\SoWin\build\msvc9
-sowin_w32_src_dir = c:\home\larsa\svn\clean\SoWin
+sowin_src_dir = /cygdrive/c/MSVCGeneration/SoWin
+sowin_w32_build_dir = c:\MSVCGeneration\SoWin\build\msvc9
+sowin_w32_src_dir = c:\MSVCGeneration\SoWin
 sysconfdir = ${prefix}/etc
 target = i686-pc-cygwin
 target_alias = 
 target_cpu = i686
 target_os = cygwin
 target_vendor = pc
-win_srcdir = c:\\home\\larsa\\svn\\clean\\SoWin\\
+win_srcdir = c:\\MSVCGeneration\\SoWin\\
 
 SoGui_BuiltFiles = \
   $(top_builddir)/sogui.doxygen \
@@ -391,11 +391,11 @@ SoGuiBuiltFiles = \
 
 
 SoGui_src_Inventor_Gui_BuiltMetaFiles = 
+#SoGui_src_Inventor_Gui_devices_LinuxJoystickMetaFiles = 
 
 ##SoGui_src_Inventor_Gui_devices_LinuxJoystickMetaFiles = \
 ##  $(top_builddir)/src/Inventor/Win/devices/@meta_prefix@SoWinLinuxJoystickP.icc
 
-#SoGui_src_Inventor_Gui_devices_LinuxJoystickMetaFiles = 
 
 #SoGui_src_Inventor_Gui_devices_BuiltMetaFiles = \
 #  $(SoGui_src_Inventor_Gui_devices_LinuxJoystickMetaFiles)
@@ -583,15 +583,15 @@ HTMLDIR =
 
 ############################################################################
 #HTMLDIR = html
-HTMLHELPDIR = 
 
 #HTMLHELPDIR = htmlhelp
+HTMLHELPDIR = 
+#LIBDIR = 
 
 # Material editor(s) not part of the public API yet, so there's
 # no point yet in installing the material data.
 #LIBDIR = data src
 LIBDIR = src
-#LIBDIR = 
 
 DOCDIRS = man $(HTMLDIR) $(HTMLHELPDIR)
 

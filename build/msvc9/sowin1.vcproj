@@ -3,8 +3,9 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="sowin1"
-	ProjectGUID="{2797A21D-85E9-4988-A750-049617B045B8}"
-	TargetFrameworkVersion="0"
+	ProjectGUID="{33922CC8-3892-4E07-B977-41F55488F356}"
+	RootNamespace="sowin1"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -19,7 +20,7 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -46,10 +47,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="3"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;COIN_DLL"
+				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				PrecompiledHeaderFile=".\Release/sowin1.pch"
@@ -59,6 +60,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
+				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -73,7 +75,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(COINDIR)\lib\coin3.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="$(COINDIR)\lib\coin3d.lib opengl32.lib"
 				OutputFile="sowin1.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -96,8 +98,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\Release/sowin1.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -114,7 +114,7 @@
 			OutputDirectory=".\StaticRelease"
 			IntermediateDirectory=".\StaticRelease"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -135,10 +135,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="3"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_INTERNAL;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;COIN_NOT_DLL"
+				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_INTERNAL;COIN_NOT_DLL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				PrecompiledHeaderFile=".\StaticRelease/sowin1.pch"
@@ -148,6 +148,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
+				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -173,8 +174,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\StaticRelease/sowin1.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -188,7 +187,7 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -216,9 +215,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;COIN_DLL"
-				MinimalRebuild="true"
+				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\Debug/sowin1.pch"
@@ -228,6 +226,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
+				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -242,9 +241,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(COINDIR)\lib\coin3d.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="$(COINDIR)\lib\coin3d.lib opengl32.lib"
 				OutputFile="sowin1d.dll"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/sowin1d.pdb"
@@ -265,8 +264,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\Debug/sowin1.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -283,7 +280,7 @@
 			OutputDirectory=".\StaticDebug"
 			IntermediateDirectory=".\StaticDebug"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -305,8 +302,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_INTERNAL;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;COIN_NOT_DLL"
+				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_INTERNAL;COIN_NOT_DLL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\StaticDebug/sowin1.pch"
@@ -316,6 +313,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
+				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -341,8 +339,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\StaticDebug/sowin1.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -359,10 +355,6 @@
 			Name="Documents"
 			Filter=";txt"
 			>
-			<File
-				RelativePath="..\..\ChangeLog"
-				>
-			</File>
 			<File
 				RelativePath="..\..\COPYING"
 				>
@@ -4801,9 +4793,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\devices/"
 							ProgramDataBaseFileName="Release\Win\devices/"
 						/>
@@ -4813,7 +4805,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\devices/"
@@ -4825,8 +4817,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\devices/"
 							ProgramDataBaseFileName="Debug\Win\devices/"
 						/>
@@ -4836,8 +4830,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\devices/"
 							ProgramDataBaseFileName="StaticDebug\Win\devices/"
 						/>
@@ -4851,9 +4847,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\devices/"
 							ProgramDataBaseFileName="Release\Win\devices/"
 						/>
@@ -4863,7 +4859,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\devices/"
@@ -4875,8 +4871,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\devices/"
 							ProgramDataBaseFileName="Debug\Win\devices/"
 						/>
@@ -4886,8 +4884,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\devices/"
 							ProgramDataBaseFileName="StaticDebug\Win\devices/"
 						/>
@@ -4901,9 +4901,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\devices/"
 							ProgramDataBaseFileName="Release\Win\devices/"
 						/>
@@ -4913,7 +4913,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\devices/"
@@ -4925,8 +4925,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\devices/"
 							ProgramDataBaseFileName="Debug\Win\devices/"
 						/>
@@ -4936,8 +4938,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\devices/"
 							ProgramDataBaseFileName="StaticDebug\Win\devices/"
 						/>
@@ -4951,9 +4955,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\devices/"
 							ProgramDataBaseFileName="Release\Win\devices/"
 						/>
@@ -4963,7 +4967,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\devices/"
@@ -4975,8 +4979,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\devices/"
 							ProgramDataBaseFileName="Debug\Win\devices/"
 						/>
@@ -4986,8 +4992,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\devices/"
 							ProgramDataBaseFileName="StaticDebug\Win\devices/"
 						/>
@@ -5001,9 +5009,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\devices/"
 							ProgramDataBaseFileName="Release\Win\devices/"
 						/>
@@ -5013,7 +5021,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\devices/"
@@ -5025,8 +5033,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\devices/"
 							ProgramDataBaseFileName="Debug\Win\devices/"
 						/>
@@ -5036,8 +5046,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\devices/"
 							ProgramDataBaseFileName="StaticDebug\Win\devices/"
 						/>
@@ -5051,9 +5063,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\devices/"
 							ProgramDataBaseFileName="Release\Win\devices/"
 						/>
@@ -5063,7 +5075,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\devices/"
@@ -5075,8 +5087,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\devices/"
 							ProgramDataBaseFileName="Debug\Win\devices/"
 						/>
@@ -5086,8 +5100,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\devices/"
 							ProgramDataBaseFileName="StaticDebug\Win\devices/"
 						/>
@@ -5101,9 +5117,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\devices/"
 							ProgramDataBaseFileName="Release\Win\devices/"
 						/>
@@ -5113,7 +5129,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\devices/"
@@ -5125,8 +5141,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\devices/"
 							ProgramDataBaseFileName="Debug\Win\devices/"
 						/>
@@ -5136,8 +5154,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\devices/"
 							ProgramDataBaseFileName="StaticDebug\Win\devices/"
 						/>
@@ -5151,9 +5171,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\devices/"
 							ProgramDataBaseFileName="Release\Win\devices/"
 						/>
@@ -5163,7 +5183,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\devices/"
@@ -5175,8 +5195,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\devices/"
 							ProgramDataBaseFileName="Debug\Win\devices/"
 						/>
@@ -5186,8 +5208,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\devices/"
 							ProgramDataBaseFileName="StaticDebug\Win\devices/"
 						/>
@@ -5201,9 +5225,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\devices/"
 							ProgramDataBaseFileName="Release\Win\devices/"
 						/>
@@ -5213,7 +5237,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\devices/"
@@ -5225,8 +5249,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\devices/"
 							ProgramDataBaseFileName="Debug\Win\devices/"
 						/>
@@ -5236,8 +5262,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\devices/"
 							ProgramDataBaseFileName="StaticDebug\Win\devices/"
 						/>
@@ -5251,9 +5279,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\devices/"
 							ProgramDataBaseFileName="Release\Win\devices/"
 						/>
@@ -5263,7 +5291,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\devices/"
@@ -5275,8 +5303,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\devices/"
 							ProgramDataBaseFileName="Debug\Win\devices/"
 						/>
@@ -5286,8 +5316,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\devices/"
 							ProgramDataBaseFileName="StaticDebug\Win\devices/"
 						/>
@@ -5306,9 +5338,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\editors/"
 							ProgramDataBaseFileName="Release\Win\editors/"
 						/>
@@ -5318,7 +5350,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\editors/"
@@ -5330,8 +5362,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\editors/"
 							ProgramDataBaseFileName="Debug\Win\editors/"
 						/>
@@ -5341,8 +5375,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\editors/"
 							ProgramDataBaseFileName="StaticDebug\Win\editors/"
 						/>
@@ -5356,9 +5392,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\editors/"
 							ProgramDataBaseFileName="Release\Win\editors/"
 						/>
@@ -5368,7 +5404,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\editors/"
@@ -5380,8 +5416,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\editors/"
 							ProgramDataBaseFileName="Debug\Win\editors/"
 						/>
@@ -5391,8 +5429,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\editors/"
 							ProgramDataBaseFileName="StaticDebug\Win\editors/"
 						/>
@@ -5411,9 +5451,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\engines/"
 							ProgramDataBaseFileName="Release\Win\engines/"
 						/>
@@ -5423,7 +5463,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\engines/"
@@ -5435,8 +5475,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\engines/"
 							ProgramDataBaseFileName="Debug\Win\engines/"
 						/>
@@ -5446,8 +5488,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\engines/"
 							ProgramDataBaseFileName="StaticDebug\Win\engines/"
 						/>
@@ -5461,9 +5505,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\engines/"
 							ProgramDataBaseFileName="Release\Win\engines/"
 						/>
@@ -5473,7 +5517,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\engines/"
@@ -5485,8 +5529,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\engines/"
 							ProgramDataBaseFileName="Debug\Win\engines/"
 						/>
@@ -5496,8 +5542,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\engines/"
 							ProgramDataBaseFileName="StaticDebug\Win\engines/"
 						/>
@@ -5511,9 +5559,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\engines/"
 							ProgramDataBaseFileName="Release\Win\engines/"
 						/>
@@ -5523,7 +5571,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\engines/"
@@ -5535,8 +5583,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\engines/"
 							ProgramDataBaseFileName="Debug\Win\engines/"
 						/>
@@ -5546,8 +5596,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\engines/"
 							ProgramDataBaseFileName="StaticDebug\Win\engines/"
 						/>
@@ -5566,9 +5618,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -5578,7 +5630,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -5590,8 +5642,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -5601,8 +5655,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -5616,9 +5672,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -5628,7 +5684,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -5640,8 +5696,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -5651,8 +5709,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -5666,9 +5726,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -5678,7 +5738,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -5690,8 +5750,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -5701,8 +5763,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -5716,9 +5780,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -5728,7 +5792,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -5740,8 +5804,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -5751,8 +5817,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -5766,9 +5834,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -5778,7 +5846,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -5790,8 +5858,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -5801,8 +5871,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -5816,9 +5888,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -5828,7 +5900,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -5840,8 +5912,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -5851,8 +5925,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -5866,9 +5942,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -5878,7 +5954,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -5890,8 +5966,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -5901,8 +5979,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -5916,9 +5996,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -5928,7 +6008,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -5940,8 +6020,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -5951,8 +6033,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -5966,9 +6050,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -5978,7 +6062,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -5990,8 +6074,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -6001,8 +6087,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -6016,9 +6104,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -6028,7 +6116,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -6040,8 +6128,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -6051,8 +6141,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -6066,9 +6158,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -6078,7 +6170,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -6090,8 +6182,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -6101,8 +6195,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -6116,9 +6212,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -6128,7 +6224,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -6140,8 +6236,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -6151,8 +6249,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -6166,9 +6266,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -6178,7 +6278,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -6190,8 +6290,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -6201,8 +6303,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -6216,9 +6320,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -6228,7 +6332,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -6240,8 +6344,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -6251,8 +6357,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -6266,9 +6374,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -6278,7 +6386,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -6290,8 +6398,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -6301,8 +6411,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -6316,9 +6428,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -6328,7 +6440,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -6340,8 +6452,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -6351,8 +6465,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -6366,9 +6482,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\nodes/"
 							ProgramDataBaseFileName="Release\Win\nodes/"
 						/>
@@ -6378,7 +6494,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\nodes/"
@@ -6390,8 +6506,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\nodes/"
 							ProgramDataBaseFileName="Debug\Win\nodes/"
 						/>
@@ -6401,8 +6519,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Win\nodes/"
 						/>
@@ -6421,9 +6541,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\viewers/"
 							ProgramDataBaseFileName="Release\Win\viewers/"
 						/>
@@ -6433,7 +6553,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\viewers/"
@@ -6445,8 +6565,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\viewers/"
 							ProgramDataBaseFileName="Debug\Win\viewers/"
 						/>
@@ -6456,8 +6578,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Win\viewers/"
 						/>
@@ -6471,9 +6595,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\viewers/"
 							ProgramDataBaseFileName="Release\Win\viewers/"
 						/>
@@ -6483,7 +6607,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\viewers/"
@@ -6495,8 +6619,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\viewers/"
 							ProgramDataBaseFileName="Debug\Win\viewers/"
 						/>
@@ -6506,8 +6632,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Win\viewers/"
 						/>
@@ -6521,9 +6649,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\viewers/"
 							ProgramDataBaseFileName="Release\Win\viewers/"
 						/>
@@ -6533,7 +6661,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\viewers/"
@@ -6545,8 +6673,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\viewers/"
 							ProgramDataBaseFileName="Debug\Win\viewers/"
 						/>
@@ -6556,8 +6686,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Win\viewers/"
 						/>
@@ -6571,9 +6703,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\viewers/"
 							ProgramDataBaseFileName="Release\Win\viewers/"
 						/>
@@ -6583,7 +6715,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\viewers/"
@@ -6595,8 +6727,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\viewers/"
 							ProgramDataBaseFileName="Debug\Win\viewers/"
 						/>
@@ -6606,8 +6740,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Win\viewers/"
 						/>
@@ -6621,9 +6757,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\viewers/"
 							ProgramDataBaseFileName="Release\Win\viewers/"
 						/>
@@ -6633,7 +6769,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\viewers/"
@@ -6645,8 +6781,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\viewers/"
 							ProgramDataBaseFileName="Debug\Win\viewers/"
 						/>
@@ -6656,8 +6794,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Win\viewers/"
 						/>
@@ -6671,9 +6811,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\viewers/"
 							ProgramDataBaseFileName="Release\Win\viewers/"
 						/>
@@ -6683,7 +6823,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\viewers/"
@@ -6695,8 +6835,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\viewers/"
 							ProgramDataBaseFileName="Debug\Win\viewers/"
 						/>
@@ -6706,8 +6848,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Win\viewers/"
 						/>
@@ -6721,9 +6865,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\viewers/"
 							ProgramDataBaseFileName="Release\Win\viewers/"
 						/>
@@ -6733,7 +6877,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\viewers/"
@@ -6745,8 +6889,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\viewers/"
 							ProgramDataBaseFileName="Debug\Win\viewers/"
 						/>
@@ -6756,8 +6902,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Win\viewers/"
 						/>
@@ -6771,9 +6919,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\viewers/"
 							ProgramDataBaseFileName="Release\Win\viewers/"
 						/>
@@ -6783,7 +6931,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\viewers/"
@@ -6795,8 +6943,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\viewers/"
 							ProgramDataBaseFileName="Debug\Win\viewers/"
 						/>
@@ -6806,8 +6956,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Win\viewers/"
 						/>
@@ -6821,9 +6973,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\viewers/"
 							ProgramDataBaseFileName="Release\Win\viewers/"
 						/>
@@ -6833,7 +6985,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\viewers/"
@@ -6845,8 +6997,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\viewers/"
 							ProgramDataBaseFileName="Debug\Win\viewers/"
 						/>
@@ -6856,8 +7010,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Win\viewers/"
 						/>
@@ -6876,9 +7032,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\widgets/"
 							ProgramDataBaseFileName="Release\Win\widgets/"
 						/>
@@ -6888,7 +7044,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\widgets/"
@@ -6900,8 +7056,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\widgets/"
 							ProgramDataBaseFileName="Debug\Win\widgets/"
 						/>
@@ -6911,8 +7069,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Win\widgets/"
 						/>
@@ -6926,9 +7086,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\widgets/"
 							ProgramDataBaseFileName="Release\Win\widgets/"
 						/>
@@ -6938,7 +7098,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\widgets/"
@@ -6950,8 +7110,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\widgets/"
 							ProgramDataBaseFileName="Debug\Win\widgets/"
 						/>
@@ -6961,8 +7123,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Win\widgets/"
 						/>
@@ -6976,9 +7140,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\widgets/"
 							ProgramDataBaseFileName="Release\Win\widgets/"
 						/>
@@ -6988,7 +7152,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\widgets/"
@@ -7000,8 +7164,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\widgets/"
 							ProgramDataBaseFileName="Debug\Win\widgets/"
 						/>
@@ -7011,8 +7177,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Win\widgets/"
 						/>
@@ -7026,9 +7194,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\widgets/"
 							ProgramDataBaseFileName="Release\Win\widgets/"
 						/>
@@ -7038,7 +7206,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\widgets/"
@@ -7050,8 +7218,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\widgets/"
 							ProgramDataBaseFileName="Debug\Win\widgets/"
 						/>
@@ -7061,8 +7231,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Win\widgets/"
 						/>
@@ -7076,9 +7248,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Win\widgets/"
 							ProgramDataBaseFileName="Release\Win\widgets/"
 						/>
@@ -7088,7 +7260,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Win\widgets/"
@@ -7100,8 +7272,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Win\widgets/"
 							ProgramDataBaseFileName="Debug\Win\widgets/"
 						/>
@@ -7111,8 +7285,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Win\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Win\widgets/"
 						/>
@@ -7131,9 +7307,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Win/"
 							ProgramDataBaseFileName="Release\Inventor\Win/"
 						/>
@@ -7143,7 +7319,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Win/"
@@ -7155,8 +7331,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Win/"
 							ProgramDataBaseFileName="Debug\Inventor\Win/"
 						/>
@@ -7166,8 +7344,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Win/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Win/"
 						/>
@@ -7181,9 +7361,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Win/"
 							ProgramDataBaseFileName="Release\Inventor\Win/"
 						/>
@@ -7193,7 +7373,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Win/"
@@ -7205,8 +7385,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Win/"
 							ProgramDataBaseFileName="Debug\Inventor\Win/"
 						/>
@@ -7216,8 +7398,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Win/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Win/"
 						/>
@@ -7231,9 +7415,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Win/"
 							ProgramDataBaseFileName="Release\Inventor\Win/"
 						/>
@@ -7243,7 +7427,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Win/"
@@ -7255,8 +7439,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Win/"
 							ProgramDataBaseFileName="Debug\Inventor\Win/"
 						/>
@@ -7266,8 +7452,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Win/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Win/"
 						/>
@@ -7281,9 +7469,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Win/"
 							ProgramDataBaseFileName="Release\Inventor\Win/"
 						/>
@@ -7293,7 +7481,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Win/"
@@ -7305,8 +7493,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Win/"
 							ProgramDataBaseFileName="Debug\Inventor\Win/"
 						/>
@@ -7316,8 +7506,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Win/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Win/"
 						/>
@@ -7331,9 +7523,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Win/"
 							ProgramDataBaseFileName="Release\Inventor\Win/"
 						/>
@@ -7343,7 +7535,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Win/"
@@ -7355,8 +7547,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Win/"
 							ProgramDataBaseFileName="Debug\Inventor\Win/"
 						/>
@@ -7366,8 +7560,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Win/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Win/"
 						/>
@@ -7381,9 +7577,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Win/"
 							ProgramDataBaseFileName="Release\Inventor\Win/"
 						/>
@@ -7393,7 +7589,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Win/"
@@ -7405,8 +7601,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Win/"
 							ProgramDataBaseFileName="Debug\Inventor\Win/"
 						/>
@@ -7416,8 +7614,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Win/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Win/"
 						/>
@@ -7431,9 +7631,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Win/"
 							ProgramDataBaseFileName="Release\Inventor\Win/"
 						/>
@@ -7443,7 +7643,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Win/"
@@ -7455,8 +7655,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Win/"
 							ProgramDataBaseFileName="Debug\Inventor\Win/"
 						/>
@@ -7466,8 +7668,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Win/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Win/"
 						/>
@@ -7481,9 +7685,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Win/"
 							ProgramDataBaseFileName="Release\Inventor\Win/"
 						/>
@@ -7493,7 +7697,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Win/"
@@ -7505,8 +7709,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Win/"
 							ProgramDataBaseFileName="Debug\Inventor\Win/"
 						/>
@@ -7516,8 +7722,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Win/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Win/"
 						/>
@@ -7531,9 +7739,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Win/"
 							ProgramDataBaseFileName="Release\Inventor\Win/"
 						/>
@@ -7543,7 +7751,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Win/"
@@ -7555,8 +7763,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Win/"
 							ProgramDataBaseFileName="Debug\Inventor\Win/"
 						/>
@@ -7566,8 +7776,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Win/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Win/"
 						/>
@@ -7581,9 +7793,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Win/"
 							ProgramDataBaseFileName="Release\Inventor\Win/"
 						/>
@@ -7593,7 +7805,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Win/"
@@ -7605,8 +7817,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Win/"
 							ProgramDataBaseFileName="Debug\Inventor\Win/"
 						/>
@@ -7616,8 +7830,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Win/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Win/"
 						/>
@@ -7631,9 +7847,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Win/"
 							ProgramDataBaseFileName="Release\Inventor\Win/"
 						/>
@@ -7643,7 +7859,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Win/"
@@ -7655,8 +7871,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Win/"
 							ProgramDataBaseFileName="Debug\Inventor\Win/"
 						/>
@@ -7666,8 +7884,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Win/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Win/"
 						/>

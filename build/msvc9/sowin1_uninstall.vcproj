@@ -3,9 +3,9 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="sowin1_uninstall"
-	ProjectGUID="{AA263CE6-01D3-4D6B-8254-0454AC5B15B0}"
+	ProjectGUID="{C1468F6F-FAF0-4CED-9816-2AB220C73BFE}"
 	Keyword="MakeFileProj"
-	TargetFrameworkVersion="0"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -20,7 +20,7 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="0"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -43,7 +43,7 @@
 			OutputDirectory=".\StaticRelease"
 			IntermediateDirectory=".\StaticRelease"
 			ConfigurationType="0"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -66,7 +66,7 @@
 			OutputDirectory=".\StaticDebug"
 			IntermediateDirectory=".\StaticDebug"
 			ConfigurationType="0"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -89,7 +89,7 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="0"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>

@@ -49,6 +49,9 @@
 /* Define to 1 if you have the <OpenGL/gl.h> header file. */
 /* #undef HAVE_OPENGL_GL_H */
 
+/* Define to use SetClassLongPtr() instead of SetClassLong() */
+#define HAVE_SETCLASSLONGPTR 1
+
 /* Define to use SetWindowLongPtr() instead of SetWindowLong() */
 #define HAVE_SETWINDOWLONGPTR 1
 
