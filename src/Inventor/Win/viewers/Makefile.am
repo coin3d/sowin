@@ -36,12 +36,13 @@ DISTCLEANFILES = \
 
 libSoWinViewers_la_SOURCES = \
 	FullViewer.cpp \
-	SoWinViewerP.h \
 	SoWinFullViewerP.h \
 	ExaminerViewer.cpp \
 	SoWinExaminerViewerP.h \
 	PlaneViewer.cpp \
 	SoWinPlaneViewerP.h
+
+libSoWinViewers_la_CXXFLAGS = $(AM_CXXFLAGS)
 
 nodist_libSoWinViewers_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)

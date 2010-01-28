@@ -6,6 +6,9 @@
 #endif /* !SOWIN_INTERNAL */
 
 
+/* Version string for Windows */
+#undef GUI_TOOLKIT_VERSION
+
 /* The CPP compiler has a variable containing the current function name */
 #undef HAVE_CPP_COMPILER_FUNCTION_NAME_VAR
 
@@ -114,6 +117,10 @@
 /* Define to 1 if you have the <X11/Xproto.h> header file. */
 #undef HAVE_X11_XPROTO_H
 
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#undef LT_OBJDIR
+
 /* Name of package */
 #undef PACKAGE
 
@@ -128,6 +135,9 @@
 
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
@@ -149,6 +159,9 @@
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
+
+/* Define to make Coin use/catch exceptions at some particular places. */
+#undef USE_EXCEPTIONS
 
 /* Version number of package */
 #undef VERSION

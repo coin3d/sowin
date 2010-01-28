@@ -49,6 +49,8 @@ libSoWin@SUFFIX@_la_SOURCES = \
 	Win32API.cpp \
 	Win32API.h
 
+libSoWin@SUFFIX@_la_CXXFLAGS = $(AM_CXXFLAGS)
+
 nodist_libSoWin@SUFFIX@_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_BuiltFiles)
 #	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
