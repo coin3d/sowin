@@ -42,6 +42,7 @@
 #include <windows.h>
 #include <winuser.h>
 #include <Inventor/SbString.h>
+#include <string>
 
 // *************************************************************************
 
@@ -125,7 +126,8 @@ public:
 
   // Internal and external interface to GetLastError() + FormatMessage().
   static SbString getWin32Err(DWORD & lasterr);
-  
+  std::string GetOSDisplayString();
+
 private:
   static void showLastErr(void);
 };
