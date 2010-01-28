@@ -25,6 +25,7 @@ DISTCLEANFILES = \
 ############################################################################
 
 libSoWinEditors_la_SOURCES =
+libSoWinEditors_la_CXXFLAGS = $(AM_CXXFLAGS)
 
 nodist_libSoWinEditors_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_editors_BuiltFiles) \

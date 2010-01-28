@@ -25,6 +25,7 @@ DISTCLEANFILES = \
 ############################################################################
 
 libSoGuiNodes_la_SOURCES =
+libSoGuiNodes_la_CXXFLAGS = $(AM_CXXFLAGS)
 
 nodist_libSoGuiNodes_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_nodes_BuiltFiles) \

@@ -42,6 +42,8 @@ libSoWinViewers_la_SOURCES = \
 	PlaneViewer.cpp \
 	SoWinPlaneViewerP.h
 
+libSoWinViewers_la_CXXFLAGS = $(AM_CXXFLAGS)
+
 nodist_libSoWinViewers_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)
 #	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
