@@ -72,64 +72,63 @@
 
 // *************************************************************************
 
-class Win32 {
-public:
+namespace Win32 {
   // Must suffix these two to other names than the originals, as they
   // seem to be #define macros.
-  static HWND CreateWindow_(LPCTSTR, LPCTSTR, DWORD, int, int, int, int, HWND, HMENU, HANDLE, LPVOID);
-  static HWND CreateWindowEx_(DWORD, LPCTSTR, LPCTSTR, DWORD, int, int, int, int, HWND, HMENU, HANDLE, LPVOID);
+  HWND CreateWindow_(LPCTSTR, LPCTSTR, DWORD, int, int, int, int, HWND, HMENU, HANDLE, LPVOID);
+  HWND CreateWindowEx_(DWORD, LPCTSTR, LPCTSTR, DWORD, int, int, int, int, HWND, HMENU, HANDLE, LPVOID);
 
-  static void BitBlt(HDC, int, int, int, int, HDC, int, int, DWORD);
-  static void EnableWindow(HWND, BOOL);
-  static void GetTextExtentPoint(HDC, LPCTSTR, int, LPSIZE);
-  static void MoveWindow(HWND, int, int, int, int, BOOL);
-  static HGDIOBJ SelectObject(HDC, HGDIOBJ);
-  static void DeleteObject(HGDIOBJ);
-  static void SwapBuffers(HDC);
-  static HDC GetDC(HWND);  
-  static void DeleteDC(HDC);
-  static void ReleaseDC(HWND, HDC);
-  static HDC BeginPaint(HWND, LPPAINTSTRUCT);
-  static void EndPaint(HWND, CONST PAINTSTRUCT *);
-  static ATOM RegisterClass(CONST WNDCLASS *);
-  static void UnregisterClass(LPCTSTR, HINSTANCE);
-  static void DestroyWindow(HWND);
-  static void SetWindowText(HWND, LPCTSTR);
-  static void InvalidateRect(HWND, CONST RECT *, BOOL);
-  static void GetWindowRect(HWND, LPRECT);
-  static void GetClientRect(HWND, LPRECT); 
-  static void SetWindowPos(HWND, HWND, int, int, int, int, UINT);
-  static HHOOK SetWindowsHookEx(int, HOOKPROC, HINSTANCE, DWORD);
-  static void UnhookWindowsHookEx(HHOOK);
-  static void ModifyMenu(HMENU,UINT,UINT,UINT,LPCTSTR);
-  static void EnableMenuItem(HMENU, UINT, UINT);
-  static void GetMenuItemInfo(HMENU, UINT, BOOL, LPMENUITEMINFO);
-  static void SetMenuItemInfo(HMENU, UINT, BOOL, LPMENUITEMINFO);
-  static void InsertMenuItem(HMENU, UINT, BOOL, LPMENUITEMINFO);
-  static void InsertMenu(HMENU, UINT, UINT, UINT, LPCTSTR);
-  static void RemoveMenu(HMENU, UINT, UINT);
-  static HMENU CreatePopupMenu(VOID);
-  static void DestroyMenu(HMENU);
-  static DWORD CheckMenuItem(HMENU, UINT, UINT);
-  static HCURSOR CreateCursor(HINSTANCE, int, int, int, int,
+  void BitBlt(HDC, int, int, int, int, HDC, int, int, DWORD);
+  void EnableWindow(HWND, BOOL);
+  void GetTextExtentPoint(HDC, LPCTSTR, int, LPSIZE);
+  void MoveWindow(HWND, int, int, int, int, BOOL);
+  HGDIOBJ SelectObject(HDC, HGDIOBJ);
+  void DeleteObject(HGDIOBJ);
+  void SwapBuffers(HDC);
+  HDC GetDC(HWND);  
+  void DeleteDC(HDC);
+  void ReleaseDC(HWND, HDC);
+  HDC BeginPaint(HWND, LPPAINTSTRUCT);
+  void EndPaint(HWND, CONST PAINTSTRUCT *);
+  ATOM RegisterClass(CONST WNDCLASS *);
+  void UnregisterClass(LPCTSTR, HINSTANCE);
+  void DestroyWindow(HWND);
+  void SetWindowText(HWND, LPCTSTR);
+  void InvalidateRect(HWND, CONST RECT *, BOOL);
+  void GetWindowRect(HWND, LPRECT);
+  void GetClientRect(HWND, LPRECT); 
+  void SetWindowPos(HWND, HWND, int, int, int, int, UINT);
+  HHOOK SetWindowsHookEx(int, HOOKPROC, HINSTANCE, DWORD);
+  void UnhookWindowsHookEx(HHOOK);
+  void ModifyMenu(HMENU,UINT,UINT,UINT,LPCTSTR);
+  void EnableMenuItem(HMENU, UINT, UINT);
+  void GetMenuItemInfo(HMENU, UINT, BOOL, LPMENUITEMINFO);
+  void SetMenuItemInfo(HMENU, UINT, BOOL, LPMENUITEMINFO);
+  void InsertMenuItem(HMENU, UINT, BOOL, LPMENUITEMINFO);
+  void InsertMenu(HMENU, UINT, UINT, UINT, LPCTSTR);
+  void RemoveMenu(HMENU, UINT, UINT);
+  HMENU CreatePopupMenu(VOID);
+  void DestroyMenu(HMENU);
+  DWORD CheckMenuItem(HMENU, UINT, UINT);
+  HCURSOR CreateCursor(HINSTANCE, int, int, int, int,
                               CONST VOID *, CONST VOID *);
-  static HCURSOR LoadCursor(HINSTANCE, LPCTSTR);
-  static void ClientToScreen(HWND, LPPOINT);
-  static HWND SetFocus(HWND);
-  static UINT_PTR SetTimer(HWND, UINT_PTR, UINT, TIMERPROC);
-  static void KillTimer(HWND, UINT_PTR);
+  HCURSOR LoadCursor(HINSTANCE, LPCTSTR);
+  void ClientToScreen(HWND, LPPOINT);
+  HWND SetFocus(HWND);
+  UINT_PTR SetTimer(HWND, UINT_PTR, UINT, TIMERPROC);
+  void KillTimer(HWND, UINT_PTR);
 
-  static LONG_PTR SetWindowLongPtr(HWND, int, LONG_PTR);
-  static LONG_PTR GetWindowLongPtr(HWND, int);
-  static ULONG_PTR SetClassLongPtr(HWND, int, LONG_PTR);
-  static ULONG_PTR GetClassLongPtr(HWND, int);
+  LONG_PTR SetWindowLongPtr(HWND, int, LONG_PTR);
+  LONG_PTR GetWindowLongPtr(HWND, int);
+  ULONG_PTR SetClassLongPtr(HWND, int, LONG_PTR);
+  ULONG_PTR GetClassLongPtr(HWND, int);
 
   // Internal and external interface to GetLastError() + FormatMessage().
-  static SbString getWin32Err(DWORD & lasterr);
+  SbString getWin32Err(DWORD & lasterr);
   std::string GetOSDisplayString();
 
-private:
-  static void showLastErr(void);
+  //Hide this
+  void showLastErr(void);
 };
 
 // *************************************************************************
