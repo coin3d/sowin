@@ -17200,18 +17200,16 @@ fi
 
 
 
-BASIC_HEADER_TOP=''
-#BASIC_HEADER_TOP='
-##include <string>
-#extern std::string Win32::GetOSDisplayString();'
+BASIC_HEADER_TOP="#include <string>
+namespace Win32 {
+  std::string GetOSDisplayString();
+};"
 
 
-#AC_DEFINE_UNQUOTED([GUI_TOOLKIT_VERSION], [Win32::GetOSDisplayString()],
-#                    [Version string for Windows])
 
 
 cat >>confdefs.h <<_ACEOF
-#define GUI_TOOLKIT_VERSION "Windows"
+#define GUI_TOOLKIT_VERSION Win32::GetOSDisplayString()
 _ACEOF
 
 
