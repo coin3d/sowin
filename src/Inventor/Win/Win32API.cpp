@@ -696,6 +696,7 @@ Win32::GetOSDisplayString()
 
          switch( dwType )
          {
+#if _WIN32_WINNT >= 0x600
             case PRODUCT_ULTIMATE:
                StringCchCat(pszOS, BUFSIZE, TEXT("Ultimate Edition" ));
                break;
@@ -752,14 +753,18 @@ Win32::GetOSDisplayString()
             case PRODUCT_WEB_SERVER:
                StringCchCat(pszOS, BUFSIZE, TEXT("Web Server Edition" ));
                break;
+#endif // _WIN32_WINNT >= 0x600
          }
       }
 
       if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 )
       {
+#if _WIN32_WINNT >= 0x501
          if( GetSystemMetrics(SM_SERVERR2) )
             StringCchCat(pszOS, BUFSIZE, TEXT( "Windows Server 2003 R2, "));
-         else if ( osvi.wSuiteMask & VER_SUITE_STORAGE_SERVER )
+         else 
+#endif // _WIN32_WINNT >= 0x501			 
+			 if ( osvi.wSuiteMask & VER_SUITE_STORAGE_SERVER )
             StringCchCat(pszOS, BUFSIZE, TEXT( "Windows Storage Server 2003"));
 #ifdef VER_SUITE_WH_SERVER
          else if ( osvi.wSuiteMask & VER_SUITE_WH_SERVER )
