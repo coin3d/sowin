@@ -609,8 +609,6 @@ libSoWinViewers_la_SOURCES = \
 	SoWinPlaneViewerP.h
 
 
-libSoWinViewers_la_CXXFLAGS = $(AM_CXXFLAGS)
-
 nodist_libSoWinViewers_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)
 
@@ -671,38 +669,34 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoWinViewers_la_LDFLAGS =
 libSoWinViewers_la_LIBADD =
-am_libSoWinViewers_la_OBJECTS = libSoWinViewers_la-FullViewer.lo \
-	libSoWinViewers_la-ExaminerViewer.lo \
-	libSoWinViewers_la-PlaneViewer.lo
-am__objects_2 = libSoWinViewers_la-So@Gui@Viewer.lo \
-	libSoWinViewers_la-So@Gui@ConstrainedViewer.lo \
-	libSoWinViewers_la-So@Gui@FlyViewer.lo \
-	libSoWinViewers_la-So@Gui@FullViewer.lo \
-	libSoWinViewers_la-So@Gui@ExaminerViewer.lo \
-	libSoWinViewers_la-So@Gui@PlaneViewer.lo
+am_libSoWinViewers_la_OBJECTS = FullViewer.lo ExaminerViewer.lo \
+	PlaneViewer.lo
+am__objects_2 = So@Gui@Viewer.lo So@Gui@ConstrainedViewer.lo \
+	So@Gui@FlyViewer.lo So@Gui@FullViewer.lo \
+	So@Gui@ExaminerViewer.lo So@Gui@PlaneViewer.lo
 nodist_libSoWinViewers_la_OBJECTS = $(am__objects_2)
 libSoWinViewers_la_OBJECTS = $(am_libSoWinViewers_la_OBJECTS) \
 	$(nodist_libSoWinViewers_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/ExaminerViewer.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/ExaminerViewer.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/ExaminerViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/FullViewer.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/FullViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/PlaneViewer.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/PlaneViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@ConstrainedViewer.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@ConstrainedViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@ExaminerViewer.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@ExaminerViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@FlyViewer.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@FlyViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@FullViewer.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@FullViewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@PlaneViewer.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@PlaneViewer.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Viewer.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoWinViewers_la-FullViewer.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Plo
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Viewer.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Viewer.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -756,24 +750,24 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ExaminerViewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ExaminerViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FullViewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FullViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PlaneViewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PlaneViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ConstrainedViewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ConstrainedViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ExaminerViewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ExaminerViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@FlyViewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@FlyViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@FullViewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@FullViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@PlaneViewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@PlaneViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Viewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Viewer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWinViewers_la-FullViewer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -1008,303 +1002,6 @@ So@Gui@PlaneViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneVi
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/So@Gui@PlaneViewer.Plo' tmpdepfile='$(DEPDIR)/So@Gui@PlaneViewer.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@PlaneViewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp
-
-libSoWinViewers_la-FullViewer.o: FullViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-FullViewer.o -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-FullViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-FullViewer.o `test -f 'FullViewer.cpp' || echo '$(srcdir)/'`FullViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-FullViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-FullViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-FullViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='FullViewer.cpp' object='libSoWinViewers_la-FullViewer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-FullViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-FullViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-FullViewer.o `test -f 'FullViewer.cpp' || echo '$(srcdir)/'`FullViewer.cpp
-
-libSoWinViewers_la-FullViewer.obj: FullViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-FullViewer.obj -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-FullViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-FullViewer.obj `if test -f 'FullViewer.cpp'; then $(CYGPATH_W) 'FullViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/FullViewer.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-FullViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-FullViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-FullViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='FullViewer.cpp' object='libSoWinViewers_la-FullViewer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-FullViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-FullViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-FullViewer.obj `if test -f 'FullViewer.cpp'; then $(CYGPATH_W) 'FullViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/FullViewer.cpp'; fi`
-
-libSoWinViewers_la-FullViewer.lo: FullViewer.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-FullViewer.lo -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-FullViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-FullViewer.lo `test -f 'FullViewer.cpp' || echo '$(srcdir)/'`FullViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-FullViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-FullViewer.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-FullViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='FullViewer.cpp' object='libSoWinViewers_la-FullViewer.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-FullViewer.Plo' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-FullViewer.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-FullViewer.lo `test -f 'FullViewer.cpp' || echo '$(srcdir)/'`FullViewer.cpp
-
-libSoWinViewers_la-ExaminerViewer.o: ExaminerViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-ExaminerViewer.o -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-ExaminerViewer.o `test -f 'ExaminerViewer.cpp' || echo '$(srcdir)/'`ExaminerViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ExaminerViewer.cpp' object='libSoWinViewers_la-ExaminerViewer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-ExaminerViewer.o `test -f 'ExaminerViewer.cpp' || echo '$(srcdir)/'`ExaminerViewer.cpp
-
-libSoWinViewers_la-ExaminerViewer.obj: ExaminerViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-ExaminerViewer.obj -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-ExaminerViewer.obj `if test -f 'ExaminerViewer.cpp'; then $(CYGPATH_W) 'ExaminerViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/ExaminerViewer.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ExaminerViewer.cpp' object='libSoWinViewers_la-ExaminerViewer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-ExaminerViewer.obj `if test -f 'ExaminerViewer.cpp'; then $(CYGPATH_W) 'ExaminerViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/ExaminerViewer.cpp'; fi`
-
-libSoWinViewers_la-ExaminerViewer.lo: ExaminerViewer.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-ExaminerViewer.lo -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-ExaminerViewer.lo `test -f 'ExaminerViewer.cpp' || echo '$(srcdir)/'`ExaminerViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ExaminerViewer.cpp' object='libSoWinViewers_la-ExaminerViewer.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.Plo' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-ExaminerViewer.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-ExaminerViewer.lo `test -f 'ExaminerViewer.cpp' || echo '$(srcdir)/'`ExaminerViewer.cpp
-
-libSoWinViewers_la-PlaneViewer.o: PlaneViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-PlaneViewer.o -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-PlaneViewer.o `test -f 'PlaneViewer.cpp' || echo '$(srcdir)/'`PlaneViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='PlaneViewer.cpp' object='libSoWinViewers_la-PlaneViewer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-PlaneViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-PlaneViewer.o `test -f 'PlaneViewer.cpp' || echo '$(srcdir)/'`PlaneViewer.cpp
-
-libSoWinViewers_la-PlaneViewer.obj: PlaneViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-PlaneViewer.obj -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-PlaneViewer.obj `if test -f 'PlaneViewer.cpp'; then $(CYGPATH_W) 'PlaneViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/PlaneViewer.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='PlaneViewer.cpp' object='libSoWinViewers_la-PlaneViewer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-PlaneViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-PlaneViewer.obj `if test -f 'PlaneViewer.cpp'; then $(CYGPATH_W) 'PlaneViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/PlaneViewer.cpp'; fi`
-
-libSoWinViewers_la-PlaneViewer.lo: PlaneViewer.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-PlaneViewer.lo -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-PlaneViewer.lo `test -f 'PlaneViewer.cpp' || echo '$(srcdir)/'`PlaneViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='PlaneViewer.cpp' object='libSoWinViewers_la-PlaneViewer.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-PlaneViewer.Plo' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-PlaneViewer.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-PlaneViewer.lo `test -f 'PlaneViewer.cpp' || echo '$(srcdir)/'`PlaneViewer.cpp
-
-libSoWinViewers_la-So@Gui@Viewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@Viewer.o -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@Viewer.o `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp' object='libSoWinViewers_la-So@Gui@Viewer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@Viewer.o `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
-
-libSoWinViewers_la-So@Gui@Viewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@Viewer.obj -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@Viewer.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp' object='libSoWinViewers_la-So@Gui@Viewer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@Viewer.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp'; fi`
-
-libSoWinViewers_la-So@Gui@Viewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@Viewer.lo -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@Viewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp' object='libSoWinViewers_la-So@Gui@Viewer.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.Plo' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@Viewer.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@Viewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
-
-libSoWinViewers_la-So@Gui@ConstrainedViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@ConstrainedViewer.o -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@ConstrainedViewer.o `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp' object='libSoWinViewers_la-So@Gui@ConstrainedViewer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@ConstrainedViewer.o `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
-
-libSoWinViewers_la-So@Gui@ConstrainedViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@ConstrainedViewer.obj -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@ConstrainedViewer.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp' object='libSoWinViewers_la-So@Gui@ConstrainedViewer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@ConstrainedViewer.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp'; fi`
-
-libSoWinViewers_la-So@Gui@ConstrainedViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@ConstrainedViewer.lo -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@ConstrainedViewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp' object='libSoWinViewers_la-So@Gui@ConstrainedViewer.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.Plo' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@ConstrainedViewer.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@ConstrainedViewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
-
-libSoWinViewers_la-So@Gui@FlyViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@FlyViewer.o -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@FlyViewer.o `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp' object='libSoWinViewers_la-So@Gui@FlyViewer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@FlyViewer.o `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
-
-libSoWinViewers_la-So@Gui@FlyViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@FlyViewer.obj -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@FlyViewer.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp' object='libSoWinViewers_la-So@Gui@FlyViewer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@FlyViewer.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp'; fi`
-
-libSoWinViewers_la-So@Gui@FlyViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@FlyViewer.lo -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@FlyViewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp' object='libSoWinViewers_la-So@Gui@FlyViewer.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.Plo' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@FlyViewer.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@FlyViewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
-
-libSoWinViewers_la-So@Gui@FullViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@FullViewer.o -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@FullViewer.o `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp' object='libSoWinViewers_la-So@Gui@FullViewer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@FullViewer.o `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp
-
-libSoWinViewers_la-So@Gui@FullViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@FullViewer.obj -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@FullViewer.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp' object='libSoWinViewers_la-So@Gui@FullViewer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@FullViewer.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp'; fi`
-
-libSoWinViewers_la-So@Gui@FullViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@FullViewer.lo -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@FullViewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp' object='libSoWinViewers_la-So@Gui@FullViewer.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.Plo' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@FullViewer.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@FullViewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp
-
-libSoWinViewers_la-So@Gui@ExaminerViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@ExaminerViewer.o -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@ExaminerViewer.o `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp' object='libSoWinViewers_la-So@Gui@ExaminerViewer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@ExaminerViewer.o `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp
-
-libSoWinViewers_la-So@Gui@ExaminerViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@ExaminerViewer.obj -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@ExaminerViewer.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp' object='libSoWinViewers_la-So@Gui@ExaminerViewer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@ExaminerViewer.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp'; fi`
-
-libSoWinViewers_la-So@Gui@ExaminerViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@ExaminerViewer.lo -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@ExaminerViewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp' object='libSoWinViewers_la-So@Gui@ExaminerViewer.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.Plo' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@ExaminerViewer.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@ExaminerViewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp
-
-libSoWinViewers_la-So@Gui@PlaneViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@PlaneViewer.o -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@PlaneViewer.o `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp' object='libSoWinViewers_la-So@Gui@PlaneViewer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@PlaneViewer.o `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp
-
-libSoWinViewers_la-So@Gui@PlaneViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@PlaneViewer.obj -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@PlaneViewer.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp' object='libSoWinViewers_la-So@Gui@PlaneViewer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Po' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@PlaneViewer.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp'; fi`
-
-libSoWinViewers_la-So@Gui@PlaneViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinViewers_la-So@Gui@PlaneViewer.lo -MD -MP -MF "$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoWinViewers_la-So@Gui@PlaneViewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Tpo" "$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp' object='libSoWinViewers_la-So@Gui@PlaneViewer.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.Plo' tmpdepfile='$(DEPDIR)/libSoWinViewers_la-So@Gui@PlaneViewer.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinViewers_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinViewers_la-So@Gui@PlaneViewer.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp
 
 mostlyclean-libtool:
 	-rm -f *.lo

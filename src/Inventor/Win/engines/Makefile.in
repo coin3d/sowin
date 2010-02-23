@@ -598,8 +598,6 @@ DISTCLEANFILES = \
 ############################################################################
 libSoGuiEngines_la_SOURCES = 
 
-libSoGuiEngines_la_CXXFLAGS = $(AM_CXXFLAGS)
-
 nodist_libSoGuiEngines_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_engines_BuiltFiles) \
 	$(SoGui_src_Inventor_Gui_engines_BuiltMetaFiles)
@@ -638,18 +636,16 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libSoGuiEngines_la_LDFLAGS =
 libSoGuiEngines_la_LIBADD =
 am_libSoGuiEngines_la_OBJECTS =
-am__objects_2 = libSoGuiEngines_la-Engines.lo \
-	libSoGuiEngines_la-RadioGroup.lo libSoGuiEngines_la-Format.lo
+am__objects_2 = Engines.lo RadioGroup.lo Format.lo
 nodist_libSoGuiEngines_la_OBJECTS = $(am__objects_2) $(am__objects_3)
 libSoGuiEngines_la_OBJECTS = $(am_libSoGuiEngines_la_OBJECTS) \
 	$(nodist_libSoGuiEngines_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/Engines.Po ./$(DEPDIR)/Format.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/RadioGroup.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiEngines_la-Engines.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiEngines_la-Format.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Plo
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/Engines.Plo ./$(DEPDIR)/Engines.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/Format.Plo ./$(DEPDIR)/Format.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/RadioGroup.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/RadioGroup.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -703,12 +699,12 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Engines.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Engines.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Format.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Format.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/RadioGroup.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/RadioGroup.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiEngines_la-Engines.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiEngines_la-Format.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -844,105 +840,6 @@ Format.lo: $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/Format.Plo' tmpdepfile='$(DEPDIR)/Format.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Format.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
-
-libSoGuiEngines_la-Engines.o: $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiEngines_la-Engines.o -MD -MP -MF "$(DEPDIR)/libSoGuiEngines_la-Engines.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiEngines_la-Engines.o `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiEngines_la-Engines.Tpo" "$(DEPDIR)/libSoGuiEngines_la-Engines.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiEngines_la-Engines.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' object='libSoGuiEngines_la-Engines.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiEngines_la-Engines.Po' tmpdepfile='$(DEPDIR)/libSoGuiEngines_la-Engines.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiEngines_la-Engines.o `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
-
-libSoGuiEngines_la-Engines.obj: $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiEngines_la-Engines.obj -MD -MP -MF "$(DEPDIR)/libSoGuiEngines_la-Engines.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiEngines_la-Engines.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiEngines_la-Engines.Tpo" "$(DEPDIR)/libSoGuiEngines_la-Engines.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiEngines_la-Engines.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' object='libSoGuiEngines_la-Engines.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiEngines_la-Engines.Po' tmpdepfile='$(DEPDIR)/libSoGuiEngines_la-Engines.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiEngines_la-Engines.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp'; fi`
-
-libSoGuiEngines_la-Engines.lo: $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiEngines_la-Engines.lo -MD -MP -MF "$(DEPDIR)/libSoGuiEngines_la-Engines.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiEngines_la-Engines.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiEngines_la-Engines.Tpo" "$(DEPDIR)/libSoGuiEngines_la-Engines.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiEngines_la-Engines.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' object='libSoGuiEngines_la-Engines.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiEngines_la-Engines.Plo' tmpdepfile='$(DEPDIR)/libSoGuiEngines_la-Engines.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiEngines_la-Engines.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
-
-libSoGuiEngines_la-RadioGroup.o: $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiEngines_la-RadioGroup.o -MD -MP -MF "$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiEngines_la-RadioGroup.o `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Tpo" "$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' object='libSoGuiEngines_la-RadioGroup.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Po' tmpdepfile='$(DEPDIR)/libSoGuiEngines_la-RadioGroup.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiEngines_la-RadioGroup.o `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
-
-libSoGuiEngines_la-RadioGroup.obj: $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiEngines_la-RadioGroup.obj -MD -MP -MF "$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiEngines_la-RadioGroup.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Tpo" "$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' object='libSoGuiEngines_la-RadioGroup.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Po' tmpdepfile='$(DEPDIR)/libSoGuiEngines_la-RadioGroup.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiEngines_la-RadioGroup.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp'; fi`
-
-libSoGuiEngines_la-RadioGroup.lo: $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiEngines_la-RadioGroup.lo -MD -MP -MF "$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiEngines_la-RadioGroup.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Tpo" "$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' object='libSoGuiEngines_la-RadioGroup.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiEngines_la-RadioGroup.Plo' tmpdepfile='$(DEPDIR)/libSoGuiEngines_la-RadioGroup.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiEngines_la-RadioGroup.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
-
-libSoGuiEngines_la-Format.o: $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiEngines_la-Format.o -MD -MP -MF "$(DEPDIR)/libSoGuiEngines_la-Format.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiEngines_la-Format.o `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiEngines_la-Format.Tpo" "$(DEPDIR)/libSoGuiEngines_la-Format.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiEngines_la-Format.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp' object='libSoGuiEngines_la-Format.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiEngines_la-Format.Po' tmpdepfile='$(DEPDIR)/libSoGuiEngines_la-Format.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiEngines_la-Format.o `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
-
-libSoGuiEngines_la-Format.obj: $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiEngines_la-Format.obj -MD -MP -MF "$(DEPDIR)/libSoGuiEngines_la-Format.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiEngines_la-Format.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiEngines_la-Format.Tpo" "$(DEPDIR)/libSoGuiEngines_la-Format.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiEngines_la-Format.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp' object='libSoGuiEngines_la-Format.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiEngines_la-Format.Po' tmpdepfile='$(DEPDIR)/libSoGuiEngines_la-Format.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiEngines_la-Format.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp'; fi`
-
-libSoGuiEngines_la-Format.lo: $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiEngines_la-Format.lo -MD -MP -MF "$(DEPDIR)/libSoGuiEngines_la-Format.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiEngines_la-Format.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiEngines_la-Format.Tpo" "$(DEPDIR)/libSoGuiEngines_la-Format.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiEngines_la-Format.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp' object='libSoGuiEngines_la-Format.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiEngines_la-Format.Plo' tmpdepfile='$(DEPDIR)/libSoGuiEngines_la-Format.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiEngines_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiEngines_la-Format.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
 
 mostlyclean-libtool:
 	-rm -f *.lo
