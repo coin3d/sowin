@@ -40,8 +40,6 @@ libSoWinWidgets_la_SOURCES = \
 	SoWinBitmapButton.cpp \
 	SoWinBitmapButton.h
 
-libSoWinWidgets_la_CXXFLAGS = $(AM_CXXFLAGS)
-
 nodist_libSoWinWidgets_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
 #	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)

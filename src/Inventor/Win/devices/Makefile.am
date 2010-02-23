@@ -39,8 +39,6 @@ libSoWinDevices_la_SOURCES = \
 	SoWinKeyboard.cpp \
 	SoWinMouse.cpp
 
-libSoWinDevices_la_CXXFLAGS = $(AM_CXXFLAGS)
-
 nodist_libSoWinDevices_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)
 #	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
@@ -64,7 +62,6 @@ devices.lst: Makefile $(devices_lst_OBJECTS)
 	rm -f $@; \
 	for i in $(devices_lst_OBJECTS); do echo $$i >>$@; done
 
-devices_lst_CFLAGS = $(AM_CFLAGS)
 ############################################################################
 ## Header file installation information.
 

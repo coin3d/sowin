@@ -26,8 +26,6 @@ DISTCLEANFILES = \
 
 libSoGuiEngines_la_SOURCES =
 
-libSoGuiEngines_la_CXXFLAGS = $(AM_CXXFLAGS)
-
 nodist_libSoGuiEngines_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_engines_BuiltFiles) \
 	$(SoGui_src_Inventor_Gui_engines_BuiltMetaFiles)
