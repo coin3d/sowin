@@ -23009,6 +23009,12 @@ fi
 
 
 
+
+cat >>confdefs.h <<_ACEOF
+#define GUI_TOOLKIT_VERSION GetOSDisplayString()
+_ACEOF
+
+
 LDFLAGS=$sim_ac_configure_save_ldflags
 LIBS=$sim_ac_configure_save_libs
 

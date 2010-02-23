@@ -434,14 +434,16 @@ SoGuiAllBuiltFiles = \
   $(SoGuiBuiltMetaFiles)
 
 
-SoGuiCommonDistFiles = \
-  BUGS.txt \
-  src/Inventor/@Gui@/common/BUGS.txt \
-  \
+SoGuiCommonWinFiles = \
   cfg/errors.txt \
   cfg/doxy4win.pl \
   cfg/gendsp.pl \
-  cfg/wrapmsvc.exe \
+  cfg/wrapmsvc.exe
+
+
+SoGuiCommonDistFiles = \
+  BUGS.txt \
+  src/Inventor/@Gui@/common/BUGS.txt \
   \
   src/Inventor/@Gui@/common/Makefile.common \
   src/Inventor/@Gui@/common/sogui-config.in \
@@ -595,6 +597,7 @@ DISTCLEANFILES = \
 
 ############################################################################
 libSoWinEditors_la_SOURCES = 
+libSoWinEditors_la_CXXFLAGS = $(AM_CXXFLAGS)
 
 nodist_libSoWinEditors_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_editors_BuiltFiles) \
@@ -639,16 +642,17 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libSoWinEditors_la_LDFLAGS =
 libSoWinEditors_la_LIBADD =
 am_libSoWinEditors_la_OBJECTS =
-am__objects_2 = So@Gui@ColorEditor.lo So@Gui@MaterialEditor.lo
+am__objects_2 = libSoWinEditors_la-So@Gui@ColorEditor.lo \
+	libSoWinEditors_la-So@Gui@MaterialEditor.lo
 nodist_libSoWinEditors_la_OBJECTS = $(am__objects_2) $(am__objects_3)
 libSoWinEditors_la_OBJECTS = $(am_libSoWinEditors_la_OBJECTS) \
 	$(nodist_libSoWinEditors_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/So@Gui@ColorEditor.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@ColorEditor.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@MaterialEditor.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@MaterialEditor.Po
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/So@Gui@ColorEditor.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@MaterialEditor.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Plo
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -678,7 +682,7 @@ all: $(BUILT_SOURCES)
 .SUFFIXES: .cpp .lo .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(srcdir)/../common/Makefile.common $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  src/Inventor/Win/editors/Makefile
+	  $(AUTOMAKE) --gnu  src/Inventor/Win/editors/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 
@@ -702,10 +706,10 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ColorEditor.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ColorEditor.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@MaterialEditor.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@MaterialEditor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -808,6 +812,72 @@ So@Gui@MaterialEditor.lo: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@Mate
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/So@Gui@MaterialEditor.Plo' tmpdepfile='$(DEPDIR)/So@Gui@MaterialEditor.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@MaterialEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
+
+libSoWinEditors_la-So@Gui@ColorEditor.o: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinEditors_la-So@Gui@ColorEditor.o -MD -MP -MF "$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWinEditors_la-So@Gui@ColorEditor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Tpo" "$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' object='libSoWinEditors_la-So@Gui@ColorEditor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Po' tmpdepfile='$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinEditors_la-So@Gui@ColorEditor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp
+
+libSoWinEditors_la-So@Gui@ColorEditor.obj: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinEditors_la-So@Gui@ColorEditor.obj -MD -MP -MF "$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWinEditors_la-So@Gui@ColorEditor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Tpo" "$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' object='libSoWinEditors_la-So@Gui@ColorEditor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Po' tmpdepfile='$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinEditors_la-So@Gui@ColorEditor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp'; fi`
+
+libSoWinEditors_la-So@Gui@ColorEditor.lo: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinEditors_la-So@Gui@ColorEditor.lo -MD -MP -MF "$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWinEditors_la-So@Gui@ColorEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Tpo" "$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' object='libSoWinEditors_la-So@Gui@ColorEditor.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.Plo' tmpdepfile='$(DEPDIR)/libSoWinEditors_la-So@Gui@ColorEditor.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinEditors_la-So@Gui@ColorEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp
+
+libSoWinEditors_la-So@Gui@MaterialEditor.o: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinEditors_la-So@Gui@MaterialEditor.o -MD -MP -MF "$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWinEditors_la-So@Gui@MaterialEditor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Tpo" "$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' object='libSoWinEditors_la-So@Gui@MaterialEditor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Po' tmpdepfile='$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinEditors_la-So@Gui@MaterialEditor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
+
+libSoWinEditors_la-So@Gui@MaterialEditor.obj: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinEditors_la-So@Gui@MaterialEditor.obj -MD -MP -MF "$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWinEditors_la-So@Gui@MaterialEditor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Tpo" "$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' object='libSoWinEditors_la-So@Gui@MaterialEditor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Po' tmpdepfile='$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinEditors_la-So@Gui@MaterialEditor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp'; fi`
+
+libSoWinEditors_la-So@Gui@MaterialEditor.lo: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWinEditors_la-So@Gui@MaterialEditor.lo -MD -MP -MF "$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWinEditors_la-So@Gui@MaterialEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Tpo" "$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' object='libSoWinEditors_la-So@Gui@MaterialEditor.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.Plo' tmpdepfile='$(DEPDIR)/libSoWinEditors_la-So@Gui@MaterialEditor.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWinEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWinEditors_la-So@Gui@MaterialEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
 
 mostlyclean-libtool:
 	-rm -f *.lo

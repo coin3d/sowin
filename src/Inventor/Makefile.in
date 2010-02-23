@@ -434,14 +434,16 @@ SoGuiAllBuiltFiles = \
   $(SoGuiBuiltMetaFiles)
 
 
-SoGuiCommonDistFiles = \
-  BUGS.txt \
-  src/Inventor/@Gui@/common/BUGS.txt \
-  \
+SoGuiCommonWinFiles = \
   cfg/errors.txt \
   cfg/doxy4win.pl \
   cfg/gendsp.pl \
-  cfg/wrapmsvc.exe \
+  cfg/wrapmsvc.exe
+
+
+SoGuiCommonDistFiles = \
+  BUGS.txt \
+  src/Inventor/@Gui@/common/BUGS.txt \
   \
   src/Inventor/@Gui@/common/Makefile.common \
   src/Inventor/@Gui@/common/sogui-config.in \
@@ -605,7 +607,7 @@ all: $(BUILT_SOURCES)
 .SUFFIXES:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(srcdir)/Win/common/Makefile.common $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  src/Inventor/Makefile
+	  $(AUTOMAKE) --gnu  src/Inventor/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 

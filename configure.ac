@@ -427,6 +427,9 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
   int num = (int) SoGLRenderAction::SORTED_LAYERS_BLEND;],
   [HAVE_SORTED_LAYERS_BLEND])
 
+AC_DEFINE_UNQUOTED([GUI_TOOLKIT_VERSION], [GetOSDisplayString()],
+                   [Version string for Windows])
+
 LDFLAGS=$sim_ac_configure_save_ldflags
 LIBS=$sim_ac_configure_save_libs
 

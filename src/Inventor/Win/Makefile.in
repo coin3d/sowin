@@ -434,14 +434,16 @@ SoGuiAllBuiltFiles = \
   $(SoGuiBuiltMetaFiles)
 
 
-SoGuiCommonDistFiles = \
-  BUGS.txt \
-  src/Inventor/@Gui@/common/BUGS.txt \
-  \
+SoGuiCommonWinFiles = \
   cfg/errors.txt \
   cfg/doxy4win.pl \
   cfg/gendsp.pl \
-  cfg/wrapmsvc.exe \
+  cfg/wrapmsvc.exe
+
+
+SoGuiCommonDistFiles = \
+  BUGS.txt \
+  src/Inventor/@Gui@/common/BUGS.txt \
   \
   src/Inventor/@Gui@/common/Makefile.common \
   src/Inventor/@Gui@/common/sogui-config.in \
@@ -617,6 +619,8 @@ libSoWin@SUFFIX@_la_SOURCES = \
 	Win32API.h
 
 
+libSoWin@SUFFIX@_la_CXXFLAGS = $(AM_CXXFLAGS)
+
 nodist_libSoWin@SUFFIX@_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_BuiltFiles)
 
@@ -723,35 +727,43 @@ libSoWin@SUFFIX@_la_DEPENDENCIES = devices/libSoWinDevices.la \
 	editors/libSoWinEditors.la engines/libSoGuiEngines.la \
 	nodes/libSoGuiNodes.la viewers/libSoWinViewers.la \
 	widgets/libSoWinWidgets.la
-am_libSoWin@SUFFIX@_la_OBJECTS = SoWin.lo SoWinComponent.lo \
-	SoWinGLWidget.lo Win32API.lo
-am__objects_3 = SoAny.lo So@Gui@Cursor.lo So@Gui@Object.lo \
-	So@Gui@Common.lo So@Gui@ComponentCommon.lo \
-	So@Gui@GLWidgetCommon.lo So@Gui@RenderArea.lo $(am__objects_1)
+am_libSoWin@SUFFIX@_la_OBJECTS = libSoWin@SUFFIX@_la-SoWin.lo \
+	libSoWin@SUFFIX@_la-SoWinComponent.lo \
+	libSoWin@SUFFIX@_la-SoWinGLWidget.lo \
+	libSoWin@SUFFIX@_la-Win32API.lo
+am__objects_3 = libSoWin@SUFFIX@_la-SoAny.lo \
+	libSoWin@SUFFIX@_la-So@Gui@Cursor.lo \
+	libSoWin@SUFFIX@_la-So@Gui@Object.lo \
+	libSoWin@SUFFIX@_la-So@Gui@Common.lo \
+	libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.lo \
+	libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.lo \
+	libSoWin@SUFFIX@_la-So@Gui@RenderArea.lo $(am__objects_1)
 nodist_libSoWin@SUFFIX@_la_OBJECTS = $(am__objects_3)
 libSoWin@SUFFIX@_la_OBJECTS = $(am_libSoWin@SUFFIX@_la_OBJECTS) \
 	$(nodist_libSoWin@SUFFIX@_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/So@Gui@Common.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Common.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@ComponentCommon.Plo \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/So@Gui@Common.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@ComponentCommon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Cursor.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Cursor.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@GLWidgetCommon.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@GLWidgetCommon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Object.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Object.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@RenderArea.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@RenderArea.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SoAny.Plo ./$(DEPDIR)/SoAny.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SoWin.Plo ./$(DEPDIR)/SoWin.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SoWinComponent.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SoAny.Po ./$(DEPDIR)/SoWin.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/SoWinComponent.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SoWinGLWidget.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoWinGLWidget.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/Win32API.Plo ./$(DEPDIR)/Win32API.Po
+@AMDEP_TRUE@	./$(DEPDIR)/Win32API.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Plo
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -789,7 +801,7 @@ all: $(BUILT_SOURCES)
 .SUFFIXES: .cpp .lo .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(srcdir)/common/Makefile.common $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  src/Inventor/Win/Makefile
+	  $(AUTOMAKE) --gnu  src/Inventor/Win/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 libLIBRARIES_INSTALL = $(INSTALL_DATA)
@@ -859,28 +871,28 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Common.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ComponentCommon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ComponentCommon.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Cursor.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Cursor.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@GLWidgetCommon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@GLWidgetCommon.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Object.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Object.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@RenderArea.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@RenderArea.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoAny.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoAny.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWin.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWin.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWinComponent.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWinComponent.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWinGLWidget.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWinGLWidget.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Win32API.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Win32API.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -1148,6 +1160,369 @@ So@Gui@RenderArea.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/So@Gui@RenderArea.Plo' tmpdepfile='$(DEPDIR)/So@Gui@RenderArea.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@RenderArea.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
+
+libSoWin@SUFFIX@_la-SoWin.o: SoWin.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-SoWin.o -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-SoWin.o `test -f 'SoWin.cpp' || echo '$(srcdir)/'`SoWin.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoWin.cpp' object='libSoWin@SUFFIX@_la-SoWin.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-SoWin.o `test -f 'SoWin.cpp' || echo '$(srcdir)/'`SoWin.cpp
+
+libSoWin@SUFFIX@_la-SoWin.obj: SoWin.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-SoWin.obj -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-SoWin.obj `if test -f 'SoWin.cpp'; then $(CYGPATH_W) 'SoWin.cpp'; else $(CYGPATH_W) '$(srcdir)/SoWin.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoWin.cpp' object='libSoWin@SUFFIX@_la-SoWin.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-SoWin.obj `if test -f 'SoWin.cpp'; then $(CYGPATH_W) 'SoWin.cpp'; else $(CYGPATH_W) '$(srcdir)/SoWin.cpp'; fi`
+
+libSoWin@SUFFIX@_la-SoWin.lo: SoWin.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-SoWin.lo -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-SoWin.lo `test -f 'SoWin.cpp' || echo '$(srcdir)/'`SoWin.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoWin.cpp' object='libSoWin@SUFFIX@_la-SoWin.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.Plo' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWin.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-SoWin.lo `test -f 'SoWin.cpp' || echo '$(srcdir)/'`SoWin.cpp
+
+libSoWin@SUFFIX@_la-SoWinComponent.o: SoWinComponent.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-SoWinComponent.o -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-SoWinComponent.o `test -f 'SoWinComponent.cpp' || echo '$(srcdir)/'`SoWinComponent.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoWinComponent.cpp' object='libSoWin@SUFFIX@_la-SoWinComponent.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-SoWinComponent.o `test -f 'SoWinComponent.cpp' || echo '$(srcdir)/'`SoWinComponent.cpp
+
+libSoWin@SUFFIX@_la-SoWinComponent.obj: SoWinComponent.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-SoWinComponent.obj -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-SoWinComponent.obj `if test -f 'SoWinComponent.cpp'; then $(CYGPATH_W) 'SoWinComponent.cpp'; else $(CYGPATH_W) '$(srcdir)/SoWinComponent.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoWinComponent.cpp' object='libSoWin@SUFFIX@_la-SoWinComponent.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-SoWinComponent.obj `if test -f 'SoWinComponent.cpp'; then $(CYGPATH_W) 'SoWinComponent.cpp'; else $(CYGPATH_W) '$(srcdir)/SoWinComponent.cpp'; fi`
+
+libSoWin@SUFFIX@_la-SoWinComponent.lo: SoWinComponent.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-SoWinComponent.lo -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-SoWinComponent.lo `test -f 'SoWinComponent.cpp' || echo '$(srcdir)/'`SoWinComponent.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoWinComponent.cpp' object='libSoWin@SUFFIX@_la-SoWinComponent.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.Plo' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinComponent.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-SoWinComponent.lo `test -f 'SoWinComponent.cpp' || echo '$(srcdir)/'`SoWinComponent.cpp
+
+libSoWin@SUFFIX@_la-SoWinGLWidget.o: SoWinGLWidget.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-SoWinGLWidget.o -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-SoWinGLWidget.o `test -f 'SoWinGLWidget.cpp' || echo '$(srcdir)/'`SoWinGLWidget.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoWinGLWidget.cpp' object='libSoWin@SUFFIX@_la-SoWinGLWidget.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-SoWinGLWidget.o `test -f 'SoWinGLWidget.cpp' || echo '$(srcdir)/'`SoWinGLWidget.cpp
+
+libSoWin@SUFFIX@_la-SoWinGLWidget.obj: SoWinGLWidget.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-SoWinGLWidget.obj -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-SoWinGLWidget.obj `if test -f 'SoWinGLWidget.cpp'; then $(CYGPATH_W) 'SoWinGLWidget.cpp'; else $(CYGPATH_W) '$(srcdir)/SoWinGLWidget.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoWinGLWidget.cpp' object='libSoWin@SUFFIX@_la-SoWinGLWidget.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-SoWinGLWidget.obj `if test -f 'SoWinGLWidget.cpp'; then $(CYGPATH_W) 'SoWinGLWidget.cpp'; else $(CYGPATH_W) '$(srcdir)/SoWinGLWidget.cpp'; fi`
+
+libSoWin@SUFFIX@_la-SoWinGLWidget.lo: SoWinGLWidget.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-SoWinGLWidget.lo -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-SoWinGLWidget.lo `test -f 'SoWinGLWidget.cpp' || echo '$(srcdir)/'`SoWinGLWidget.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoWinGLWidget.cpp' object='libSoWin@SUFFIX@_la-SoWinGLWidget.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.Plo' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoWinGLWidget.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-SoWinGLWidget.lo `test -f 'SoWinGLWidget.cpp' || echo '$(srcdir)/'`SoWinGLWidget.cpp
+
+libSoWin@SUFFIX@_la-Win32API.o: Win32API.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-Win32API.o -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-Win32API.o `test -f 'Win32API.cpp' || echo '$(srcdir)/'`Win32API.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Win32API.cpp' object='libSoWin@SUFFIX@_la-Win32API.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-Win32API.o `test -f 'Win32API.cpp' || echo '$(srcdir)/'`Win32API.cpp
+
+libSoWin@SUFFIX@_la-Win32API.obj: Win32API.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-Win32API.obj -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-Win32API.obj `if test -f 'Win32API.cpp'; then $(CYGPATH_W) 'Win32API.cpp'; else $(CYGPATH_W) '$(srcdir)/Win32API.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Win32API.cpp' object='libSoWin@SUFFIX@_la-Win32API.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-Win32API.obj `if test -f 'Win32API.cpp'; then $(CYGPATH_W) 'Win32API.cpp'; else $(CYGPATH_W) '$(srcdir)/Win32API.cpp'; fi`
+
+libSoWin@SUFFIX@_la-Win32API.lo: Win32API.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-Win32API.lo -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-Win32API.lo `test -f 'Win32API.cpp' || echo '$(srcdir)/'`Win32API.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Win32API.cpp' object='libSoWin@SUFFIX@_la-Win32API.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.Plo' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-Win32API.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-Win32API.lo `test -f 'Win32API.cpp' || echo '$(srcdir)/'`Win32API.cpp
+
+libSoWin@SUFFIX@_la-SoAny.o: $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-SoAny.o -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-SoAny.o `test -f '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' object='libSoWin@SUFFIX@_la-SoAny.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-SoAny.o `test -f '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+
+libSoWin@SUFFIX@_la-SoAny.obj: $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-SoAny.obj -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-SoAny.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' object='libSoWin@SUFFIX@_la-SoAny.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-SoAny.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp'; fi`
+
+libSoWin@SUFFIX@_la-SoAny.lo: $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-SoAny.lo -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-SoAny.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' object='libSoWin@SUFFIX@_la-SoAny.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.Plo' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-SoAny.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-SoAny.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+
+libSoWin@SUFFIX@_la-So@Gui@Cursor.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@Cursor.o -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@Cursor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' object='libSoWin@SUFFIX@_la-So@Gui@Cursor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@Cursor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+
+libSoWin@SUFFIX@_la-So@Gui@Cursor.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@Cursor.obj -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@Cursor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' object='libSoWin@SUFFIX@_la-So@Gui@Cursor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@Cursor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp'; fi`
+
+libSoWin@SUFFIX@_la-So@Gui@Cursor.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@Cursor.lo -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@Cursor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' object='libSoWin@SUFFIX@_la-So@Gui@Cursor.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.Plo' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Cursor.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@Cursor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+
+libSoWin@SUFFIX@_la-So@Gui@Object.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@Object.o -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@Object.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' object='libSoWin@SUFFIX@_la-So@Gui@Object.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@Object.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
+
+libSoWin@SUFFIX@_la-So@Gui@Object.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@Object.obj -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@Object.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' object='libSoWin@SUFFIX@_la-So@Gui@Object.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@Object.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp'; fi`
+
+libSoWin@SUFFIX@_la-So@Gui@Object.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@Object.lo -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@Object.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' object='libSoWin@SUFFIX@_la-So@Gui@Object.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.Plo' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Object.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@Object.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
+
+libSoWin@SUFFIX@_la-So@Gui@Common.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@Common.o -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@Common.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' object='libSoWin@SUFFIX@_la-So@Gui@Common.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@Common.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+
+libSoWin@SUFFIX@_la-So@Gui@Common.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@Common.obj -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@Common.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' object='libSoWin@SUFFIX@_la-So@Gui@Common.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@Common.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp'; fi`
+
+libSoWin@SUFFIX@_la-So@Gui@Common.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@Common.lo -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@Common.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' object='libSoWin@SUFFIX@_la-So@Gui@Common.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.Plo' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@Common.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@Common.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+
+libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.o -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' object='libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+
+libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.obj -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' object='libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp'; fi`
+
+libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.lo -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' object='libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.Plo' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@ComponentCommon.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+
+libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.o -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' object='libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
+
+libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.obj -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' object='libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp'; fi`
+
+libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.lo -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' object='libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.Plo' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@GLWidgetCommon.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
+
+libSoWin@SUFFIX@_la-So@Gui@RenderArea.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@RenderArea.o -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@RenderArea.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' object='libSoWin@SUFFIX@_la-So@Gui@RenderArea.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@RenderArea.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
+
+libSoWin@SUFFIX@_la-So@Gui@RenderArea.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@RenderArea.obj -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@RenderArea.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' object='libSoWin@SUFFIX@_la-So@Gui@RenderArea.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Po' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@RenderArea.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp'; fi`
+
+libSoWin@SUFFIX@_la-So@Gui@RenderArea.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoWin@SUFFIX@_la-So@Gui@RenderArea.lo -MD -MP -MF "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoWin@SUFFIX@_la-So@Gui@RenderArea.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Tpo" "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' object='libSoWin@SUFFIX@_la-So@Gui@RenderArea.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.Plo' tmpdepfile='$(DEPDIR)/libSoWin@SUFFIX@_la-So@Gui@RenderArea.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoWin@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoWin@SUFFIX@_la-So@Gui@RenderArea.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
 
 mostlyclean-libtool:
 	-rm -f *.lo

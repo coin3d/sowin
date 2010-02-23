@@ -6,6 +6,9 @@
 #endif /* !SOWIN_INTERNAL */
 
 
+/* Version string for Windows */
+#undef GUI_TOOLKIT_VERSION
+
 /* The CPP compiler has a variable containing the current function name */
 #undef HAVE_CPP_COMPILER_FUNCTION_NAME_VAR
 
