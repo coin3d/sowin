@@ -2,6 +2,8 @@ prefix=@prefix@
 exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
+datarootdir=@datarootdir@
+datadir=${datarootdir}
 
 Name: SoWin
 Description: a Windows Gui-toolkit binding for Coin
@@ -14,5 +16,5 @@ Cflags: -I${includedir} @SOGUI_EXTRA_CFLAGS@ @SOGUI_EXTRA_CPPFLAGS@
 sowin_host=@host@
 compiler=@COIN_COMPILER@
 compiler_is_gcc=@ac_compiler_gnu@
-datadir=@datadir@
+htmldir=@htmldir@
 msvcrt=@SOGUI_MSVC_LIBC@
