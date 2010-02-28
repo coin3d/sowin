@@ -215,6 +215,9 @@ SIM_AC_CHECK_LOADLIBRARY(
 # **************************************************************************
 # Compiler control.
 
+# Make it possible for the user to turn off optimization flags.
+SIM_AC_COMPILER_OPTIMIZATION
+
 SIM_AC_COMPILE_DEBUG(
   [CPPFLAGS="$CPPFLAGS -DSOWIN_DEBUG=1"],
   [CPPFLAGS="$CPPFLAGS -DSOWIN_DEBUG=0"])
