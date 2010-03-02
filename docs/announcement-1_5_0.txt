@@ -1,40 +1,42 @@
-SoWin 1.4.0 Released
+SoWin 1.5.0 Released
 ====================
 
-Preamble
---------
+SoWin 1.5.0 is a major release. The release contains build setup
+improvements, bugfixes, documentation improvements. It also contains
+some minor API extensions beyond the previous release.
 
-The SoWin library is a C++ GUI toolkit that binds together the Coin
-rendering library with the user interface parts of the MSWindows Win32
-API, thereby providing application programmers a convenient method of
-using the Coin library from MSWindows development environments.
 
-Coin is a high-level 3D graphics library with a C++ Application
-Programming Interface. Coin implements the SGI Open Inventor API.
+NEWS File Excerpt:
+------------------
 
-New in this release
--------------------
+New in SoWin v1.5.0 (2010-03-02):
 
-New in SoWin 1.4.0 (2006-10-29):
-* synchronization with SoQt major/minor-versioning
-* plugged many memory leaks, fixed many bugs
+* new:
+  - Added getVersionToolkitString() providing the version of the
+    underlying GUI toolkit version in use
 
-Download instructions
+* bugfixes:
+  - Various compile and robustness fixes
+  - Plugged memory leaks
+  - Many bug fixes
+
+* build system:
+  - Updated autotools to autoconf-2.65, automake-1.8.3, libtool-1.5.26
+  - Changed default location for generated HTML documentation
+  - Added pkg-config description and detection support
+
+* other:
+  - Removal of Spaceball support
+
+Download Information:
 ---------------------
 
-We will regularly package up new bugfix releases of the SoWin library
-into source code archives for distribution on the FTP site whenever we
-feel this is justified by the number and/or severity of the fixed
-bugs. This also goes for updated binary installation packages.
+ChangeLog:
+  http://hg.sim.no/SoWin/default/raw-file/SoWin-1.5.0/ChangeLog
 
 Source Code by FTP:
-  ftp://ftp.coin3d.org/pub/coin/src/SoWin-1.4.0.tar.gz
+  http://ftp.coin3d.org/pub/coin/src/all/SoWin-1.5.0.tar.gz
+  http://ftp.coin3d.org/pub/coin/src/all/SoWin-1.5.0.zip
 
-Precompiled for MS Windows:
-  Visit http://www.coin3d.org/ and download the "Coin3D for Windows" 
-  installation package
-
-
-Regards,
-
-  Lars J
+We do not provide pre-compiled binary packages of the SoWin library
+for any platform.
