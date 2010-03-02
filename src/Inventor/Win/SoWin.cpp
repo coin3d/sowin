@@ -171,7 +171,8 @@
 
   For those who are using the implementation of the Inventor API from
   SGI, we would like to point out that %SoWin can also be used on top
-  of that library instead of the \COIN library from Systems in Motion.
+  of that library instead of the \COIN library from Kongsberg Oil &
+  Gas Technologies.
 
   The %SoWin API is based on and closely matches the InventorXt
   library API, originally developed by SGI. This should make it
@@ -179,7 +180,7 @@
   instance to gain greater portability.
 
   For more information about the Coin3D family of libraries, including
-  licensing information, please visit the Coin3D web site 
+  licensing information, please visit the Coin3D web site
   <http://www.coin3d.org>.
 
   \sa The documentation for the \COIN library: <http://doc.coin3d.org/Coin>.
