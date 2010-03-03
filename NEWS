@@ -1,5 +1,7 @@
-New in SoWin v1.5.0 (2010-03-02):
+New in SoWin v1.5.1a (so far):
+* bugfixes:
 
+New in SoWin v1.5.0 (2010-03-02):
 * new:
   - Added getVersionToolkitString() providing the version of the
     underlying GUI toolkit version in use
