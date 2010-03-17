@@ -61,10 +61,10 @@ dist_m4data_DATA = cfg/sowin.m4
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = so@gui@-@CONFIG@.cfg
 
+endif
+
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= SoWin.pc
-
-endif
 
 EXTRA_DIST = \
 	LICENSE.GPL \

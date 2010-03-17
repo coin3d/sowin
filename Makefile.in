@@ -670,8 +670,8 @@ DISTCLEANFILES = \
 @BUILD_LIBRARY_TRUE@dist_m4data_DATA = cfg/sowin.m4
 @BUILD_LIBRARY_TRUE@cfgdatadir = $(datadir)/Coin/conf
 @BUILD_LIBRARY_TRUE@cfgdata_DATA = so@gui@-@CONFIG@.cfg
-@BUILD_LIBRARY_TRUE@pkgconfigdir = $(libdir)/pkgconfig
-@BUILD_LIBRARY_TRUE@pkgconfig_DATA = SoWin.pc
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = SoWin.pc
 EXTRA_DIST = \
 	LICENSE.GPL \
 	SoWin.pc.in \
