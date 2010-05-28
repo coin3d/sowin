@@ -734,7 +734,7 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
     windowclass.lpszClassName = wndclassname;
     windowclass.hInstance = NULL;
     windowclass.lpfnWndProc = SoWinGLWidgetP::glWidgetProc;
-    windowclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    windowclass.style = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
