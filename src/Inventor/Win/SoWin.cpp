@@ -238,7 +238,6 @@ public:
                                     UINT message,
                                     UINT idevent,
                                     DWORD dwtime);
-  static void doIdleTasks(void);
   
   static LRESULT onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   static LRESULT onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
@@ -384,7 +383,7 @@ SoWin::mainLoop(void)
       else break; // msg == WM_QUIT
     }
     else if (SoWinP::idleSensorId != 0) {
-      SoWinP::doIdleTasks();
+      doIdleTasks();
     }
     else {
       WaitMessage();
@@ -522,6 +521,16 @@ SoWin::getShellWidget(HWND hwnd)
   } while(IsWindow(parent));
   
   return hwnd;
+}
+
+/*!
+	Process of all Inventor sensors scheduled for execution when the
+	system is idle.
+*/
+void
+SoWin::doIdleTasks(void)
+{
+  SoWinP::idleSensorCB(0, 0, 0, 0);
 }
 
 // Return value of SOWIN_MSGS_TO_CONSOLE environment variable.
@@ -670,24 +679,15 @@ SoWinP::delaySensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoGuiP::sensorQueueChanged(NULL);
 }
 
-// Process of all Inventor sensors scheduled for execution when the
-// system is idle.
-void
-SoWinP::doIdleTasks(void)
-{
-  SoDB::getSensorManager()->processTimerQueue();
-  SoDB::getSensorManager()->processDelayQueue(TRUE); // isidle = TRUE
-  SoGuiP::sensorQueueChanged(NULL);
-}
-
 void CALLBACK
 SoWinP::idleSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
 {
 #if SOWIN_DEBUG && 0
   SoDebugError::postInfo("SoWin::idleSensorCB", "called");
 #endif // SOWIN_DEBUG
-
-  SoWinP::doIdleTasks();
+  SoDB::getSensorManager()->processTimerQueue();
+  SoDB::getSensorManager()->processDelayQueue(TRUE); // isidle = TRUE
+  SoGuiP::sensorQueueChanged(NULL);
 }
 
 LRESULT
