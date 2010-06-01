@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="sowin1"
 	>
 	<Platforms>
@@ -72,7 +72,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(COINDIR)\lib\coin3.lib opengl32.lib"
+				AdditionalDependencies="$(COINDIR)\lib\coin3d.lib opengl32.lib"
 				OutputFile="sowin1.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -354,6 +354,10 @@
 			Name="Documents"
 			Filter=";txt"
 			>
+			<File
+				RelativePath="..\..\ChangeLog"
+				>
+			</File>
 			<File
 				RelativePath="..\..\COPYING"
 				>
@@ -4244,6 +4248,50 @@
 						Description="subst&apos;ing $(InputPath)"
 						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in:src\Inventor\Win\viewers\SoGuiViewerP.h&#x0D;&#x0A;"
 						Outputs="src\Inventor\Win\viewers\SoGuiViewerP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\SoWin"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\SoWinBasic.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\SoWinBasic.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\SoWinBasic.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\SoWinBasic.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\SoWinBasic.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\SoWinBasic.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\SoWinBasic.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Win\SoWinBasic.h"
 					/>
 				</FileConfiguration>
 			</File>

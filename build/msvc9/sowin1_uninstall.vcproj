@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="sowin1_uninstall"
-	ProjectGUID="{C1468F6F-FAF0-4CED-9816-2AB220C73BFE}"
 	Keyword="MakeFileProj"
 	TargetFrameworkVersion="131072"
 	>

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="sowin1_install"
-	ProjectGUID="{9564DB55-BA18-4098-9A17-F6233538FCFE}"
 	Keyword="MakeFileProj"
 	TargetFrameworkVersion="131072"
 	>
