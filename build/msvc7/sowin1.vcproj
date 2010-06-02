@@ -3001,36 +3001,36 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\SoWinMaterialEditor.h
 "
-						Outputs="src\Inventor\Win\editors\SoWinMaterialEditor.h"/>
+						Outputs="src\Inventor\Win\SoWinMaterialEditor.h"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="LIB (Release)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\SoWinMaterialEditor.h
 "
-						Outputs="src\Inventor\Win\editors\SoWinMaterialEditor.h"/>
+						Outputs="src\Inventor\Win\SoWinMaterialEditor.h"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\SoWinMaterialEditor.h
 "
-						Outputs="src\Inventor\Win\editors\SoWinMaterialEditor.h"/>
+						Outputs="src\Inventor\Win\SoWinMaterialEditor.h"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="LIB (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\SoWinMaterialEditor.h
 "
-						Outputs="src\Inventor\Win\editors\SoWinMaterialEditor.h"/>
+						Outputs="src\Inventor\Win\SoWinMaterialEditor.h"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -3040,36 +3040,36 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\SoWinMaterialEditor.h
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
 "
-						Outputs="src\Inventor\Win\SoWinMaterialEditor.h"/>
+						Outputs="src\Inventor\Win\editors\SoWinMaterialEditor.h"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="LIB (Release)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\SoWinMaterialEditor.h
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
 "
-						Outputs="src\Inventor\Win\SoWinMaterialEditor.h"/>
+						Outputs="src\Inventor\Win\editors\SoWinMaterialEditor.h"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\SoWinMaterialEditor.h
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
 "
-						Outputs="src\Inventor\Win\SoWinMaterialEditor.h"/>
+						Outputs="src\Inventor\Win\editors\SoWinMaterialEditor.h"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="LIB (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\SoWinMaterialEditor.h
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Win\editors\SoWinMaterialEditor.h
 "
-						Outputs="src\Inventor\Win\SoWinMaterialEditor.h"/>
+						Outputs="src\Inventor\Win\editors\SoWinMaterialEditor.h"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -3694,45 +3694,6 @@
 						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Win\common\viewers\SoGuiViewerP.h.in:src\Inventor\Win\viewers\SoGuiViewerP.h
 "
 						Outputs="src\Inventor\Win\viewers\SoGuiViewerP.h"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\SoWin">
-				<FileConfiguration
-					Name="DLL (Release)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\SoWinBasic.h
-"
-						Outputs="src\Inventor\Win\SoWinBasic.h"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Release)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\SoWinBasic.h
-"
-						Outputs="src\Inventor\Win\SoWinBasic.h"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DLL (Debug)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\SoWinBasic.h
-"
-						Outputs="src\Inventor\Win\SoWinBasic.h"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Debug)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Win\SoWinBasic.h
-"
-						Outputs="src\Inventor\Win\SoWinBasic.h"/>
 				</FileConfiguration>
 			</File>
 			<File
