@@ -404,10 +404,19 @@ SoWin::exitMainLoop(void)
 void
 SoWin::done(void)
 {
-  SoGuiP::commonCleanup();
-
   // FIXME: should clean up *all* resources still dangling
   // about. -mortene.
+
+  //FIXME: Test to make sure cleanup is not done more than once. -wiesener
+  if (SoWinP::idleSensorId != 0) Win32::KillTimer(NULL, SoWinP::idleSensorId);
+  if (SoWinP::timerSensorId != 0) Win32::KillTimer(NULL, SoWinP::timerSensorId);
+  if (SoWinP::delaySensorId != 0) Win32::KillTimer(NULL, SoWinP::delaySensorId);
+
+  SoWinP::idleSensorId = SoWinP::timerSensorId = SoWinP::delaySensorId = 0;
+
+  Win32::UnregisterClass(SoWinP::className, NULL);
+
+  SoGuiP::commonCleanup();
 }
 
 /*!
@@ -700,14 +709,7 @@ SoWinP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 LRESULT
 SoWinP::onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  if (SoWinP::idleSensorId != 0) Win32::KillTimer(NULL, SoWinP::idleSensorId);
-  if (SoWinP::timerSensorId != 0) Win32::KillTimer(NULL, SoWinP::timerSensorId);
-  if (SoWinP::delaySensorId != 0) Win32::KillTimer(NULL, SoWinP::delaySensorId);
-
-  SoWinP::idleSensorId = SoWinP::timerSensorId = SoWinP::delaySensorId = 0;
-
-  Win32::UnregisterClass(SoWinP::className, NULL);
-
+  SoWin::done();
   return 0;
 }
 
