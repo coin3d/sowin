@@ -239,6 +239,7 @@ public:
                                     UINT idevent,
                                     DWORD dwtime);
   
+  static LRESULT onClose(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   static LRESULT onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   static LRESULT onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   
@@ -376,9 +377,16 @@ SoWin::mainLoop(void)
     // FIXME: shouldn't this be a while loop, i.e. process all
     // messages, before doing the idle tasks? 20040721 mortene.
     if (GetQueueStatus(QS_ALLINPUT) != 0) { // if messagequeue != empty
-      if (GetMessage(& msg, NULL, 0, 0)) { // if msg != WM_QUIT
-        TranslateMessage(& msg);
-        DispatchMessage(& msg);
+      BOOL bRet;
+      if ((bRet = GetMessage(&msg, NULL, 0, 0)) != 0){ // if msg != WM_QUIT
+        if (bRet == -1){
+          // FIXME: handle the error and possibly exit
+          break;
+        }
+        else {
+          TranslateMessage(&msg); 
+          DispatchMessage(&msg); 
+        }
       }
       else break; // msg == WM_QUIT
     }
@@ -407,15 +415,18 @@ SoWin::done(void)
   // FIXME: should clean up *all* resources still dangling
   // about. -mortene.
 
-  //FIXME: Test to make sure cleanup is not done more than once. -wiesener
+  //FIXME: Test to make sure cleanup is not done more than once? -wiesener
+
   if (SoWinP::idleSensorId != 0) Win32::KillTimer(NULL, SoWinP::idleSensorId);
   if (SoWinP::timerSensorId != 0) Win32::KillTimer(NULL, SoWinP::timerSensorId);
   if (SoWinP::delaySensorId != 0) Win32::KillTimer(NULL, SoWinP::delaySensorId);
 
   SoWinP::idleSensorId = SoWinP::timerSensorId = SoWinP::delaySensorId = 0;
 
-  Win32::UnregisterClass(SoWinP::className, NULL);
-
+  if (!SoWinP::useParentEventHandler){
+    DestroyWindow(SoWinP::mainWidget);
+    Win32::UnregisterClass(SoWinP::className, NULL);
+  }
   SoGuiP::commonCleanup();
 }
 
@@ -641,6 +652,13 @@ SoWinP::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
     }
     break;
 
+  case WM_CLOSE:
+    if (! SoWinP::useParentEventHandler) {
+      retval = SoWinP::onClose(window, message, wparam, lparam);
+      handled = TRUE;
+    }
+    break;
+
   case WM_DESTROY:
     if (! SoWinP::useParentEventHandler) {
       retval = SoWinP::onDestroy(window, message, wparam, lparam);
@@ -649,6 +667,9 @@ SoWinP::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
     break;
             
   case WM_QUIT:
+    //This location will normally not be reached, as the mainLoop filters out 
+    //the WM_QUIT message before pumping it through the loop. The exception
+    //is if the user has her own main loop.
     retval = SoWinP::onQuit(window, message, wparam, lparam);
     handled = TRUE;
     break;
@@ -699,16 +720,26 @@ SoWinP::idleSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoGuiP::sensorQueueChanged(NULL);
 }
 
+LRESULT 
+SoWinP::onClose(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
+{
+  //No need to destroy window, will be destroyed in SoWin::done()
+  PostQuitMessage(0);
+  return 0;
+}
+
 LRESULT
 SoWinP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  PostQuitMessage(0);
   return 0;
 }
 
 LRESULT
 SoWinP::onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
+  //This location will normally not be reached, as the mainLoop filters out 
+  //the WM_QUIT message before pumping it through the loop. The exception
+  //is if the user has her own main loop.
   SoWin::done();
   return 0;
 }
