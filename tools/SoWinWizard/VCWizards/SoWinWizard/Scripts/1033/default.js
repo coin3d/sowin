@@ -97,10 +97,6 @@ function AddConfig(proj, strProjectName)
 {
 	try
 	{
-		var config = proj.Object.Configurations('Debug');
-		config.IntermediateDirectory = '$(ConfigurationName)';
-		config.OutputDirectory = '$(ConfigurationName)';
-		
     var coin3 = wizard.FindSymbol('COIN_VERSION_RADIO_OPTION3');
     var coin4 = wizard.FindSymbol('COIN_VERSION_RADIO_OPTION4');
 
@@ -108,26 +104,36 @@ function AddConfig(proj, strProjectName)
     if (coin3) coinversion = "3";
     else if (coin4) coinversion = "4";
     else wizard.ReportError("Unknown Coin version!");
-    
-		var CLTool = config.Tools('VCCLCompilerTool');
-		CLTool.AdditionalIncludeDirectories += "$(COINDIR)\\include";
-		CLTool.PreprocessorDefinitions += "COIN_DLL;SOWIN_DLL";
 
-		var LinkTool = config.Tools('VCLinkerTool');
-    LinkTool.AdditionalLibraryDirectories += "$(COINDIR)\\lib";
-    LinkTool.AdditionalDependencies += "coin" + coinversion +"d.lib sowin1d.lib";
+		//Debug configuration
+		var configDebug = proj.Object.Configurations('Debug');
+		configDebug.IntermediateDirectory = '$(ConfigurationName)';
+		configDebug.OutputDirectory = '$(ConfigurationName)';
+		    
+		var CLToolDebug = configDebug.Tools('VCCLCompilerTool');
+		CLToolDebug.AdditionalIncludeDirectories += "$(COINDIR)\\include";
+		CLToolDebug.PreprocessorDefinitions += "COIN_DLL;SOWIN_DLL";
+		CLToolDebug.DebugInformationFormat = debugOption.debugEnabled;
+		CLToolDebug.RuntimeLibrary = runtimeLibraryOption.rtMultiThreadedDebugDLL;
+		
+		var LinkToolDebug = configDebug.Tools('VCLinkerTool');
+    LinkToolDebug.AdditionalLibraryDirectories += "$(COINDIR)\\lib";
+    LinkToolDebug.AdditionalDependencies += "coin" + coinversion +"d.lib sowin1d.lib";
+    LinkToolDebug.GenerateDebugInformation = true;
 
-		config = proj.Object.Configurations('Release');
-		config.IntermediateDirectory = '$(ConfigurationName)';
-		config.OutputDirectory = '$(ConfigurationName)';
+    //Release configuration
+		configRelease = proj.Object.Configurations('Release');
+		configRelease.IntermediateDirectory = '$(ConfigurationName)';
+		configRelease.OutputDirectory = '$(ConfigurationName)';
 
-		var CLTool = config.Tools('VCCLCompilerTool');
-		CLTool.AdditionalIncludeDirectories += "$(COINDIR)\\include";
-		CLTool.PreprocessorDefinitions += "COIN_DLL;SOWIN_DLL";
+		var CLToolRelease = configRelease.Tools('VCCLCompilerTool');
+		CLToolRelease.AdditionalIncludeDirectories += "$(COINDIR)\\include";
+		CLToolRelease.PreprocessorDefinitions += "COIN_DLL;SOWIN_DLL";
+		CLToolRelease.RuntimeLibrary = runtimeLibraryOption.rtMultiThreadedDLL;
 
-		var LinkTool = config.Tools('VCLinkerTool');
-    LinkTool.AdditionalLibraryDirectories += "$(COINDIR)\\lib";
-    LinkTool.AdditionalDependencies += "coin" + coinversion +".lib sowin1.lib";
+		var LinkToolRelease = configRelease.Tools('VCLinkerTool');
+    LinkToolRelease.AdditionalLibraryDirectories += "$(COINDIR)\\lib";
+    LinkToolRelease.AdditionalDependencies += "coin" + coinversion +".lib sowin1.lib";
 	}
 	catch(e)
 	{
