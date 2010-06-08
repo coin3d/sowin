@@ -89,6 +89,7 @@
     // Clean up resources.
     delete eviewer;
     root->unref();
+    SoWin::done();
 
     return 0;
   }
@@ -397,8 +398,10 @@ SoWin::mainLoop(void)
       WaitMessage();
     }
   }
-
-  SoWin::done();
+// Disabled invocation of SoWin::done(), since this calls SoDB::finish(),
+// which means we would run into issues doing the usual...
+//    SoWin::mainLoop();
+//    root->unref();
 }
 
 // documented in common/SoGuiCommon.cpp.in
@@ -417,6 +420,7 @@ SoWin::done(void)
 
   //FIXME: Test to make sure cleanup is not done more than once? -wiesener
 
+  SoDB::getSensorManager()->setChangedCallback(NULL, NULL);
   if (SoWinP::idleSensorId != 0) Win32::KillTimer(NULL, SoWinP::idleSensorId);
   if (SoWinP::timerSensorId != 0) Win32::KillTimer(NULL, SoWinP::timerSensorId);
   if (SoWinP::delaySensorId != 0) Win32::KillTimer(NULL, SoWinP::delaySensorId);
@@ -424,10 +428,19 @@ SoWin::done(void)
   SoWinP::idleSensorId = SoWinP::timerSensorId = SoWinP::delaySensorId = 0;
 
   if (!SoWinP::useParentEventHandler){
+    //destroy the window if we created it
     DestroyWindow(SoWinP::mainWidget);
     Win32::UnregisterClass(SoWinP::className, NULL);
   }
+  else {
+    //set the message handler back to the previous value
+    //FIXME: We should make sure that this is not be done from within the message handler.
+    (void)Win32::SetWindowLongPtr(SoWinP::mainWidget, GWLP_WNDPROC, (LONG_PTR)SoWinP::parentEventHandler);
+  }
   SoGuiP::commonCleanup();
+
+  //Added a call to SoDB::finish here to behave more like SoQt.
+  SoDB::finish();
 }
 
 /*!
@@ -723,7 +736,6 @@ SoWinP::idleSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
 LRESULT 
 SoWinP::onClose(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  //No need to destroy window, will be destroyed in SoWin::done()
   PostQuitMessage(0);
   return 0;
 }
@@ -737,10 +749,6 @@ SoWinP::onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 LRESULT
 SoWinP::onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-  //This location will normally not be reached, as the mainLoop filters out 
-  //the WM_QUIT message before pumping it through the loop. The exception
-  //is if the user has her own main loop.
-  SoWin::done();
   return 0;
 }
 
