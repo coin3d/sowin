@@ -216,7 +216,6 @@
 class SoWinP {
   
 public:
-
   static BOOL CALLBACK sizeChildProc(HWND window, LPARAM lparam);
   static void errorHandlerCB(const SoError * error, void * data);
   static LRESULT CALLBACK eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
@@ -255,6 +254,8 @@ public:
   static SbBool hasFocus;
   static HWND savedFocus;
   static int DEBUG_LISTMODULES;
+
+  static bool InitRawDevices(void);
 
 private:
   SoWin * owner;
@@ -299,7 +300,7 @@ SoWin::init(int & argc, char ** argv,
     LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
     HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
     windowclass.lpszClassName = classname;
-    windowclass.hInstance = NULL;
+    windowclass.hInstance = SoWinP::Instance;
     windowclass.lpfnWndProc = SoWinP::eventHandler;
     windowclass.style = CS_OWNDC;
     windowclass.lpszMenuName = NULL;
@@ -310,7 +311,9 @@ SoWin::init(int & argc, char ** argv,
     windowclass.cbWndExtra = sizeof(LONG_PTR);
     (void)Win32::RegisterClass(&windowclass);
   }
- 
+
+  SoWinP::InitRawDevices();
+  
   SIZE size = { 500, 500 };
   HWND toplevel =
     Win32::CreateWindowEx_(NULL, // exstyle
@@ -367,6 +370,7 @@ SoWin::init(HWND toplevelwidget)
       Win32::GetWindowLongPtr(toplevelwidget, GWLP_WNDPROC);
     (void)Win32::SetWindowLongPtr(toplevelwidget, GWLP_WNDPROC, (LONG_PTR) SoWinP::eventHandler);
   }
+  
 }
 
 // documented in common/SoGuiCommon.cpp.in
@@ -566,6 +570,72 @@ SoWin::doIdleTasks(void)
   SoWinP::idleSensorCB(0, 0, 0, 0);
 }
 
+bool 
+SoWinP::InitRawDevices(void) 
+{
+  PRAWINPUTDEVICELIST rawInputDeviceList;
+  PRAWINPUTDEVICE rawInputDevices;
+  int usagePage1Usage8Devices;
+  
+  // Find the Raw Devices
+  UINT nDevices;
+  // Get Number of devices attached
+  if (GetRawInputDeviceList(NULL, &nDevices, sizeof(RAWINPUTDEVICELIST)) != 0) { 
+    return FALSE;
+  }
+  // Create list large enough to hold all RAWINPUTDEVICE structs
+  rawInputDeviceList = (PRAWINPUTDEVICELIST)malloc(sizeof(RAWINPUTDEVICELIST) * nDevices);
+  if (rawInputDeviceList == NULL) {
+    return FALSE;
+  }
+  // Now get the data on the attached devices
+  if (GetRawInputDeviceList(rawInputDeviceList, &nDevices, sizeof(RAWINPUTDEVICELIST)) == -1) {
+    return FALSE;
+  }
+  
+  rawInputDevices = (PRAWINPUTDEVICE)malloc(nDevices * sizeof(RAWINPUTDEVICE));
+  usagePage1Usage8Devices = 0;
+  
+  // Look through device list for RIM_TYPEHID devices with UsagePage == 1, Usage == 8
+  for(UINT i=0; i<nDevices; i++) {
+    if (rawInputDeviceList[i].dwType == RIM_TYPEHID) {
+      UINT nchars = 300;
+      TCHAR deviceName[300];      
+      RID_DEVICE_INFO dinfo;
+      UINT sizeofdinfo = sizeof(dinfo);
+      dinfo.cbSize = sizeofdinfo;
+      if (GetRawInputDeviceInfo(rawInputDeviceList[i].hDevice,
+                                RIDI_DEVICEINFO, &dinfo, &sizeofdinfo ) >= 0) {
+        if (dinfo.dwType == RIM_TYPEHID) {
+          RID_DEVICE_INFO_HID *phidInfo = &dinfo.hid;          
+          // Add this one to the list of interesting devices?
+          // Actually only have to do this once to get input from all
+          // usage 1, usagePage 8 devices This just keeps out the
+          // other usages.  You might want to put up a list for users
+          // to select amongst the different devices.  In particular,
+          // to assign separate functionality to the different
+          // devices.
+          if (phidInfo->usUsagePage == 1 && phidInfo->usUsage == 8) {
+            rawInputDevices[usagePage1Usage8Devices].usUsagePage = phidInfo->usUsagePage;
+            rawInputDevices[usagePage1Usage8Devices].usUsage = phidInfo->usUsage;
+            rawInputDevices[usagePage1Usage8Devices].dwFlags = 0;
+            rawInputDevices[usagePage1Usage8Devices].hwndTarget = NULL;
+            usagePage1Usage8Devices++;
+          }
+        }
+      }
+    }
+  }
+  
+  // Register for input from the devices in the list
+  if (RegisterRawInputDevices(rawInputDevices, usagePage1Usage8Devices, 
+                              sizeof(RAWINPUTDEVICE)) == FALSE) {
+    return FALSE;
+  }
+  
+  return TRUE;
+}
+
 // Return value of SOWIN_MSGS_TO_CONSOLE environment variable.
 SbBool
 SoWinP::pipeErrorMessagesToConsole(void)
@@ -636,7 +706,6 @@ SoWinP::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
   }
 
   switch (message) {
-
   // WM_ACTIVATE message is necessary for restoring correct focus after the application
   // is ALT-tab-bed to background and brought to foreground again, or when message dialog
   // appears and is closed. In all these cases, the focus may be lost.
@@ -819,5 +888,7 @@ SoGuiP::sensorQueueChanged(void * cbdata)
     }
   }
 }
+
+
 
 #endif // !DOXYGEN_SKIP_THIS

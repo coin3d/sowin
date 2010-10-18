@@ -641,8 +641,19 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
   SoWinGLWidget * object = (SoWinGLWidget *)
     Win32::GetWindowLongPtr(window, GWLP_USERDATA);
 
+  if (message == WM_INPUT) { // Spacemouse/navigator/3DConnexion input?
+    MSG msg;
+    POINT pt = { LOWORD(lparam), HIWORD(lparam) };
+    msg.hwnd = window;
+    msg.lParam = lparam;
+    msg.message = message;
+    msg.pt = pt;
+    msg.time = GetTickCount();
+    msg.wParam = wparam;
+    object->processEvent(&msg);
+  }
+  
   if (object && window == object->getNormalWidget()) {
-
     MSG msg;
     POINT pt = { LOWORD(lparam), HIWORD(lparam) };
     msg.hwnd = window;
