@@ -73,6 +73,9 @@
 /* Define to enable use of Inventor feature */
 #define HAVE_SORTED_LAYERS_BLEND 1
 
+/* Define if the Space Navigator support should be included */
+#define HAVE_SPACENAV_SUPPORT 1
+
 /* Define to 1 if you have the <stdint.h> header file. */
 /* #undef HAVE_STDINT_H */
 
