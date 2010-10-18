@@ -7606,27 +7606,2485 @@ fi
 INSTALL_STRIP_PROGRAM="\${SHELL} \$(install_sh) -c -s"
 AC_SUBST([INSTALL_STRIP_PROGRAM])])
 
-m4_include([../simacros/bin/../cfg/m4/coin.m4])
-m4_include([../simacros/bin/../cfg/m4/compile_debug.m4])
-m4_include([../simacros/bin/../cfg/m4/compile_exceptions.m4])
-m4_include([../simacros/bin/../cfg/m4/compile_functionname.m4])
-m4_include([../simacros/bin/../cfg/m4/compile_profiling.m4])
-m4_include([../simacros/bin/../cfg/m4/compile_rtti.m4])
-m4_include([../simacros/bin/../cfg/m4/compile_symbols.m4])
-m4_include([../simacros/bin/../cfg/m4/compile_warnings.m4])
-m4_include([../simacros/bin/../cfg/m4/configuration_summary.m4])
-m4_include([../simacros/bin/../cfg/m4/dates.m4])
-m4_include([../simacros/bin/../cfg/m4/dl.m4])
-m4_include([../simacros/bin/../cfg/m4/doxygen_detection.m4])
-m4_include([../simacros/bin/../cfg/m4/errors.m4])
-m4_include([../simacros/bin/../cfg/m4/exit.m4])
-m4_include([../simacros/bin/../cfg/m4/gendsp.m4])
-m4_include([../simacros/bin/../cfg/m4/inventor.m4])
-m4_include([../simacros/bin/../cfg/m4/misc_compiler.m4])
-m4_include([../simacros/bin/../cfg/m4/sim.m4])
-m4_include([../simacros/bin/../cfg/m4/sogui-misc-common.m4])
-m4_include([../simacros/bin/../cfg/m4/sogui.m4])
-m4_include([../simacros/bin/../cfg/m4/sourcedir.m4])
-m4_include([../simacros/bin/../cfg/m4/uniqify.m4])
-m4_include([../simacros/bin/../cfg/m4/w32api.m4])
-m4_include([../simacros/bin/../cfg/m4/wrapmsvc.m4])
+# Usage:
+#   SIM_AC_HAVE_COIN_IFELSE( IF-FOUND, IF-NOT-FOUND )
+#
+# Description:
+#   This macro locates the Coin development system.  If it is found,
+#   the set of variables listed below are set up as described and made
+#   available to the configure script.
+#
+#   The $sim_ac_coin_desired variable can be set to false externally to
+#   make Coin default to be excluded.
+#
+# Autoconf Variables:
+# > $sim_ac_coin_desired     true | false (defaults to true)
+# < $sim_ac_coin_avail       true | false
+# < $sim_ac_coin_cppflags    (extra flags the preprocessor needs)
+# < $sim_ac_coin_cflags      (extra flags the C compiler needs)
+# < $sim_ac_coin_cxxflags    (extra flags the C++ compiler needs)
+# < $sim_ac_coin_ldflags     (extra flags the linker needs)
+# < $sim_ac_coin_libs        (link library flags the linker needs)
+# < $sim_ac_coin_datadir     (location of Coin data files)
+# < $sim_ac_coin_includedir  (location of Coin headers)
+# < $sim_ac_coin_version     (the libCoin version)
+# < $sim_ac_coin_msvcrt      (the MSVC++ C library Coin was built with)
+# < $sim_ac_coin_configcmd   (the path to coin-config or "false")
+#
+# Authors:
+#   Lars J. Aas, <larsa@sim.no>
+#   Morten Eriksen, <mortene@sim.no>
+#
+# TODO:
+#
+
+AC_DEFUN([SIM_AC_HAVE_COIN_IFELSE], [
+AC_PREREQ([2.14a])
+
+# official variables
+sim_ac_coin_avail=false
+sim_ac_coin_cppflags=
+sim_ac_coin_cflags=
+sim_ac_coin_cxxflags=
+sim_ac_coin_ldflags=
+sim_ac_coin_libs=
+sim_ac_coin_datadir=
+sim_ac_coin_includedir=
+sim_ac_coin_version=
+
+# internal variables
+: ${sim_ac_coin_desired=true}
+sim_ac_coin_extrapath=
+
+AC_ARG_WITH([coin],
+AC_HELP_STRING([--with-coin], [enable use of Coin [[default=yes]]])
+AC_HELP_STRING([--with-coin=DIR], [give prefix location of Coin]),
+  [ case $withval in
+    no)  sim_ac_coin_desired=false ;;
+    yes) sim_ac_coin_desired=true ;;
+    *)   sim_ac_coin_desired=true
+         sim_ac_coin_extrapath=$withval ;;
+    esac],
+  [])
+
+case $build in
+*-mks ) sim_ac_pathsep=";" ;;
+* )     sim_ac_pathsep="${PATH_SEPARATOR}" ;;
+esac
+
+if $sim_ac_coin_desired; then
+  sim_ac_path=$PATH
+  test -z "$sim_ac_coin_extrapath" || ## search in --with-coin path
+    sim_ac_path="$sim_ac_coin_extrapath/bin${sim_ac_pathsep}$sim_ac_path"
+  test x"$prefix" = xNONE ||          ## search in --prefix path
+    sim_ac_path="$sim_ac_path${sim_ac_pathsep}$prefix/bin"
+
+  AC_PATH_PROG(sim_ac_coin_configcmd, coin-config, false, $sim_ac_path)
+
+  if test "X$sim_ac_coin_configcmd" != "Xfalse"; then
+    test -n "$CONFIG" &&
+      $sim_ac_coin_configcmd --alternate=$CONFIG >/dev/null 2>/dev/null &&
+      sim_ac_coin_configcmd="$sim_ac_coin_configcmd --alternate=$CONFIG"
+  fi
+
+  if $sim_ac_coin_configcmd; then
+    sim_ac_coin_version=`$sim_ac_coin_configcmd --version`
+    sim_ac_coin_cppflags=`$sim_ac_coin_configcmd --cppflags`
+    sim_ac_coin_cflags=`$sim_ac_coin_configcmd --cflags 2>/dev/null`
+    sim_ac_coin_cxxflags=`$sim_ac_coin_configcmd --cxxflags`
+    sim_ac_coin_ldflags=`$sim_ac_coin_configcmd --ldflags`
+    sim_ac_coin_libs=`$sim_ac_coin_configcmd --libs`
+    sim_ac_coin_datadir=`$sim_ac_coin_configcmd --datadir`
+    # Hide stderr on the following, as ``--includedir'', ``--msvcrt''
+    # and ``--cflags'' options were added late to coin-config.
+    sim_ac_coin_includedir=`$sim_ac_coin_configcmd --includedir 2>/dev/null`
+    sim_ac_coin_msvcrt=`$sim_ac_coin_configcmd --msvcrt 2>/dev/null`
+    sim_ac_coin_cflags=`$sim_ac_coin_configcmd --cflags 2>/dev/null`
+    AC_CACHE_CHECK(
+      [if we can compile and link with the Coin library],
+      sim_cv_coin_avail,
+      [sim_ac_save_cppflags=$CPPFLAGS
+      sim_ac_save_cxxflags=$CXXFLAGS
+      sim_ac_save_ldflags=$LDFLAGS
+      sim_ac_save_libs=$LIBS
+      CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
+      CXXFLAGS="$CXXFLAGS $sim_ac_coin_cxxflags"
+      LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+      LIBS="$sim_ac_coin_libs $LIBS"
+      AC_LANG_PUSH(C++)
+
+      AC_TRY_LINK(
+        [#include <Inventor/SoDB.h>],
+        [SoDB::init();],
+        [sim_cv_coin_avail=true],
+        [sim_cv_coin_avail=false])
+
+      AC_LANG_POP
+      CPPFLAGS=$sim_ac_save_cppflags
+      CXXFLAGS=$sim_ac_save_cxxflags
+      LDFLAGS=$sim_ac_save_ldflags
+      LIBS=$sim_ac_save_libs
+    ])
+    sim_ac_coin_avail=$sim_cv_coin_avail
+
+    if $sim_ac_coin_avail; then :; else
+      AC_MSG_WARN([
+Compilation and/or linking with the Coin main library SDK failed, for
+unknown reason. If you are familiar with configure-based configuration
+and building, investigate the 'config.log' file for clues.
+
+If you can not figure out what went wrong, please forward the 'config.log'
+file to the email address <coin-support@coin3d.org> and ask for help by
+describing the situation where this failed.
+])
+    fi
+  else # no 'coin-config' found
+
+# FIXME: test for Coin without coin-config script here
+    if test x"$COINDIR" != x""; then
+      sim_ac_coindir=`cygpath -u "$COINDIR" 2>/dev/null || echo "$COINDIR"`
+      if test -d $sim_ac_coindir/bin && test -d $sim_ac_coindir/lib && test -d $sim_ac_coindir/include/Inventor; then
+        # using newest version (last alphabetically) in case of multiple libs
+        sim_ac_coin_lib_file=`echo $sim_ac_coindir/lib/coin*.lib | sed -e 's,.* ,,g'`
+        if test -f $sim_ac_coin_lib_file; then
+          sim_ac_coin_lib_name=`echo $sim_ac_coin_lib_file | sed -e 's,.*/,,g' -e 's,.lib,,'`
+          sim_ac_save_cppflags=$CPPFLAGS
+          sim_ac_save_libs=$LIBS
+          sim_ac_save_ldflags=$LDFLAGS
+          CPPFLAGS="$CPPFLAGS -I$sim_ac_coindir/include"
+          if test -f $sim_ac_coindir/bin/$sim_ac_coin_lib_name.dll; then
+            CPPFLAGS="$CPPFLAGS -DCOIN_DLL"
+          fi
+          LDFLAGS="$LDFLAGS -L$sim_ac_coindir/lib"
+          LIBS="-l$sim_ac_coin_lib_name -lopengl32 $LIBS"
+
+          AC_LANG_PUSH(C++)
+
+          AC_TRY_LINK(
+            [#include <Inventor/SoDB.h>],
+            [SoDB::init();],
+            [sim_cv_coin_avail=true],
+            [sim_cv_coin_avail=false])
+
+          AC_LANG_POP
+          CPPFLAGS=$sim_ac_save_cppflags
+          LDFLAGS=$sim_ac_save_ldflags
+          LIBS=$sim_ac_save_libs
+          sim_ac_coin_avail=$sim_cv_coin_avail
+        fi
+      fi
+    fi
+
+    if $sim_ac_coin_avail; then
+      sim_ac_coin_cppflags=-I$sim_ac_coindir/include
+      if test -f $sim_ac_coindir/bin/$sim_ac_coin_lib_name.dll; then
+        sim_ac_coin_cppflags="$sim_ac_coin_cppflags -DCOIN_DLL"
+      fi
+      sim_ac_coin_ldflags=-L$sim_ac_coindir/lib
+      sim_ac_coin_libs="-l$sim_ac_coin_lib_name -lopengl32"
+      sim_ac_coin_datadir=$sim_ac_coindir/data
+    else
+      locations=`IFS="${sim_ac_pathsep}"; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
+      AC_MSG_WARN([cannot find 'coin-config' at any of these locations:
+$locations])
+      AC_MSG_WARN([
+Need to be able to run 'coin-config' to figure out how to build and link
+against the Coin library. To rectify this problem, you most likely need
+to a) install Coin if it has not been installed, b) add the Coin install
+bin/ directory to your PATH environment variable.
+])
+    fi
+  fi
+fi
+
+if $sim_ac_coin_avail; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_HAVE_COIN_IFELSE()
+
+
+# Usage:
+#   SIM_AC_COMPILE_DEBUG([ACTION-IF-DEBUG[, ACTION-IF-NOT-DEBUG]])
+#
+# Description:
+#   Let the user decide if compilation should be done in "debug mode".
+#   If compilation is not done in debug mode, all assert()'s in the code
+#   will be disabled.
+#
+#   Also sets enable_debug variable to either "yes" or "no", so the
+#   configure.in writer can add package-specific actions. Default is "yes".
+#   This was also extended to enable the developer to set up the two first
+#   macro arguments following the well-known ACTION-IF / ACTION-IF-NOT
+#   concept.
+#
+# Authors:
+#   Morten Eriksen, <mortene@sim.no>
+#   Lars J. Aas, <larsa@sim.no>
+#
+
+AC_DEFUN([SIM_AC_COMPILE_DEBUG], [
+AC_REQUIRE([SIM_AC_CHECK_SIMIAN_IFELSE])
+
+AC_ARG_ENABLE(
+  [debug],
+  AC_HELP_STRING([--enable-debug], [compile in debug mode [[default=yes]]]),
+  [case "${enableval}" in
+    yes) enable_debug=true ;;
+    no)  enable_debug=false ;;
+    true | false) enable_debug=${enableval} ;;
+    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-debug) ;;
+  esac],
+  [enable_debug=true])
+
+if $enable_debug; then
+  DSUFFIX=d
+  if $sim_ac_simian; then
+    case $CXX in
+    *wrapmsvc* )
+      # uninitialized checks
+      if test ${sim_ac_msc_major_version-0} -gt 6; then
+        SIM_AC_CC_COMPILER_OPTION([/RTCu], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /RTCu"])
+        SIM_AC_CXX_COMPILER_OPTION([/RTCu], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /RTCu"])
+        # stack frame checks
+        SIM_AC_CC_COMPILER_OPTION([/RTCs], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /RTCs"])
+        SIM_AC_CXX_COMPILER_OPTION([/RTCs], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /RTCs"])
+      fi
+      ;;
+    esac
+  fi
+
+  ifelse([$1], , :, [$1])
+else
+  DSUFFIX=
+  CPPFLAGS="$CPPFLAGS -DNDEBUG"
+  ifelse([$2], , :, [$2])
+fi
+AC_SUBST(DSUFFIX)
+])
+
+# Usage:
+#   SIM_AC_COMPILER_OPTIMIZATION
+#
+# Description:
+#   Let the user decide if optimization should be attempted turned off
+#   by stripping off an "-O[0-9]" option.
+#
+#   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
+#   in the configure.in script.
+#
+# FIXME: this is pretty much just a dirty hack. Unfortunately, this
+# seems to be the best we can do without fixing Autoconf to behave
+# properly wrt setting optimization options. 20011021 mortene.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+#
+
+AC_DEFUN([SIM_AC_COMPILER_OPTIMIZATION], [
+AC_ARG_ENABLE(
+  [optimization],
+  AC_HELP_STRING([--enable-optimization],
+                 [allow compilers to make optimized code [[default=yes]]]),
+  [case "${enableval}" in
+    yes) sim_ac_enable_optimization=true ;;
+    no)  sim_ac_enable_optimization=false ;;
+    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-optimization) ;;
+  esac],
+  [sim_ac_enable_optimization=true])
+
+if $sim_ac_enable_optimization; then
+  case $CXX in
+  *wrapmsvc* )
+    CFLAGS="/Ox $CFLAGS"
+    CXXFLAGS="/Ox $CXXFLAGS"
+    ;;
+  esac
+  :
+else
+  CFLAGS="`echo $CFLAGS | sed 's/-O[[0-9]]*[[ ]]*//'`"
+  CXXFLAGS="`echo $CXXFLAGS | sed 's/-O[[0-9]]*[[ ]]*//'`"
+fi
+])
+
+# Usage:
+#   SIM_AC_EXCEPTION_HANDLING
+#
+# Description:
+#   Let the user decide if C++ exception handling should be compiled
+#   in. With older compilers the libraries/executables will use a lot
+#   less space if they have exception handling support disabled, on
+#   modern compilers the difference is negligible.
+#
+#   Note: this macro must be placed after AC_PROG_CXX in the
+#   configure.in script.
+#
+#   Author: Morten Eriksen, <mortene@sim.no>.
+#
+# TODO:
+#   * [mortene:19991114] make this work with compilers other than gcc/g++
+#
+
+AC_DEFUN([SIM_AC_EXCEPTION_HANDLING], [
+AC_PREREQ([2.13])
+AC_ARG_ENABLE(
+  [exceptions],
+  AC_HELP_STRING([--enable-exceptions],
+                 [(g++ only) compile with exceptions [[default=yes]]]),
+  [case "${enableval}" in
+    yes) enable_exceptions=yes ;;
+    no)  enable_exceptions=no ;;
+    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-exceptions) ;;
+  esac],
+  [enable_exceptions=yes])
+
+if test x"$enable_exceptions" = x"no"; then
+  if test "x$GXX" = "xyes"; then
+    unset _exception_flag
+    dnl This is for GCC >= 2.8
+    SIM_AC_CXX_COMPILER_OPTION([-fno-exceptions], [_exception_flag=-fno-exceptions])
+    if test x"${_exception_flag+set}" != x"set"; then
+      dnl For GCC versions < 2.8
+      SIM_AC_CXX_COMPILER_OPTION([-fno-handle-exceptions],
+                                 [_exception_flag=-fno-handle-exceptions])
+    fi
+    if test x"${_exception_flag+set}" != x"set"; then
+      AC_MSG_WARN([couldn't find a valid option for avoiding exception handling])
+    else
+      CXXFLAGS="$CXXFLAGS $_exception_flag"
+    fi
+  fi
+else
+  if $BUILD_WITH_MSVC; then
+    SIM_AC_CXX_COMPILER_OPTION([/EHsc], [CXXFLAGS="$CXXFLAGS /EHsc"])
+  else
+    if test x"$GXX" != x"yes"; then
+      AC_MSG_WARN([--enable-exceptions only has effect when using GNU g++])
+    fi
+  fi
+  AC_DEFINE([USE_EXCEPTIONS], 1, [Define to make Coin use/catch exceptions at some particular places.])
+fi
+])
+
+
+# Usage:
+#   SIM_AC_COMPILER_FUNCTIONNAME_VAR(compiler-id)
+#
+# Side-effects, defines these in config.h:
+#
+#     HAVE_$compilerid_VAR___func__              (1 if exists)
+#     HAVE_$compilerid_VAR___PRETTY_FUNCTION__   (1 if exists)
+#     HAVE_$compilerid_VAR___FUNCTION__          (1 if exists)
+#
+# (Note that only one of these will be defined.)
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+#   Morten Eriksen <mortene@sim.no>
+
+AC_DEFUN([SIM_AC_COMPILER_FUNCTIONNAME_VAR], [
+AC_MSG_CHECKING([for function name variable for $1 compiler])
+sim_ac_var_functionname=
+
+# * __func__ is the identifier used by compilers which are
+#   compliant with the C99 ISO/IEC 9899:1999 standard.
+#
+# * GCC uses __PRETTY_FUNCTION__
+#
+# * Visual C++ uses __FUNCDNAME__, __FUNCSIG__, and __FUNCTION__.
+#
+
+for i in "__func__" "__PRETTY_FUNCTION__" "__FUNCTION__"; do
+if test -z "$sim_ac_var_functionname"; then
+  AC_TRY_COMPILE(
+    [#include <stdio.h>],
+    [(void)printf("%s\n", $i)],
+    [sim_ac_var_functionname=$i]
+  )
+fi
+done
+
+if test -z "$sim_ac_var_functionname"; then
+  AC_MSG_RESULT(none)
+else
+  AC_MSG_RESULT($sim_ac_var_functionname)
+  AC_DEFINE_UNQUOTED(HAVE_$1_COMPILER_FUNCTION_NAME_VAR,
+                     $sim_ac_var_functionname,
+                     [The $1 compiler has a variable containing the current function name])
+fi
+])
+
+
+# Usage:
+#   SIM_AC_CHECK_VAR_FUNCTIONNAME
+#
+# Convenience wrapper for the above function.
+AC_DEFUN([SIM_AC_CHECK_VAR_FUNCTIONNAME], [
+  AC_LANG_PUSH(C++)
+  SIM_AC_COMPILER_FUNCTIONNAME_VAR(CPP)
+  AC_LANG_POP(C++)
+  AC_LANG_PUSH(C)
+  SIM_AC_COMPILER_FUNCTIONNAME_VAR(C)
+  AC_LANG_POP(C)
+])
+
+# Usage:
+#   SIM_AC_PROFILING_SUPPORT
+#
+# Description:
+#   Let the user decide if profiling code should be compiled
+#   in. The compiled libraries/executables will use a lot less space
+#   if they don't contain profiling code information, and they will also
+#   execute faster.
+#
+#   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
+#   in the configure.in script.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+#
+# TODO:
+#   * [mortene:19991114] make this work with compilers other than gcc/g++
+#
+
+AC_DEFUN([SIM_AC_PROFILING_SUPPORT], [
+AC_PREREQ([2.13])
+AC_ARG_ENABLE(
+  [profile],
+  AC_HELP_STRING([--enable-profile],
+                 [(GCC only) turn on inclusion of profiling code [[default=no]]]),
+  [case "${enableval}" in
+    yes) enable_profile=yes ;;
+    no)  enable_profile=no ;;
+    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-profile) ;;
+  esac],
+  [enable_profile=no])
+
+if test x"$enable_profile" = x"yes"; then
+  if test x"$GXX" = x"yes" || test x"$GCC" = x"yes"; then
+    CFLAGS="$CFLAGS -pg"
+    CXXFLAGS="$CXXFLAGS -pg"
+    LDFLAGS="$LDFLAGS -pg"
+  else
+    AC_MSG_WARN([--enable-profile only has effect when using GNU gcc or g++])
+  fi
+fi
+])
+
+
+# Usage:
+#   SIM_AC_RTTI_SUPPORT
+#
+# Description:
+#   Let the user decide if RTTI should be compiled in. The compiled
+#   libraries/executables will use a lot less space if they don't
+#   contain RTTI.
+#
+#   Note: this macro must be placed after AC_PROG_CXX in the
+#   configure.in script.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_RTTI_SUPPORT], [
+AC_PREREQ([2.13])
+AC_ARG_ENABLE(
+  [rtti],
+  AC_HELP_STRING([--enable-rtti], [(g++ only) compile with RTTI [[default=yes]]]),
+  [case "${enableval}" in
+    yes) enable_rtti=yes ;;
+    no)  enable_rtti=no ;;
+    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-rtti) ;;
+  esac],
+  [enable_rtti=yes])
+
+if test x"$enable_rtti" = x"no"; then
+  if test x"$GXX" = x"yes"; then
+    CXXFLAGS="$CXXFLAGS -fno-rtti"
+  else
+    AC_MSG_WARN([--enable-rtti only has effect when using GNU g++])
+  fi
+fi
+])
+
+# Usage:
+#   SIM_AC_DEBUGSYMBOLS
+#
+# Description:
+#   Let the user decide if debug symbol information should be compiled
+#   in. The compiled libraries/executables will use a lot less space
+#   if stripped for their symbol information.
+#
+#   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
+#   in the configure.in script.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+#
+
+AC_DEFUN([SIM_AC_DEBUGSYMBOLS], [
+AC_ARG_ENABLE(
+  [symbols],
+  AC_HELP_STRING([--enable-symbols],
+                 [include symbol debug information [[default=yes]]]),
+  [case "${enableval}" in
+    yes) enable_symbols=yes ;;
+    no)  enable_symbols=no ;;
+    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-symbols) ;;
+  esac],
+  [enable_symbols=yes])
+
+# weird seds to don't mangle options like -fno-gnu-linker and -fvolatile-global
+if test x"$enable_symbols" = x"no"; then
+  CFLAGS="`echo $CFLAGS | sed 's/ -g / /g' | sed 's/^-g / /g' | sed 's/ -g$/ /g' | sed 's/^-g$/ /'`"
+  CXXFLAGS="`echo $CXXFLAGS | sed 's/ -g / /g' | sed 's/^-g / /g' | sed 's/ -g$/ /g' | sed 's/^-g$/ /'`"
+fi
+]) # SIM_AC_DEBUGSYMBOLS
+
+
+# Usage:
+#   SIM_AC_COMPILER_WARNINGS
+#
+# Description:
+#   Take care of making a sensible selection of warning messages
+#   to turn on or off.
+#
+#   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
+#   in the configure.in script.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+#
+# TODO:
+#   * [mortene:19991114] find out how to get GCC's
+#     -Werror-implicit-function-declaration option to work as expected
+#
+#   * [larsa:20010504] rename to SIM_AC_COMPILER_WARNINGS and clean up
+#     the macro
+
+AC_DEFUN([SIM_AC_COMPILER_WARNINGS], [
+AC_ARG_ENABLE(
+  [warnings],
+  AC_HELP_STRING([--enable-warnings],
+                 [turn on warnings when compiling [[default=yes]]]),
+  [case "${enableval}" in
+    yes) enable_warnings=yes ;;
+    no)  enable_warnings=no ;;
+    *) AC_MSG_ERROR([bad value "$enableval" for --enable-warnings]) ;;
+  esac],
+  [enable_warnings=yes])
+
+if test x"$enable_warnings" = x"yes"; then
+
+  for sim_ac_try_cc_warning_option in \
+    "-W" "-Wall" "-Wno-unused" "-Wno-multichar"; do
+
+    if test x"$GCC" = x"yes"; then
+      SIM_AC_CC_COMPILER_OPTION([$sim_ac_try_cc_warning_option],
+                                [CFLAGS="$CFLAGS $sim_ac_try_cc_warning_option"])
+    fi
+  done
+
+  for sim_ac_try_cxx_warning_option in \
+    "-W" "-Wall" "-Wno-unused" "-Wno-multichar" "-Woverloaded-virtual"; do
+    if test x"$GXX" = x"yes"; then
+      SIM_AC_CXX_COMPILER_OPTION([$sim_ac_try_cxx_warning_option],
+                                 [CXXFLAGS="$CXXFLAGS $sim_ac_try_cxx_warning_option"])
+    fi
+
+  done
+
+  case $host in
+  *-*-irix*)
+    ### Turn on all warnings ######################################
+    # we try to catch settings like CC="CC -n32" too, even though the
+    # -n32 option belongs to C[XX]FLAGS
+    case $CC in
+    cc | "cc "* | CC | "CC "* )
+      SIM_AC_CC_COMPILER_OPTION([-fullwarn], [CFLAGS="$CFLAGS -fullwarn"])
+      ;;
+    esac
+    case $CXX in
+    CC | "CC "* )
+      SIM_AC_CXX_COMPILER_OPTION([-fullwarn], [CXXFLAGS="$CXXFLAGS -fullwarn"])
+      ;;
+    esac
+
+    ### Turn off specific (bogus) warnings ########################
+
+    ### SGI MipsPro v?.?? (our compiler on IRIX 6.2) ##############
+    ##
+    ## 3115: ``type qualifiers are meaningless in this declaration''.
+    ## 3262: unused variables.
+    ##
+    ### SGI MipsPro v7.30 #########################################
+    ##
+    ## 1174: "The function was declared but never referenced."
+    ## 1209: "The controlling expression is constant." (kill warning on
+    ##       if (0), assert(FALSE), etc).
+    ## 1375: Non-virtual destructors in base classes.
+    ## 3201: Unused argument to a function.
+    ## 1110: "Statement is not reachable" (the Lex/Flex generated code in
+    ##       Coin/src/engines has lots of shitty code which needs this).
+    ## 1506: Implicit conversion from "unsigned long" to "long".
+    ##       SbTime.h in SGI/TGS Inventor does this, so we need to kill
+    ##       this warning to avoid all the output clutter when compiling
+    ##       the SoQt, SoGtk or SoXt libraries on IRIX with SGI MIPSPro CC.
+    ## 1169: External/internal linkage conflicts with a previous declaration.
+    ##       We get this for the "friend operators" in SbString.h
+
+    sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1375,3201,1110,1506,1169,1210"
+
+    case $CC in
+    cc | "cc "* | CC | "CC "* )
+      SIM_AC_CC_COMPILER_OPTION([$sim_ac_bogus_warnings],
+                                [CFLAGS="$CFLAGS $sim_ac_bogus_warnings"])
+    esac
+    case $CXX in
+    CC | "CC "* )
+      SIM_AC_CXX_COMPILER_OPTION([$sim_ac_bogus_warnings],
+                                 [CXXFLAGS="$CXXFLAGS $sim_ac_bogus_warnings"])
+      ;;
+    esac
+  ;;
+  esac
+fi
+])
+
+# **************************************************************************
+#
+# SIM_AC_DETECT_COMMON_COMPILER_FLAGS
+#
+# Sets sim_ac_compiler_CFLAGS and sim_ac_compiler_CXXFLAGS
+#
+
+AC_DEFUN([SIM_AC_DETECT_COMMON_COMPILER_FLAGS], [
+
+AC_REQUIRE([SIM_AC_CHECK_PROJECT_BETA_STATUS_IFELSE])
+AC_REQUIRE([SIM_AC_CHECK_SIMIAN_IFELSE])
+
+sim_ac_simian=false
+
+SIM_AC_COMPILE_DEBUG([
+  if test x"$GCC" = x"yes"; then
+    # no auto string.h-functions
+    SIM_AC_CC_COMPILER_OPTION([-fno-builtin], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -fno-builtin"])
+    SIM_AC_CXX_COMPILER_OPTION([-fno-builtin], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -fno-builtin"])
+
+    # disallow non-standard scoping of for()-variables
+    SIM_AC_CXX_COMPILER_OPTION([-fno-for-scoping], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -fno-for-scope"])
+
+    SIM_AC_CC_COMPILER_OPTION([-finline-functions], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -finline-functions"])
+    SIM_AC_CXX_COMPILER_OPTION([-finline-functions], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -finline-functions"])
+
+    if $sim_ac_simian; then
+      if $sim_ac_source_release; then :; else
+      # break build on warnings, except for in official source code releases
+        if test x"$enable_werror" = x"no"; then :; else
+          SIM_AC_CC_COMPILER_OPTION([-Werror], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -Werror"])
+          SIM_AC_CXX_COMPILER_OPTION([-Werror], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -Werror"])
+        fi
+      fi
+    fi
+
+    # warn on missing return-value
+    SIM_AC_CC_COMPILER_OPTION([-Wreturn-type], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -Wreturn-type"])
+    SIM_AC_CXX_COMPILER_OPTION([-Wreturn-type], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -Wreturn-type"])
+
+    SIM_AC_CC_COMPILER_OPTION([-Wchar-subscripts], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -Wchar-subscripts"])
+    SIM_AC_CXX_COMPILER_OPTION([-Wchar-subscripts], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -Wchar-subscripts"])
+
+    SIM_AC_CC_COMPILER_OPTION([-Wparentheses], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -Wparentheses"])
+    SIM_AC_CXX_COMPILER_OPTION([-Wparentheses], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -Wparentheses"])
+
+  else
+    case $CXX in
+    *wrapmsvc* )
+      if $sim_ac_simian; then
+        if $sim_ac_source_release; then :; else
+          # break build on warnings, except for in official source code releases
+          SIM_AC_CC_COMPILER_OPTION([/WX], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /WX"])
+          SIM_AC_CXX_COMPILER_OPTION([/WX], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /WX"])
+        fi
+      fi
+
+      # warning level 3
+      SIM_AC_CC_COMPILER_OPTION([/W3], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /W3"])
+      SIM_AC_CXX_COMPILER_OPTION([/W3], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /W3"])
+      
+      ;;
+    esac
+  fi
+])
+
+ifelse($1, [], :, $1)
+
+])
+
+AC_DEFUN([SIM_AC_COMPILER_NOBOOL], [
+sim_ac_nobool_CXXFLAGS=
+sim_ac_have_nobool=false
+AC_MSG_CHECKING([whether $CXX accepts /noBool])
+if $BUILD_WITH_MSVC && test x$sim_ac_msvc_version = x6; then
+  SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
+    [/noBool],
+    [int temp],
+    [SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
+      [/noBool],
+      [bool res = true],
+      [],
+      [sim_ac_have_nobool=true])])
+fi
+
+if $sim_ac_have_nobool; then
+  sim_ac_nobool_CXXFLAGS="/noBool"
+  AC_MSG_RESULT([yes])
+  ifelse([$1], , :, [$1])
+else
+  AC_MSG_RESULT([no])
+  ifelse([$2], , :, [$2])
+fi
+])
+
+
+# **************************************************************************
+# configuration_summary.m4
+#
+# This file contains some utility macros for making it easy to have a short
+# summary of the important configuration settings printed at the end of the
+# configure run.
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+#
+
+# **************************************************************************
+# SIM_AC_CONFIGURATION_SETTING( DESCRIPTION, SETTING )
+#
+# This macro registers a configuration setting to be dumped by the
+# SIM_AC_CONFIGURATION_SUMMARY macro.
+
+AC_DEFUN([SIM_AC_CONFIGURATION_SETTING],
+[ifelse($#, 2, [], [m4_fatal([SIM_AC_CONFIGURATION_SETTING: takes two arguments])])
+if test x"${sim_ac_configuration_settings+set}" = x"set"; then
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|$1:$2"
+else
+  sim_ac_configuration_settings="$1:$2"
+fi
+]) # SIM_AC_CONFIGURATION_SETTING
+
+# **************************************************************************
+# SIM_AC_CONFIGURATION_WARNING( WARNING )
+#
+# This macro registers a configuration warning to be dumped by the
+# SIM_AC_CONFIGURATION_SUMMARY macro.
+
+AC_DEFUN([SIM_AC_CONFIGURATION_WARNING],
+[ifelse($#, 1, [], [m4_fatal([SIM_AC_CONFIGURATION_WARNING: takes one argument])])
+if test x"${sim_ac_configuration_warnings+set}" = x"set"; then
+  sim_ac_configuration_warnings="$sim_ac_configuration_warnings|$1"
+else
+  sim_ac_configuration_warnings="$1"
+fi
+]) # SIM_AC_CONFIGURATION_WARNING
+
+# **************************************************************************
+# SIM_AC_CONFIGURATION_SUMMARY
+#
+# This macro dumps the settings and warnings summary.
+
+AC_DEFUN([SIM_AC_CONFIGURATION_SUMMARY],
+[ifelse($#, 0, [], [m4_fatal([SIM_AC_CONFIGURATION_SUMMARY: takes no arguments])])
+sim_ac_settings="$sim_ac_configuration_settings"
+sim_ac_num_settings=`echo "$sim_ac_settings" | tr -d -c "|" | wc -c`
+sim_ac_maxlength=0
+while test $sim_ac_num_settings -ge 0; do
+  sim_ac_description=`echo "$sim_ac_settings" | cut -d: -f1`
+  sim_ac_length=`echo "$sim_ac_description" | wc -c`
+  if test $sim_ac_length -gt $sim_ac_maxlength; then
+    sim_ac_maxlength=`expr $sim_ac_length + 0`
+  fi
+  sim_ac_settings=`echo $sim_ac_settings | cut -d"|" -f2-`
+  sim_ac_num_settings=`expr $sim_ac_num_settings - 1`
+done
+
+sim_ac_maxlength=`expr $sim_ac_maxlength + 3`
+sim_ac_padding=`echo "                                             " |
+  cut -c1-$sim_ac_maxlength`
+
+sim_ac_num_settings=`echo "$sim_ac_configuration_settings" | tr -d -c "|" | wc -c`
+echo ""
+echo "$PACKAGE configuration settings:"
+while test $sim_ac_num_settings -ge 0; do
+  sim_ac_setting=`echo $sim_ac_configuration_settings | cut -d"|" -f1`
+  sim_ac_description=`echo "$sim_ac_setting" | cut -d: -f1`
+  sim_ac_status=`echo "$sim_ac_setting" | cut -d: -f2-`
+  # hopefully not too many terminals are too dumb for this
+  printf "$sim_ac_padding $sim_ac_status\r  $sim_ac_description:\n"
+  sim_ac_configuration_settings=`echo $sim_ac_configuration_settings | cut -d"|" -f2-`
+  sim_ac_num_settings=`expr $sim_ac_num_settings - 1`
+done
+
+if test x${sim_ac_configuration_warnings+set} = xset; then
+sim_ac_num_warnings=`echo "$sim_ac_configuration_warnings" | tr -d -c "|" | wc -c`
+echo ""
+echo "$PACKAGE configuration warnings:"
+while test $sim_ac_num_warnings -ge 0; do
+  sim_ac_warning=`echo "$sim_ac_configuration_warnings" | cut -d"|" -f1`
+  echo "  * $sim_ac_warning"
+  sim_ac_configuration_warnings=`echo $sim_ac_configuration_warnings | cut -d"|" -f2-`
+  sim_ac_num_warnings=`expr $sim_ac_num_warnings - 1`
+done
+fi
+]) # SIM_AC_CONFIGURATION_SUMMARY
+
+
+# Usage:
+#  SIM_AC_DATE_ISO8601([variable])
+#  SIM_AC_DATE_RFC822([variable])
+#
+# Description:
+#   This macro sets the given variable to a strings representing
+#   the current date in the ISO8601-compliant format "YYYYMMDD" or in
+#   the RFC822-compliant format "Day, DD Mon YYYY HH:MM:SS +0X00".
+#
+# Authors:
+#   Morten Eriksen <mortene@sim.no>
+#   Lars J. Aas <larsa@sim.no>
+
+AC_DEFUN([SIM_AC_DATE_ISO8601], [
+  eval "$1=\"`date +%Y%m%d`\""
+])
+
+AC_DEFUN([SIM_AC_DATE_RFC822], [
+  eval "$1=\"`date '+%a, %d %b %Y %X %z'`\""
+  eval "$1_DAYSTRING=\"`date '+%a'`\""
+  eval "$1_NODAYSTRING=\"`date '+%d %b %Y %X %z'`\""
+])
+
+# old alias
+# AU_DEFUN([SIM_AC_ISO8601_DATE], [SIM_AC_DATE_ISO8601])
+AC_DEFUN([SIM_AC_ISO8601_DATE], [SIM_AC_DATE_ISO8601([$1])])
+
+
+# SIM_AC_CHECK_DL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# ----------------------------------------------------------
+#
+#  Try to find the dynamic link loader library. If it is found, these
+#  shell variables are set:
+#
+#    $sim_ac_dl_cppflags (extra flags the compiler needs for dl lib)
+#    $sim_ac_dl_ldflags  (extra flags the linker needs for dl lib)
+#    $sim_ac_dl_libs     (link libraries the linker needs for dl lib)
+#
+#  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_CHECK_DL], [
+AC_ARG_WITH(
+  [dl],
+  [AC_HELP_STRING(
+    [--with-dl=DIR],
+    [include support for the dynamic link loader library [default=yes]])],
+  [],
+  [with_dl=yes])
+
+if test x"$with_dl" != xno; then
+  if test x"$with_dl" != xyes; then
+    sim_ac_dl_cppflags="-I${with_dl}/include"
+    sim_ac_dl_ldflags="-L${with_dl}/lib"
+  fi
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_dl_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_dl_ldflags"
+
+  # Use SIM_AC_CHECK_HEADERS instead of .._HEADER to get the
+  # HAVE_DLFCN_H symbol set up in config.h automatically.
+  AC_CHECK_HEADERS([dlfcn.h])
+
+  sim_ac_dl_avail=false
+
+  AC_MSG_CHECKING([for the dl library])
+  # At least under FreeBSD, dlopen() et al is part of the C library.
+  # On HP-UX, dlopen() might reside in a library "svld" instead of "dl".
+  for sim_ac_dl_libcheck in "" "-ldl" "-lsvld"; do
+    if $sim_ac_dl_avail; then :; else
+      LIBS="$sim_ac_dl_libcheck $sim_ac_save_libs"
+      AC_TRY_LINK([
+#ifdef HAVE_DLFCN_H
+#include <dlfcn.h>
+#endif /* HAVE_DLFCN_H */
+],
+                  [(void)dlopen(0L, 0); (void)dlsym(0L, "Gunners!"); (void)dlclose(0L);],
+                  [sim_ac_dl_avail=true
+                   sim_ac_dl_libs="$sim_ac_dl_libcheck"
+                  ])
+    fi
+  done
+
+  if $sim_ac_dl_avail; then
+    if test x"$sim_ac_dl_libs" = x""; then
+      AC_MSG_RESULT(yes)
+    else
+      AC_MSG_RESULT($sim_ac_dl_cppflags $sim_ac_dl_ldflags $sim_ac_dl_libs)
+    fi
+  else
+    AC_MSG_RESULT(not available)
+  fi
+
+  if $sim_ac_dl_avail; then
+    ifelse([$1], , :, [$1])
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    ifelse([$2], , :, [$2])
+  fi
+fi
+])
+
+# SIM_AC_CHECK_LOADLIBRARY([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# -------------------------------------------------------------------
+#
+#  Try to use the Win32 dynamic link loader methods LoadLibrary(),
+#  GetProcAddress() and FreeLibrary().
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_CHECK_LOADLIBRARY], [
+AC_ARG_ENABLE(
+  [loadlibrary],
+  [AC_HELP_STRING([--disable-loadlibrary], [don't use run-time link bindings under Win32])],
+  [case $enableval in
+  yes | true ) sim_ac_win32_loadlibrary=true ;;
+  *) sim_ac_win32_loadlibrary=false ;;
+  esac],
+  [sim_ac_win32_loadlibrary=true])
+
+if $sim_ac_win32_loadlibrary; then
+  # Use SIM_AC_CHECK_HEADERS instead of .._HEADER to get the
+  # HAVE_DLFCN_H symbol set up in config.h automatically.
+  AC_CHECK_HEADERS([windows.h])
+
+  AC_CACHE_CHECK([whether the Win32 LoadLibrary() method is available],
+    sim_cv_lib_loadlibrary_avail,
+    [AC_TRY_LINK([
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif /* HAVE_WINDOWS_H */
+],
+                 [(void)LoadLibrary(0L); (void)GetProcAddress(0L, 0L); (void)FreeLibrary(0L); ],
+                 [sim_cv_lib_loadlibrary_avail=yes],
+                 [sim_cv_lib_loadlibrary_avail=no])])
+
+  if test x"$sim_cv_lib_loadlibrary_avail" = xyes; then
+    ifelse([$1], , :, [$1])
+  else
+    ifelse([$2], , :, [$2])
+  fi
+fi
+])
+
+# SIM_AC_CHECK_DLD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# ----------------------------------------------------------
+#
+#  Try to find the dynamic link loader library available on HP-UX 10.
+#  If it is found, this shell variable is set:
+#
+#    $sim_ac_dld_libs     (link libraries the linker needs for dld lib)
+#
+#  The $LIBS var will also be modified accordingly.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_CHECK_DLD], [
+  sim_ac_dld_libs="-ldld"
+
+  sim_ac_save_libs=$LIBS
+  LIBS="$sim_ac_dld_libs $LIBS"
+
+  AC_CACHE_CHECK([whether the DLD shared library loader is available],
+    sim_cv_lib_dld_avail,
+    [AC_TRY_LINK([#include <dl.h>],
+                 [(void)shl_load("allyourbase", 0, 0L); (void)shl_findsym(0L, "arebelongtous", 0, 0L); (void)shl_unload((shl_t)0);],
+                 [sim_cv_lib_dld_avail=yes],
+                 [sim_cv_lib_dld_avail=no])])
+
+  if test x"$sim_cv_lib_dld_avail" = xyes; then
+    ifelse([$1], , :, [$1])
+  else
+    LIBS=$sim_ac_save_libs
+    ifelse([$2], , :, [$2])
+  fi
+])
+
+
+# SIM_AC_CHECK_DYLD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# -------------------------------------------------------------------
+#
+#  Try to use the Mac OS X dynamik link editor method
+#  NSLookupAndBindSymbol()
+#
+# Author: Karin Kosina, <kyrah@sim.no>
+
+AC_DEFUN([SIM_AC_CHECK_DYLD], [
+AC_ARG_ENABLE(
+  [dyld],
+  [AC_HELP_STRING([--disable-dyld],
+                  [don't use run-time link bindings under Mac OS X])],
+  [case $enableval in
+  yes | true ) sim_ac_dyld=true ;;
+  *) sim_ac_dyld=false ;;
+  esac],
+  [sim_ac_dyld=true])
+
+if $sim_ac_dyld; then
+
+  AC_CHECK_HEADERS([mach-o/dyld.h])
+
+  AC_CACHE_CHECK([whether we can use Mach-O dyld],
+    sim_cv_dyld_avail,
+    [AC_TRY_LINK([
+#ifdef HAVE_MACH_O_DYLD_H
+#include <mach-o/dyld.h>
+#endif /* HAVE_MACH_O_DYLD_H */
+],
+                 [(void)NSLookupAndBindSymbol("foo");],
+                 [sim_cv_dyld_avail=yes],
+                 [sim_cv_dyld_avail=no])])
+
+  if test x"$sim_cv_dyld_avail" = xyes; then
+    ifelse([$1], , :, [$1])
+  else
+    ifelse([$2], , :, [$2])
+  fi
+fi
+])
+
+# Usage:
+#  SIM_AC_DOXYGEN_TOOL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+# Description:
+#   This macro locates the doxygen executable. If it is found, the
+#   variable $sim_ac_doxygen_exe is set to the full path- and
+#   executable name (if not found, it is set to "false") and
+#   $sim_ac_doxygen_avail is set to the version number (if not
+#   found, it is set to "no").
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_DOXYGEN_TOOL], [
+AC_ARG_WITH(
+  [doxygen],
+  AC_HELP_STRING([--with-doxygen=DIR],
+                 [DIR is the directory where the doxygen executable resides]),
+  [],
+  [with_doxygen=yes])
+
+sim_ac_doxygen_avail=no
+
+if test x"$with_doxygen" != xno; then
+  sim_ac_path=$PATH
+  if test x"$with_doxygen" != xyes; then
+    sim_ac_path=${with_doxygen}:$PATH
+  fi
+
+  AC_PATH_PROG([sim_ac_doxygen_exe], [doxygen], [false], [$sim_ac_path])
+  if test x"$sim_ac_doxygen_exe" = xfalse; then
+    ifelse([$2], , :, [$2])
+  else
+    sim_ac_doxygen_avail=`$sim_ac_doxygen_exe -help 2> /dev/null | head -1 | sed 's%[[^ ]]\+ [[^ ]]\+ %%'`
+    $1
+  fi
+fi
+])
+
+
+# **************************************************************************
+# SIM_AC_ERROR_MESSAGE_FILE( FILENAME )
+#   Sets the error message file.  Default is $ac_aux_dir/m4/errors.txt.
+#
+# SIM_AC_ERROR( ERROR [, ERROR ...] )
+#   Fetches the error messages from the error message file and displays
+#   them on stderr. The configure process will subsequently exit.
+#
+# SIM_AC_WARN( ERROR [, ERROR ...] )
+#   As SIM_AC_ERROR, but will not exit after displaying the message(s).
+#
+# SIM_AC_WITH_ERROR( WITHARG )
+#   Invokes AC_MSG_ERROR in a consistent way for problems with the --with-*
+#   $withval argument.
+#
+# SIM_AC_ENABLE_ERROR( ENABLEARG )
+#   Invokes AC_MSG_ERROR in a consistent way for problems with the --enable-*
+#   $enableval argument.
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+
+AC_DEFUN([SIM_AC_ERROR_MESSAGE_FILE], [
+sim_ac_message_file=$1
+]) # SIM_AC_ERROR_MESSAGE_FILE
+
+AC_DEFUN([SIM_AC_ONE_MESSAGE], [
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
+if test -f $sim_ac_message_file; then
+  sim_ac_message="`sed -n -e '/^!$1$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
+  if test x"$sim_ac_message" = x""; then
+    AC_MSG_ERROR([no message named '$1' in '$sim_ac_message_file' - notify the $PACKAGE_NAME maintainer(s)])
+  else
+    eval "echo >&2 \"$sim_ac_message\""
+  fi
+else
+  AC_MSG_ERROR([file '$sim_ac_message_file' not found - notify the $PACKAGE_NAME maintainer(s)])
+fi
+]) # SIM_AC_ONE_MESSAGE
+
+AC_DEFUN([_SIM_AC_ERROR], [
+SIM_AC_ONE_MESSAGE([$1])
+ifelse([$2], , , [
+echo >&2 ""
+_SIM_AC_ERROR(m4_shift($@))])
+]) # _SIM_AC_ERROR
+
+AC_DEFUN([SIM_AC_ERROR], [
+echo >&2 ""
+_SIM_AC_ERROR($@)
+echo >&2 ""
+AC_MSG_ERROR([aborting])
+]) # SIM_AC_ERROR
+
+AC_DEFUN([SIM_AC_WARN], [
+echo >&2 ""
+_SIM_AC_ERROR($@)
+echo >&2 ""
+]) # SIM_AC_WARN
+
+AC_DEFUN([SIM_AC_WITH_ERROR], [
+AC_MSG_ERROR([invalid value "${withval}" for "$1" configure argument])
+]) # SIM_AC_WITH_ERROR
+
+AC_DEFUN([SIM_AC_ENABLE_ERROR], [
+AC_MSG_ERROR([invalid value "${enableval}" for "$1" configure argument])
+]) # SIM_AC_ENABLE_ERROR
+
+
+# SIM_AC_STRIP_EXIT_DECLARATION
+#
+# Autoconf adds a declaration of exit() to confdefs.h, which causes
+# configure tests to fail later on when configuring for Visual C++
+# compilers.  This macro edits out the exit-declaration (which we
+# really don't need anyway) from the confdefs.h file.
+#
+# Typically, it should be inserted as early as possible, but after
+# AC_PROG_CXX / AC_PROG_CXXCPP.
+#
+# 2007-05-30 larsa
+
+AC_DEFUN([SIM_AC_STRIP_EXIT_DECLARATION], [
+mv confdefs.h confdefs.old
+egrep -v "void.*exit" confdefs.old >confdefs.h
+rm -f confdefs.old
+])
+
+
+ **************************************************************************
+# gendsp.m4
+#
+# macros:
+#   SIM_AC_MSVC_DSP_ENABLE_OPTION
+#   SIM_AC_MSVC_DSP_SETUP(PROJECT, Project, project, extra-args)
+#
+# authors:
+#   Lars J. Aas <larsa@coin3d.org>
+
+# **************************************************************************
+AC_DEFUN([SIM_AC_MSVC_DSP_ENABLE_OPTION], [
+AC_ARG_ENABLE([msvcdsp],
+  [AC_HELP_STRING([--enable-msvcdsp], [build .dsp, not library])],
+  [case $enableval in
+  no | false) sim_ac_make_dsp=false ;;
+  *)          sim_ac_make_dsp=true ;;
+  esac],
+  [sim_ac_make_dsp=false])
+
+if $sim_ac_make_dsp; then
+  enable_dependency_tracking=no
+  enable_libtool_lock=no
+fi
+]) # SIM_AC_MSVC_DSP_ENABLE_OPTION
+
+# **************************************************************************
+AC_DEFUN([SIM_AC_MSVC_DSP_SETUP], [
+AC_REQUIRE([SIM_AC_MSVC_DSP_ENABLE_OPTION])
+$1_DSP_LIBDIRS=
+$1_DSP_LIBS=
+$1_DSP_INCS=
+$1_LIB_DSP_DEFS=
+$1_DSP_DEFS=
+
+if $sim_ac_make_dsp; then
+  SIM_AC_CONFIGURATION_SETTING([$2 build type], [msvc .dsp])
+
+  # -DHAVE_CONFIG_H is set up in $DEFS too late for us to use, and some
+  # include directives are usually set up in the Makefile.am files
+  for arg in -DHAVE_CONFIG_H $4 $CPPFLAGS $LDFLAGS $LIBS; do
+    case $arg in
+    -L* )
+      libdir=`echo $arg | cut -c3-`
+      $1_DSP_LIBDIRS="[$]$1_DSP_LIBDIRS $libdir"
+      ;;
+    -l* )
+      libname=`echo $arg | cut -c3-`
+      for libdir in [$]$1_DSP_LIBDIRS; do
+        if test -f $libdir/$libname.lib; then
+          # lib is not in any standard location - use full path
+          libname=`cygpath -w "$libdir/$libname" 2>/dev/null || echo "$libdir/$libname"`
+          break
+        fi
+      done
+      if test x"[$]$1_DSP_LIBS" = x""; then
+        $1_DSP_LIBS="$libname.lib"
+      else
+        $1_DSP_LIBS="[$]$1_DSP_LIBS $libname.lib"
+      fi
+      ;;
+    -I* )
+      incdir=`echo $arg | cut -c3-`
+      incdir=`cygpath -w "$incdir" 2>/dev/null || echo "$incdir"`
+      if test x"[$]$1_DSP_INCS" = x""; then
+        $1_DSP_INCS="/I \"$incdir\""
+      else
+        $1_DSP_INCS="[$]$1_DSP_INCS /I \"$incdir\""
+      fi
+      ;;
+    -D$1_DEBUG* | -DNDEBUG )
+      # Defines that vary between release/debug configurations can't be
+      # set up dynamically in <lib>_DSP_DEFS - they must be static in the
+      # gendsp.pl script.  We therefore catch them here so we can ignore
+      # checking for them below.
+      ;;
+    -D*=* | -D* )
+      define=`echo $arg | cut -c3-`
+      if test x"[$]$1_DSP_DEFS" = x""; then
+        $1_DSP_DEFS="/D \"$define\""
+      else
+        $1_DSP_DEFS="[$]$1_DSP_DEFS /D \"$define\""
+      fi
+      if (echo $define | grep _MAKE_DLL) >/dev/null 2>&1; then
+        :
+      else
+        if test x"[$]$1_DSP_DEFS" = x""; then
+          $1_LIB_DSP_DEFS="/D \"$define\""
+        else
+          $1_LIB_DSP_DEFS="[$]$1_LIB_DSP_DEFS /D \"$define\""
+        fi
+      fi
+      ;;
+    esac
+  done
+
+  CC=[$]$3_build_dir/cfg/gendsp.pl
+  CXX=[$]$3_build_dir/cfg/gendsp.pl
+  CXXLD=[$]$3_build_dir/cfg/gendsp.pl
+  # Yes, this is totally bogus stuff, but don't worry about it.  As long
+  # as gendsp.pl recognizes it...  20030219 larsa
+  CPPFLAGS="$CPPFLAGS -Ddspfile=[$]$3_build_dir/$3[$]$1_MAJOR_VERSION.dsp"
+  LDFLAGS="$LDFLAGS -Wl,-Ddspfile=[$]$3_build_dir/$3[$]$1_MAJOR_VERSION.dsp"
+  LIBFLAGS="$LIBFLAGS -o $3[$]$1_MAJOR_VERSION.so.0"
+
+  # this can't be set up at the point the libtool script is generated
+  mv libtool libtool.bak
+  sed -e "s%^CC=\"gcc\"%CC=\"[$]$3_build_dir/cfg/gendsp.pl\"%" \
+      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"[$]$3_build_dir/cfg/gendsp.pl\"%" \
+      <libtool.bak >libtool
+  rm -f libtool.bak
+  chmod 755 libtool
+fi
+
+AC_SUBST([$1_DSP_LIBS])
+AC_SUBST([$1_DSP_INCS])
+AC_SUBST([$1_DSP_DEFS])
+AC_SUBST([$1_LIB_DSP_DEFS])
+])
+
+
+# Usage:
+#  SIM_CHECK_OIV_XT([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+#  Try to compile and link against the Xt GUI glue library for
+#  the Open Inventor development system. Sets this shell
+#  variable:
+#
+#    $sim_ac_oivxt_libs     (link libraries the linker needs for InventorXt)
+#
+#  The LIBS variable will also be modified accordingly. In addition,
+#  the variable $sim_ac_oivxt_avail is set to "yes" if the Xt glue
+#  library for the Open Inventor development system is found.
+#
+# Authors:
+#   Morten Eriksen, <mortene@sim.no>.
+#   Lars J. Aas, <larsa@sim.no>.
+#
+
+AC_DEFUN([SIM_CHECK_OIV_XT], [
+sim_ac_oivxt_avail=no
+
+sim_ac_oivxt_libs="-lInventorXt"
+sim_ac_save_libs=$LIBS
+LIBS="$sim_ac_oivxt_libs $LIBS"
+
+AC_CACHE_CHECK([for Xt glue library in the Open Inventor developer kit],
+  sim_cv_lib_oivxt_avail,
+  [AC_TRY_LINK([#include <Inventor/Xt/SoXt.h>],
+               [(void)SoXt::init(0L, 0L);],
+               [sim_cv_lib_oivxt_avail=yes],
+               [sim_cv_lib_oivxt_avail=no])])
+
+if test x"$sim_cv_lib_oivxt_avail" = xyes; then
+  sim_ac_oivxt_avail=yes
+  $1
+else
+  LIBS=$sim_ac_save_libs
+  $2
+fi
+])
+
+# Usage:
+#  SIM_CHECK_OIV_QT([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+#  Try to compile and link against the Qt GUI glue library for
+#  the Open Inventor development system. Sets this shell
+#  variable:
+#
+#    $sim_ac_oivqt_libs     (link libraries the linker needs for InventorQt)
+#
+#  The LIBS variable will also be modified accordingly. In addition,
+#  the variable $sim_ac_oivqt_avail is set to "yes" if the Qt glue
+#  library for the Open Inventor development system is found.
+#
+# Authors:
+#   Morten Eriksen, <mortene@sim.no>.
+#   Lars J. Aas, <larsa@sim.no>.
+#
+
+AC_DEFUN([SIM_CHECK_OIV_QT], [
+sim_ac_oivqt_avail=no
+
+sim_ac_oivqt_libs="-lInventorQt"
+sim_ac_save_libs=$LIBS
+LIBS="$sim_ac_oivqt_libs $LIBS"
+
+AC_CACHE_CHECK([for InventorQt glue library],
+  sim_cv_lib_oivqt_avail,
+  [AC_TRY_LINK([#include <Inventor/Qt/SoQt.h>],
+               [(void)SoQt::init(0L, 0L);],
+               [sim_cv_lib_oivqt_avail=yes],
+               [sim_cv_lib_oivqt_avail=no])])
+
+if test x"$sim_cv_lib_oivqt_avail" = xyes; then
+  sim_ac_oivqt_avail=yes
+  $1
+else
+  LIBS=$sim_ac_save_libs
+  $2
+fi
+])
+
+# **************************************************************************
+# SIM_AC_WITH_INVENTOR
+# This macro just ensures the --with-inventor option is used.
+
+AC_DEFUN([SIM_AC_WITH_INVENTOR], [
+: ${sim_ac_want_inventor=false}
+AC_ARG_WITH([inventor],
+  AC_HELP_STRING([--with-inventor], [use SGI or TGS Open Inventor rather than Coin [[default=no]]])
+AC_HELP_STRING([--with-inventor=PATH], [specify where SGI or TGS Open Inventor resides]),
+  [case "$withval" in
+  no)  sim_ac_want_inventor=false ;;
+  yes) sim_ac_want_inventor=true
+       test -n "$OIVHOME" &&
+         SIM_AC_DEBACKSLASH(sim_ac_inventor_path, "$OIVHOME") ;;
+  *)   sim_ac_want_inventor=true; sim_ac_inventor_path="$withval" ;;
+  esac])
+]) # SIM_AC_WITH_INVENTOR
+
+# **************************************************************************
+# SIM_AC_WITH_INVENTORXT
+# This macro just ensures the --with-inventor-xt option is used.
+
+AC_DEFUN([SIM_AC_WITH_INVENTORXT], [
+: ${sim_ac_want_inventorxt=true}
+AC_ARG_WITH([inventor-xt],
+  AC_HELP_STRING([--with-inventor-xt], [use InventorXt when using SGI or TGS Open Inventor [[default=yes]]])
+AC_HELP_STRING([--with-inventor-xt=PATH], [specify where InventorXt resides]),
+  [case "$withval" in
+  no)  sim_ac_want_inventorxt=false ;;
+  yes) sim_ac_want_inventorxt=true
+       test -n "$OIVHOME" &&
+         SIM_AC_DEBACKSLASH(sim_ac_inventorxt_path, "$OIVHOME") ;;
+  *)   sim_ac_want_inventorxt=true; sim_ac_inventorxt_path="$withval" ;;
+  esac])
+]) # SIM_AC_WITH_INVENTORXT
+
+# **************************************************************************
+# SIM_AC_WITH_INVENTORQT
+# This macro just ensures the --with-inventor-qt option is used.
+
+AC_DEFUN([SIM_AC_WITH_INVENTORQT], [
+: ${sim_ac_want_inventorqt=false}
+AC_ARG_WITH([inventor-qt],
+  AC_HELP_STRING([--with-inventor-qt], [use InventorQt when using SGI or TGS Open Inventor [[default=yes]]])
+AC_HELP_STRING([--with-inventor-qt=PATH], [specify where InventorQt resides]),
+  [case "$withval" in
+  no)  sim_ac_want_inventorqt=false ;;
+  yes) sim_ac_want_inventorqt=true
+       test -n "$OIVHOME" &&
+         SIM_AC_DEBACKSLASH(sim_ac_inventorqt_path, "$OIVHOME") ;;
+  *)   sim_ac_want_inventorqt=true; sim_ac_inventorqt_path="$withval" ;;
+  esac])
+]) # SIM_AC_WITH_INVENTORQT
+
+# **************************************************************************
+# SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE
+
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE], [
+AC_REQUIRE([SIM_AC_WITH_INVENTOR])
+AC_REQUIRE([SIM_AC_WITH_INVENTORXT])
+AC_REQUIRE([SIM_AC_WITH_INVENTORQT])
+
+if $sim_ac_want_inventor; then
+  sim_ac_inventor_image_save_CPPFLAGS="$CPPFLAGS"
+  sim_ac_inventor_image_save_LDFLAGS="$LDFLAGS"
+  sim_ac_inventor_image_save_LIBS="$LIBS"
+
+  if test s${sim_ac_inventor_path+et} = set; then
+    sim_ac_inventor_image_cppflags="-I${sim_ac_inventor_path}/include"
+    sim_ac_inventor_image_ldflags="-L${sim_ac_inventor_path}/lib"
+  fi
+  sim_ac_inventor_image_libs="-limage"
+
+  AC_CACHE_CHECK(
+    [if linking with libimage is possible],
+    sim_cv_have_inventor_image,
+    [
+    CPPFLAGS="$sim_ac_inventor_image_cppflags $CPPFLAGS"
+    LDFLAGS="$sim_ac_inventor_image_ldflags $LDFLAGS"
+    LIBS="$sim_ac_inventor_image_libs $LIBS"
+    AC_TRY_LINK(
+      [],
+      [],
+      [sim_cv_have_inventor_image=true],
+      [sim_cv_have_inventor_image=false])
+    CPPFLAGS="$sim_ac_inventor_image_save_CPPFLAGS"
+    LDFLAGS="$sim_ac_inventor_image_save_LDFLAGS"
+    LIBS="$sim_ac_inventor_image_save_LIBS"
+    ])
+
+  if $sim_cv_have_inventor_image; then
+    ifelse([$1], , :, [$1])
+  else
+    ifelse([$2], , :, [$2])
+  fi
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE
+
+# **************************************************************************
+# SIM_AC_HAVE_INVENTOR_IFELSE( [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND] ] )
+#
+# Defines $sim_ac_inventor_cppflags, $sim_ac_inventor_ldflags and
+# $sim_ac_inventor_libs.
+
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_IFELSE], [
+AC_REQUIRE([SIM_AC_WITH_INVENTOR])
+AC_REQUIRE([SIM_AC_WITH_INVENTORXT])
+AC_REQUIRE([SIM_AC_WITH_INVENTORQT])
+
+if $sim_ac_want_inventor; then
+  sim_ac_save_CPPFLAGS="$CPPFLAGS"
+  sim_ac_save_LDFLAGS="$LDFLAGS"
+  sim_ac_save_LIBS="$LIBS"
+
+  SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE([
+    sim_ac_inventor_cppflags="$sim_ac_inventor_image_cppflags"
+    sim_ac_inventor_ldflags="$sim_ac_inventor_image_ldflags"
+  ], [
+    if test s${sim_ac_inventor_path+et} = set; then
+      sim_ac_inventor_cppflags="-I${sim_ac_inventor_path}/include"
+      sim_ac_inventor_ldflags="-L${sim_ac_inventor_path}/lib"
+    fi
+    sim_ac_inventor_image_libs=
+  ])
+
+  # Let's at least test for "libInventor".
+  sim_ac_inventor_chk_libs="-lInventor"
+  sim_ac_inventor_libs=UNRESOLVED
+
+  CPPFLAGS="$sim_ac_inventor_cppflags $CPPFLAGS"
+
+  AC_CHECK_HEADER([Inventor/SbBasic.h],
+                  [sim_ac_sbbasic=true],
+                  [AC_MSG_WARN([header file Inventor/SbBasic.h not found])
+                   sim_ac_sbbasic=false])
+
+  if $sim_ac_sbbasic; then
+  AC_MSG_CHECKING([the Open Inventor version])
+  # See if we can get the TGS_VERSION number for including a
+  # check for inv{ver}.lib.
+  # TGS did not include TGS_VERSION before 2.6, so this may have to be
+  # back-ported to SO_VERSION+SO_REVISION usage.  larsa 2001-07-25
+    cat <<EOF > conftest.c
+#include <Inventor/SbBasic.h>
+#ifdef __COIN__
+#error Testing for original Open Inventor, but found Coin...
+#endif
+PeekInventorVersion: TGS_VERSION
+EOF
+  if test x"$CPP" = x; then
+    AC_MSG_ERROR([cpp not detected - aborting.  notify maintainer at coin-support@coin3d.org.])
+  fi
+  echo "$CPP $CPPFLAGS conftest.c" >&AS_MESSAGE_LOG_FD
+  tgs_version_line=`$CPP $CPPFLAGS conftest.c 2>&AS_MESSAGE_LOG_FD | grep "^PeekInventorVersion"`
+  if test x"$tgs_version_line" = x; then
+    echo "second try..." >&AS_MESSAGE_LOG_FD
+    echo "$CPP -DWIN32 $CPPFLAGS conftest.c" >&AS_MESSAGE_LOG_FD
+    tgs_version_line=`$CPP -DWIN32 $CPPFLAGS conftest.c 2>&AS_MESSAGE_LOG_FD | grep "^PeekInventorVersion"`
+  fi
+  rm -f conftest.c
+  tgs_version=`echo $tgs_version_line | cut -c22-24`
+  tgs_suffix=
+  if test x"${enable_inventor_debug+set}" = xset &&
+     test x"${enable_inventor_debug}" = xyes; then
+    tgs_suffix=d
+  fi
+  if test x"$tgs_version" != xTGS; then
+    sim_ac_inventor_chk_libs="$sim_ac_inventor_chk_libs -linv$tgs_version$tgs_suffix"
+    tgs_version_string=`echo $tgs_version | sed 's/\(.\)\(.\)\(.\)/\1.\2.\3/g'`
+    AC_MSG_RESULT([TGS Open Inventor v$tgs_version_string])
+  else
+    AC_MSG_RESULT([probably SGI or older TGS Open Inventor])
+  fi
+
+  AC_MSG_CHECKING([for Open Inventor library])
+
+  for sim_ac_iv_cppflags_loop in "" "-DWIN32"; do
+    # Trying with no libraries first, as TGS Inventor uses pragmas in
+    # a header file to notify MSVC of what to link with.
+    for sim_ac_iv_libcheck in "" $sim_ac_inventor_chk_libs; do
+      if test "x$sim_ac_inventor_libs" = "xUNRESOLVED"; then
+        CPPFLAGS="$sim_ac_iv_cppflags_loop $sim_ac_inventor_cppflags $sim_ac_save_CPPFLAGS"
+        LDFLAGS="$sim_ac_inventor_ldflags $sim_ac_save_LDFLAGS"
+        LIBS="$sim_ac_iv_libcheck $sim_ac_inventor_image_libs $sim_ac_save_LIBS"
+        AC_TRY_LINK([#include <Inventor/SoDB.h>],
+                    [SoDB::init();],
+                    [sim_ac_inventor_libs="$sim_ac_iv_libcheck $sim_ac_inventor_image_libs"
+                     sim_ac_inventor_cppflags="$sim_ac_iv_cppflags_loop $sim_ac_inventor_cppflags"])
+      fi
+    done
+  done
+
+  if test "x$sim_ac_inventor_libs" != "xUNRESOLVED"; then
+    AC_MSG_RESULT($sim_ac_inventor_cppflags $sim_ac_inventor_ldflags $sim_ac_inventor_libs)
+  else
+    AC_MSG_RESULT([unavailable])
+  fi
+
+  fi # sim_ac_sbbasic = TRUE
+
+  CPPFLAGS="$sim_ac_save_CPPFLAGS"
+  LDFLAGS="$sim_ac_save_LDFLAGS"
+  LIBS="$sim_ac_save_LIBS"
+
+  if test "x$sim_ac_inventor_libs" != "xUNRESOLVED"; then
+    :
+    $1
+  else
+    :
+    $2
+  fi
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_HAVE_INVENTOR_IFELSE
+
+# **************************************************************************
+
+# utility macros:
+AC_DEFUN([AC_TOUPPER], [translit([$1], [[a-z]], [[A-Z]])])
+AC_DEFUN([AC_TOLOWER], [translit([$1], [[A-Z]], [[a-z]])])
+
+# **************************************************************************
+# SIM_AC_HAVE_INVENTOR_NODE( NODE, [ACTION-IF-FOUND] [, ACTION-IF-NOT-FOUND])
+#
+# Check whether or not the given NODE is available in the Open Inventor
+# development system.  If so, the HAVE_<NODE> define is set.
+#
+# Authors:
+#   Lars J. Aas  <larsa@sim.no>
+#   Morten Eriksen  <mortene@sim.no>
+
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_NODE],
+[m4_do([pushdef([cache_variable], sim_cv_have_oiv_[]AC_TOLOWER([$1])_node)],
+       [pushdef([DEFINE_VARIABLE], HAVE_[]AC_TOUPPER([$1]))])
+AC_CACHE_CHECK(
+  [if the Open Inventor $1 node is available],
+  cache_variable,
+  [AC_TRY_LINK(
+    [#include <Inventor/nodes/$1.h>],
+    [$1 * p = new $1;],
+    cache_variable=true,
+    cache_variable=false)])
+
+if $cache_variable; then
+  AC_DEFINE(DEFINE_VARIABLE, 1, [Define to enable use of the Open Inventor $1 node])
+  $2
+else
+  ifelse([$3], , :, [$3])
+fi
+m4_do([popdef([cache_variable])],
+      [popdef([DEFINE_VARIABLE])])
+]) # SIM_AC_HAVE_INVENTOR_NODE
+
+# **************************************************************************
+# SIM_AC_HAVE_INVENTOR_VRMLNODE( VRLMNODE, [ACTION-IF-FOUND] [, ACTION-IF-NOT-FOUND])
+#
+# Check whether or not the given VRMLNODE is available in the Open Inventor
+# development system.  If so, the HAVE_<VRMLNODE> define is set.
+#
+# Authors:
+#   Lars J. Aas  <larsa@sim.no>
+#   Morten Eriksen  <mortene@sim.no>
+
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_VRMLNODE],
+[m4_do([pushdef([cache_variable], sim_cv_have_oiv_[]AC_TOLOWER([$1])_vrmlnode)],
+       [pushdef([DEFINE_VARIABLE], HAVE_[]AC_TOUPPER([$1]))])
+AC_CACHE_CHECK(
+  [if the Open Inventor $1 VRML node is available],
+  cache_variable,
+  [AC_TRY_LINK(
+    [#include <Inventor/VRMLnodes/$1.h>],
+    [$1 * p = new $1;],
+    cache_variable=true,
+    cache_variable=false)])
+
+if $cache_variable; then
+  AC_DEFINE(DEFINE_VARIABLE, 1, [Define to enable use of the Open Inventor $1 VRML node])
+  $2
+else
+  ifelse([$3], , :, [$3])
+fi
+m4_do([popdef([cache_variable])],
+      [popdef([DEFINE_VARIABLE])])
+]) # SIM_AC_HAVE_INVENTOR_VRMLNODE
+
+# **************************************************************************
+# SIM_AC_HAVE_INVENTOR_FEATURE(MESSAGE, HEADERS, BODY, DEFINE
+#                              [, ACTION-IF-FOUND[, ACTION-IF-NOT-FOUND]])
+#
+# Authors:
+#   Morten Eriksen <mortene@sim.no>
+
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_FEATURE],
+[m4_do([pushdef([cache_variable], sim_cv_have_oiv_[]AC_TOLOWER([$4]))],
+       [pushdef([DEFINE_VARIABLE], AC_TOUPPER([$4]))])
+AC_CACHE_CHECK(
+  [$1],
+  cache_variable,
+  [AC_TRY_LINK(
+    [$2],
+    [$3],
+    cache_variable=true,
+    cache_variable=false)])
+
+if $cache_variable; then
+  AC_DEFINE(DEFINE_VARIABLE, 1, [Define to enable use of Inventor feature])
+  $5
+else
+  ifelse([$6], , :, [$6])
+fi
+m4_do([popdef([cache_variable])],
+      [popdef([DEFINE_VARIABLE])])
+]) # SIM_AC_HAVE_INVENTOR_FEATURE
+
+# **************************************************************************
+# SIM_AC_INVENTOR_EXTENSIONS( ACTION )
+#
+# This macro adds an "--with-iv-extensions=..." option to configure, that
+# enabes the configurer to enable extensions in third-party libraries to
+# be initialized by the library by default.  The configure-option argument
+# must be a comma-separated list of link library path options, link library
+# options and class-names.
+#
+# Sample usage is
+#   ./configure --with-iv-extension=-L/tmp/mynodes,-lmynodes,MyNode1,MyNode2
+#
+# TODO:
+#   * check if __declspec(dllimport) is needed on Cygwin
+
+AC_DEFUN([SIM_AC_INVENTOR_EXTENSIONS],
+[
+AC_ARG_WITH(
+  [iv-extensions],
+  [AC_HELP_STRING([--with-iv-extensions=extensions], [enable extra open inventor extensions])],
+  [sim_ac_iv_try_extensions=$withval])
+
+sim_ac_iv_extension_save_LIBS=$LIBS
+
+sim_ac_iv_extension_LIBS=
+sim_ac_iv_extension_LDFLAGS=
+sim_ac_iv_extension_decarations=
+sim_ac_iv_extension_initializations=
+
+sim_ac_iv_extensions=
+while test x"${sim_ac_iv_try_extensions}" != x""; do
+  sim_ac_iv_extension=`echo ,$sim_ac_iv_try_extensions | cut -d, -f2`
+  sim_ac_iv_try_extensions=`echo ,$sim_ac_iv_try_extensions | cut -d, -f3-`
+  case $sim_ac_iv_extension in
+  sim_ac_dummy ) # ignore
+    ;;
+  -L* ) # extension library path hint
+    sim_ac_iv_extension_LDFLAGS="$sim_ac_iv_extension_LDFLAGS $sim_ac_iv_extension"
+    ;;
+  -l* ) # extension library hint
+    LIBS="$sim_ac_iv_extension_save_LIBS $sim_ac_iv_extension_LIBS $sim_ac_iv_extension"
+    AC_MSG_CHECKING([for Open Inventor extension library $sim_ac_iv_extension])
+    AC_TRY_LINK([#include <Inventor/SoDB.h>], [SoDB::init();],
+      [sim_ac_iv_extension_LIBS="$sim_ac_iv_extension_LIBS $sim_ac_iv_extension"
+       AC_MSG_RESULT([linkable])],
+      [AC_MSG_RESULT([unlinkable - discarded])])
+    ;;
+  * )
+    AC_MSG_CHECKING([for Open Inventor extension $sim_ac_iv_extension])
+    AC_TRY_LINK(
+[#include <Inventor/SoDB.h>
+// hack up a declaration and see if the mangled name is found by the linker
+class $sim_ac_iv_extension {
+public:
+static void initClass(void);
+};], [
+  SoDB::init();
+  $sim_ac_iv_extension::initClass();
+], [
+  AC_MSG_RESULT([found])
+  sim_ac_iv_extensions="$sim_ac_iv_extensions COIN_IV_EXTENSION($sim_ac_iv_extension)"
+], [
+  AC_MSG_RESULT([not found])
+])
+    ;;
+  esac
+done
+
+AC_DEFINE_UNQUOTED([COIN_IV_EXTENSIONS], [$sim_ac_iv_extensions], [Open Inventor extensions])
+
+LIBS=$sim_ac_iv_extension_save_LIBS
+
+ifelse([$1], , :, [$1])
+
+]) # SIM_AC_INVENTOR_EXTENSIONS
+
+
+#   Use this file to store miscellaneous macros related to checking
+#   compiler features.
+
+# Usage:
+#   SIM_AC_CC_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
+#   SIM_AC_CXX_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
+#
+# Description:
+#
+#   Check whether the current C or C++ compiler can handle a
+#   particular command-line option.
+#
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+#
+#   * [mortene:19991218] improve macros by catching and analyzing
+#     stderr (at least to see if there was any output there)?
+#
+
+AC_DEFUN([SIM_AC_COMPILER_OPTION], [
+sim_ac_save_cppflags=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $1"
+AC_TRY_COMPILE([], [], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
+AC_MSG_RESULT([$sim_ac_accept_result])
+CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in arg 2 or arg 3.
+if test $sim_ac_accept_result = yes; then
+  ifelse([$2], , :, [$2])
+else
+  ifelse([$3], , :, [$3])
+fi
+])
+
+AC_DEFUN([SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET], [
+sim_ac_save_cppflags=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $1"
+AC_TRY_COMPILE([], [$2], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
+CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in arg 3 or arg 4.
+if test $sim_ac_accept_result = yes; then
+  ifelse([$3], , :, [$3])
+else
+  ifelse([$4], , :, [$4])
+fi
+])
+
+
+AC_DEFUN([SIM_AC_CC_COMPILER_OPTION], [
+AC_LANG_SAVE
+AC_LANG(C)
+AC_MSG_CHECKING([whether $CC accepts $1])
+SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CC_COMPILER_BEHAVIOR_OPTION_QUIET], [
+AC_LANG_SAVE
+AC_LANG(C)
+SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CXX_COMPILER_OPTION], [
+AC_LANG_SAVE
+AC_LANG(C++)
+AC_MSG_CHECKING([whether $CXX accepts $1])
+SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET], [
+AC_LANG_SAVE
+AC_LANG(C++)
+SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
+AC_LANG_RESTORE
+])
+
+#
+# SIM_AC_CHECK_SIMIAN_IFELSE( IF-SIMIAN, IF-NOT-SIMIAN )
+#
+# Sets $sim_ac_simian to true or false
+#
+
+AC_DEFUN([SIM_AC_CHECK_SIMIAN_IFELSE], [
+AC_MSG_CHECKING([if user is simian])
+case `hostname -d 2>/dev/null || domainname 2>/dev/null || hostname` in
+*.sim.no | sim.no )
+  sim_ac_simian=true
+  ;;
+* )
+  if grep -ls "domain.*sim\\.no" /etc/resolv.conf >/dev/null; then
+    sim_ac_simian=true
+    :
+  else
+    sim_ac_simian=false
+    :
+  fi
+  ;;
+esac
+
+if $sim_ac_simian; then
+  AC_MSG_RESULT([probably])
+  ifelse($1, [], :, $1)
+else
+  AC_MSG_RESULT([probably not])
+  ifelse($2, [], :, $2)
+fi])
+
+
+#
+# This file contains misc "macro-containers" for stuff that is
+# common between the various configure.ac files of the So* libraries.
+#
+# Note: none of the macros in this file is likely to be well designed
+# and made for generic use in any project.
+#
+
+# Usage:
+#   SIM_AC_SOGUI_SETUP_DOXYGEN( LIBRARY-NAME )
+#
+# Description:
+#   Do the necessary configurations for setting up HTML and man-page
+#   building by the Doxygen documentation system.
+#
+# Authors:
+#   Morten Eriksen, <mortene@sim.no>
+#   Lars Jørgen Aas, <larsa@sim.no>
+
+
+AC_DEFUN([SIM_AC_SOGUI_SETUP_DOXYGEN],
+[
+AC_ARG_ENABLE(html,
+  AC_HELP_STRING([--enable-html], [build and install $1 HTML documentation]),
+  [case $enableval in
+    yes | true) want_html=yes ;;
+    *)          want_html=no ;;
+  esac],
+  [want_html=no])
+
+case $htmldir in
+/*)
+  # do nothing - absolute path
+  ;;
+*)
+  # expand $docdir and append /html
+  htmldir=`eval echo ${docdir}`/html
+  ;;
+esac
+
+AC_SUBST(htmldir)
+
+AC_ARG_ENABLE(man,
+  AC_HELP_STRING([--enable-man], [build and install $1 man pages]),
+  [case $enableval in
+    yes | true) want_man=yes ;;
+    *)          want_man=no ;;
+  esac],
+  [want_man=no])
+
+AC_ARG_VAR([htmlhelpdir],
+           [destination for HTML-help docs (default ${datadir}/$1/htmlhelp)])
+
+AC_ARG_ENABLE([html-help],
+  AC_HELP_STRING([--enable-html-help], [build and install $1 HTML-help documentation]),
+  [case $enableval in
+    yes | true) want_html_help=yes ;;
+    *)          want_html_help=no ;;
+  esac],
+  [want_html_help=no])
+
+case $htmlhelpdir in
+"")
+  htmlhelpdir="$datadir/$1/htmlhelp"
+  ;;
+/*)
+  # do nothing - absolute path
+  ;;
+*)
+  htmlhelpdir="\${prefix}/$htmlhelpdir"
+  ;;
+esac
+
+AC_SUBST(htmlhelpdir)
+
+# We must turn on html-generation if html-help is turned on,
+# but without affecting the setup of the BUILD_HTMLPAGES
+# conditional, so HTML files aren't installed if you don't
+# use --enable-html.  20031202 larsa
+sogui_doc_html=`echo $want_html | tr '[a-z]' '[A-Z]'`
+if test x"$want_html_help" = x"yes"; then
+  sogui_doc_html=YES
+fi
+
+# Used in the Doxygen parameter file.
+AC_SUBST([SOGUI_DOC_HTML], [$sogui_doc_html])
+AC_SUBST([SOGUI_DOC_MAN], [`echo $want_man | tr '[a-z]' '[A-Z]'`])
+AC_SUBST([SOGUI_DOC_HTML_HELP], [`echo $want_html_help | tr '[a-z]' '[A-Z]'`])
+
+AC_SUBST([sogui_build_dir], [`pwd`])
+AC_SUBST([sogui_src_dir], [`cd $srcdir; pwd`])
+AC_SUBST([sogui_html_dir], [`pwd`/html])
+AC_SUBST([sogui_html_help_dir], [`pwd`/htmlhelp])
+AC_SUBST([sogui_man_dir], [`pwd`/man])
+
+AM_CONDITIONAL(BUILD_MANPAGES, test x"$want_man" = x"yes")
+AM_CONDITIONAL(BUILD_HTMLPAGES, test x"$want_html" = x"yes")
+AM_CONDITIONAL(BUILD_HTMLHELP, test x"$want_html_help" = x"yes")
+
+if test x"$want_man" = x"yes"; then
+  SIM_AC_CONFIGURATION_SETTING([manpage installation], [$mandir])
+fi
+
+if test x"$want_html" = x"yes"; then
+  SIM_AC_CONFIGURATION_SETTING([HTML installation], [$htmldir])
+fi
+
+sim_ac_hhc_exe=
+case $host in
+  *-cygwin) AC_PATH_PROG([sim_ac_hhc_exe], [hhc]) ;;
+  *)        AC_SUBST([sim_ac_hhc_exe]) ;;
+esac
+
+if test x"$want_html_help" = x"yes"; then
+  SIM_AC_CONFIGURATION_SETTING([HTML-help installation], [$htmlhelpdir])
+  if test x"$sim_ac_hhc_exe" = x; then
+    AC_MSG_WARN([Could not find the HTML Help Compiler (hhc) executable])
+  fi
+fi
+
+if test x"$want_html" != xno -o x"$want_man" != xno -o x"$want_html_help" != xno; then
+  SIM_AC_DOXYGEN_TOOL([], [SIM_AC_ERROR([no-doxygen])])
+
+  AC_PATH_PROG(sim_ac_perl_exe, perl, false, $PATH)
+  if test x"$sim_ac_perl_exe" = xfalse; then
+    AC_MSG_WARN(Could not find the Perl executable)
+  fi
+fi
+
+# path_tag is used to identify paths in docs/coin.doxygen that needs to be
+# transformed using cygpath under cygwin.
+
+case $host in
+*-cygwin) path_tag="<PATH>" ;;
+*)        path_tag= ;;
+esac
+
+AC_SUBST(path_tag)
+
+]) # SIM_AC_SOGUI_SETUP_DOXYGEN()
+
+# conf-macros/sogui.m4
+#
+# Common macros for the various GUI toolkit libraries for Coin.
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+
+# SIM_AC_SOGUI_STATIC_DEFAULTS
+# ============================
+# If --disable-static-defaults is used, do not define WITH_STATIC_DEFAULTS.
+
+AC_DEFUN([SIM_AC_SOGUI_STATIC_DEFAULTS],
+[
+sim_ac_static_defaults=true;
+AC_ARG_ENABLE(
+  [static-defaults],
+  AC_HELP_STRING([--disable-static-defaults], [Disable defaults from being statically linked in]),
+  [case ${enable_static_defaults} in
+   no)  sim_ac_static_defaults=false ;;
+   yes) ;;
+   *)   echo "Option '--enable-static-defaults=${enable_static_defaults}' ignored" ;;
+  esac],
+  [])
+
+if $sim_ac_static_defaults; then
+  AC_DEFINE(WITH_STATIC_DEFAULTS, ,
+    [Define this if you want defaults to be linked into SoXt])
+fi
+])
+
+
+# *******************************************************************
+# SIM_AC_RELATIVE_SRC_DIR
+#
+# Sets $sim_ac_relative_src_dir to the relative path to the source
+# directory, and $sim_ac_relative_src_dir_p to true or false depending
+# on whether a relative path can be used or not (in case of different
+# drives).
+#
+# Author:
+#   Lars J. Aas <larsa@sim.no>
+
+
+AC_DEFUN([SIM_AC_RELATIVE_SRC_DIR], [
+
+temp_build_dir=`pwd`
+temp_src_dir=`cd "$srcdir"; pwd`
+
+temp_up=""
+temp_down=""
+
+while test "$temp_build_dir" != "$temp_src_dir"; do
+  srclen=`echo "$temp_src_dir" | wc -c`
+  buildlen=`echo "$temp_build_dir" | wc -c`
+  if test $srclen -gt $buildlen; then
+    # cut source tail, insert into temp_up
+    temp_src_tail=`echo "$temp_src_dir" | sed -e 's,.*/,,g'`
+    temp_src_dir=`echo "$temp_src_dir" | sed -e 's,/[[^/]]*\$,,g'`
+    if test x"$temp_up" = "x"; then
+      temp_up="$temp_src_tail"
+    else
+      temp_up="$temp_src_tail/$temp_up"
+    fi
+  else
+    # cut build tail, increase temp_down
+    temp_build_dir=`echo "$temp_build_dir" | sed -e 's,/[[^/]]*\$,,g'`
+    if test x"$temp_down" = "x"; then
+      temp_down=..
+    else
+      temp_down="../$temp_down"
+    fi
+  fi
+done
+
+if test x"$temp_down" = "x"; then
+  if test x"$temp_up" = "x"; then
+    sim_ac_relative_src_dir="."
+  else
+    sim_ac_relative_src_dir="$temp_up"
+  fi
+else
+  if test x"$temp_up" = "x"; then
+    sim_ac_relative_src_dir="$temp_down"
+  else
+    sim_ac_relative_src_dir="$temp_down/$temp_up"
+  fi
+fi
+
+# this gives false positives on windows, but that's ok for now...
+if test -f $sim_ac_relative_src_dir/$ac_unique_file; then
+  sim_ac_relative_src_dir_p=true;
+else
+  sim_ac_relative_src_dir_p=false;
+fi
+
+AC_SUBST(ac_unique_file) # useful to have to check the relative path
+AC_SUBST(sim_ac_relative_src_dir)
+AC_SUBST(sim_ac_relative_src_dir_p)
+
+]) # SIM_AC_RELATIVE_SRC_DIR
+
+
+# **************************************************************************
+# SIM_AC_UNIQIFY_LIST( VARIABLE, LIST )
+#
+# This macro filters out redundant items from a list.  This macro was made
+# to avoid having multiple equivalent -I and -L options for the compiler on
+# the command-line, which made compilation quite messy to watch.
+#
+# BUGS:
+#   Items with spaces are probably not supported.
+#
+# Note that this macro is obsolete! You should use the alternative
+# macro SIM_AC_UNIQIFY_OPTION_LIST instead, which supports spaces.
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+#
+
+AC_DEFUN([SIM_AC_UNIQIFY_LIST], [
+sim_ac_save_prefix=$prefix
+sim_ac_save_exec_prefix=$exec_prefix
+test x"$prefix" = xNONE && prefix=/usr/local
+test x"$exec_prefix" = xNONE && exec_prefix='${prefix}'
+sim_ac_uniqued_list=
+for sim_ac_item in $2; do
+  eval sim_ac_eval_item="$sim_ac_item"
+  eval sim_ac_eval_item="$sim_ac_eval_item"
+  if test x"$sim_ac_uniqued_list" = x; then
+    sim_ac_uniqued_list="$sim_ac_item"
+  else
+    sim_ac_unique=true
+    for sim_ac_uniq in $sim_ac_uniqued_list; do
+      eval sim_ac_eval_uniq="$sim_ac_uniq"
+      eval sim_ac_eval_uniq="$sim_ac_eval_uniq"
+      test x"$sim_ac_eval_item" = x"$sim_ac_eval_uniq" && sim_ac_unique=false
+    done
+    $sim_ac_unique && sim_ac_uniqued_list="$sim_ac_uniqued_list $sim_ac_item"
+  fi
+done
+$1=$sim_ac_uniqued_list
+prefix=$sim_ac_save_prefix
+exec_prefix=$sim_ac_save_exec_prefix
+# unset sim_ac_save_prefix
+# unset sim_ac_save_exec_prefix
+# unset sim_ac_eval_item
+# unset sim_ac_eval_uniq
+]) # SIM_AC_UNIQIFY_LIST
+
+
+# **************************************************************************
+# SIM_AC_CHECK_HEADER_TLHELP32_H:
+#
+#   Check for tlhelp32.h.
+
+AC_DEFUN([SIM_AC_CHECK_HEADER_TLHELP32_H], [
+# At least with MSVC++, these headers needs windows.h to have been included first.
+AC_CHECK_HEADERS([tlhelp32.h], [], [], [
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+])
+]) # SIM_AC_CHECK_HEADER_TLHELP32_H
+
+
+# **************************************************************************
+# SIM_AC_CHECK_FUNC__SPLITPATH:
+#
+#   Check for the _splitpath() macro/function.
+
+AC_DEFUN([SIM_AC_CHECK_FUNC__SPLITPATH], [
+AC_MSG_CHECKING([for _splitpath()])
+AC_LINK_IFELSE(
+[AC_LANG_PROGRAM([
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+#include <stdlib.h>
+], [
+  char filename[[100]];
+  char drive[[100]];
+  char dir[[100]];
+  _splitpath(filename, drive, dir, NULL, NULL);
+])], [
+  AC_DEFINE([HAVE__SPLITPATH], 1, [define if the system has _splitpath()])
+  AC_MSG_RESULT([found])
+], [
+  AC_MSG_RESULT([not found])
+])
+]) # SIM_AC_CHECK_FUNC__SPLITPATH
+
+
+# **************************************************************************
+# SIM_AC_CHECK_WIN32_API:
+#
+#   Check if the basic Win32 API is available.
+#
+#   Defines HAVE_WIN32_API, and sets sim_ac_have_win32_api to
+#   either true or false.
+
+AC_DEFUN([SIM_AC_CHECK_WIN32_API], [
+sim_ac_have_win32_api=false
+AC_MSG_CHECKING([if the Win32 API is available])
+AC_COMPILE_IFELSE(
+[AC_LANG_PROGRAM([
+#include <windows.h>
+],
+[
+  /* These need to be as basic as possible. I.e. they should be
+     available on all Windows versions. That means NT 3.1 and later,
+     Win95 and later, WinCE 1.0 and later), their definitions should
+     be available from windows.h, and should be linked in from kernel32.
+
+     The ones below are otherwise rather random picks.
+  */
+  (void)CreateDirectory(NULL, NULL);
+  (void)RemoveDirectory(NULL);
+  SetLastError(0);
+  (void)GetLastError();
+  (void)LocalAlloc(0, 1);
+  (void)LocalFree(NULL);
+  return 0;
+])],
+[sim_ac_have_win32_api=true])
+
+if $sim_ac_have_win32_api; then
+  AC_DEFINE([HAVE_WIN32_API], [1], [Define if the Win32 API is available])
+  AC_MSG_RESULT([yes])
+else
+  AC_MSG_RESULT([no])
+fi
+]) # SIM_AC_CHECK_WIN32_API
+
+
+# **************************************************************************
+# SIM_AC_SETUP_MSVC_IFELSE( IF-FOUND, IF-NOT-FOUND )
+#
+# This macro invokes IF-FOUND if the wrapmsvc wrapper can be run, and
+# IF-NOT-FOUND if not.
+#
+# Authors:
+#   Morten Eriksen <mortene@coin3d.org>
+#   Lars J. Aas <larsa@coin3d.org>
+
+# **************************************************************************
+
+AC_DEFUN([SIM_AC_MSVC_DISABLE_OPTION], [
+AC_ARG_ENABLE([msvc],
+  [AC_HELP_STRING([--disable-msvc], [don't require MS Visual C++ on Cygwin])],
+  [case $enableval in
+  no | false) sim_ac_try_msvc=false ;;
+  *)          sim_ac_try_msvc=true ;;
+  esac],
+  [sim_ac_try_msvc=true])
+])
+
+# **************************************************************************
+# Usage:
+#  SIM_AC_MSC_VERSION
+#
+# Find version number of the Visual C++ compiler. sim_ac_msc_version will
+# contain the full version number string, and sim_ac_msc_major_version
+# will contain only the Visual C++ major version number and
+# sim_ac_msc_minor_version will contain the minor version number.
+
+AC_DEFUN([SIM_AC_MSC_VERSION], [
+
+AC_MSG_CHECKING([version of Visual C++ compiler])
+
+cat > conftest.c << EOF
+int VerMSC = _MSC_VER;
+EOF
+
+# The " *"-parts of the last sed-expression on the next line are necessary
+# because at least the Solaris/CC preprocessor adds extra spaces before and
+# after the trailing semicolon.
+sim_ac_msc_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerMSC' | sed 's%^int VerMSC = %%' | sed 's% *;.*$%%'`
+
+sim_ac_msc_minor_version=0
+if test $sim_ac_msc_version -ge 1500; then
+  sim_ac_msc_major_version=9
+elif test $sim_ac_msc_version -ge 1400; then
+  sim_ac_msc_major_version=8
+elif test $sim_ac_msc_version -ge 1300; then
+  sim_ac_msc_major_version=7
+  if test $sim_ac_msc_version -ge 1310; then
+    sim_ac_msc_minor_version=1
+  fi
+elif test $sim_ac_msc_version -ge 1200; then
+  sim_ac_msc_major_version=6
+elif test $sim_ac_msc_version -ge 1100; then
+  sim_ac_msc_major_version=5
+else
+  sim_ac_msc_major_version=0
+fi
+
+# compatibility with old version of macro
+sim_ac_msvc_version=$sim_ac_msc_major_version
+
+rm -f conftest.c
+AC_MSG_RESULT($sim_ac_msc_major_version.$sim_ac_msc_minor_version)
+]) # SIM_AC_MSC_VERSION
+
+# **************************************************************************
+# Note: the SIM_AC_SETUP_MSVC_IFELSE macro has been OBSOLETED and
+# replaced by the one below.
+#
+# If the Microsoft Visual C++ cl.exe compiler is available, set us up for
+# compiling with it and to generate an MSWindows .dll file.
+
+AC_DEFUN([SIM_AC_SETUP_MSVCPP_IFELSE],
+[
+AC_REQUIRE([SIM_AC_MSVC_DISABLE_OPTION])
+AC_REQUIRE([SIM_AC_SPACE_IN_PATHS])
+
+: ${BUILD_WITH_MSVC=false}
+if $sim_ac_try_msvc; then
+  if test -z "$CC" -a -z "$CXX"; then
+    AC_MSG_CHECKING([setup for wrapmsvc.exe])
+    case $host in
+      *-cygwin)
+        valid_system=true
+        ;;
+      * )
+        valid_system=false
+        ;;
+    esac
+    if $valid_system; then
+      sim_ac_wrapmsvc=`cd $ac_aux_dir; pwd`/wrapmsvc.exe
+      echo "$as_me:$LINENO: sim_ac_wrapmsvc=$sim_ac_wrapmsvc" >&AS_MESSAGE_LOG_FD
+      if $sim_ac_wrapmsvc >&AS_MESSAGE_LOG_FD 2>&AS_MESSAGE_LOG_FD; then
+        m4_ifdef([$0_VISITED],
+          [AC_FATAL([Macro $0 invoked multiple times])])
+        m4_define([$0_VISITED], 1)
+        CC=$sim_ac_wrapmsvc
+        CXX=$sim_ac_wrapmsvc
+        export CC CXX
+        BUILD_WITH_MSVC=true
+        AC_MSG_RESULT([working])
+
+        # Robustness: we had multiple reports of Cygwin ''link'' getting in
+        # the way of MSVC link.exe, so do a little sanity check for that.
+        #
+        # FIXME: a better fix would be to call link.exe with full path from
+        # the wrapmsvc wrapper, to avoid any trouble with this -- I believe
+        # that should be possible, using the dirname of the full cl.exe path.
+        # 20050714 mortene.
+        sim_ac_check_link=`type link`
+        AC_MSG_CHECKING([whether Cygwin's /usr/bin/link shadows MSVC link.exe])
+        case x"$sim_ac_check_link" in
+        x"link is /usr/bin/link"* )
+          AC_MSG_RESULT(yes)
+          SIM_AC_ERROR([cygwin-link])
+          ;;
+        * )
+          AC_MSG_RESULT(no)
+          ;;
+        esac
+
+      else
+        AC_MSG_RESULT([not working])
+        SIM_AC_ERROR([no-msvc++])
+      fi
+    else
+      AC_MSG_RESULT([not a cygwin host])
+    fi
+  fi
+fi
+export BUILD_WITH_MSVC
+AC_SUBST(BUILD_WITH_MSVC)
+
+if $BUILD_WITH_MSVC; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_SETUP_MSVC_IFELSE
+
+# **************************************************************************
+# SIM_AC_SETUP_MSVCRT
+#
+# This macro sets up compiler flags for the MS Visual C++ C library of
+# choice.
+
+AC_DEFUN([SIM_AC_SETUP_MSVCRT],
+[sim_ac_msvcrt_LDFLAGS=""
+sim_ac_msvcrt_LIBS=""
+
+AC_ARG_WITH([msvcrt],
+  [AC_HELP_STRING([--with-msvcrt=<crt>],
+                  [set which C run-time library to build against])],
+  [case `echo "$withval" | tr "[A-Z]" "[a-z]"` in
+  default | singlethread-static | ml | /ml | libc | libc\.lib )
+    sim_ac_msvcrt=singlethread-static
+    sim_ac_msvcrt_CFLAGS="/ML"
+    sim_ac_msvcrt_CXXFLAGS="/ML"
+    ;;
+  default-debug | singlethread-static-debug | mld | /mld | libcd | libcd\.lib )
+    sim_ac_msvcrt=singlethread-static-debug
+    sim_ac_msvcrt_CFLAGS="/MLd"
+    sim_ac_msvcrt_CXXFLAGS="/MLd"
+    ;;
+  multithread-static | mt | /mt | libcmt | libcmt\.lib )
+    sim_ac_msvcrt=multithread-static
+    sim_ac_msvcrt_CFLAGS="/MT"
+    sim_ac_msvcrt_CXXFLAGS="/MT"
+    ;;
+  multithread-static-debug | mtd | /mtd | libcmtd | libcmtd\.lib )
+    sim_ac_msvcrt=multithread-static-debug
+    sim_ac_msvcrt_CFLAGS="/MTd"
+    sim_ac_msvcrt_CXXFLAGS="/MTd"
+    ;;
+  multithread-dynamic | md | /md | msvcrt | msvcrt\.lib )
+    sim_ac_msvcrt=multithread-dynamic
+    sim_ac_msvcrt_CFLAGS="/MD"
+    sim_ac_msvcrt_CXXFLAGS="/MD"
+    ;;
+  multithread-dynamic-debug | mdd | /mdd | msvcrtd | msvcrtd\.lib )
+    sim_ac_msvcrt=multithread-dynamic-debug
+    sim_ac_msvcrt_CFLAGS="/MDd"
+    sim_ac_msvcrt_CXXFLAGS="/MDd"
+    ;;
+  *)
+    SIM_AC_ERROR([invalid-msvcrt])
+    ;;
+  esac],
+  [sim_ac_msvcrt=singlethread-static])
+
+AC_MSG_CHECKING([MSVC++ C library choice])
+AC_MSG_RESULT([$sim_ac_msvcrt])
+
+$1
+]) # SIM_AC_SETUP_MSVCRT
+
+# **************************************************************************
+# SIM_AC_SPACE_IN_PATHS
+
+AC_DEFUN([SIM_AC_SPACE_IN_PATHS], [
+sim_ac_full_builddir=`pwd`
+sim_ac_full_srcdir=`cd $srcdir; pwd`
+if test -z "`echo $sim_ac_full_srcdir | tr -cd ' '`"; then :; else
+  AC_MSG_WARN([Detected space character in the path leading up to the Coin source directory - this will probably cause random problems later. You are advised to move the Coin source directory to another location.])
+  SIM_AC_CONFIGURATION_WARNING([Detected space character in the path leading up to the Coin source directory - this will probably cause random problems later. You are advised to move the Coin source directory to another location.])
+fi
+if test -z "`echo $sim_ac_full_builddir | tr -cd ' '`"; then :; else
+  AC_MSG_WARN([Detected space character in the path leading up to the Coin build directory - this will probably cause random problems later. You are advised to move the Coin build directory to another location.])
+  SIM_AC_CONFIGURATION_WARNING([Detected space character in the path leading up to the Coin build directory - this will probably cause random problems later. You are advised to move the Coin build directory to another location.])
+fi
+]) # SIM_AC_SPACE_IN_PATHS
+
+# EOF **********************************************************************
+

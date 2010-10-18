@@ -21590,6 +21590,12 @@ fi
 
 
 # **************************************************************************
+# Always available on windows
+
+$as_echo "#define HAVE_SPACENAV_SUPPORT 1" >>confdefs.h
+
+
+# **************************************************************************
 # Search for and set up stuff we depend on.
 
 # At least with MSVC++, these headers needs windows.h to be
@@ -22488,7 +22494,6 @@ fi
 
 
 
-## Microsoft Developer Studio Project files
 SOWIN_DSP_LIBDIRS=
 SOWIN_DSP_LIBS=
 SOWIN_DSP_INCS=
