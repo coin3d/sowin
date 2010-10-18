@@ -19,7 +19,8 @@ DISTCLEANFILES = \
 	SoWinDevice.h \
 	SoWinInputFocus.h \
 	SoWinKeyboard.h \
-	SoWinMouse.h
+	SoWinMouse.h \
+	SoWinSpacenavDevice.h
 
 ## Process this file with automake to generate Makefile.in.
 
@@ -37,7 +38,8 @@ libSoWinDevices_la_SOURCES = \
 	SoWinDeviceP.h \
 	SoWinInputFocus.cpp \
 	SoWinKeyboard.cpp \
-	SoWinMouse.cpp
+	SoWinMouse.cpp \
+	SoWinSpacenavDevice.cpp
 
 nodist_libSoWinDevices_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)
@@ -51,7 +53,8 @@ devices_lst_SOURCES = \
 	SoWinDeviceP.h \
 	SoWinInputFocus.cpp \
 	SoWinKeyboard.cpp \
-	SoWinMouse.cpp
+	SoWinMouse.cpp \
+	SoWinSpacenavDevice.cpp
 
 nodist_devices_lst_SOURCES = \
 	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)
@@ -72,7 +75,8 @@ nodist_SoWinDevicesinc_HEADERS = \
 	SoWinDevice.h \
 	SoWinInputFocus.h \
 	SoWinKeyboard.h \
-	SoWinMouse.h
+	SoWinMouse.h \
+	SoWinSpacenavDevice.h
 
 install-SoWinDevicesincHEADERS: $(SoWinDevicesinc_HEADERS)
 	@$(NORMAL_INSTALL)

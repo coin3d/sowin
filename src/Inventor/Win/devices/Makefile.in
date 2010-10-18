@@ -67,7 +67,7 @@ devices_lst_AR = $(AR) $(ARFLAGS)
 devices_lst_LIBADD =
 am_devices_lst_OBJECTS = SoWinDevice.$(OBJEXT) \
 	SoWinInputFocus.$(OBJEXT) SoWinKeyboard.$(OBJEXT) \
-	SoWinMouse.$(OBJEXT)
+	SoWinMouse.$(OBJEXT) SoWinSpacenavDevice.$(OBJEXT)
 am__objects_1 = spwinput_x11.$(OBJEXT) spwinput_win32.$(OBJEXT) \
 	So@Gui@DeviceCommon.$(OBJEXT) \
 	So@Gui@InputFocusCommon.$(OBJEXT) \
@@ -78,7 +78,7 @@ devices_lst_OBJECTS = $(am_devices_lst_OBJECTS) \
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libSoWinDevices_la_LIBADD =
 am_libSoWinDevices_la_OBJECTS = SoWinDevice.lo SoWinInputFocus.lo \
-	SoWinKeyboard.lo SoWinMouse.lo
+	SoWinKeyboard.lo SoWinMouse.lo SoWinSpacenavDevice.lo
 am__objects_2 = spwinput_x11.lo spwinput_win32.lo \
 	So@Gui@DeviceCommon.lo So@Gui@InputFocusCommon.lo \
 	So@Gui@KeyboardCommon.lo So@Gui@MouseCommon.lo
@@ -103,6 +103,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SoWinKeyboard.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/SoWinMouse.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoWinMouse.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/SoWinSpacenavDevice.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SoWinSpacenavDevice.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/spwinput_win32.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/spwinput_win32.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/spwinput_x11.Plo \
@@ -658,7 +660,8 @@ DISTCLEANFILES = \
 	SoWinDevice.h \
 	SoWinInputFocus.h \
 	SoWinKeyboard.h \
-	SoWinMouse.h
+	SoWinMouse.h \
+	SoWinSpacenavDevice.h
 
 @BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = devices.lst
 @BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoWinDevices.la
@@ -670,7 +673,8 @@ libSoWinDevices_la_SOURCES = \
 	SoWinDeviceP.h \
 	SoWinInputFocus.cpp \
 	SoWinKeyboard.cpp \
-	SoWinMouse.cpp
+	SoWinMouse.cpp \
+	SoWinSpacenavDevice.cpp
 
 nodist_libSoWinDevices_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)
@@ -684,7 +688,8 @@ devices_lst_SOURCES = \
 	SoWinDeviceP.h \
 	SoWinInputFocus.cpp \
 	SoWinKeyboard.cpp \
-	SoWinMouse.cpp
+	SoWinMouse.cpp \
+	SoWinSpacenavDevice.cpp
 
 nodist_devices_lst_SOURCES = \
 	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)
@@ -697,7 +702,8 @@ nodist_SoWinDevicesinc_HEADERS = \
 	SoWinDevice.h \
 	SoWinInputFocus.h \
 	SoWinKeyboard.h \
-	SoWinMouse.h
+	SoWinMouse.h \
+	SoWinSpacenavDevice.h
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -770,6 +776,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWinKeyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWinMouse.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWinMouse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWinSpacenavDevice.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWinSpacenavDevice.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spwinput_win32.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spwinput_win32.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spwinput_x11.Plo@am__quote@
