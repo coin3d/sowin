@@ -350,6 +350,10 @@ AM_CONDITIONAL(BUILD_METAFILES, false)
 AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, false)
 
 # **************************************************************************
+# Always available on windows
+AC_DEFINE([HAVE_SPACENAV_SUPPORT], 1, [Define if the Space Navigator support should be included])
+
+# **************************************************************************
 # Search for and set up stuff we depend on.
 
 # At least with MSVC++, these headers needs windows.h to be
