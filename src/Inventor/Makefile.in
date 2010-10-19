@@ -1013,6 +1013,12 @@ $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h: $(top_srcdir)/src/Inv
 $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiMouseP.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiMouseP.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/SoGuiMouseP.h:src/Inventor/@Gui@/common/devices/SoGuiMouseP.h.in )
 
+$(top_builddir)/src/Inventor/@Gui@/devices/SoGuiSpacenavDevice.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiSpacenavDevice.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/SoGuiSpacenavDevice.h:src/Inventor/@Gui@/common/devices/SoGuiSpacenavDevice.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/devices/SoGuiSpacenavDevice.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiSpacenavDevice.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/SoGuiSpacenavDevice.cpp:src/Inventor/@Gui@/common/devices/SoGuiSpacenavDevice.cpp.in )
+
 $(top_builddir)/src/Inventor/@Gui@/devices/spwinput.h: $(top_srcdir)/src/Inventor/@Gui@/common/spwinput.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/spwinput.h:src/Inventor/@Gui@/common/spwinput.h.in )
 
