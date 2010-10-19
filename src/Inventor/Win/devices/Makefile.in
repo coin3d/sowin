@@ -71,7 +71,8 @@ am_devices_lst_OBJECTS = SoWinDevice.$(OBJEXT) \
 am__objects_1 = spwinput_x11.$(OBJEXT) spwinput_win32.$(OBJEXT) \
 	So@Gui@DeviceCommon.$(OBJEXT) \
 	So@Gui@InputFocusCommon.$(OBJEXT) \
-	So@Gui@KeyboardCommon.$(OBJEXT) So@Gui@MouseCommon.$(OBJEXT)
+	So@Gui@KeyboardCommon.$(OBJEXT) So@Gui@MouseCommon.$(OBJEXT) \
+	So@Gui@SpacenavDevice.$(OBJEXT)
 nodist_devices_lst_OBJECTS = $(am__objects_1)
 devices_lst_OBJECTS = $(am_devices_lst_OBJECTS) \
 	$(nodist_devices_lst_OBJECTS)
@@ -81,7 +82,8 @@ am_libSoWinDevices_la_OBJECTS = SoWinDevice.lo SoWinInputFocus.lo \
 	SoWinKeyboard.lo SoWinMouse.lo SoWinSpacenavDevice.lo
 am__objects_2 = spwinput_x11.lo spwinput_win32.lo \
 	So@Gui@DeviceCommon.lo So@Gui@InputFocusCommon.lo \
-	So@Gui@KeyboardCommon.lo So@Gui@MouseCommon.lo
+	So@Gui@KeyboardCommon.lo So@Gui@MouseCommon.lo \
+	So@Gui@SpacenavDevice.lo
 nodist_libSoWinDevices_la_OBJECTS = $(am__objects_2)
 libSoWinDevices_la_OBJECTS = $(am_libSoWinDevices_la_OBJECTS) \
 	$(nodist_libSoWinDevices_la_OBJECTS)
@@ -95,6 +97,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@KeyboardCommon.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@MouseCommon.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@MouseCommon.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@SpacenavDevice.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@SpacenavDevice.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/SoWinDevice.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoWinDevice.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/SoWinInputFocus.Plo \
@@ -370,6 +374,8 @@ SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiKeyboardP.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiMouseP.h
 
 SoGui_src_Inventor_Gui_editors_BuiltFiles = \
@@ -768,6 +774,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@KeyboardCommon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@MouseCommon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@MouseCommon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@SpacenavDevice.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@SpacenavDevice.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWinDevice.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWinDevice.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoWinInputFocus.Plo@am__quote@
@@ -974,6 +982,30 @@ So@Gui@MouseCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCo
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/So@Gui@MouseCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@MouseCommon.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@MouseCommon.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
+
+So@Gui@SpacenavDevice.o: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT So@Gui@SpacenavDevice.o -MD -MP -MF "$(DEPDIR)/So@Gui@SpacenavDevice.Tpo" -c -o So@Gui@SpacenavDevice.o `test -f '$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/So@Gui@SpacenavDevice.Tpo" "$(DEPDIR)/So@Gui@SpacenavDevice.Po"; else rm -f "$(DEPDIR)/So@Gui@SpacenavDevice.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp' object='So@Gui@SpacenavDevice.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/So@Gui@SpacenavDevice.Po' tmpdepfile='$(DEPDIR)/So@Gui@SpacenavDevice.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@SpacenavDevice.o `test -f '$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp
+
+So@Gui@SpacenavDevice.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT So@Gui@SpacenavDevice.obj -MD -MP -MF "$(DEPDIR)/So@Gui@SpacenavDevice.Tpo" -c -o So@Gui@SpacenavDevice.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/So@Gui@SpacenavDevice.Tpo" "$(DEPDIR)/So@Gui@SpacenavDevice.Po"; else rm -f "$(DEPDIR)/So@Gui@SpacenavDevice.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp' object='So@Gui@SpacenavDevice.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/So@Gui@SpacenavDevice.Po' tmpdepfile='$(DEPDIR)/So@Gui@SpacenavDevice.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@SpacenavDevice.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp'; fi`
+
+So@Gui@SpacenavDevice.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT So@Gui@SpacenavDevice.lo -MD -MP -MF "$(DEPDIR)/So@Gui@SpacenavDevice.Tpo" -c -o So@Gui@SpacenavDevice.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/So@Gui@SpacenavDevice.Tpo" "$(DEPDIR)/So@Gui@SpacenavDevice.Plo"; else rm -f "$(DEPDIR)/So@Gui@SpacenavDevice.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp' object='So@Gui@SpacenavDevice.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/So@Gui@SpacenavDevice.Plo' tmpdepfile='$(DEPDIR)/So@Gui@SpacenavDevice.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@SpacenavDevice.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp
 
 mostlyclean-libtool:
 	-rm -f *.lo

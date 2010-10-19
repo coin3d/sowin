@@ -332,6 +332,8 @@ SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiKeyboardP.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpacenavDevice.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiMouseP.h
 
 SoGui_src_Inventor_Gui_editors_BuiltFiles = \
