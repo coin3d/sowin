@@ -4532,6 +4532,51 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\src\Inventor\Win\devices\SoWinSpacenavDevice.cpp">
+					<FileConfiguration
+						Name="DLL (Release)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="3"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOWIN_DEBUG=0;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							ObjectFile=".\Release\Win\devices/"
+							ProgramDataBaseFileName="Release\Win\devices/"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="LIB (Release)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="3"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+							ObjectFile=".\StaticRelease\Win\devices/"
+							ProgramDataBaseFileName="StaticRelease\Win\devices/"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DLL (Debug)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOWIN_DEBUG=1;HAVE_CONFIG_H;SOWIN_MAKE_DLL;SOWIN_INTERNAL;COIN_DLL;$(NoInherit)"
+							BasicRuntimeChecks="3"
+							ObjectFile=".\Debug\Win\devices/"
+							ProgramDataBaseFileName="Debug\Win\devices/"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="LIB (Debug)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							ObjectFile=".\StaticDebug\Win\devices/"
+							ProgramDataBaseFileName="StaticDebug\Win\devices/"/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="src\Inventor\Win\devices\spwinput_win32.c">
 					<FileConfiguration
 						Name="DLL (Release)|Win32">
@@ -6779,6 +6824,9 @@
 				</File>
 				<File
 					RelativePath="src\Inventor\Win\devices\SoWinMouse.h">
+				</File>
+				<File
+					RelativePath="..\..\src\Inventor\Win\devices\SoWinSpacenavDevice.h">
 				</File>
 			</Filter>
 			<Filter

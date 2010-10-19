@@ -332,6 +332,8 @@ SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/Win/devices/SoGuiKeyboardP.h \
   $(top_builddir)/src/Inventor/Win/devices/SoWinMouseCommon.cpp \
   $(top_builddir)/src/Inventor/Win/devices/SoWinMouse.h \
+  $(top_builddir)/src/Inventor/Win/devices/SoWinSpacenavDevice.h \
+  $(top_builddir)/src/Inventor/Win/devices/SoWinSpacenavDevice.cpp \
   $(top_builddir)/src/Inventor/Win/devices/SoGuiMouseP.h
 
 SoGui_src_Inventor_Gui_editors_BuiltFiles = \
@@ -1332,6 +1334,12 @@ $(top_builddir)/src/Inventor/Win/devices/SoWinMouse.h: $(top_srcdir)/src/Invento
 
 $(top_builddir)/src/Inventor/Win/devices/SoGuiMouseP.h: $(top_srcdir)/src/Inventor/Win/common/devices/SoGuiMouseP.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Win/devices/SoGuiMouseP.h:src/Inventor/Win/common/devices/SoGuiMouseP.h.in )
+
+$(top_builddir)/src/Inventor/Win/devices/SoGuiSpacenavDevice.h: $(top_srcdir)/src/Inventor/Win/common/devices/SoGuiSpacenavDevice.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Win/devices/SoGuiSpacenavDevice.h:src/Inventor/Win/common/devices/SoGuiSpacenavDevice.h.in )
+
+$(top_builddir)/src/Inventor/Win/devices/SoGuiSpacenavDevice.cpp: $(top_srcdir)/src/Inventor/Win/common/devices/SoGuiSpacenavDevice.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Win/devices/SoGuiSpacenavDevice.cpp:src/Inventor/Win/common/devices/SoGuiSpacenavDevice.cpp.in )
 
 $(top_builddir)/src/Inventor/Win/devices/spwinput.h: $(top_srcdir)/src/Inventor/Win/common/spwinput.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Win/devices/spwinput.h:src/Inventor/Win/common/spwinput.h.in )
