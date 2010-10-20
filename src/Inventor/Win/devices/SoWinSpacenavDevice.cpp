@@ -112,6 +112,8 @@ SoWinSpacenavDevice::disable(HWND w, SoWinEventHandler * handler, void * closure
 const SoEvent * 
 SoWinSpacenavDevice::translateEvent(MSG * inevent)
 {
+  SoEvent * ret = NULL;
+
   if (inevent->message == WM_INPUT) {
     // Read event header
     RAWINPUTHEADER header;
@@ -145,6 +147,7 @@ SoWinSpacenavDevice::translateEvent(MSG * inevent)
 
         SbVec3f trans = PRIVATE(this)->makeTranslation(all6DOFs[0], all6DOFs[1], all6DOFs[2]);
         PRIVATE(this)->motion3event->setTranslation(trans);
+		ret = PRIVATE(this)->motion3event;
       }
       else if (pRawHid->bRawData[0] == 2) { // Rotation vector        
         all6DOFs[3] = (pRawHid->bRawData[1] & 0x000000ff) | 
@@ -155,27 +158,43 @@ SoWinSpacenavDevice::translateEvent(MSG * inevent)
           ((signed short)(pRawHid->bRawData[6]<<8) & 0xffffff00);
         SbRotation rot = PRIVATE(this)->makeRotation(all6DOFs[3], all6DOFs[4], all6DOFs[5]);
         PRIVATE(this)->motion3event->setRotation(rot);
+		ret = PRIVATE(this)->motion3event;
       }
       else if (pRawHid->bRawData[0] == 3) { // Buttons (display most significant byte to least)
-        if ((unsigned char)pRawHid->bRawData[1] == 1)
-          PRIVATE(this)->buttonevent->setButton(SoSpaceballButtonEvent::BUTTON1);
-        if ((unsigned char)pRawHid->bRawData[1] == 2)
-          PRIVATE(this)->buttonevent->setButton(SoSpaceballButtonEvent::BUTTON2);
-
-        if ((unsigned char)pRawHid->bRawData[1] == 0) {
-          PRIVATE(this)->buttonevent->setState(SoButtonEvent::UP);
-        }
-        else {
-          PRIVATE(this)->buttonevent->setState(SoButtonEvent::DOWN);
-        }
+        
+		PRIVATE(this)->buttonevent->setState(SoButtonEvent::DOWN);
+		switch ((unsigned char)pRawHid->bRawData[1]) {
+			case 0: PRIVATE(this)->buttonevent->setState(SoButtonEvent::UP); 
+					break;
+			case 1: PRIVATE(this)->buttonevent->setButton(SoSpaceballButtonEvent::BUTTON1);
+					break;
+			case 2: PRIVATE(this)->buttonevent->setButton(SoSpaceballButtonEvent::BUTTON2);
+					break;
+			case 3: PRIVATE(this)->buttonevent->setButton(SoSpaceballButtonEvent::BUTTON3);
+					break;
+			case 4: PRIVATE(this)->buttonevent->setButton(SoSpaceballButtonEvent::BUTTON4);
+					break;
+			case 5: PRIVATE(this)->buttonevent->setButton(SoSpaceballButtonEvent::BUTTON5);
+					break;
+			case 6: PRIVATE(this)->buttonevent->setButton(SoSpaceballButtonEvent::BUTTON6);
+					break;
+			case 7: PRIVATE(this)->buttonevent->setButton(SoSpaceballButtonEvent::BUTTON7);
+					break;
+			case 8: PRIVATE(this)->buttonevent->setButton(SoSpaceballButtonEvent::BUTTON8);
+					break;
+			default:
+					break;
+			// FIXME: Which button is SoSpaceballButtonEvent::PICK? (handegar)
+		}
+		
+		ret = PRIVATE(this)->buttonevent;
       } 
     }
     
     free(event);
-    return PRIVATE(this)->motion3event;
   }
 
-  return NULL;
+  return ret;
 }
 
 #undef PRIVATE
