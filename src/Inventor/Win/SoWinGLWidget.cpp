@@ -651,6 +651,7 @@ SoWinGLWidgetP::glWidgetProc(HWND window, UINT message,
     msg.time = GetTickCount();
     msg.wParam = wparam;
     object->processEvent(&msg);
+	return 0; // Return now to prevent duplicated events.
   }
   
   if (object && window == object->getNormalWidget()) {
