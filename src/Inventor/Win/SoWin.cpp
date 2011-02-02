@@ -311,8 +311,6 @@ SoWin::init(int & argc, char ** argv,
     windowclass.cbWndExtra = sizeof(LONG_PTR);
     (void)Win32::RegisterClass(&windowclass);
   }
-
-  SoWinP::InitRawDevices();
   
   SIZE size = { 500, 500 };
   HWND toplevel =
@@ -342,6 +340,7 @@ void
 SoWin::init(HWND toplevelwidget)
 {
   SoGuiP::commonInit();
+  SoWinP::InitRawDevices();
 
   // FIXME: should set on all! SoReadError will just disappear with
   // this.. 20050714 mortene.
@@ -584,7 +583,7 @@ SoWinP::InitRawDevices(void)
     return FALSE;
   }
   // Create list large enough to hold all RAWINPUTDEVICE structs
-  rawInputDeviceList = (PRAWINPUTDEVICELIST)malloc(sizeof(RAWINPUTDEVICELIST) * nDevices);
+  rawInputDeviceList = (PRAWINPUTDEVICELIST) malloc(sizeof(RAWINPUTDEVICELIST) * nDevices);
   if (rawInputDeviceList == NULL) {
     return FALSE;
   }
@@ -593,7 +592,7 @@ SoWinP::InitRawDevices(void)
     return FALSE;
   }
   
-  rawInputDevices = (PRAWINPUTDEVICE)malloc(nDevices * sizeof(RAWINPUTDEVICE));
+  rawInputDevices = (PRAWINPUTDEVICE) malloc(nDevices * sizeof(RAWINPUTDEVICE));
   usagePage1Usage8Devices = 0;
   
   // Look through device list for RIM_TYPEHID devices with UsagePage == 1, Usage == 8
@@ -619,7 +618,7 @@ SoWinP::InitRawDevices(void)
             rawInputDevices[usagePage1Usage8Devices].usUsagePage = phidInfo->usUsagePage;
             rawInputDevices[usagePage1Usage8Devices].usUsage = phidInfo->usUsage;
             rawInputDevices[usagePage1Usage8Devices].dwFlags = 0;
-            rawInputDevices[usagePage1Usage8Devices].hwndTarget = NULL;
+            rawInputDevices[usagePage1Usage8Devices].hwndTarget = mainWidget;//NULL;
             usagePage1Usage8Devices++;
           }
         }
