@@ -67,7 +67,6 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= SoWin.pc
 
 EXTRA_DIST = \
-	LICENSE.GPL \
 	SoWin.pc.in \
 	cfg/sowin.m4 \
 	cfg/gendsp.pl.in \
