@@ -350,12 +350,33 @@ static struct key1map WinToSoMapping[] = {
 
 // *************************************************************************
 
-static SbDict * translatetable = NULL;
-
 // *************************************************************************
 
 class SoWinKeyboardP : public SoGuiKeyboardP {
+public:
+  SoWinKeyboardP();
+  ~SoWinKeyboardP();
+  static SbDict * translatetable;
+  static int nrofkeyboards;
 };
+
+SbDict * SoWinKeyboardP::translatetable = NULL;
+int SoWinKeyboardP::nrofkeyboards = 0;
+
+SoWinKeyboardP::SoWinKeyboardP()
+{
+  ++nrofkeyboards;
+}
+
+SoWinKeyboardP::~SoWinKeyboardP()
+{
+  --nrofkeyboards;
+  assert(nrofkeyboards >= 0);
+  if (nrofkeyboards == 0) {
+    delete translatetable;
+    translatetable = 0;
+  }
+}
 
 // *************************************************************************
 
@@ -364,13 +385,12 @@ SoWinKeyboard::SoWinKeyboard(int events)
   PRIVATE(this) = new SoWinKeyboardP();
   PRIVATE(this)->eventmask = events;
 
-  if (translatetable == NULL) {
-    // FIXME: memory leak, deallocate on exit. 20000811 mortene.
-    translatetable = new SbDict;
+  if (PRIVATE(this)->translatetable == NULL) {
+    PRIVATE(this)->translatetable = new SbDict;
 
     int i=0;
     while (WinToSoMapping[i].from != VK_UNKNOWN) {
-      translatetable->enter(WinToSoMapping[i].from,(void *)WinToSoMapping[i].to);
+      PRIVATE(this)->translatetable->enter(WinToSoMapping[i].from,(void *)WinToSoMapping[i].to);
       i++;
     }
   }
@@ -436,7 +456,7 @@ SoWinKeyboard::translateEvent(MSG * msg)
   }
 
   void * sokey;
-  if (translatetable->find(msg->wParam, sokey)) {
+  if (PRIVATE(this)->translatetable->find(msg->wParam, sokey)) {
     PRIVATE(this)->kbdevent->setKey((SoKeyboardEvent::Key)(int)sokey);
   }
   else {
