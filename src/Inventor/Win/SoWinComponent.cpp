@@ -82,18 +82,15 @@ SoWinComponentP::SoWinComponentP(SoWinComponent * o)
 
 SoWinComponentP::~SoWinComponentP()
 {
-  // FIXME: only unregister classname when all component windows have
-  // been destroyed.  CreateWindow() get the default "Win Component"
-  // name, even when created by viewers like SoWinExaminerViewer. Is
-  // this a bug? In that case fix this too!
-  //
-  // mariusbu 20010803.
-#if 0 // tmp disabled
-  if (SoWinComponentP::wndClassAtom) { // if wndclass is registered
+  if (SoGuiComponentP::nrofcomponents == 1 && SoWinComponentP::wndClassAtom) { // if wndclass is registered
     Win32::UnregisterClass("Component Widget", NULL);
     SoWinComponentP::wndClassAtom = NULL;
   }
-#endif // tmp disabled
+
+  if (SoGuiComponentP::nrofcomponents == 1) {
+    delete cursordict;
+    cursordict = NULL;
+  }
 }
 
 void
