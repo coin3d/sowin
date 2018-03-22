@@ -306,16 +306,14 @@ SoWin::init(int & argc, char ** argv,
 
   {
     WNDCLASS windowclass;
-    LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
-    HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
     windowclass.lpszClassName = classname;
     windowclass.hInstance = SoWinP::Instance;
     windowclass.lpfnWndProc = SoWinP::eventHandler;
     windowclass.style = CS_OWNDC;
     windowclass.lpszMenuName = NULL;
-    windowclass.hIcon = LoadIcon(NULL, icon);
+    windowclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
-    windowclass.hbrBackground = brush;
+    windowclass.hbrBackground = GetSysColorBrush(COLOR_BTNFACE);
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = sizeof(LONG_PTR);
     (void)Win32::RegisterClass(&windowclass);
@@ -608,7 +606,7 @@ SoWinP::InitRawDevices(void)
   for(UINT i=0; i<nDevices; i++) {
     if (rawInputDeviceList[i].dwType == RIM_TYPEHID) {
       UINT nchars = 300;
-      TCHAR deviceName[300];      
+      //TCHAR deviceName[300];      
       RID_DEVICE_INFO dinfo;
       UINT sizeofdinfo = sizeof(dinfo);
       dinfo.cbSize = sizeofdinfo;

@@ -452,12 +452,12 @@ SoWinKeyboard::translateEvent(MSG * msg)
   if (SOWIN_DEBUG && 0) { // debug
     SoDebugError::postInfo("SoWinKeyboard::makeKeyboardEvent",
                            "MapVirtualKey(msg->wParam,0) == %d",
-                           MapVirtualKey(msg->wParam, 0));
+                           MapVirtualKey((UINT)(uintptr_t)msg->wParam, 0));
   }
 
   void * sokey;
   if (PRIVATE(this)->translatetable->find(msg->wParam, sokey)) {
-    PRIVATE(this)->kbdevent->setKey((SoKeyboardEvent::Key)(int)sokey);
+    PRIVATE(this)->kbdevent->setKey((SoKeyboardEvent::Key)(intptr_t)sokey);
   }
   else {
     PRIVATE(this)->kbdevent->setKey(SoKeyboardEvent::ANY);

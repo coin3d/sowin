@@ -24,13 +24,16 @@ option(HAVE_SPACENAV_SUPPORT "Enable Space Navigator support" ON)
 
 find_package(OpenGL REQUIRED)
 find_package(Coin REQUIRED CONFIG)
-find_package(X11)
 
 set(SO${GUI}_MAJOR_VERSION "1")
 set(SO${GUI}_MINOR_VERSION "6")
 set(SO${GUI}_MICRO_VERSION "0")
 set(SO${GUI}_BETA_VERSION "a")
 set(SO${GUI}_VERSION "${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION}${SO${GUI}_BETA_VERSION}")
+
+if(MSVC)
+	add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS)
+endif()
 
 check_include_files(windows.h HAVE_WINDOWS_H)
 check_include_files(crtdbg.h HAVE_CRTDBG_H)
@@ -173,6 +176,10 @@ set(PACKAGE_VERSION "${SO${GUI}_VERSION}")
 check_include_files("assert.h;ctype.h;errno.h;float.h;limits.h;locale.h;math.h;setjmp.h;signal.h;stdarg.h;stddef.h;stdio.h;stdlib.h;string.h;time.h" STDC_HEADERS)
 set(USE_EXCEPTIONS ON)
 set(HAVE_DYNAMIC_LINKING 1)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 configure_file(src/config.h.cmake.in src/config.h)
 

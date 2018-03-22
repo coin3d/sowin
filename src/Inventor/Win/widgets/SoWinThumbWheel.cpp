@@ -166,13 +166,13 @@ SoWinThumbWheel::getWidget(void)
 void
 SoWinThumbWheel::setId(long id)
 {
-  (void)Win32::SetWindowLongPtr(this->wheelWindow, GWL_ID, id);
+  (void)Win32::SetWindowLongPtr(this->wheelWindow, GWL_ID, (LONG_PTR)id);
 }
 
 long
 SoWinThumbWheel::id(void) const
 {
-  return Win32::GetWindowLongPtr(this->wheelWindow, GWL_ID);
+  return (long)Win32::GetWindowLongPtr(this->wheelWindow, GWL_ID);
 }
 
 void
@@ -583,7 +583,7 @@ SoWinThumbWheel::setLabelText(const char * text)
                                           rect.bottom + labelOffset.y, text);
   }
 
-  int len = strlen(text);
+  int len = int(strlen(text));
   HDC hdc = Win32::GetDC(this->labelWindow);
   SIZE textSize;
   Win32::GetTextExtentPoint(hdc, text, len, & textSize);
@@ -717,7 +717,7 @@ SoWinThumbWheel::getTextSize(HWND window, const char * text)
 {
   assert(IsWindow(window));
 
-  int len = strlen(text);
+  int len = int(strlen(text));
   HDC hdc = Win32::GetDC(window);
 
   SIZE size;

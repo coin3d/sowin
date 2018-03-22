@@ -829,7 +829,7 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   // FIXME: I have thought of one improvement we should make: fix
   // interface to make it possible to ask for a particular amount of
   // color and/or depth and/or stencil and/or accumulation buffer
-  // bits, and then punish *extra* bits as well as too few (but punish
+  // bits, and then punish *extra* bits aswell as too few (but punish
   // fewer bits *more* than extra bits).
   //
   // The rationale behind this suggestion is that excessive bits takes
@@ -841,7 +841,7 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
 
   if ((pfd->dwFlags & PFD_SUPPORT_OPENGL) == 0) { return -FLT_MAX; }
   // We only care for on-screen windows for now. If we ever want to
-  // use this weighting method for offscreen buffers as well, we should
+  // use this weighting method for offscreen buffers aswell, we should
   // extend with another argument for the function signature to check
   // specifically for this.
   if ((pfd->dwFlags & PFD_DRAW_TO_WINDOW) == 0) { return -FLT_MAX; }
@@ -849,6 +849,7 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   // FIXME: I believe these pixelformats to be unsupported, as we
   // don't set up any palettes yet:
   if ((pfd->dwFlags & (PFD_NEED_PALETTE|PFD_NEED_SYSTEM_PALETTE)) != 0) { return -FLT_MAX; }
+
 
   // *** set up parameter constants for weighing *****************
 
@@ -896,6 +897,7 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   const double PER_ACCUMULATION_BIT = 0.5;
   const double PER_STENCIL_BIT = 0.5;
 
+
   // *** calculate weight for given pixelformat ******************
 
   double weight = 0.0;
@@ -911,12 +913,12 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   double overlay_cont = 0.0;
   double hw_accel_cont = 0.0;
 
-  const SbBool has_rgb = (pfd->iPixelType == PFD_TYPE_RGBA);
   // want_rgb && PFD_TYPE_RGBA         =>  +1
   // want_rgb && PFD_TYPE_COLORINDEX   =>  -1
   // !want_rgb && PFD_TYPE_RGBA        =>  -1
   // !want_rgb && PFD_TYPE_COLORINDEX  =>  +1
-  int sign = (want_rgb ? 1 : -1) * (has_rgb ? 1 : -1);
+
+  int sign = (want_rgb ? 1 : -1) * ((pfd->iPixelType == PFD_TYPE_RGBA) ? 1 : -1);
   rgba_cont = RGBA_VS_COLORINDEX * sign;
 
   const SbBool has_zbuffer = (pfd->cDepthBits > 0);
@@ -933,11 +935,14 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   // requested singlebuffer mode, as singlebuffer can flawlessly be
   // "faked" in doublebuffer
 
-  // punish stereo mode if we requested mono. Stereo mode uses lots of gfx memory
   const SbBool has_stereo = ((pfd->dwFlags & PFD_STEREO) != 0);
-  sign = (want_stereo ? 1 : -1);
-  if (has_stereo) { 
-    stereo_cont = STEREO_PRESENT * sign; 
+  if (want_stereo) { 
+    if (has_stereo) stereo_cont = STEREO_PRESENT; 
+  }
+  else if (has_stereo) {
+    // punish stereo mode if we requested mono. Stereo mode uses lots
+    // of gfx memory
+    stereo_cont = -STEREO_PRESENT; 
   }
   
   // We reward extra weight points to formats with accumulation bits,
@@ -971,6 +976,7 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   // amounts of graphics memory. (We have had reports from systems
   // where the user ran out of graphics memory due to this problem,
   // which is why we introduced the current strategy.)
+
 
   if (want_overlay) {
     const int nr_planes = pfd->bReserved & 0x07;
@@ -1030,9 +1036,6 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
   
   depth_cont = pfd->cDepthBits * PER_DEPTH_BIT;
   color_cont = pfd->cColorBits * PER_COLOR_BIT;
-
-  // 64 bit formats disable aero effects on Windows >= 7.  what's a proper punishment?
-  if (pfd->cColorBits > 32) { color_cont = -MAX_IMPORTANCE; } 
 
   weight = 
     alpha_cont +
@@ -1172,20 +1175,11 @@ compare_pixel_formats(const void * v0, const void * v1)
   so_pixel_format * p0 = *((so_pixel_format**)v0);
   so_pixel_format * p1 = *((so_pixel_format**)v1);
  
-  // place override format at start
   if (p0->override) return -1;
   else if (p1->override) return 1;
  
-  // sort by weight in descending order
   if (p0->weight > p1->weight) return -1;
   else if (p0->weight < p1->weight) return 1;
-  else 
-  {
-    // weight equals.  sort by pixelformat index in ascending order, as lower
-    // pixelformat indices should be preferred
-    if (p0->format < p1->format) return -1;
-    else if (p0->format > p1->format) return 1;
-  }
   return 0;
 }
 }

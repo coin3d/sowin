@@ -332,7 +332,7 @@ WinNativePopupMenu::addMenu(int menuid, int submenuid, int pos)
   menuiteminfo.fType = MFT_STRING;
   menuiteminfo.hSubMenu = sub->menu;
   menuiteminfo.dwTypeData = sub->title;
-  menuiteminfo.cch = strlen(sub->title);
+  menuiteminfo.cch = (UINT)strlen(sub->title);
 
   if (pos == -1)
     Win32::InsertMenuItem(super->menu, sub->menuid, FALSE, & menuiteminfo);

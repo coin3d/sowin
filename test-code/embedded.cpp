@@ -68,8 +68,8 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
   windowclass.lpfnWndProc = mainwinproc;
   windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IDI_APPLICATION));
-  windowclass.hCursor = LoadCursor(hInstance, MAKEINTRESOURCE(IDC_ARROW));
+  windowclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+  windowclass.hCursor = LoadCursor(hInstance, IDC_ARROW);
   windowclass.hbrBackground = GetSysColorBrush(COLOR_BTNFACE);
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = 4;

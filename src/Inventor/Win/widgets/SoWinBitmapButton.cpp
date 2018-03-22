@@ -467,7 +467,7 @@ int
 SoWinBitmapButtonP::axtoi(const char * str) // convert from ASCII hex to int
 {
   const char * c = str;
-  int n = (strchr(c, '\0') - c);
+  int n = int(strchr(c, '\0') - c);
 
   int x = 0;
 

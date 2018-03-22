@@ -172,8 +172,6 @@ SoWinComponentP::buildFormWidget(HWND parent)
   // embedded.
 
   if (! SoWinComponentP::wndClassAtom) {
-    HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
-
     WNDCLASS windowclass;
     windowclass.lpszClassName = "Component Widget";
     windowclass.hInstance = NULL;
@@ -182,7 +180,7 @@ SoWinComponentP::buildFormWidget(HWND parent)
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
-    windowclass.hbrBackground = brush;
+    windowclass.hbrBackground = GetSysColorBrush(COLOR_BTNFACE);
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = sizeof(LONG_PTR);
 
