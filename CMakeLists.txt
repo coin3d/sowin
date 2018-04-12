@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.0)
 
 set(gui win)
 set(Gui Win)
@@ -6,7 +6,20 @@ set(GUI WIN)
 set(WIDGET HWND)
 set(EVENT MSG*)
 
-project(So${Gui})
+set(SO${GUI}_MAJOR_VERSION 1)
+set(SO${GUI}_MINOR_VERSION 6)
+set(SO${GUI}_MICRO_VERSION 0)
+set(SO${GUI}_BETA_VERSION "a")
+set(SO${GUI}_VERSION "${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION}${SO${GUI}_BETA_VERSION}")
+string(TIMESTAMP SO${GUI}_BUILD_YEAR "%Y")
+math(EXPR SO${GUI}_SO_VERSION ${SO${GUI}_MAJOR_VERSION}*20)
+
+project(So${Gui} VERSION "${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION}")
+
+option(COIN_IV_EXTENSIONS "Enable extra open inventor extensions" ON)
+option(SO${GUI}_BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(WITH_STATIC_DEFAULTS "Enable statically linked in default materials" ON)
+option(HAVE_SPACENAV_SUPPORT "Enable Space Navigator support" ON)
 
 include(CheckCXXSourceCompiles)
 include(CheckFunctionExists)
@@ -14,26 +27,21 @@ include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
+include(CheckTypeSize)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
-option(COIN_IV_EXTENSIONS "Enable extra open inventor extensions" ON)
-option(SO${GUI}_BUILD_SHARED_LIBS "Build shared libraries" ON)
-option(WITH_STATIC_DEFAULTS "Enable defaults from being statically linked in" ON)
-option(HAVE_SPACENAV_SUPPORT "Enable Space Navigator support" ON)
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+	message(FATAL_ERROR "${CMAKE_PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake <path_to_${CMAKE_PROJECT_NAME}> [options]' from there.")
+endif()
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(OpenGL REQUIRED)
-find_package(Coin REQUIRED CONFIG)
-
-set(SO${GUI}_MAJOR_VERSION "1")
-set(SO${GUI}_MINOR_VERSION "6")
-set(SO${GUI}_MICRO_VERSION "0")
-set(SO${GUI}_BETA_VERSION "a")
-set(SO${GUI}_VERSION "${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION}${SO${GUI}_BETA_VERSION}")
-
-if(MSVC)
-	add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS)
-endif()
+find_package(Coin REQUIRED)
+#find_package(superglu REQUIRED)
 
 check_include_files(windows.h HAVE_WINDOWS_H)
 check_include_files(crtdbg.h HAVE_CRTDBG_H)
@@ -142,54 +150,57 @@ check_include_files(strings.h HAVE_STRINGS_H)
 check_include_files(string.h HAVE_STRING_H)
 check_include_files(sys/stat.h HAVE_SYS_STAT_H)
 check_include_files(sys/time.h HAVE_SYS_TIME_H)
+check_include_files(unistd.h HAVE_UNISTD_H)
+check_include_files("assert.h;ctype.h;errno.h;float.h;limits.h;locale.h;math.h;setjmp.h;signal.h;stdarg.h;stddef.h;stdio.h;stdlib.h;string.h;time.h" STDC_HEADERS)
 if(HAVE_WINDOWS_H)
 	check_include_files("windows.h;tlhelp32.h" HAVE_TLHELP32_H)
+	check_cxx_source_compiles("
+		#include <windows.h>
+		int main() {
+			CreateDirectory(NULL, NULL);
+			RemoveDirectory(NULL);
+			SetLastError(0);
+			GetLastError();
+			LocalAlloc(0, 1);
+			LocalFree(NULL);
+			return 0;
+		}
+	" HAVE_WIN32_API)
+	check_symbol_exists(LoadLibrary windows.h HAVE_WIN32_LOADLIBRARY)
+	if(HAVE_WIN32_LOADLIBRARY)
+		set(HAVE_DYNAMIC_LINKING 1)
+	endif()
+	check_symbol_exists(GetEnvironmentVariable windows.h HAVE_GETENVIRONMENTVARIABLE)
+	check_symbol_exists(SetClassLongPtr windows.h HAVE_SETCLASSLONGPTR)
+	check_symbol_exists(SetWindowLongPtr windows.h HAVE_SETWINDOWLONGPTR)
+	set(CMAKE_EXTRA_INCLUDE_FILES "windows.h;")
+	check_type_size(LONG_PTR LONG_PTR_TYPE)
+	unset(CMAKE_EXTRA_INCLUDE_FILES)
 endif()
-check_include_files(unistd.h HAVE_UNISTD_H)
-check_cxx_source_compiles("
-	#include <windows.h>
-	int main() {
-		CreateDirectory(NULL, NULL);
-		RemoveDirectory(NULL);
-		SetLastError(0);
-		GetLastError();
-		LocalAlloc(0, 1);
-		LocalFree(NULL);
-		return 0;
-	}
-" HAVE_WIN32_API)
-check_symbol_exists(LoadLibrary windows.h HAVE_WIN32_LOADLIBRARY)
-check_symbol_exists(GetEnvironmentVariable windows.h HAVE_GETENVIRONMENTVARIABLE)
-check_symbol_exists(SetClassLongPtr windows.h HAVE_SETCLASSLONGPTR)
-check_symbol_exists(SetWindowLongPtr windows.h HAVE_SETWINDOWLONGPTR)
-include(CheckTypeSize)
-set(CMAKE_EXTRA_INCLUDE_FILES "windows.h;")
-check_type_size(LONG_PTR LONG_PTR_TYPE)
-set(CMAKE_EXTRA_INCLUDE_FILES)
+set(USE_EXCEPTIONS ON)
+
 set(PACKAGE "So${Gui}")
+set(PACKAGE_DESCRIPTION "A Windows Gui-toolkit binding for Coin")
 set(PACKAGE_BUGREPORT "coin-support@coin3d.org")
 set(PACKAGE_NAME "So${Gui}")
 set(PACKAGE_STRING "So${Gui} ${SO${GUI}_VERSION}")
-set(PACKAGE_TARNAME "so${Gui}")
-set(PACKAGE_URL "https://bitbucket.org/Coin3D/so${Gui}")
+set(PACKAGE_TARNAME "so${gui}")
+set(PACKAGE_URL "https://bitbucket.org/Coin3D/so${gui}")
 set(PACKAGE_VERSION "${SO${GUI}_VERSION}")
-check_include_files("assert.h;ctype.h;errno.h;float.h;limits.h;locale.h;math.h;setjmp.h;signal.h;stdarg.h;stddef.h;stdio.h;stdlib.h;string.h;time.h" STDC_HEADERS)
-set(USE_EXCEPTIONS ON)
-set(HAVE_DYNAMIC_LINKING 1)
-
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(PACKAGE_HOST "${CMAKE_HOST_SYSTEM_PROCESSOR}-${CMAKE_HOST_SYSTEM_NAME}")
+set(PACKAGE_COMPILER "${CMAKE_CXX_COMPILER}")
+set(PACKAGE_REQUIREMENTS "Coin")
 
 configure_file(src/config.h.cmake.in src/config.h)
+set(SOGUI_PACKAGE_INIT @PACKAGE_INIT@)
+configure_file(so${gui}-config.cmake.in so${gui}-config.cmake.in @ONLY)
 
 add_subdirectory(src/Inventor/${Gui}/common)
 
-file(GLOB_RECURSE COMMON_HDRS ${CMAKE_CURRENT_BINARY_DIR}/src/*.h)
-file(GLOB_RECURSE COMMON_SRCS ${CMAKE_CURRENT_BINARY_DIR}/src/*.cpp)
+file(GLOB_RECURSE COMMON_HDRS ${CMAKE_BINARY_DIR}/src/*.h)
+file(GLOB_RECURSE COMMON_SRCS ${CMAKE_BINARY_DIR}/src/*.cpp)
 
-set(
-	HDRS
+set(HDRS
 	src/Inventor/${Gui}/So${Gui}Def.h
 	src/Inventor/${Gui}/So${Gui}Res.h
 	src/Inventor/${Gui}/So${Gui}Resource.h
@@ -209,8 +220,7 @@ set(
 	src/Inventor/${Gui}/widgets/${Gui}NativePopupMenu.h
 )
 
-set(
-	SRCS
+set(SRCS
 	src/Inventor/${Gui}/So${Gui}.cpp
 	src/Inventor/${Gui}/So${Gui}Component.cpp
 	src/Inventor/${Gui}/So${Gui}GLWidget.cpp
@@ -231,152 +241,172 @@ set(
 
 if(SO${GUI}_BUILD_SHARED_LIBS)
 	if(WIN32)
-		set(CMAKE_RELEASE_POSTFIX "${SO${GUI}_MAJOR_VERSION}")
-		set(CMAKE_MINSIZEREL_POSTFIX "${SO${GUI}_MAJOR_VERSION}")
-		set(CMAKE_RELWITHDEBINFO_POSTFIX "${SO${GUI}_MAJOR_VERSION}")
-		set(CMAKE_DEBUG_POSTFIX "${SO${GUI}_MAJOR_VERSION}d")
+		configure_file(src/So${Gui}.rc.cmake.in src/So${Gui}.rc)
+		set(SO${GUI}_RESSOURCE ${CMAKE_CURRENT_BINARY_DIR}/src/So${Gui}.rc CACHE INTERNAL "SO${GUI}_RESSOURCE")
+		set(CMAKE_RELEASE_POSTFIX ${PROJECT_VERSION_MAJOR})
+		set(CMAKE_MINSIZEREL_POSTFIX ${PROJECT_VERSION_MAJOR})
+		set(CMAKE_RELWITHDEBINFO_POSTFIX ${PROJECT_VERSION_MAJOR})
+		set(CMAKE_DEBUG_POSTFIX ${PROJECT_VERSION_MAJOR}d)
 	endif()
-	add_library(So${Gui} SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS})
+	add_library(So${Gui} SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${SO${GUI}_RESSOURCE})
 	target_compile_definitions(So${Gui} PRIVATE SO${GUI}_MAKE_DLL INTERFACE SO${GUI}_DLL)
 else()
 	if(WIN32)
-		set(CMAKE_RELEASE_POSTFIX "${SO${GUI}_MAJOR_VERSION}s")
-		set(CMAKE_MINSIZEREL_POSTFIX "${SO${GUI}_MAJOR_VERSION}s")
-		set(CMAKE_RELWITHDEBINFO_POSTFIX "${SO${GUI}_MAJOR_VERSION}s")
-		set(CMAKE_DEBUG_POSTFIX "${SO${GUI}_MAJOR_VERSION}sd")
+		set(CMAKE_RELEASE_POSTFIX ${PROJECT_VERSION_MAJOR}s)
+		set(CMAKE_MINSIZEREL_POSTFIX ${PROJECT_VERSION_MAJOR}s)
+		set(CMAKE_RELWITHDEBINFO_POSTFIX ${PROJECT_VERSION_MAJOR}s)
+		set(CMAKE_DEBUG_POSTFIX ${PROJECT_VERSION_MAJOR}sd)
 	endif()
 	add_library(So${Gui} STATIC ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS})
 	target_compile_definitions(So${Gui} INTERFACE SO${GUI}_NOT_DLL)
 endif()
 
-set_target_properties(So${Gui} PROPERTIES VERSION ${SO${GUI}_VERSION})
+set_target_properties(So${Gui} PROPERTIES VERSION ${SO${GUI}_VERSION} SOVERSION ${SO${GUI}_SO_VERSION})
 
-target_compile_definitions(So${Gui} PRIVATE HAVE_CONFIG_H SO${GUI}_INTERNAL)
-
-if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
-	target_compile_definitions(So${Gui} PRIVATE SO${GUI}_DEBUG=1)
-else()
-	target_compile_definitions(So${Gui} PRIVATE SO${GUI}_DEBUG=0)
+target_compile_definitions(So${Gui} PRIVATE HAVE_CONFIG_H SO${GUI}_INTERNAL SO${GUI}_DEBUG=$<CONFIG:Debug>)
+if(MSVC)
+	target_compile_definitions(So${Gui} PRIVATE _CRT_NONSTDC_NO_DEPRECATE _CRT_SECURE_NO_DEPRECATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
-target_include_directories(
-	So${Gui}
+target_include_directories(So${Gui}
 	PUBLIC
-	$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/src>
-	$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}>
-	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-	$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>
+		$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/src>
+		$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>
+		$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>
+)
+target_link_libraries(So${Gui} PUBLIC Coin::Coin ${OPENGL_LIBRARIES})
+
+set(INST_HDRS
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}Basic.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}ColorEditor.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}Component.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}Cursor.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}GLWidget.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}MaterialEditor.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}Object.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}RenderArea.h
 )
 
-target_include_directories(So${Gui} PUBLIC ${OPENGL_INCLUDE_DIR})
-target_link_libraries(So${Gui} Coin::Coin ${OPENGL_LIBRARIES})
-
-set(
-	INST_HDRS
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}Basic.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}ColorEditor.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}Component.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}Cursor.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}GLWidget.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}MaterialEditor.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}Object.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}RenderArea.h
+set(INST_DEVICES_HDRS
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}Device.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}InputFocus.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}Keyboard.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}Mouse.h
 )
 
-set(
-	INST_DEVICES_HDRS
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}Device.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}InputFocus.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}Keyboard.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}Mouse.h
+set(INST_EDITORS_HDRS
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/editors/So${Gui}ColorEditor.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/editors/So${Gui}MaterialEditor.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}SpacenavDevice.h
 )
 
-set(
-	INST_EDITORS_HDRS
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/editors/So${Gui}ColorEditor.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/editors/So${Gui}MaterialEditor.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}SpacenavDevice.h
+set(INST_NODES_HDRS
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/nodes/SoGuiColorEditor.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/nodes/SoGuiMaterialEditor.h
 )
 
-set(
-	INST_NODES_HDRS
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/nodes/SoGuiColorEditor.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/nodes/SoGuiMaterialEditor.h
+set(INST_VIEWERS_HDRS
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}ConstrainedViewer.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}ExaminerViewer.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}FlyViewer.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}FullViewer.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}PlaneViewer.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}Viewer.h
 )
 
-set(
-	INST_VIEWERS_HDRS
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}ConstrainedViewer.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}ExaminerViewer.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}FlyViewer.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}FullViewer.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}PlaneViewer.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}Viewer.h
+set(INST_WIDGETS_HDRS
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/widgets/So${Gui}PopupMenu.h
 )
 
-set(
-	INST_WIDGETS_HDRS
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/${Gui}/widgets/So${Gui}PopupMenu.h
-)
-
-install(FILES ${INST_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui} COMPONENT development)
+install(FILES ${INST_HDRS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}         COMPONENT development)
 install(FILES ${INST_DEVICES_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/devices COMPONENT development)
 install(FILES ${INST_EDITORS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/editors COMPONENT development)
-install(FILES ${INST_NODES_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/nodes COMPONENT development)
+install(FILES ${INST_NODES_HDRS}   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/nodes   COMPONENT development)
 install(FILES ${INST_VIEWERS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/viewers COMPONENT development)
 install(FILES ${INST_WIDGETS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/widgets COMPONENT development)
 
-install(
-	TARGETS	So${Gui}
-	EXPORT So${Gui}
+install(TARGETS So${Gui} EXPORT So${Gui}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT development
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT runtime NAMELINK_SKIP
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT runtime
 )
 
 if(SO${GUI}_BUILD_SHARED_LIBS)
-	install(
-		TARGETS	So${Gui}
-		EXPORT So${Gui}
-		LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT development NAMELINK_ONLY
-	)
+	install(TARGETS So${Gui} EXPORT So${Gui} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT development NAMELINK_ONLY)
 endif()
 
-if(MSVC AND SO${GUI}_BUILD_SHARED_LIBS)
-	install(FILES $<TARGET_PDB_FILE:So${Gui}> DESTINATION ${CMAKE_INSTALL_BINDIR} CONFIGURATIONS Debug RelWithDebInfo COMPONENT debug)
+if(MSVC)
+	if(SO${GUI}_BUILD_SHARED_LIBS)
+		install(FILES $<TARGET_PDB_FILE:So${Gui}> DESTINATION ${CMAKE_INSTALL_BINDIR} CONFIGURATIONS Debug RelWithDebInfo COMPONENT debug)
+	else()
+		set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Z7")                       # Override default /Zi to embed
+		set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Z7")     # debugging info in the .lib.
+	endif()
 endif()
 
-configure_package_config_file(
-  so${gui}-config.cmake.in so${gui}-config.cmake
-  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/So${Gui}-${SO${GUI}_VERSION}
+configure_package_config_file(${CMAKE_BINARY_DIR}/so${gui}-config.cmake.in so${gui}-config.cmake
+	INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/So${Gui}-${SO${GUI}_VERSION}
 )
 
-install(
-	FILES ${CMAKE_CURRENT_BINARY_DIR}/so${gui}-config.cmake
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/So${Gui}-${SO${GUI}_VERSION}
-	COMPONENT development
-)
-
-write_basic_package_version_file(
-	${CMAKE_CURRENT_BINARY_DIR}/so${gui}-config-version.cmake
+write_basic_package_version_file(${CMAKE_BINARY_DIR}/so${gui}-config-version.cmake
 	VERSION ${SO${GUI}_VERSION}
 	COMPATIBILITY ExactVersion
 )
 
-install(
-	FILES ${CMAKE_CURRENT_BINARY_DIR}/so${gui}-config-version.cmake
+# To make the component usable not only from the install directory but also from the build directory
+export(
+	TARGETS So${Gui}
+	FILE So${Gui}-export.cmake
+)
+
+install(FILES ${CMAKE_BINARY_DIR}/so${gui}-config.cmake ${CMAKE_BINARY_DIR}/so${gui}-config-version.cmake
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/So${Gui}-${SO${GUI}_VERSION}
 	COMPONENT development
 )
 
-install(
-	EXPORT So${Gui}
+install(EXPORT So${Gui}
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/So${Gui}-${SO${GUI}_VERSION}
 	NAMESPACE So${Gui}::
 	FILE so${gui}-export.cmake
 	COMPONENT development
 )
+
+get_property(PACKAGE_EXTRA_CXXFLAGS TARGET So${Gui} PROPERTY INTERFACE_COMPILE_DEFINITIONS)
+get_property(PACKAGE_EXTRA_LIBS TARGET So${Gui} PROPERTY INTERFACE_LINK_LIBRARIES)
+if(SO${GUI}_BUILD_SHARED_LIBS)
+	set(PACKAGE_EXTRA_LIBS ${PACKAGE_EXTRA_LIBS} gdi32 user32)
+endif()
+
+# Generate pkg-config file at build time
+file(GENERATE
+OUTPUT ${CMAKE_BINARY_DIR}/So${Gui}$<$<BOOL:${WIN32}>:$<$<NOT:$<BOOL:${SO${GUI}_BUILD_SHARED_LIBS}>>:s>$<$<CONFIG:Debug>:d>>.pc
+CONTENT "prefix=${CMAKE_INSTALL_PREFIX}
+exec_prefix=\${prefix}/${CMAKE_INSTALL_BINDIR}
+libdir=\${prefix}/${CMAKE_INSTALL_LIBDIR}
+includedir=\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}
+datarootdir=\${prefix}/${CMAKE_INSTALL_DATAROOTDIR}
+datadir=\${prefix}/${CMAKE_INSTALL_DATADIR}
+mandir=\${prefix}/${CMAKE_INSTALL_MANDIR}
+infodir=\${prefix}/${CMAKE_INSTALL_INFODIR}
+docdir=\${prefix}/${CMAKE_INSTALL_DOCDIR}
+htmldir=\${prefix}/${CMAKE_INSTALL_DOCDIR}/html
+
+Name: ${PACKAGE_NAME}
+Description: ${PACKAGE_DESCRIPTION}
+Version: ${PACKAGE_VERSION}
+URL: ${PACKAGE_URL}
+Requires: ${PACKAGE_REQUIREMENTS}
+Conflicts:
+Cflags: -I\${includedir} $<$<BOOL:${PACKAGE_EXTRA_CXXFLAGS}>:-D$<JOIN:${PACKAGE_EXTRA_CXXFLAGS}, -D>>
+Libs: -L\${libdir} \${libdir}/$<TARGET_LINKER_FILE_NAME:So${Gui}> ${PACKAGE_EXTRA_LDFLAGS} $<$<BOOL:${PACKAGE_EXTRA_LIBS}>:-l$<JOIN:${PACKAGE_EXTRA_LIBS}, -l>>
+
+so${gui}_host=${PACKAGE_HOST}
+compiler=${PACKAGE_COMPILER}
+compiler_is_gcc=$<$<BOOL:${CMAKE_COMPILER_IS_GNUCXX}>:yes>$<$<NOT:$<BOOL:${CMAKE_COMPILER_IS_GNUCXX}>>:no>
+"
+)
+install(FILES ${CMAKE_BINARY_DIR}/So${Gui}$<$<BOOL:${WIN32}>:$<$<NOT:$<BOOL:${SO${GUI}_BUILD_SHARED_LIBS}>>:s>$<$<CONFIG:Debug>:d>>.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
 set(CPACK_COMPONENT_DEVELOPMENT_DEPENDS runtime)
 set(CPACK_DEB_COMPONENT_INSTALL ON)
@@ -395,11 +425,11 @@ set(CPACK_PACKAGE_CONTACT ${PACKAGE_BUGREPORT})
 set(CPACK_PACKAGE_DISPLAY_NAME ${PACKAGE_STRING})
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PACKAGE_TARNAME}-${PACKAGE_VERSION}")
 set(CPACK_PACKAGE_NAME ${PACKAGE_TARNAME})
-set(CPACK_PACKAGE_VERSION ${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION})
-set(CPACK_PACKAGE_VERSION_MAJOR ${SO${GUI}_MAJOR_VERSION})
-set(CPACK_PACKAGE_VERSION_MINOR ${SO${GUI}_MINOR_VERSION})
-set(CPACK_PACKAGE_VERSION_PATCH ${SO${GUI}_MICRO_VERSION})
-set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/COPYING)
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
 set(CPACK_RPM_COMPONENT_INSTALL ON)
 set(CPACK_RPM_development_PACKAGE_NAME "${PACKAGE_TARNAME}-devel")
 set(CPACK_RPM_development_PACKAGE_REQUIRES "${PACKAGE_TARNAME}")

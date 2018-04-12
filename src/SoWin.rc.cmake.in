@@ -1,0 +1,38 @@
+1 TYPELIB "SoWin.rc"
+
+1 VERSIONINFO
+ FILEVERSION @SOWIN_MAJOR_VERSION@, @SOWIN_MINOR_VERSION@, @SOWIN_MICRO_VERSION@, 0
+ PRODUCTVERSION @SOWIN_MAJOR_VERSION@, @SOWIN_MINOR_VERSION@, @SOWIN_MICRO_VERSION@, 0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "Kongsberg Oil & Gas Technologies AS"
+            VALUE "FileDescription", "A Windows Gui-toolkit binding for Coin3D, 3D graphics rendering library - www.coin3d.org"
+            VALUE "FileVersion","@SOWIN_MAJOR_VERSION@, @SOWIN_MINOR_VERSION@, @SOWIN_MICRO_VERSION@, @SOWIN_BETA_VERSION@"
+            VALUE "InternalName", "SoWin"
+            VALUE "LegalCopyright", "Copyright (c) @SOWIN_BUILD_YEAR@ Kongsberg Oil & Gas Technologies AS"
+#ifdef _DEBUG
+            VALUE "OriginalFilename", "SoWin@SOWIN_MAJOR_VERSION@d.dll"
+#else
+            VALUE "OriginalFilename", "SoWin@SOWIN_MAJOR_VERSION@.dll"
+#endif
+            VALUE "ProductName", "Coin3D"
+            VALUE "ProductVersion","@SOWIN_MAJOR_VERSION@, @SOWIN_MINOR_VERSION@, @SOWIN_MICRO_VERSION@, @SOWIN_BETA_VERSION@"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
