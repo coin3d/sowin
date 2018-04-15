@@ -42,7 +42,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(OpenGL REQUIRED)
 find_package(Coin REQUIRED)
-find_package(superglu REQUIRED)
+#find_package(superglu REQUIRED)
 
 check_include_files(windows.h HAVE_WINDOWS_H)
 check_include_files(crtdbg.h HAVE_CRTDBG_H)
