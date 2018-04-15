@@ -1,8 +1,8 @@
-1 TYPELIB "SoWin.rc"
+1 TYPELIB "@PROJECT_NAME@.rc"
 
 1 VERSIONINFO
- FILEVERSION @SOWIN_MAJOR_VERSION@, @SOWIN_MINOR_VERSION@, @SOWIN_MICRO_VERSION@, 0
- PRODUCTVERSION @SOWIN_MAJOR_VERSION@, @SOWIN_MINOR_VERSION@, @SOWIN_MICRO_VERSION@, 0
+ FILEVERSION @PROJECT_VERSION_MAJOR@, @PROJECT_VERSION_MINOR@, @PROJECT_VERSION_PATCH@, 0
+ PRODUCTVERSION @PROJECT_VERSION_MAJOR@, @PROJECT_VERSION_MINOR@, @PROJECT_VERSION_PATCH@, 0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -19,16 +19,16 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Kongsberg Oil & Gas Technologies AS"
             VALUE "FileDescription", "A Windows Gui-toolkit binding for Coin3D, 3D graphics rendering library - www.coin3d.org"
-            VALUE "FileVersion","@SOWIN_MAJOR_VERSION@, @SOWIN_MINOR_VERSION@, @SOWIN_MICRO_VERSION@, @SOWIN_BETA_VERSION@"
-            VALUE "InternalName", "SoWin"
+            VALUE "FileVersion","@PROJECT_VERSION_MAJOR@, @PROJECT_VERSION_MINOR@, @PROJECT_VERSION_PATCH@, @SOWIN_BETA_VERSION@"
+            VALUE "InternalName", "@PROJECT_NAME@"
             VALUE "LegalCopyright", "Copyright (c) @SOWIN_BUILD_YEAR@ Kongsberg Oil & Gas Technologies AS"
 #ifdef _DEBUG
-            VALUE "OriginalFilename", "SoWin@SOWIN_MAJOR_VERSION@d.dll"
+            VALUE "OriginalFilename", "@PROJECT_NAME@@PROJECT_VERSION_MAJOR@d.dll"
 #else
-            VALUE "OriginalFilename", "SoWin@SOWIN_MAJOR_VERSION@.dll"
+            VALUE "OriginalFilename", "@PROJECT_NAME@@PROJECT_VERSION_MAJOR@.dll"
 #endif
             VALUE "ProductName", "Coin3D"
-            VALUE "ProductVersion","@SOWIN_MAJOR_VERSION@, @SOWIN_MINOR_VERSION@, @SOWIN_MICRO_VERSION@, @SOWIN_BETA_VERSION@"
+            VALUE "ProductVersion","@PROJECT_VERSION_MAJOR@, @PROJECT_VERSION_MINOR@, @PROJECT_VERSION_PATCH@, @SOWIN_BETA_VERSION@"
         END
     END
     BLOCK "VarFileInfo"
