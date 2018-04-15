@@ -198,6 +198,11 @@
 
 // *************************************************************************
 
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
 #include <limits.h>
 #include <Inventor/SbTime.h>
 #include <Inventor/SoDB.h>
