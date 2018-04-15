@@ -9,12 +9,13 @@ set(EVENT MSG*)
 set(SO${GUI}_MAJOR_VERSION 1)
 set(SO${GUI}_MINOR_VERSION 6)
 set(SO${GUI}_MICRO_VERSION 0)
-set(SO${GUI}_BETA_VERSION "a")
-set(SO${GUI}_VERSION "${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION}${SO${GUI}_BETA_VERSION}")
+set(SO${GUI}_BETA_VERSION a)
+set(SO${GUI}_VERSION ${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION}${SO${GUI}_BETA_VERSION})
 string(TIMESTAMP SO${GUI}_BUILD_YEAR "%Y")
 math(EXPR SO${GUI}_SO_VERSION ${SO${GUI}_MAJOR_VERSION}*20)
+set(VERSION ${SO${GUI}_VERSION})
 
-project(So${Gui} VERSION "${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION}")
+project(So${Gui} VERSION ${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION})
 
 option(COIN_IV_EXTENSIONS "Enable extra open inventor extensions" ON)
 option(SO${GUI}_BUILD_SHARED_LIBS "Build shared libraries" ON)
@@ -41,7 +42,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(OpenGL REQUIRED)
 find_package(Coin REQUIRED)
-#find_package(superglu REQUIRED)
+find_package(superglu REQUIRED)
 
 check_include_files(windows.h HAVE_WINDOWS_H)
 check_include_files(crtdbg.h HAVE_CRTDBG_H)
@@ -179,22 +180,23 @@ if(HAVE_WINDOWS_H)
 endif()
 set(USE_EXCEPTIONS ON)
 
-set(PACKAGE "So${Gui}")
+set(PACKAGE So${Gui})
 set(PACKAGE_DESCRIPTION "A Windows Gui-toolkit binding for Coin")
 set(PACKAGE_BUGREPORT "coin-support@coin3d.org")
-set(PACKAGE_NAME "So${Gui}")
+set(PACKAGE_NAME So${Gui})
 set(PACKAGE_STRING "So${Gui} ${SO${GUI}_VERSION}")
-set(PACKAGE_TARNAME "so${gui}")
+set(PACKAGE_TARNAME so${gui})
 set(PACKAGE_URL "https://bitbucket.org/Coin3D/so${gui}")
-set(PACKAGE_VERSION "${SO${GUI}_VERSION}")
-set(PACKAGE_HOST "${CMAKE_HOST_SYSTEM_PROCESSOR}-${CMAKE_HOST_SYSTEM_NAME}")
-set(PACKAGE_COMPILER "${CMAKE_CXX_COMPILER}")
+set(PACKAGE_VERSION ${SO${GUI}_VERSION})
+set(PACKAGE_HOST ${CMAKE_HOST_SYSTEM_PROCESSOR}-${CMAKE_HOST_SYSTEM_NAME})
+set(PACKAGE_COMPILER ${CMAKE_CXX_COMPILER})
 set(PACKAGE_REQUIREMENTS "Coin")
 
 configure_file(src/config.h.cmake.in src/config.h)
 set(SOGUI_PACKAGE_INIT @PACKAGE_INIT@)
 configure_file(so${gui}-config.cmake.in so${gui}-config.cmake.in @ONLY)
 
+add_subdirectory(data)
 add_subdirectory(src/Inventor/${Gui}/common)
 
 file(GLOB_RECURSE COMMON_HDRS ${CMAKE_BINARY_DIR}/src/*.h)
@@ -234,6 +236,7 @@ set(SRCS
 	src/Inventor/${Gui}/viewers/ExaminerViewer.cpp
 	src/Inventor/${Gui}/viewers/FullViewer.cpp
 	src/Inventor/${Gui}/viewers/PlaneViewer.cpp
+	#src/Inventor/${Gui}/viewers/WalkViewer.cpp
 	src/Inventor/${Gui}/widgets/So${Gui}BitmapButton.cpp
 	src/Inventor/${Gui}/widgets/So${Gui}ThumbWheel.cpp
 	src/Inventor/${Gui}/widgets/${Gui}NativePopupMenu.cpp
@@ -242,7 +245,7 @@ set(SRCS
 if(SO${GUI}_BUILD_SHARED_LIBS)
 	if(WIN32)
 		configure_file(src/So${Gui}.rc.cmake.in src/So${Gui}.rc)
-		set(SO${GUI}_RESSOURCE ${CMAKE_CURRENT_BINARY_DIR}/src/So${Gui}.rc CACHE INTERNAL "SO${GUI}_RESSOURCE")
+		set(SO${GUI}_RESSOURCE ${CMAKE_BINARY_DIR}/src/So${Gui}.rc CACHE INTERNAL "SO${GUI}_RESSOURCE")
 		set(CMAKE_RELEASE_POSTFIX ${PROJECT_VERSION_MAJOR})
 		set(CMAKE_MINSIZEREL_POSTFIX ${PROJECT_VERSION_MAJOR})
 		set(CMAKE_RELWITHDEBINFO_POSTFIX ${PROJECT_VERSION_MAJOR})
@@ -275,6 +278,52 @@ target_include_directories(So${Gui}
 		$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>
 )
 target_link_libraries(So${Gui} PUBLIC Coin::Coin ${OPENGL_LIBRARIES})
+
+##### documentation
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+	set(SOGUI_DOC_HTML YES)
+	set(SOGUI_DOC_HTML_HELP NO)
+	if(WIN32)
+		set(SOGUI_DOC_MAN NO)
+		find_program(HHC_PROGRAM NAMES hhc.exe PATHS "C:/Program Files/HTML Help Workshop" "C:/Program Files (x86)/HTML Help Workshop" DOC "HTML Help Compiler program")
+		if(HHC_PROGRAM)
+			option(SO${GUI}_BUILD_DOC_CHM "Create compressed HTML help (requires HHC)" OFF)
+			mark_as_advanced(HHC_PROGRAM)
+		else()
+			set(SO${GUI}_BUILD_DOC_CHM OFF)
+		endif()
+		if(SO${GUI}_BUILD_DOC_CHM)
+			set(SOGUI_DOC_HTML_HELP YES)
+			set(GENERATE_TREEVIEW NO)
+		else()
+			set(HHC_PROGRAM)
+			set(GENERATE_TREEVIEW YES)
+		endif()
+	else()
+		set(SOGUI_DOC_MAN YES)
+		set(GENERATE_TREEVIEW YES)
+		set(HHC_PROGRAM)
+	endif()
+
+	set(DOXYGEN_INTERNAL_DOCS NO)
+	set(DOXYGEN_EXTRACT_PRIVATE NO)
+	set(DOXYGEN_WARN_IF_UNDOCUMENTED YES)
+	set(DOXYGEN_EXCLUDE)
+
+	configure_file(src/Inventor/${Gui}/common/sogui.doxygen.cmake.in Doxyfile @ONLY)
+	add_custom_target(${PROJECT_NAME}_docs ALL
+		${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile
+		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+		COMMENT "Generating API documentation with Doxygen" VERBATIM
+	)
+	if(WIN32)
+		install(DIRECTORY ${CMAKE_BINARY_DIR}/html DESTINATION ${CMAKE_INSTALL_DOCDIR})
+	else()
+		install(DIRECTORY ${CMAKE_BINARY_DIR}/html DESTINATION ${CMAKE_INSTALL_DOCDIR})
+		install(DIRECTORY ${CMAKE_BINARY_DIR}/man DESTINATION ${CMAKE_INSTALL_MANDIR})
+	endif()
+endif(DOXYGEN_FOUND)
 
 set(INST_HDRS
 	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}.h
@@ -313,6 +362,7 @@ set(INST_VIEWERS_HDRS
 	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}FullViewer.h
 	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}PlaneViewer.h
 	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}Viewer.h
+	#${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}WalkViewer.h
 )
 
 set(INST_WIDGETS_HDRS
@@ -357,7 +407,7 @@ write_basic_package_version_file(${CMAKE_BINARY_DIR}/so${gui}-config-version.cma
 # To make the component usable not only from the install directory but also from the build directory
 export(
 	TARGETS So${Gui}
-	FILE So${Gui}-export.cmake
+	FILE so${gui}-export.cmake
 )
 
 install(FILES ${CMAKE_BINARY_DIR}/so${gui}-config.cmake ${CMAKE_BINARY_DIR}/so${gui}-config-version.cmake
@@ -410,34 +460,34 @@ install(FILES ${CMAKE_BINARY_DIR}/So${Gui}$<$<BOOL:${WIN32}>:$<$<NOT:$<BOOL:${SO
 
 set(CPACK_COMPONENT_DEVELOPMENT_DEPENDS runtime)
 set(CPACK_DEB_COMPONENT_INSTALL ON)
-set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_DEPENDS "lib${PACKAGE_TARNAME}-20")
-set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_NAME "lib${PACKAGE_TARNAME}-dev")
+set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_DEPENDS lib${PACKAGE_TARNAME}-${SO${GUI}_SO_VERSION})
+set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_NAME lib${PACKAGE_TARNAME}-dev)
 set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_SECTION "libdevel")
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE ${PACKAGE_URL})
-set(CPACK_DEBIAN_PACKAGE_NAME "lib${PACKAGE_TARNAME}")
+set(CPACK_DEBIAN_PACKAGE_NAME lib${PACKAGE_TARNAME})
 set(CPACK_DEBIAN_PACKAGE_SECTION "devel")
-set(CPACK_DEBIAN_RUNTIME_PACKAGE_NAME "lib${PACKAGE_TARNAME}-20")
+set(CPACK_DEBIAN_RUNTIME_PACKAGE_NAME lib${PACKAGE_TARNAME}-${SO${GUI}_SO_VERSION})
 set(CPACK_DEBIAN_RUNTIME_PACKAGE_SECTION "libs")
 set(CPACK_NSIS_PACKAGE_NAME ${PACKAGE_STRING})
 set(CPACK_NSIS_URL_INFO_ABOUT ${PACKAGE_URL})
-set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_SOURCE_DIR}/README")
+set(CPACK_PACKAGE_DESCRIPTION_FILE ${PROJECT_SOURCE_DIR}/README)
 set(CPACK_PACKAGE_CONTACT ${PACKAGE_BUGREPORT})
 set(CPACK_PACKAGE_DISPLAY_NAME ${PACKAGE_STRING})
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PACKAGE_TARNAME}-${PACKAGE_VERSION}")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY ${PACKAGE_TARNAME}-${PACKAGE_VERSION})
 set(CPACK_PACKAGE_NAME ${PACKAGE_TARNAME})
-set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
-set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
+set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/COPYING)
 set(CPACK_RPM_COMPONENT_INSTALL ON)
-set(CPACK_RPM_development_PACKAGE_NAME "${PACKAGE_TARNAME}-devel")
-set(CPACK_RPM_development_PACKAGE_REQUIRES "${PACKAGE_TARNAME}")
+set(CPACK_RPM_development_PACKAGE_NAME ${PACKAGE_TARNAME}-devel)
+set(CPACK_RPM_development_PACKAGE_REQUIRES ${PACKAGE_TARNAME})
 set(CPACK_RPM_PACKAGE_GROUP "Development/Libraries")
 set(CPACK_RPM_PACKAGE_LICENSE "BSD")
 set(CPACK_RPM_PACKAGE_NAME ${PACKAGE_TARNAME})
 set(CPACK_RPM_PACKAGE_URL ${PACKAGE_URL})
-set(CPACK_RPM_runtime_PACKAGE_NAME "${PACKAGE_TARNAME}")
+set(CPACK_RPM_runtime_PACKAGE_NAME ${PACKAGE_TARNAME})
 # workaround for erroneous inclusion of system directories
 # see https://stackoverflow.com/questions/24983181/cpack-generates-rpms-with-files-entries-that-conflict-with-the-rpm-spec-how-to
 set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION "/usr/lib64/cmake")
