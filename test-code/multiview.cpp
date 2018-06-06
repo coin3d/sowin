@@ -30,9 +30,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
+#include <Inventor/Win/SoWin.h>
 #include <Inventor/Win/viewers/SoWinExaminerViewer.h>
 #include <Inventor/Win/viewers/SoWinPlaneViewer.h>
-#include <Inventor/Win/SoWin.h>
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoCone.h>
 #include <Inventor/SoInput.h>
@@ -70,7 +70,7 @@ mainWindowProc(
   
   // Remove this if U want free floating viewers.
  if ( message == WM_SIZE ) {
-    HWND * win = (HWND *)GetWindowLong(window, GWLP_USERDATA);
+    HWND * win = (HWND *)GetWindowLongPtr(window, GWLP_USERDATA);
   if (win) {
    MoveWindow(
         win[1],
@@ -113,7 +113,7 @@ viewerWindowProc(
   LPARAM lparam)
 {
   SoWinFullViewer * v =
-      (SoWinFullViewer *)GetWindowLong(window, GWLP_USERDATA);
+      (SoWinFullViewer *)GetWindowLongPtr(window, GWLP_USERDATA);
 
   if (message == WM_SIZE) {
   if (v) v->setSize(SbVec2s(LOWORD(lparam), HIWORD(lparam)));
@@ -134,9 +134,9 @@ viewerWindowProc(
 
 HWND
 createWindow(
- HINSTANCE instance,
+ HINSTANCE hInstance,
  HWND parent,
- LPSTR wndclassname,
+ LPCTSTR wndclassname,
  UINT style,
  SbVec2s pos,
  SbVec2s size,
@@ -145,37 +145,32 @@ createWindow(
 {
   WNDCLASS windowclass;
 
-  LPCTSTR icon = MAKEINTRESOURCE(IDI_APPLICATION);
-  LPCTSTR cursor = MAKEINTRESOURCE(IDC_ARROW);
-  HMENU menu = NULL;
-  HBRUSH brush = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
-
   windowclass.lpszClassName = wndclassname;
-  windowclass.hInstance = instance;
+  windowclass.hInstance = hInstance;
   windowclass.lpfnWndProc = proc;
   windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
-  windowclass.hIcon = LoadIcon(NULL, icon);
-  windowclass.hCursor = LoadCursor(instance, cursor);
-  windowclass.hbrBackground = brush;
+  windowclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+  windowclass.hCursor = LoadCursor(hInstance, IDC_ARROW);
+  windowclass.hbrBackground = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
   windowclass.cbClsExtra = 0;
   windowclass.cbWndExtra = sizeof(LONG_PTR);
 
   RegisterClass(&windowclass);
 
-  HWND window = CreateWindow(wndclassname,
-                             wndclassname,
-                             style,
-                             pos[0],
-                             pos[1],
-                             size[0],
-                             size[1],
-                             parent,
-                             NULL,
-                             instance,
-                             NULL);
+  HWND window =
+    CreateWindow(wndclassname,
+                 wndclassname,
+                 style,
+                 pos[0],
+                 pos[1],
+                 size[0],
+                 size[1],
+                 parent,
+                 NULL,
+                 hInstance,
+                 NULL);
 
-  
   return window;
 }
 
@@ -183,24 +178,24 @@ int WINAPI
 WinMain(
   HINSTANCE hInstance,
   HINSTANCE hPrevInstance,
-  LPSTR lpCmdLine,
+  LPTSTR lpCmdLine,
   int nShowCmd)
 {
   HWND win[5];
 
-  // Uncomment the aditional styles if U want free floating viewers
+  // Uncomment the additional styles if you want free floating viewers
 
   win[0] = createWindow(hInstance,
       NULL,
-      "MainWindow",
+      TEXT("MainWindow"),
       WS_OVERLAPPEDWINDOW | WS_VISIBLE,
       SbVec2s(CW_USEDEFAULT,CW_USEDEFAULT),
-      SbVec2s(600,600),
+      SbVec2s(CW_USEDEFAULT,CW_USEDEFAULT),
       mainWindowProc);
 
   win[1] = createWindow(hInstance,
       win[0],
-      "PlaneWindowA",
+      TEXT("PlaneWindowA"),
       WS_CHILD|WS_VISIBLE,
             // |WS_OVERLAPPEDWINDOW|WS_CLIPSIBLINGS,
       SbVec2s(0,0),
@@ -209,7 +204,7 @@ WinMain(
 
   win[2] = createWindow(hInstance,
       win[0],
-      "ExaminerWindow",
+      TEXT("ExaminerWindow"),
       WS_CHILD|WS_VISIBLE,
             // |WS_OVERLAPPEDWINDOW|WS_CLIPSIBLINGS,
       SbVec2s(300,0),
@@ -218,7 +213,7 @@ WinMain(
 
   win[3] = createWindow(hInstance,
       win[0],
-      "PlaneWindowB",
+      TEXT("PlaneWindowB"),
       WS_CHILD|WS_VISIBLE,
             // |WS_OVERLAPPEDWINDOW|WS_CLIPSIBLINGS,
       SbVec2s(0,300),
@@ -227,7 +222,7 @@ WinMain(
 
   win[4] = createWindow(hInstance,
       win[0],
-      "PlaneWindowC",
+      TEXT("PlaneWindowC"),
       WS_CHILD|WS_VISIBLE,
             // |WS_OVERLAPPEDWINDOW|WS_CLIPSIBLINGS,
       SbVec2s(300,300),

@@ -59,26 +59,30 @@ mainwinproc(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 }
 
 int WINAPI
-WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-        LPSTR lpCmdLine, int nShowCmd)
+WinMain(
+  HINSTANCE hInstance,
+  HINSTANCE hPrevInstance,
+  LPTSTR lpCmdLine,
+  int nShowCmd)
 {
   WNDCLASS windowclass;
-  windowclass.lpszClassName = "MainWindow";
+
+  windowclass.lpszClassName = TEXT("MainWindow");
   windowclass.hInstance = hInstance;
   windowclass.lpfnWndProc = mainwinproc;
   windowclass.style = CS_OWNDC;
   windowclass.lpszMenuName = NULL;
   windowclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
   windowclass.hCursor = LoadCursor(hInstance, IDC_ARROW);
-  windowclass.hbrBackground = GetSysColorBrush(COLOR_BTNFACE);
+  windowclass.hbrBackground = (HBRUSH) GetSysColorBrush(COLOR_BTNFACE);
   windowclass.cbClsExtra = 0;
-  windowclass.cbWndExtra = 4;
+  windowclass.cbWndExtra = sizeof(LONG_PTR);
 
   RegisterClass(&windowclass);
 
   HWND rootwin =
-    CreateWindow("MainWindow", // class name
-                 "Embedding SoWin component", // window name
+    CreateWindow(TEXT("MainWindow"), // class name
+                 TEXT("Embedding SoWin component"), // window name
                  WS_OVERLAPPEDWINDOW | WS_VISIBLE, // window style
                  CW_USEDEFAULT, // xpos
                  0, // ypos (ignored because of WS_VISIBLE + CWD_USEDEFAULT)

@@ -280,6 +280,9 @@ target_include_directories(So${Gui}
 )
 target_link_libraries(So${Gui} PUBLIC Coin::Coin ${OPENGL_LIBRARIES})
 
+##### small test programs (to be run interactively)
+add_subdirectory(test-code)
+
 ##### documentation
 find_package(Doxygen)
 if(DOXYGEN_FOUND)

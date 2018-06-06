@@ -24,26 +24,28 @@ WindowFunc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
   return 0;
 }
 
-
 int
 main(int argc, char ** argv)
 {
-  WNDCLASSEX wcl;
-  wcl.cbSize = sizeof(WNDCLASSEX);
-  wcl.hInstance = NULL;
-  wcl.lpszClassName = "AppWindow";
-  wcl.lpfnWndProc = WindowFunc;
-  wcl.style = 0;
-  wcl.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-  wcl.hIconSm = LoadIcon(NULL, IDI_WINLOGO);
-  wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
-  wcl.lpszMenuName = NULL;
-  wcl.cbClsExtra = 0;
-  wcl.cbWndExtra = 0;
-  wcl.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH);
-  if (!RegisterClassEx(&wcl)) { exit(1); }
-  HWND appwin = CreateWindow("AppWindow",
-                             "AppWindow", // title
+  WNDCLASSEX windowclass;
+
+  windowclass.cbSize = sizeof(WNDCLASSEX);
+  windowclass.hInstance = NULL;
+  windowclass.lpszClassName = TEXT("AppWindow");
+  windowclass.lpfnWndProc = WindowFunc;
+  windowclass.style = 0;
+  windowclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+  windowclass.hIconSm = LoadIcon(NULL, IDI_WINLOGO);
+  windowclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+  windowclass.lpszMenuName = NULL;
+  windowclass.cbClsExtra = 0;
+  windowclass.cbWndExtra = 0;
+  windowclass.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH);
+
+  if (!RegisterClassEx(&windowclass)) { exit(1); }
+
+  HWND appwin = CreateWindow(TEXT("AppWindow"),
+                             TEXT("AppWindow"), // title
                              WS_OVERLAPPEDWINDOW,
                              CW_USEDEFAULT,
                              CW_USEDEFAULT,
@@ -54,10 +56,9 @@ main(int argc, char ** argv)
                              (HINSTANCE)NULL,
                              NULL);
 
-
   SoWin::init(appwin);
 
-  // Create a scene cointaining a sphere
+  // Create a scene containing a sphere
   SoSeparator * root = new SoSeparator;
   root->ref(); // increment the root's reference counter
 
