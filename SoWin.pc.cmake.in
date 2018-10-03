@@ -1,23 +1,19 @@
 prefix=@CMAKE_INSTALL_PREFIX@
-exec_prefix=${prefix}/@CMAKE_INSTALL_BINDIR@
-libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
-includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
-datarootdir=${prefix}/@CMAKE_INSTALL_DATAROOTDIR@
-datadir=${prefix}/@CMAKE_INSTALL_DATADIR@
-mandir=${prefix}/@CMAKE_INSTALL_MANDIR@
-infodir=${prefix}/@CMAKE_INSTALL_INFODIR@
-docdir=${prefix}/@CMAKE_INSTALL_DOCDIR@
-htmldir=${prefix}/@CMAKE_INSTALL_DOCDIR@/html
+exec_prefix=${prefix}
+bindir=${exec_prefix}/bin
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+docdir=${datarootdir}/doc/@PROJECT_NAME_LOWER@
+infodir=${datarootdir}/info
+mandir=${datarootdir}/man
+htmldir=${docdir}/html
 
-Name: @PACKAGE_NAME@
-Description: @PACKAGE_DESCRIPTION@
-Version: @PACKAGE_VERSION@
-URL: @PACKAGE_URL@
-Requires: @PACKAGE_REQUIREMENTS@
+Name: @PROJECT_NAME@
+Description: A Windows Gui-toolkit binding for Coin
+Version: @PROJECT_VERSION@
+Requires: Coin
 Conflicts:
-Cflags: -I${includedir} @PACKAGE_EXTRA_CFLAGS@ @PACKAGE_EXTRA_CXXFLAGS@
-Libs: -L${libdir} @PACKAGE_EXTRA_LDFLAGS@ @PACKAGE_EXTRA_LIBS@
-
-so@gui@_host=@PACKAGE_HOST@
-compiler=@PACKAGE_COMPILER@
-compiler_is_gcc=@CMAKE_COMPILER_IS_GNUCXX@
+Libs: -L${libdir} -lSoWin @SOWIN_EXTRA_LDFLAGS@ @SOWIN_EXTRA_LIBS@
+Cflags: -I${includedir} @SOWIN_EXTRA_CFLAGS@ @SOWIN_EXTRA_CPPFLAGS@
