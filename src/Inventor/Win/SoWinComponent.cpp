@@ -84,7 +84,7 @@ SoWinComponentP::~SoWinComponentP()
 {
   if (SoGuiComponentP::nrofcomponents == 1 && SoWinComponentP::wndClassAtom) { // if wndclass is registered
     Win32::UnregisterClass("Component Widget", NULL);
-    SoWinComponentP::wndClassAtom = NULL;
+    SoWinComponentP::wndClassAtom = 0;
   }
 
   if (SoGuiComponentP::nrofcomponents == 1) {

@@ -748,7 +748,7 @@ void
 SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
 {
   assert(IsWindow(manager) && "buildNormalGLWidget() argument is erroneous");
-  const LPSTR wndclassname = "GL Widget";
+  LPCSTR wndclassname = "GL Widget";
 
   if (!SoWinGLWidgetP::glWndClassAtom) {
     WNDCLASS windowclass;

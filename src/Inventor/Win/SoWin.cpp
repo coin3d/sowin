@@ -326,7 +326,7 @@ SoWin::init(int & argc, char ** argv,
   
   SIZE size = { 500, 500 };
   HWND toplevel =
-    Win32::CreateWindowEx_(NULL, // exstyle
+    Win32::CreateWindowEx_(0, // exstyle
                            classname,
                            appname,
                            WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, // style
