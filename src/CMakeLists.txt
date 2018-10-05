@@ -45,24 +45,37 @@ set(SRCS
   Inventor/${Gui}/widgets/${Gui}NativePopupMenu.cpp
 )
 
+if(WIN32)
+  if(MINGW)
+    set(SO${GUI}_DEFAULT_SHARED_POSTFIX "")
+    set(SO${GUI}_DEFAULT_STATIC_POSTFIX "")
+  else()
+    # On Windows the major version number is part of the library name
+    set(SO${GUI}_DEFAULT_SHARED_POSTFIX ${PROJECT_VERSION_MAJOR})
+    set(SO${GUI}_DEFAULT_STATIC_POSTFIX ${PROJECT_VERSION_MAJOR}s)
+  endif()
+  if(SO${GUI}_BUILD_SHARED_LIBS)
+    set(SO${GUI}_DEFAULT_POSTFIX ${SO${GUI}_DEFAULT_SHARED_POSTFIX})
+  else()
+    set(SO${GUI}_DEFAULT_POSTFIX ${SO${GUI}_DEFAULT_STATIC_POSTFIX})
+  endif()
+  set(CMAKE_RELEASE_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX})
+  set(CMAKE_MINSIZEREL_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX})
+  set(CMAKE_RELWITHDEBINFO_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX})
+  set(CMAKE_DEBUG_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX}d)
+elseif(APPLE)
+else()
+endif()
+
 if(SO${GUI}_BUILD_SHARED_LIBS)
+  add_library(${PROJECT_NAME} SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS})
+  target_compile_definitions(${PROJECT_NAME} INTERFACE SO${GUI}_DLL)
   if(WIN32)
     configure_file(${PROJECT_NAME}.rc.cmake.in ${PROJECT_NAME}.rc)
-    set(SO${GUI}_RESSOURCE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.rc" CACHE INTERNAL "SO${GUI}_RESSOURCE")
-    set(CMAKE_RELEASE_POSTFIX ${PROJECT_VERSION_MAJOR})
-    set(CMAKE_MINSIZEREL_POSTFIX ${PROJECT_VERSION_MAJOR})
-    set(CMAKE_RELWITHDEBINFO_POSTFIX ${PROJECT_VERSION_MAJOR})
-    set(CMAKE_DEBUG_POSTFIX ${PROJECT_VERSION_MAJOR}d)
+    target_sources(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.rc")
+    target_compile_definitions(${PROJECT_NAME} PRIVATE SO${GUI}_MAKE_DLL)
   endif()
-  add_library(${PROJECT_NAME} SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${SO${GUI}_RESSOURCE})
-  target_compile_definitions(${PROJECT_NAME} PRIVATE SO${GUI}_MAKE_DLL INTERFACE SO${GUI}_DLL)
 else()
-  if(WIN32)
-    set(CMAKE_RELEASE_POSTFIX ${PROJECT_VERSION_MAJOR}s)
-    set(CMAKE_MINSIZEREL_POSTFIX ${PROJECT_VERSION_MAJOR}s)
-    set(CMAKE_RELWITHDEBINFO_POSTFIX ${PROJECT_VERSION_MAJOR}s)
-    set(CMAKE_DEBUG_POSTFIX ${PROJECT_VERSION_MAJOR}sd)
-  endif()
   add_library(${PROJECT_NAME} STATIC ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS})
   target_compile_definitions(${PROJECT_NAME} INTERFACE SO${GUI}_NOT_DLL)
 endif()
@@ -169,11 +182,6 @@ endif()
 # Install headers, binaries and config package
 # ############################################################################
 
-if(UNIX OR MINGW)
-  configure_file("${CMAKE_SOURCE_DIR}/So${Gui}.pc.cmake.in" So${Gui}.pc @ONLY)
-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/So${Gui}.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
-endif()
-
 set(INST_HDRS
   "${CMAKE_CURRENT_BINARY_DIR}/Inventor/${Gui}/So${Gui}.h"
   "${CMAKE_CURRENT_BINARY_DIR}/Inventor/${Gui}/So${Gui}Basic.h"
@@ -215,7 +223,7 @@ set(INST_VIEWERS_HDRS
 )
 
 set(INST_WIDGETS_HDRS
-  ${CMAKE_CURRENT_BINARY_DIR}/Inventor/${Gui}/widgets/So${Gui}PopupMenu.h
+  "${CMAKE_CURRENT_BINARY_DIR}/Inventor/${Gui}/widgets/So${Gui}PopupMenu.h"
 )
 
 install(FILES ${INST_HDRS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}         COMPONENT development)
@@ -224,6 +232,10 @@ install(FILES ${INST_EDITORS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inven
 install(FILES ${INST_NODES_HDRS}   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/nodes   COMPONENT development)
 install(FILES ${INST_VIEWERS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/viewers COMPONENT development)
 install(FILES ${INST_WIDGETS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/widgets COMPONENT development)
+
+# ############################################################################
+# Install targets
+# ############################################################################
 
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT development
@@ -236,6 +248,15 @@ if(SO${GUI}_BUILD_SHARED_LIBS)
   if(MSVC)
     install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_INSTALL_BINDIR} CONFIGURATIONS Debug RelWithDebInfo COMPONENT debug)
   endif()
+endif()
+
+# ############################################################################
+# Install pkgconfig file and CMake config package
+# ############################################################################
+
+if(UNIX OR MINGW)
+  configure_file("${CMAKE_SOURCE_DIR}/So${Gui}.pc.cmake.in" So${Gui}.pc @ONLY)
+  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/So${Gui}.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 endif()
 
 configure_package_config_file("${CMAKE_BINARY_DIR}/${PROJECT_NAME_LOWER}-config.cmake.in" ${PROJECT_NAME_LOWER}-config.cmake
