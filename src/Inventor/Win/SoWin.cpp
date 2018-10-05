@@ -112,7 +112,7 @@
   controls:
 
   <center>
-  <img src="http://doc.coin3d.org/images/SoLibs/general/sogui-class-example.png">
+  <img src="sogui-class-example.png">
   </center>
 
   The %SoWin library contains several such high-level classes as the
@@ -129,7 +129,7 @@
   components:
 
   <center>
-  <img src="http://doc.coin3d.org/images/SoLibs/mainpage/sowin-boxology.png">
+  <img src="sowin-boxology.png">
   </center>
 
   As can be seen from the above figure, %SoWin builds on Systems in
@@ -158,14 +158,14 @@
   cone:
 
   <center>
-  <img src="http://doc.coin3d.org/images/Coin/draggers/trackball-cone.png">
+  <img src="trackball-cone.png">
   </center>
   </li>
 
   <li>Some abstract viewer classes, like the SoWinViewer and
   SoWinFullViewer, which provides additional services on top of the
   SoWinRenderArea for assisting the application programmer in
-  convenient handling of cameras and lightsources in the 3D scene (by
+  convenient handling of cameras and light sources in the 3D scene (by
   the SoWinViewer), plus adding the basic, common user interface
   components (by the SoWinFullViewer).</li>
 
@@ -186,14 +186,14 @@
 
   The %SoWin API is based on and closely matches the InventorXt
   library API, originally developed by SGI. This should make it
-  straigthforward to port simple InventorXt code over to %SoWin, for
+  straightforward to port simple InventorXt code over to %SoWin, for
   instance to gain greater portability.
 
   For more information about the Coin3D family of libraries, including
   licensing information, please visit the Coin3D web site
-  <http://www.coin3d.org>.
+  <https://bitbucket.org/Coin3D/coin>.
 
-  \sa The documentation for the \COIN library: <http://doc.coin3d.org/Coin>.
+  \sa The documentation for the \COIN library: <https://coin3d.bitbucket.io/Coin/>.
 */
 
 // *************************************************************************
