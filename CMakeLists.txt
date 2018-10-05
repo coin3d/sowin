@@ -15,6 +15,11 @@ set(SO${GUI}_VERSION ${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${G
 project(So${Gui} VERSION ${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION})
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
 
+# ############################################################################
+# these will be removed after upgrading CMake minimum version to 3.9.6
+set(PROJECT_DESCRIPTION   "SoWin is a Windows GUI component toolkit library for Coin")
+# ############################################################################
+ 
 string(TIMESTAMP SO${GUI}_BUILD_YEAR "%Y")
 math(EXPR SO${GUI}_SO_VERSION ${PROJECT_VERSION_MAJOR}*20)
 set(VERSION ${SO${GUI}_VERSION})
