@@ -79,7 +79,6 @@ cmake_dependent_option(SO${GUI}_BUILD_DOC_CHM "Build compressed HTML help manual
 
 find_package(OpenGL REQUIRED)
 find_package(Coin REQUIRED)
-#find_package(superglu REQUIRED)
 
 # ##########################################################################
 # Setup build environment
@@ -249,9 +248,6 @@ set(PACKAGE_VERSION ${PROJECT_VERSION})
 set(PACKAGE_HOST ${CMAKE_HOST_SYSTEM_PROCESSOR}-${CMAKE_HOST_SYSTEM_NAME})
 set(PACKAGE_COMPILER ${CMAKE_CXX_COMPILER})
 set(PACKAGE_REQUIREMENTS "Coin")
-
-set(SOGUI_PACKAGE_INIT @PACKAGE_INIT@)
-configure_file(${PROJECT_NAME_LOWER}-config.cmake.in ${PROJECT_NAME_LOWER}-config.cmake.in @ONLY)
 
 # ############################################################################
 # Setup targets in subdirectories
