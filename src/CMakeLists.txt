@@ -1,5 +1,7 @@
 configure_file(config.h.cmake.in config.h)
 
+# Processing files and headers common to all SoGui libraries
+# This is pulled from the subrepo SoGui.
 add_subdirectory(Inventor/${Gui}/common)
 
 file(GLOB_RECURSE COMMON_HDRS ${CMAKE_CURRENT_BINARY_DIR}/*.h)
@@ -45,33 +47,13 @@ set(SRCS
   Inventor/${Gui}/widgets/${Gui}NativePopupMenu.cpp
 )
 
-if(WIN32)
-  if(MINGW)
-    set(SO${GUI}_DEFAULT_SHARED_POSTFIX "")
-    set(SO${GUI}_DEFAULT_STATIC_POSTFIX "")
-  else()
-    # On Windows the major version number is part of the library name
-    set(SO${GUI}_DEFAULT_SHARED_POSTFIX ${PROJECT_VERSION_MAJOR})
-    set(SO${GUI}_DEFAULT_STATIC_POSTFIX ${PROJECT_VERSION_MAJOR}s)
-  endif()
-  if(SO${GUI}_BUILD_SHARED_LIBS)
-    set(SO${GUI}_DEFAULT_POSTFIX ${SO${GUI}_DEFAULT_SHARED_POSTFIX})
-  else()
-    set(SO${GUI}_DEFAULT_POSTFIX ${SO${GUI}_DEFAULT_STATIC_POSTFIX})
-  endif()
-  set(CMAKE_RELEASE_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX})
-  set(CMAKE_MINSIZEREL_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX})
-  set(CMAKE_RELWITHDEBINFO_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX})
-  set(CMAKE_DEBUG_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX}d)
-elseif(APPLE)
-else()
-  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-endif()
+file(GLOB_RECURSE COMMON_RESOURCES ${CMAKE_BINARY_DIR}/data/materials/*.h)
 
+# Create the library target
 if(SO${GUI}_BUILD_SHARED_LIBS)
-  add_library(${PROJECT_NAME} SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS})
+  add_library(${PROJECT_NAME} SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${COMMON_RESOURCES})
 else()
-  add_library(${PROJECT_NAME} STATIC ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS})
+  add_library(${PROJECT_NAME} STATIC ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${COMMON_RESOURCES})
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${SO${GUI}_VERSION} SOVERSION ${SO${GUI}_SO_VERSION})
@@ -96,9 +78,10 @@ if(WIN32)
 endif()
 
 target_include_directories(${PROJECT_NAME}
-  PUBLIC
+  PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  PUBLIC
     $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
@@ -111,7 +94,9 @@ if(SO${GUI}_BUILD_DOCUMENTATION)
     message(FATAL_ERROR "Doxygen is needed to build the documentation.")
   endif()
 
-  set(DOXYGEN_TAGFILES "${Coin_DOC_DIR}/html/Coin.tag=${Coin_DOC_DIR}/html")
+  if(NOT "${Coin_DOC_DIR}" STREQUAL "")
+    set(DOXYGEN_TAGFILES "${Coin_DOC_DIR}/html/Coin.tag=${Coin_DOC_DIR}/html")
+  endif()
 
 # ############################################################################
 # Setup documentation options
@@ -186,7 +171,7 @@ if(SO${GUI}_BUILD_DOCUMENTATION)
 endif()
 
 # ############################################################################
-# Install headers, binaries and config package
+# Installation headers
 # ############################################################################
 
 set(INST_HDRS
@@ -233,6 +218,10 @@ set(INST_WIDGETS_HDRS
   "${CMAKE_CURRENT_BINARY_DIR}/Inventor/${Gui}/widgets/So${Gui}PopupMenu.h"
 )
 
+# ############################################################################
+# Install headers
+# ############################################################################
+
 install(FILES ${INST_HDRS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}         COMPONENT development)
 install(FILES ${INST_DEVICES_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/devices COMPONENT development)
 install(FILES ${INST_EDITORS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/editors COMPONENT development)
@@ -241,7 +230,13 @@ install(FILES ${INST_VIEWERS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inven
 install(FILES ${INST_WIDGETS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/widgets COMPONENT development)
 
 # ############################################################################
-# Install targets
+# Install data files
+# ############################################################################
+
+install(DIRECTORY ${CMAKE_BINARY_DIR}/data/materials/ DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/materials)
+
+# ############################################################################
+# Install target
 # ############################################################################
 
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
@@ -262,9 +257,11 @@ endif()
 # ############################################################################
 
 if(UNIX OR MINGW)
-  configure_file("${CMAKE_SOURCE_DIR}/So${Gui}.pc.cmake.in" So${Gui}.pc @ONLY)
-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/So${Gui}.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+  configure_file("${CMAKE_SOURCE_DIR}/${PROJECT_NAME}.pc.cmake.in" ${PROJECT_NAME}.pc @ONLY)
+  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 endif()
+
+include(CMakePackageConfigHelpers)
 
 configure_package_config_file("${CMAKE_SOURCE_DIR}/${PROJECT_NAME_LOWER}-config.cmake.in" ${PROJECT_NAME_LOWER}-config.cmake
   INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}-${PROJECT_VERSION}
