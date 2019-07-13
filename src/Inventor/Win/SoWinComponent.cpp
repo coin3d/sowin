@@ -721,8 +721,8 @@ SoWinComponentP::getNativeCursor(const SoWinCursor::CustomCursor * cc)
                                   cc->hotspot[0], cc->hotspot[1],
                                   cursorwidth, cursorheight,
                                   ANDbitmap, XORbitmap);
-  delete ANDbitmap;
-  delete XORbitmap;
+  delete[] ANDbitmap;
+  delete[] XORbitmap;
 
   SoWinComponentP::cursordict->enter((SbDict::Key)cc, c);
   return c;

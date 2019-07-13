@@ -427,8 +427,7 @@ SoWinFullViewer::getRightWheelString() const
 void
 SoWinFullViewer::setRightWheelString(const char * const string)
 {
-  if (this->rightWheelStr)
-    delete [] this->rightWheelStr;
+  delete [] this->rightWheelStr;
   this->rightWheelStr = NULL;
 
   if (string)
@@ -597,7 +596,7 @@ SoWinFullViewerP::viewallbuttonProc(SoWinBitmapButton * b, void * userdata)
 int
 SoWinFullViewerP::layoutWidgets(int cx, int cy)
 {
-  int x, y, width, height, bottom, right, top;
+  int x = 0, y, width, height, bottom, right, top;
   const int numViewerButtons = this->righttrimbuttons.getLength();
   const int numAppButtons = this->lefttrimbuttons.getLength();
   HWND renderArea = PUBLIC(this)->getBaseWidget();
@@ -868,12 +867,9 @@ SoWinFullViewerP::~SoWinFullViewerP()
   for (int i = 0; i < len; i++) {
     delete (SoWinBitmapButton *)this->righttrimbuttons[i];
   }
-  if (this->leftthumbwheel) 
-    delete this->leftthumbwheel;
-  if (this->rightthumbwheel) 
-    delete this->rightthumbwheel;
-  if (this->bottomthumbwheel) 
-    delete this->bottomthumbwheel;
+  delete this->leftthumbwheel;
+  delete this->rightthumbwheel;
+  delete this->bottomthumbwheel;
 }
 
 SoWinBitmapButton *
