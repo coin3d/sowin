@@ -44,7 +44,7 @@
 
 // *************************************************************************
 
-ATOM SoWinThumbWheel::wheelWndClassAtom = 0;
+ATOM SoWinThumbWheel::wheelWndClassAtom = NULL;
 int SoWinThumbWheel::wheelWidgetCounter = 0;
 SbDict * SoWinThumbWheel::hwnddict = NULL;
 
@@ -122,7 +122,7 @@ SoWinThumbWheel::~SoWinThumbWheel(void)
   if (SoWinThumbWheel::wheelWidgetCounter == 0) {
     if (SoWinThumbWheel::wheelWndClassAtom)
       Win32::UnregisterClass("ThumbWheel Widget", NULL);
-    SoWinThumbWheel::wheelWndClassAtom = 0;
+    SoWinThumbWheel::wheelWndClassAtom = NULL;
     delete SoWinThumbWheel::hwnddict;
     SoWinThumbWheel::hwnddict = NULL;
   }

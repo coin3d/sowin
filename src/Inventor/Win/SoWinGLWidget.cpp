@@ -387,13 +387,15 @@ SoWinGLWidget::setGLSize(SbVec2s newSize)
   Win32::SetWindowPos(PRIVATE(this)->managerWidget, NULL, 0, 0,
                          newSize[0], newSize[1], flags);
 
+  RECT rect;
+  Win32::GetClientRect(PRIVATE(this)->managerWidget, & rect);
   flags = SWP_NOMOVE | SWP_NOZORDER;
   Win32::SetWindowPos(PRIVATE(this)->normalWidget,
                       NULL,
-                      PRIVATE(this)->bordersize,
-                      PRIVATE(this)->bordersize,
-                      newSize[0] - 2 * PRIVATE(this)->bordersize,
-                      newSize[1] - 2 * PRIVATE(this)->bordersize,
+                      rect.left + PRIVATE(this)->bordersize,
+                      rect.top + PRIVATE(this)->bordersize,
+                      rect.right - 2 * PRIVATE(this)->bordersize,
+                      rect.bottom - 2 * PRIVATE(this)->bordersize,
                       flags);
 }
 
@@ -448,7 +450,7 @@ SoWinGLWidget::buildWidget(HWND parent)
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
-    windowclass.hbrBackground = GetSysColorBrush(COLOR_3DSHADOW);
+    windowclass.hbrBackground = NULL/*GetSysColorBrush(COLOR_3DSHADOW)*/;
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = sizeof(LONG_PTR);
 
@@ -769,11 +771,6 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
   RECT rect;
   Win32::GetClientRect(manager, & rect);
 
-  rect.left += this->bordersize;
-  rect.top += this->bordersize;
-  rect.right -= 2 * this->bordersize;
-  rect.bottom -= 2 * this->bordersize;
-
   HWND normalwidget = Win32::CreateWindowEx_(0,
                                              wndclassname,
                                              wndclassname,
@@ -781,8 +778,10 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
                                              WS_CLIPSIBLINGS |
                                              WS_CLIPCHILDREN |
                                              WS_CHILD,
-                                             rect.left, rect.top,
-                                             rect.right, rect.bottom,
+                                             rect.left + this->bordersize,
+                                             rect.top + this->bordersize,
+                                             rect.right - 2 * this->bordersize,
+                                             rect.bottom - 2 * this->bordersize,
                                              manager,
                                              NULL,
                                              NULL,

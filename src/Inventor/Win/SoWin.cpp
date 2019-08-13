@@ -326,7 +326,7 @@ SoWin::init(int & argc, char ** argv,
   
   SIZE size = { 500, 500 };
   HWND toplevel =
-    Win32::CreateWindowEx_(0, // exstyle
+    Win32::CreateWindowEx_(NULL, // exstyle
                            classname,
                            appname,
                            WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, // style
@@ -450,7 +450,8 @@ SoWin::done(void)
   else {
     //set the message handler back to the previous value
     //FIXME: We should make sure that this is not be done from within the message handler.
-    (void)Win32::SetWindowLongPtr(SoWinP::mainWidget, GWLP_WNDPROC, (LONG_PTR)SoWinP::parentEventHandler);
+    if ( IsWindow(SoWinP::mainWidget) )
+      (void)Win32::SetWindowLongPtr(SoWinP::mainWidget, GWLP_WNDPROC, (LONG_PTR)SoWinP::parentEventHandler);
   }
   SoGuiP::commonCleanup();
 

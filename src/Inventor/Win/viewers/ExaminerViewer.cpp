@@ -48,6 +48,7 @@
 #include <Inventor/projectors/SbSphereSheetProjector.h>
 #include <Inventor/sensors/SoTimerSensor.h>
 #include <sowindefs.h>
+#include <Inventor/Win/Win32API.h>
 
 #define PRIVATE(obj) ((obj)->pimpl)
 #define PUBLIC(obj) ((obj)->pub)
@@ -89,7 +90,11 @@ SoWinExaminerViewerP::constructor(SbBool build)
   PUBLIC(this)->setCursorEnabled(TRUE);
   PUBLIC(this)->setAnimationEnabled(TRUE);
 
-  PUBLIC(this)->setSize(SbVec2s(500, 421));
+  RECT rect = {0, 0, 500, 421};
+  if (PUBLIC(this)->getParentWidget())
+    Win32::GetClientRect(PUBLIC(this)->getParentWidget(), & rect);
+
+  PUBLIC(this)->setSize(SbVec2s((short)(rect.right-rect.left), (short)(rect.bottom-rect.top)));
   // FIXME: If the new size is the same as the old size, Windows will
   // never size the widget, and layoutWidgets() will never be
   // called. mariusbu 20010823.
