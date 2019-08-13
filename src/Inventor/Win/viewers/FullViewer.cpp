@@ -82,6 +82,8 @@ static void hookhandle_destructor(void *)
   
 }
 
+ATOM SoWinFullViewerP::decorationsWndClassAtom = NULL;
+
 SoWinFullViewer::SoWinFullViewer(HWND parent,
                                  const char * name,
                                  SbBool embedded,
@@ -142,7 +144,11 @@ SoWinFullViewer::SoWinFullViewer(HWND parent,
      window is reasonable. See also
      SoWinExaminerViewerP::constructor(). 2004-01-08 thammer.  
   */
-  this->setSize(SbVec2s(500, 420));
+  RECT rect = {0, 0, 500, 420};
+  if (this->getParentWidget())
+    Win32::GetWindowRect(this->getParentWidget(), & rect);
+
+  this->setSize(SbVec2s((short)(rect.right-rect.left), (short)(rect.bottom-rect.top)));
 
   if (! this->isViewing())
     this->setViewing(TRUE);
@@ -171,6 +177,28 @@ SoWinFullViewer::~SoWinFullViewer()
   delete this->prefmenu;
 
   delete PRIVATE(this);
+
+  if (IsWindow(this->leftWheelLabel))
+    Win32::DestroyWindow(this->leftWheelLabel);
+  if (IsWindow(this->bottomWheelLabel))
+    Win32::DestroyWindow(this->bottomWheelLabel);
+  if (IsWindow(this->rightWheelLabel))
+    Win32::DestroyWindow(this->rightWheelLabel);
+  if (IsWindow(this->leftDecoration))
+    Win32::DestroyWindow(this->leftDecoration);
+  if (IsWindow(this->bottomDecoration))
+    Win32::DestroyWindow(this->bottomDecoration);
+  if (IsWindow(this->rightDecoration))
+    Win32::DestroyWindow(this->rightDecoration);
+
+  delete [] this->rightWheelStr;
+  this->rightWheelStr = NULL;
+
+  if (SoWinFullViewerP::nrinstances == 0) {
+    if (SoWinFullViewerP::decorationsWndClassAtom)
+      Win32::UnregisterClass("Decorations Widget", NULL);
+    SoWinFullViewerP::decorationsWndClassAtom = NULL;
+  }
 }
 
 void
@@ -192,13 +220,8 @@ SoWinFullViewer::setDecoration(SbBool enable)
   // reposition all widgets
   RECT rect;
   Win32::GetClientRect(this->getParentWidget(), & rect);
-  PRIVATE(this)->layoutWidgets(rect.right, rect.bottom);
-  if (enable) {
-    rect.right -= DECORATION_SIZE * 2;
-    rect.bottom -= DECORATION_SIZE;
-  }
-  SoWinRenderArea::sizeChanged(SbVec2s((short)rect.right, (short)rect.bottom));
-  Win32::InvalidateRect(this->getParentWidget(), NULL, TRUE);
+
+  this->sizeChanged(SbVec2s((short)rect.right, (short)rect.bottom));
 }
 
 SbBool
@@ -358,11 +381,29 @@ SoWinFullViewer::sizeChanged(const SbVec2s & size)
 void
 SoWinFullViewer::buildDecoration(HWND parent)
 {
-  this->leftWheel = PRIVATE(this)->buildLeftWheel(parent);
-  this->bottomWheel = PRIVATE(this)->buildBottomWheel(parent);
-  this->rightWheel = PRIVATE(this)->buildRightWheel(parent);
+  if (! SoWinFullViewerP::decorationsWndClassAtom) {
+    WNDCLASS windowclass;
 
-  (void)this->buildViewerButtons(parent);
+    windowclass.lpszClassName = "Decorations Widget";
+    windowclass.hInstance = GetModuleHandle(NULL);
+    windowclass.lpfnWndProc = DefWindowProc;
+    windowclass.style = CS_HREDRAW | CS_VREDRAW;
+    windowclass.lpszMenuName = NULL;
+    windowclass.hIcon = NULL;
+    windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
+    windowclass.hbrBackground = GetSysColorBrush(COLOR_BTNFACE);
+    windowclass.cbClsExtra = 0;
+    windowclass.cbWndExtra = 0;
+
+    SoWinFullViewerP::decorationsWndClassAtom = Win32::RegisterClass(& windowclass);
+  }
+
+  // comment the following two lines to remove the "sunken" style of the render area
+  LONG_PTR dwExStyle = ::GetWindowLongPtr(this->getRenderAreaWidget(), GWL_EXSTYLE);
+  ::SetWindowLongPtr(this->getRenderAreaWidget(), GWL_EXSTYLE, dwExStyle | WS_EX_CLIENTEDGE);
+  this->leftDecoration = this->buildLeftTrim(parent);
+  this->bottomDecoration = this->buildBottomTrim(parent);
+  this->rightDecoration = this->buildRightTrim(parent);
 }
 
 HWND
@@ -409,6 +450,8 @@ SoWinFullViewer::setLeftWheelString(const char * const name)
 {
   if (PRIVATE(this)->leftthumbwheel)
     PRIVATE(this)->leftthumbwheel->setLabelText(name);
+  if (this->leftWheelLabel)
+    PRIVATE(this)->setLabelText(this->leftWheelLabel, name);
 }
 
 void
@@ -416,6 +459,8 @@ SoWinFullViewer::setBottomWheelString(const char * const name)
 {
   if (PRIVATE(this)->bottomthumbwheel)
     PRIVATE(this)->bottomthumbwheel->setLabelText(name);
+  if (this->bottomWheelLabel)
+    PRIVATE(this)->setLabelText(this->bottomWheelLabel, name);
 }
 
 const char *
@@ -436,6 +481,8 @@ SoWinFullViewer::setRightWheelString(const char * const string)
   if (PRIVATE(this)->rightthumbwheel) {
     PRIVATE(this)->rightthumbwheel->setLabelText(string);
   }
+  if (this->rightWheelLabel)
+    PRIVATE(this)->setLabelText(this->rightWheelLabel, string);
 }
 
 // *************************************************************************
@@ -600,23 +647,39 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
   const int numViewerButtons = this->righttrimbuttons.getLength();
   const int numAppButtons = this->lefttrimbuttons.getLength();
   HWND renderArea = PUBLIC(this)->getBaseWidget();
-  UINT flags = SWP_NOSIZE | SWP_NOZORDER | SWP_NOREDRAW;
+  UINT flags = /*SWP_NOSIZE |*/ SWP_NOZORDER | SWP_NOREDRAW;
   
   // RenderArea
   assert(IsWindow(renderArea));
 
   if (this->decorations) {
-    Win32::SetWindowPos(renderArea, NULL, DECORATION_SIZE, 0, 0, 0, flags);
+    Win32::SetWindowPos(renderArea, NULL, DECORATION_SIZE, 0, cx - 2*DECORATION_SIZE, cy - DECORATION_SIZE, flags);
+
+    if (PUBLIC(this)->leftDecoration) {
+      Win32::MoveWindow(PUBLIC(this)->leftDecoration,
+                        0, 0,
+                        DECORATION_SIZE, cy - DECORATION_SIZE, TRUE);
+    }
+    if (PUBLIC(this)->bottomDecoration) {
+      Win32::MoveWindow(PUBLIC(this)->bottomDecoration,
+                        0, cy - DECORATION_SIZE,
+                        cx, DECORATION_SIZE, TRUE);
+    }
+    if (PUBLIC(this)->rightDecoration) {
+      Win32::MoveWindow(PUBLIC(this)->rightDecoration,
+                        cx - DECORATION_SIZE, 0,
+                        DECORATION_SIZE, cy - DECORATION_SIZE, TRUE);
+    }
   }
   else {
-    Win32::SetWindowPos(renderArea, NULL, 0, 0, 0, 0, flags);
+    Win32::SetWindowPos(renderArea, NULL, 0, 0, cx, cy, flags);
     return 0;
   }
   
   // Viewer buttons
   int i;
   for(i = 0; i < numViewerButtons; i++)
-    this->viewerButton(i)->move(cx - DECORATION_SIZE, DECORATION_SIZE * i);
+    this->viewerButton(i)->move(0, DECORATION_SIZE * i);
 
   // App buttons
   for(i = 0; i < numAppButtons; i++) {
@@ -628,20 +691,20 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
   // Wheels
 
   bottom = (cy - (DECORATION_SIZE + DECORATION_BUFFER));
-  right = (cx - ((this->rightthumbwheel ? this->rightthumbwheel->getLabelSize().cx : 0) + 8));
+  right = (cx - ((PUBLIC(this)->rightWheelLabel ? this->getLabelSize(PUBLIC(this)->rightWheelLabel).cx : 0) + 8));
 
   // Left wheel
   if (this->leftthumbwheel) {
 
-    x = (DECORATION_SIZE / 2) - (this->leftthumbwheel->sizeHint().cx / 2) - 1;
     width = this->leftthumbwheel->sizeHint().cx;
+    height = this->leftthumbwheel->sizeHint().cy;
+
+    x = (DECORATION_SIZE / 2) - (width / 2) - 1;
 
     top = numAppButtons * DECORATION_SIZE + DECORATION_BUFFER;
 
     // if area is large enough for full height
-    if ((bottom - top) > this->leftthumbwheel->sizeHint().cy) {
-
-      height = this->leftthumbwheel->sizeHint().cy;
+    if ((bottom - top) > height) {
 
       y = bottom - height;
 
@@ -660,21 +723,17 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
   // Bottom wheel
   if (this->bottomthumbwheel) {
 
-    x += this->leftthumbwheel->getLabelSize().cx +
-      this->bottomthumbwheel->getLabelSize().cx + 8;
-    y = (cy - DECORATION_SIZE) +
-      ((DECORATION_SIZE / 2) - (this->bottomthumbwheel->sizeHint().cy / 2) + 1);
+    x += (PUBLIC(this)->leftWheelLabel ? this->getLabelSize(PUBLIC(this)->leftWheelLabel).cx : 0) +
+         (PUBLIC(this)->bottomWheelLabel ? this->getLabelSize(PUBLIC(this)->bottomWheelLabel).cx : 0) + 8;
 
+    width =  this->bottomthumbwheel->sizeHint().cx;
     height = this->bottomthumbwheel->sizeHint().cy;
 
-    if (right < (x + this->bottomthumbwheel->sizeHint().cx)) {
+    y = (DECORATION_SIZE / 2) - (height / 2) + 1;
+
+    if (right < (x + width)) {
 
       width = right - x;
-
-    }
-    else {
-
-      width =  this->bottomthumbwheel->sizeHint().cx;
 
     }
 
@@ -686,16 +745,14 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
   if (this->rightthumbwheel) {
 
     width = this->rightthumbwheel->sizeHint().cx;
+    height = this->rightthumbwheel->sizeHint().cy;
 
-    x = (cx - DECORATION_SIZE) +
-      ((DECORATION_SIZE / 2) - (width / 2) + 1);
+    x = (DECORATION_SIZE / 2) - (width / 2) + 1;
 
     top = numViewerButtons * DECORATION_SIZE + DECORATION_BUFFER;
 
     // if area is large enough for original height
-    if ((bottom - top) > this->rightthumbwheel->sizeHint().cy) {
-
-      height = this->rightthumbwheel->sizeHint().cy;
+    if ((bottom - top) > height) {
 
       y = bottom - height;
 
@@ -711,37 +768,68 @@ SoWinFullViewerP::layoutWidgets(int cx, int cy)
     this->rightthumbwheel->move(x, y, width, height);
   }
 
+  // All labels
+  width = this->leftthumbwheel ? this->leftthumbwheel->sizeHint().cx : 0;
+  height = PUBLIC(this)->bottomWheelLabel ? this->getLabelSize(PUBLIC(this)->bottomWheelLabel).cy : 0;
+
+  x = (DECORATION_SIZE / 2) - (width / 2) - 1;
+  y = (DECORATION_SIZE / 2) - (height / 2) + 1;
+
+  if (PUBLIC(this)->leftWheelLabel ) {
+    Win32::MoveWindow(PUBLIC(this)->leftWheelLabel,
+                      x,
+                      y,
+                      this->getLabelSize(PUBLIC(this)->leftWheelLabel).cx,
+                      this->getLabelSize(PUBLIC(this)->leftWheelLabel).cy,
+                      TRUE);
+  }
+  if (PUBLIC(this)->bottomWheelLabel ) {
+    Win32::MoveWindow(PUBLIC(this)->bottomWheelLabel,
+                      x + (PUBLIC(this)->leftWheelLabel ? this->getLabelSize(PUBLIC(this)->leftWheelLabel).cx : 0) + 4,
+                      y,
+                      this->getLabelSize(PUBLIC(this)->bottomWheelLabel).cx,
+                      this->getLabelSize(PUBLIC(this)->bottomWheelLabel).cy,
+                      TRUE);
+  }
+  if (PUBLIC(this)->rightWheelLabel ) {
+    Win32::MoveWindow(PUBLIC(this)->rightWheelLabel,
+                      right + 4,
+                      y,
+                      this->getLabelSize(PUBLIC(this)->rightWheelLabel).cx,
+                      this->getLabelSize(PUBLIC(this)->rightWheelLabel).cy,
+                      TRUE);
+  }
+
   return 0;
 }
 
 void
 SoWinFullViewerP::showDecorationWidgets(SbBool enable)
 {
-  const int numViewerButtons = this->righttrimbuttons.getLength();
-  const int numAppButtons = this->lefttrimbuttons.getLength();
-
-  // Viewer buttons
-  int i;
-  for(i = 0; i < numViewerButtons; i++) {
-    (void)ShowWindow(this->viewerButton(i)->getWidget(),
-                     (enable ? SW_SHOW : SW_HIDE));
-  }
-
-  // App buttons
-  for(i = 0; i < numAppButtons; i++) {
-    (void)ShowWindow(this->appButton(i), (enable ? SW_SHOW : SW_HIDE));
-  }
-
-  // Thumbwheels
+  // All decoration: viewer buttons, app buttons, thumb wheels, labels
   if (enable) {
-    this->leftthumbwheel->show();
-    this->bottomthumbwheel->show();
-    this->rightthumbwheel->show();
+    if (!PUBLIC(this)->leftDecoration) {
+      PUBLIC(this)->buildDecoration(PUBLIC(this)->getParentWidget());
+    }
+
+	// comment the following two lines to remove the "sunken" style of the render area
+	LONG_PTR dwExStyle = ::GetWindowLongPtr(this->renderareawidget, GWL_EXSTYLE);
+    ::SetWindowLongPtr(this->renderareawidget, GWL_EXSTYLE, dwExStyle | WS_EX_CLIENTEDGE);
+
+    (void)ShowWindow(PUBLIC(this)->leftDecoration, SW_SHOW);
+    (void)ShowWindow(PUBLIC(this)->bottomDecoration, SW_SHOW);
+    (void)ShowWindow(PUBLIC(this)->rightDecoration, SW_SHOW);
   }
   else {
-    this->leftthumbwheel->hide();
-    this->bottomthumbwheel->hide();
-    this->rightthumbwheel->hide();
+    if (PUBLIC(this)->leftDecoration) {
+		// comment the following two lines to remove the "sunken" style of the render area
+		LONG_PTR dwExStyle = ::GetWindowLongPtr(this->renderareawidget, GWL_EXSTYLE);
+      ::SetWindowLongPtr(this->renderareawidget, GWL_EXSTYLE, dwExStyle & (~WS_EX_CLIENTEDGE));
+
+      (void)ShowWindow(PUBLIC(this)->leftDecoration, SW_HIDE);
+      (void)ShowWindow(PUBLIC(this)->bottomDecoration, SW_HIDE);
+      (void)ShowWindow(PUBLIC(this)->rightDecoration, SW_HIDE);
+    }
   }
 }
 
@@ -839,19 +927,77 @@ SoWinFullViewer::createViewerButtons(HWND parent, SbPList * buttonlist)
 HWND
 SoWinFullViewer::buildLeftTrim(HWND parent)
 {
-  return NULL;
+  assert(IsWindow(parent));
+
+  RECT rect;
+  Win32::GetClientRect(parent, & rect);
+
+  HWND hWnd = Win32::CreateWindow_("Decorations Widget",
+                                    "Left Decoration",
+                                    WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_CHILD,
+                                    rect.left, rect.top,
+                                    rect.left+DECORATION_SIZE, rect.bottom,
+                                    parent,
+                                    NULL,
+                                    NULL,
+                                    NULL);
+
+  this->leftWheel = PRIVATE(this)->buildLeftWheel(hWnd);
+  //(void)this->buildAppButtons(hWnd);
+
+  return hWnd;
 }
 
 HWND
 SoWinFullViewer::buildBottomTrim(HWND parent)
 {
-  return NULL;
+  assert(IsWindow(parent));
+
+  RECT rect;
+  Win32::GetClientRect(parent, & rect);
+
+  HWND hWnd = Win32::CreateWindow_("Decorations Widget",
+                                    "Bottom Decoration",
+                                    WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_CHILD,
+                                    rect.left, rect.bottom-DECORATION_SIZE,
+                                    rect.right, rect.bottom,
+                                    parent,
+                                    NULL,
+                                    NULL,
+                                    NULL);
+
+  this->bottomWheel = PRIVATE(this)->buildBottomWheel(hWnd);
+
+  this->leftWheelLabel = PRIVATE(this)->createLabelWindow(hWnd, 0, 0, "RotX");
+  this->bottomWheelLabel = PRIVATE(this)->createLabelWindow(hWnd, 0, 0, "RotY");
+  this->rightWheelLabel = PRIVATE(this)->createLabelWindow(hWnd, 0, 0, "Dolly");
+
+  return hWnd;
 }
 
 HWND
 SoWinFullViewer::buildRightTrim(HWND parent)
 {
-  return NULL;
+  assert(IsWindow(parent));
+
+  RECT rect;
+  Win32::GetClientRect(parent, & rect);
+
+  HWND hWnd = Win32::CreateWindow_("Decorations Widget",
+                                    "Right Decoration",
+                                    WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_CHILD,
+                                    rect.right-DECORATION_SIZE, rect.top,
+                                    rect.right, rect.bottom,
+                                    parent,
+                                    NULL,
+                                    NULL,
+                                    NULL);
+
+  this->rightWheel = PRIVATE(this)->buildRightWheel(hWnd);
+
+  (void)this->buildViewerButtons(hWnd);
+
+  return hWnd;
 }
 
 // *************************************************************************
@@ -867,9 +1013,12 @@ SoWinFullViewerP::~SoWinFullViewerP()
   for (int i = 0; i < len; i++) {
     delete (SoWinBitmapButton *)this->righttrimbuttons[i];
   }
-  delete this->leftthumbwheel;
-  delete this->rightthumbwheel;
-  delete this->bottomthumbwheel;
+  if (this->leftthumbwheel) 
+    delete this->leftthumbwheel;
+  if (this->rightthumbwheel) 
+    delete this->rightthumbwheel;
+  if (this->bottomthumbwheel) 
+    delete this->bottomthumbwheel;
 }
 
 SoWinBitmapButton *
@@ -894,6 +1043,61 @@ SoWinFullViewerP::setThumbWheelValue(void * wheel, float val)
   SoWinThumbWheel * twheel = SoWinThumbWheel::getWheelFromHWND((HWND)wheel);
   assert(twheel != NULL);
   twheel->setValue(val);
+}
+
+HWND
+SoWinFullViewerP::createLabelWindow(HWND parent, int x, int y, const char * text)
+{
+  assert(IsWindow(parent));
+  // FIXME: assumes the same font as parent
+
+  const char * label = (text ? text : " ");
+
+  int len = (int)strlen(label);
+  HDC hdc = Win32::GetDC(parent);
+
+  SIZE textSize;
+  Win32::GetTextExtentPoint(hdc, label, len, & textSize);
+
+  HWND labelWindow = Win32::CreateWindow_("STATIC",
+                                          label,
+                                          WS_VISIBLE | WS_CHILD | SS_CENTER,
+                                          x, y,
+                                          textSize.cx + 2, textSize.cy, // SIZE
+                                          parent,
+                                          NULL,
+                                          NULL,
+                                          NULL);
+  return labelWindow;
+}
+
+void
+SoWinFullViewerP::setLabelText(HWND labelWindow, const char * text)
+{
+  assert(IsWindow(labelWindow));
+
+  const char * label = (text ? text : " ");
+
+  Win32::SetWindowText(labelWindow, label);
+
+  int len = (int)strlen(label);
+  HDC hdc = Win32::GetDC(labelWindow);
+
+  SIZE textSize;
+  Win32::GetTextExtentPoint(hdc, label, len, & textSize);
+
+  UINT flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW;
+  Win32::SetWindowPos(labelWindow, NULL, 0, 0,
+                      textSize.cx + 2, textSize.cy, flags);
+}
+
+SIZE
+SoWinFullViewerP::getLabelSize(HWND labelWindow)
+{
+  RECT rect;
+  Win32::GetWindowRect(labelWindow, & rect);
+  SIZE size = { rect.right - rect.left, rect.bottom - rect.top };
+  return size;
 }
 
 #endif // !DOXYGEN_SKIP_THIS

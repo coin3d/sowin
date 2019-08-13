@@ -89,13 +89,17 @@ public:
   HWND buildLeftWheel(HWND parent);
   HWND buildBottomWheel(HWND parent);
   HWND buildRightWheel(HWND parent);
-  
+
+  HWND createLabelWindow(HWND parent, int x, int y, const char * text);
+  void setLabelText(HWND labelWindow, const char * text);
+  SIZE getLabelSize(HWND labelWindow);
+
   int layoutWidgets(int cx, int cy);
   static LRESULT CALLBACK systemEventHook(int code, WPARAM wparam, LPARAM lparam);
 
   static SbStorage * hookhandle;
   static int nrinstances;
-  
+
   static SbDict * parentHWNDmappings;
 
   SbBool menuenabled;
@@ -109,6 +113,8 @@ public:
   SbPList lefttrimbuttons, righttrimbuttons;
 
   SoWinThumbWheel * leftthumbwheel, * bottomthumbwheel, * rightthumbwheel;
+
+  static ATOM decorationsWndClassAtom;
 };
 
 // ************************************************************************
