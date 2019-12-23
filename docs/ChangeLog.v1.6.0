@@ -1,0 +1,875 @@
+2019-08-13 21:04 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (11e89c5d37cd [tip])
+
+	* Merged in VolkerEnderlein/sowin/RedrawDecorations (pull request #27)
+
+	Fixes the missing decorations background redraw.
+
+2019-08-13 21:04 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (55489cc65356 <RedrawDecorations>)
+
+	* Close branch RedrawDecorations
+
+2019-08-13 23:01 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (8b30636539ea <RedrawDecorations>)
+
+	* src/Inventor/Win/SoWin.cpp, src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinGLWidget.cpp,
+	src/Inventor/Win/viewers/ExaminerViewer.cpp,
+	src/Inventor/Win/viewers/FullViewer.cpp,
+	src/Inventor/Win/viewers/SoWinFullViewerP.h,
+	src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	Fixes the missing decorations background redraw.
+
+2019-07-13 22:15 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (d5418ed44d51)
+
+	* Merged in VolkerEnderlein/sowin (pull request #26)
+
+	Updated subrepo sogui.
+
+2019-07-13 21:44 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (9cb14e4c3c18)
+
+	* Merged in VolkerEnderlein/sowin/pvs_analysis (pull request #25)
+
+	Fixed incorrect delete operators and warnings from PVS analysis.
+
+2019-07-14 00:12 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (889bb77d55ca)
+
+	* .hgsubstate:
+	Updated subrepo sogui.
+
+2019-07-13 21:44 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (d30140c9f054 <pvs_analysis>)
+
+	* Close branch pvs_analysis
+
+2019-07-13 23:37 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (3938ee284e37 <pvs_analysis>)
+
+	* src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/viewers/FullViewer.cpp:
+	Fixed incorrect delete operators and warnings from PVS analysis.
+
+2019-07-03 17:26 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (8af6829794f2)
+
+	* appveyor.yml:
+	Fixed AppVeyor script file wrt removal of CONFIGURATION parameter.
+
+2019-07-02 21:00 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (5590751569ff)
+
+	* appveyor.yml:
+	Streamlined AppVeyor script with other projects.
+
+2019-06-20 21:23 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (c2a7a80956e4)
+
+	* appveyor.yml:
+	Removed superfluous parameters from AppVeyor build matrix.
+
+2019-06-18 20:09 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (25b5a7b1c103)
+
+	* appveyor.yml:
+	Removed VS2019 from AppVeyor script because of missing
+	prerequisites.
+
+2019-06-17 18:34 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (90165e370204)
+
+	* appveyor.yml:
+	Added VS2019 to AppVeyor script.
+
+2019-06-12 20:40 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (81c742572d9c)
+
+	* CMakeLists.txt:
+	Inverted default value for option COIN_BUILD_DOCUMENTATION for
+	better out of the box build experience.
+
+2019-03-08 22:09 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (9539bde955fb)
+
+	* sowin-config.cmake.in, src/CMakeLists.txt, test-code/CMakeLists.txt:
+	Removed superfluous $<INSTALL_PREFIX>. Used PATH_VARS for
+	transferring information to package config file.
+
+2019-03-08 17:34 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (d6a0c9d590aa)
+
+	* Merged in VolkerEnderlein/sowin/streamlining (pull request #22)
+
+	Streamlining repo with other Gui toolkit repos.
+
+2019-03-08 17:34 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (e5b90c1e620a <streamlining>)
+
+	* Close branch streamlining
+
+2019-02-19 21:43 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (d5c7af23f3a2 <streamlining>)
+
+	* CMakeLists.txt, src/CMakeLists.txt:
+	Streamlining repo with other Gui toolkit repos.
+
+2019-02-05 23:46 +0100  Giampiero Gabbiani  <giampiero@gabbiani.org>  (ea0102f0dbe2)
+
+	* .hgsubstate:
+	updated cpack.d subrepostate
+
+2019-02-05 22:43 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (daf4fd11a0da)
+
+	* .hgsub:
+	Set relative path to suprepository cpack.d
+
+2018-12-22 18:10 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (cdbca32fb448)
+
+	* Merged in VolkerEnderlein/sowin/addsource-ci (pull request #19)
+
+	Create source package from ci.
+
+2018-12-22 18:10 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (2dde2b525219 <addsource-ci>)
+
+	* Close branch addsource-ci
+
+2018-12-22 19:09 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (ecf011b6f598 <addsource-ci>)
+
+	* appveyor.yml:
+	Create source package from ci.
+
+2018-12-22 17:24 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (6a37dc7c1c53)
+
+	* Merged in VolkerEnderlein/sowin/doxygen-ci-fix (pull request #18)
+
+	Updated doxygen download address.
+
+2018-12-22 17:24 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (6d6e16c43248 <doxygen-ci-fix>)
+
+	* Close branch doxygen-ci-fix
+
+2018-12-22 18:22 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (5f71022c5a38 <doxygen-ci-fix>)
+
+	* appveyor.yml:
+	Updated doxygen download address.
+
+2018-10-27 17:22 +0000  Giampiero Gabbiani  <giampiero@gabbiani.org>  (9f9e1797bb5a)
+
+	* Merged in ggabbiani/sowin-fork/cpack.d (pull request #17)
+
+	added Coin3D pack.d
+
+2018-10-27 17:22 +0000  Giampiero Gabbiani  <giampiero@gabbiani.org>  (cefc62fb3e8c <cpack.d>)
+
+	* Close branch cpack.d
+
+2018-10-27 10:54 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (4cda0e3d3ed6 <cpack.d>)
+
+	* CMakeLists.txt:
+	added cpack.d directory
+
+2018-10-27 10:52 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (67dd4bb7b17b <cpack.d>)
+
+	* .hgsub, .hgsubstate:
+	added cpack.d subrepo
+
+2018-10-25 21:59 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (30b8597589d4)
+
+	* Merged in VolkerEnderlein/sowin/configpackage (pull request #16)
+
+	Configpackage
+
+2018-10-25 21:59 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (e58c6614545f <configpackage>)
+
+	* Close branch configpackage
+
+2018-10-25 23:43 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (2c0bca38e71c <configpackage>)
+
+	* .hgsubstate:
+	Update subrepo SoGUI.
+
+2018-10-25 23:11 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (fd7c2ea5e8c3 <configpackage>)
+
+	* src/SoWin.rc.cmake.in:
+	Provided correct web address for Coin3D in rc file.
+
+2018-10-25 22:10 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (72052f9dd941 <configpackage>)
+
+	* CMakeLists.txt, src/CMakeLists.txt:
+	Synchronized layout of CMake script with other packages of Coin3D.
+	Fixed chm and qch file names in install.
+
+2018-10-25 22:08 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (368a917a24bc <configpackage>)
+
+	* sowin-config.cmake.in:
+	Updated config package.
+
+2018-10-18 16:32 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (137d75201ce6)
+
+	* Merged in VolkerEnderlein/sowin/mathdefines (pull request #15)
+
+	Enable usage of predefined math constants for MSVC. Minor
+	documentation update.
+
+2018-10-18 16:32 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (616f78b82b36 <mathdefines>)
+
+	* Close branch mathdefines
+
+2018-10-17 22:59 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (243177146f1f <mathdefines>)
+
+	* .hgsubstate:
+	Updated subrepo sogui.
+
+2018-10-17 22:34 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (9c013b75dddb <mathdefines>)
+
+	* src/CMakeLists.txt:
+	Added _USE_MATH_DEFINES for MSVC in CMake script.
+
+2018-10-06 23:33 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (3149329e35b3)
+
+	* Merged in VolkerEnderlein/sowin/updatesubrepo (pull request #14)
+
+	Updated subrepo version.
+
+2018-10-06 23:33 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (1af5f3f0a7f5 <updatesubrepo>)
+
+	* Close branch updatesubrepo
+
+2018-10-06 20:08 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (77786819ebf5)
+
+	* Merged in VolkerEnderlein/sowin/branchcorrection (pull request #13)
+
+	Use default branch for downloading artifacts in appveyor script.
+
+2018-10-06 20:08 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (baef34a87cd8 <branchcorrection>)
+
+	* Close branch branchcorrection
+
+2018-10-07 01:22 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (d8f9fc71423b <updatesubrepo>)
+
+	* .hgsubstate:
+	Updated subrepo version.
+
+2018-10-06 22:04 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (83a534910d71 <branchcorrection>)
+
+	* appveyor.yml:
+	Use default branch for downloading artifacts in appveyor script.
+
+2018-10-06 19:28 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (585414ab169b)
+
+	* Merged in VolkerEnderlein/sowin/doxygenappveyor (pull request #12)
+
+	Added Doxygen commands to appveyor script.
+
+2018-10-06 19:28 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (24ee85d2e616 <doxygenappveyor>)
+
+	* Close branch doxygenappveyor
+
+2018-10-06 21:26 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (8cb44c38bbcf <doxygenappveyor>)
+
+	* appveyor.yml:
+	Added Doxygen commands to appveyor script.
+
+2018-10-05 22:25 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (800d29ac46c6)
+
+	* appveyor.yml: new file.
+	* Merged in VolkerEnderlein/sowin/appveyor-ci (pull request #10)
+
+	Added initial version of AppVeyor script
+
+2018-10-05 22:25 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (bb6360db303c)
+
+	* src/CMakeLists.txt: new file.
+	* Merged in VolkerEnderlein/sowin/docfixes (pull request #11)
+
+	CMake script refactoring and syncing across SoGui repos.
+
+2018-10-05 22:25 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (b9ea6a600393 <appveyor-ci>)
+
+	* Close branch appveyor-ci
+
+2018-10-05 22:25 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (dda27d35ad54 <docfixes>)
+
+	* Close branch docfixes
+
+2018-10-05 23:59 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (77a0e12ddd63 <docfixes>)
+
+	* src/Inventor/Win/SoWin.cpp:
+	Miscellaneous documentation fixes.
+
+2018-10-05 22:24 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (f45b9945a8b5 <sowincleanup>)
+
+	* CMakeLists.txt:
+	Further streamline with soqt.
+
+2018-10-05 21:53 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (01422a22112b <sowincleanup>)
+
+	* src/CMakeLists.txt:
+	Streamline CMake script with soqt.
+
+2018-10-03 23:55 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (507728a76d8a <sowincleanup>)
+
+	* src/CMakeLists.txt: new file.
+	* CMakeLists.txt, SoWin.pc.cmake.in, src/CMakeLists.txt:
+	Restructuring CMake build scripts.
+
+2018-10-03 20:19 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (f1fae17f568b <sowincleanup>)
+
+	* src/Inventor/Win/SoWin.cpp, src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinGLWidget.cpp,
+	src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	Fixed some warnings.
+
+2018-06-06 23:28 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (6527a63cfa5a <appveyor-ci>)
+
+	* appveyor.yml: new file.
+	* appveyor.yml:
+	Added AppVeyor script
+
+2018-06-06 23:26 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (41a64d45ae6a)
+
+	* CMakeLists.txt:
+	Consequent use of CMake variables
+
+2018-06-06 23:24 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (d4071f9c1bcc)
+
+	* test-code/CMakeLists.txt: new file.
+	* CMakeLists.txt, test-code/CMakeLists.txt, test-code/embedded.cpp,
+	test-code/multiview.cpp, test-code/standalone.cpp:
+	Added test-code directory with examples. Removed warnings.
+
+2018-06-06 23:15 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (a1441738c432)
+
+	* sowin-config.cmake.in:
+	Fixed compile definitions in CMake package configuration file
+
+2018-06-06 23:12 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (d4975600e2cc)
+
+	* CMakeLists.txt:
+	Added default build type for non multi configuration environments
+	(Visual Studio, Xcode).
+
+2018-06-04 23:57 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (dea850a71173 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Full build matrix enabled.
+
+2018-05-04 19:53 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (b18fb8e5f8ae <AppVeyorCI>)
+
+	* CMakeLists.txt, appveyor.yml, sowin-config.cmake.in:
+	Added default build type for non Multi configuration environments
+	(Visual Studio, Xcode). Fixed Appveyor script for multi
+	configuration environments.
+
+2018-05-03 21:02 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (27f941de1e37 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Test with single configuration type.
+
+2018-05-02 23:48 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (af6bb45f6143 <AppVeyorCI>)
+
+	* CMakeLists.txt, appveyor.yml:
+	Added configuration to CMake call in appveyor script.
+
+2018-05-02 19:44 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (82da2e622f9c <AppVeyorCI>)
+
+	* appveyor.yml:
+	Fixed incorrect path.
+
+2018-05-02 19:40 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (6c8177a173a7 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Added position independent code flag.
+
+2018-04-30 23:34 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (8a338cbb5c0f <AppVeyorCI>)
+
+	* appveyor.yml:
+	Fixed script error.
+
+2018-04-30 23:19 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (0188eacb9f39 <AppVeyorCI>)
+
+	* appveyor.yml:
+	updated AppVeyor script.
+
+2018-04-24 20:10 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (d3034c25c9d8 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Enabled multiple configurations.
+
+2018-04-23 21:44 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (bc3e0f1848cf <AppVeyorCI>)
+
+	* appveyor.yml:
+	Fixed wrong download name. Updated appveyor script.
+
+2018-04-23 21:40 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (913287a2d1e0 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Updated appveyor script.
+
+2018-04-23 20:42 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (fdb1e3045299 <AppVeyorCI>)
+
+	* appveyor.yml: new file.
+	* CMakeLists.txt, appveyor.yml:
+	Added appveyor script.
+
+2018-04-16 05:49 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (95ff69a853c0)
+
+	* Merged in VolkerEnderlein/sowin/datadocs (pull request #8)
+
+	Adding data and documentation to repo. Minor update on
+	CMakeLists.txt
+
+2018-04-16 00:15 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (3ae189f38c20 <datadocs>)
+
+	* CMakeLists.txt:
+	Removed superglu reminder from test.
+
+2018-04-16 00:05 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (0d2b4cf132eb <datadocs>)
+
+	* .hgsubstate:
+	Updated subrepos sogui soanydata.
+
+2018-04-15 22:52 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (01dee54ed7cd <datadocs>)
+
+	* CMakeLists.txt:
+	Added processing of data directory. Exported documentation.
+
+2018-04-15 22:52 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (06880dbe664d <datadocs>)
+
+	* src/SoWin.rc.cmake.in:
+	Replaced non CMake variables.
+
+2018-04-15 22:51 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (7246b6020d11 <datadocs>)
+
+	* src/Inventor/Win/SoWin.cpp:
+	Added missing config.h inclusion
+
+2018-04-13 07:55 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (29629e7230e2)
+
+	* SoWin.pc.cmake.in, src/SoWin.rc.cmake.in: new file.
+	* Merged in VolkerEnderlein/sowin/cmakepackaging (pull request #7)
+
+	Fixed wrong CMake package config file. Major rework of
+	CMakeLists.txt
+
+2018-04-13 00:44 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (35ff158bfcb8 <cmakepackaging>)
+
+	* SoWin.pc.cmake.in, src/SoWin.rc.cmake.in: new file.
+	* CMakeLists.txt, SoWin.pc.cmake.in, sowin-config.cmake.in,
+	src/SoWin.rc.cmake.in:
+	Fixed wrong CMake package config file. Added pkg-config file.
+
+2018-03-23 12:30 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (ee296786c4d6)
+
+	* Merged in VolkerEnderlein/sowin/updatehgsubstate (pull request #6)
+
+	Updated subrepo sogui
+
+2018-03-23 11:18 +0100  Volker Enderlein  <Volker Enderlein>  (808f48b71b61 <updatehgsubstate>)
+
+	* .hgsubstate:
+	Updated subrepo sogui
+
+2018-03-23 08:18 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (1c6a3881147c)
+
+	* Merged in VolkerEnderlein/sowin/warningfree (pull request #5)
+
+	Fixed warnings for 64bit build
+
+2018-03-22 23:52 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (4a05d7560454 <warningfree>)
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	Reapply already accidently reverted changes changes for
+	WeightPixelFormat
+
+2018-03-22 23:32 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (7e5a15d6d84a <warningfree>)
+
+	* CMakeLists.txt, src/Inventor/Win/SoWin.cpp,
+	src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinGLWidget.cpp,
+	src/Inventor/Win/devices/SoWinKeyboard.cpp,
+	src/Inventor/Win/widgets/SoWinBitmapButton.cpp,
+	src/Inventor/Win/widgets/SoWinThumbWheel.cpp,
+	src/Inventor/Win/widgets/WinNativePopupMenu.cpp, test-
+	code/embedded.cpp:
+	Fixed all warnings for 64bit build
+
+2018-03-22 00:52 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (03775dadc295)
+
+	* Merged in VolkerEnderlein/sowin/weightpixelformat (pull request #4)
+
+	Punish cColorBits greater than 32, because aero effects on windows
+	>= 7 will be disabled.
+
+2018-03-21 23:01 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (5f63d86635f4 <weightpixelformat>)
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	Punish cColorBits greater than 32, because aero effects on windows
+	>= 7 will be disabled.
+
+2018-03-20 00:10 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (7fd0884d9d67)
+
+	* CMakeLists.txt, sowin-config.cmake.in, src/config.h.cmake.in: new
+	file.
+	* Merged in VolkerEnderlein/sowin/cmake (pull request #3)
+
+	CMake build files for SoWin
+
+2018-03-20 00:54 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (3662b0e83738 <cmake>)
+
+	* .hgsubstate:
+	Updated subrepo sogui
+
+2018-03-20 00:30 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (d423940d5c7e <cmake>)
+
+	* CMakeLists.txt, sowin-config.cmake.in, src/config.h.cmake.in: new
+	file.
+	* CMakeLists.txt, sowin-config.cmake.in, src/config.h.cmake.in:
+	Added CMake build files
+
+2018-03-17 19:10 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (60fd2d068d67)
+
+	* Merged in VolkerEnderlein/sowin/translatetablebugfix (pull request
+	#1)
+
+	Fixed memory leak in WinKeyboard.cpp.
+
+2018-03-17 19:09 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (41ea56d88d8f)
+
+	* Merged in VolkerEnderlein/sowin/wincomponentcleanup (pull request
+	#2)
+
+	Proper cleanup when all component windows have been destroyed.
+
+2017-11-02 17:37 +0100  Volker Enderlein  <Volker Enderlein>  (74c006021c0c <wincomponentcleanup>)
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	Proper cleanup when all component windows have been destroyed.
+
+2017-11-02 17:03 +0100  Volker Enderlein  <Volker Enderlein>  (07ada204abce <translatetablebugfix>)
+
+	* src/Inventor/Win/devices/SoWinKeyboard.cpp:
+	Fixed memory leak.
+
+2011-12-04 22:53 +0100  Marius Kintel  <marius@kintel.net>  (c89205a134e8)
+
+	* LICENSE.GPL: deleted file.
+	* COPYING, LICENSE.GPL, Makefile.am, Makefile.in,
+	build/msvc6/Makefile, build/msvc6/sowin1.dsp, build/msvc7/Makefile,
+	build/msvc7/sowin1.vcproj, build/msvc8/Makefile,
+	build/msvc8/sowin1.vcproj, build/msvc9/Makefile,
+	build/msvc9/sowin1.vcproj, cfg/gendsp.pl.in,
+	packaging/windows/Makefile.in:
+	fixed issue #5
+
+2011-12-04 14:50 +0100  Marius Kintel  <marius@kintel.net>  (2aa2e3dedd3e)
+
+	* .hgsubstate:
+	Updated subrepos
+
+2011-12-03 16:56 +0100  Marius Kintel  <marius@kintel.net>  (a47a1647dad6)
+
+	* .hgsubstate, build/msvc6/src/Inventor/Win/SoWinBasic.h,
+	build/msvc6/src/sowindefs.h,
+	build/msvc7/src/Inventor/Win/SoWinBasic.h,
+	build/msvc7/src/sowindefs.h,
+	build/msvc8/src/Inventor/Win/SoWinBasic.h,
+	build/msvc8/src/sowindefs.h,
+	build/msvc9/src/Inventor/Win/SoWinBasic.h,
+	build/msvc9/src/sowindefs.h, src/Inventor/Win/SoWin.cpp,
+	src/Inventor/Win/SoWinBeginStrict.h,
+	src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinComponentP.h, src/Inventor/Win/SoWinDef.h,
+	src/Inventor/Win/SoWinEndStrict.h,
+	src/Inventor/Win/SoWinGLWidget.cpp,
+	src/Inventor/Win/SoWinGLWidgetP.h,
+	src/Inventor/Win/SoWinMaterialList.cpp, src/Inventor/Win/SoWinRes.h,
+	src/Inventor/Win/SoWinResource.h, src/Inventor/Win/Win32API.cpp,
+	src/Inventor/Win/Win32API.h,
+	src/Inventor/Win/devices/SoWinDevice.cpp,
+	src/Inventor/Win/devices/SoWinDeviceP.h,
+	src/Inventor/Win/devices/SoWinInputFocus.cpp,
+	src/Inventor/Win/devices/SoWinKeyboard.cpp,
+	src/Inventor/Win/devices/SoWinMouse.cpp,
+	src/Inventor/Win/devices/SoWinSpacenavDevice.cpp,
+	src/Inventor/Win/devices/SoWinSpacenavDevice.h,
+	src/Inventor/Win/viewers/ExaminerViewer.cpp,
+	src/Inventor/Win/viewers/FullViewer.cpp,
+	src/Inventor/Win/viewers/PlaneViewer.cpp,
+	src/Inventor/Win/viewers/SoWinExaminerViewerP.h,
+	src/Inventor/Win/viewers/SoWinFullViewerP.h,
+	src/Inventor/Win/viewers/SoWinPlaneViewerP.h,
+	src/Inventor/Win/viewers/SoWinViewerResource.h,
+	src/Inventor/Win/viewers/WalkViewer.cpp,
+	src/Inventor/Win/widgets/SoWinBitmapButton.cpp,
+	src/Inventor/Win/widgets/SoWinBitmapButton.h,
+	src/Inventor/Win/widgets/SoWinThumbWheel.cpp,
+	src/Inventor/Win/widgets/SoWinThumbWheel.h,
+	src/Inventor/Win/widgets/WinNativePopupMenu.cpp,
+	src/Inventor/Win/widgets/WinNativePopupMenu.h, test-
+	code/crash.cpp.in, test-code/embedded.cpp, test-code/multiview.cpp:
+	Updated license headers to BSD
+
+2011-12-02 13:57 +0100  Marius Kintel  <marius@kintel.net>  (5bc2af313306)
+
+	* .hgsub:
+	Made suprepositories relative
+
+2011-02-02 21:14 +0100  handegar  <handegar@sim.no>  (9bc76ddcbd7b)
+
+	* src/Inventor/Win/SoWin.cpp, src/Inventor/Win/SoWinGLWidget.cpp:
+	Possible fix for SpaceNavigator usage when SoWin has a parent
+	window.
+
+2010-10-21 15:23 +0200  Øystein Handegard  <handegar@sim.no>  (3431bfbf7ab5)
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	Prevent duplicated WM_INPUT events.
+
+2010-10-20 16:43 +0200  Øystein Handegard  <handegar@sim.no>  (f778d8409073)
+
+	* src/Inventor/Win/devices/SoWinSpacenavDevice.cpp:
+	Button behaviour fix.
+
+2010-10-19 12:00 +0200  ToolsReleaseBot  <coin@sim.no>  (664bcc84b51a)
+
+	* build/misc/install-headers.bat, build/misc/uninstall-headers.bat,
+	build/msvc7/Makefile, build/msvc7/sowin1.vcproj,
+	build/msvc8/Makefile, build/msvc8/sowin1.vcproj,
+	build/msvc9/Makefile, build/msvc9/sowin1.vcproj:
+	MSVC projects generation.
+
+2010-10-19 11:05 +0200  Øystein Handegard  <handegar@sim.no>  (fdc82320fefe)
+
+	* Makefile.in, html/Makefile.in, htmlhelp/Makefile.in,
+	man/man1/Makefile.in, man/man3/Makefile.in,
+	src/Inventor/Makefile.in, src/Inventor/Win/Makefile.in,
+	src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in, src/Makefile.in:
+	bootstrap
+
+2010-10-19 11:05 +0200  Øystein Handegard  <handegar@sim.no>  (a383dffae6ff)
+
+	* .hgsubstate:
+	Update
+
+2010-10-19 10:40 +0200  Øystein Handegard  <handegar@sim.no>  (ab3eed5e4db5)
+
+	* .hgsubstate, Makefile.in, html/Makefile.in, htmlhelp/Makefile.in,
+	man/man1/Makefile.in, man/man3/Makefile.in,
+	src/Inventor/Makefile.in, src/Inventor/Win/Makefile.in,
+	src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in, src/Makefile.in:
+	More bootstraping
+
+2010-10-18 16:07 +0200  Øystein Handegard  <handegar@sim.no>  (a64bade8d81f)
+
+	* src/Inventor/Win/devices/Makefile.am,
+	src/Inventor/Win/devices/Makefile.in:
+	bootstrap
+
+2010-10-18 15:51 +0200  ToolsReleaseBot  <coin@sim.no>  (88fe3faa6428)
+
+	* build/msvc7/Makefile, build/msvc7/src/config-debug.h,
+	build/msvc7/src/config-release.h, build/msvc8/Makefile,
+	build/msvc8/src/config-debug.h, build/msvc8/src/config-release.h,
+	build/msvc9/Makefile, build/msvc9/sowin1.vcproj,
+	build/msvc9/sowin1_docs.vcproj, build/msvc9/sowin1_install.vcproj,
+	build/msvc9/sowin1_uninstall.vcproj, build/msvc9/src/config-debug.h,
+	build/msvc9/src/config-release.h:
+	MSVC project regen.
+
+2010-10-18 15:17 +0200  Øystein Handegard  <handegar@sim.no>  (c87e7b2ea05b)
+
+	* Makefile.in, aclocal.m4, configure, html/Makefile.in,
+	htmlhelp/Makefile.in, man/Makefile.in, man/man1/Makefile.in,
+	man/man3/Makefile.in, src/Inventor/Makefile.in,
+	src/Inventor/Win/Makefile.in, src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in, src/Ivf/Makefile.in,
+	src/Makefile.in, src/config.h.in:
+	Bootstrap
+
+2010-10-18 14:33 +0200  Øystein Handegard  <handegar@sim.no>  (845bf0e3c3a0)
+
+	* configure.ac:
+	Always set the HAVE_SPACENAV_SUPPORT define for windows.
+
+2010-10-18 13:39 +0200  Øystein Handegard  <handegar@sim.no>  (f331fb84da45)
+
+	* .hgsubstate:
+	Updated to newest subrepo
+
+2010-10-18 11:18 +0200  Øystein Handegard  <handegar@sim.no>  (5c65b0258f87)
+
+	* src/Inventor/Win/devices/SoWinSpacenavDevice.cpp,
+	src/Inventor/Win/devices/SoWinSpacenavDevice.h: new file.
+	* src/Inventor/Win/devices/SoWinSpacenavDevice.cpp,
+	src/Inventor/Win/devices/SoWinSpacenavDevice.h:
+	New Space Navigator device support.
+
+2010-10-18 11:17 +0200  Øystein Handegard  <handegar@sim.no>  (01b62c21cd56)
+
+	* src/Inventor/Win/SoWin.cpp, src/Inventor/Win/SoWinGLWidget.cpp:
+	Hook up raw devices if they exist.
+
+2010-06-08 18:02 +0200  Terje Wiesener  <wiesener@sim.no>  (d0f4c7c62117)
+
+	* src/Inventor/Win/SoWin.cpp:
+	Even more cleanup fixes
+
+2010-06-08 18:01 +0200  Terje Wiesener  <wiesener@sim.no>  (059613dd5e06)
+
+	* build/msvc9/sowin1.vcproj, build/msvc9/sowin1_docs.vcproj,
+	build/msvc9/sowin1_install.vcproj,
+	build/msvc9/sowin1_uninstall.vcproj:
+	EOL
+
+2010-06-07 16:32 +0200  Terje Wiesener  <wiesener@sim.no>  (e10b30a72a44)
+
+	* src/Inventor/Win/SoWin.cpp:
+	More cleanup
+
+2010-06-07 16:24 +0200  Terje Wiesener  <wiesener@sim.no>  (4d793144f871)
+
+	* tools/SoWinWizard/VCWizards/SoWinWizard/Scripts/1033/default.js:
+	Bugfixes in the VC project wizard
+
+2010-06-02 17:26 +0200  Terje Wiesener  <wiesener@sim.no>  (dcb25748912b)
+
+	* src/Inventor/Win/SoWin.cpp:
+	Do more cleanup in SoWin::done
+
+2010-06-02 18:26 +0200  ToolsReleaseBot  <coin@sim.no>  (ae69d596e4ec)
+
+	* build/msvc7/sowin1.vcproj, build/msvc8/sowin1.vcproj,
+	build/msvc9/sowin1.vcproj, build/msvc9/sowin1_docs.vcproj,
+	build/msvc9/sowin1_install.vcproj,
+	build/msvc9/sowin1_uninstall.vcproj:
+	Updated MSVC files
+
+2010-06-02 17:11 +0200  ToolsReleaseBot  <coin@sim.no>  (536eb3225f01)
+
+	* build/msvc9/sowin1.vcproj, build/msvc9/sowin1_docs.vcproj,
+	build/msvc9/sowin1_install.vcproj,
+	build/msvc9/sowin1_uninstall.vcproj, cfg/gendsp.pl.in:
+	Hopefully working msvc9 project
+
+2010-06-01 17:02 +0200  Terje Wiesener  <wiesener@sim.no>  (5ec16878f871)
+
+	* tools/SoWinWizard/README.TXT,
+	tools/SoWinWizard/VCWizards/SoWinWizard/1033/Images/DottedHori.gif,
+	tools/SoWinWizard/VCWizards/SoWinWizard/1033/Images/DottedVert.gif,
+	tools/SoWinWizard/VCWizards/SoWinWizard/1033/Images/Thumbs.db,
+	tools/SoWinWizard/VCWizards/SoWinWizard/1033/Images/spacer.gif,
+	tools/SoWinWizard/VCWizards/SoWinWizard/1033/NewStyles.css,
+	tools/SoWinWizard/VCWizards/SoWinWizard/HTML/1033/default.htm,
+	tools/SoWinWizard/VCWizards/SoWinWizard/Images/SoWinWizard.gif, tool
+	s/SoWinWizard/VCWizards/SoWinWizard/Images/SoWinWizard_Background.gi
+	f, tools/SoWinWizard/VCWizards/SoWinWizard/Scripts/1033/default.js,
+	tools/SoWinWizard/VCWizards/SoWinWizard/Templates/1033/ReadMe.txt, t
+	ools/SoWinWizard/VCWizards/SoWinWizard/Templates/1033/SoWinMain.cpp,
+	tools/SoWinWizard/VCWizards/SoWinWizard/Templates/1033/Templates.inf
+	, tools/SoWinWizard/VCWizards/SoWinWizard/default.vcproj,
+	tools/SoWinWizard/vcprojects/SoWin/SoWinWizard.ico,
+	tools/SoWinWizard/vcprojects/SoWin/SoWinWizard.vsdir,
+	tools/SoWinWizard/vcprojects/SoWin/SoWinWizard.vsz: new file.
+	* tools/SoWinWizard/README.TXT,
+	tools/SoWinWizard/VCWizards/SoWinWizard/1033/Images/DottedHori.gif,
+	tools/SoWinWizard/VCWizards/SoWinWizard/1033/Images/DottedVert.gif,
+	tools/SoWinWizard/VCWizards/SoWinWizard/1033/Images/Thumbs.db,
+	tools/SoWinWizard/VCWizards/SoWinWizard/1033/Images/spacer.gif,
+	tools/SoWinWizard/VCWizards/SoWinWizard/1033/NewStyles.css,
+	tools/SoWinWizard/VCWizards/SoWinWizard/HTML/1033/default.htm,
+	tools/SoWinWizard/VCWizards/SoWinWizard/Images/SoWinWizard.gif, tool
+	s/SoWinWizard/VCWizards/SoWinWizard/Images/SoWinWizard_Background.gi
+	f, tools/SoWinWizard/VCWizards/SoWinWizard/Scripts/1033/default.js,
+	tools/SoWinWizard/VCWizards/SoWinWizard/Templates/1033/ReadMe.txt, t
+	ools/SoWinWizard/VCWizards/SoWinWizard/Templates/1033/SoWinMain.cpp,
+	tools/SoWinWizard/VCWizards/SoWinWizard/Templates/1033/Templates.inf
+	, tools/SoWinWizard/VCWizards/SoWinWizard/default.vcproj,
+	tools/SoWinWizard/vcprojects/SoWin/SoWinWizard.ico,
+	tools/SoWinWizard/vcprojects/SoWin/SoWinWizard.vsdir,
+	tools/SoWinWizard/vcprojects/SoWin/SoWinWizard.vsz:
+	Added a simple SoWin project generation wizard.
+
+2010-06-01 13:45 +0200  ToolsReleaseBot  <coin@sim.no>  (e1deaf023dc5)
+
+	* build/msvc7/Makefile, build/msvc7/sowin1.vcproj,
+	build/msvc7/src/Inventor/Win/SoWinBasic.h, build/msvc7/src/config-
+	debug.h, build/msvc7/src/config-release.h, build/msvc8/Makefile,
+	build/msvc8/sowin1.vcproj, build/msvc8/sowin1_docs.vcproj,
+	build/msvc8/sowin1_install.vcproj,
+	build/msvc8/sowin1_uninstall.vcproj,
+	build/msvc8/src/Inventor/Win/SoWinBasic.h, build/msvc8/src/config-
+	debug.h, build/msvc8/src/config-release.h, build/msvc9/Makefile,
+	build/msvc9/sowin1.vcproj, build/msvc9/sowin1_docs.vcproj,
+	build/msvc9/sowin1_install.vcproj,
+	build/msvc9/sowin1_uninstall.vcproj,
+	build/msvc9/src/Inventor/Win/SoWinBasic.h, build/msvc9/src/config-
+	debug.h, build/msvc9/src/config-release.h:
+	Updated MSVC build files
+
+2010-06-01 12:44 +0200  ToolsReleaseBot  <coin@sim.no>  (375903ae9957)
+
+	* configure:
+	Bootstrap with correct line endings
+
+2010-06-01 11:56 +0200  Terje Wiesener  <wiesener@sim.no>  (0c0448c8f1fd)
+
+	* .hgsubstate:
+	Updating SoGUI subrepos
+
+2010-06-01 10:55 +0200  Terje Wiesener  <wiesener@sim.no>  (5fa79ff70e72)
+
+	* cfg/csubst.exe, cfg/wrapmsvc.exe, configure:
+	Bootstrap
+
+2010-05-31 12:14 +0200  Terje Wiesener  <wiesener@sim.no>  (976adcc2a9f5)
+
+	* configure.ac, src/Inventor/Win/SoWin.cpp:
+	Expose SoWin::doIdleTasks() in public API like TGS does. Thanks to
+	Volker Enderlein for report and patch.
+
+2010-05-28 16:27 +0200  Terje Wiesener  <wiesener@sim.no>  (e313ca41b16a)
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	Bugfix: Detect double-clicks in window. Thanks to Volker Enderlein
+	for reporting and providing a patch.
+
+2010-03-22 14:42 +0100  Tamer Fahmy  <tamer@sim.no>  (12635cd9e763)
+
+	* .hgsubstate:
+	update subrepository.
+
+2010-03-17 16:57 +0100  Tamer Fahmy  <tamer@sim.no>  (a7cee75cf8a3)
+
+	* Makefile.am, Makefile.in:
+	always deploy pkgconfig file.
+
+2010-03-17 12:07 +0100  Thomas Hammer  <thammer@sim.no>  (c0cd7e7a2fa0)
+
+	* build/README:
+	Added info about building and COINDIR.
+
+2010-03-17 12:03 +0100  Thomas Hammer  <thammer@sim.no>  (1dfe44ceb90d)
+
+	* build/README:
+	Added info about VC9 compiler and corrected VS/VC names.
+
+2010-03-03 18:47 +0100  Tamer Fahmy  <tamer@sim.no>  (9105bd7254e7)
+
+	* ChangeLog, NEWS:
+	reinstate template ChangeLog and prep NEWS file.
+
+2010-03-03 00:19 +0100  Tamer Fahmy  <tamer@sim.no>  (f22a6230c6a8)
+
+	* configure, configure.ac:
+	bump version number.
+
+2010-03-02 23:51 +0100  Tamer Fahmy  <tamer@sim.no>  (52828f02ee8a)
+
+	* .hgtags:
+	Added tag SoWin-1.5.0 for changeset 5d8e376282e1
+
+2010-03-02 23:51 +0100  Tamer Fahmy  <tamer@sim.no>  (5d8e376282e1 [SoWin-1.5.0])
+
+	* docs/announcement-1_5_0.txt:
+	correctify download URLs.
+
