@@ -1,4 +1,11 @@
-2019-08-13 21:04 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (11e89c5d37cd [tip])
+2019-12-23 22:44 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (afdcf628507c [tip])
+
+	* docs/ChangeLog.v1.6.0: new file.
+	* CMakeLists.txt, INSTALL, Makefile.am, Makefile.in, NEWS, README,
+	configure, configure.ac, docs/ChangeLog.v1.6.0:
+	[skip ci] Update version number for release. Bootstrap.
+
+2019-08-13 21:04 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (11e89c5d37cd)
 
 	* Merged in VolkerEnderlein/sowin/RedrawDecorations (pull request #27)
 
