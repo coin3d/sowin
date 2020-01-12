@@ -191,7 +191,7 @@
 
   For more information about the Coin3D family of libraries, including
   licensing information, please visit the Coin3D web site
-  <https://bitbucket.org/Coin3D/coin>.
+  <https://github.com/coin3d/coin>.
 
   \sa The documentation for the \COIN library: <https://coin3d.bitbucket.io/Coin/>.
 */
