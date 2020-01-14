@@ -69,6 +69,7 @@ cmake_dependent_option(SO${GUI}_BUILD_INTERNAL_DOCUMENTATION "Document internal 
 cmake_dependent_option(SO${GUI}_BUILD_DOC_MAN "Build So${Gui} man pages." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(SO${GUI}_BUILD_DOC_QTHELP "Build QtHelp documentation." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(SO${GUI}_BUILD_DOC_CHM "Build compressed HTML help manual (requires HTML help compiler)" OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
+option(SO${GUI}_USE_CPACK "If enabled the cpack subrepo is mandatory" OFF)
 
 # ############################################################################
 # Find all necessary and optional SoWin dependencies
@@ -283,4 +284,6 @@ add_subdirectory(test-code)
 
 ############################################################################
 # New CPACK section, please see the README file inside cpack.d directory.
-add_subdirectory(cpack.d)
+if (SO${GUI}_USE_CPACK)
+  add_subdirectory(cpack.d)
+endif()
