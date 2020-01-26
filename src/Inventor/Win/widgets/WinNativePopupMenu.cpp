@@ -41,7 +41,7 @@
 
 /*!
   \class WinNativePopupMenu Inventor/Win/widgets/WinNativePopupMenu.h
-  \brief The WinNativePopupMenu class implements a common interface for popup
+  \brief The WinNativePopupMenu class implements a common interface for pop-up
   menu management for all the Coin GUI toolkit libraries.
 */
 
