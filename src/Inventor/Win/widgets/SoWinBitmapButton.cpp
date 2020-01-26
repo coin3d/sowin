@@ -54,7 +54,7 @@ public:
 
   ~SoWinBitmapButtonP()
   {
-    // Note: since the buttonwindow is owned by it's parent,
+    // Note: since the buttonwindow is owned by its parent,
     // it will be destroyed (DestroyWindow()) when parent is destroyed.
     // This could happen before or after this destructor is called,
     // so we need to be robust. 2004-01-21 thammer.
@@ -217,7 +217,7 @@ SoWinBitmapButtonP::button_proc(HWND hwnd, UINT msg,
     clicked = clicked && (GetCapture() == hwnd);
     // FIXME: should also check that button is a) pressed and b)
     // highlighted. (We would then at least match all tests done in
-    // Wine's BUTTON class before sending a WM_COMMAND message to it's
+    // Wine's BUTTON class before sending a WM_COMMAND message to its
     // parent.) 20030425 mortene.
     if (clicked) {
       POINT mousept = { LOWORD(lparam),  HIWORD(lparam) };

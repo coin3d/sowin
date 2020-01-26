@@ -13,7 +13,7 @@ m4_define([SOWIN_ABI_REVISION], [SOWIN_MICRO])
 m4_define([SOWIN_ABI_AGE],      [SOWIN_MINOR])
 
 # **************************************************************************
-AC_INIT([SoWin], [SOWIN_VERSION_STRING], [coin-bugs@coin3d.org])
+AC_INIT([SoWin], [SOWIN_VERSION_STRING], [coin-support@coin3d.org])
 
 AC_CONFIG_SRCDIR([src/Inventor/Win/SoWin.cpp])
 AC_CONFIG_AUX_DIR([cfg])

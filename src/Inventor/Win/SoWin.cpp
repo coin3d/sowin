@@ -42,8 +42,8 @@
 
   The %SoWin library is a C++ GUI toolkit that binds together the
   \COIN rendering library with the user interface parts of the
-  MSWindows Win32 API, thereby providing application programmers a
-  convenient method of using the \COIN library from MSWindows
+  Microsoft Windows Win32 API, thereby providing application programmers a
+  convenient method of using the \COIN library from Microsoft Windows
   development environments.
 
   By using the combination of \COIN and %SoWin for your 3D
@@ -51,8 +51,8 @@
   Microsoft Windows operating systems.
 
   %SoWin, like \COIN, provides the programmer with a high-level
-  application programmer's interface (API) in C++. The library
-  primarily includes a class-hierarchy of viewer components of varying
+  Application Programming Interface (API) in C++. The library
+  primarily includes a class hierarchy of viewer components of varying
   functionality and complexity, with various modes for the end-user to
   control the 3D-scene camera interaction.
 
@@ -75,7 +75,7 @@
     HWND mainwin = SoWin::init(argc, argv, argv[0]);
   
     // Make a dead simple scene graph by using the Coin library, only
-    // containing a single yellow cone under the scenegraph root.
+    // containing a single yellow cone under the scene graph root.
     SoSeparator * root = new SoSeparator;
     root->ref();
 
@@ -141,7 +141,7 @@
   <ul>
 
   <li>The most convenient management of OpenGL context types, such as
-  singlebuffered versus doublebuffered rendering, the use of overlay
+  single buffered versus double buffered rendering, the use of overlay
   planes, stereo rendering, etc. This is handled through the
   SoWinGLWidget class and through the SoWinRenderArea class (which
   contains the main binding into the \COIN library's main data
@@ -152,7 +152,7 @@
   types. The translation is done by the SoWinDevice classes,
   controlled by the SoWinRenderArea.
 
-  These "generic" \COIN events are then passed into the 3D scenegraph
+  These "generic" \COIN events are then passed into the 3D scene graph
   for further processing, for instance by \COIN's 3D user interaction
   components -- like this "trackball manipulator" attached to a simple
   cone:
@@ -191,9 +191,9 @@
 
   For more information about the Coin3D family of libraries, including
   licensing information, please visit the Coin3D web site
-  <https://github.com/coin3d/coin>.
+  <https://coin3d.github.io>.
 
-  \sa The documentation for the \COIN library: <https://coin3d.bitbucket.io/Coin/>.
+  \sa The documentation for the \COIN library: <https://coin3d.github.io/Coin/>.
 */
 
 // *************************************************************************
@@ -573,8 +573,8 @@ SoWin::getShellWidget(HWND hwnd)
 }
 
 /*!
-	Process of all Inventor sensors scheduled for execution when the
-	system is idle.
+  Process all Inventor sensors scheduled for execution when the
+  system is idle.
 */
 void
 SoWin::doIdleTasks(void)

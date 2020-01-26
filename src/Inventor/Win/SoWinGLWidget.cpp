@@ -812,7 +812,7 @@ SoWinGLWidgetP::debugGLContextCreation(void)
 // This is our replacement for the Win32 / OpenGL ChoosePixelFormat()
 // function. Returns -FLT_MAX for pixelformats incompatible with
 // OpenGL rendering (in onscreen windows), otherwise a value that
-// indicates it's "goodness", where larger value means it seems better
+// indicates its "goodness", where larger value means it seems better
 // suited for what is requested.
 double
 SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
@@ -1524,7 +1524,7 @@ SoWinGLWidgetP::createGLContext(HWND window)
     width = rect.right - rect.left;
     height = rect.bottom - rect.top;
     SoDebugError::post("SoWinGLWidgetP::createGLContext",
-      " The previous error occured when using the windows handle [0x%lX] that "
+      " The previous error occurred when using the windows handle [0x%lX] that "
       "was supplied "
       "to the createGLContext function (by way of the SoWinGLWidget::buildWidget "
       "function). "
@@ -1536,10 +1536,10 @@ SoWinGLWidgetP::createGLContext(HWND window)
       "handle that the function that failed didn't like. One such thing could be "
       "the window size. The window size for the supplied window handle is (%ld, %ld). "
       "To resolve this problem, please investigate the parts of your code that "
-      "creates and "
-      "in any way manipulates the windows handle before it is sent to createGLContext. "
+      "create and "
+      "in any way manipulate the windows handle before it is sent to createGLContext. "
       "Systems In Motion would like to hear about this problem, so we would "
-      "appreciate if you would send a brief email to coin-support@sim.no "
+      "appreciate if you would send a brief email to coin-support@coin3d.org "
       "including the window size listed above, your OS version, the type of "
       "graphics card and driver version, and any other info that you think is "
       "important.", window, width, height);
