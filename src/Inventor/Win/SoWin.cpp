@@ -66,14 +66,14 @@
   #include <Inventor/nodes/SoBaseColor.h>
   #include <Inventor/nodes/SoCone.h>
   #include <Inventor/nodes/SoSeparator.h>
-  
+
   int
   main(int argc, char ** argv)
   {
     // Initializes SoWin library (and implicitly also the Coin
     // library). Returns a top-level / shell window to use.
     HWND mainwin = SoWin::init(argc, argv, argv[0]);
-  
+
     // Make a dead simple scene graph by using the Coin library, only
     // containing a single yellow cone under the scene graph root.
     SoSeparator * root = new SoSeparator;
@@ -84,12 +84,12 @@
     root->addChild(col);
 
     root->addChild(new SoCone);
-  
+
     // Use one of the convenient SoWin viewer classes.
     SoWinExaminerViewer * eviewer = new SoWinExaminerViewer(mainwin);
     eviewer->setSceneGraph(root);
     eviewer->show();
-  
+
     // Pop up the main window.
     SoWin::show(mainwin);
     // Loop until exit.
@@ -198,7 +198,6 @@
 
 // *************************************************************************
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H
@@ -228,7 +227,7 @@
 // The private data for the SoWin class.
 
 class SoWinP {
-  
+
 public:
   static BOOL CALLBACK sizeChildProc(HWND window, LPARAM lparam);
   static void errorHandlerCB(const SoError * error, void * data);
@@ -252,7 +251,7 @@ public:
                                     UINT message,
                                     UINT idevent,
                                     DWORD dwtime);
-  
+
   static LRESULT onClose(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   static LRESULT onDestroy(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
   static LRESULT onQuit(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
@@ -264,8 +263,6 @@ public:
 
   static SbBool useParentEventHandler;
   static WNDPROC parentEventHandler;
-  static UINT focusMessage;
-  static SbBool hasFocus;
   static HWND savedFocus;
   static int DEBUG_LISTMODULES;
 
@@ -273,7 +270,6 @@ public:
 
 private:
   SoWin * owner;
-  
 };
 
 // *************************************************************************
@@ -284,8 +280,6 @@ char * SoWinP::appName = NULL;
 char * SoWinP::className = NULL;
 WNDPROC SoWinP::parentEventHandler = NULL;
 SbBool SoWinP::useParentEventHandler = TRUE;
-UINT SoWinP::focusMessage = 0xffffffff;
-SbBool SoWinP::hasFocus = FALSE;
 HWND SoWinP::savedFocus = NULL;
 
 /* value 0 signifies "inactive": */
@@ -323,7 +317,7 @@ SoWin::init(int & argc, char ** argv,
     windowclass.cbWndExtra = sizeof(LONG_PTR);
     (void)Win32::RegisterClass(&windowclass);
   }
-  
+
   SIZE size = { 500, 500 };
   HWND toplevel =
     Win32::CreateWindowEx_(NULL, // exstyle
@@ -340,12 +334,11 @@ SoWin::init(int & argc, char ** argv,
                            NULL);
 
   SoWinP::useParentEventHandler = FALSE;
-  
+
   SoWin::init(toplevel);
-  
+
   return toplevel;
 }
-
 
 // init()-method documented in common/SoGuiCommon.cpp.in.
 void
@@ -370,18 +363,11 @@ SoWin::init(HWND toplevelwidget)
   if (IsWindow(toplevelwidget)) 
     SoWinP::mainWidget = toplevelwidget;
 
-  if (SoWinP::focusMessage == 0xffffffff) {
-    // note: windows will unregister message automatically
-    SoWinP::focusMessage = RegisterWindowMessage("SoWin_set_focus_message");
-    assert(SoWinP::focusMessage != 0 && "RegisterWindowMessage failed.");
-  }
-
   if (SoWinP::useParentEventHandler) {
     SoWinP::parentEventHandler = (WNDPROC)
       Win32::GetWindowLongPtr(toplevelwidget, GWLP_WNDPROC);
     (void)Win32::SetWindowLongPtr(toplevelwidget, GWLP_WNDPROC, (LONG_PTR) SoWinP::eventHandler);
   }
-  
 }
 
 // documented in common/SoGuiCommon.cpp.in
@@ -538,7 +524,6 @@ SoWin::createSimpleErrorDialog(HWND const widget,
                                const char * string1,
                                const char * string2)
 {
-  
   SbString t(title ? title : "");
   SbString errstr(string1 ? string1 : "");
 
@@ -560,7 +545,7 @@ HWND
 SoWin::getShellWidget(HWND hwnd)
 {
   HWND parent = hwnd;
-  
+
   do {
     hwnd = parent;
     LONG_PTR style = Win32::GetWindowLongPtr(hwnd, GWL_STYLE);
@@ -568,7 +553,7 @@ SoWin::getShellWidget(HWND hwnd)
     if (style & WS_OVERLAPPEDWINDOW) break;
     parent = GetParent(hwnd);
   } while(IsWindow(parent));
-  
+
   return hwnd;
 }
 
@@ -588,7 +573,7 @@ SoWinP::InitRawDevices(void)
   PRAWINPUTDEVICELIST rawInputDeviceList;
   PRAWINPUTDEVICE rawInputDevices;
   int usagePage1Usage8Devices;
-  
+
   // Find the Raw Devices
   UINT nDevices;
   // Get Number of devices attached
@@ -604,10 +589,10 @@ SoWinP::InitRawDevices(void)
   if (GetRawInputDeviceList(rawInputDeviceList, &nDevices, sizeof(RAWINPUTDEVICELIST)) == -1) {
     return FALSE;
   }
-  
+
   rawInputDevices = (PRAWINPUTDEVICE) malloc(nDevices * sizeof(RAWINPUTDEVICE));
   usagePage1Usage8Devices = 0;
-  
+
   // Look through device list for RIM_TYPEHID devices with UsagePage == 1, Usage == 8
   for(UINT i=0; i<nDevices; i++) {
     if (rawInputDeviceList[i].dwType == RIM_TYPEHID) {
@@ -638,13 +623,13 @@ SoWinP::InitRawDevices(void)
       }
     }
   }
-  
+
   // Register for input from the devices in the list
   if (RegisterRawInputDevices(rawInputDevices, usagePage1Usage8Devices, 
                               sizeof(RAWINPUTDEVICE)) == FALSE) {
     return FALSE;
   }
-  
+
   return TRUE;
 }
 
@@ -693,7 +678,7 @@ SoWinP::errorHandlerCB(const SoError * error, void * data)
       default: assert(FALSE && "unknown severity"); break;
       }
     }
-    
+
     // Note that the messagebox dialog is not entirely modal: event
     // queue handling is still done for the application's
     // windows. E.g. WM_PAINT-messages will still "slip through", so
@@ -710,39 +695,25 @@ SoWinP::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
   LRESULT retval = 0;
   BOOL handled = FALSE;
 
-  if (message == focusMessage && hasFocus && savedFocus) {
-    HWND r = SetFocus(savedFocus);
-    assert(r && "SetFocus() failed.");
-    savedFocus = NULL;
-    return 0;
-  }
-
   switch (message) {
-  // WM_ACTIVATE message is necessary for restoring correct focus after the application
-  // is ALT-tab-bed to background and brought to foreground again, or when message dialog
-  // appears and is closed. In all these cases, the focus may be lost.
+
+  case WM_SYSCOMMAND:
+    // The focus has to be captured before minimizing, otherwise it is
+    // lost in the WA_INACTIVE message when handling minimizing.
+    if (wparam == SC_MINIMIZE)
+      savedFocus = GetFocus();
+    break;
+
   case WM_ACTIVATE:
-    
-    // FIXME: Will this code handle multiple top-level windows? PCJohn-2006-09-26
-    if (LOWORD(wparam) != WA_INACTIVE) {
-      
-      // mainWindget is activated
-      assert(hasFocus == FALSE && "Something is wrong with Windows.");
-      hasFocus = TRUE;
-      
-      if (savedFocus)
-        if (PostMessage(window, focusMessage, (WPARAM)savedFocus, 0) == 0)
-          assert(0);
-    
-    } else {
-      
-      // mainWindget is deactivated
-      assert(hasFocus == TRUE && "Something is wrong with Windows.");
-      hasFocus = FALSE;
-      
-      if (savedFocus == NULL)
+    if (LOWORD(wparam) == WA_INACTIVE) {
+      const SbBool isMinimizing = HIWORD(wparam) != 0;
+      if (!isMinimizing)
         savedFocus = GetFocus();
-    
+    }
+    else if (savedFocus) {
+      SetFocus(savedFocus);
+      // DefWindowProc() will change focus, so return here.
+      return 0;
     }
     break;
 
@@ -759,7 +730,7 @@ SoWinP::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
       handled = TRUE;
     }
     break;
-            
+
   case WM_QUIT:
     //This location will normally not be reached, as the mainLoop filters out 
     //the WM_QUIT message before pumping it through the loop. The exception
@@ -774,7 +745,7 @@ SoWinP::eventHandler(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 
   if (handled)
     return retval;
-    
+
   return DefWindowProc(window, message, wparam, lparam);
 }
 
@@ -814,7 +785,7 @@ SoWinP::idleSensorCB(HWND window, UINT message, UINT idevent, DWORD dwtime)
   SoGuiP::sensorQueueChanged(NULL);
 }
 
-LRESULT 
+LRESULT
 SoWinP::onClose(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
   PostQuitMessage(0);
@@ -849,7 +820,7 @@ SoGuiP::sensorQueueChanged(void * cbdata)
 
     if (interval.getValue() < 0.0) interval.setValue(0.0);
     if (SoWinP::timerSensorId != 0) Win32::KillTimer(NULL, SoWinP::timerSensorId);
-    
+
     SoWinP::timerSensorId =
       Win32::SetTimer(NULL,
                       /* ignored because of NULL first argument: */ 0,
@@ -862,7 +833,7 @@ SoGuiP::sensorQueueChanged(void * cbdata)
   }
 
   if (sensormanager->isDelaySensorPending()) {
-        
+
     if (SoWinP::idleSensorId == 0) {
       SoWinP::idleSensorId =
         Win32::SetTimer(NULL,
@@ -900,7 +871,5 @@ SoGuiP::sensorQueueChanged(void * cbdata)
     }
   }
 }
-
-
 
 #endif // !DOXYGEN_SKIP_THIS
