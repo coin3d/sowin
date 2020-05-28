@@ -387,13 +387,18 @@ SoWinGLWidget::setGLSize(SbVec2s newSize)
   Win32::SetWindowPos(PRIVATE(this)->managerWidget, NULL, 0, 0,
                          newSize[0], newSize[1], flags);
 
+  RECT wndRect;
+  Win32::GetWindowRect(PRIVATE(this)->managerWidget, & wndRect);
   RECT rect;
   Win32::GetClientRect(PRIVATE(this)->managerWidget, & rect);
-  flags = SWP_NOMOVE | SWP_NOZORDER;
+  POINT pt = { 0, 0 };
+  Win32::ClientToScreen(PRIVATE(this)->managerWidget, & pt);
+
+  flags = SWP_NOZORDER;
   Win32::SetWindowPos(PRIVATE(this)->normalWidget,
                       NULL,
-                      rect.left + PRIVATE(this)->bordersize,
-                      rect.top + PRIVATE(this)->bordersize,
+                      pt.x - wndRect.left + PRIVATE(this)->bordersize,
+                      pt.y - wndRect.top  + PRIVATE(this)->bordersize,
                       rect.right - 2 * PRIVATE(this)->bordersize,
                       rect.bottom - 2 * PRIVATE(this)->bordersize,
                       flags);
@@ -768,8 +773,12 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
     SoWinGLWidgetP::glWndClassAtom = Win32::RegisterClass(&windowclass);
   }
 
+  RECT wndRect;
+  Win32::GetWindowRect(manager, & wndRect);
   RECT rect;
   Win32::GetClientRect(manager, & rect);
+  POINT pt = { 0, 0 };
+  Win32::ClientToScreen(manager, & pt);
 
   HWND normalwidget = Win32::CreateWindowEx_(0,
                                              wndclassname,
@@ -778,8 +787,8 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
                                              WS_CLIPSIBLINGS |
                                              WS_CLIPCHILDREN |
                                              WS_CHILD,
-                                             rect.left + this->bordersize,
-                                             rect.top + this->bordersize,
+                                             pt.x - wndRect.left + this->bordersize,
+                                             pt.y - wndRect.top  + this->bordersize,
                                              rect.right - 2 * this->bordersize,
                                              rect.bottom - 2 * this->bordersize,
                                              manager,
@@ -788,8 +797,8 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
                                              PUBLIC(this));
 
   this->normalWidget = normalwidget;
-  PUBLIC(this)->setGLSize(SbVec2s((short)(rect.right - rect.left),
-                                  (short)(rect.bottom - rect.top)));
+  PUBLIC(this)->setGLSize(SbVec2s((short)(wndRect.right - wndRect.left),
+                                  (short)(wndRect.bottom - wndRect.top)));
 }
 
 void
