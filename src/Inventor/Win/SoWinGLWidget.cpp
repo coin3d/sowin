@@ -387,18 +387,14 @@ SoWinGLWidget::setGLSize(SbVec2s newSize)
   Win32::SetWindowPos(PRIVATE(this)->managerWidget, NULL, 0, 0,
                          newSize[0], newSize[1], flags);
 
-  RECT wndRect;
-  Win32::GetWindowRect(PRIVATE(this)->managerWidget, & wndRect);
   RECT rect;
   Win32::GetClientRect(PRIVATE(this)->managerWidget, & rect);
-  POINT pt = { 0, 0 };
-  Win32::ClientToScreen(PRIVATE(this)->managerWidget, & pt);
 
   flags = SWP_NOZORDER;
   Win32::SetWindowPos(PRIVATE(this)->normalWidget,
                       NULL,
-                      pt.x - wndRect.left + PRIVATE(this)->bordersize,
-                      pt.y - wndRect.top  + PRIVATE(this)->bordersize,
+                      PRIVATE(this)->bordersize,
+                      PRIVATE(this)->bordersize,
                       rect.right - 2 * PRIVATE(this)->bordersize,
                       rect.bottom - 2 * PRIVATE(this)->bordersize,
                       flags);
@@ -455,7 +451,7 @@ SoWinGLWidget::buildWidget(HWND parent)
     windowclass.lpszMenuName = NULL;
     windowclass.hIcon = NULL;
     windowclass.hCursor = Win32::LoadCursor(NULL, IDC_ARROW);
-    windowclass.hbrBackground = NULL/*GetSysColorBrush(COLOR_3DSHADOW)*/;
+    windowclass.hbrBackground = GetSysColorBrush(COLOR_3DSHADOW);
     windowclass.cbClsExtra = 0;
     windowclass.cbWndExtra = sizeof(LONG_PTR);
 
@@ -777,8 +773,6 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
   Win32::GetWindowRect(manager, & wndRect);
   RECT rect;
   Win32::GetClientRect(manager, & rect);
-  POINT pt = { 0, 0 };
-  Win32::ClientToScreen(manager, & pt);
 
   HWND normalwidget = Win32::CreateWindowEx_(0,
                                              wndclassname,
@@ -787,8 +781,8 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
                                              WS_CLIPSIBLINGS |
                                              WS_CLIPCHILDREN |
                                              WS_CHILD,
-                                             pt.x - wndRect.left + this->bordersize,
-                                             pt.y - wndRect.top  + this->bordersize,
+                                             this->bordersize,
+                                             this->bordersize,
                                              rect.right - 2 * this->bordersize,
                                              rect.bottom - 2 * this->bordersize,
                                              manager,
