@@ -386,6 +386,7 @@ SoWinGLWidget::setGLSize(SbVec2s newSize)
   UINT flags = SWP_NOMOVE | SWP_NOZORDER;
   Win32::SetWindowPos(PRIVATE(this)->managerWidget, NULL, 0, 0,
                          newSize[0], newSize[1], flags);
+
   RECT rect;
   Win32::GetClientRect(PRIVATE(this)->managerWidget, & rect);
 
@@ -772,6 +773,8 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
   Win32::GetWindowRect(manager, & wndRect);
   RECT rect;
   Win32::GetClientRect(manager, & rect);
+  POINT pt = { 0, 0 };
+  Win32::ClientToScreen(manager, & pt);
 
   HWND normalwidget = Win32::CreateWindowEx_(0,
                                              wndclassname,
