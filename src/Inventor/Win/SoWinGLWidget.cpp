@@ -773,8 +773,6 @@ SoWinGLWidgetP::buildNormalGLWidget(HWND manager)
   Win32::GetWindowRect(manager, & wndRect);
   RECT rect;
   Win32::GetClientRect(manager, & rect);
-  POINT pt = { 0, 0 };
-  Win32::ClientToScreen(manager, & pt);
 
   HWND normalwidget = Win32::CreateWindowEx_(0,
                                              wndclassname,
