@@ -13,7 +13,7 @@ htmldir=${docdir}/html
 Name: @PROJECT_NAME@
 Description: A Windows Gui-toolkit binding for Coin
 Version: @PROJECT_VERSION@
-Requires: Coin
+Requires: @SOWIN_PKG_DEPS@
 Conflicts:
-Libs: -L${libdir} -lSoWin @SOWIN_EXTRA_LDFLAGS@ @SOWIN_EXTRA_LIBS@
-Cflags: -I${includedir} @SOWIN_EXTRA_CFLAGS@ @SOWIN_EXTRA_CPPFLAGS@
+Libs: -L${libdir} @SOWIN_PKG_LIBS@
+Cflags: -I${includedir} @SOWIN_PKG_FLAGS@
