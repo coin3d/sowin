@@ -13,7 +13,7 @@ New in SoWin v1.6.1 (so far):
   - Fixed wrong normalWidget positioning when calling buildNormalGLWidget
     or setGLSize multiple times
   - Fixed redraw issue in managerWidget
-  - Add missing soqt-config file to installation
+  - Add missing sowin-config file to installation
 
 New in SoWin v1.6.0 (2019-12-23):
 * new:
