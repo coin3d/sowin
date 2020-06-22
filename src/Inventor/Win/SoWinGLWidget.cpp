@@ -1051,22 +1051,21 @@ SoWinGLWidgetP::weighPixelFormat(const PIXELFORMATDESCRIPTOR * pfd,
 
   if (SoWinGLWidgetP::debugGLContextCreation()) {
     SoDebugError::postInfo("SoWinGLWidgetP::weighPixelFormat",
-			   "weight: %g, alpha: %g, stencil: %g, accum: %g, depth: %g, color: %g "
-			   "rgb: %g, zbuffer: %g, dblbuffer: %g, stereo: %g, overlay: %g, hardware: %g",
-			   weight,
-			   alpha_cont,
-			   stencil_cont,
-			   accum_cont,
-			   depth_cont,
-			   color_cont,
-			   rgba_cont,
-			   zbuffer_cont,
-			   dblbuffer_cont,
-			   stereo_cont,
-			   overlay_cont,
-			   hw_accel_cont);
+                           "weight: %g, alpha: %g, stencil: %g, accum: %g, depth: %g, color: %g "
+                           "rgb: %g, zbuffer: %g, dblbuffer: %g, stereo: %g, overlay: %g, hardware: %g",
+                           weight,
+                           alpha_cont,
+                           stencil_cont,
+                           accum_cont,
+                           depth_cont,
+                           color_cont,
+                           rgba_cont,
+                           zbuffer_cont,
+                           dblbuffer_cont,
+                           stereo_cont,
+                           overlay_cont,
+                           hw_accel_cont);
   }
-			 
 
   // The following are "don't care" properties for now (which is
   // likely to change when we implement missing pieces of

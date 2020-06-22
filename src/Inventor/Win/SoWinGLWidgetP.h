@@ -60,7 +60,7 @@ public:
                                  SbBool want_accum = FALSE,
                                  SbBool want_stencil = FALSE,
                                  SbBool want_overlay = FALSE,
-				 SbBool want_alphachannel = FALSE);
+                                 SbBool want_alphachannel = FALSE);
 
   void buildNormalGLWidget(HWND manager);
   void buildOverlayGLWidget(HWND manager);
