@@ -1,0 +1,187 @@
+2020-06-22 21:41:59 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (2bf4995)
+
+	Update NEWS file
+
+M	NEWS
+
+2020-06-22 21:40:14 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (4d13874)
+
+	Bump version to 1.6.1.
+
+M	CMakeLists.txt
+M	appveyor.yml
+M	configure
+M	configure.ac
+
+2020-06-22 21:38:57 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (7634e7a)
+
+	Fixed pkg-config generation.
+
+M	CMakeLists.txt
+M	SoWin.pc.cmake.in
+
+2020-06-22 21:34:42 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (5442f6f)
+
+	Add missing sowin-config file to installation
+
+M	src/CMakeLists.txt
+
+2020-06-22 21:33:24 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (f360ec2)
+
+	Fix indentation
+
+M	src/Inventor/Win/SoWinGLWidget.cpp
+M	src/Inventor/Win/SoWinGLWidgetP.h
+
+2020-05-29 20:43:16 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (5e9369a)
+
+	Removed superfluous lines.
+
+M	src/Inventor/Win/SoWinGLWidget.cpp
+
+2020-05-29 20:30:00 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (49475a1)
+
+	Fixed resizing issue of manager and normal widget. Fixed an redraw issue when drawing a border around the normalWidget.
+
+M	src/Inventor/Win/SoWinGLWidget.cpp
+
+2020-05-28 20:44:50 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (6bcd546)
+
+	Fixed inadvertently changed line endings.
+
+M	src/Inventor/Win/SoWinGLWidget.cpp
+
+2020-05-28 20:38:55 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (dea57f4)
+
+	Fixed wrong normalWidget positioning when calling buildNormalGLWidget or setGLSize multiple times.
+
+M	src/Inventor/Win/SoWinGLWidget.cpp
+
+2020-05-15 23:09:43 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (8af24aa)
+
+	Fixed broken focus handling for activation/deactivation messages.
+
+M	src/Inventor/Win/SoWin.cpp
+
+2020-04-18 22:59:03 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (5298f2f)
+
+	Added Github Actions workflow (up to now for pull requests only). [skip ci]
+
+A	.github/workflows/continuous-integration-workflow.yml
+
+2020-04-14 19:56:28 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (c76f017)
+
+	Fixed naming issues for build artifaces.
+
+M	appveyor.yml
+
+2020-04-13 22:43:20 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (c3aa641)
+
+	AppVeyor CI: Re-added compiler id.
+
+M	appveyor.yml
+
+2020-04-13 22:22:24 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (700bdc5)
+
+	AppVeyor CI: Version control information from src package excluded. Enable to build tagged versions.
+
+M	appveyor.yml
+
+2020-04-11 17:31:26 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (09c49a5)
+
+	Added further files to exclude for repo language determination. [skip ci]
+
+M	.gitattributes
+
+2020-04-11 16:59:23 +0200  Volker Enderlein  <volkerenderlein@hotmail.com> (fc3631e)
+
+	Added .gitattributes to display correct repo language. [skip ci]
+
+A	.gitattributes
+
+2020-03-28 00:38:46 +0100  Volker Enderlein  <volkerenderlein@hotmail.com> (e29a618)
+
+	Updated AppVeyor CI script. [skip ci]
+
+M	appveyor.yml
+
+2020-03-27 20:04:34 +0100  Volker Enderlein  <volkerenderlein@hotmail.com> (e392f54)
+
+	Updated AppVeyor CI script.
+
+M	appveyor.yml
+
+2020-03-03 22:02:00 +0100  Volker Enderlein  <volkerenderlein@hotmail.com> (c2526f4)
+
+	Fixed crosslinking to Coin documentation.
+
+M	src/CMakeLists.txt
+M	src/Inventor/Win/SoWin.cpp
+
+2020-02-13 00:09:56 +0100  Giampiero Gabbiani  <giampiero@gabbiani.org> (a9cc4cd)
+
+	Aligned to last version of cpack.d
+
+M	cpack.d
+
+2020-01-26 19:04:35 +0100  Volker Enderlein  <volkerenderlein@hotmail.com> (295b5ea)
+
+	Updated submodules.
+
+M	cpack.d
+M	src/Inventor/Win/common
+
+2020-01-26 19:01:44 +0100  Volker Enderlein  <volkerenderlein@hotmail.com> (5a8b7bc)
+
+	Fixed dozens of typos and incorrect wording in documentation.
+
+M	build/msvc6/Makefile
+M	build/msvc6/src/config-debug.h
+M	build/msvc6/src/config-release.h
+M	build/msvc7/Makefile
+M	build/msvc7/src/config-debug.h
+M	build/msvc7/src/config-release.h
+M	build/msvc8/Makefile
+M	build/msvc8/src/config-debug.h
+M	build/msvc8/src/config-release.h
+M	build/msvc9/Makefile
+M	build/msvc9/src/config-debug.h
+M	build/msvc9/src/config-release.h
+M	configure
+M	configure.ac
+M	src/Inventor/Win/SoWin.cpp
+M	src/Inventor/Win/SoWinGLWidget.cpp
+M	src/Inventor/Win/SoWinMaterialList.cpp
+M	src/Inventor/Win/widgets/SoWinBitmapButton.cpp
+M	src/Inventor/Win/widgets/WinNativePopupMenu.cpp
+
+2020-01-26 19:01:24 +0100  Volker Enderlein  <volkerenderlein@hotmail.com> (d9d4bb8)
+
+	Delete obsolete Mercurial files.
+
+D	.hgsub
+D	.hgsubstate
+
+2020-01-14 23:03:17 +0100  Giampiero Gabbiani  <giampiero@gabbiani.org> (3c2540e)
+
+	cpack.d is now optional
+
+M	CMakeLists.txt
+
+2020-01-12 21:57:04 +0100  Volker Enderlein  <volkerenderlein@hotmail.com> (7aa4091)
+
+	Replaced references to BitBucket with GitHub.
+
+M	CMakeLists.txt
+M	src/Inventor/Win/SoWin.cpp
+M	src/SoWin.rc.cmake.in
+
+2019-12-25 17:42:15 +0100  Volker Enderlein  <volkerenderlein@hotmail.com> (cb65677)
+
+	Added submodules to git repo.
+
+A	.gitmodules
+A	build/general
+A	cpack.d
+A	data
+A	src/Inventor/Win/common
