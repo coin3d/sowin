@@ -1,3 +1,20 @@
+New in SoWin v1.6.1 (so far):
+* new:
+  - Version control system has been changed from Mercurial to Git
+  - Home of Coin3d organization has been changed from https://bitbucket.org/Coin3D
+    to https://github.com/coin3d due to Bitbucket ending Mercurial support
+
+* bugfixes:
+  - cpack.d was made optional and disabled by default (add -DSOWIN_USE_CPACK=ON
+    to the cmake commandline to enable it)
+  - Miscellaneous documentation fixes
+  - Fixed pkg-config generation
+  - Fixed broken focus handling for activation/deactivation messages
+  - Fixed wrong normalWidget positioning when calling buildNormalGLWidget
+    or setGLSize multiple times
+  - Fixed redraw issue in managerWidget
+  - Add missing soqt-config file to installation
+
 New in SoWin v1.6.0 (2019-12-23):
 * new:
   - Kongsberg Oil & Gas Technologies AS ended SoWin as a commercial product
