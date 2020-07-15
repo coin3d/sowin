@@ -14,6 +14,8 @@ New in SoWin v1.6.1 (so far):
     or setGLSize multiple times
   - Fixed redraw issue in managerWidget
   - Add missing sowin-config file to installation
+  - Add support for MSVC static/dynamic runtime libraries.
+  - Add parallel build option for MSVC.
 
 New in SoWin v1.6.0 (2019-12-23):
 * new:
