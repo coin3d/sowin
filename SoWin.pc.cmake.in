@@ -1,19 +1,27 @@
-prefix=@CMAKE_INSTALL_PREFIX@
-exec_prefix=${prefix}
-bindir=${exec_prefix}/bin
-libdir=${exec_prefix}/lib
-includedir=${prefix}/include
-datarootdir=${prefix}/share
-datadir=${datarootdir}
-docdir=${datarootdir}/doc/@PROJECT_NAME_LOWER@
-infodir=${datarootdir}/info
-mandir=${datarootdir}/man
-htmldir=${docdir}/html
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+bindir=@bindir@
+libdir=@libdir@
+includedir=@includedir@
+datarootdir=@datarootdir@
+datadir=@datadir@
+docdir=@docdir@
+infodir=@infodir@
+mandir=@mandir@
 
 Name: @PROJECT_NAME@
 Description: A Windows Gui-toolkit binding for Coin
 Version: @PROJECT_VERSION@
-Requires: @SOWIN_PKG_DEPS@
-Conflicts:
-Libs: -L${libdir} @SOWIN_PKG_LIBS@
-Cflags: -I${includedir} @SOWIN_PKG_FLAGS@
+URL: @PKG_CONFIG_URL@
+Requires: @PKG_CONFIG_REQUIRES@
+Requires.private: @PKG_CONFIG_REQUIRES_PRIVATE@
+Conflicts: @PKG_CONFIG_CONFLICTS@
+Libs: -L${libdir} @PKG_CONFIG_LDFLAGS@ @PKG_CONFIG_LIBS@
+Libs.private: @PKG_CONFIG_LIBS_PRIVATE@
+Cflags: -I${includedir} @PKG_CONFIG_CFLAGS@ @PKG_CONFIG_CPPFLAGS@
+
+sowin_host=@PKG_CONFIG_HOST@
+compiler=@PKG_CONFIG_COMPILER@
+compiler_is_gcc=@PKG_CONFIG_COMPILER_IS_GCC@
+htmldir=@htmldir@
+msvcrt=@PKG_CONFIG_MSVC_LIBC@
