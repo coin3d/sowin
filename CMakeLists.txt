@@ -143,6 +143,7 @@ if(MSVC)
 endif()
 
 if(WIN32)
+  add_compile_definitions(WINVER=0x0501 _WIN32_WINNT=0x0501)
   if(MINGW)
     set(SO${GUI}_DEFAULT_SHARED_POSTFIX "")
     set(SO${GUI}_DEFAULT_STATIC_POSTFIX "")
