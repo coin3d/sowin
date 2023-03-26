@@ -189,8 +189,8 @@ WinMain(
       NULL,
       TEXT("MainWindow"),
       WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-      SbVec2s(CW_USEDEFAULT,CW_USEDEFAULT),
-      SbVec2s(CW_USEDEFAULT,CW_USEDEFAULT),
+      SbVec2s((short)CW_USEDEFAULT, (short)CW_USEDEFAULT),
+      SbVec2s((short)CW_USEDEFAULT, (short)CW_USEDEFAULT),
       mainWindowProc);
 
   win[1] = createWindow(hInstance,
