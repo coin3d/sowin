@@ -1108,7 +1108,7 @@
 2003-04-30 16:09  mortene
 
 	* ChangeLog, Makefile.am, NEWS, docs/ChangeLog.v1.0.0,
-	  docs/announcement-1_1_0.txt: Changes releated to release
+	  docs/announcement-1_1_0.txt: Changes related to release
 	  spiffing.
 
 2003-04-30 16:09  mortene
@@ -1781,7 +1781,7 @@
 2003-04-02 17:59  larsa
 
 	* src/Inventor/Win/common/nodes/SceneTexture2.cpp.in: remove
-	  commited bug
+	  committed bug
 
 2003-04-02 17:48  larsa
 
@@ -2712,14 +2712,14 @@
 	  Behavioural changes:
 
 	  - The tilt/pan is now scaled according to change in time pr.
-	  update, so that the speed with wich the viewer turns is
+	  update, so that the speed with which the viewer turns is
 	  independent of framerate (This fixes SoQT::BUG#008)
 
 2002-10-21 15:49  rolvs
 
 	* src/Inventor/Win/common/viewers/SoGuiFlyViewer.cpp.in: Simplified
 	  camera-handling Removed some duplicated functionality (for
-	  tilting), wich still was contaminated by BUG#011.
+	  tilting), which still was contaminated by BUG#011.
 
 	  Removed fields that was rendered unneccesarry after the
 	  refactoring.
@@ -2780,7 +2780,7 @@
 
 	* src/Inventor/Win/common/viewers/SoGuiFlyViewer.cpp.in: Factored
 	  out speedchanges from eventhandlers. Code can be simplified
-	  further, to accomodate all requirements.
+	  further, to accommodate all requirements.
 
 	  Behavioral changes: The flyviewer now stops instantly when
 	  maxspeed becomes zero, like the InventorXT viewer does. It also
@@ -4339,7 +4339,7 @@
 
 2002-05-24 09:46  mortene
 
-	* src/Inventor/Win/common/viewers/SoGuiViewer.cpp.in: Reenable
+	* src/Inventor/Win/common/viewers/SoGuiViewer.cpp.in: Re-enable
 	  saveHomePosition() code.
 
 2002-05-24 09:44  mortene
@@ -4558,7 +4558,7 @@
 2002-05-15 17:33  mortene
 
 	* src/Inventor/Win/viewers/PlaneViewer.cpp: Moves actualRedraw() to
-	  comon code.
+	  common code.
 
 2002-05-15 17:32  mortene
 
@@ -5177,7 +5177,7 @@
 2002-02-07 14:47  mortene
 
 	* src/Inventor/Win/common/docs/api-wish-list.txt: Adds item about
-	  doubleclick handling.
+	  double-click handling.
 
 2002-01-29 16:27  larsa
 
@@ -6858,7 +6858,7 @@
 2001-10-18 10:38  mortene
 
 	* src/Inventor/Win/SoWinComponent.cpp: Explains Eos' fatal error
-	  clean-up problem, for future reference and posible actions.
+	  clean-up problem, for future reference and possible actions.
 
 2001-10-18 09:48  mortene
 
@@ -8242,7 +8242,7 @@
 
 2001-08-07 11:28  mariusbu
 
-	* src/Inventor/Win/viewers/SoWinExaminerViewer.cpp: Remove anoying
+	* src/Inventor/Win/viewers/SoWinExaminerViewer.cpp: Remove annoying
 	  zoom cursor pixels.
 
 2001-08-06 22:27  mortene
@@ -8644,7 +8644,7 @@
 
 2001-07-27 17:36  mariusbu
 
-	* test-code/multiview.cpp: Avoid redraw probles.
+	* test-code/multiview.cpp: Avoid redraw problems.
 
 2001-07-27 17:31  mariusbu
 
@@ -8981,7 +8981,7 @@
 
 	* src/Inventor/Win/: SoWin.cpp, SoWin.h, SoWinGLWidget.cpp,
 	  viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h: Improved
-	  message handeling.
+	  message handling.
 
 2001-07-13 16:38  mariusbu
 
@@ -9242,7 +9242,7 @@
 2001-07-04 13:34  mariusbu
 
 	* src/Inventor/Win/: SoWin.cpp, SoWinGLWidget.cpp,
-	  viewers/SoWinFullViewer.cpp: Improved cursor handeling.
+	  viewers/SoWinFullViewer.cpp: Improved cursor handling.
 
 2001-07-04 12:04  mariusbu
 
@@ -9393,7 +9393,7 @@
 
 	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
 	  viewers/SoWinFullViewer.h, widgets/SoWinThumbWheel.cpp,
-	  widgets/SoWinThumbWheel.h: Added lables and initial button
+	  widgets/SoWinThumbWheel.h: Added labels and initial button
 	  implementation.
 
 2001-06-14 11:20  larsa
@@ -9425,7 +9425,7 @@
 
 2001-06-12 19:35  mariusbu
 
-	* src/Inventor/Win/SoWinGLWidget.cpp: Reenabled SetFocus to get all
+	* src/Inventor/Win/SoWinGLWidget.cpp: Re-enabled SetFocus to get all
 	  keystrokes (bugfix).
 
 2001-06-12 19:26  mariusbu
@@ -9814,7 +9814,7 @@
 
 	* src/Inventor/Win/common/: SoAnyFlyViewer.cpp.in,
 	  SoAnyFlyViewer.h.in, SoAnyWalkViewer.cpp.in,
-	  SoAnyWalkViewer.h.in: Consting SoEvent arguments, by Ralf
+	  SoAnyWalkViewer.h.in: Const-ing SoEvent arguments, by Ralf
 	  Corsepius.
 
 2000-12-20 18:08  larsa
@@ -10368,7 +10368,7 @@
 	  Make setBufferType() and BUFFER_INTERACTIVE mode behave as
 	  expected.
 
-	  Also fixed a couple of erraneous SOXT_DEBUG and SO@Gui@_DEBUG.
+	  Also fixed a couple of erroneous SOXT_DEBUG and SO@Gui@_DEBUG.
 
 2000-11-22 17:34  mortene
 
@@ -10481,7 +10481,7 @@
 2000-11-16 14:59  mortene
 
 	* src/Inventor/Win/common/spwinput_x11.cpp.in: Bugfix for spaceball
-	  input device detection. (Spacetec's code was modifiying strings
+	  input device detection. (Spacetec's code was modifying strings
 	  in private X11 structures and atoms, as well as generally being
 	  fubar.)
 
@@ -10748,7 +10748,7 @@
 	* src/Inventor/Win/: SoWin.cpp, SoWin.h, SoWinComponent.cpp,
 	  SoWinComponent.h, SoWinGLWidget.cpp, SoWinGLWidget.h,
 	  widgets/SoWinThumbWheel.cpp, widgets/SoWinThumbWheel.h: Changed
-	  names on some internal methodes.  Added
+	  names on some internal methods.  Added
 	  SoWinThumbWheel::drawShadePanel() and
 	  SoWinThumbWheel::drawPlainRect().
 
@@ -10758,7 +10758,7 @@
 	  viewers/SoWinFullViewer.h, widgets/SoWinPopupMenu.cpp,
 	  widgets/SoWinPopupMenu.h, widgets/SoWinThumbWheel.cpp,
 	  widgets/SoWinThumbWheel.h: Added class frameworks for
-	  SoWinFullViewer and required classes.  Methodes are not
+	  SoWinFullViewer and required classes.  Methods are not
 	  implemented.
 
 2000-08-23 14:26  mariusbu
@@ -10871,7 +10871,7 @@
 	  src/Inventor/Win/devices/SoWinMouse.h,
 	  src/Inventor/Win/devices/SoWinSpaceball.cpp,
 	  src/Inventor/Win/devices/SoWinSpaceball.h: Restructured message
-	  handeling. Fixed keyboard focus bug and a key modifier bug.
+	  handling. Fixed keyboard focus bug and a key modifier bug.
 
 2000-08-11 04:32  larsa
 
@@ -10899,7 +10899,7 @@
 	* src/Inventor/Win/common/: SoAnyFullViewer.cpp.in,
 	  SoAnyFullViewer.h.in, SoGuiViewer.cpp.in: Support for Red/Cyan
 	  anaglyph stereo viewing.  Credits to Peder for the
-	  implementaiton, and Joachim Tesch for some hints on how to do it.
+	  implementation, and Joachim Tesch for some hints on how to do it.
 
 2000-08-08 16:36  larsa
 
@@ -10940,7 +10940,7 @@
 	  src/Inventor/Win/Makefile.in,
 	  src/Inventor/Win/devices/Makefile.in,
 	  src/Inventor/Win/viewers/Makefile.in,
-	  src/Inventor/Win/widgets/Makefile.in: Misc configure/buid
+	  src/Inventor/Win/widgets/Makefile.in: Misc configure/build
 	  changes.
 
 2000-08-07 20:02  mariusbu

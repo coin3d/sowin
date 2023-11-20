@@ -298,7 +298,7 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
 
     It looks to me like our SoWinComponent::setWidgetCursor(HWND w,
     const SoWinCursor & cursor) implementation is flawed. The
-    implemntation ignores the "w" parameter and just calls ::SetCursor
+    implementation ignores the "w" parameter and just calls ::SetCursor
     on the supplied cursor (first converting it to a native cursor
     handle). This is not what the documentation says it should do.
     The docs says it should set the cursor for a widget (i.e "Window"
@@ -339,7 +339,7 @@ NOTE: see also src/Inventor/Win/common/BUGS.txt.
     properly. It's straightforward for the application programmer to
     set cursors for windows anyway.
 
-    One thing that _would_ be usefull would be to set which cursor
+    One thing that _would_ be useful would be to set which cursor
     should be used inside a renderarea. The windows procedure of the
     renderarea should then pick up WM_SETCURSOR events and set the
     cursor there. I'm not sure how to correctly set the cursor when
@@ -581,7 +581,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam
 HWND createMainWindow(void)
 {
 
-  // register the main widget class by the windos manager
+  // register the main widget class by the window manager
   // and create a main window
   HINSTANCE hinst; 
   HWND hwndMain;

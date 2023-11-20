@@ -1223,7 +1223,7 @@ cvs2cl script used to generate this file.
 
 	* src/Inventor/Win/viewers/PlaneViewer.cpp:
 	
-	Moves actualRedraw() to comon code.
+	Moves actualRedraw() to common code.
 
 2002-05-15 09:14  mortene
 
@@ -2046,7 +2046,7 @@ cvs2cl script used to generate this file.
 	* src/Inventor/Win/SoWinComponent.cpp:
 	
 	Explains Eos' fatal error clean-up problem, for future reference
-	and posible actions.
+	and possible actions.
 
 2001-10-18 09:48  mortene
 
@@ -2797,7 +2797,7 @@ cvs2cl script used to generate this file.
 
 	* src/Inventor/Win/viewers/SoWinExaminerViewer.cpp:
 	
-	Remove anoying zoom cursor pixels.
+	Remove annoying zoom cursor pixels.
 
 2001-08-06 22:27  mortene
 
@@ -3515,7 +3515,7 @@ cvs2cl script used to generate this file.
 	* src/Inventor/Win/: SoWin.cpp, SoWin.h, SoWinGLWidget.cpp,
 	viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h:
 	
-	Improved message handeling.
+	Improved message handling.
 
 2001-07-13 16:38  mariusbu
 
@@ -3762,7 +3762,7 @@ cvs2cl script used to generate this file.
 	* src/Inventor/Win/: SoWin.cpp, SoWinGLWidget.cpp,
 	viewers/SoWinFullViewer.cpp:
 	
-	Improved cursor handeling.
+	Improved cursor handling.
 
 2001-07-04 12:04  mariusbu
 
@@ -3908,7 +3908,7 @@ cvs2cl script used to generate this file.
 	viewers/SoWinFullViewer.h, widgets/SoWinThumbWheel.cpp,
 	widgets/SoWinThumbWheel.h:
 	
-	Added lables and initial button implementation.
+	Added labels and initial button implementation.
 
 2001-06-14 11:20  larsa
 
@@ -3944,7 +3944,7 @@ cvs2cl script used to generate this file.
 
 	* src/Inventor/Win/SoWinGLWidget.cpp:
 	
-	Reenabled SetFocus to get all keystrokes (bugfix).
+	Re-enabled SetFocus to get all keystrokes (bugfix).
 
 2001-06-12 19:26  mariusbu
 

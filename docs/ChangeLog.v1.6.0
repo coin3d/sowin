@@ -471,7 +471,7 @@
 2018-03-22 23:52 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (4a05d7560454 <warningfree>)
 
 	* src/Inventor/Win/SoWinGLWidget.cpp:
-	Reapply already accidently reverted changes changes for
+	Reapply already accidentally reverted changes for
 	WeightPixelFormat
 
 2018-03-22 23:32 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (7e5a15d6d84a <warningfree>)
@@ -660,7 +660,7 @@
 	src/Inventor/Win/nodes/Makefile.in,
 	src/Inventor/Win/viewers/Makefile.in,
 	src/Inventor/Win/widgets/Makefile.in, src/Makefile.in:
-	More bootstraping
+	More bootstrapping
 
 2010-10-18 16:07 +0200  Øystein Handegard  <handegar@sim.no>  (a64bade8d81f)
 

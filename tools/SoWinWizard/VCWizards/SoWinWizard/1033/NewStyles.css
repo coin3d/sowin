@@ -341,7 +341,7 @@ select.sidebtn2AShort		  { width: 168px;
 								left: 25px;
 								bottom: -3px; }
 
-/****THIS SELECTION BOX IS IN A TABBED, TWO COLUM WIZARD AND FOR < << > >>*****/
+/****THIS SELECTION BOX IS IN A TABBED, TWO COLUMN WIZARD AND FOR < << > >>*****/
 select.sidebtn3				  { width: 177px;
 								position: relative;
 								top: 4px;
@@ -747,7 +747,7 @@ p.elementSpacer22			  { margin-bottom: 3px; }
 									width: 110px;
 									vertical-align: bottom; }
 
-	/*Added all positioning informaiton*/
+	/*Added all positioning information*/
 	img.smallest			  	  { background-color: activecaption;
 									position: relative;
 									bottom: 1px; }

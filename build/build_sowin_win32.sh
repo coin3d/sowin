@@ -27,7 +27,7 @@ if test "X$SOWINBUILD_PARAMS_OK" = "Xno"; then
   echo "       any error."
   echo ""
   echo "       After the script has completed, the \"install\" directory will"
-  echo "       contain a binary release of SoWin, including all dependant"
+  echo "       contain a binary release of SoWin, including all dependent"
   echo "       libraries. This release consists of 8 different configurations"
   echo "       using four different CRTs (MT MTD MD MDD), with and without"
   echo "       sound support."

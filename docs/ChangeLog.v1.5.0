@@ -203,11 +203,11 @@
 	src/Inventor/Win/viewers/Makefile.in,
 	src/Inventor/Win/widgets/Makefile.in, src/Ivf/Makefile.in,
 	src/Makefile.in, src/config.h.in:
-	boostrap.
+	bootstrap.
 	[3693e69395c6]
 
 	* configure.ac:
-	remove ununsed BASIC_HEADER_TOP substitution hack.
+	remove unused BASIC_HEADER_TOP substitution hack.
 	[52d071d58c4c]
 
 	* src/Inventor/Win/devices/Makefile.am:
@@ -389,7 +389,7 @@
 2009-06-21  Tamer Fahmy  <tamer@sim.no>
 
 	* src/Inventor/Win/viewers/FullViewer.cpp:
-	revert accidential compiler warning fix.
+	revert accidental compiler warning fix.
 	[82ca871a9d3c]
 
 	* src/Inventor/Win/Makefile.am, src/Inventor/Win/Makefile.in,

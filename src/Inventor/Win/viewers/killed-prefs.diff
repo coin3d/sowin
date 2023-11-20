@@ -41,7 +41,7 @@ diff -u -r1.15 ExaminerViewer.cpp
  /*!
 -  \internal
 -
--  Create aditional preference dialog items.
+-  Create additional preference dialog items.
 -*/
 -void
 -SoWinExaminerViewer::createPrefSheet(void)

@@ -1225,7 +1225,7 @@ if test -n "$_LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)" || \
    test -n "$_LT_AC_TAGVAR(runpath_var, $1)" || \
    test "X$_LT_AC_TAGVAR(hardcode_automatic, $1)" = "Xyes" ; then
 
-  # We can hardcode non-existant directories.
+  # We can hardcode non-existent directories.
   if test "$_LT_AC_TAGVAR(hardcode_direct, $1)" != no &&
      # If the only mechanism to avoid hardcoding is shlibpath_var, we
      # have to relink, otherwise we might link with an installed library
@@ -9313,7 +9313,7 @@ m4_do([popdef([cache_variable])],
 # SIM_AC_INVENTOR_EXTENSIONS( ACTION )
 #
 # This macro adds an "--with-iv-extensions=..." option to configure, that
-# enabes the configurer to enable extensions in third-party libraries to
+# enables the configurer to enable extensions in third-party libraries to
 # be initialized by the library by default.  The configure-option argument
 # must be a comma-separated list of link library path options, link library
 # options and class-names.
