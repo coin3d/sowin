@@ -54,6 +54,7 @@ jobs:
     #  uses: github/codeonfigureql-action/autobuild@v2
 
     - name: Create build with CMake
+      shell: cmd
       run: |
         mkdir cmake_download_dir
         set DOWNLOAD_FILE_COIN=coin-latest-msvc17-x64.zip
