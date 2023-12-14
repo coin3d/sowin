@@ -81,17 +81,6 @@ environment:
       COMPILER_ID: msvc17
 
 install:
-  - sh: |
-      sudo apt-get -y update
-      cd $APPVEYOR_BUILD_FOLDER
-      if [ "$CMAKE_PLATFORM" == "x86" ]
-      then
-        sudo apt-get -y install freeglut3-dev:i386
-      elif [ "$CMAKE_PLATFORM" == "x64" ]
-      then
-        sudo apt-get -y install freeglut3-dev
-      fi
-      sudo apt-get -y install doxygen gcc-multilib g++-multilib jq
   - cmd: |
       choco install jq
       rem Work around for outdated curl version giving problems with GitHub Authentication when redirected.
@@ -135,53 +124,12 @@ before_build:
       7z x %DOWNLOAD_FILE_COIN%     -o%APPVEYOR_BUILD_FOLDER%\downloads
       rem ##############
       cmake -H. -Bbuild -G "%CMAKE_GENERATOR%" -A %CMAKE_ARCHITECTURE% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\Coin3D -DCMAKE_PREFIX_PATH=%APPVEYOR_BUILD_FOLDER%\downloads\Coin3D
-  - sh: |
-      if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export CI_REPO_VERSION=${APPVEYOR_REPO_TAG_NAME:1}; else export CI_REPO_VERSION=latest; fi
-      BUILD_SOURCE_ARCHIVE=$APPVEYOR_PROJECT_NAME-$CI_REPO_VERSION-src.tar.gz
-      if [ ! -d "$APPVEYOR_BUILD_FOLDER/../$APPVEYOR_PROJECT_NAME" ]; then cp -r $APPVEYOR_BUILD_FOLDER $APPVEYOR_BUILD_FOLDER/../$APPVEYOR_PROJECT_NAME; fi
-      cd $APPVEYOR_BUILD_FOLDER/..
-      tar czf $BUILD_SOURCE_ARCHIVE --exclude .git $APPVEYOR_PROJECT_NAME
-      mv $BUILD_SOURCE_ARCHIVE $APPVEYOR_BUILD_FOLDER
-      cd $APPVEYOR_BUILD_FOLDER
-      md5sum -b $BUILD_SOURCE_ARCHIVE > $BUILD_SOURCE_ARCHIVE.md5
-      sha256sum -b $BUILD_SOURCE_ARCHIVE > $BUILD_SOURCE_ARCHIVE.sha256
-      mkdir $APPVEYOR_BUILD_FOLDER/downloads
-      export COMPILER_ID=$APPVEYOR_BUILD_WORKER_IMAGE-$COMPILER_ID`$COMPILER_ID -dumpversion | tr '.' '\n'`
-      ###############
-      if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export SUPERGLU_REPO_VERSION=$SUPERGLU_VERSION; else export SUPERGLU_REPO_VERSION=latest; fi
-      if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export SUPERGLU_REPO_TAG_NAME=v$SUPERGLU_VERSION; else export SUPERGLU_REPO_TAG_NAME=CI-builds; fi
-      DOWNLOAD_FILE_SUPERGLU=superglu-$SUPERGLU_REPO_VERSION-$COMPILER_ID-$CMAKE_PLATFORM.tar.gz
-      RELEASE_ID=`curl -s -H "Authorization: token $GH_AUTH_TOKEN" https://api.github.com/repos/coin3d/superglu/releases | jq -r --arg SUPERGLU_REPO_TAG_NAME "$SUPERGLU_REPO_TAG_NAME" '.[] | select(.tag_name==$SUPERGLU_REPO_TAG_NAME) | .id'`
-      ASSET_ID=`curl -s -H "Authorization: token $GH_AUTH_TOKEN" https://api.github.com/repos/coin3d/superglu/releases/$RELEASE_ID | jq -r --arg DOWNLOAD_FILE_SUPERGLU "$DOWNLOAD_FILE_SUPERGLU" '.assets[] | select(.name==$DOWNLOAD_FILE_SUPERGLU) | .id'`
-      export DOWNLOAD_ADDRESS_SUPERGLU=https://api.github.com/repos/coin3d/superglu/releases/assets/$ASSET_ID
-      echo download file $DOWNLOAD_FILE_SUPERGLU from address $DOWNLOAD_ADDRESS_SUPERGLU
-      curl -s -S -L -H "Authorization: token $GH_AUTH_TOKEN" -H "Accept: application/octet-stream" -o $DOWNLOAD_FILE_SUPERGLU $DOWNLOAD_ADDRESS_SUPERGLU
-      tar xzf $DOWNLOAD_FILE_SUPERGLU -C $APPVEYOR_BUILD_FOLDER/downloads
-      ###############
-      if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export COIN_REPO_VERSION=$COIN_VERSION; else export COIN_REPO_VERSION=latest; fi
-      if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export COIN_REPO_TAG_NAME=v$COIN_VERSION; else export COIN_REPO_TAG_NAME=CI-builds; fi
-      DOWNLOAD_FILE_COIN=coin-$COIN_REPO_VERSION-$COMPILER_ID-$CMAKE_PLATFORM.tar.gz
-      RELEASE_ID=`curl -s -H "Authorization: token $GH_AUTH_TOKEN" https://api.github.com/repos/coin3d/coin/releases | jq -r --arg COIN_REPO_TAG_NAME "$COIN_REPO_TAG_NAME" '.[] | select(.tag_name==$COIN_REPO_TAG_NAME) | .id'`
-      ASSET_ID=`curl -s -H "Authorization: token $GH_AUTH_TOKEN" https://api.github.com/repos/coin3d/coin/releases/$RELEASE_ID | jq -r --arg DOWNLOAD_FILE_COIN "$DOWNLOAD_FILE_COIN" '.assets[] | select(.name==$DOWNLOAD_FILE_COIN) | .id'`
-      export DOWNLOAD_ADDRESS_COIN=https://api.github.com/repos/coin3d/coin/releases/assets/$ASSET_ID
-      echo download file $DOWNLOAD_FILE_COIN from address $DOWNLOAD_ADDRESS_COIN
-      curl -s -S -L -H "Authorization: token $GH_AUTH_TOKEN" -H "Accept: application/octet-stream" -o $DOWNLOAD_FILE_COIN $DOWNLOAD_ADDRESS_COIN
-      tar xzf $DOWNLOAD_FILE_COIN -C $APPVEYOR_BUILD_FOLDER/downloads
-      ###############
-      export CFLAGS=$CMAKE_ARCH_FLAGS
-      export CXXFLAGS=$CMAKE_ARCH_FLAGS
-      cmake -H. -Bbuild_debug   -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D -DCMAKE_PREFIX_PATH=$APPVEYOR_BUILD_FOLDER/downloads/Coin3D
-      cmake -H. -Bbuild_release -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D -DCMAKE_PREFIX_PATH=$APPVEYOR_BUILD_FOLDER/downloads/Coin3D
 
 build_script:
   - cmd: |
       set BUILD_TOOL_OPTIONS=/nologo /verbosity:minimal /maxcpucount /property:MultiProcessorCompilation=true;CL_MPCount=3
       cmake --build build --target INSTALL --config Debug   -- %BUILD_TOOL_OPTIONS%
       cmake --build build --target INSTALL --config Release -- %BUILD_TOOL_OPTIONS%
-  - sh: |
-      BUILD_TOOL_OPTIONS=-j4
-      cmake --build build_debug   --target install --config Debug   -- $BUILD_TOOL_OPTIONS
-      cmake --build build_release --target install --config Release -- $BUILD_TOOL_OPTIONS
 
 after_build:
   - cmd: |
@@ -192,14 +140,6 @@ after_build:
       C:\msys64\usr\bin\md5sum.exe -b %BUILD_ARCHIVE% > %BUILD_ARCHIVE%.md5
       C:\msys64\usr\bin\sha256sum.exe -b %BUILD_ARCHIVE% > %BUILD_ARCHIVE%.sha256
       appveyor DownloadFile https://ci.appveyor.com/api/buildjobs/%APPVEYOR_JOB_ID%/log -FileName %APPVEYOR_PROJECT_NAME%-%CI_REPO_VERSION%-%COMPILER_ID%-%CMAKE_PLATFORM%.log
-  - sh: |
-      cd $APPVEYOR_BUILD_FOLDER
-      if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export CI_REPO_VERSION=${APPVEYOR_REPO_TAG_NAME:1}; else export CI_REPO_VERSION=latest; fi
-      BUILD_ARCHIVE=$APPVEYOR_PROJECT_NAME-$CI_REPO_VERSION-$COMPILER_ID-$CMAKE_PLATFORM.tar.gz
-      tar czf $BUILD_ARCHIVE Coin3D/*
-      md5sum -b $BUILD_ARCHIVE > $BUILD_ARCHIVE.md5
-      sha256sum -b $BUILD_ARCHIVE > $BUILD_ARCHIVE.sha256
-      appveyor DownloadFile https://ci.appveyor.com/api/buildjobs/$APPVEYOR_JOB_ID/log -FileName $APPVEYOR_PROJECT_NAME-$CI_REPO_VERSION-$COMPILER_ID-$CMAKE_PLATFORM.log
 
 artifacts:
   - path: $(APPVEYOR_PROJECT_NAME)*.zip
