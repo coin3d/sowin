@@ -1,8 +1,11 @@
-New in SoWin v1.6.1 (so far):
+New in SoWin v1.6.1 (2024-02-03):
 * new:
   - Version control system has been changed from Mercurial to Git
   - Home of Coin3d organization has been changed from https://bitbucket.org/Coin3D
     to https://github.com/coin3d due to Bitbucket ending Mercurial support
+  - Added CI per GitHub actions to repository
+  - Add handling for background color RGBA
+  - Minimum required windows version set to XP
 
 * bugfixes:
   - cpack.d was made optional and disabled by default (add -DSOWIN_USE_CPACK=ON
