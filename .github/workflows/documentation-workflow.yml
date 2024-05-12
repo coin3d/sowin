@@ -28,12 +28,12 @@ jobs:
           curl -L -o doxygen-1.10.0.windows.x64.bin.zip https://github.com/doxygen/doxygen/releases/download/Release_1_10_0/doxygen-1.10.0.windows.x64.bin.zip
           7z x doxygen-1.10.0.windows.x64.bin.zip -odoxygen-1.10.0
           set PATH=${{ github.workspace }}/doxygen-1.10.0/bin;%PATH%
-          cmake -S . -B cmake_build_dir -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=cmake_download_dir/Coin3D
+          cmake -S . -B cmake_build_dir -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=cmake_download_dir/Coin3D -DSOWIN_BUILD_AWESOME_DOCUMENTATION=ON
       - name: Build project
         shell: cmd
         run: |
           set PATH=${{ github.workspace }}/doxygen-1.10.0/bin;%PATH%
-          doxygen --version
+          doxygen.exe --version
           cmake --build cmake_build_dir --target documentation_awesome --config Release
       - name: Deploy Awesome Documentation to Github Pages
         uses: peaceiris/actions-gh-pages@v4
