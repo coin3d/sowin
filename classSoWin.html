@@ -1,0 +1,1034 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>SoWin: SoWin Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/coin3d/sowin" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="Coin_logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SoWin
+   &#160;<span id="projectnumber">1.6.1</span>
+   </div>
+   <div id="projectbrief">Coin3D GUI toolkit binding</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classSoWin.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="classSoWin-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">SoWin Class Reference<div class="ingroups"><a class="el" href="group__misc.html">Miscellaneous Classes</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>The <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> class takes care of Win initialization and event dispatching.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="SoWin_8h_source.html">Inventor/Win/SoWin.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a6711270c7ce7be84b4df50ccf6f41aa5" id="r_a6711270c7ce7be84b4df50ccf6f41aa5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6711270c7ce7be84b4df50ccf6f41aa5">ABIType</a> { <a class="el" href="#a6711270c7ce7be84b4df50ccf6f41aa5ae1f180124569de73306baa643a23f176">DLL</a>
+, <a class="el" href="#a6711270c7ce7be84b4df50ccf6f41aa5a67cea2b57bb7aebde15f23c74d52f665">LIB</a>
+, <a class="el" href="#a6711270c7ce7be84b4df50ccf6f41aa5ac5292e1231e94ee9590c210067d78f9a">UNKNOWN</a>
+ }</td></tr>
+<tr class="separator:a6711270c7ce7be84b4df50ccf6f41aa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67e3266f39aa0420f11f0545bc57bed9" id="r_a67e3266f39aa0420f11f0545bc57bed9"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67e3266f39aa0420f11f0545bc57bed9">FatalErrorCB</a>(const SbString errmsg, <a class="el" href="#a51b52901c48f2f36eafa972a0512ab9e">SoWin::FatalErrors</a> errcode, void *userdata)</td></tr>
+<tr class="separator:a67e3266f39aa0420f11f0545bc57bed9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51b52901c48f2f36eafa972a0512ab9e" id="r_a51b52901c48f2f36eafa972a0512ab9e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51b52901c48f2f36eafa972a0512ab9e">FatalErrors</a> { <a class="el" href="#a51b52901c48f2f36eafa972a0512ab9ea7c52b0b91df35e31018cc612dc2c5315">UNSPECIFIED_ERROR</a> = 0
+, <a class="el" href="#a51b52901c48f2f36eafa972a0512ab9ea0e42eb5fbd0a312e9117795c491e262b">NO_OPENGL_CANVAS</a>
+, <a class="el" href="#a51b52901c48f2f36eafa972a0512ab9eaa4faae496270e980cd09c56f4e9bd872">INTERNAL_ASSERT</a>
+ }</td></tr>
+<tr class="separator:a51b52901c48f2f36eafa972a0512ab9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a85a51039eec4225cf4e219217f377c73" id="r_a85a51039eec4225cf4e219217f377c73"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a85a51039eec4225cf4e219217f377c73">createSimpleErrorDialog</a> (HWND widget, const char *title, const char *string1, const char *string2=NULL)</td></tr>
+<tr class="separator:a85a51039eec4225cf4e219217f377c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b7b5e8d023d62726b06e7b23192bee5" id="r_a9b7b5e8d023d62726b06e7b23192bee5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b7b5e8d023d62726b06e7b23192bee5">doIdleTasks</a> (void)</td></tr>
+<tr class="separator:a9b7b5e8d023d62726b06e7b23192bee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f7859f61b6845a721240aaa5f513e13" id="r_a1f7859f61b6845a721240aaa5f513e13"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f7859f61b6845a721240aaa5f513e13">done</a> (void)</td></tr>
+<tr class="separator:a1f7859f61b6845a721240aaa5f513e13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9728c698d8b1f8f761c5fd4998c4484" id="r_af9728c698d8b1f8f761c5fd4998c4484"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9728c698d8b1f8f761c5fd4998c4484">exitMainLoop</a> (void)</td></tr>
+<tr class="separator:af9728c698d8b1f8f761c5fd4998c4484"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28ec8b5e024e92b6f4b8d26cb034da0b" id="r_a28ec8b5e024e92b6f4b8d26cb034da0b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#a6711270c7ce7be84b4df50ccf6f41aa5">ABIType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a28ec8b5e024e92b6f4b8d26cb034da0b">getABIType</a> (void)</td></tr>
+<tr class="separator:a28ec8b5e024e92b6f4b8d26cb034da0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4764777fd7c299673025fc520f54e23b" id="r_a4764777fd7c299673025fc520f54e23b"><td class="memItemLeft" align="right" valign="top">static HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4764777fd7c299673025fc520f54e23b">getShellWidget</a> (const HWND w)</td></tr>
+<tr class="separator:a4764777fd7c299673025fc520f54e23b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b7f07ec69fe529e1ecd78fb30efa7e2" id="r_a6b7f07ec69fe529e1ecd78fb30efa7e2"><td class="memItemLeft" align="right" valign="top">static HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b7f07ec69fe529e1ecd78fb30efa7e2">getTopLevelWidget</a> (void)</td></tr>
+<tr class="separator:a6b7f07ec69fe529e1ecd78fb30efa7e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32f64d645e8883de041b08b662628764" id="r_a32f64d645e8883de041b08b662628764"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32f64d645e8883de041b08b662628764">getVersionInfo</a> (int *major=NULL, int *minor=NULL, int *micro=NULL)</td></tr>
+<tr class="separator:a32f64d645e8883de041b08b662628764"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a147b9ce7be0600150df155e86d12997f" id="r_a147b9ce7be0600150df155e86d12997f"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a147b9ce7be0600150df155e86d12997f">getVersionString</a> (void)</td></tr>
+<tr class="separator:a147b9ce7be0600150df155e86d12997f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa170f2addc2558682d4f8c3fd7860d57" id="r_aa170f2addc2558682d4f8c3fd7860d57"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa170f2addc2558682d4f8c3fd7860d57">getVersionToolkitString</a> (void)</td></tr>
+<tr class="separator:aa170f2addc2558682d4f8c3fd7860d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f09d7662b70834a8a5ff3dc1fdfc1be" id="r_a5f09d7662b70834a8a5ff3dc1fdfc1be"><td class="memItemLeft" align="right" valign="top">static SbVec2s&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f09d7662b70834a8a5ff3dc1fdfc1be">getWidgetSize</a> (const HWND widget)</td></tr>
+<tr class="separator:a5f09d7662b70834a8a5ff3dc1fdfc1be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2331ca4ab94328812b570f6d16b238b0" id="r_a2331ca4ab94328812b570f6d16b238b0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2331ca4ab94328812b570f6d16b238b0">hide</a> (HWND const widget)</td></tr>
+<tr class="separator:a2331ca4ab94328812b570f6d16b238b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a586cacd95fc3cdf03ea7c6e674bd3758" id="r_a586cacd95fc3cdf03ea7c6e674bd3758"><td class="memItemLeft" align="right" valign="top">static HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a586cacd95fc3cdf03ea7c6e674bd3758">init</a> (const char *appname, const char *classname=&quot;SoWin&quot;)</td></tr>
+<tr class="separator:a586cacd95fc3cdf03ea7c6e674bd3758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02b46c21b9c24de32ade2703644d6d95" id="r_a02b46c21b9c24de32ade2703644d6d95"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02b46c21b9c24de32ade2703644d6d95">init</a> (HWND toplevelwidget)</td></tr>
+<tr class="separator:a02b46c21b9c24de32ade2703644d6d95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8aa7858f4f3e2e3f0992d0e1f3e6f706" id="r_a8aa7858f4f3e2e3f0992d0e1f3e6f706"><td class="memItemLeft" align="right" valign="top">static HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8aa7858f4f3e2e3f0992d0e1f3e6f706">init</a> (int &amp;argc, char **argv, const char *appname, const char *classname=&quot;SoWin&quot;)</td></tr>
+<tr class="separator:a8aa7858f4f3e2e3f0992d0e1f3e6f706"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3de6fa978021aec3f4c3b9597a567aee" id="r_a3de6fa978021aec3f4c3b9597a567aee"><td class="memItemLeft" align="right" valign="top">static SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3de6fa978021aec3f4c3b9597a567aee">isCompatible</a> (unsigned int major, unsigned int minor)</td></tr>
+<tr class="separator:a3de6fa978021aec3f4c3b9597a567aee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00db7eb72029bd47543214d5a5a5edef" id="r_a00db7eb72029bd47543214d5a5a5edef"><td class="memItemLeft" align="right" valign="top">static SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00db7eb72029bd47543214d5a5a5edef">isDebugLibrary</a> (void)</td></tr>
+<tr class="separator:a00db7eb72029bd47543214d5a5a5edef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f5d77f5c3e2fc0e19aa0218b0e2ace2" id="r_a2f5d77f5c3e2fc0e19aa0218b0e2ace2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f5d77f5c3e2fc0e19aa0218b0e2ace2">lockGL</a> (void)</td></tr>
+<tr class="separator:a2f5d77f5c3e2fc0e19aa0218b0e2ace2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab37d1296692c6895990b71046b161d17" id="r_ab37d1296692c6895990b71046b161d17"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab37d1296692c6895990b71046b161d17">mainLoop</a> (void)</td></tr>
+<tr class="separator:ab37d1296692c6895990b71046b161d17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ab6bf196f7ba0f1d656dd2c8c182de8" id="r_a5ab6bf196f7ba0f1d656dd2c8c182de8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#a67e3266f39aa0420f11f0545bc57bed9">FatalErrorCB</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ab6bf196f7ba0f1d656dd2c8c182de8">setFatalErrorHandler</a> (<a class="el" href="#a67e3266f39aa0420f11f0545bc57bed9">SoWin::FatalErrorCB</a> *cb, void *userdata)</td></tr>
+<tr class="separator:a5ab6bf196f7ba0f1d656dd2c8c182de8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49ebd92c333f2ebc06a8d7dacf50feb8" id="r_a49ebd92c333f2ebc06a8d7dacf50feb8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49ebd92c333f2ebc06a8d7dacf50feb8">setWidgetSize</a> (HWND const widget, const SbVec2s size)</td></tr>
+<tr class="separator:a49ebd92c333f2ebc06a8d7dacf50feb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ea1432420e1114599397462f9bde5e7" id="r_a9ea1432420e1114599397462f9bde5e7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ea1432420e1114599397462f9bde5e7">show</a> (HWND const widget)</td></tr>
+<tr class="separator:a9ea1432420e1114599397462f9bde5e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a286916978ff3a759a81bb7abe3a69637" id="r_a286916978ff3a759a81bb7abe3a69637"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a286916978ff3a759a81bb7abe3a69637">unlockGL</a> (void)</td></tr>
+<tr class="separator:a286916978ff3a759a81bb7abe3a69637"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> class takes care of Win initialization and event dispatching. </p>
+<p>This is the "application-wide" class with solely static methods handling initialization and event processing tasks. You must use this class in any application built on top of the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library.</p>
+<p>Typical usage is as follows (complete application code):</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;Inventor/Win/SoWin.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/Win/viewers/SoWinExaminerViewer.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoBaseColor.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoCone.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoSeparator.h&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span></div>
+<div class="line">main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> ** argv)</div>
+<div class="line">{</div>
+<div class="line">  <span class="comment">// Initialize SoWin and Inventor API libraries. This returns a main</span></div>
+<div class="line">  <span class="comment">// window to use.</span></div>
+<div class="line">  HWND mainwin = <a class="code hl_function" href="#a586cacd95fc3cdf03ea7c6e674bd3758">SoWin::init</a>(argc, argv, argv[0]);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Make a dead simple scene graph, only containing a single</span></div>
+<div class="line">  <span class="comment">// yellow cone under the scene graph root.</span></div>
+<div class="line">  SoSeparator * root = <span class="keyword">new</span> SoSeparator;</div>
+<div class="line">  root-&gt;ref();</div>
+<div class="line"> </div>
+<div class="line">  SoBaseColor * col = <span class="keyword">new</span> SoBaseColor;</div>
+<div class="line">  col-&gt;rgb = SbColor(1, 1, 0);</div>
+<div class="line">  root-&gt;addChild(col);</div>
+<div class="line"> </div>
+<div class="line">  root-&gt;addChild(<span class="keyword">new</span> SoCone);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Use one of the convenient viewer classes.</span></div>
+<div class="line">  <a class="code hl_class" href="classSoWinExaminerViewer.html">SoWinExaminerViewer</a> * eviewer = <span class="keyword">new</span> <a class="code hl_class" href="classSoWinExaminerViewer.html">SoWinExaminerViewer</a>(mainwin);</div>
+<div class="line">  eviewer-&gt;<a class="code hl_function" href="classSoWinViewer.html#ad14318dfc48ad3ce0ace36500f1bb85e">setSceneGraph</a>(root);</div>
+<div class="line">  eviewer-&gt;<a class="code hl_function" href="classSoWinComponent.html#a78602b78e99afda6ec60d5bbe6228e71">show</a>();</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Pop up the main window.</span></div>
+<div class="line">  <a class="code hl_function" href="#a9ea1432420e1114599397462f9bde5e7">SoWin::show</a>(mainwin);</div>
+<div class="line">  <span class="comment">// Loop until exit.</span></div>
+<div class="line">  <a class="code hl_function" href="#ab37d1296692c6895990b71046b161d17">SoWin::mainLoop</a>();</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Clean up resources.</span></div>
+<div class="line">  <span class="keyword">delete</span> eviewer;</div>
+<div class="line">  root-&gt;unref();</div>
+<div class="line">  <a class="code hl_function" href="#a1f7859f61b6845a721240aaa5f513e13">SoWin::done</a>();</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassSoWinComponent_html_a78602b78e99afda6ec60d5bbe6228e71"><div class="ttname"><a href="classSoWinComponent.html#a78602b78e99afda6ec60d5bbe6228e71">SoWinComponent::show</a></div><div class="ttdeci">virtual void show(void)</div><div class="ttdef"><b>Definition</b> SoWinComponent.cpp:368</div></div>
+<div class="ttc" id="aclassSoWinExaminerViewer_html"><div class="ttname"><a href="classSoWinExaminerViewer.html">SoWinExaminerViewer</a></div><div class="ttdoc">The SoWinExaminerViewer class is a 3D-model examination viewer.</div><div class="ttdef"><b>Definition</b> SoWinExaminerViewer.h:50</div></div>
+<div class="ttc" id="aclassSoWinViewer_html_ad14318dfc48ad3ce0ace36500f1bb85e"><div class="ttname"><a href="classSoWinViewer.html#ad14318dfc48ad3ce0ace36500f1bb85e">SoWinViewer::setSceneGraph</a></div><div class="ttdeci">virtual void setSceneGraph(SoNode *root)</div><div class="ttdef"><b>Definition</b> SoWinViewer.cpp:2841</div></div>
+<div class="ttc" id="aclassSoWin_html_a1f7859f61b6845a721240aaa5f513e13"><div class="ttname"><a href="#a1f7859f61b6845a721240aaa5f513e13">SoWin::done</a></div><div class="ttdeci">static void done(void)</div><div class="ttdef"><b>Definition</b> SoWin.cpp:417</div></div>
+<div class="ttc" id="aclassSoWin_html_a586cacd95fc3cdf03ea7c6e674bd3758"><div class="ttname"><a href="#a586cacd95fc3cdf03ea7c6e674bd3758">SoWin::init</a></div><div class="ttdeci">static HWND init(const char *appname, const char *classname=&quot;SoWin&quot;)</div><div class="ttdef"><b>Definition</b> SoWinCommon.cpp:173</div></div>
+<div class="ttc" id="aclassSoWin_html_a9ea1432420e1114599397462f9bde5e7"><div class="ttname"><a href="#a9ea1432420e1114599397462f9bde5e7">SoWin::show</a></div><div class="ttdeci">static void show(HWND const widget)</div><div class="ttdef"><b>Definition</b> SoWin.cpp:456</div></div>
+<div class="ttc" id="aclassSoWin_html_ab37d1296692c6895990b71046b161d17"><div class="ttname"><a href="#ab37d1296692c6895990b71046b161d17">SoWin::mainLoop</a></div><div class="ttdeci">static void mainLoop(void)</div><div class="ttdef"><b>Definition</b> SoWin.cpp:375</div></div>
+</div><!-- fragment --><p>And voila:</p>
+<center> <img src="sogui-class-example.png" alt="" class="inline"/> </center><dl class="section see"><dt>See also</dt><dd><a class="el" href="classSoWinComponent.html" title="The SoWinComponent class is the base class for all GUI components.">SoWinComponent</a> </dd></dl>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a67e3266f39aa0420f11f0545bc57bed9" name="a67e3266f39aa0420f11f0545bc57bed9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67e3266f39aa0420f11f0545bc57bed9">&#9670;&#160;</a></span>FatalErrorCB</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::FatalErrorCB</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>An application function callback for handling fatal errors should be of this type.</p>
+<p>The first argument is an error message in English describing the details of the error. The second argument is an error code used so the application can identify specific conditions. The third argument is the userdata pointer passed in to <a class="el" href="#a5ab6bf196f7ba0f1d656dd2c8c182de8">SoWin::setFatalErrorHandler()</a>. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a6711270c7ce7be84b4df50ccf6f41aa5" name="a6711270c7ce7be84b4df50ccf6f41aa5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6711270c7ce7be84b4df50ccf6f41aa5">&#9670;&#160;</a></span>ABIType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a6711270c7ce7be84b4df50ccf6f41aa5">SoWin::ABIType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Numerical identifiers to identify how the library was built. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a6711270c7ce7be84b4df50ccf6f41aa5ae1f180124569de73306baa643a23f176" name="a6711270c7ce7be84b4df50ccf6f41aa5ae1f180124569de73306baa643a23f176"></a>DLL&#160;</td><td class="fielddoc"><p>The <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library was built as a dynamic link library (aka "shared
+library"). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a6711270c7ce7be84b4df50ccf6f41aa5a67cea2b57bb7aebde15f23c74d52f665" name="a6711270c7ce7be84b4df50ccf6f41aa5a67cea2b57bb7aebde15f23c74d52f665"></a>LIB&#160;</td><td class="fielddoc"><p>The <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library was built as a static library. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a6711270c7ce7be84b4df50ccf6f41aa5ac5292e1231e94ee9590c210067d78f9a" name="a6711270c7ce7be84b4df50ccf6f41aa5ac5292e1231e94ee9590c210067d78f9a"></a>UNKNOWN&#160;</td><td class="fielddoc"><p>The <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> introspection mechanisms cannot decide how the library was built. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a51b52901c48f2f36eafa972a0512ab9e" name="a51b52901c48f2f36eafa972a0512ab9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51b52901c48f2f36eafa972a0512ab9e">&#9670;&#160;</a></span>FatalErrors</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a51b52901c48f2f36eafa972a0512ab9e">SoWin::FatalErrors</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Numerical identifiers for classifying the different kinds of possible fatal errors. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a51b52901c48f2f36eafa972a0512ab9ea7c52b0b91df35e31018cc612dc2c5315" name="a51b52901c48f2f36eafa972a0512ab9ea7c52b0b91df35e31018cc612dc2c5315"></a>UNSPECIFIED_ERROR&#160;</td><td class="fielddoc"><p>Signifies that we were not able to specify in any greater detail the error condition that came up. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a51b52901c48f2f36eafa972a0512ab9ea0e42eb5fbd0a312e9117795c491e262b" name="a51b52901c48f2f36eafa972a0512ab9ea0e42eb5fbd0a312e9117795c491e262b"></a>NO_OPENGL_CANVAS&#160;</td><td class="fielddoc"><p>Could not construct <em>any</em> valid OpenGL canvas. Something is very wrong on the client system. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a51b52901c48f2f36eafa972a0512ab9eaa4faae496270e980cd09c56f4e9bd872" name="a51b52901c48f2f36eafa972a0512ab9eaa4faae496270e980cd09c56f4e9bd872"></a>INTERNAL_ASSERT&#160;</td><td class="fielddoc"><p>An internal error condition that should never happen was detected. The most likely cause of this are programming errors within the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library itself. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a85a51039eec4225cf4e219217f377c73" name="a85a51039eec4225cf4e219217f377c73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85a51039eec4225cf4e219217f377c73">&#9670;&#160;</a></span>createSimpleErrorDialog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::createSimpleErrorDialog </td>
+          <td>(</td>
+          <td class="paramtype">HWND</td>          <td class="paramname"><span class="paramname"><em>widget</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>title</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>string1</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>string2</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This is a convenient way for the application programmer to throw up an obtrusive application-global error dialog.</p>
+<p>If <em>widget</em> is <code>NULL</code>, the dialog will be modal for the whole application (all windows will be blocked for input). If not, only the window for the given <em>widget</em> will be blocked.</p>
+<p><em>title</em> is the title of the dialog box. <em>string1</em> and <em>string2</em> contains the text which will be shown in the dialog box.</p>
+<p>There will only be a single "OK" button for the user to press and continue with the application. </p>
+
+</div>
+</div>
+<a id="a9b7b5e8d023d62726b06e7b23192bee5" name="a9b7b5e8d023d62726b06e7b23192bee5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b7b5e8d023d62726b06e7b23192bee5">&#9670;&#160;</a></span>doIdleTasks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::doIdleTasks </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Process all Inventor sensors scheduled for execution when the system is idle. </p>
+
+</div>
+</div>
+<a id="a1f7859f61b6845a721240aaa5f513e13" name="a1f7859f61b6845a721240aaa5f513e13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f7859f61b6845a721240aaa5f513e13">&#9670;&#160;</a></span>done()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::done </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Cleans up all static data allocated by the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library on initialization.</p>
+<p>This functions calls SoDB::finish() which means that no Coin classes should be used after it has been called.</p>
+<p>It should never be invoked more than <em>once</em>, and that is just before application exit, as it deallocates <em>static</em> data allocated as "one-off" operations in <a class="el" href="#a586cacd95fc3cdf03ea7c6e674bd3758">SoWin::init()</a>.</p>
+<p>NOTE: <a class="el" href="#a1f7859f61b6845a721240aaa5f513e13">done()</a> is not present in the original API for SGI's InventorXt library. </p>
+
+</div>
+</div>
+<a id="af9728c698d8b1f8f761c5fd4998c4484" name="af9728c698d8b1f8f761c5fd4998c4484"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9728c698d8b1f8f761c5fd4998c4484">&#9670;&#160;</a></span>exitMainLoop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::exitMainLoop </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function will make the main event loop finish looping.</p>
+<p>NOTE: <a class="el" href="#af9728c698d8b1f8f761c5fd4998c4484">exitMainLoop()</a> is not present in the original API for SGI's InventorXt library. </p>
+
+</div>
+</div>
+<a id="a28ec8b5e024e92b6f4b8d26cb034da0b" name="a28ec8b5e024e92b6f4b8d26cb034da0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28ec8b5e024e92b6f4b8d26cb034da0b">&#9670;&#160;</a></span>getABIType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a6711270c7ce7be84b4df50ccf6f41aa5">SoWin::ABIType</a> SoWin::getABIType </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns an indication on how the library was compiled: as a dynamic library, or as a static library.</p>
+<p>This method was not part of the original SGI InventorXt library, but is an extension specific to the Coin project. </p>
+
+</div>
+</div>
+<a id="a4764777fd7c299673025fc520f54e23b" name="a4764777fd7c299673025fc520f54e23b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4764777fd7c299673025fc520f54e23b">&#9670;&#160;</a></span>getShellWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">HWND SoWin::getShellWidget </td>
+          <td>(</td>
+          <td class="paramtype">const HWND</td>          <td class="paramname"><span class="paramname"><em>w</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns a pointer to the HWND which is the top level widget for the given HWND <em>hwnd</em>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a6b7f07ec69fe529e1ecd78fb30efa7e2">getTopLevelWidget()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a6b7f07ec69fe529e1ecd78fb30efa7e2" name="a6b7f07ec69fe529e1ecd78fb30efa7e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b7f07ec69fe529e1ecd78fb30efa7e2">&#9670;&#160;</a></span>getTopLevelWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">HWND SoWin::getTopLevelWidget </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the HWND which is the main widget for the application. When this widget gets closed, <a class="el" href="#ab37d1296692c6895990b71046b161d17">SoWin::mainLoop()</a> will return (unless the close event is caught by the user).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a4764777fd7c299673025fc520f54e23b">getShellWidget()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a32f64d645e8883de041b08b662628764" name="a32f64d645e8883de041b08b662628764"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32f64d645e8883de041b08b662628764">&#9670;&#160;</a></span>getVersionInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::getVersionInfo </td>
+          <td>(</td>
+          <td class="paramtype">int *</td>          <td class="paramname"><span class="paramname"><em>major</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *</td>          <td class="paramname"><span class="paramname"><em>minor</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *</td>          <td class="paramname"><span class="paramname"><em>micro</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method will fill in the integers pointed to by the arguments with the corresponding part of the version release number of the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library.</p>
+<p>A <code>NULL</code> pointer will make that part of the version number be ignored.</p>
+<p>This method is not part of the original InventorXt API from SGI. </p>
+
+</div>
+</div>
+<a id="a147b9ce7be0600150df155e86d12997f" name="a147b9ce7be0600150df155e86d12997f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a147b9ce7be0600150df155e86d12997f">&#9670;&#160;</a></span>getVersionString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * SoWin::getVersionString </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns a string containing the version id of the library.</p>
+<p>This method is not part of the original InventorXt API from SGI. </p>
+
+</div>
+</div>
+<a id="aa170f2addc2558682d4f8c3fd7860d57" name="aa170f2addc2558682d4f8c3fd7860d57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa170f2addc2558682d4f8c3fd7860d57">&#9670;&#160;</a></span>getVersionToolkitString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * SoWin::getVersionToolkitString </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns a string containing the version id of the Win toolkit the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library is linked against.</p>
+<p>This method is not part of the original InventorXt API from SGI. </p>
+
+</div>
+</div>
+<a id="a5f09d7662b70834a8a5ff3dc1fdfc1be" name="a5f09d7662b70834a8a5ff3dc1fdfc1be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f09d7662b70834a8a5ff3dc1fdfc1be">&#9670;&#160;</a></span>getWidgetSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbVec2s SoWin::getWidgetSize </td>
+          <td>(</td>
+          <td class="paramtype">const HWND</td>          <td class="paramname"><span class="paramname"><em>widget</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method is provided for easier porting/compatibility with the Open Inventor SoXt component classes. It will call GetWindowExtEx() on the provided <em>widget</em> window handle's device context (returning an SbVec2s).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a49ebd92c333f2ebc06a8d7dacf50feb8">setWidgetSize()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a2331ca4ab94328812b570f6d16b238b0" name="a2331ca4ab94328812b570f6d16b238b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2331ca4ab94328812b570f6d16b238b0">&#9670;&#160;</a></span>hide()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::hide </td>
+          <td>(</td>
+          <td class="paramtype">HWND const</td>          <td class="paramname"><span class="paramname"><em>widget</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method is provided for easier porting/compatibility with the Open Inventor SoXt component classes. It will call ShowWindow() with the argument SW_HIDE on the provided <em>widget</em> window handle.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a9ea1432420e1114599397462f9bde5e7">show()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a586cacd95fc3cdf03ea7c6e674bd3758" name="a586cacd95fc3cdf03ea7c6e674bd3758"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a586cacd95fc3cdf03ea7c6e674bd3758">&#9670;&#160;</a></span>init() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">HWND SoWin::init </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>appname</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>classname</em><span class="paramdefsep"> = </span><span class="paramdefval">&quot;SoWin&quot;</span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function initializes the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library, as well as the Inventor API. The latter is done by calling <em>SoDB::init()</em>, <em>SoNodeKit::init()</em> and <em>SoInteraction::init()</em>.</p>
+<p>The returned HWND is a top level shell widget for the application, which can be used as a shell for the main component.</p>
+<p>This method is provided for easier porting / compatibility with the original SGI Inventor InventorXt library. It just adds dummy <em>argc</em> and <em>argv</em> arguments and calls the <a class="el" href="#a586cacd95fc3cdf03ea7c6e674bd3758">SoWin::init()</a> method below. </p>
+
+</div>
+</div>
+<a id="a02b46c21b9c24de32ade2703644d6d95" name="a02b46c21b9c24de32ade2703644d6d95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02b46c21b9c24de32ade2703644d6d95">&#9670;&#160;</a></span>init() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::init </td>
+          <td>(</td>
+          <td class="paramtype">HWND</td>          <td class="paramname"><span class="paramname"><em>toplevelwidget</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function initializes the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library, as well as the Inventor API. The latter is done by calling <em>SoDB::init()</em>, <em>SoNodeKit::init()</em> and <em>SoInteraction::init()</em>.</p>
+<p>Assumes you are creating your own application framework and main widget. <em>toplevelwidget</em> should be your application's main widget. </p>
+
+</div>
+</div>
+<a id="a8aa7858f4f3e2e3f0992d0e1f3e6f706" name="a8aa7858f4f3e2e3f0992d0e1f3e6f706"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8aa7858f4f3e2e3f0992d0e1f3e6f706">&#9670;&#160;</a></span>init() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">HWND SoWin::init </td>
+          <td>(</td>
+          <td class="paramtype">int &amp;</td>          <td class="paramname"><span class="paramname"><em>argc</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **</td>          <td class="paramname"><span class="paramname"><em>argv</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>appname</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>classname</em><span class="paramdefsep"> = </span><span class="paramdefval">&quot;SoWin&quot;</span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function initializes the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library, as well as the Inventor API. The latter is done by calling <em>SoDB::init()</em>, <em>SoNodeKit::init()</em> and <em>SoInteraction::init()</em>.</p>
+<p>Creates an application framework and constructs and returns a main widget for you.</p>
+<p>The returned HWND is a top level shell widget for the application, which can be used as a shell for the main component. </p>
+
+</div>
+</div>
+<a id="a3de6fa978021aec3f4c3b9597a567aee" name="a3de6fa978021aec3f4c3b9597a567aee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3de6fa978021aec3f4c3b9597a567aee">&#9670;&#160;</a></span>isCompatible()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoWin::isCompatible </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>major</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>minor</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns <code>TRUE</code> if this version of the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library has an Application Binary Interface compatible with the given version.</p>
+<p>This method was not part of the original SGI InventorXt library, but is an extension specific to the Coin project. </p>
+
+</div>
+</div>
+<a id="a00db7eb72029bd47543214d5a5a5edef" name="a00db7eb72029bd47543214d5a5a5edef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00db7eb72029bd47543214d5a5a5edef">&#9670;&#160;</a></span>isDebugLibrary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoWin::isDebugLibrary </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns <code>TRUE</code> if this binary version of the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library was compiled with debug settings on.</p>
+<p>This method was not part of the original SGI InventorXt library, but is an extension specific to the Coin project. </p>
+
+</div>
+</div>
+<a id="a2f5d77f5c3e2fc0e19aa0218b0e2ace2" name="a2f5d77f5c3e2fc0e19aa0218b0e2ace2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f5d77f5c3e2fc0e19aa0218b0e2ace2">&#9670;&#160;</a></span>lockGL()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::lockGL </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method locks other threads out from a code section until the caller thread invokes <a class="el" href="#a286916978ff3a759a81bb7abe3a69637">SoWin::unlockGL()</a>.</p>
+<p>It is meant to protect several threads invoking OpenGL calls in parallel, in case the underlying OpenGL implementation is not multi-thread safe.</p>
+<p>For convenience, the function can be invoked through the SOWIN_ENTER_GL_SECTION().</p>
+<p>This method is not part of the original InventorXt API from SGI. </p>
+
+</div>
+</div>
+<a id="ab37d1296692c6895990b71046b161d17" name="ab37d1296692c6895990b71046b161d17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab37d1296692c6895990b71046b161d17">&#9670;&#160;</a></span>mainLoop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::mainLoop </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This is the event dispatch loop.</p>
+<p>It doesn't return until application exit is somehow forced, either programmatically from the relevant API-call of the native toolkit, or when the user closes the application's main widget.</p>
+<p>After the main loop has finished execution, call <a class="el" href="#a1f7859f61b6845a721240aaa5f513e13">SoWin::done()</a> to clean up static data. </p>
+
+</div>
+</div>
+<a id="a5ab6bf196f7ba0f1d656dd2c8c182de8" name="a5ab6bf196f7ba0f1d656dd2c8c182de8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ab6bf196f7ba0f1d656dd2c8c182de8">&#9670;&#160;</a></span>setFatalErrorHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a67e3266f39aa0420f11f0545bc57bed9">SoWin::FatalErrorCB</a> * SoWin::setFatalErrorHandler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a67e3266f39aa0420f11f0545bc57bed9">SoWin::FatalErrorCB</a> *</td>          <td class="paramname"><span class="paramname"><em>cb</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>userdata</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Set up a callback to be invoked in the case of unexpected fatal error conditions within the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library.</p>
+<p>Almost any error condition within the library is handled in a robust way through return values indicating errors for the offending calls, but there are a few cases that are impossible to handle without seriously crippling the functionality.</p>
+<p>(One example is if we fail to find <em>any</em> way of making a valid OpenGL canvas. This is an indication that something is seriously wrong on the end-user's system, and the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library will not work properly.)</p>
+<p>In the case of a fatal error, it is expected that the given application callback function communicates the problem to the end-user and then either exits the application or at least refrains from using any part of the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library.</p>
+<p>If no callback is explicitly set up by the application, the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library will display an error message to the end-user and then exit the application.</p>
+<p>When setting a callback, this method returns a pointer to the previous callback function, or <code>NULL</code> if none.</p>
+<p>(This is an extension versus the original SGI InventorXt library API.)</p>
+<p>On a related note, be aware that the end-user will still be notified about non-fatal errors and warning messages through a dialog box. If you want to handle these yourself, or if you don't want your end-user to see any of these non-critical messages, you will also need to install an error handler callback function on the Coin library itself:</p>
+<div class="fragment"><div class="line">SoDebugError::setHandlerCallback(myErrorHandlerCB, myCBUserData);</div>
+</div><!-- fragment --><p>(Please also see the documentation of SoDebugError::setHandlerCallback().) </p>
+
+</div>
+</div>
+<a id="a49ebd92c333f2ebc06a8d7dacf50feb8" name="a49ebd92c333f2ebc06a8d7dacf50feb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49ebd92c333f2ebc06a8d7dacf50feb8">&#9670;&#160;</a></span>setWidgetSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::setWidgetSize </td>
+          <td>(</td>
+          <td class="paramtype">HWND const</td>          <td class="paramname"><span class="paramname"><em>widget</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const SbVec2s</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method is provided for easier porting of applications based on the Open Inventor SoXt component classes. It will call SetWindowPos() on the provided <em>widget</em> window handle.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a5f09d7662b70834a8a5ff3dc1fdfc1be">getWidgetSize()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a9ea1432420e1114599397462f9bde5e7" name="a9ea1432420e1114599397462f9bde5e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ea1432420e1114599397462f9bde5e7">&#9670;&#160;</a></span>show()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::show </td>
+          <td>(</td>
+          <td class="paramtype">HWND const</td>          <td class="paramname"><span class="paramname"><em>widget</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method is provided for easier porting/compatibility with the Open Inventor SoXt component classes. It will call ShowWindow() with the argument SW_SHOW on the provided <em>widget</em> window handle.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a2331ca4ab94328812b570f6d16b238b0">hide()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a286916978ff3a759a81bb7abe3a69637" name="a286916978ff3a759a81bb7abe3a69637"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a286916978ff3a759a81bb7abe3a69637">&#9670;&#160;</a></span>unlockGL()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWin::unlockGL </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>See documentation for <a class="el" href="#a2f5d77f5c3e2fc0e19aa0218b0e2ace2">SoWin::lockGL()</a>.</p>
+<p>For convenience, the function can be invoked through the SOWIN_LEAVE_GL_SECTION().</p>
+<p>This method is not part of the original InventorXt API from SGI. </p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="SoWin_8h_source.html">SoWin.h</a></li>
+<li><b>SoWinCommon.cpp</b></li>
+<li><b>SoWin.cpp</b></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classSoWin.html">SoWin</a></li>
+    <li class="footer">Generated on Sun May 12 2024 21:52:02 for SoWin by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+  </ul>
+</div>
+</body>
+</html>

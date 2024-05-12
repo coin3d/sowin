@@ -1,0 +1,2226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>SoWin: SoWinRenderArea Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/coin3d/sowin" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="Coin_logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SoWin
+   &#160;<span id="projectnumber">1.6.1</span>
+   </div>
+   <div id="projectbrief">Coin3D GUI toolkit binding</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classSoWinRenderArea.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="classSoWinRenderArea-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">SoWinRenderArea Class Reference<div class="ingroups"><a class="el" href="group__components.html">Win Components</a> &#124; <a class="el" href="group__viewers.html">Win Viewer Components</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>The <a class="el" href="classSoWinRenderArea.html" title="The SoWinRenderArea class adds scene graph handling and event management.">SoWinRenderArea</a> class adds scene graph handling and event management.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="SoWinRenderArea_8h_source.html">Inventor/Win/SoWinRenderArea.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for SoWinRenderArea:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classSoWinRenderArea.png" usemap="#SoWinRenderArea_map" alt=""/>
+  <map id="SoWinRenderArea_map" name="SoWinRenderArea_map">
+<area href="classSoWinGLWidget.html" title="The SoWinGLWidget class manages OpenGL contexts." alt="SoWinGLWidget" shape="rect" coords="166,112,322,136"/>
+<area href="classSoWinComponent.html" title="The SoWinComponent class is the base class for all GUI components." alt="SoWinComponent" shape="rect" coords="166,56,322,80"/>
+<area href="classSoWinObject.html" title="The SoWinObject class is the common superclass for all SoWin component classes." alt="SoWinObject" shape="rect" coords="166,0,322,24"/>
+<area href="classSoWinViewer.html" title="The SoWinViewer class is the top level base viewer class." alt="SoWinViewer" shape="rect" coords="166,224,322,248"/>
+<area href="classSoWinFullViewer.html" title="The SoWinFullViewer class adds some user interface components to the viewer canvas." alt="SoWinFullViewer" shape="rect" coords="166,280,322,304"/>
+<area href="classSoWinConstrainedViewer.html" title="The SoWinConstrainedViewer class is the superclass for viewers with constrains on the viewpoint." alt="SoWinConstrainedViewer" shape="rect" coords="0,336,156,360"/>
+<area href="classSoWinExaminerViewer.html" title="The SoWinExaminerViewer class is a 3D-model examination viewer." alt="SoWinExaminerViewer" shape="rect" coords="166,336,322,360"/>
+<area href="classSoWinPlaneViewer.html" title="The SoWinPlaneViewer class is for examining 3D models by moving the camera in orthogonal planes." alt="SoWinPlaneViewer" shape="rect" coords="332,336,488,360"/>
+<area href="classSoWinFlyViewer.html" title="The SoWinFlyViewer class implements controls for moving the camera in a &quot;flying&quot; motion." alt="SoWinFlyViewer" shape="rect" coords="0,392,156,416"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ae642f4235fc8df399075be21bc0aa2b1" id="r_ae642f4235fc8df399075be21bc0aa2b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae642f4235fc8df399075be21bc0aa2b1">SoWinRenderArea</a> (HWND parent=NULL, const char *name=NULL, SbBool embed=TRUE, SbBool mouseInput=TRUE, SbBool keyboardInput=TRUE)</td></tr>
+<tr class="separator:ae642f4235fc8df399075be21bc0aa2b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84fc2be57670fdd37769713e2b765dc1" id="r_a84fc2be57670fdd37769713e2b765dc1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84fc2be57670fdd37769713e2b765dc1">~SoWinRenderArea</a> ()</td></tr>
+<tr class="separator:a84fc2be57670fdd37769713e2b765dc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a081896ce7a60b1804a4ea64ae00f6c24" id="r_a081896ce7a60b1804a4ea64ae00f6c24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a081896ce7a60b1804a4ea64ae00f6c24">getAntialiasing</a> (SbBool &amp;smoothing, int &amp;numPasses) const</td></tr>
+<tr class="separator:a081896ce7a60b1804a4ea64ae00f6c24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3457719522e5c7d6b6d80e251c2d306c" id="r_a3457719522e5c7d6b6d80e251c2d306c"><td class="memItemLeft" align="right" valign="top">const SbColor &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3457719522e5c7d6b6d80e251c2d306c">getBackgroundColor</a> (void) const</td></tr>
+<tr class="separator:a3457719522e5c7d6b6d80e251c2d306c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae86d499145c365e099f0e6584519703" id="r_aae86d499145c365e099f0e6584519703"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae86d499145c365e099f0e6584519703">getBackgroundIndex</a> (void) const</td></tr>
+<tr class="separator:aae86d499145c365e099f0e6584519703"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a110cca8f85ac6e9b3f0e776dcb045003" id="r_a110cca8f85ac6e9b3f0e776dcb045003"><td class="memItemLeft" align="right" valign="top">SoGLRenderAction *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a110cca8f85ac6e9b3f0e776dcb045003">getGLRenderAction</a> (void) const</td></tr>
+<tr class="separator:a110cca8f85ac6e9b3f0e776dcb045003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4698e1336aaed434f56481f13e181ac" id="r_ad4698e1336aaed434f56481f13e181ac"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4698e1336aaed434f56481f13e181ac">getOverlayBackgroundIndex</a> (void) const</td></tr>
+<tr class="separator:ad4698e1336aaed434f56481f13e181ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34989f22ac83ef90dd4976d677c947dd" id="r_a34989f22ac83ef90dd4976d677c947dd"><td class="memItemLeft" align="right" valign="top">SoGLRenderAction *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34989f22ac83ef90dd4976d677c947dd">getOverlayGLRenderAction</a> (void) const</td></tr>
+<tr class="separator:a34989f22ac83ef90dd4976d677c947dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71a6f2c691871339562349600edf3c0d" id="r_a71a6f2c691871339562349600edf3c0d"><td class="memItemLeft" align="right" valign="top">SoNode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71a6f2c691871339562349600edf3c0d">getOverlaySceneGraph</a> (void)</td></tr>
+<tr class="separator:a71a6f2c691871339562349600edf3c0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c131ea33e92e2086919938c2c12e322" id="r_a0c131ea33e92e2086919938c2c12e322"><td class="memItemLeft" align="right" valign="top">SoSceneManager *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c131ea33e92e2086919938c2c12e322">getOverlaySceneManager</a> (void) const</td></tr>
+<tr class="separator:a0c131ea33e92e2086919938c2c12e322"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7732a88d40125e53f5b37e52be9ae18b" id="r_a7732a88d40125e53f5b37e52be9ae18b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7732a88d40125e53f5b37e52be9ae18b">getRedrawPriority</a> (void) const</td></tr>
+<tr class="separator:a7732a88d40125e53f5b37e52be9ae18b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a063ccb694fe14852bf95b8e01d3668e2" id="r_a063ccb694fe14852bf95b8e01d3668e2"><td class="memItemLeft" align="right" valign="top">virtual SoNode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a063ccb694fe14852bf95b8e01d3668e2">getSceneGraph</a> (void)</td></tr>
+<tr class="separator:a063ccb694fe14852bf95b8e01d3668e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37a923ea2d0fe73808ef4e57a3468d1e" id="r_a37a923ea2d0fe73808ef4e57a3468d1e"><td class="memItemLeft" align="right" valign="top">SoSceneManager *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37a923ea2d0fe73808ef4e57a3468d1e">getSceneManager</a> (void) const</td></tr>
+<tr class="separator:a37a923ea2d0fe73808ef4e57a3468d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f7b2878c62e3a266b592f1d0da0eb39" id="r_a9f7b2878c62e3a266b592f1d0da0eb39"><td class="memItemLeft" align="right" valign="top">SoGLRenderAction::TransparencyType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f7b2878c62e3a266b592f1d0da0eb39">getTransparencyType</a> (void) const</td></tr>
+<tr class="separator:a9f7b2878c62e3a266b592f1d0da0eb39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c0340860010dd1892f92843cb561fe1" id="r_a3c0340860010dd1892f92843cb561fe1"><td class="memItemLeft" align="right" valign="top">const SbViewportRegion &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c0340860010dd1892f92843cb561fe1">getViewportRegion</a> (void) const</td></tr>
+<tr class="separator:a3c0340860010dd1892f92843cb561fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37beade9aaa7ccc67a88402348cafb3f" id="r_a37beade9aaa7ccc67a88402348cafb3f"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37beade9aaa7ccc67a88402348cafb3f">isAutoRedraw</a> (void) const</td></tr>
+<tr class="separator:a37beade9aaa7ccc67a88402348cafb3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5456eb24a013702dc70a592016ff9f6d" id="r_a5456eb24a013702dc70a592016ff9f6d"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5456eb24a013702dc70a592016ff9f6d">isClearBeforeOverlayRender</a> (void) const</td></tr>
+<tr class="separator:a5456eb24a013702dc70a592016ff9f6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30435d9159cd5e43a1b7ab575710d073" id="r_a30435d9159cd5e43a1b7ab575710d073"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30435d9159cd5e43a1b7ab575710d073">isClearBeforeRender</a> (void) const</td></tr>
+<tr class="separator:a30435d9159cd5e43a1b7ab575710d073"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4554c08d2fd44d9ee0a68252daf48ef5" id="r_a4554c08d2fd44d9ee0a68252daf48ef5"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4554c08d2fd44d9ee0a68252daf48ef5">isClearZBufferBeforeRender</a> (void) const</td></tr>
+<tr class="separator:a4554c08d2fd44d9ee0a68252daf48ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad85140761d69ce3c81cc8c56c8361d64" id="r_ad85140761d69ce3c81cc8c56c8361d64"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad85140761d69ce3c81cc8c56c8361d64">redrawOnSelectionChange</a> (SoSelection *selection)</td></tr>
+<tr class="separator:ad85140761d69ce3c81cc8c56c8361d64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a83ce9c8471314315bfc80de4487996" id="r_a3a83ce9c8471314315bfc80de4487996"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a83ce9c8471314315bfc80de4487996">redrawOverlayOnSelectionChange</a> (SoSelection *selection)</td></tr>
+<tr class="separator:a3a83ce9c8471314315bfc80de4487996"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18f1ab49b9d6563706f1a87f2158c2ce" id="r_a18f1ab49b9d6563706f1a87f2158c2ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18f1ab49b9d6563706f1a87f2158c2ce">registerDevice</a> (<a class="el" href="classSoWinDevice.html">SoWinDevice</a> *device)</td></tr>
+<tr class="separator:a18f1ab49b9d6563706f1a87f2158c2ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90d21a5eb66fb3a5bfc0ef469ef78e3f" id="r_a90d21a5eb66fb3a5bfc0ef469ef78e3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90d21a5eb66fb3a5bfc0ef469ef78e3f">render</a> (void)</td></tr>
+<tr class="separator:a90d21a5eb66fb3a5bfc0ef469ef78e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a403bf85038eb20ff8ea9ed8be21a35b7" id="r_a403bf85038eb20ff8ea9ed8be21a35b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a403bf85038eb20ff8ea9ed8be21a35b7">renderOverlay</a> (void)</td></tr>
+<tr class="separator:a403bf85038eb20ff8ea9ed8be21a35b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b0aaec5b5d497a83091675995067b71" id="r_a3b0aaec5b5d497a83091675995067b71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b0aaec5b5d497a83091675995067b71">scheduleOverlayRedraw</a> (void)</td></tr>
+<tr class="separator:a3b0aaec5b5d497a83091675995067b71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a336cfc31e72b8d92d6e2dd4fcdd75195" id="r_a336cfc31e72b8d92d6e2dd4fcdd75195"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a336cfc31e72b8d92d6e2dd4fcdd75195">scheduleRedraw</a> (void)</td></tr>
+<tr class="separator:a336cfc31e72b8d92d6e2dd4fcdd75195"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86403c2ad1fbcac4a81c5d032e14da43" id="r_a86403c2ad1fbcac4a81c5d032e14da43"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86403c2ad1fbcac4a81c5d032e14da43">sendSoEvent</a> (const SoEvent *event)</td></tr>
+<tr class="separator:a86403c2ad1fbcac4a81c5d032e14da43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5576e0b914ff07587f8c1164f65e376" id="r_ac5576e0b914ff07587f8c1164f65e376"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5576e0b914ff07587f8c1164f65e376">setAntialiasing</a> (SbBool smoothing, int numPasses)</td></tr>
+<tr class="separator:ac5576e0b914ff07587f8c1164f65e376"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13336812a4d43d09a2350ab40abfcde8" id="r_a13336812a4d43d09a2350ab40abfcde8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13336812a4d43d09a2350ab40abfcde8">setAutoRedraw</a> (SbBool enable)</td></tr>
+<tr class="separator:a13336812a4d43d09a2350ab40abfcde8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad84a6fc8cfacb964c27264848f94b4c3" id="r_ad84a6fc8cfacb964c27264848f94b4c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad84a6fc8cfacb964c27264848f94b4c3">setBackgroundColor</a> (const SbColor &amp;color)</td></tr>
+<tr class="separator:ad84a6fc8cfacb964c27264848f94b4c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc67184ceb959f8c891c211af683032e" id="r_abc67184ceb959f8c891c211af683032e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc67184ceb959f8c891c211af683032e">setBackgroundIndex</a> (int idx)</td></tr>
+<tr class="separator:abc67184ceb959f8c891c211af683032e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1f0d1cc03e38a5eec9cf95478a748ae" id="r_ad1f0d1cc03e38a5eec9cf95478a748ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1f0d1cc03e38a5eec9cf95478a748ae">setClearBeforeOverlayRender</a> (SbBool enable)</td></tr>
+<tr class="separator:ad1f0d1cc03e38a5eec9cf95478a748ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d107022324e27a36f46ed56ea907225" id="r_a3d107022324e27a36f46ed56ea907225"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d107022324e27a36f46ed56ea907225">setClearBeforeRender</a> (SbBool enable, SbBool zbEnable=TRUE)</td></tr>
+<tr class="separator:a3d107022324e27a36f46ed56ea907225"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65d8e7da3065bfa246f8f88dc84275fd" id="r_a65d8e7da3065bfa246f8f88dc84275fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65d8e7da3065bfa246f8f88dc84275fd">setColorMap</a> (int start, int num, const SbColor *colors)</td></tr>
+<tr class="separator:a65d8e7da3065bfa246f8f88dc84275fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1793eb142d00936858f780266f703f9" id="r_af1793eb142d00936858f780266f703f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1793eb142d00936858f780266f703f9">setEventCallback</a> (SoWinRenderAreaEventCB *func, void *user=NULL)</td></tr>
+<tr class="separator:af1793eb142d00936858f780266f703f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87de0f67a5af2f3e633d84572e196912" id="r_a87de0f67a5af2f3e633d84572e196912"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87de0f67a5af2f3e633d84572e196912">setGLRenderAction</a> (SoGLRenderAction *action)</td></tr>
+<tr class="separator:a87de0f67a5af2f3e633d84572e196912"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80433a764ddfb83e65097627529df895" id="r_a80433a764ddfb83e65097627529df895"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80433a764ddfb83e65097627529df895">setOverlayBackgroundIndex</a> (int idx)</td></tr>
+<tr class="separator:a80433a764ddfb83e65097627529df895"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0a6509a1e6d7e2046b8fe3629adb976" id="r_aa0a6509a1e6d7e2046b8fe3629adb976"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0a6509a1e6d7e2046b8fe3629adb976">setOverlayColorMap</a> (int start, int num, const SbColor *colors)</td></tr>
+<tr class="separator:aa0a6509a1e6d7e2046b8fe3629adb976"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae352dc05ca2ad69d0a6df775e6e86554" id="r_ae352dc05ca2ad69d0a6df775e6e86554"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae352dc05ca2ad69d0a6df775e6e86554">setOverlayGLRenderAction</a> (SoGLRenderAction *action)</td></tr>
+<tr class="separator:ae352dc05ca2ad69d0a6df775e6e86554"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9b7cf41b49dfddaf3d7ab21852e4cc8" id="r_ae9b7cf41b49dfddaf3d7ab21852e4cc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9b7cf41b49dfddaf3d7ab21852e4cc8">setOverlaySceneGraph</a> (SoNode *scene)</td></tr>
+<tr class="separator:ae9b7cf41b49dfddaf3d7ab21852e4cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06bfd4fa2214f0b23c79e35157ff19f7" id="r_a06bfd4fa2214f0b23c79e35157ff19f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06bfd4fa2214f0b23c79e35157ff19f7">setOverlaySceneManager</a> (SoSceneManager *manager)</td></tr>
+<tr class="separator:a06bfd4fa2214f0b23c79e35157ff19f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa01154bd0053dff011990a0cc37af5cc" id="r_aa01154bd0053dff011990a0cc37af5cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa01154bd0053dff011990a0cc37af5cc">setRedrawPriority</a> (uint32_t priority)</td></tr>
+<tr class="separator:aa01154bd0053dff011990a0cc37af5cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa392300fbbebd494b9f626aebd3794b6" id="r_aa392300fbbebd494b9f626aebd3794b6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa392300fbbebd494b9f626aebd3794b6">setSceneGraph</a> (SoNode *scene)</td></tr>
+<tr class="separator:aa392300fbbebd494b9f626aebd3794b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae768a8e4caf8229f65bd7fff52f682c3" id="r_ae768a8e4caf8229f65bd7fff52f682c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae768a8e4caf8229f65bd7fff52f682c3">setSceneManager</a> (SoSceneManager *manager)</td></tr>
+<tr class="separator:ae768a8e4caf8229f65bd7fff52f682c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59988ed43d027f54c86ba3f1a4ab18fa" id="r_a59988ed43d027f54c86ba3f1a4ab18fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59988ed43d027f54c86ba3f1a4ab18fa">setTransparencyType</a> (SoGLRenderAction::TransparencyType type)</td></tr>
+<tr class="separator:a59988ed43d027f54c86ba3f1a4ab18fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adadd5f43f99631f1f19188aa0143efd3" id="r_adadd5f43f99631f1f19188aa0143efd3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adadd5f43f99631f1f19188aa0143efd3">setViewportRegion</a> (const SbViewportRegion &amp;newRegion)</td></tr>
+<tr class="separator:adadd5f43f99631f1f19188aa0143efd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4a135d6fbd46c3d1eec19a8d4999ae1" id="r_ad4a135d6fbd46c3d1eec19a8d4999ae1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4a135d6fbd46c3d1eec19a8d4999ae1">unregisterDevice</a> (<a class="el" href="classSoWinDevice.html">SoWinDevice</a> *device)</td></tr>
+<tr class="separator:ad4a135d6fbd46c3d1eec19a8d4999ae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classSoWinGLWidget"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classSoWinGLWidget')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classSoWinGLWidget.html">SoWinGLWidget</a></td></tr>
+<tr class="memitem:a30246c75da16f0a835fcad2458821c24 inherit pub_methods_classSoWinGLWidget" id="r_a30246c75da16f0a835fcad2458821c24"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a30246c75da16f0a835fcad2458821c24">getAccumulationBuffer</a> (void) const</td></tr>
+<tr class="separator:a30246c75da16f0a835fcad2458821c24 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aaae7e4a617ffa762c87705c84bd44a inherit pub_methods_classSoWinGLWidget" id="r_a1aaae7e4a617ffa762c87705c84bd44a"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a1aaae7e4a617ffa762c87705c84bd44a">getAlphaChannel</a> (void) const</td></tr>
+<tr class="separator:a1aaae7e4a617ffa762c87705c84bd44a inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a17e1b4aa53ebb8ec60823eb63a1948 inherit pub_methods_classSoWinGLWidget" id="r_a6a17e1b4aa53ebb8ec60823eb63a1948"><td class="memItemLeft" align="right" valign="top">HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a6a17e1b4aa53ebb8ec60823eb63a1948">getGLWidget</a> (void) const</td></tr>
+<tr class="separator:a6a17e1b4aa53ebb8ec60823eb63a1948 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab89cba49a2845c6c99278948814ef177 inherit pub_methods_classSoWinGLWidget" id="r_ab89cba49a2845c6c99278948814ef177"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#ab89cba49a2845c6c99278948814ef177">getLineWidthLimits</a> (SbVec2f &amp;range, float &amp;granularity)</td></tr>
+<tr class="separator:ab89cba49a2845c6c99278948814ef177 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10d0af9972f5e05da8f5ba82fcb70663 inherit pub_methods_classSoWinGLWidget" id="r_a10d0af9972f5e05da8f5ba82fcb70663"><td class="memItemLeft" align="right" valign="top">HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a10d0af9972f5e05da8f5ba82fcb70663">getNormalWidget</a> (void) const</td></tr>
+<tr class="separator:a10d0af9972f5e05da8f5ba82fcb70663 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad93224b125eb793843c6b7979320bb20 inherit pub_methods_classSoWinGLWidget" id="r_ad93224b125eb793843c6b7979320bb20"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#ad93224b125eb793843c6b7979320bb20">getOverlayTransparentPixel</a> (void)</td></tr>
+<tr class="separator:ad93224b125eb793843c6b7979320bb20 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09b1993206418d9940818e788cad566f inherit pub_methods_classSoWinGLWidget" id="r_a09b1993206418d9940818e788cad566f"><td class="memItemLeft" align="right" valign="top">HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a09b1993206418d9940818e788cad566f">getOverlayWidget</a> (void) const</td></tr>
+<tr class="separator:a09b1993206418d9940818e788cad566f inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fe64385c3fc6d8f0f47efb728a58318 inherit pub_methods_classSoWinGLWidget" id="r_a8fe64385c3fc6d8f0f47efb728a58318"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a8fe64385c3fc6d8f0f47efb728a58318">getPointSizeLimits</a> (SbVec2f &amp;range, float &amp;granularity)</td></tr>
+<tr class="separator:a8fe64385c3fc6d8f0f47efb728a58318 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83cb90b0b6e6b88fc43d880c4a646826 inherit pub_methods_classSoWinGLWidget" id="r_a83cb90b0b6e6b88fc43d880c4a646826"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a83cb90b0b6e6b88fc43d880c4a646826">getSampleBuffers</a> (void) const</td></tr>
+<tr class="separator:a83cb90b0b6e6b88fc43d880c4a646826 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a901cab9db3bbf8469e0cf90819a3de8f inherit pub_methods_classSoWinGLWidget" id="r_a901cab9db3bbf8469e0cf90819a3de8f"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a901cab9db3bbf8469e0cf90819a3de8f">getStencilBuffer</a> (void) const</td></tr>
+<tr class="separator:a901cab9db3bbf8469e0cf90819a3de8f inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbc70e2e1e8191c0d879195b90f28460 inherit pub_methods_classSoWinGLWidget" id="r_acbc70e2e1e8191c0d879195b90f28460"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#acbc70e2e1e8191c0d879195b90f28460">hasNormalGLArea</a> (void) const</td></tr>
+<tr class="separator:acbc70e2e1e8191c0d879195b90f28460 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac309fdfc22980e3685d10f66624fac6f inherit pub_methods_classSoWinGLWidget" id="r_ac309fdfc22980e3685d10f66624fac6f"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#ac309fdfc22980e3685d10f66624fac6f">hasOverlayGLArea</a> (void) const</td></tr>
+<tr class="separator:ac309fdfc22980e3685d10f66624fac6f inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a946cc7137e7157fc24b75a6dfe3254b6 inherit pub_methods_classSoWinGLWidget" id="r_a946cc7137e7157fc24b75a6dfe3254b6"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a946cc7137e7157fc24b75a6dfe3254b6">isBorder</a> (void) const</td></tr>
+<tr class="separator:a946cc7137e7157fc24b75a6dfe3254b6 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cfe9582e6a84bc18ea0c3833bd66cf0 inherit pub_methods_classSoWinGLWidget" id="r_a0cfe9582e6a84bc18ea0c3833bd66cf0"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a0cfe9582e6a84bc18ea0c3833bd66cf0">isDoubleBuffer</a> (void) const</td></tr>
+<tr class="separator:a0cfe9582e6a84bc18ea0c3833bd66cf0 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6febe844303141c390656ab261532cfe inherit pub_methods_classSoWinGLWidget" id="r_a6febe844303141c390656ab261532cfe"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a6febe844303141c390656ab261532cfe">isDrawToFrontBufferEnable</a> (void) const</td></tr>
+<tr class="separator:a6febe844303141c390656ab261532cfe inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47075cec2d64426ce63f00555d3a527e inherit pub_methods_classSoWinGLWidget" id="r_a47075cec2d64426ce63f00555d3a527e"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a47075cec2d64426ce63f00555d3a527e">isOverlayRender</a> (void) const</td></tr>
+<tr class="separator:a47075cec2d64426ce63f00555d3a527e inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70e4178d8c96c513b18d25b6fa8152c0 inherit pub_methods_classSoWinGLWidget" id="r_a70e4178d8c96c513b18d25b6fa8152c0"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a70e4178d8c96c513b18d25b6fa8152c0">isQuadBufferStereo</a> (void) const</td></tr>
+<tr class="separator:a70e4178d8c96c513b18d25b6fa8152c0 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a181c97666f7c89fe11aa8158200cac43 inherit pub_methods_classSoWinGLWidget" id="r_a181c97666f7c89fe11aa8158200cac43"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a181c97666f7c89fe11aa8158200cac43">isStealFocus</a> (void) const</td></tr>
+<tr class="separator:a181c97666f7c89fe11aa8158200cac43 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ece6311d6d36eaf9993935d78184d03 inherit pub_methods_classSoWinGLWidget" id="r_a3ece6311d6d36eaf9993935d78184d03"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a3ece6311d6d36eaf9993935d78184d03">setAccumulationBuffer</a> (const SbBool enable)</td></tr>
+<tr class="separator:a3ece6311d6d36eaf9993935d78184d03 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a538a74febd3028499caf78113ca231be inherit pub_methods_classSoWinGLWidget" id="r_a538a74febd3028499caf78113ca231be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a538a74febd3028499caf78113ca231be">setAlphaChannel</a> (const SbBool enable)</td></tr>
+<tr class="separator:a538a74febd3028499caf78113ca231be inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02df01e560068258c3519ef231fb237a inherit pub_methods_classSoWinGLWidget" id="r_a02df01e560068258c3519ef231fb237a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a02df01e560068258c3519ef231fb237a">setBorder</a> (const SbBool enable)</td></tr>
+<tr class="separator:a02df01e560068258c3519ef231fb237a inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1ec4c484bcf278677a763abd7f6ba98 inherit pub_methods_classSoWinGLWidget" id="r_ab1ec4c484bcf278677a763abd7f6ba98"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#ab1ec4c484bcf278677a763abd7f6ba98">setDoubleBuffer</a> (const SbBool enable)</td></tr>
+<tr class="separator:ab1ec4c484bcf278677a763abd7f6ba98 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8b8e0e2ee1d815d67922a037372ca75 inherit pub_methods_classSoWinGLWidget" id="r_ab8b8e0e2ee1d815d67922a037372ca75"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#ab8b8e0e2ee1d815d67922a037372ca75">setDrawToFrontBufferEnable</a> (const SbBool enable)</td></tr>
+<tr class="separator:ab8b8e0e2ee1d815d67922a037372ca75 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10cef6b9534e6cc7cc2dc971ddf42099 inherit pub_methods_classSoWinGLWidget" id="r_a10cef6b9534e6cc7cc2dc971ddf42099"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a10cef6b9534e6cc7cc2dc971ddf42099">setOverlayRender</a> (const SbBool onoff)</td></tr>
+<tr class="separator:a10cef6b9534e6cc7cc2dc971ddf42099 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8369c06869eb98cdf0b760385570368 inherit pub_methods_classSoWinGLWidget" id="r_ad8369c06869eb98cdf0b760385570368"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#ad8369c06869eb98cdf0b760385570368">setQuadBufferStereo</a> (const SbBool enable)</td></tr>
+<tr class="separator:ad8369c06869eb98cdf0b760385570368 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb86596fdbdf00f918776ed1792c2af9 inherit pub_methods_classSoWinGLWidget" id="r_aeb86596fdbdf00f918776ed1792c2af9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#aeb86596fdbdf00f918776ed1792c2af9">setSampleBuffers</a> (const int numsamples)</td></tr>
+<tr class="separator:aeb86596fdbdf00f918776ed1792c2af9 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b0c2da58ee83d79ef7b1837e6b5e1b1 inherit pub_methods_classSoWinGLWidget" id="r_a5b0c2da58ee83d79ef7b1837e6b5e1b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a5b0c2da58ee83d79ef7b1837e6b5e1b1">setStealFocus</a> (SbBool enable)</td></tr>
+<tr class="separator:a5b0c2da58ee83d79ef7b1837e6b5e1b1 inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c0e4524bfec78a6433bab50255af7dc inherit pub_methods_classSoWinGLWidget" id="r_a7c0e4524bfec78a6433bab50255af7dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a7c0e4524bfec78a6433bab50255af7dc">setStencilBuffer</a> (const SbBool enable)</td></tr>
+<tr class="separator:a7c0e4524bfec78a6433bab50255af7dc inherit pub_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classSoWinComponent"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classSoWinComponent')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classSoWinComponent.html">SoWinComponent</a></td></tr>
+<tr class="memitem:ad3e52a98b293cbf325e5136ce362e545 inherit pub_methods_classSoWinComponent" id="r_ad3e52a98b293cbf325e5136ce362e545"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#ad3e52a98b293cbf325e5136ce362e545">~SoWinComponent</a> ()</td></tr>
+<tr class="separator:ad3e52a98b293cbf325e5136ce362e545 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95ada2e5009748fb8b5f55ac612b20e9 inherit pub_methods_classSoWinComponent" id="r_a95ada2e5009748fb8b5f55ac612b20e9"><td class="memItemLeft" align="right" valign="top">HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a95ada2e5009748fb8b5f55ac612b20e9">getBaseWidget</a> (void) const</td></tr>
+<tr class="separator:a95ada2e5009748fb8b5f55ac612b20e9 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56120e9e714678e10dd2b9ba1ddc9855 inherit pub_methods_classSoWinComponent" id="r_a56120e9e714678e10dd2b9ba1ddc9855"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a56120e9e714678e10dd2b9ba1ddc9855">getClassName</a> (void) const</td></tr>
+<tr class="separator:a56120e9e714678e10dd2b9ba1ddc9855 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bf76bdfbf03f050bc0d3575f903ccd8 inherit pub_methods_classSoWinComponent" id="r_a2bf76bdfbf03f050bc0d3575f903ccd8"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a2bf76bdfbf03f050bc0d3575f903ccd8">getIconTitle</a> (void) const</td></tr>
+<tr class="separator:a2bf76bdfbf03f050bc0d3575f903ccd8 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a570103436ea61510ec985b5ccdd2952b inherit pub_methods_classSoWinComponent" id="r_a570103436ea61510ec985b5ccdd2952b"><td class="memItemLeft" align="right" valign="top">HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a570103436ea61510ec985b5ccdd2952b">getParentWidget</a> (void) const</td></tr>
+<tr class="separator:a570103436ea61510ec985b5ccdd2952b inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f5ec0f48b620362e4ddcb109ea10850 inherit pub_methods_classSoWinComponent" id="r_a9f5ec0f48b620362e4ddcb109ea10850"><td class="memItemLeft" align="right" valign="top">HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a9f5ec0f48b620362e4ddcb109ea10850">getShellWidget</a> (void) const</td></tr>
+<tr class="separator:a9f5ec0f48b620362e4ddcb109ea10850 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b045068f92d73db7e5daa0f7acceccd inherit pub_methods_classSoWinComponent" id="r_a6b045068f92d73db7e5daa0f7acceccd"><td class="memItemLeft" align="right" valign="top">SbVec2s&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a6b045068f92d73db7e5daa0f7acceccd">getSize</a> (void) const</td></tr>
+<tr class="separator:a6b045068f92d73db7e5daa0f7acceccd inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafbe3de83d6dbf0ed0e3c346c0db8c08 inherit pub_methods_classSoWinComponent" id="r_aafbe3de83d6dbf0ed0e3c346c0db8c08"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#aafbe3de83d6dbf0ed0e3c346c0db8c08">getTitle</a> (void) const</td></tr>
+<tr class="separator:aafbe3de83d6dbf0ed0e3c346c0db8c08 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56fc69472b65cd4f5c630f7aa79254c9 inherit pub_methods_classSoWinComponent" id="r_a56fc69472b65cd4f5c630f7aa79254c9"><td class="memItemLeft" align="right" valign="top">HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a56fc69472b65cd4f5c630f7aa79254c9">getWidget</a> (void) const</td></tr>
+<tr class="separator:a56fc69472b65cd4f5c630f7aa79254c9 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e4ea6662efb115be4f9b95623ca54ad inherit pub_methods_classSoWinComponent" id="r_a2e4ea6662efb115be4f9b95623ca54ad"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a2e4ea6662efb115be4f9b95623ca54ad">getWidgetName</a> (void) const</td></tr>
+<tr class="separator:a2e4ea6662efb115be4f9b95623ca54ad inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05147fd8c7d682be56da9fd3c615bc77 inherit pub_methods_classSoWinComponent" id="r_a05147fd8c7d682be56da9fd3c615bc77"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a05147fd8c7d682be56da9fd3c615bc77">hide</a> (void)</td></tr>
+<tr class="separator:a05147fd8c7d682be56da9fd3c615bc77 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff7a65c71025f2d783ef3d5984112c4c inherit pub_methods_classSoWinComponent" id="r_aff7a65c71025f2d783ef3d5984112c4c"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#aff7a65c71025f2d783ef3d5984112c4c">isFullScreen</a> (void) const</td></tr>
+<tr class="separator:aff7a65c71025f2d783ef3d5984112c4c inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad21a3087732b5c29fefa5ecbb8c6536e inherit pub_methods_classSoWinComponent" id="r_ad21a3087732b5c29fefa5ecbb8c6536e"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#ad21a3087732b5c29fefa5ecbb8c6536e">isTopLevelShell</a> (void) const</td></tr>
+<tr class="separator:ad21a3087732b5c29fefa5ecbb8c6536e inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc92b557664019e8eacef6432b9ce511 inherit pub_methods_classSoWinComponent" id="r_abc92b557664019e8eacef6432b9ce511"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#abc92b557664019e8eacef6432b9ce511">isVisible</a> (void)</td></tr>
+<tr class="separator:abc92b557664019e8eacef6432b9ce511 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f07f83314239251470b2004973785a9 inherit pub_methods_classSoWinComponent" id="r_a4f07f83314239251470b2004973785a9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a4f07f83314239251470b2004973785a9">setComponentCursor</a> (const <a class="el" href="classSoWinCursor.html">SoWinCursor</a> &amp;cursor)</td></tr>
+<tr class="separator:a4f07f83314239251470b2004973785a9 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a854ab61f54d7783a835dd031815663af inherit pub_methods_classSoWinComponent" id="r_a854ab61f54d7783a835dd031815663af"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a854ab61f54d7783a835dd031815663af">setFullScreen</a> (const SbBool onoff)</td></tr>
+<tr class="separator:a854ab61f54d7783a835dd031815663af inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfb21826b72e148698a752c83f3ee3c6 inherit pub_methods_classSoWinComponent" id="r_acfb21826b72e148698a752c83f3ee3c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#acfb21826b72e148698a752c83f3ee3c6">setIconTitle</a> (const char *const title)</td></tr>
+<tr class="separator:acfb21826b72e148698a752c83f3ee3c6 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75ff1afeb15bb9347790078d5e36ae59 inherit pub_methods_classSoWinComponent" id="r_a75ff1afeb15bb9347790078d5e36ae59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a75ff1afeb15bb9347790078d5e36ae59">setSize</a> (const SbVec2s size)</td></tr>
+<tr class="separator:a75ff1afeb15bb9347790078d5e36ae59 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57445dc512eef4eba316b83b74066d9f inherit pub_methods_classSoWinComponent" id="r_a57445dc512eef4eba316b83b74066d9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a57445dc512eef4eba316b83b74066d9f">setTitle</a> (const char *const title)</td></tr>
+<tr class="separator:a57445dc512eef4eba316b83b74066d9f inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a900640928bd7553a375c59258766da84 inherit pub_methods_classSoWinComponent" id="r_a900640928bd7553a375c59258766da84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a900640928bd7553a375c59258766da84">setWindowCloseCallback</a> (SoWinComponentCB *const func, void *const user=NULL)</td></tr>
+<tr class="separator:a900640928bd7553a375c59258766da84 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78602b78e99afda6ec60d5bbe6228e71 inherit pub_methods_classSoWinComponent" id="r_a78602b78e99afda6ec60d5bbe6228e71"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a78602b78e99afda6ec60d5bbe6228e71">show</a> (void)</td></tr>
+<tr class="separator:a78602b78e99afda6ec60d5bbe6228e71 inherit pub_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classSoWinObject"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classSoWinObject')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classSoWinObject.html">SoWinObject</a></td></tr>
+<tr class="memitem:a0f8e3e56140717305d9e12290de5fa76 inherit pub_methods_classSoWinObject" id="r_a0f8e3e56140717305d9e12290de5fa76"><td class="memItemLeft" align="right" valign="top">virtual SoType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinObject.html#a0f8e3e56140717305d9e12290de5fa76">getTypeId</a> (void) const =0</td></tr>
+<tr class="separator:a0f8e3e56140717305d9e12290de5fa76 inherit pub_methods_classSoWinObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab233f110e417b6b2b51f22c80c5a4020 inherit pub_methods_classSoWinObject" id="r_ab233f110e417b6b2b51f22c80c5a4020"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinObject.html#ab233f110e417b6b2b51f22c80c5a4020">isOfType</a> (SoType type) const</td></tr>
+<tr class="separator:ab233f110e417b6b2b51f22c80c5a4020 inherit pub_methods_classSoWinObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a560e7ba20742b471d000ffa4bf37d83b" id="r_a560e7ba20742b471d000ffa4bf37d83b"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a560e7ba20742b471d000ffa4bf37d83b">getDefaultRedrawPriority</a> (void)</td></tr>
+<tr class="separator:a560e7ba20742b471d000ffa4bf37d83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_classSoWinComponent"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_methods_classSoWinComponent')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classSoWinComponent.html">SoWinComponent</a></td></tr>
+<tr class="memitem:ae8b042ab0ee208aec5f0f0a409c7bf1b inherit pub_static_methods_classSoWinComponent" id="r_ae8b042ab0ee208aec5f0f0a409c7bf1b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classSoWinComponent.html">SoWinComponent</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#ae8b042ab0ee208aec5f0f0a409c7bf1b">getComponent</a> (HWND widget)</td></tr>
+<tr class="separator:ae8b042ab0ee208aec5f0f0a409c7bf1b inherit pub_static_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00e2279e5e4c8fb4908cd381f371eb62 inherit pub_static_methods_classSoWinComponent" id="r_a00e2279e5e4c8fb4908cd381f371eb62"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a00e2279e5e4c8fb4908cd381f371eb62">initClasses</a> (void)</td></tr>
+<tr class="separator:a00e2279e5e4c8fb4908cd381f371eb62 inherit pub_static_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8855ccad0a206699ab8dfd7f4ccb08b0 inherit pub_static_methods_classSoWinComponent" id="r_a8855ccad0a206699ab8dfd7f4ccb08b0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a8855ccad0a206699ab8dfd7f4ccb08b0">setWidgetCursor</a> (HWND w, const <a class="el" href="classSoWinCursor.html">SoWinCursor</a> &amp;cursor)</td></tr>
+<tr class="separator:a8855ccad0a206699ab8dfd7f4ccb08b0 inherit pub_static_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_classSoWinObject"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_methods_classSoWinObject')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classSoWinObject.html">SoWinObject</a></td></tr>
+<tr class="memitem:a19d34a98cae0248c8ddde9d72dcfc00c inherit pub_static_methods_classSoWinObject" id="r_a19d34a98cae0248c8ddde9d72dcfc00c"><td class="memItemLeft" align="right" valign="top">static SoType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinObject.html#a19d34a98cae0248c8ddde9d72dcfc00c">getClassTypeId</a> (void)</td></tr>
+<tr class="separator:a19d34a98cae0248c8ddde9d72dcfc00c inherit pub_static_methods_classSoWinObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac240c05605da092ac6bf3e7c2b5ca6e inherit pub_static_methods_classSoWinObject" id="r_aac240c05605da092ac6bf3e7c2b5ca6e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinObject.html#aac240c05605da092ac6bf3e7c2b5ca6e">init</a> (void)</td></tr>
+<tr class="separator:aac240c05605da092ac6bf3e7c2b5ca6e inherit pub_static_methods_classSoWinObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf252675201af15d370837aea94ab6f0 inherit pub_static_methods_classSoWinObject" id="r_aaf252675201af15d370837aea94ab6f0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinObject.html#aaf252675201af15d370837aea94ab6f0">initClass</a> (void)</td></tr>
+<tr class="separator:aaf252675201af15d370837aea94ab6f0 inherit pub_static_methods_classSoWinObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:ac53aaab21e28d07d3e15ea31f54cc3b1" id="r_ac53aaab21e28d07d3e15ea31f54cc3b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac53aaab21e28d07d3e15ea31f54cc3b1">SoWinRenderArea</a> (HWND parent, const char *name, SbBool embed, SbBool mouseInput, SbBool keyboardInput, SbBool build)</td></tr>
+<tr class="separator:ac53aaab21e28d07d3e15ea31f54cc3b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a524773f68d37aa68354c2462ae3e9977" id="r_a524773f68d37aa68354c2462ae3e9977"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a524773f68d37aa68354c2462ae3e9977">actualOverlayRedraw</a> (void)</td></tr>
+<tr class="separator:a524773f68d37aa68354c2462ae3e9977"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e6fa681be6f03f2ac45eaa85d1d1e81" id="r_a4e6fa681be6f03f2ac45eaa85d1d1e81"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e6fa681be6f03f2ac45eaa85d1d1e81">actualRedraw</a> (void)</td></tr>
+<tr class="separator:a4e6fa681be6f03f2ac45eaa85d1d1e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68b75fd1febc42357d2455ab8fe2d31d" id="r_a68b75fd1febc42357d2455ab8fe2d31d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68b75fd1febc42357d2455ab8fe2d31d">afterRealizeHook</a> (void)</td></tr>
+<tr class="separator:a68b75fd1febc42357d2455ab8fe2d31d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d8826d497bf68e8ed5973d5329421e2" id="r_a0d8826d497bf68e8ed5973d5329421e2"><td class="memItemLeft" align="right" valign="top"><a id="a0d8826d497bf68e8ed5973d5329421e2" name="a0d8826d497bf68e8ed5973d5329421e2"></a>
+HWND&#160;</td><td class="memItemRight" valign="bottom"><b>buildWidget</b> (HWND parent)</td></tr>
+<tr class="separator:a0d8826d497bf68e8ed5973d5329421e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a7ee4918aab0cc70906ca06912db1ed" id="r_a7a7ee4918aab0cc70906ca06912db1ed"><td class="memItemLeft" align="right" valign="top">virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a7ee4918aab0cc70906ca06912db1ed">getDefaultIconTitle</a> (void) const</td></tr>
+<tr class="separator:a7a7ee4918aab0cc70906ca06912db1ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab58b59507b9d68f9f07954dac4c05f3" id="r_aab58b59507b9d68f9f07954dac4c05f3"><td class="memItemLeft" align="right" valign="top">virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab58b59507b9d68f9f07954dac4c05f3">getDefaultTitle</a> (void) const</td></tr>
+<tr class="separator:aab58b59507b9d68f9f07954dac4c05f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc0aa8a70ae0f0fc5987de32814182c6" id="r_abc0aa8a70ae0f0fc5987de32814182c6"><td class="memItemLeft" align="right" valign="top">virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc0aa8a70ae0f0fc5987de32814182c6">getDefaultWidgetName</a> (void) const</td></tr>
+<tr class="separator:abc0aa8a70ae0f0fc5987de32814182c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac8e80354e27e3c360a9744cb1c9b5e9" id="r_aac8e80354e27e3c360a9744cb1c9b5e9"><td class="memItemLeft" align="right" valign="top">virtual SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac8e80354e27e3c360a9744cb1c9b5e9">glScheduleRedraw</a> (void)</td></tr>
+<tr class="separator:aac8e80354e27e3c360a9744cb1c9b5e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9221f9c8963f287b3c772b4a6f8d0bc" id="r_aa9221f9c8963f287b3c772b4a6f8d0bc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9221f9c8963f287b3c772b4a6f8d0bc">initGraphic</a> (void)</td></tr>
+<tr class="separator:aa9221f9c8963f287b3c772b4a6f8d0bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea407b8edc51faba3e99ff7d76caf6f0" id="r_aea407b8edc51faba3e99ff7d76caf6f0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea407b8edc51faba3e99ff7d76caf6f0">initOverlayGraphic</a> (void)</td></tr>
+<tr class="separator:aea407b8edc51faba3e99ff7d76caf6f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e3a450f6c40cc07eeab259a3c2eec01" id="r_a6e3a450f6c40cc07eeab259a3c2eec01"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e3a450f6c40cc07eeab259a3c2eec01">processEvent</a> (MSG *event)</td></tr>
+<tr class="separator:a6e3a450f6c40cc07eeab259a3c2eec01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64fc8de36a6d0c34ce360743d5b97461" id="r_a64fc8de36a6d0c34ce360743d5b97461"><td class="memItemLeft" align="right" valign="top">virtual SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64fc8de36a6d0c34ce360743d5b97461">processSoEvent</a> (const SoEvent *const event)</td></tr>
+<tr class="separator:a64fc8de36a6d0c34ce360743d5b97461"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2860fd939b1ef8af5c89dd7bab39fd89" id="r_a2860fd939b1ef8af5c89dd7bab39fd89"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2860fd939b1ef8af5c89dd7bab39fd89">redraw</a> (void)</td></tr>
+<tr class="separator:a2860fd939b1ef8af5c89dd7bab39fd89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6e89e133d3038c3336e0642b3b0c7f8" id="r_ad6e89e133d3038c3336e0642b3b0c7f8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6e89e133d3038c3336e0642b3b0c7f8">redrawOverlay</a> (void)</td></tr>
+<tr class="separator:ad6e89e133d3038c3336e0642b3b0c7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1574a34357a388da795d301687d3861" id="r_ad1574a34357a388da795d301687d3861"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1574a34357a388da795d301687d3861">sizeChanged</a> (const SbVec2s &amp;size)</td></tr>
+<tr class="separator:ad1574a34357a388da795d301687d3861"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a529781fff74cf9fa5c4193e4a0f8b521" id="r_a529781fff74cf9fa5c4193e4a0f8b521"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a529781fff74cf9fa5c4193e4a0f8b521">widgetChanged</a> (HWND widget)</td></tr>
+<tr class="separator:a529781fff74cf9fa5c4193e4a0f8b521"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classSoWinGLWidget"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classSoWinGLWidget')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classSoWinGLWidget.html">SoWinGLWidget</a></td></tr>
+<tr class="memitem:a6b7b1e6450e0ebd61a7bbdb57700cbb8 inherit pro_methods_classSoWinGLWidget" id="r_a6b7b1e6450e0ebd61a7bbdb57700cbb8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a6b7b1e6450e0ebd61a7bbdb57700cbb8">SoWinGLWidget</a> (HWND const parent=NULL, const char *const name=NULL, const SbBool embed=TRUE, const int glmodes=SO_GL_RGB, const SbBool build=TRUE)</td></tr>
+<tr class="separator:a6b7b1e6450e0ebd61a7bbdb57700cbb8 inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4d88f9510a08ba87e5bc543a583779e inherit pro_methods_classSoWinGLWidget" id="r_af4d88f9510a08ba87e5bc543a583779e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#af4d88f9510a08ba87e5bc543a583779e">~SoWinGLWidget</a> ()</td></tr>
+<tr class="separator:af4d88f9510a08ba87e5bc543a583779e inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7be002e0b7640735f33ac722c373596 inherit pro_methods_classSoWinGLWidget" id="r_af7be002e0b7640735f33ac722c373596"><td class="memItemLeft" align="right" valign="top">HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#af7be002e0b7640735f33ac722c373596">buildWidget</a> (HWND parent)</td></tr>
+<tr class="separator:af7be002e0b7640735f33ac722c373596 inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8385d058a5b0f5dcf8280a7f73b8c79f inherit pro_methods_classSoWinGLWidget" id="r_a8385d058a5b0f5dcf8280a7f73b8c79f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a8385d058a5b0f5dcf8280a7f73b8c79f">getGLAspectRatio</a> (void) const</td></tr>
+<tr class="separator:a8385d058a5b0f5dcf8280a7f73b8c79f inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa13f0789ea0049759980fb715d8913cd inherit pro_methods_classSoWinGLWidget" id="r_aa13f0789ea0049759980fb715d8913cd"><td class="memItemLeft" align="right" valign="top">SbVec2s&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#aa13f0789ea0049759980fb715d8913cd">getGLSize</a> (void) const</td></tr>
+<tr class="separator:aa13f0789ea0049759980fb715d8913cd inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b9515fc9fad2bd366163234e1d8ffc8 inherit pro_methods_classSoWinGLWidget" id="r_a9b9515fc9fad2bd366163234e1d8ffc8"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a9b9515fc9fad2bd366163234e1d8ffc8">getGlxAspectRatio</a> (void) const</td></tr>
+<tr class="separator:a9b9515fc9fad2bd366163234e1d8ffc8 inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad76c8d015607a5a50f7d2e09e5ae6d97 inherit pro_methods_classSoWinGLWidget" id="r_ad76c8d015607a5a50f7d2e09e5ae6d97"><td class="memItemLeft" align="right" valign="top">SbVec2s&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#ad76c8d015607a5a50f7d2e09e5ae6d97">getGlxSize</a> (void) const</td></tr>
+<tr class="separator:ad76c8d015607a5a50f7d2e09e5ae6d97 inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6108f2511b13f4abee19f969276eaa88 inherit pro_methods_classSoWinGLWidget" id="r_a6108f2511b13f4abee19f969276eaa88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a6108f2511b13f4abee19f969276eaa88">glFlushBuffer</a> (void)</td></tr>
+<tr class="separator:a6108f2511b13f4abee19f969276eaa88 inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8fdea777d6f8146a90bbefb907d560e inherit pro_methods_classSoWinGLWidget" id="r_aa8fdea777d6f8146a90bbefb907d560e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#aa8fdea777d6f8146a90bbefb907d560e">glLockNormal</a> (void)</td></tr>
+<tr class="separator:aa8fdea777d6f8146a90bbefb907d560e inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5678939aa12483d504b48efcc2f7020d inherit pro_methods_classSoWinGLWidget" id="r_a5678939aa12483d504b48efcc2f7020d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a5678939aa12483d504b48efcc2f7020d">glLockOverlay</a> (void)</td></tr>
+<tr class="separator:a5678939aa12483d504b48efcc2f7020d inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0e66ee0f37ef26aad82f19fe94748e2 inherit pro_methods_classSoWinGLWidget" id="r_ae0e66ee0f37ef26aad82f19fe94748e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#ae0e66ee0f37ef26aad82f19fe94748e2">glSwapBuffers</a> (void)</td></tr>
+<tr class="separator:ae0e66ee0f37ef26aad82f19fe94748e2 inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba511bbba2cefdb84e895640b51b96f8 inherit pro_methods_classSoWinGLWidget" id="r_aba511bbba2cefdb84e895640b51b96f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#aba511bbba2cefdb84e895640b51b96f8">glUnlockNormal</a> (void)</td></tr>
+<tr class="separator:aba511bbba2cefdb84e895640b51b96f8 inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e1a2baed3995faf138f97ead0002e26 inherit pro_methods_classSoWinGLWidget" id="r_a9e1a2baed3995faf138f97ead0002e26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a9e1a2baed3995faf138f97ead0002e26">glUnlockOverlay</a> (void)</td></tr>
+<tr class="separator:a9e1a2baed3995faf138f97ead0002e26 inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab47790e6daa987376e4ca430d5b6a2eb inherit pro_methods_classSoWinGLWidget" id="r_ab47790e6daa987376e4ca430d5b6a2eb"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#ab47790e6daa987376e4ca430d5b6a2eb">isRGBMode</a> (void)</td></tr>
+<tr class="separator:ab47790e6daa987376e4ca430d5b6a2eb inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52d3db73530f81eb972ddea8eb054cea inherit pro_methods_classSoWinGLWidget" id="r_a52d3db73530f81eb972ddea8eb054cea"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a52d3db73530f81eb972ddea8eb054cea">isStereoBuffer</a> (void) const</td></tr>
+<tr class="separator:a52d3db73530f81eb972ddea8eb054cea inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace202ce1abe87da6ab17625c4bcd21c1 inherit pro_methods_classSoWinGLWidget" id="r_ace202ce1abe87da6ab17625c4bcd21c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#ace202ce1abe87da6ab17625c4bcd21c1">setGLSize</a> (const SbVec2s size)</td></tr>
+<tr class="separator:ace202ce1abe87da6ab17625c4bcd21c1 inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2600a8c48a3024c680b2ad933d4e8daf inherit pro_methods_classSoWinGLWidget" id="r_a2600a8c48a3024c680b2ad933d4e8daf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a2600a8c48a3024c680b2ad933d4e8daf">setGlxSize</a> (const SbVec2s size)</td></tr>
+<tr class="separator:a2600a8c48a3024c680b2ad933d4e8daf inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5665bc998612380d94bfca328d312b11 inherit pro_methods_classSoWinGLWidget" id="r_a5665bc998612380d94bfca328d312b11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a5665bc998612380d94bfca328d312b11">setStereoBuffer</a> (SbBool flag)</td></tr>
+<tr class="separator:a5665bc998612380d94bfca328d312b11 inherit pro_methods_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classSoWinComponent"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classSoWinComponent')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classSoWinComponent.html">SoWinComponent</a></td></tr>
+<tr class="memitem:af07bb8f6886541c20e6b7ac5fa33ff15 inherit pro_methods_classSoWinComponent" id="r_af07bb8f6886541c20e6b7ac5fa33ff15"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#af07bb8f6886541c20e6b7ac5fa33ff15">SoWinComponent</a> (HWND const parent=NULL, const char *const name=NULL, const SbBool embed=TRUE)</td></tr>
+<tr class="separator:af07bb8f6886541c20e6b7ac5fa33ff15 inherit pro_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59e0945213ccbb1fedb575c7ad9386d5 inherit pro_methods_classSoWinComponent" id="r_a59e0945213ccbb1fedb575c7ad9386d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a59e0945213ccbb1fedb575c7ad9386d5">addVisibilityChangeCallback</a> (SoWinComponentVisibilityCB *const func, void *const user=NULL)</td></tr>
+<tr class="separator:a59e0945213ccbb1fedb575c7ad9386d5 inherit pro_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaae2345d3dab64f6c146e500a72d57c inherit pro_methods_classSoWinComponent" id="r_acaae2345d3dab64f6c146e500a72d57c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#acaae2345d3dab64f6c146e500a72d57c">registerWidget</a> (HWND widget)</td></tr>
+<tr class="separator:acaae2345d3dab64f6c146e500a72d57c inherit pro_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af63b5d611d02a0991c9ab16ec5f6f513 inherit pro_methods_classSoWinComponent" id="r_af63b5d611d02a0991c9ab16ec5f6f513"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#af63b5d611d02a0991c9ab16ec5f6f513">removeVisibilityChangeCallback</a> (SoWinComponentVisibilityCB *const func, void *const user=NULL)</td></tr>
+<tr class="separator:af63b5d611d02a0991c9ab16ec5f6f513 inherit pro_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad19dc2c8ecd12345eedea79d7e501d46 inherit pro_methods_classSoWinComponent" id="r_ad19dc2c8ecd12345eedea79d7e501d46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#ad19dc2c8ecd12345eedea79d7e501d46">setBaseWidget</a> (HWND widget)</td></tr>
+<tr class="separator:ad19dc2c8ecd12345eedea79d7e501d46 inherit pro_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01ae9afead8f721cfeb80cd301bf982b inherit pro_methods_classSoWinComponent" id="r_a01ae9afead8f721cfeb80cd301bf982b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a01ae9afead8f721cfeb80cd301bf982b">setClassName</a> (const char *const name)</td></tr>
+<tr class="separator:a01ae9afead8f721cfeb80cd301bf982b inherit pro_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dc82dd30304e6478e1ac8ae820ae3ad inherit pro_methods_classSoWinComponent" id="r_a7dc82dd30304e6478e1ac8ae820ae3ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinComponent.html#a7dc82dd30304e6478e1ac8ae820ae3ad">unregisterWidget</a> (HWND widget)</td></tr>
+<tr class="separator:a7dc82dd30304e6478e1ac8ae820ae3ad inherit pro_methods_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_classSoWinGLWidget"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_classSoWinGLWidget')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classSoWinGLWidget.html">SoWinGLWidget</a></td></tr>
+<tr class="memitem:a98b948ada0480e6994299ce2ba301678 inherit pro_attribs_classSoWinGLWidget" id="r_a98b948ada0480e6994299ce2ba301678"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a98b948ada0480e6994299ce2ba301678">drawToFrontBuffer</a></td></tr>
+<tr class="separator:a98b948ada0480e6994299ce2ba301678 inherit pro_attribs_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d60cdf50e6b438a1acee480e4a1fd93 inherit pro_attribs_classSoWinGLWidget" id="r_a9d60cdf50e6b438a1acee480e4a1fd93"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoWinGLWidget.html#a9d60cdf50e6b438a1acee480e4a1fd93">waitForExpose</a></td></tr>
+<tr class="separator:a9d60cdf50e6b438a1acee480e4a1fd93 inherit pro_attribs_classSoWinGLWidget"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classSoWinComponent"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_classSoWinComponent')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classSoWinComponent.html">SoWinComponent</a></td></tr>
+<tr class="memitem:a426ec419ccfe08b99601253db51b7db7 inherit pro_attribs_classSoWinComponent" id="r_a426ec419ccfe08b99601253db51b7db7"><td class="memItemLeft" align="right" valign="top">
+SbBool&#160;</td><td class="memItemRight" valign="bottom"><b>firstRealize</b></td></tr>
+<tr class="separator:a426ec419ccfe08b99601253db51b7db7 inherit pro_attribs_classSoWinComponent"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classSoWinRenderArea.html" title="The SoWinRenderArea class adds scene graph handling and event management.">SoWinRenderArea</a> class adds scene graph handling and event management. </p>
+<p>The <a class="el" href="classSoWinRenderArea.html" title="The SoWinRenderArea class adds scene graph handling and event management.">SoWinRenderArea</a> class is a component that adds scene graph management and input device event handling to the <a class="el" href="classSoWinGLWidget.html" title="The SoWinGLWidget class manages OpenGL contexts.">SoWinGLWidget</a> component.</p>
+<p>The class has many convenient methods for controlling aspects of the rendering, like for instance transparency, aliasing and for scheduling of redraws.</p>
+<p>Native toolkit events are caught by <a class="el" href="classSoWinRenderArea.html" title="The SoWinRenderArea class adds scene graph handling and event management.">SoWinRenderArea</a> components, translated to Coin SoEvent instances and passed on to the scene graph, in case the user is doing interactive operations on for instance Coin geometry draggers.</p>
+<p><a class="el" href="classSoWinRenderArea.html" title="The SoWinRenderArea class adds scene graph handling and event management.">SoWinRenderArea</a> is the first non-abstract component in its inheritance hierarchy that you can use directly from client application code to set up a scene graph viewer canvas.</p>
+<p>For an <a class="el" href="classSoWinRenderArea.html" title="The SoWinRenderArea class adds scene graph handling and event management.">SoWinRenderArea</a> component to properly display your scene graph, it must contain an SoCamera-derived node and at least one SoLight-derived light source node.</p>
+<p>Here's a complete, stand-alone example on how to set up an <a class="el" href="classSoWinRenderArea.html" title="The SoWinRenderArea class adds scene graph handling and event management.">SoWinRenderArea</a> with a scene graph:</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;Inventor/Win/SoWin.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/Win/SoWinRenderArea.h&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoCube.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoRotor.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoArray.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoDirectionalLight.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoPerspectiveCamera.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoSeparator.h&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Set up a simple scene graph, just for demonstration purposes.</span></div>
+<div class="line"><span class="keyword">static</span> SoSeparator *</div>
+<div class="line">get_scene_graph(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line">  SoSeparator * root = <span class="keyword">new</span> SoSeparator;</div>
+<div class="line"> </div>
+<div class="line">  SoGroup * group = <span class="keyword">new</span> SoGroup;</div>
+<div class="line"> </div>
+<div class="line">  SoRotor * rotor = <span class="keyword">new</span> SoRotor;</div>
+<div class="line">  rotor-&gt;rotation = SbRotation(SbVec3f(0.2, 0.5, 0.9), M_PI/4.0);</div>
+<div class="line">  group-&gt;addChild(rotor);</div>
+<div class="line"> </div>
+<div class="line">  SoCube * cube = <span class="keyword">new</span> SoCube;</div>
+<div class="line">  group-&gt;addChild(cube);</div>
+<div class="line"> </div>
+<div class="line">  SoArray * array = <span class="keyword">new</span> SoArray;</div>
+<div class="line">  array-&gt;origin = SoArray::CENTER;</div>
+<div class="line">  array-&gt;addChild(group);</div>
+<div class="line">  array-&gt;numElements1 = 2;</div>
+<div class="line">  array-&gt;numElements2 = 2;</div>
+<div class="line">  array-&gt;separation1 = SbVec3f(4, 0, 0);</div>
+<div class="line">  array-&gt;separation2 = SbVec3f(0, 4, 0);</div>
+<div class="line"> </div>
+<div class="line">  root-&gt;addChild(array);</div>
+<div class="line">  <span class="keywordflow">return</span> root;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span></div>
+<div class="line">main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> ** argv)</div>
+<div class="line">{</div>
+<div class="line">  HWND window = <a class="code hl_function" href="classSoWin.html#a586cacd95fc3cdf03ea7c6e674bd3758">SoWin::init</a>(argv[0]);</div>
+<div class="line"> </div>
+<div class="line">  SoSeparator * root = <span class="keyword">new</span> SoSeparator;</div>
+<div class="line">  root-&gt;ref();</div>
+<div class="line"> </div>
+<div class="line">  SoPerspectiveCamera * camera;</div>
+<div class="line">  root-&gt;addChild(camera = <span class="keyword">new</span> SoPerspectiveCamera);</div>
+<div class="line"> </div>
+<div class="line">  root-&gt;addChild(<span class="keyword">new</span> SoDirectionalLight);</div>
+<div class="line"> </div>
+<div class="line">  SoSeparator * userroot = get_scene_graph();</div>
+<div class="line">  root-&gt;addChild(userroot);</div>
+<div class="line"> </div>
+<div class="line">  <a class="code hl_class" href="classSoWinRenderArea.html">SoWinRenderArea</a> * renderarea = <span class="keyword">new</span> <a class="code hl_function" href="#ae642f4235fc8df399075be21bc0aa2b1">SoWinRenderArea</a>(window);</div>
+<div class="line">  camera-&gt;viewAll(userroot, renderarea-&gt;<a class="code hl_function" href="#a3c0340860010dd1892f92843cb561fe1">getViewportRegion</a>());</div>
+<div class="line">  renderarea-&gt;<a class="code hl_function" href="#aa392300fbbebd494b9f626aebd3794b6">setSceneGraph</a>(root);</div>
+<div class="line">  renderarea-&gt;<a class="code hl_function" href="#ad84a6fc8cfacb964c27264848f94b4c3">setBackgroundColor</a>(SbColor(0.0f, 0.2f, 0.3f));</div>
+<div class="line">  <span class="keywordflow">if</span> (argc &gt; 1) {</div>
+<div class="line">    renderarea-&gt;<a class="code hl_function" href="classSoWinComponent.html#a57445dc512eef4eba316b83b74066d9f">setTitle</a>(argv[1]);</div>
+<div class="line">    renderarea-&gt;<a class="code hl_function" href="classSoWinComponent.html#acfb21826b72e148698a752c83f3ee3c6">setIconTitle</a>(argv[1]);</div>
+<div class="line">  }</div>
+<div class="line">  renderarea-&gt;<a class="code hl_function" href="classSoWinComponent.html#a78602b78e99afda6ec60d5bbe6228e71">show</a>();</div>
+<div class="line"> </div>
+<div class="line">  <a class="code hl_function" href="classSoWin.html#a9ea1432420e1114599397462f9bde5e7">SoWin::show</a>(window);</div>
+<div class="line">  <a class="code hl_function" href="classSoWin.html#ab37d1296692c6895990b71046b161d17">SoWin::mainLoop</a>();</div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">delete</span> renderarea;</div>
+<div class="line">  root-&gt;unref();</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassSoWinComponent_html_a57445dc512eef4eba316b83b74066d9f"><div class="ttname"><a href="classSoWinComponent.html#a57445dc512eef4eba316b83b74066d9f">SoWinComponent::setTitle</a></div><div class="ttdeci">void setTitle(const char *const title)</div><div class="ttdef"><b>Definition</b> SoWinComponent.cpp:514</div></div>
+<div class="ttc" id="aclassSoWinComponent_html_a78602b78e99afda6ec60d5bbe6228e71"><div class="ttname"><a href="classSoWinComponent.html#a78602b78e99afda6ec60d5bbe6228e71">SoWinComponent::show</a></div><div class="ttdeci">virtual void show(void)</div><div class="ttdef"><b>Definition</b> SoWinComponent.cpp:368</div></div>
+<div class="ttc" id="aclassSoWinComponent_html_acfb21826b72e148698a752c83f3ee3c6"><div class="ttname"><a href="classSoWinComponent.html#acfb21826b72e148698a752c83f3ee3c6">SoWinComponent::setIconTitle</a></div><div class="ttdeci">void setIconTitle(const char *const title)</div><div class="ttdef"><b>Definition</b> SoWinComponent.cpp:545</div></div>
+<div class="ttc" id="aclassSoWinRenderArea_html"><div class="ttname"><a href="classSoWinRenderArea.html">SoWinRenderArea</a></div><div class="ttdoc">The SoWinRenderArea class adds scene graph handling and event management.</div><div class="ttdef"><b>Definition</b> SoWinRenderArea.h:62</div></div>
+<div class="ttc" id="aclassSoWinRenderArea_html_a3c0340860010dd1892f92843cb561fe1"><div class="ttname"><a href="#a3c0340860010dd1892f92843cb561fe1">SoWinRenderArea::getViewportRegion</a></div><div class="ttdeci">const SbViewportRegion &amp; getViewportRegion(void) const</div><div class="ttdef"><b>Definition</b> SoWinRenderArea.cpp:1209</div></div>
+<div class="ttc" id="aclassSoWinRenderArea_html_aa392300fbbebd494b9f626aebd3794b6"><div class="ttname"><a href="#aa392300fbbebd494b9f626aebd3794b6">SoWinRenderArea::setSceneGraph</a></div><div class="ttdeci">virtual void setSceneGraph(SoNode *scene)</div><div class="ttdef"><b>Definition</b> SoWinRenderArea.cpp:1003</div></div>
+<div class="ttc" id="aclassSoWinRenderArea_html_ad84a6fc8cfacb964c27264848f94b4c3"><div class="ttname"><a href="#ad84a6fc8cfacb964c27264848f94b4c3">SoWinRenderArea::setBackgroundColor</a></div><div class="ttdeci">void setBackgroundColor(const SbColor &amp;color)</div><div class="ttdef"><b>Definition</b> SoWinRenderArea.cpp:1061</div></div>
+<div class="ttc" id="aclassSoWinRenderArea_html_ae642f4235fc8df399075be21bc0aa2b1"><div class="ttname"><a href="#ae642f4235fc8df399075be21bc0aa2b1">SoWinRenderArea::SoWinRenderArea</a></div><div class="ttdeci">SoWinRenderArea(HWND parent=NULL, const char *name=NULL, SbBool embed=TRUE, SbBool mouseInput=TRUE, SbBool keyboardInput=TRUE)</div><div class="ttdef"><b>Definition</b> SoWinRenderArea.cpp:880</div></div>
+<div class="ttc" id="aclassSoWin_html_a586cacd95fc3cdf03ea7c6e674bd3758"><div class="ttname"><a href="classSoWin.html#a586cacd95fc3cdf03ea7c6e674bd3758">SoWin::init</a></div><div class="ttdeci">static HWND init(const char *appname, const char *classname=&quot;SoWin&quot;)</div><div class="ttdef"><b>Definition</b> SoWinCommon.cpp:173</div></div>
+<div class="ttc" id="aclassSoWin_html_a9ea1432420e1114599397462f9bde5e7"><div class="ttname"><a href="classSoWin.html#a9ea1432420e1114599397462f9bde5e7">SoWin::show</a></div><div class="ttdeci">static void show(HWND const widget)</div><div class="ttdef"><b>Definition</b> SoWin.cpp:456</div></div>
+<div class="ttc" id="aclassSoWin_html_ab37d1296692c6895990b71046b161d17"><div class="ttname"><a href="classSoWin.html#ab37d1296692c6895990b71046b161d17">SoWin::mainLoop</a></div><div class="ttdeci">static void mainLoop(void)</div><div class="ttdef"><b>Definition</b> SoWin.cpp:375</div></div>
+</div><!-- fragment --> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ae642f4235fc8df399075be21bc0aa2b1" name="ae642f4235fc8df399075be21bc0aa2b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae642f4235fc8df399075be21bc0aa2b1">&#9670;&#160;</a></span>SoWinRenderArea() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoWinRenderArea::SoWinRenderArea </td>
+          <td>(</td>
+          <td class="paramtype">HWND</td>          <td class="paramname"><span class="paramname"><em>parent</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>name</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SbBool</td>          <td class="paramname"><span class="paramname"><em>embed</em><span class="paramdefsep"> = </span><span class="paramdefval">TRUE</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SbBool</td>          <td class="paramname"><span class="paramname"><em>mouseInput</em><span class="paramdefsep"> = </span><span class="paramdefval">TRUE</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SbBool</td>          <td class="paramname"><span class="paramname"><em>keyboardInput</em><span class="paramdefsep"> = </span><span class="paramdefval">TRUE</span></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Public constructor. </p>
+
+</div>
+</div>
+<a id="a84fc2be57670fdd37769713e2b765dc1" name="a84fc2be57670fdd37769713e2b765dc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84fc2be57670fdd37769713e2b765dc1">&#9670;&#160;</a></span>~SoWinRenderArea()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoWinRenderArea::~SoWinRenderArea </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Destructor. </p>
+
+</div>
+</div>
+<a id="ac53aaab21e28d07d3e15ea31f54cc3b1" name="ac53aaab21e28d07d3e15ea31f54cc3b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac53aaab21e28d07d3e15ea31f54cc3b1">&#9670;&#160;</a></span>SoWinRenderArea() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoWinRenderArea::SoWinRenderArea </td>
+          <td>(</td>
+          <td class="paramtype">HWND</td>          <td class="paramname"><span class="paramname"><em>parent</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>name</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SbBool</td>          <td class="paramname"><span class="paramname"><em>embed</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SbBool</td>          <td class="paramname"><span class="paramname"><em>mouseInput</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SbBool</td>          <td class="paramname"><span class="paramname"><em>keyboardInput</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SbBool</td>          <td class="paramname"><span class="paramname"><em>build</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Protected constructor used by derived classes. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a524773f68d37aa68354c2462ae3e9977" name="a524773f68d37aa68354c2462ae3e9977"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a524773f68d37aa68354c2462ae3e9977">&#9670;&#160;</a></span>actualOverlayRedraw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::actualOverlayRedraw </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method renders the overlay scene. </p>
+
+</div>
+</div>
+<a id="a4e6fa681be6f03f2ac45eaa85d1d1e81" name="a4e6fa681be6f03f2ac45eaa85d1d1e81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e6fa681be6f03f2ac45eaa85d1d1e81">&#9670;&#160;</a></span>actualRedraw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::actualRedraw </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method instantly redraws the normal (non-overlay) scene graph by calling SoSceneManager::render().</p>
+<p>Subclasses may override this method to add their own rendering before or after Coin renders its scene graph.</p>
+<p>The following is a complete example that demonstrates one way of adding both a background image and foreground (overlay) geometry to the "normal" rendering:</p>
+<div class="fragment"><div class="line"><span class="comment">// This example shows how to put a permanent background image on</span></div>
+<div class="line"><span class="comment">// your viewer canvas, below the 3D graphics, plus overlay</span></div>
+<div class="line"><span class="comment">// foreground geometry.  Written by mortene.</span></div>
+<div class="line"><span class="comment">// Copyright Kongsberg Oil &amp; Gas Technologies 2002.</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// *************************************************************************</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/Win/SoWin.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/Win/viewers/SoWinExaminerViewer.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoBaseColor.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoCone.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoCube.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoImage.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoLightModel.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoOrthographicCamera.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoRotationXYZ.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoSeparator.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;Inventor/nodes/SoTranslation.h&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &lt;GL/gl.h&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// *************************************************************************</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">class </span>MyExaminerViewer : <span class="keyword">public</span> <a class="code hl_class" href="classSoWinExaminerViewer.html">SoWinExaminerViewer</a> {</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">  MyExaminerViewer(HWND parent, <span class="keyword">const</span> <span class="keywordtype">char</span> * filename);</div>
+<div class="line">  ~MyExaminerViewer();</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">protected</span>:</div>
+<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> actualRedraw(<span class="keywordtype">void</span>);</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">private</span>:</div>
+<div class="line">  SoSeparator * bckgroundroot;</div>
+<div class="line">  SoSeparator * foregroundroot;</div>
+<div class="line">  SoRotationXYZ * arrowrotation;</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line">MyExaminerViewer::MyExaminerViewer(HWND parent, <span class="keyword">const</span> <span class="keywordtype">char</span> * filename)</div>
+<div class="line">  : <a class="code hl_class" href="classSoWinExaminerViewer.html">SoWinExaminerViewer</a>(parent)</div>
+<div class="line">{</div>
+<div class="line">  <span class="comment">// Coin should not clear the pixel-buffer, so the background image</span></div>
+<div class="line">  <span class="comment">// is not removed.</span></div>
+<div class="line">  this-&gt;setClearBeforeRender(FALSE, TRUE);</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Set up background scene graph with image in it.</span></div>
+<div class="line"> </div>
+<div class="line">  this-&gt;bckgroundroot = <span class="keyword">new</span> SoSeparator;</div>
+<div class="line">  this-&gt;bckgroundroot-&gt;ref();</div>
+<div class="line"> </div>
+<div class="line">  SoOrthographicCamera * cam = <span class="keyword">new</span> SoOrthographicCamera;</div>
+<div class="line">  cam-&gt;position = SbVec3f(0, 0, 1);</div>
+<div class="line">  cam-&gt;height = 1;</div>
+<div class="line">  <span class="comment">// SoImage will be at z==0.0.</span></div>
+<div class="line">  cam-&gt;nearDistance = 0.5;</div>
+<div class="line">  cam-&gt;farDistance = 1.5;</div>
+<div class="line"> </div>
+<div class="line">  SoImage * img = <span class="keyword">new</span> SoImage;</div>
+<div class="line">  img-&gt;vertAlignment = SoImage::HALF;</div>
+<div class="line">  img-&gt;horAlignment = SoImage::CENTER;</div>
+<div class="line">  img-&gt;filename = filename;</div>
+<div class="line"> </div>
+<div class="line">  this-&gt;bckgroundroot-&gt;addChild(cam);</div>
+<div class="line">  this-&gt;bckgroundroot-&gt;addChild(img);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Set up foreground, overlaid scene graph.</span></div>
+<div class="line"> </div>
+<div class="line">  this-&gt;foregroundroot = <span class="keyword">new</span> SoSeparator;</div>
+<div class="line">  this-&gt;foregroundroot-&gt;ref();</div>
+<div class="line"> </div>
+<div class="line">  SoLightModel * lm = <span class="keyword">new</span> SoLightModel;</div>
+<div class="line">  lm-&gt;model = SoLightModel::BASE_COLOR;</div>
+<div class="line"> </div>
+<div class="line">  SoBaseColor * bc = <span class="keyword">new</span> SoBaseColor;</div>
+<div class="line">  bc-&gt;rgb = SbColor(1, 1, 0);</div>
+<div class="line"> </div>
+<div class="line">  cam = <span class="keyword">new</span> SoOrthographicCamera;</div>
+<div class="line">  cam-&gt;position = SbVec3f(0, 0, 5);</div>
+<div class="line">  cam-&gt;height = 10;</div>
+<div class="line">  cam-&gt;nearDistance = 0;</div>
+<div class="line">  cam-&gt;farDistance = 10;</div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">const</span> <span class="keywordtype">double</span> ARROWSIZE = 2.0;</div>
+<div class="line"> </div>
+<div class="line">  SoTranslation * posit = <span class="keyword">new</span> SoTranslation;</div>
+<div class="line">  posit-&gt;translation = SbVec3f(-2.5 * ARROWSIZE, 1.5 * ARROWSIZE, 0);</div>
+<div class="line"> </div>
+<div class="line">  arrowrotation = <span class="keyword">new</span> SoRotationXYZ;</div>
+<div class="line">  arrowrotation-&gt;axis = SoRotationXYZ::Z;</div>
+<div class="line"> </div>
+<div class="line">  SoTranslation * offset = <span class="keyword">new</span> SoTranslation;</div>
+<div class="line">  offset-&gt;translation = SbVec3f(ARROWSIZE/2.0, 0, 0);</div>
+<div class="line"> </div>
+<div class="line">  SoCube * cube = <span class="keyword">new</span> SoCube;</div>
+<div class="line">  cube-&gt;width = ARROWSIZE;</div>
+<div class="line">  cube-&gt;height = ARROWSIZE/15.0;</div>
+<div class="line"> </div>
+<div class="line">  this-&gt;foregroundroot-&gt;addChild(cam);</div>
+<div class="line">  this-&gt;foregroundroot-&gt;addChild(lm);</div>
+<div class="line">  this-&gt;foregroundroot-&gt;addChild(bc);</div>
+<div class="line">  this-&gt;foregroundroot-&gt;addChild(posit);</div>
+<div class="line">  this-&gt;foregroundroot-&gt;addChild(arrowrotation);</div>
+<div class="line">  this-&gt;foregroundroot-&gt;addChild(offset);</div>
+<div class="line">  this-&gt;foregroundroot-&gt;addChild(cube);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line">MyExaminerViewer::~MyExaminerViewer()</div>
+<div class="line">{</div>
+<div class="line">  this-&gt;bckgroundroot-&gt;unref();</div>
+<div class="line">  this-&gt;foregroundroot-&gt;unref();</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span></div>
+<div class="line">MyExaminerViewer::actualRedraw(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line">  <span class="comment">// Must set up the OpenGL viewport manually, as upon resize</span></div>
+<div class="line">  <span class="comment">// operations, Coin won&#39;t set it up until the SoGLRenderAction is</span></div>
+<div class="line">  <span class="comment">// applied again. And since we need to do glClear() before applying</span></div>
+<div class="line">  <span class="comment">// the action..</span></div>
+<div class="line">  <span class="keyword">const</span> SbViewportRegion vp = this-&gt;getViewportRegion();</div>
+<div class="line">  SbVec2s origin = vp.getViewportOriginPixels();</div>
+<div class="line">  SbVec2s size = vp.getViewportSizePixels();</div>
+<div class="line">  glViewport(origin[0], origin[1], size[0], size[1]);</div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">const</span> SbColor col = this-&gt;getBackgroundColor();</div>
+<div class="line">  glClearColor(col[0], col[1], col[2], 0.0f);</div>
+<div class="line">  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Render our scene graph with the image.</span></div>
+<div class="line">  SoGLRenderAction * glra = this-&gt;getGLRenderAction();</div>
+<div class="line">  glra-&gt;apply(this-&gt;bckgroundroot);</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Render normal scene graph.</span></div>
+<div class="line">  <a class="code hl_function" href="classSoWinExaminerViewer.html#a8b458990352a1e4a0a4a636135c4fccf">SoWinExaminerViewer::actualRedraw</a>();</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// Increase arrow angle with 1/1000 degrees every frame.</span></div>
+<div class="line">  arrowrotation-&gt;angle = arrowrotation-&gt;angle.getValue() + (0.001 / M_PI * 180);</div>
+<div class="line">  <span class="comment">// Render overlay front scene graph.</span></div>
+<div class="line">  glClear(GL_DEPTH_BUFFER_BIT);</div>
+<div class="line">  glra-&gt;apply(this-&gt;foregroundroot);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// *************************************************************************</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span></div>
+<div class="line">main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> ** argv)</div>
+<div class="line">{</div>
+<div class="line">  <span class="keywordflow">if</span> (argc != 2) {</div>
+<div class="line">    (void)fprintf(stderr, <span class="stringliteral">&quot;\n\n\tUsage: %s &lt;image-filename&gt;\n\n&quot;</span>, argv[0]);</div>
+<div class="line">    exit(1);</div>
+<div class="line">  }</div>
+<div class="line"> </div>
+<div class="line">  HWND window = <a class="code hl_function" href="classSoWin.html#a586cacd95fc3cdf03ea7c6e674bd3758">SoWin::init</a>(argv[0]);</div>
+<div class="line"> </div>
+<div class="line">  MyExaminerViewer * viewer = <span class="keyword">new</span> MyExaminerViewer(window, argv[1]);</div>
+<div class="line"> </div>
+<div class="line">  viewer-&gt;setSceneGraph(<span class="keyword">new</span> SoCone);</div>
+<div class="line">  viewer-&gt;show();</div>
+<div class="line"> </div>
+<div class="line">  <a class="code hl_function" href="classSoWin.html#a9ea1432420e1114599397462f9bde5e7">SoWin::show</a>(window);</div>
+<div class="line">  <a class="code hl_function" href="classSoWin.html#ab37d1296692c6895990b71046b161d17">SoWin::mainLoop</a>();</div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">delete</span> viewer;</div>
+<div class="line">  <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// *************************************************************************</span></div>
+<div class="ttc" id="aclassSoWinExaminerViewer_html"><div class="ttname"><a href="classSoWinExaminerViewer.html">SoWinExaminerViewer</a></div><div class="ttdoc">The SoWinExaminerViewer class is a 3D-model examination viewer.</div><div class="ttdef"><b>Definition</b> SoWinExaminerViewer.h:50</div></div>
+<div class="ttc" id="aclassSoWinExaminerViewer_html_a8b458990352a1e4a0a4a636135c4fccf"><div class="ttname"><a href="classSoWinExaminerViewer.html#a8b458990352a1e4a0a4a636135c4fccf">SoWinExaminerViewer::actualRedraw</a></div><div class="ttdeci">virtual void actualRedraw(void)</div><div class="ttdef"><b>Definition</b> SoWinExaminerViewer.cpp:663</div></div>
+</div><!-- fragment --> 
+<p>Reimplemented in <a class="el" href="classSoWinExaminerViewer.html#a8b458990352a1e4a0a4a636135c4fccf">SoWinExaminerViewer</a>, <a class="el" href="classSoWinFlyViewer.html#ac807924d9a0472f0015076e9ad9c7962">SoWinFlyViewer</a>, <a class="el" href="classSoWinPlaneViewer.html#a0ef745506896c14a17e65158170047ee">SoWinPlaneViewer</a>, and <a class="el" href="classSoWinViewer.html#a446eb75874dc62468db604692ba0171c">SoWinViewer</a>.</p>
+
+</div>
+</div>
+<a id="a68b75fd1febc42357d2455ab8fe2d31d" name="a68b75fd1febc42357d2455ab8fe2d31d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68b75fd1febc42357d2455ab8fe2d31d">&#9670;&#160;</a></span>afterRealizeHook()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::afterRealizeHook </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>A function "hook" / callback invoked just after the window for the component has been realized.</p>
+<p>Override this if you need specific initialization for your own component or viewer class to happen right after it has been made visible, but remember to call upwards in the inheritance hierarchy:</p>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span></div>
+<div class="line">MyLittleViewer::afterRealizeHook(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line">  &lt;superclass&gt;<a class="code hl_function" href="#a68b75fd1febc42357d2455ab8fe2d31d">::afterRealizeHook</a>();</div>
+<div class="line">  <span class="comment">// [own initialization here]</span></div>
+<div class="line">}</div>
+<div class="ttc" id="aclassSoWinRenderArea_html_a68b75fd1febc42357d2455ab8fe2d31d"><div class="ttname"><a href="#a68b75fd1febc42357d2455ab8fe2d31d">SoWinRenderArea::afterRealizeHook</a></div><div class="ttdeci">virtual void afterRealizeHook(void)</div><div class="ttdef"><b>Definition</b> SoWinRenderArea.cpp:981</div></div>
+</div><!-- fragment --> 
+<p>Reimplemented from <a class="el" href="classSoWinComponent.html#a5a74ca24d3756b92c6b71678a8988349">SoWinComponent</a>.</p>
+
+<p>Reimplemented in <a class="el" href="classSoWinExaminerViewer.html#a8c54647d5a87799f1b8c0c2cc1ef5b6c">SoWinExaminerViewer</a>, <a class="el" href="classSoWinFlyViewer.html#a5a1d2fddfd3938121b007909c6300081">SoWinFlyViewer</a>, and <a class="el" href="classSoWinPlaneViewer.html#a2b2723458f9957e72491928f806ea3d6">SoWinPlaneViewer</a>.</p>
+
+</div>
+</div>
+<a id="a081896ce7a60b1804a4ea64ae00f6c24" name="a081896ce7a60b1804a4ea64ae00f6c24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a081896ce7a60b1804a4ea64ae00f6c24">&#9670;&#160;</a></span>getAntialiasing()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::getAntialiasing </td>
+          <td>(</td>
+          <td class="paramtype">SbBool &amp;</td>          <td class="paramname"><span class="paramname"><em>smoothing</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;</td>          <td class="paramname"><span class="paramname"><em>numPasses</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the antialiasing used for the scene. </p>
+
+</div>
+</div>
+<a id="a3457719522e5c7d6b6d80e251c2d306c" name="a3457719522e5c7d6b6d80e251c2d306c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3457719522e5c7d6b6d80e251c2d306c">&#9670;&#160;</a></span>getBackgroundColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const SbColor &amp; SoWinRenderArea::getBackgroundColor </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the background color for the scene. </p>
+
+</div>
+</div>
+<a id="aae86d499145c365e099f0e6584519703" name="aae86d499145c365e099f0e6584519703"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae86d499145c365e099f0e6584519703">&#9670;&#160;</a></span>getBackgroundIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int SoWinRenderArea::getBackgroundIndex </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the index of the background color for the scene. </p>
+
+</div>
+</div>
+<a id="a7a7ee4918aab0cc70906ca06912db1ed" name="a7a7ee4918aab0cc70906ca06912db1ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a7ee4918aab0cc70906ca06912db1ed">&#9670;&#160;</a></span>getDefaultIconTitle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * SoWinRenderArea::getDefaultIconTitle </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns the default icon title of the component.</p>
+<p>It should be overridden by derived non-abstract classes so icons will get proper titles. </p>
+
+<p>Reimplemented from <a class="el" href="classSoWinComponent.html#a011be0a1cdc7557bc617246db7c4084a">SoWinComponent</a>.</p>
+
+<p>Reimplemented in <a class="el" href="classSoWinExaminerViewer.html#a790dee723c34ba0aa87fb20b59d31c4b">SoWinExaminerViewer</a>, <a class="el" href="classSoWinFlyViewer.html#a2e9e22fd416bb6bf7b1115c3487dd1d9">SoWinFlyViewer</a>, and <a class="el" href="classSoWinPlaneViewer.html#a2039a0e4ece32af700324413fb59b455">SoWinPlaneViewer</a>.</p>
+
+</div>
+</div>
+<a id="a560e7ba20742b471d000ffa4bf37d83b" name="a560e7ba20742b471d000ffa4bf37d83b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a560e7ba20742b471d000ffa4bf37d83b">&#9670;&#160;</a></span>getDefaultRedrawPriority()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t SoWinRenderArea::getDefaultRedrawPriority </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function returns the default redraw priority. </p>
+
+</div>
+</div>
+<a id="aab58b59507b9d68f9f07954dac4c05f3" name="aab58b59507b9d68f9f07954dac4c05f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab58b59507b9d68f9f07954dac4c05f3">&#9670;&#160;</a></span>getDefaultTitle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * SoWinRenderArea::getDefaultTitle </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns the default window caption string of the component.</p>
+<p>It should be overridden by derived non-abstract classes so the window and pop-up menu will get a proper title. </p>
+
+<p>Reimplemented from <a class="el" href="classSoWinComponent.html#a453541500120c7040652f0c3490ae4c1">SoWinComponent</a>.</p>
+
+<p>Reimplemented in <a class="el" href="classSoWinExaminerViewer.html#a0667764ffd5b60e222b91e56a5c0f1bd">SoWinExaminerViewer</a>, <a class="el" href="classSoWinFlyViewer.html#a0aeb2173e97ef878b15e2d5f4fbf9fd0">SoWinFlyViewer</a>, and <a class="el" href="classSoWinPlaneViewer.html#a6d0df0cc3f800b52459e7bc1bc138bd8">SoWinPlaneViewer</a>.</p>
+
+</div>
+</div>
+<a id="abc0aa8a70ae0f0fc5987de32814182c6" name="abc0aa8a70ae0f0fc5987de32814182c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc0aa8a70ae0f0fc5987de32814182c6">&#9670;&#160;</a></span>getDefaultWidgetName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * SoWinRenderArea::getDefaultWidgetName </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns the default name of a component widget class.</p>
+<p>It should be overridden by derived non-abstract classes for the topmost widget in the component to have a proper name. </p>
+
+<p>Reimplemented from <a class="el" href="classSoWinComponent.html#a42c97752bd0bf045ce359558e645b66a">SoWinComponent</a>.</p>
+
+<p>Reimplemented in <a class="el" href="classSoWinExaminerViewer.html#a3698bcf8f0d56a9787633dd84b381764">SoWinExaminerViewer</a>, <a class="el" href="classSoWinFlyViewer.html#a8f435951de4145de0dc6b36f552319b6">SoWinFlyViewer</a>, and <a class="el" href="classSoWinPlaneViewer.html#afb28bc8e6645f3b0991248ea19102cef">SoWinPlaneViewer</a>.</p>
+
+</div>
+</div>
+<a id="a110cca8f85ac6e9b3f0e776dcb045003" name="a110cca8f85ac6e9b3f0e776dcb045003"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a110cca8f85ac6e9b3f0e776dcb045003">&#9670;&#160;</a></span>getGLRenderAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoGLRenderAction * SoWinRenderArea::getGLRenderAction </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the SoGLRenderAction object for the normal scene. </p>
+
+</div>
+</div>
+<a id="ad4698e1336aaed434f56481f13e181ac" name="ad4698e1336aaed434f56481f13e181ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4698e1336aaed434f56481f13e181ac">&#9670;&#160;</a></span>getOverlayBackgroundIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int SoWinRenderArea::getOverlayBackgroundIndex </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the index of the background for the overlay scene. </p>
+
+</div>
+</div>
+<a id="a34989f22ac83ef90dd4976d677c947dd" name="a34989f22ac83ef90dd4976d677c947dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34989f22ac83ef90dd4976d677c947dd">&#9670;&#160;</a></span>getOverlayGLRenderAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoGLRenderAction * SoWinRenderArea::getOverlayGLRenderAction </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the SoGLRenderAction object for the overlay scene graph. </p>
+
+</div>
+</div>
+<a id="a71a6f2c691871339562349600edf3c0d" name="a71a6f2c691871339562349600edf3c0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71a6f2c691871339562349600edf3c0d">&#9670;&#160;</a></span>getOverlaySceneGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoNode * SoWinRenderArea::getOverlaySceneGraph </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the scene graph for the overlay scene. </p>
+
+</div>
+</div>
+<a id="a0c131ea33e92e2086919938c2c12e322" name="a0c131ea33e92e2086919938c2c12e322"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c131ea33e92e2086919938c2c12e322">&#9670;&#160;</a></span>getOverlaySceneManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoSceneManager * SoWinRenderArea::getOverlaySceneManager </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the overlay scene SoSceneManager object. </p>
+
+</div>
+</div>
+<a id="a7732a88d40125e53f5b37e52be9ae18b" name="a7732a88d40125e53f5b37e52be9ae18b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7732a88d40125e53f5b37e52be9ae18b">&#9670;&#160;</a></span>getRedrawPriority()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t SoWinRenderArea::getRedrawPriority </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the redraw priority. </p>
+
+</div>
+</div>
+<a id="a063ccb694fe14852bf95b8e01d3668e2" name="a063ccb694fe14852bf95b8e01d3668e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a063ccb694fe14852bf95b8e01d3668e2">&#9670;&#160;</a></span>getSceneGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoNode * SoWinRenderArea::getSceneGraph </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns a reference to the scene graph root node as set by the user.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a37a923ea2d0fe73808ef4e57a3468d1e">SoWinRenderArea::getSceneManager()</a> </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classSoWinViewer.html#a4e48ab4f20a0d9f7103f71e8a5cc7dde">SoWinViewer</a>.</p>
+
+</div>
+</div>
+<a id="a37a923ea2d0fe73808ef4e57a3468d1e" name="a37a923ea2d0fe73808ef4e57a3468d1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37a923ea2d0fe73808ef4e57a3468d1e">&#9670;&#160;</a></span>getSceneManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoSceneManager * SoWinRenderArea::getSceneManager </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the normal scene SoSceneManager object.</p>
+<p>Having a reference to the SoSceneManager instance is useful for getting at the <em>real</em> root node of the rendering scene graph, including camera, headlight and miscellaneous draw style nodes. The <a class="el" href="#a063ccb694fe14852bf95b8e01d3668e2">getSceneGraph()</a> method will only return the <em>user</em> scene graph for <a class="el" href="classSoWinRenderArea.html" title="The SoWinRenderArea class adds scene graph handling and event management.">SoWinRenderArea</a> subclass <a class="el" href="classSoWinViewer.html" title="The SoWinViewer class is the top level base viewer class.">SoWinViewer</a> and further subclasses. The reason this is not always what you want is because certain actions (like the SoRayPickAction) needs to traverse a valid camera if it should work as expected.</p>
+<p>If you need to get a pointer to the <em>real</em> root node use this method to get the SoSceneManager instance reference used by the <a class="el" href="classSoWinRenderArea.html" title="The SoWinRenderArea class adds scene graph handling and event management.">SoWinRenderArea</a>, then use SoSceneManager::getSceneGraph() to get the root node Coin uses for rendering. </p>
+
+</div>
+</div>
+<a id="a9f7b2878c62e3a266b592f1d0da0eb39" name="a9f7b2878c62e3a266b592f1d0da0eb39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f7b2878c62e3a266b592f1d0da0eb39">&#9670;&#160;</a></span>getTransparencyType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoGLRenderAction::TransparencyType SoWinRenderArea::getTransparencyType </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the transparency type used for the scene. </p>
+
+</div>
+</div>
+<a id="a3c0340860010dd1892f92843cb561fe1" name="a3c0340860010dd1892f92843cb561fe1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c0340860010dd1892f92843cb561fe1">&#9670;&#160;</a></span>getViewportRegion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const SbViewportRegion &amp; SoWinRenderArea::getViewportRegion </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the viewport region. </p>
+
+</div>
+</div>
+<a id="aac8e80354e27e3c360a9744cb1c9b5e9" name="aac8e80354e27e3c360a9744cb1c9b5e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac8e80354e27e3c360a9744cb1c9b5e9">&#9670;&#160;</a></span>glScheduleRedraw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoWinRenderArea::glScheduleRedraw </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Will be called whenever scene graph needs to be redrawn. If this method return <code>FALSE</code>, <a class="el" href="#a2860fd939b1ef8af5c89dd7bab39fd89">redraw()</a> will be called immediately.</p>
+<p>Default method simply returns <code>FALSE</code>. Override this method to schedule a redraw and return <code>TRUE</code> if you're trying to do The Right Thing. </p>
+
+<p>Reimplemented from <a class="el" href="classSoWinGLWidget.html#a710f8619ac36eb6ea2fb1aa2f57fc333">SoWinGLWidget</a>.</p>
+
+</div>
+</div>
+<a id="aa9221f9c8963f287b3c772b4a6f8d0bc" name="aa9221f9c8963f287b3c772b4a6f8d0bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9221f9c8963f287b3c772b4a6f8d0bc">&#9670;&#160;</a></span>initGraphic()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::initGraphic </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method is invoked to initialize the normal graphics. </p>
+
+<p>Reimplemented from <a class="el" href="classSoWinGLWidget.html#aacb42454e4d7633f05972b91ac683b32">SoWinGLWidget</a>.</p>
+
+</div>
+</div>
+<a id="aea407b8edc51faba3e99ff7d76caf6f0" name="aea407b8edc51faba3e99ff7d76caf6f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea407b8edc51faba3e99ff7d76caf6f0">&#9670;&#160;</a></span>initOverlayGraphic()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::initOverlayGraphic </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method is invoked to initialize the overlay graphics. </p>
+
+<p>Reimplemented from <a class="el" href="classSoWinGLWidget.html#a6be71ba439a2b6e17976c429064d5637">SoWinGLWidget</a>.</p>
+
+</div>
+</div>
+<a id="a37beade9aaa7ccc67a88402348cafb3f" name="a37beade9aaa7ccc67a88402348cafb3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37beade9aaa7ccc67a88402348cafb3f">&#9670;&#160;</a></span>isAutoRedraw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoWinRenderArea::isAutoRedraw </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns whether redrawing is handled automatically not. </p>
+
+</div>
+</div>
+<a id="a5456eb24a013702dc70a592016ff9f6d" name="a5456eb24a013702dc70a592016ff9f6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5456eb24a013702dc70a592016ff9f6d">&#9670;&#160;</a></span>isClearBeforeOverlayRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoWinRenderArea::isClearBeforeOverlayRender </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns whether the overlay render buffer is cleared before each redraw or not. </p>
+
+</div>
+</div>
+<a id="a30435d9159cd5e43a1b7ab575710d073" name="a30435d9159cd5e43a1b7ab575710d073"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30435d9159cd5e43a1b7ab575710d073">&#9670;&#160;</a></span>isClearBeforeRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoWinRenderArea::isClearBeforeRender </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns whether the render buffer is cleared before each render. </p>
+
+</div>
+</div>
+<a id="a4554c08d2fd44d9ee0a68252daf48ef5" name="a4554c08d2fd44d9ee0a68252daf48ef5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4554c08d2fd44d9ee0a68252daf48ef5">&#9670;&#160;</a></span>isClearZBufferBeforeRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoWinRenderArea::isClearZBufferBeforeRender </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns whether the render buffer's z-buffer is cleared before each render. </p>
+
+</div>
+</div>
+<a id="a6e3a450f6c40cc07eeab259a3c2eec01" name="a6e3a450f6c40cc07eeab259a3c2eec01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e3a450f6c40cc07eeab259a3c2eec01">&#9670;&#160;</a></span>processEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::processEvent </td>
+          <td>(</td>
+          <td class="paramtype">MSG *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Overrides <a class="el" href="classSoWinGLWidget.html#afcd956c51cd3d33c3a87d5268ad8ddb5">SoWinGLWidget::processEvent()</a> to try to convert toolkit-native events to Coin-generic events. If this succeeds, the generic SoEvent is forwarded to <a class="el" href="#a64fc8de36a6d0c34ce360743d5b97461">SoWinRenderArea::processSoEvent()</a>. </p>
+
+<p>Reimplemented from <a class="el" href="classSoWinGLWidget.html#afcd956c51cd3d33c3a87d5268ad8ddb5">SoWinGLWidget</a>.</p>
+
+</div>
+</div>
+<a id="a64fc8de36a6d0c34ce360743d5b97461" name="a64fc8de36a6d0c34ce360743d5b97461"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64fc8de36a6d0c34ce360743d5b97461">&#9670;&#160;</a></span>processSoEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoWinRenderArea::processSoEvent </td>
+          <td>(</td>
+          <td class="paramtype">const SoEvent *const</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Toolkit-native events are tried to convert to Coin-generic events in the <a class="el" href="#a6e3a450f6c40cc07eeab259a3c2eec01">SoWinRenderArea::processEvent()</a> method. If this succeeds, they are forwarded to this method.</p>
+<p>This is a virtual method, and is overridden in its subclasses to catch events of particular interest to the viewer classes, for instance.</p>
+<p>Return <code>TRUE</code> if the event was processed. If not it should be passed on further up in the inheritance hierarchy by the caller. This last point is extremely important to take note of if you are expanding the toolkit with your own viewer class.</p>
+<p>This method is not part of the original SGI InventorXt API. Note that you can still override the toolkit-native <a class="el" href="#a6e3a450f6c40cc07eeab259a3c2eec01">processEvent()</a> method instead of this "generic" method. </p>
+
+<p>Reimplemented in <a class="el" href="classSoWinExaminerViewer.html#af3f16ec7db388ce6bd4f4eae92363539">SoWinExaminerViewer</a>, <a class="el" href="classSoWinFlyViewer.html#af67d6d60d4ef43e224b3814af73011d8">SoWinFlyViewer</a>, <a class="el" href="classSoWinFullViewer.html#a88103bc578c7e9b21dc5f57f5998e1be">SoWinFullViewer</a>, <a class="el" href="classSoWinPlaneViewer.html#a83a35db3bdeab3c5b0d0ef9ad5fa14ee">SoWinPlaneViewer</a>, and <a class="el" href="classSoWinViewer.html#a91c1c5059b1bc9cd8bcd2e7e474a0ca2">SoWinViewer</a>.</p>
+
+</div>
+</div>
+<a id="a2860fd939b1ef8af5c89dd7bab39fd89" name="a2860fd939b1ef8af5c89dd7bab39fd89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2860fd939b1ef8af5c89dd7bab39fd89">&#9670;&#160;</a></span>redraw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::redraw </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method is called from the <a class="el" href="#a90d21a5eb66fb3a5bfc0ef469ef78e3f">render()</a> method and takes care of setting up the context for OpenGL rendering (by making the OpenGL canvas the current context and specifying either the front or back buffer for rendering, depending on whether we're in single buffer or double buffer mode).</p>
+<p>After setting up the OpenGL context, it calls <a class="el" href="#a4e6fa681be6f03f2ac45eaa85d1d1e81">actualRedraw()</a> for the actual scene graph rendering to take place.</p>
+<p>Finally, the OpenGL buffers are either swapped back-to-front (for double buffering) or flushed (for single buffering), and our OpenGL context is unlocked.</p>
+<p>The application programmer may override this method if extreme low-level control of the rendering process is necessary. Usually, you should be able to get away with overriding <a class="el" href="#a4e6fa681be6f03f2ac45eaa85d1d1e81">actualRedraw()</a> for special cases, though. </p>
+
+<p>Implements <a class="el" href="classSoWinGLWidget.html#ae15b1255146665c0af34ad19fc0884dc">SoWinGLWidget</a>.</p>
+
+</div>
+</div>
+<a id="ad85140761d69ce3c81cc8c56c8361d64" name="ad85140761d69ce3c81cc8c56c8361d64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad85140761d69ce3c81cc8c56c8361d64">&#9670;&#160;</a></span>redrawOnSelectionChange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::redrawOnSelectionChange </td>
+          <td>(</td>
+          <td class="paramtype">SoSelection *</td>          <td class="paramname"><span class="paramname"><em>selection</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Do automatic redraw of the scene graph when a selection under the SoSelection node is changed.</p>
+<p>Pass <code>NULL</code> to deactivate.</p>
+<p>(Only one SoSelection node can be monitored at any given time. This is obviously a rather silly design flaw. We choose to match the original Inventor API here, but this will probably change in the next major revision of the library.) </p>
+
+</div>
+</div>
+<a id="ad6e89e133d3038c3336e0642b3b0c7f8" name="ad6e89e133d3038c3336e0642b3b0c7f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6e89e133d3038c3336e0642b3b0c7f8">&#9670;&#160;</a></span>redrawOverlay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::redrawOverlay </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method redraws the overlay scene. </p>
+
+<p>Reimplemented from <a class="el" href="classSoWinGLWidget.html#a32260fb321d538f450282ca9a529cbd9">SoWinGLWidget</a>.</p>
+
+</div>
+</div>
+<a id="a3a83ce9c8471314315bfc80de4487996" name="a3a83ce9c8471314315bfc80de4487996"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a83ce9c8471314315bfc80de4487996">&#9670;&#160;</a></span>redrawOverlayOnSelectionChange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::redrawOverlayOnSelectionChange </td>
+          <td>(</td>
+          <td class="paramtype">SoSelection *</td>          <td class="paramname"><span class="paramname"><em>selection</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Do automatic redraw of the scene graph in the overlay planes when a selection under the SoSelection node is changed.</p>
+<p>Pass <code>NULL</code> to deactivate.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ad85140761d69ce3c81cc8c56c8361d64">SoWinRenderArea::redrawOnSelectionChange()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a18f1ab49b9d6563706f1a87f2158c2ce" name="a18f1ab49b9d6563706f1a87f2158c2ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18f1ab49b9d6563706f1a87f2158c2ce">&#9670;&#160;</a></span>registerDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::registerDevice </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classSoWinDevice.html">SoWinDevice</a> *</td>          <td class="paramname"><span class="paramname"><em>device</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method adds <em>device</em> to the list of devices handling events for this component. </p>
+
+</div>
+</div>
+<a id="a90d21a5eb66fb3a5bfc0ef469ef78e3f" name="a90d21a5eb66fb3a5bfc0ef469ef78e3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90d21a5eb66fb3a5bfc0ef469ef78e3f">&#9670;&#160;</a></span>render()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::render </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method causes the immediate rendering of the scene, by calling <a class="el" href="#a2860fd939b1ef8af5c89dd7bab39fd89">SoWinRenderArea::redraw()</a>. </p>
+
+</div>
+</div>
+<a id="a403bf85038eb20ff8ea9ed8be21a35b7" name="a403bf85038eb20ff8ea9ed8be21a35b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a403bf85038eb20ff8ea9ed8be21a35b7">&#9670;&#160;</a></span>renderOverlay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::renderOverlay </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method renders the overlay scene. </p>
+
+</div>
+</div>
+<a id="a3b0aaec5b5d497a83091675995067b71" name="a3b0aaec5b5d497a83091675995067b71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b0aaec5b5d497a83091675995067b71">&#9670;&#160;</a></span>scheduleOverlayRedraw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::scheduleOverlayRedraw </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method schedules a redraw of the overlay scene. </p>
+
+</div>
+</div>
+<a id="a336cfc31e72b8d92d6e2dd4fcdd75195" name="a336cfc31e72b8d92d6e2dd4fcdd75195"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a336cfc31e72b8d92d6e2dd4fcdd75195">&#9670;&#160;</a></span>scheduleRedraw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::scheduleRedraw </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method schedules a redraw to happen at a later time (when the application has processed its other events first). </p>
+
+</div>
+</div>
+<a id="a86403c2ad1fbcac4a81c5d032e14da43" name="a86403c2ad1fbcac4a81c5d032e14da43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86403c2ad1fbcac4a81c5d032e14da43">&#9670;&#160;</a></span>sendSoEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoWinRenderArea::sendSoEvent </td>
+          <td>(</td>
+          <td class="paramtype">const SoEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method posts and processes an SoEvent object to the SoWinRenderArea-based component and returns the result value from the event handler. This is a synchronous operation. </p>
+
+</div>
+</div>
+<a id="ac5576e0b914ff07587f8c1164f65e376" name="ac5576e0b914ff07587f8c1164f65e376"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5576e0b914ff07587f8c1164f65e376">&#9670;&#160;</a></span>setAntialiasing()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setAntialiasing </td>
+          <td>(</td>
+          <td class="paramtype">SbBool</td>          <td class="paramname"><span class="paramname"><em>smoothing</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>numPasses</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the antialiasing used for the scene.</p>
+<p>The <em>smoothing</em> flag signifies whether or not line and point aliasing should be turned on. See documentation of SoGLRenderAction::setSmoothing(), which will be called from this function.</p>
+<p><em>numPasses</em> gives the number of re-renderings to do of the scene, blending together the results from slight "jitters" of the camera view into the OpenGL accumulation buffer. For further information, see documentation of SoGLRenderAction::setNumPasses() and <a class="el" href="classSoWinGLWidget.html#a3ece6311d6d36eaf9993935d78184d03">SoWinGLWidget::setAccumulationBuffer()</a>. </p>
+
+</div>
+</div>
+<a id="a13336812a4d43d09a2350ab40abfcde8" name="a13336812a4d43d09a2350ab40abfcde8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13336812a4d43d09a2350ab40abfcde8">&#9670;&#160;</a></span>setAutoRedraw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setAutoRedraw </td>
+          <td>(</td>
+          <td class="paramtype">SbBool</td>          <td class="paramname"><span class="paramname"><em>enable</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets whether redrawing should be handled automatically or not when data in the scene graph changes.</p>
+<p>The default setting causes the render area to automatically trigger a redraw of the scene graph contents. </p>
+
+</div>
+</div>
+<a id="ad84a6fc8cfacb964c27264848f94b4c3" name="ad84a6fc8cfacb964c27264848f94b4c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad84a6fc8cfacb964c27264848f94b4c3">&#9670;&#160;</a></span>setBackgroundColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setBackgroundColor </td>
+          <td>(</td>
+          <td class="paramtype">const SbColor &amp;</td>          <td class="paramname"><span class="paramname"><em>color</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the background color of the scene. </p>
+
+</div>
+</div>
+<a id="abc67184ceb959f8c891c211af683032e" name="abc67184ceb959f8c891c211af683032e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc67184ceb959f8c891c211af683032e">&#9670;&#160;</a></span>setBackgroundIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setBackgroundIndex </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>idx</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the index of the background color for the scene. </p>
+
+</div>
+</div>
+<a id="ad1f0d1cc03e38a5eec9cf95478a748ae" name="ad1f0d1cc03e38a5eec9cf95478a748ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1f0d1cc03e38a5eec9cf95478a748ae">&#9670;&#160;</a></span>setClearBeforeOverlayRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setClearBeforeOverlayRender </td>
+          <td>(</td>
+          <td class="paramtype">SbBool</td>          <td class="paramname"><span class="paramname"><em>enable</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets whether the overlay render buffer should be cleared before each render or not. </p>
+
+</div>
+</div>
+<a id="a3d107022324e27a36f46ed56ea907225" name="a3d107022324e27a36f46ed56ea907225"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d107022324e27a36f46ed56ea907225">&#9670;&#160;</a></span>setClearBeforeRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setClearBeforeRender </td>
+          <td>(</td>
+          <td class="paramtype">SbBool</td>          <td class="paramname"><span class="paramname"><em>enable</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SbBool</td>          <td class="paramname"><span class="paramname"><em>zbEnable</em><span class="paramdefsep"> = </span><span class="paramdefval">TRUE</span></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets whether the render buffer should be cleared before rendering.</p>
+<p>The first argument specifies whether or not to clear out the pixels in the buffer, the second argument specifies whether or not the z-buffer values should be cleared between renderings.</p>
+<p>Setting the first argument to <code>FALSE</code> can for instance be used when you want to clear out the buffer yourself, for instance by drawing a background image "under" the 3D scene rendered by Coin / Inventor. </p>
+
+</div>
+</div>
+<a id="a65d8e7da3065bfa246f8f88dc84275fd" name="a65d8e7da3065bfa246f8f88dc84275fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65d8e7da3065bfa246f8f88dc84275fd">&#9670;&#160;</a></span>setColorMap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setColorMap </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>start</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>num</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const SbColor *</td>          <td class="paramname"><span class="paramname"><em>colors</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the colormap for the scene. </p>
+
+</div>
+</div>
+<a id="af1793eb142d00936858f780266f703f9" name="af1793eb142d00936858f780266f703f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1793eb142d00936858f780266f703f9">&#9670;&#160;</a></span>setEventCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setEventCallback </td>
+          <td>(</td>
+          <td class="paramtype">SoWinRenderAreaEventCB *</td>          <td class="paramname"><span class="paramname"><em>func</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>user</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the render area event callback. </p>
+
+</div>
+</div>
+<a id="a87de0f67a5af2f3e633d84572e196912" name="a87de0f67a5af2f3e633d84572e196912"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87de0f67a5af2f3e633d84572e196912">&#9670;&#160;</a></span>setGLRenderAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setGLRenderAction </td>
+          <td>(</td>
+          <td class="paramtype">SoGLRenderAction *</td>          <td class="paramname"><span class="paramname"><em>action</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the SoGLRenderAction object for the normal scene. </p>
+
+</div>
+</div>
+<a id="a80433a764ddfb83e65097627529df895" name="a80433a764ddfb83e65097627529df895"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80433a764ddfb83e65097627529df895">&#9670;&#160;</a></span>setOverlayBackgroundIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setOverlayBackgroundIndex </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>idx</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the index of the background for the overlay scene. </p>
+
+</div>
+</div>
+<a id="aa0a6509a1e6d7e2046b8fe3629adb976" name="aa0a6509a1e6d7e2046b8fe3629adb976"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0a6509a1e6d7e2046b8fe3629adb976">&#9670;&#160;</a></span>setOverlayColorMap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setOverlayColorMap </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>start</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>num</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const SbColor *</td>          <td class="paramname"><span class="paramname"><em>colors</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the colormap for the overlay scene. </p>
+
+</div>
+</div>
+<a id="ae352dc05ca2ad69d0a6df775e6e86554" name="ae352dc05ca2ad69d0a6df775e6e86554"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae352dc05ca2ad69d0a6df775e6e86554">&#9670;&#160;</a></span>setOverlayGLRenderAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setOverlayGLRenderAction </td>
+          <td>(</td>
+          <td class="paramtype">SoGLRenderAction *</td>          <td class="paramname"><span class="paramname"><em>action</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the SoGLRenderAction object for rendering the overlay scene graph. </p>
+
+</div>
+</div>
+<a id="ae9b7cf41b49dfddaf3d7ab21852e4cc8" name="ae9b7cf41b49dfddaf3d7ab21852e4cc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9b7cf41b49dfddaf3d7ab21852e4cc8">&#9670;&#160;</a></span>setOverlaySceneGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setOverlaySceneGraph </td>
+          <td>(</td>
+          <td class="paramtype">SoNode *</td>          <td class="paramname"><span class="paramname"><em>scene</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the scene graph to render for the overlay bitmap planes.</p>
+<p>It will automatically take care of setting up overplay planes in the OpenGL canvas if the OpenGL hardware and driver support it.</p>
+<p>Important note: not all graphics hardware and / or drivers for graphics hardware support overlay planes, so application programmers are advised to find some other way of accomplishing what they want to do before resorting to using overlay planes. Using overlay planes will in practice severely limit the portability of applications which depend on them being available.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#aa392300fbbebd494b9f626aebd3794b6">setSceneGraph()</a>, <a class="el" href="#a71a6f2c691871339562349600edf3c0d">getOverlaySceneGraph()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a06bfd4fa2214f0b23c79e35157ff19f7" name="a06bfd4fa2214f0b23c79e35157ff19f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06bfd4fa2214f0b23c79e35157ff19f7">&#9670;&#160;</a></span>setOverlaySceneManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setOverlaySceneManager </td>
+          <td>(</td>
+          <td class="paramtype">SoSceneManager *</td>          <td class="paramname"><span class="paramname"><em>manager</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the overlay scene SoSceneManager object.</p>
+<p>The previously set scene manager is not freed and will leak unless the user frees it. </p>
+
+</div>
+</div>
+<a id="aa01154bd0053dff011990a0cc37af5cc" name="aa01154bd0053dff011990a0cc37af5cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa01154bd0053dff011990a0cc37af5cc">&#9670;&#160;</a></span>setRedrawPriority()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setRedrawPriority </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>priority</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the redraw priority. </p>
+
+</div>
+</div>
+<a id="aa392300fbbebd494b9f626aebd3794b6" name="aa392300fbbebd494b9f626aebd3794b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa392300fbbebd494b9f626aebd3794b6">&#9670;&#160;</a></span>setSceneGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setSceneGraph </td>
+          <td>(</td>
+          <td class="paramtype">SoNode *</td>          <td class="paramname"><span class="paramname"><em>scene</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method sets the scene graph to be rendered in the normal bitmap planes.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a063ccb694fe14852bf95b8e01d3668e2">getSceneGraph()</a>, <a class="el" href="#ae9b7cf41b49dfddaf3d7ab21852e4cc8">setOverlaySceneGraph()</a> </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classSoWinViewer.html#ad14318dfc48ad3ce0ace36500f1bb85e">SoWinViewer</a>.</p>
+
+</div>
+</div>
+<a id="ae768a8e4caf8229f65bd7fff52f682c3" name="ae768a8e4caf8229f65bd7fff52f682c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae768a8e4caf8229f65bd7fff52f682c3">&#9670;&#160;</a></span>setSceneManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setSceneManager </td>
+          <td>(</td>
+          <td class="paramtype">SoSceneManager *</td>          <td class="paramname"><span class="paramname"><em>manager</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the normal scene SoSceneManager object.</p>
+<p>The previously set scene manager is deleted, and there is no way to currently avoid that. This might change in the future. </p>
+
+</div>
+</div>
+<a id="a59988ed43d027f54c86ba3f1a4ab18fa" name="a59988ed43d027f54c86ba3f1a4ab18fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59988ed43d027f54c86ba3f1a4ab18fa">&#9670;&#160;</a></span>setTransparencyType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setTransparencyType </td>
+          <td>(</td>
+          <td class="paramtype">SoGLRenderAction::TransparencyType</td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the transparency type to be used for the scene. </p>
+
+</div>
+</div>
+<a id="adadd5f43f99631f1f19188aa0143efd3" name="adadd5f43f99631f1f19188aa0143efd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adadd5f43f99631f1f19188aa0143efd3">&#9670;&#160;</a></span>setViewportRegion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::setViewportRegion </td>
+          <td>(</td>
+          <td class="paramtype">const SbViewportRegion &amp;</td>          <td class="paramname"><span class="paramname"><em>region</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the viewport region. </p>
+
+</div>
+</div>
+<a id="ad1574a34357a388da795d301687d3861" name="ad1574a34357a388da795d301687d3861"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1574a34357a388da795d301687d3861">&#9670;&#160;</a></span>sizeChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::sizeChanged </td>
+          <td>(</td>
+          <td class="paramtype">const SbVec2s &amp;</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Called internally from within the <a class="el" href="classSoWin.html" title="The SoWin class takes care of Win initialization and event dispatching.">SoWin</a> library when the widget embedded in a component changes its size, which is usually triggered by end-user interaction.</p>
+<p>This method is then invoked to notify the component that the size has changed. It is called from the top and all the way down to the bottom, the size being adjusted to take into account extra decorations having been added at each level in the component class hierarchy. </p>
+
+<p>Reimplemented from <a class="el" href="classSoWinGLWidget.html#a35bed605c3ad0d8e24ced5175dbd5f8e">SoWinGLWidget</a>.</p>
+
+<p>Reimplemented in <a class="el" href="classSoWinFullViewer.html#a6c476c2d34e2e2fd53e287332a0be526">SoWinFullViewer</a>, and <a class="el" href="classSoWinViewer.html#adc77d025c78f2542fcfc7d7282da0522">SoWinViewer</a>.</p>
+
+</div>
+</div>
+<a id="ad4a135d6fbd46c3d1eec19a8d4999ae1" name="ad4a135d6fbd46c3d1eec19a8d4999ae1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4a135d6fbd46c3d1eec19a8d4999ae1">&#9670;&#160;</a></span>unregisterDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::unregisterDevice </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classSoWinDevice.html">SoWinDevice</a> *</td>          <td class="paramname"><span class="paramname"><em>device</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method removes <em>device</em> from the list of devices handling events for this component. </p>
+
+</div>
+</div>
+<a id="a529781fff74cf9fa5c4193e4a0f8b521" name="a529781fff74cf9fa5c4193e4a0f8b521"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a529781fff74cf9fa5c4193e4a0f8b521">&#9670;&#160;</a></span>widgetChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoWinRenderArea::widgetChanged </td>
+          <td>(</td>
+          <td class="paramtype">HWND</td>          <td class="paramname"><span class="paramname"><em>w</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This is the method which gets called whenever we change which OpenGL widget is used.</p>
+<p>Should be overridden in subclasses which directly or indirectly store the return value from the <a class="el" href="classSoWinGLWidget.html#a6a17e1b4aa53ebb8ec60823eb63a1948">SoWinGLWidget::getGLWidget()</a> method.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ad1574a34357a388da795d301687d3861">sizeChanged()</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classSoWinGLWidget.html#a3143d0cef8f0398652fb66d1653e8905">SoWinGLWidget</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="SoWinRenderArea_8h_source.html">SoWinRenderArea.h</a></li>
+<li><b>SoWinRenderArea.cpp</b></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classSoWinRenderArea.html">SoWinRenderArea</a></li>
+    <li class="footer">Generated on Sun May 12 2024 21:52:03 for SoWin by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+  </ul>
+</div>
+</body>
+</html>

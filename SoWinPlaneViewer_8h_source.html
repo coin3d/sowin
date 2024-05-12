@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>SoWin: SoWinPlaneViewer.h Source File</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/coin3d/sowin" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="Coin_logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SoWin
+   &#160;<span id="projectnumber">1.6.1</span>
+   </div>
+   <div id="projectbrief">Coin3D GUI toolkit binding</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('SoWinPlaneViewer_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">SoWinPlaneViewer.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SOWINPLANEVIEWER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SOWINPLANEVIEWER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">// </span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/**************************************************************************\</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * Copyright (c) Kongsberg Oil &amp; Gas Technologies AS</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * All rights reserved.</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * Redistribution and use in source and binary forms, with or without</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * modification, are permitted provided that the following conditions are</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> * met:</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * Redistributions of source code must retain the above copyright notice,</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> * this list of conditions and the following disclaimer.</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * Redistributions in binary form must reproduce the above copyright</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> * notice, this list of conditions and the following disclaimer in the</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> * documentation and/or other materials provided with the distribution.</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * Neither the name of the copyright holder nor the names of its</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> * contributors may be used to endorse or promote products derived from</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> * this software without specific prior written permission.</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment"> * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment"> * &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment"> * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment"> * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment"> * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment"> * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment"> * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment"> * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment"> * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment"> * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment"> * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment">\**************************************************************************/</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &lt;Inventor/Win/viewers/SoWinFullViewer.h&gt;</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="comment">// ************************************************************************</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="foldopen" id="foldopen00042" data-start="{" data-end="};">
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classSoWinPlaneViewer.html">   42</a></span><span class="keyword">class </span>SOWIN_DLL_API <a class="code hl_class" href="classSoWinPlaneViewer.html">SoWinPlaneViewer</a> : <span class="keyword">public</span> <a class="code hl_class" href="classSoWinFullViewer.html">SoWinFullViewer</a> {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  SOWIN_OBJECT_HEADER(<a class="code hl_class" href="classSoWinPlaneViewer.html">SoWinPlaneViewer</a>, <a class="code hl_class" href="classSoWinFullViewer.html">SoWinFullViewer</a>);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  <a class="code hl_class" href="classSoWinPlaneViewer.html">SoWinPlaneViewer</a>(HWND parent = NULL,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                     <span class="keyword">const</span> <span class="keywordtype">char</span> * <span class="keyword">const</span> name = NULL, </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                     SbBool embed = TRUE, </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                     <a class="code hl_enumeration" href="classSoWinFullViewer.html#abae726e22f7c67d4e411e7e937749331">SoWinFullViewer::BuildFlag</a> flag = BUILD_ALL, </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                     <a class="code hl_enumeration" href="classSoWinViewer.html#ac168b7c394c6fd247498bd9ae5c6ed90">SoWinViewer::Type</a> type = BROWSER);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <a class="code hl_class" href="classSoWinPlaneViewer.html">~SoWinPlaneViewer</a>();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinFullViewer.html#acfdf22246f9dea6d11eb1539d3ef776e">setViewing</a>(SbBool enable);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinViewer.html#a48005d4296c4487c011122e0f53da50f">setCamera</a>(SoCamera * camera);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinViewer.html#a878a0eb312f722813ad5d2c74d046040">setCursorEnabled</a>(SbBool enable);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  <a class="code hl_class" href="classSoWinPlaneViewer.html">SoWinPlaneViewer</a>(HWND parent,</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                     <span class="keyword">const</span> <span class="keywordtype">char</span> * <span class="keyword">const</span> name, </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                     SbBool embed, </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                     <a class="code hl_enumeration" href="classSoWinFullViewer.html#abae726e22f7c67d4e411e7e937749331">SoWinFullViewer::BuildFlag</a> flag, </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                     <a class="code hl_enumeration" href="classSoWinViewer.html#ac168b7c394c6fd247498bd9ae5c6ed90">SoWinViewer::Type</a> type, </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                     SbBool build);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  HWND buildWidget(HWND parent);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span> * <a class="code hl_function" href="classSoWinRenderArea.html#abc0aa8a70ae0f0fc5987de32814182c6">getDefaultWidgetName</a>(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span> * <a class="code hl_function" href="classSoWinRenderArea.html#aab58b59507b9d68f9f07954dac4c05f3">getDefaultTitle</a>(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span> * <a class="code hl_function" href="classSoWinRenderArea.html#a7a7ee4918aab0cc70906ca06912db1ed">getDefaultIconTitle</a>(<span class="keywordtype">void</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  <span class="keyword">virtual</span> SbBool <a class="code hl_function" href="classSoWinFullViewer.html#a88103bc578c7e9b21dc5f57f5998e1be">processSoEvent</a>(<span class="keyword">const</span> SoEvent * <span class="keyword">const</span> event);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinViewer.html#a08195147fd92f8ee3f008b4cd4176952">setSeekMode</a>(SbBool enable);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinViewer.html#a446eb75874dc62468db604692ba0171c">actualRedraw</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinFullViewer.html#aed90ff46eacee19f1b458075c6720c4e">bottomWheelStart</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinFullViewer.html#a5b4bfad8841b5af974595c64807c5bc5">bottomWheelMotion</a>(<span class="keywordtype">float</span> value);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinFullViewer.html#a67000a95f398d3de1a6cef5cd5eafcff">bottomWheelFinish</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinFullViewer.html#a67a5785ed083090a6856f986f81683ea">leftWheelStart</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinFullViewer.html#a2d5c9a9e26d0d26906da99a31a82f7d7">leftWheelMotion</a>(<span class="keywordtype">float</span> value);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinFullViewer.html#ad8178a7793c339c036eb581c77207985">leftWheelFinish</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinFullViewer.html#a6a02798f6efd45d31cbb461e09785718">rightWheelStart</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinFullViewer.html#aafae394dd4f93c1269a93b2a2142a920">rightWheelMotion</a>(<span class="keywordtype">float</span> value);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinFullViewer.html#a59146dba7768a4c58c25b879bbb338c7">rightWheelFinish</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinFullViewer.html#a7e8752412c088d5ce6ed8511dfcf98be">createViewerButtons</a>(HWND parent, SbPList * buttons);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinRenderArea.html#a68b75fd1febc42357d2455ab8fe2d31d">afterRealizeHook</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classSoWinPlaneViewer.html#af36435adc9b7886ec98c39d6f5c0e236">   90</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classSoWinPlaneViewer.html#af36435adc9b7886ec98c39d6f5c0e236">computeSeekFinalOrientation</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  <span class="keyword">class </span>SoWinPlaneViewerP * pimpl;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>  <span class="keyword">friend</span> <span class="keyword">class </span>SoGuiPlaneViewerP;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  <span class="keyword">friend</span> <span class="keyword">class </span>SoWinPlaneViewerP;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>};</div>
+</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="preprocessor">#endif </span><span class="comment">// !SOWINPLANEVIEWER_H</span></div>
+<div class="ttc" id="aclassSoWinFullViewer_html"><div class="ttname"><a href="classSoWinFullViewer.html">SoWinFullViewer</a></div><div class="ttdoc">The SoWinFullViewer class adds some user interface components to the viewer canvas.</div><div class="ttdef"><b>Definition</b> SoWinFullViewer.h:44</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_a2d5c9a9e26d0d26906da99a31a82f7d7"><div class="ttname"><a href="classSoWinFullViewer.html#a2d5c9a9e26d0d26906da99a31a82f7d7">SoWinFullViewer::leftWheelMotion</a></div><div class="ttdeci">virtual void leftWheelMotion(float)</div><div class="ttdef"><b>Definition</b> SoWinFullViewer.cpp:499</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_a59146dba7768a4c58c25b879bbb338c7"><div class="ttname"><a href="classSoWinFullViewer.html#a59146dba7768a4c58c25b879bbb338c7">SoWinFullViewer::rightWheelFinish</a></div><div class="ttdeci">virtual void rightWheelFinish(void)</div><div class="ttdef"><b>Definition</b> SoWinFullViewer.cpp:647</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_a5b4bfad8841b5af974595c64807c5bc5"><div class="ttname"><a href="classSoWinFullViewer.html#a5b4bfad8841b5af974595c64807c5bc5">SoWinFullViewer::bottomWheelMotion</a></div><div class="ttdeci">virtual void bottomWheelMotion(float)</div><div class="ttdef"><b>Definition</b> SoWinFullViewer.cpp:566</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_a67000a95f398d3de1a6cef5cd5eafcff"><div class="ttname"><a href="classSoWinFullViewer.html#a67000a95f398d3de1a6cef5cd5eafcff">SoWinFullViewer::bottomWheelFinish</a></div><div class="ttdeci">virtual void bottomWheelFinish(void)</div><div class="ttdef"><b>Definition</b> SoWinFullViewer.cpp:580</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_a67a5785ed083090a6856f986f81683ea"><div class="ttname"><a href="classSoWinFullViewer.html#a67a5785ed083090a6856f986f81683ea">SoWinFullViewer::leftWheelStart</a></div><div class="ttdeci">virtual void leftWheelStart(void)</div><div class="ttdef"><b>Definition</b> SoWinFullViewer.cpp:485</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_a6a02798f6efd45d31cbb461e09785718"><div class="ttname"><a href="classSoWinFullViewer.html#a6a02798f6efd45d31cbb461e09785718">SoWinFullViewer::rightWheelStart</a></div><div class="ttdeci">virtual void rightWheelStart(void)</div><div class="ttdef"><b>Definition</b> SoWinFullViewer.cpp:619</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_a7e8752412c088d5ce6ed8511dfcf98be"><div class="ttname"><a href="classSoWinFullViewer.html#a7e8752412c088d5ce6ed8511dfcf98be">SoWinFullViewer::createViewerButtons</a></div><div class="ttdeci">virtual void createViewerButtons(HWND parent, SbPList *buttonlist)</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_a88103bc578c7e9b21dc5f57f5998e1be"><div class="ttname"><a href="classSoWinFullViewer.html#a88103bc578c7e9b21dc5f57f5998e1be">SoWinFullViewer::processSoEvent</a></div><div class="ttdeci">virtual SbBool processSoEvent(const SoEvent *const event)</div><div class="ttdef"><b>Definition</b> SoWinFullViewer.cpp:725</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_aafae394dd4f93c1269a93b2a2142a920"><div class="ttname"><a href="classSoWinFullViewer.html#aafae394dd4f93c1269a93b2a2142a920">SoWinFullViewer::rightWheelMotion</a></div><div class="ttdeci">virtual void rightWheelMotion(float)</div><div class="ttdef"><b>Definition</b> SoWinFullViewer.cpp:633</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_abae726e22f7c67d4e411e7e937749331"><div class="ttname"><a href="classSoWinFullViewer.html#abae726e22f7c67d4e411e7e937749331">SoWinFullViewer::BuildFlag</a></div><div class="ttdeci">BuildFlag</div><div class="ttdef"><b>Definition</b> SoWinFullViewer.h:48</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_acfdf22246f9dea6d11eb1539d3ef776e"><div class="ttname"><a href="classSoWinFullViewer.html#acfdf22246f9dea6d11eb1539d3ef776e">SoWinFullViewer::setViewing</a></div><div class="ttdeci">virtual void setViewing(SbBool on)</div><div class="ttdef"><b>Definition</b> FullViewer.cpp:312</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_ad8178a7793c339c036eb581c77207985"><div class="ttname"><a href="classSoWinFullViewer.html#ad8178a7793c339c036eb581c77207985">SoWinFullViewer::leftWheelFinish</a></div><div class="ttdeci">virtual void leftWheelFinish(void)</div><div class="ttdef"><b>Definition</b> SoWinFullViewer.cpp:513</div></div>
+<div class="ttc" id="aclassSoWinFullViewer_html_aed90ff46eacee19f1b458075c6720c4e"><div class="ttname"><a href="classSoWinFullViewer.html#aed90ff46eacee19f1b458075c6720c4e">SoWinFullViewer::bottomWheelStart</a></div><div class="ttdeci">virtual void bottomWheelStart(void)</div><div class="ttdef"><b>Definition</b> SoWinFullViewer.cpp:552</div></div>
+<div class="ttc" id="aclassSoWinPlaneViewer_html"><div class="ttname"><a href="classSoWinPlaneViewer.html">SoWinPlaneViewer</a></div><div class="ttdoc">The SoWinPlaneViewer class is for examining 3D models by moving the camera in orthogonal planes.</div><div class="ttdef"><b>Definition</b> SoWinPlaneViewer.h:42</div></div>
+<div class="ttc" id="aclassSoWinPlaneViewer_html_af36435adc9b7886ec98c39d6f5c0e236"><div class="ttname"><a href="classSoWinPlaneViewer.html#af36435adc9b7886ec98c39d6f5c0e236">SoWinPlaneViewer::computeSeekFinalOrientation</a></div><div class="ttdeci">virtual void computeSeekFinalOrientation(void)</div></div>
+<div class="ttc" id="aclassSoWinRenderArea_html_a68b75fd1febc42357d2455ab8fe2d31d"><div class="ttname"><a href="classSoWinRenderArea.html#a68b75fd1febc42357d2455ab8fe2d31d">SoWinRenderArea::afterRealizeHook</a></div><div class="ttdeci">virtual void afterRealizeHook(void)</div><div class="ttdef"><b>Definition</b> SoWinRenderArea.cpp:981</div></div>
+<div class="ttc" id="aclassSoWinRenderArea_html_a7a7ee4918aab0cc70906ca06912db1ed"><div class="ttname"><a href="classSoWinRenderArea.html#a7a7ee4918aab0cc70906ca06912db1ed">SoWinRenderArea::getDefaultIconTitle</a></div><div class="ttdeci">virtual const char * getDefaultIconTitle(void) const</div><div class="ttdef"><b>Definition</b> SoWinRenderArea.cpp:2126</div></div>
+<div class="ttc" id="aclassSoWinRenderArea_html_aab58b59507b9d68f9f07954dac4c05f3"><div class="ttname"><a href="classSoWinRenderArea.html#aab58b59507b9d68f9f07954dac4c05f3">SoWinRenderArea::getDefaultTitle</a></div><div class="ttdeci">virtual const char * getDefaultTitle(void) const</div><div class="ttdef"><b>Definition</b> SoWinRenderArea.cpp:2118</div></div>
+<div class="ttc" id="aclassSoWinRenderArea_html_abc0aa8a70ae0f0fc5987de32814182c6"><div class="ttname"><a href="classSoWinRenderArea.html#abc0aa8a70ae0f0fc5987de32814182c6">SoWinRenderArea::getDefaultWidgetName</a></div><div class="ttdeci">virtual const char * getDefaultWidgetName(void) const</div><div class="ttdef"><b>Definition</b> SoWinRenderArea.cpp:2110</div></div>
+<div class="ttc" id="aclassSoWinViewer_html_a08195147fd92f8ee3f008b4cd4176952"><div class="ttname"><a href="classSoWinViewer.html#a08195147fd92f8ee3f008b4cd4176952">SoWinViewer::setSeekMode</a></div><div class="ttdeci">virtual void setSeekMode(SbBool enable)</div><div class="ttdef"><b>Definition</b> SoWinViewer.cpp:2963</div></div>
+<div class="ttc" id="aclassSoWinViewer_html_a446eb75874dc62468db604692ba0171c"><div class="ttname"><a href="classSoWinViewer.html#a446eb75874dc62468db604692ba0171c">SoWinViewer::actualRedraw</a></div><div class="ttdeci">virtual void actualRedraw(void)</div><div class="ttdef"><b>Definition</b> SoWinViewer.cpp:3272</div></div>
+<div class="ttc" id="aclassSoWinViewer_html_a48005d4296c4487c011122e0f53da50f"><div class="ttname"><a href="classSoWinViewer.html#a48005d4296c4487c011122e0f53da50f">SoWinViewer::setCamera</a></div><div class="ttdeci">virtual void setCamera(SoCamera *camera)</div><div class="ttdef"><b>Definition</b> SoWinViewer.cpp:1706</div></div>
+<div class="ttc" id="aclassSoWinViewer_html_a878a0eb312f722813ad5d2c74d046040"><div class="ttname"><a href="classSoWinViewer.html#a878a0eb312f722813ad5d2c74d046040">SoWinViewer::setCursorEnabled</a></div><div class="ttdeci">virtual void setCursorEnabled(SbBool enable)</div><div class="ttdef"><b>Definition</b> SoWinViewer.cpp:2199</div></div>
+<div class="ttc" id="aclassSoWinViewer_html_ac168b7c394c6fd247498bd9ae5c6ed90"><div class="ttname"><a href="classSoWinViewer.html#ac168b7c394c6fd247498bd9ae5c6ed90">SoWinViewer::Type</a></div><div class="ttdeci">Type</div><div class="ttdef"><b>Definition</b> SoWinViewer.h:94</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_df97dab5d1cc32c7f18f55606f8fca98.html">src</a></li><li class="navelem"><a class="el" href="dir_733a86af3e8e4f6518adbe2d3b6c05d0.html">Inventor</a></li><li class="navelem"><a class="el" href="dir_f7712534d961467959ca9346fe244f4a.html">Win</a></li><li class="navelem"><a class="el" href="dir_9410d4571ad168732cbc740a31f20d61.html">viewers</a></li><li class="navelem"><b>SoWinPlaneViewer.h</b></li>
+    <li class="footer">Generated on Sun May 12 2024 21:52:02 for SoWin by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+  </ul>
+</div>
+</body>
+</html>
