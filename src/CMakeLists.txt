@@ -199,7 +199,7 @@ if(SO${GUI}_BUILD_AWESOME_DOCUMENTATION)
   set(GITHUB_LINK "https://github.com/coin3d/so${gui}")
 
   set(DOXYFILE_AWESOME "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_awesome")
-  set(HTML_HEADER_AWESOME "${CMAKE_CURRENT_BINARY_DIR}/header_awesome.html")
+  set(HTML_HEADER_AWESOME "${CMAKE_BINARY_DIR}/header_awesome.html")
   set(DOXYGEN_OUTPUT_AWESOME "${CMAKE_BINARY_DIR}/html_awesome/index.html")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/Inventor/${Gui}/common/sogui.doxygen.awesome.cmake.in" ${DOXYFILE_AWESOME} @ONLY)
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/Inventor/${Gui}/common/docs/doxygen-awesome/doxygen-custom/header.html.cmake.in" ${HTML_HEADER_AWESOME} @ONLY)
