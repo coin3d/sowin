@@ -1,0 +1,42 @@
+name: Awesome Documentation Build
+
+on:
+  workflow_dispatch:  # Allow manual triggers
+  push:
+    branches: [ master ]
+
+jobs:
+  windows-build:
+    name: Windows Build
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Create build directory and run CMake
+        shell: cmd
+        run: |
+          mkdir cmake_download_dir
+          set DOWNLOAD_FILE_COIN=coin-latest-msvc17-x64.zip
+          for /f %%i in ('curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases ^| jq -r --arg COIN_REPO_TAG_NAME "CI-builds" ".[] | select(.tag_name==$COIN_REPO_TAG_NAME) | .id"') do set RELEASE_ID=%%i
+          for /f %%i in ('curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases/%RELEASE_ID% ^| jq -r --arg DOWNLOAD_FILE_COIN "%DOWNLOAD_FILE_COIN%" ".assets[] | select(.name==$DOWNLOAD_FILE_COIN) | .id"') do set ASSET_ID=%%i
+          set DOWNLOAD_ADDRESS_COIN=https://api.github.com/repos/coin3d/coin/releases/assets/%ASSET_ID%
+          echo download file %DOWNLOAD_FILE_COIN% from address %DOWNLOAD_ADDRESS_COIN%
+          curl -s -S -L -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/octet-stream" -o %DOWNLOAD_FILE_COIN% %DOWNLOAD_ADDRESS_COIN%
+          7z x %DOWNLOAD_FILE_COIN% -ocmake_download_dir
+          curl -L -o doxygen-1.10.0.windows.x64.bin.zip https://github.com/doxygen/doxygen/releases/download/Release_1_10_0/doxygen-1.10.0.windows.x64.bin.zip
+          7z x doxygen-1.10.0.windows.x64.bin.zip -odoxygen-1.10.0
+          set PATH=${{ github.workspace }}/doxygen-1.10.0/bin;%PATH%
+          cmake -S . -B cmake_build_dir -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=cmake_download_dir/Coin3D
+      - name: Build project
+        shell: cmd
+        run: |
+          set PATH=${{ github.workspace }}/doxygen-1.10.0/bin;%PATH%
+          doxygen --version
+          cmake --build cmake_build_dir --target documentation_awesome --config Release
+      - name: Deploy Awesome Documentation to Github Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: cmake_build_dir/html_awesome
