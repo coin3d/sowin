@@ -193,7 +193,7 @@
   licensing information, please visit the Coin3D web site
   <https://coin3d.github.io>.
 
-  \sa The documentation for the \COIN library: <https://coin3d.github.io/Coin/html/>.
+  \sa The documentation for the \COIN library: <https://coin3d.github.io/coin/>.
 */
 
 // *************************************************************************
