@@ -78,6 +78,8 @@ EXTRA_DIST = \
 	docs/ChangeLog.v1.4.0 \
 	docs/ChangeLog.v1.5.0 \
 	docs/ChangeLog.v1.6.0 \
+	docs/ChangeLog.v1.6.1 \
+	docs/ChangeLog.v1.6.2 \
 	docs/announcement-1_1_0.txt \
 	docs/announcement-1_2_0.txt \
 	docs/announcement-1_3_0.txt \

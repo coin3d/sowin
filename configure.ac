@@ -3,7 +3,7 @@
 
 m4_define([SOWIN_MAJOR], [1])
 m4_define([SOWIN_MINOR], [6])
-m4_define([SOWIN_MICRO], [1])
+m4_define([SOWIN_MICRO], [2])
 m4_define([SOWIN_BETA],  [])
 m4_define([SOWIN_VERSION_STRING],
           [SOWIN_MAJOR.SOWIN_MINOR.SOWIN_MICRO[]SOWIN_BETA])
